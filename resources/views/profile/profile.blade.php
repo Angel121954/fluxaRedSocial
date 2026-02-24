@@ -11,7 +11,7 @@
             <!-- Avatar -->
             <div class="avatar-wrap" id="avatarWrap">
                 <img
-                    src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400"
+                    src="{{ str_replace('type=normal', 'type=large', Auth::user()->avatar) }}"
                     alt="Lucas Silva"
                     class="avatar-img"
                     id="avatarImg" />
@@ -56,10 +56,10 @@
                 <div class="meta-top">
                     <div class="meta-left">
                         <div class="name-row">
-                            <h1 class="profile-name">Lucas Silva Daniel</h1>
+                            <h1 class="profile-name">{{ Auth::user()->name }}</h1>
                             <span class="badge-pro">PRO</span>
                         </div>
-                        <p class="handle">@lsilvad1</p>
+                        <p class="handle">@ {{ Auth::user()->username }}</p>
                         <p class="bio">
                             Full stack developer construyendo en público.<br />
                             Apasionado por TypeScript, APIs y el arte de lanzar productos.
@@ -106,19 +106,24 @@
                                         Configuración
                                     </a>
                                     <div class="drop-sep"></div>
-                                    <button class="drop-item">
-                                        <svg
-                                            fill="none"
-                                            stroke="currentColor"
-                                            viewBox="0 0 24 24">
-                                            <path
-                                                stroke-linecap="round"
-                                                stroke-linejoin="round"
-                                                stroke-width="2"
+                                    <!-- Blade Component o sección del botón -->
+                                    <button
+                                        class="drop-item"
+                                        onclick="compartirPerfil('{{ Auth::user()->username }}', '{{ Auth::user()->name }}')">
+                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
                                         </svg>
                                         Compartir perfil
                                     </button>
+
+                                    <!-- Toast de confirmación -->
+                                    <div id="share-toast" class="share-toast hidden">
+                                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="16" height="16">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                        <span id="share-toast-msg">¡Enlace copiado!</span>
+                                    </div>
                                 </div>
                                 <!-- Perfil ajeno -->
                                 <div id="otherOpts" style="display: none">
@@ -503,7 +508,7 @@
             </svg>
         </button>
         <img
-            src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=900"
+            src="{{ Auth::user()->avatar }}"
             id="modalImg"
             alt="Foto de perfil" />
     </div>
@@ -631,6 +636,7 @@
         });
     });
 </script>
+<script src="{{ asset('js/shareProfile.js') }}"></script>
 @endpush
 @push('styles')
 <!--Estilo Personalizado de perfil-->

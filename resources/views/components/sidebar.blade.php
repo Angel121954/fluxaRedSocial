@@ -19,7 +19,7 @@
 
         <div class="avatar-container" id="avatarContainer">
             <img
-                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400"
+                src="{{ Auth::user()->avatar }}"
                 alt="Profile"
                 class="avatar-img"
                 id="avatarImg" />

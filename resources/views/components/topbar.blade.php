@@ -40,7 +40,7 @@
                 Nuevo proyecto
             </button>
             <a href="{{ route('profile.index') }}">
-                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100"
+                <img src="{{ Auth::user()->avatar }}"
                     alt="Tú"
                     class="nav-user-av" />
             </a>

@@ -415,7 +415,7 @@
         <div class="modal-footer">
             <div class="comment-input-wrap">
                 <img
-                    src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100"
+                    src="{{ Auth::user()->avatar }}"
                     alt="Tú"
                     class="comment-input-avatar" />
                 <div class="comment-input-form">

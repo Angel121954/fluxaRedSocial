@@ -22,7 +22,7 @@
                     type="text"
                     class="form-input"
                     id="inputName"
-                    value="Lucas Silva Daniel"
+                    value="{{ Auth::user()->name }}"
                     placeholder="Tu nombre completo" />
             </div>
 
@@ -34,7 +34,7 @@
                     type="text"
                     class="form-input"
                     id="inputHandle"
-                    value="lsilvad1"
+                    value="{{ Auth::user()->username }}"
                     placeholder="tunombre" />
             </div>
 

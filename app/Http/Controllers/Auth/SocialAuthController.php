@@ -21,11 +21,21 @@ class SocialAuthController extends Controller
         }
 
         if ($provider === 'github') {
-            return Socialite::driver('github')
-                ->redirect();
+            return Socialite::driver('github')->redirect();
         }
 
         return Socialite::driver($provider)->redirect();
+    }
+
+    protected function resolveAvatar(string $provider, $socialUser): string
+    {
+        $avatar = $socialUser->getAvatar();
+
+        return match ($provider) {
+            'facebook' => preg_replace('/type=\w+/', 'type=large', $avatar),
+            'google'   => preg_replace('/=s\d+-c/', '=s400-c', $avatar),
+            default    => $avatar,
+        };
     }
 
     public function callback(string $provider)
@@ -43,6 +53,8 @@ class SocialAuthController extends Controller
                     ->with('error', 'Tu cuenta no tiene email disponible.');
             }
 
+            $avatar = $this->resolveAvatar($provider, $socialUser);
+
             $user = User::where('provider_id', $socialUser->getId())
                 ->where('provider', $provider)
                 ->first();
@@ -52,7 +64,7 @@ class SocialAuthController extends Controller
             }
 
             if (!$user) {
-                $user = DB::transaction(function () use ($socialUser, $provider) {
+                $user = DB::transaction(function () use ($socialUser, $provider, $avatar) {
 
                     $baseUsername = Str::slug(
                         $socialUser->getName() ?? $socialUser->getNickname()
@@ -71,21 +83,21 @@ class SocialAuthController extends Controller
                     }
 
                     return User::create([
-                        'name' => $socialUser->getName() ?? $socialUser->getNickname(),
-                        'username' => $username,
-                        'email' => $socialUser->getEmail(),
+                        'name'              => $socialUser->getName() ?? $socialUser->getNickname(),
+                        'username'          => $username,
+                        'email'             => $socialUser->getEmail(),
                         'email_verified_at' => now(),
-                        'password' => bcrypt(Str::random(16)),
-                        'provider' => $provider,
-                        'provider_id' => $socialUser->getId(),
-                        'avatar' => $socialUser->getAvatar(),
+                        'password'          => bcrypt(Str::random(16)),
+                        'provider'          => $provider,
+                        'provider_id'       => $socialUser->getId(),
+                        'avatar'            => $avatar,
                     ]);
                 });
             } else {
                 $user->update([
-                    'provider' => $provider,
+                    'provider'    => $provider,
                     'provider_id' => $socialUser->getId(),
-                    'avatar' => $socialUser->getAvatar(),
+                    'avatar'      => $avatar,
                 ]);
             }
 
