@@ -131,44 +131,8 @@
     </div>
 </section>
 
-<!-- ══════════════════════════════════════════
-     MISSION SECTION
-══════════════════════════════════════════ -->
-<section class="mission">
-    <div class="mission-card">
-        <img src="assets/img/logoFluxa.png" alt="Fluxa" class="mission-icon" />
-
-        <div class="mission-content">
-            <h3>Nuestra misión</h3>
-            <p>
-                Crear un espacio donde desarrolladores y creadores puedan
-                <strong>construir en público</strong>, compartir su progreso,
-                recibir feedback genuino y crecer como comunidad. No se trata solo
-                de publicar proyectos terminados, sino de
-                <strong>documentar el proceso</strong>, celebrar los pequeños logros
-                y aprender de los desafíos.
-            </p>
-        </div>
-    </div>
-</section>
-
-<!-- ══════════════════════════════════════════
-     FOOTER
-══════════════════════════════════════════ -->
-<footer class="footer">
-    <div class="footer-inner">
-        <div class="footer-left">
-            <img src="assets/img/logoFluxa.png" alt="Fluxa" class="footer-logo" />
-            <span class="footer-text">© 2025 Fluxa. Construido con ❤️ para la comunidad.</span>
-        </div>
-
-        <div class="footer-links">
-            <a href="/terminos" class="footer-link">Términos</a>
-            <a href="/privacidad" class="footer-link">Privacidad</a>
-            <a href="/contacto" class="footer-link">Contacto</a>
-        </div>
-    </div>
-</footer>
+@include('components.mission')
+@include('components.footer')
 @endsection
 
 @push('styles')

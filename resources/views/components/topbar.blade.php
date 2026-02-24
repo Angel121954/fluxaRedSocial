@@ -4,15 +4,15 @@
 <nav class="navbar">
     <div class="navbar-inner">
         <div class="navbar-left">
-            <a href="{{ route('explore') }}">
-                <img src="{{ asset('img/logoFluxa.png') }}" alt="Logo de Fluxa" class="nav-logo" />
+            <a href="{{ route('explore.index') }}">
+                <img src="{{ asset('img/logoFluxa.png') }}" alt="Logo de Fluxa en forma de hormiga tech" class="nav-logo" />
             </a>
             <nav class="nav-links">
                 <a href="#"
                     class="nav-link {{ request()->routeIs('feed*') ? 'active' : '' }}">
                     Feed
                 </a>
-                <a href="{{ route('explore') }}"
+                <a href="{{ route('explore.index') }}"
                     class="nav-link {{ request()->routeIs('explore*') ? 'active' : '' }}">
                     Explorar
                 </a>

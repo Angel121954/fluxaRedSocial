@@ -240,6 +240,17 @@ body {
     border-style: solid;
 }
 
+.btn-facebook {
+    background: #1877F2;
+    color: white;
+    border: none;
+}
+
+.btn-facebook:hover {
+    background: #0e65d9;
+    box-shadow: 0 4px 12px rgba(24, 119, 242, 0.3);
+}
+
 /* ═══════════════════════════════════════════════════
    LOADER
 ═══════════════════════════════════════════════════ */

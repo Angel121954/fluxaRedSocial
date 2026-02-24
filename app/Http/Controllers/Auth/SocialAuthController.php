@@ -12,7 +12,7 @@ use Exception;
 
 class SocialAuthController extends Controller
 {
-    protected array $allowedProviders = ['google', 'github'];
+    protected array $allowedProviders = ['google', 'github', 'facebook'];
 
     public function redirect(string $provider)
     {
@@ -74,6 +74,7 @@ class SocialAuthController extends Controller
                         'name' => $socialUser->getName() ?? $socialUser->getNickname(),
                         'username' => $username,
                         'email' => $socialUser->getEmail(),
+                        'email_verified_at' => now(),
                         'password' => bcrypt(Str::random(16)),
                         'provider' => $provider,
                         'provider_id' => $socialUser->getId(),
@@ -91,7 +92,7 @@ class SocialAuthController extends Controller
             Auth::login($user, true);
             request()->session()->regenerate();
 
-            return redirect()->route('explore');
+            return redirect()->route('explore.index');
         } catch (Exception $e) {
             report($e);
 
