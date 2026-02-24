@@ -1,0 +1,52 @@
+<!-- ══════════════════════════════════════════
+     NAVBAR
+══════════════════════════════════════════ -->
+<nav class="navbar">
+    <div class="navbar-inner">
+        <div class="navbar-left">
+            <a href="{{ route('explore') }}">
+                <img src="{{ asset('img/logoFluxa.png') }}" alt="Logo de Fluxa" class="nav-logo" />
+            </a>
+            <nav class="nav-links">
+                <a href="#"
+                    class="nav-link {{ request()->routeIs('feed*') ? 'active' : '' }}">
+                    Feed
+                </a>
+                <a href="{{ route('explore') }}"
+                    class="nav-link {{ request()->routeIs('explore*') ? 'active' : '' }}">
+                    Explorar
+                </a>
+                <a href="#"
+                    class="nav-link">
+                    Notificaciones
+                </a>
+            </nav>
+        </div>
+
+        <div class="nav-search-wrap">
+            <svg class="nav-search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            <input type="text" class="nav-search" placeholder="Buscar en Fluxa..." />
+        </div>
+
+        <div class="navbar-right">
+            <button class="btn-new">
+                <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                        d="M12 4v16m8-8H4" />
+                </svg>
+                Nuevo proyecto
+            </button>
+            <a href="{{ route('profile.index') }}">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100"
+                    alt="Tú"
+                    class="nav-user-av" />
+            </a>
+        </div>
+    </div>
+</nav>
+@push('styles')
+<link rel="stylesheet" href="{{ asset('css/topbar.css') }}">
+@endpush
