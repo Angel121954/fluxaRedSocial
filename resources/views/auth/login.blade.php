@@ -20,21 +20,7 @@
     <div class="w-full max-w-6xl grid md:grid-cols-2 gap-8 items-center">
         <!-- Form Side -->
         <div class="flex flex-col">
-            <!-- Header -->
-            <div class="mb-8">
-                <img src="{{ asset('img/logoFluxa.png') }}" alt="Fluxa" class="logo-img" />
-                <p
-                    style="
-                color: var(--text-secondary);
-                font-size: 1.0625rem;
-                line-height: 1.6;
-                max-width: 420px;
-              ">
-                    Únete a la red social para desarrolladores del SENA que construyen
-                    en público.
-                </p>
-            </div>
-
+            @include('components.header')
             <!-- Form Card -->
             <div class="form-card">
                 <h2

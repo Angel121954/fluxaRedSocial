@@ -16,13 +16,14 @@
                     class="nav-link {{ request()->routeIs('explore*') ? 'active' : '' }}">
                     Explorar
                 </a>
-                <a href="#"
-                    class="nav-link">
+                <a href="{{ route('notifications.index') }}"
+                    class="nav-link {{ request()->routeIs('notifications*') ? 'active' : '' }}">
                     Notificaciones
                 </a>
             </nav>
         </div>
 
+        @if( request()->routeIs('explore*') || request()->routeIs('feed*') )
         <div class="nav-search-wrap">
             <svg class="nav-search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -30,6 +31,7 @@
             </svg>
             <input type="text" class="nav-search" placeholder="Buscar en Fluxa..." />
         </div>
+        @endif
 
         <div class="navbar-right">
             <button class="btn-new">

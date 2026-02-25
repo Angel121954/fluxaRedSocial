@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\ExploreController;
+use App\Http\Controllers\NotificationsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AboutFluxaController;
 use App\Http\Controllers\ConfigurationController;
@@ -50,6 +51,9 @@ Route::middleware(['auth', 'verified', 'prevent-back-history'])->group(function 
 
     Route::get('/explore', [ExploreController::class, 'index'])
         ->name('explore.index');
+
+    Route::get('/notifications', [NotificationsController::class, 'index'])
+        ->name('notifications.index');
 
     Route::get('/about-fluxa', [AboutFluxaController::class, 'index'])
         ->name('about-fluxa');

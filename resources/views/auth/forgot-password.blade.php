@@ -22,18 +22,30 @@
         <div class="card">
 
             <!-- STEP 1: ingresar email -->
-            <div id="step1">
+            <div id="step1" {{ session('status') ? 'style=display:none' : '' }}>
                 <h1 class="card-title">¿Olvidaste tu contraseña?</h1>
                 <p class="card-subtitle">
                     Ingresa el email asociado a tu cuenta y te enviaremos un enlace para restablecerla.
                 </p>
 
-                <form id="forgot-form" onsubmit="handleSubmit(event)">
+                {{-- Mostrar error si el email no existe --}}
+                @error('email')
+                <div class="alert-error">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+                    </svg>
+                    {{ $message }}
+                </div>
+                @enderror
+
+                <form method="POST" action="{{ route('password.email') }}">
+                    @csrf
                     <div class="form-group">
                         <label for="email">Email</label>
                         <div class="input-wrap">
                             <span class="input-icon">
-                                {{-- Icono SVG de email inline (no depende de assets) --}}
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -41,6 +53,7 @@
                                 </svg>
                             </span>
                             <input
+                                value="{{ old('email') }}"
                                 type="email"
                                 id="email"
                                 name="email"
@@ -64,8 +77,8 @@
                 </a>
             </div>
 
-            <!-- STEP 2: confirmación enviada (oculto por defecto) -->
-            <div id="step2" style="display:none;">
+            <!-- STEP 2: confirmación enviada -->
+            <div id="step2" {{ session('status') ? '' : 'style=display:none' }}>
                 <div class="success-state">
                     <div class="success-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -75,8 +88,15 @@
                         </svg>
                     </div>
                     <h3>¡Correo enviado!</h3>
-                    <p>Revisá tu bandeja de entrada en <strong id="sent-email"></strong> y seguí el enlace para restablecer tu contraseña.</p>
-                    <p class="resend-text">¿No llegó? <a href="#" onclick="resend(event)">Reenviar correo</a></p>
+                    <p>
+                        Revisá tu bandeja de entrada en
+                        <strong>{{ old('email') }}</strong>
+                        y seguí el enlace para restablecer tu contraseña.
+                    </p>
+                    <p class="resend-text">
+                        ¿No llegó?
+                        <a href="#" id="resend-link" onclick="resend(event)">Reenviar correo</a>
+                    </p>
                 </div>
 
                 <a href="{{ route('login') }}" class="back-link">
@@ -94,33 +114,14 @@
 
     <!-- RIGHT -->
     <div class="right-panel">
-        <img src="{{ asset('img/desarrolladorRegistro.png') }}" alt="Ilustración desarrollador" />
+        <img src="{{ asset('img/imagenRecuperarContrasena.png') }}" alt="Ilustración desarrollador" />
     </div>
 
 </main>
 @endsection
 
 @push('scripts')
-<script>
-    function handleSubmit(e) {
-        e.preventDefault();
-        const email = document.getElementById('email').value;
-        document.getElementById('sent-email').textContent = email;
-        document.getElementById('step1').style.display = 'none';
-        document.getElementById('step2').style.display = 'block';
-    }
-
-    function resend(e) {
-        e.preventDefault();
-        const link = e.target;
-        link.textContent = '¡Enviado!';
-        link.style.pointerEvents = 'none';
-        setTimeout(() => {
-            link.textContent = 'Reenviar correo';
-            link.style.pointerEvents = '';
-        }, 4000);
-    }
-</script>
+<script src="{{ asset('js/emailModalSend.js') }}"></script>
 @endpush
 
 @push('styles')
