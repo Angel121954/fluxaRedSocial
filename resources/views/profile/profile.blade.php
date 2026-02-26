@@ -520,7 +520,7 @@
 @push('scripts')
 <script>
     /* ── Config ──────────────────────────────────────── */
-    const IS_OWN = true; // ← cambiar según auth en Laravel
+    const IS_OWN = true;
 
     /* ── Refs ───────────────────────────────────────── */
     const avatarWrap = document.getElementById("avatarWrap");
@@ -538,80 +538,95 @@
     const btnFollow = document.getElementById("btnFollow");
 
     /* ── Dropdown según tipo de perfil ──────────────── */
-    ownOpts.style.display = IS_OWN ? "" : "none";
-    otherOpts.style.display = IS_OWN ? "none" : "";
-    btnFollow.style.display = IS_OWN ? "none" : "";
+    if (ownOpts) ownOpts.style.display = IS_OWN ? "" : "none";
+    if (otherOpts) otherOpts.style.display = IS_OWN ? "none" : "";
+    if (btnFollow) btnFollow.style.display = IS_OWN ? "none" : "";
 
-    btnMore.addEventListener("click", (e) => {
-        e.stopPropagation();
-        const isOpen = dropMenu.classList.toggle("open");
-        btnMore.classList.toggle("is-open", isOpen);
-    });
+    if (btnMore && dropMenu) {
+        btnMore.addEventListener("click", (e) => {
+            e.stopPropagation();
+            const isOpen = dropMenu.classList.toggle("open");
+            btnMore.classList.toggle("is-open", isOpen);
+        });
+    }
+
     document.addEventListener("click", (e) => {
-        if (!dropMenu.contains(e.target) && e.target !== btnMore) {
+        if (dropMenu && btnMore && !dropMenu.contains(e.target) && e.target !== btnMore) {
             dropMenu.classList.remove("open");
             btnMore.classList.remove("is-open");
         }
     });
+
     document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape") {
+        if (e.key === "Escape" && dropMenu) {
             dropMenu.classList.remove("open");
-            btnMore.classList.remove("is-open");
+            btnMore?.classList.remove("is-open");
         }
     });
 
     /* ── Seguir toggle ──────────────────────────────── */
-    btnFollow.addEventListener("click", () => {
-        const following = btnFollow.classList.toggle("is-following");
-        btnFollow.textContent = following ? "Siguiendo" : "Seguir";
-    });
+    if (btnFollow) {
+        btnFollow.addEventListener("click", () => {
+            const following = btnFollow.classList.toggle("is-following");
+            btnFollow.textContent = following ? "Siguiendo" : "Seguir";
+        });
+    }
 
     /* ── Avatar: móvil touch toggle ─────────────────── */
     const isMobile = () => window.innerWidth <= 680;
 
-    avatarWrap.addEventListener("click", (e) => {
-        if (isMobile() && (e.target === avatarWrap || e.target === avatarImg)) {
-            avatarWrap.classList.toggle("active");
-        }
-    });
-    document.addEventListener("click", (e) => {
-        if (isMobile() && !avatarWrap.contains(e.target))
-            avatarWrap.classList.remove("active");
-    });
+    if (avatarWrap && avatarImg) {
+        avatarWrap.addEventListener("click", (e) => {
+            if (isMobile() && (e.target === avatarWrap || e.target === avatarImg)) {
+                avatarWrap.classList.toggle("active");
+            }
+        });
+        document.addEventListener("click", (e) => {
+            if (isMobile() && !avatarWrap.contains(e.target))
+                avatarWrap.classList.remove("active");
+        });
+    }
 
     /* ── Cambiar foto ───────────────────────────────── */
-    btnCam.addEventListener("click", (e) => {
-        e.stopPropagation();
-        avatarWrap.classList.remove("active");
-        fileIn.click();
-    });
-    fileIn.addEventListener("change", (e) => {
-        const f = e.target.files[0];
-        if (!f) return;
-        const r = new FileReader();
-        r.onload = (ev) => {
-            avatarImg.src = ev.target.result;
-            modalImg.src = ev.target.result;
-            // Aquí: FormData + fetch para subir al servidor
-        };
-        r.readAsDataURL(f);
-    });
+    if (btnCam && fileIn) {
+        btnCam.addEventListener("click", (e) => {
+            e.stopPropagation();
+            avatarWrap?.classList.remove("active");
+            fileIn.click();
+        });
+
+        fileIn.addEventListener("change", (e) => {
+            const f = e.target.files[0];
+            if (!f) return;
+            const r = new FileReader();
+            r.onload = (ev) => {
+                if (avatarImg) avatarImg.src = ev.target.result;
+                if (modalImg) modalImg.src = ev.target.result;
+            };
+            r.readAsDataURL(f);
+        });
+    }
 
     /* ── Ver imagen ─────────────────────────────────── */
-    btnView.addEventListener("click", (e) => {
-        e.stopPropagation();
-        avatarWrap.classList.remove("active");
-        imgModal.classList.add("show");
-        document.body.style.overflow = "hidden";
-    });
     const closeModal = () => {
-        imgModal.classList.remove("show");
+        imgModal?.classList.remove("show");
         document.body.style.overflow = "";
     };
-    modalX.addEventListener("click", closeModal);
-    imgModal.addEventListener("click", (e) => {
-        if (e.target === imgModal) closeModal();
-    });
+
+    if (btnView && imgModal) {
+        btnView.addEventListener("click", (e) => {
+            e.stopPropagation();
+            avatarWrap?.classList.remove("active");
+            imgModal.classList.add("show");
+            document.body.style.overflow = "hidden";
+        });
+        imgModal.addEventListener("click", (e) => {
+            if (e.target === imgModal) closeModal();
+        });
+    }
+
+    if (modalX) modalX.addEventListener("click", closeModal);
+
     document.addEventListener("keydown", (e) => {
         if (e.key === "Escape") closeModal();
     });
@@ -619,9 +634,7 @@
     /* ── Tabs ───────────────────────────────────────── */
     document.querySelectorAll(".tab").forEach((t) => {
         t.addEventListener("click", () => {
-            document
-                .querySelectorAll(".tab")
-                .forEach((x) => x.classList.remove("active"));
+            document.querySelectorAll(".tab").forEach((x) => x.classList.remove("active"));
             t.classList.add("active");
         });
     });
@@ -629,9 +642,7 @@
     /* ── Filter pills ───────────────────────────────── */
     document.querySelectorAll(".f-pill").forEach((p) => {
         p.addEventListener("click", () => {
-            document
-                .querySelectorAll(".f-pill")
-                .forEach((x) => x.classList.remove("active"));
+            document.querySelectorAll(".f-pill").forEach((x) => x.classList.remove("active"));
             p.classList.add("active");
         });
     });

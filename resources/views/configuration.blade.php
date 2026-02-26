@@ -118,14 +118,15 @@ Apasionado por TypeScript, APIs y el arte de lanzar productos.</textarea>
     const bioInput = document.getElementById("inputBio");
     const charCount = document.getElementById("charCount");
 
-    function updateCharCount() {
-        const current = bioInput.value.length;
-        const max = bioInput.getAttribute("maxlength");
-        charCount.textContent = `${current}/${max}`;
+    if (bioInput && charCount) {
+        function updateCharCount() {
+            const current = bioInput.value.length;
+            const max = bioInput.getAttribute("maxlength");
+            charCount.textContent = `${current}/${max}`;
+        }
+        bioInput.addEventListener("input", updateCharCount);
+        updateCharCount();
     }
-
-    bioInput.addEventListener("input", updateCharCount);
-    updateCharCount();
 
     // ── Avatar actions ──────────────────────────────────
     const fileInput = document.getElementById("fileInput");
@@ -135,42 +136,47 @@ Apasionado por TypeScript, APIs y el arte de lanzar productos.</textarea>
     const btnView = document.getElementById("btnView");
     const btnDelete = document.getElementById("btnDelete");
 
-    btnUpload.addEventListener("click", (e) => {
-        e.stopPropagation();
-        fileInput.click();
-    });
+    if (btnUpload && fileInput) {
+        btnUpload.addEventListener("click", (e) => {
+            e.stopPropagation();
+            fileInput.click();
+        });
+    }
 
-    btnChange.addEventListener("click", () => {
-        fileInput.click();
-    });
+    if (btnChange && fileInput) {
+        btnChange.addEventListener("click", () => {
+            fileInput.click();
+        });
+    }
 
-    fileInput.addEventListener("change", (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
+    if (fileInput && avatarImg) {
+        fileInput.addEventListener("change", (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+                avatarImg.src = ev.target.result;
+                console.log("Nueva foto cargada");
+            };
+            reader.readAsDataURL(file);
+        });
+    }
 
-        const reader = new FileReader();
-        reader.onload = (ev) => {
-            avatarImg.src = ev.target.result;
-            // Aquí enviarías la imagen al servidor
-            console.log("Nueva foto cargada");
-        };
-        reader.readAsDataURL(file);
-    });
+    if (btnDelete && avatarImg) {
+        btnDelete.addEventListener("click", () => {
+            if (confirm("¿Estás seguro de que quieres eliminar tu foto de perfil?")) {
+                avatarImg.src = "https://ui-avatars.com/api/?name=Lucas+Silva&size=400&background=12b3b6&color=fff";
+                console.log("Foto eliminada");
+            }
+        });
+    }
 
-    btnDelete.addEventListener("click", () => {
-        if (
-            confirm("¿Estás seguro de que quieres eliminar tu foto de perfil?")
-        ) {
-            avatarImg.src =
-                "https://ui-avatars.com/api/?name=Lucas+Silva&size=400&background=12b3b6&color=fff";
-            console.log("Foto eliminada");
-        }
-    });
-
-    btnView.addEventListener("click", (e) => {
-        e.stopPropagation();
-        window.open(avatarImg.src, "_blank");
-    });
+    if (btnView && avatarImg) {
+        btnView.addEventListener("click", (e) => {
+            e.stopPropagation();
+            window.open(avatarImg.src, "_blank");
+        });
+    }
 
     // ── Form submit ─────────────────────────────────────
     const editForm = document.getElementById("editForm");
@@ -178,42 +184,33 @@ Apasionado por TypeScript, APIs y el arte de lanzar productos.</textarea>
 
     function saveChanges(e) {
         e.preventDefault();
-
         const formData = {
-            name: document.getElementById("inputName").value,
-            handle: document.getElementById("inputHandle").value,
-            bio: document.getElementById("inputBio").value,
-            location: document.getElementById("inputLocation").value,
-            website: document.getElementById("inputWebsite").value,
+            name: document.getElementById("inputName")?.value,
+            handle: document.getElementById("inputHandle")?.value,
+            bio: document.getElementById("inputBio")?.value,
+            location: document.getElementById("inputLocation")?.value,
+            website: document.getElementById("inputWebsite")?.value,
         };
-
         console.log("Guardando cambios:", formData);
-
-        // Aquí harías el POST al servidor
-        // fetch('/api/profile/update', { ... })
-
-        // Simular guardado exitoso
         alert("✅ Perfil actualizado correctamente");
-
-        // Opcional: redirigir al perfil
-        // window.location.href = 'perfil.html';
     }
 
-    editForm.addEventListener("submit", saveChanges);
-    btnSaveTop.addEventListener("click", (e) => {
-        e.preventDefault();
-        editForm.dispatchEvent(new Event("submit"));
-    });
+    if (editForm) {
+        editForm.addEventListener("submit", saveChanges);
+    }
+
+    if (btnSaveTop && editForm) {
+        btnSaveTop.addEventListener("click", (e) => {
+            e.preventDefault();
+            editForm.dispatchEvent(new Event("submit"));
+        });
+    }
 
     // ── Sidebar navigation ──────────────────────────────
     document.querySelectorAll(".sidebar-item").forEach((item) => {
         item.addEventListener("click", function() {
-            document
-                .querySelectorAll(".sidebar-item")
-                .forEach((i) => i.classList.remove("active"));
+            document.querySelectorAll(".sidebar-item").forEach((i) => i.classList.remove("active"));
             this.classList.add("active");
-
-            // Aquí cambiarías el contenido según la sección
             console.log("Navegando a:", this.textContent);
         });
     });
