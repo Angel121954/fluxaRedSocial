@@ -29,31 +29,34 @@ class AccountController extends Controller
 
     public function update(Request $request)
     {
-        $user = Auth::user()->id;
+        $user = Auth::user();
+        /** @var \App\Models\User $user */ // tipar la variable del modelo para evitar errores del IDE
 
         $validated = $request->validate([
-            'email' => ['required', 'string', 'email', 'max:255'],
+            'email' => [
+                'required',
+                'string',
+                'email',
+                'max:255',
+                Rule::unique('users', 'email')->ignore(Auth::id()),
+            ],
             'phone_code' => ['required', 'string', 'max:5'],
             'phone_number' => ['required', 'string', 'max:15'],
             'language' => ['required', 'string'],
         ], [
             'email.required' => 'El email es obligatorio',
-            'email.max' => 'El email debe tener un máximo de 255 caracteres',
+            'email.unique' => 'Este email ya está registrado.',
             'phone_code.required' => 'El código de marcación internacional es obligatorio',
-            'phone_code.max' => 'El código no puede superar los 5 caracteres',
-            'phone_number.required' => 'El número de télefono es obligatorio',
-            'phone_number.max' => 'El número de télefono no puede superar los 15 caracteres',
-            'language.required' => 'El lenguaje es obligatorio',
         ]);
 
-        if ($validated['email'] != Auth::user()->email) {
-            User::where('id', $user)->update([
+        if ($validated['email'] !== $user->email) {
+            $user->update([
                 'email' => $validated['email'],
                 'email_verified_at' => null,
             ]);
         }
 
-        Profile::where('user_id', $user)->update([
+        $user->profile->update([
             'phone_code'   => $validated['phone_code'],
             'phone_number' => $validated['phone_number'],
             'language'     => $validated['language'],

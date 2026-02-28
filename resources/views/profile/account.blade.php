@@ -28,10 +28,10 @@
                     <div class="input-with-badge">
                         <input
                             type="email"
-                            class="form-input"
+                            class="form-input {{ $errors->has('email') ? 'input-error' : '' }}"
                             id="inputEmail"
                             name="email"
-                            value="{{ Auth()->user()->email ?? '' }}"
+                            value="{{ old('email', Auth()->user()->email ?? '') }}"
                             placeholder="tu@email.com" />
                         <span class="badge badge-verified">
                             <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -41,6 +41,9 @@
                             Verificado
                         </span>
                     </div>
+                    @error('email')
+                    <span class="form-error text-red-500">{{ $message }}</span>
+                    @enderror
                 </div>
 
                 <!-- Teléfono -->
@@ -48,7 +51,7 @@
                     <label class="form-label" for="inputPhone">Número de teléfono</label>
                     <span class="form-hint">Opcional · Usado para verificación en dos pasos</span>
                     <div class="input-phone-group">
-                        <select class="form-input phone-prefix" id="inputPhonePrefix" name="phone_code">
+                        <select class="form-input phone-prefix {{ $errors->has('phone_code') ? 'input-error' : '' }}" id="inputPhonePrefix" name="phone_code">
                             <option value="+57">🇨🇴 +57</option>
                             <option value="+52">🇲🇽 +52</option>
                             <option value="+54">🇦🇷 +54</option>
@@ -59,24 +62,33 @@
                         </select>
                         <input
                             type="tel"
-                            class="form-input phone-number"
+                            class="form-input phone-number {{ $errors->has('phone_number') ? 'input-error' : '' }}"
                             id="inputPhone"
                             name="phone_number"
-                            value="310 456 7890"
+                            value="{{ old('phone_number', '310 456 7890') }}"
                             placeholder="Número de teléfono" />
                     </div>
+                    @error('phone_code')
+                    <span class="form-error text-red-500">{{ $message }}</span>
+                    @enderror
+                    @error('phone_number')
+                    <span class="form-error text-red-500">{{ $message }}</span>
+                    @enderror
                 </div>
 
                 <!-- Idioma -->
                 <div class="form-group">
                     <label class="form-label" for="inputLanguage">Idioma</label>
-                    <select class="form-input" id="inputLanguage" name="language">
-                        <option value="es" selected>Español</option>
-                        <option value="en">English</option>
-                        <option value="pt">Português</option>
-                        <option value="fr">Français</option>
-                        <option value="DE">Deutsch</option>
+                    <select class="form-input {{ $errors->has('language') ? 'input-error' : '' }}" id="inputLanguage" name="language">
+                        <option value="es" {{ old('language') == 'es' ? 'selected' : '' }}>Español</option>
+                        <option value="en" {{ old('language') == 'en' ? 'selected' : '' }}>English</option>
+                        <option value="pt" {{ old('language') == 'pt' ? 'selected' : '' }}>Português</option>
+                        <option value="fr" {{ old('language') == 'fr' ? 'selected' : '' }}>Français</option>
+                        <option value="de" {{ old('language') == 'de' ? 'selected' : '' }}>Deutsch</option>
                     </select>
+                    @error('language')
+                    <span class="form-error text-red-500">{{ $message }}</span>
+                    @enderror
                 </div>
 
                 <!-- Acciones -->
