@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Laravel\Socialite\Facades\Socialite;
 use App\Models\User;
+use App\Models\Profile;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Exception;
 
 class SocialAuthController extends Controller
@@ -18,10 +20,6 @@ class SocialAuthController extends Controller
     {
         if (!in_array($provider, $this->allowedProviders)) {
             abort(404);
-        }
-
-        if ($provider === 'github') {
-            return Socialite::driver('github')->redirect();
         }
 
         return Socialite::driver($provider)->redirect();
@@ -36,6 +34,46 @@ class SocialAuthController extends Controller
             'google'   => preg_replace('/=s\d+-c/', '=s400-c', $avatar),
             default    => $avatar,
         };
+    }
+
+    /**
+     * Sube el avatar a Cloudinary y retorna la URL permanente.
+     * Si falla, retorna la URL original del proveedor como fallback.
+     */
+    protected function uploadAvatarToCloudinary(string $avatarUrl, string $userId): string
+    {
+        try {
+            Log::info('Intentando subir avatar a Cloudinary', [
+                'user_id'    => $userId,
+                'avatar_url' => $avatarUrl,
+            ]);
+
+            $cloudinary = new \Cloudinary\Cloudinary(config('cloudinary.cloud_url'));
+            $result     = $cloudinary->uploadApi()->upload($avatarUrl, [
+                'folder'         => 'avatares',
+                'public_id'      => 'user_' . $userId,
+                'overwrite'      => true,
+                'transformation' => [
+                    [
+                        'width'        => 400,
+                        'height'       => 400,
+                        'crop'         => 'fill',
+                        'gravity'      => 'face',
+                        'quality'      => 'auto',
+                        'fetch_format' => 'auto',
+                    ]
+                ],
+            ]);
+
+            return $result['secure_url'];
+        } catch (Exception $e) {
+            Log::warning('Cloudinary upload failed, using original avatar.', [
+                'user_id' => $userId,
+                'error'   => $e->getMessage(),
+            ]);
+
+            return $avatarUrl;
+        }
     }
 
     public function callback(string $provider)
@@ -53,7 +91,7 @@ class SocialAuthController extends Controller
                     ->with('error', 'Tu cuenta no tiene email disponible.');
             }
 
-            $avatar = $this->resolveAvatar($provider, $socialUser);
+            $avatarOriginal = $this->resolveAvatar($provider, $socialUser);
 
             $user = User::where('provider_id', $socialUser->getId())
                 ->where('provider', $provider)
@@ -64,25 +102,21 @@ class SocialAuthController extends Controller
             }
 
             if (!$user) {
-                $user = DB::transaction(function () use ($socialUser, $provider, $avatar) {
+                $user = DB::transaction(function () use ($socialUser, $provider, $avatarOriginal) {
 
                     $baseUsername = Str::slug(
-                        $socialUser->getName() ?? $socialUser->getNickname()
+                        $socialUser->getName() ?? $socialUser->getNickname() ?? 'user'
                     );
 
-                    if (!$baseUsername) {
-                        $baseUsername = 'user';
-                    }
-
-                    $username = $baseUsername;
-                    $count = 1;
+                    $baseUsername = $baseUsername ?: 'user';
+                    $username     = $baseUsername;
+                    $count        = 1;
 
                     while (User::where('username', $username)->exists()) {
-                        $username = $baseUsername . $count;
-                        $count++;
+                        $username = $baseUsername . $count++;
                     }
 
-                    return User::create([
+                    $user = User::create([
                         'name'              => $socialUser->getName() ?? $socialUser->getNickname(),
                         'username'          => $username,
                         'email'             => $socialUser->getEmail(),
@@ -90,15 +124,36 @@ class SocialAuthController extends Controller
                         'password'          => bcrypt(Str::random(16)),
                         'provider'          => $provider,
                         'provider_id'       => $socialUser->getId(),
-                        'avatar'            => $avatar,
                     ]);
+
+                    // Subir a Cloudinary DESPUÉS de crear el user (necesitamos el ID)
+                    $avatar = $this->uploadAvatarToCloudinary($avatarOriginal, $user->id);
+
+                    Profile::create([
+                        'user_id' => $user->id,
+                        'avatar'  => $avatar,
+                    ]);
+
+                    return $user;
                 });
             } else {
                 $user->update([
                     'provider'    => $provider,
                     'provider_id' => $socialUser->getId(),
-                    'avatar'      => $avatar,
                 ]);
+
+                // Solo re-sube si el avatar del perfil NO es ya de Cloudinary
+                $currentAvatar = $user->profile?->avatar ?? '';
+                $isAlreadyInCloudinary = str_contains($currentAvatar, 'cloudinary.com');
+
+                $avatar = $isAlreadyInCloudinary
+                    ? $currentAvatar
+                    : $this->uploadAvatarToCloudinary($avatarOriginal, $user->id);
+
+                $user->profile()->updateOrCreate(
+                    ['user_id' => $user->id],
+                    ['avatar'  => $avatar]
+                );
             }
 
             Auth::login($user, true);

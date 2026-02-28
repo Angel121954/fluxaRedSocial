@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('content')
+@section('title', 'Explorar')
 @include('components.topbar')
 
 <!-- ══════════════════════════════════════════

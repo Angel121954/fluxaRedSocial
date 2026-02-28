@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@section('title', 'Perfil')
 @section('content')
 @include('components.topbar')
 <!-- ══════════════════════════════════════════
@@ -11,7 +11,7 @@
             <!-- Avatar -->
             <div class="avatar-wrap" id="avatarWrap">
                 <img
-                    src="{{ str_replace('type=normal', 'type=large', Auth::user()->avatar) }}"
+                    src="{{ str_replace('type=normal', 'type=large', $profile->avatar ?? '') }}"
                     alt="Lucas Silva"
                     class="avatar-img"
                     id="avatarImg" />
@@ -508,7 +508,7 @@
             </svg>
         </button>
         <img
-            src="{{ Auth::user()->avatar }}"
+            src="{{ $profile->avatar ?? '' }}"
             id="modalImg"
             alt="Foto de perfil" />
     </div>

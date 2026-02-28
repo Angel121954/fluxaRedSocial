@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('title', 'Notificaciones')
 @section('content')
 @include('components.topbar')
 

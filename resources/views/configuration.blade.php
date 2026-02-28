@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('title', 'Configuración')
 @section('content')
 @include('components.topbar')
 <!-- ══════════════════════════════════════════
@@ -14,7 +15,7 @@
             Actualiza tu información personal y cómo apareces en Fluxa
         </p>
 
-        <form id="editForm">
+        <form id="editForm" method="post" action="#">
             <!-- Nombre -->
             <div class="form-group">
                 <label class="form-label" for="inputName">Nombre completo</label>
@@ -56,13 +57,13 @@ Apasionado por TypeScript, APIs y el arte de lanzar productos.</textarea>
             <div class="form-group">
                 <label class="form-label" for="inputLocation">Ubicación</label>
                 <select class="form-input" id="inputLocation">
-                    <option>📍 Ciudad de México, México</option>
-                    <option>📍 Buenos Aires, Argentina</option>
-                    <option>📍 Madrid, España</option>
-                    <option>📍 Bogotá, Colombia</option>
-                    <option>📍 Lima, Perú</option>
-                    <option>📍 Santiago, Chile</option>
-                    <option selected>📍 Pereira, Colombia</option>
+                    <option>Ciudad de México, México</option>
+                    <option>Buenos Aires, Argentina</option>
+                    <option>Madrid, España</option>
+                    <option>Bogotá, Colombia</option>
+                    <option>Lima, Perú</option>
+                    <option>Santiago, Chile</option>
+                    <option selected>Pereira, Colombia</option>
                 </select>
             </div>
 

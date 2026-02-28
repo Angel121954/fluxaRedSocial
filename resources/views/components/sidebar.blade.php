@@ -19,7 +19,7 @@
 
         <div class="avatar-container" id="avatarContainer">
             <img
-                src="{{ Auth::user()->avatar }}"
+                src="{{ $profile->avatar ?? '' }}"
                 alt="Profile"
                 class="avatar-img"
                 id="avatarImg" />

@@ -3,11 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Profile;
 
 class NotificationsController extends Controller
 {
     public function index()
     {
-        return view('notifications');
+        $user = Auth::user()->id;
+        $profile = Profile::where('user_id', $user)->first();
+        return view('notifications', compact('profile'));
     }
 }

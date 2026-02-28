@@ -42,7 +42,7 @@
                 Nuevo proyecto
             </button>
             <a href="{{ route('profile.index') }}">
-                <img src="{{ Auth::user()->avatar }}"
+                <img src="{{ $profile->avatar ?? '' }}"
                     alt="Tú"
                     class="nav-user-av" />
             </a>

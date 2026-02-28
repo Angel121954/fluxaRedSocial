@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('title', 'Cuenta')
 @section('content')
 @include('components.topbar')
 <!-- ══════════════════════════════════════════
@@ -18,7 +19,8 @@
         <section class="config-section">
             <h2 class="section-title">Información de cuenta</h2>
 
-            <form id="accountForm">
+            <form id="accountForm" method="post" action="{{ route('account.edit') }}">
+                @csrf
                 <!-- Correo electrónico -->
                 <div class="form-group">
                     <label class="form-label" for="inputEmail">Correo electrónico</label>
@@ -28,7 +30,8 @@
                             type="email"
                             class="form-input"
                             id="inputEmail"
-                            value="lucas.silva@email.com"
+                            name="email"
+                            value="{{ Auth()->user()->email ?? '' }}"
                             placeholder="tu@email.com" />
                         <span class="badge badge-verified">
                             <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -45,7 +48,7 @@
                     <label class="form-label" for="inputPhone">Número de teléfono</label>
                     <span class="form-hint">Opcional · Usado para verificación en dos pasos</span>
                     <div class="input-phone-group">
-                        <select class="form-input phone-prefix" id="inputPhonePrefix">
+                        <select class="form-input phone-prefix" id="inputPhonePrefix" name="phone_code">
                             <option value="+57">🇨🇴 +57</option>
                             <option value="+52">🇲🇽 +52</option>
                             <option value="+54">🇦🇷 +54</option>
@@ -58,6 +61,7 @@
                             type="tel"
                             class="form-input phone-number"
                             id="inputPhone"
+                            name="phone_number"
                             value="310 456 7890"
                             placeholder="Número de teléfono" />
                     </div>
@@ -66,21 +70,21 @@
                 <!-- Idioma -->
                 <div class="form-group">
                     <label class="form-label" for="inputLanguage">Idioma</label>
-                    <select class="form-input" id="inputLanguage">
-                        <option selected>🌐 Español</option>
-                        <option>🌐 English</option>
-                        <option>🌐 Português</option>
-                        <option>🌐 Français</option>
-                        <option>🌐 Deutsch</option>
+                    <select class="form-input" id="inputLanguage" name="language">
+                        <option value="es" selected>Español</option>
+                        <option value="en">English</option>
+                        <option value="pt">Português</option>
+                        <option value="fr">Français</option>
+                        <option value="DE">Deutsch</option>
                     </select>
                 </div>
 
                 <!-- Acciones -->
                 <div class="form-actions">
                     <button
+                        id="guardarCambiosPerfil"
                         type="button"
-                        class="btn-cancel"
-                        onclick="window.location.href='perfil.html'">
+                        class="btn-cancel">
                         Cancelar
                     </button>
                     <button type="submit" class="btn-submit">Guardar cambios</button>
@@ -153,7 +157,7 @@
                     </div>
                     <div class="logout-details">
                         <span class="logout-device">Sesión actual</span>
-                        <span class="logout-meta">lucas.silva@email.com · {{ auth()->user()->name ?? 'Lucas Silva Daniel' }}</span>
+                        <span class="logout-meta">{{ Auth()->user()->email ?? '' }} · {{ auth()->user()->name ?? '' }}</span>
                     </div>
                     <span class="badge badge-current">Activa</span>
                 </div>
@@ -218,74 +222,5 @@
 @endpush
 
 @push('scripts')
-<script>
-    // ── 2FA Toggle ──────────────────────────────────────────
-    const toggle2FA = document.getElementById('toggle2FA');
-    const twoFaOptions = document.getElementById('twoFaOptions');
-
-    toggle2FA.addEventListener('change', () => {
-        const hint = toggle2FA.closest('.toggle-row').querySelector('.toggle-hint strong');
-        if (toggle2FA.checked) {
-            twoFaOptions.style.display = 'flex';
-            hint.textContent = 'activada';
-        } else {
-            twoFaOptions.style.display = 'none';
-            hint.textContent = 'desactivada';
-        }
-    });
-
-    // ── Setup 2FA ───────────────────────────────────────────
-    document.querySelector('.btn-setup-2fa')?.addEventListener('click', () => {
-        const method = document.querySelector('input[name="twoFaMethod"]:checked')?.value;
-        console.log('Configurando 2FA con método:', method);
-        // Aquí abrirías el modal de configuración correspondiente
-        alert(`⚙️ Configurando 2FA con: ${method === 'app' ? 'Aplicación de autenticación' : 'SMS'}`);
-    });
-
-    // ── Account form submit ─────────────────────────────────
-    document.getElementById('accountForm')?.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const formData = {
-            email: document.getElementById('inputEmail').value,
-            phone: document.getElementById('inputPhone').value,
-            prefix: document.getElementById('inputPhonePrefix').value,
-            language: document.getElementById('inputLanguage').value,
-        };
-        console.log('Guardando cuenta:', formData);
-        // fetch('/api/account/update', { method: 'POST', body: JSON.stringify(formData) })
-        alert('✅ Información de cuenta actualizada');
-    });
-
-    // ── Deactivate account ──────────────────────────────────
-    document.getElementById('btnDeactivate')?.addEventListener('click', () => {
-        if (confirm('¿Desactivar tu cuenta? Tu perfil dejará de ser visible hasta que vuelvas a iniciar sesión.')) {
-            console.log('Cuenta desactivada');
-            // fetch('/api/account/deactivate', { method: 'POST' })
-        }
-    });
-
-    // ── Delete account ──────────────────────────────────────
-    document.getElementById('btnDelete')?.addEventListener('click', () => {
-        const confirmText = prompt('Esta acción es permanente. Escribe "ELIMINAR" para confirmar:');
-        if (confirmText === 'ELIMINAR') {
-            console.log('Cuenta eliminada permanentemente');
-            // fetch('/api/account/delete', { method: 'DELETE' })
-            alert('Cuenta eliminada. Redirigiendo...');
-            // window.location.href = '/';
-        } else if (confirmText !== null) {
-            alert('El texto ingresado no coincide. Operación cancelada.');
-        }
-    });
-
-    // ── Sidebar navigation ──────────────────────────────────
-    document.querySelectorAll('.sidebar-item').forEach(item => {
-        item.addEventListener('click', function() {
-            document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
-            this.classList.add('active');
-            console.log('Navegando a:', this.textContent.trim());
-        });
-    });
-
-    console.log('✅ Account configuration page loaded');
-</script>
+<script src="{{ asset('js/account.js') }}"></script>
 @endpush

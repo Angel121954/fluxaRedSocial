@@ -49,6 +49,9 @@ Route::middleware(['auth', 'verified', 'prevent-back-history'])->group(function 
     Route::get('/account', [AccountController::class, 'index'])
         ->name('account.index');
 
+    Route::post('/account', [AccountController::class, 'update'])
+        ->name('account.edit');
+
     Route::get('/explore', [ExploreController::class, 'index'])
         ->name('explore.index');
 

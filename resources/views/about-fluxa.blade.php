@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('title', 'Acerca de Fluxa')
 @section('content')
 @include('components.topbar')
 <!-- ══════════════════════════════════════════

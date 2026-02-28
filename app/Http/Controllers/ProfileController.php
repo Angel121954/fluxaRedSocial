@@ -8,21 +8,38 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use App\Models\Profile;
+use App\Models\User;
 
 class ProfileController extends Controller
 {
     public function index()
     {
-        return view('profile.profile');
+        $user = Auth::user()->id;
+        $profile = Profile::where('user_id', $user)->first();
+        return view('profile.profile', compact('profile'));
     }
     /**
      * Display the user's profile form.
      */
-    public function edit(Request $request): View
+    public function edit(Request $request)
     {
-        return view('profile.edit', [
-            'user' => $request->user(),
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'username' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255'],
+            'password' => ['required', 'confirmed', 'min:2'],
+        ], [
+            'name.required' => 'El nombre es obligatorio',
+            'name.max' => 'El nombre debe tener un máximo de 255 caracteres',
+            'username.required' => 'El nombre de usuario es obligatorio',
+            'username.max' => 'El nombre de usuario debe tener un máximo de 255 caracteres',
+            'email.required' => 'El email es obligatorio',
+            'email.max' => 'El email debe tener un máximo de 255 caracteres',
+            'password.required' => 'La contraseña es obligatoria',
+            'password.min' => 'La contraseña debe tener un mínimo de 2 caracteres',
         ]);
+        
     }
 
     /**
