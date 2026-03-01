@@ -23,7 +23,7 @@
                     type="text"
                     class="form-input"
                     id="inputName"
-                    value="{{ Auth::user()->name }}"
+                    value="{{ old('name', Auth::user()->name ?? '') }}"
                     placeholder="Tu nombre completo" />
             </div>
 
@@ -35,7 +35,7 @@
                     type="text"
                     class="form-input"
                     id="inputHandle"
-                    value="{{ Auth::user()->username }}"
+                    value="{{ old('username', Auth::user()->username ?? '') }}"
                     placeholder="tunombre" />
             </div>
 
@@ -47,9 +47,7 @@
                     class="form-input"
                     id="inputBio"
                     maxlength="160"
-                    placeholder="Full stack developer...">
-Full stack developer construyendo en público.
-Apasionado por TypeScript, APIs y el arte de lanzar productos.</textarea>
+                    placeholder="Full stack developer...">{{ Auth()->user()->profile->bio ?? '' }}</textarea>
                 <div class="char-count" id="charCount">120/160</div>
             </div>
 
@@ -57,13 +55,29 @@ Apasionado por TypeScript, APIs y el arte de lanzar productos.</textarea>
             <div class="form-group">
                 <label class="form-label" for="inputLocation">Ubicación</label>
                 <select class="form-input" id="inputLocation">
-                    <option>Ciudad de México, México</option>
-                    <option>Buenos Aires, Argentina</option>
-                    <option>Madrid, España</option>
-                    <option>Bogotá, Colombia</option>
-                    <option>Lima, Perú</option>
-                    <option>Santiago, Chile</option>
-                    <option selected>Pereira, Colombia</option>
+                    @php
+                    $currentLocation = old('location', Auth()->user()->profile->location ?? 'pereira')
+                    @endphp
+                    <option value="bogotá" {{ $currentLocation == 'bogotá' ? 'selected' : '' }}>Bogotá</option>
+                    <option value="medellín" {{ $currentLocation == 'medellín' ? 'selected' : '' }}>Medellín</option>
+                    <option value="cali" {{ $currentLocation == 'cali' ? 'selected' : '' }}>Cali</option>
+                    <option value="barranquilla" {{ $currentLocation == 'barranquilla' ? 'selected' : '' }}>Barranquilla</option>
+                    <option value="cartagena" {{ $currentLocation == 'cartagena' ? 'selected' : '' }}>Cartagena</option>
+                    <option value="cúcuta" {{ $currentLocation == 'cúcuta' ? 'selected' : '' }}>Cúcuta</option>
+                    <option value="bucaramanga" {{ $currentLocation == 'bucaramanga' ? 'selected' : '' }}>Bucaramanga</option>
+                    <option value="pereira" {{ $currentLocation == 'pereira' ? 'selected' : '' }}>Pereira</option>
+                    <option value="manizales" {{ $currentLocation == 'manizales' ? 'selected' : '' }}>Manizales</option>
+                    <option value="armenia" {{ $currentLocation == 'armenia' ? 'selected' : '' }}>Armenia</option>
+                    <option value="ibagué" {{ $currentLocation == 'ibagué' ? 'selected' : '' }}>Ibagué</option>
+                    <option value="villavicencio" {{ $currentLocation == 'villavicencio' ? 'selected' : '' }}>Villavicencio</option>
+                    <option value="santa marta" {{ $currentLocation == 'santa marta' ? 'selected' : '' }}>Santa Marta</option>
+                    <option value="neiva" {{ $currentLocation == 'neiva' ? 'selected' : '' }}>Neiva</option>
+                    <option value="popayán" {{ $currentLocation == 'popayán' ? 'selected' : '' }}>Popayán</option>
+                    <option value="sincelejo" {{ $currentLocation == 'sincelejo' ? 'selected' : '' }}>Sincelejo</option>
+                    <option value="riohacha" {{ $currentLocation == 'riohacha' ? 'selected' : '' }}>Riohacha</option>
+                    <option value="quibdó" {{ $currentLocation == 'quibdó' ? 'selected' : '' }}>Quibdó</option>
+                    <option value="yopal" {{ $currentLocation == 'yopal' ? 'selected' : '' }}>Yopal</option>
+                    <option value="leticia" {{ $currentLocation == 'leticia' ? 'selected' : '' }}>Leticia</option>
                 </select>
             </div>
 

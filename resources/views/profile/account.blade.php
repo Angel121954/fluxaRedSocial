@@ -19,8 +19,15 @@
         <section class="config-section">
             <h2 class="section-title">Información de cuenta</h2>
 
-            <form id="accountForm" method="post" action="{{ route('account.edit') }}">
+            @if(!Auth::user()->email_verified_at)
+            <form method="POST" action="{{ route('verification.send') }}" id="form-verify-email">
                 @csrf
+            </form>
+            @endif
+
+            <form id="accountForm" method="POST" action="{{ route('account.edit') }}">
+                @csrf
+
                 <!-- Correo electrónico -->
                 <div class="form-group">
                     <label class="form-label" for="inputEmail">Correo electrónico</label>
@@ -33,6 +40,8 @@
                             name="email"
                             value="{{ old('email', Auth()->user()->email ?? '') }}"
                             placeholder="tu@email.com" />
+
+                        @if(Auth::user()->email_verified_at)
                         <span class="badge badge-verified">
                             <svg width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
@@ -40,6 +49,16 @@
                             </svg>
                             Verificado
                         </span>
+                        @else
+                        {{-- form="form-verify-email" lo vincula al form de arriba --}}
+                        <button type="submit" form="form-verify-email" class="btn btn-link">
+                            Verificar email
+                        </button>
+
+                        @if(session('status') === 'verification-link-sent')
+                        <p class="text-sm text-success">¡Enlace enviado! Revisa tu bandeja.</p>
+                        @endif
+                        @endif
                     </div>
                     @error('email')
                     <span class="form-error text-red-500">{{ $message }}</span>
@@ -51,21 +70,24 @@
                     <label class="form-label" for="inputPhone">Número de teléfono</label>
                     <span class="form-hint">Opcional · Usado para verificación en dos pasos</span>
                     <div class="input-phone-group">
+                        @php $currentPhoneCode = old('phone_code', Auth()->user()->profile->phone_code ?? '+57') @endphp
+
                         <select class="form-input phone-prefix {{ $errors->has('phone_code') ? 'input-error' : '' }}" id="inputPhonePrefix" name="phone_code">
-                            <option value="+57">🇨🇴 +57</option>
-                            <option value="+52">🇲🇽 +52</option>
-                            <option value="+54">🇦🇷 +54</option>
-                            <option value="+34">🇪🇸 +34</option>
-                            <option value="+51">🇵🇪 +51</option>
-                            <option value="+56">🇨🇱 +56</option>
-                            <option value="+1">🇺🇸 +1</option>
+                            <option value="+57" {{ $currentPhoneCode == '+57' ? 'selected' : '' }}>🇨🇴 +57</option>
+                            <option value="+52" {{ $currentPhoneCode == '+52' ? 'selected' : '' }}>🇲🇽 +52</option>
+                            <option value="+54" {{ $currentPhoneCode == '+54' ? 'selected' : '' }}>🇦🇷 +54</option>
+                            <option value="+34" {{ $currentPhoneCode == '+34' ? 'selected' : '' }}>🇪🇸 +34</option>
+                            <option value="+51" {{ $currentPhoneCode == '+51' ? 'selected' : '' }}>🇵🇪 +51</option>
+                            <option value="+56" {{ $currentPhoneCode == '+56' ? 'selected' : '' }}>🇨🇱 +56</option>
+                            <option value="+1" {{ $currentPhoneCode == '+1'  ? 'selected' : '' }}>🇺🇸 +1</option>
                         </select>
+
                         <input
                             type="tel"
                             class="form-input phone-number {{ $errors->has('phone_number') ? 'input-error' : '' }}"
                             id="inputPhone"
                             name="phone_number"
-                            value="{{ old('phone_number', '310 456 7890') }}"
+                            value="{{ old('phone_number', Auth()->user()->profile->phone_number ?? '') }}"
                             placeholder="Número de teléfono" />
                     </div>
                     @error('phone_code')
@@ -80,11 +102,12 @@
                 <div class="form-group">
                     <label class="form-label" for="inputLanguage">Idioma</label>
                     <select class="form-input {{ $errors->has('language') ? 'input-error' : '' }}" id="inputLanguage" name="language">
-                        <option value="es" {{ old('language') == 'es' ? 'selected' : '' }}>Español</option>
-                        <option value="en" {{ old('language') == 'en' ? 'selected' : '' }}>English</option>
-                        <option value="pt" {{ old('language') == 'pt' ? 'selected' : '' }}>Português</option>
-                        <option value="fr" {{ old('language') == 'fr' ? 'selected' : '' }}>Français</option>
-                        <option value="de" {{ old('language') == 'de' ? 'selected' : '' }}>Deutsch</option>
+                        @php $currentLanguage = old('language', Auth()->user()->profile->language ?? 'es') @endphp
+                        <option value="es" {{ $currentLanguage == 'es' ? 'selected' : '' }}>Español</option>
+                        <option value="en" {{ $currentLanguage == 'en' ? 'selected' : '' }}>English</option>
+                        <option value="pt" {{ $currentLanguage == 'pt' ? 'selected' : '' }}>Português</option>
+                        <option value="fr" {{ $currentLanguage == 'fr' ? 'selected' : '' }}>Français</option>
+                        <option value="de" {{ $currentLanguage == 'de' ? 'selected' : '' }}>Deutsch</option>
                     </select>
                     @error('language')
                     <span class="form-error text-red-500">{{ $message }}</span>
@@ -93,10 +116,7 @@
 
                 <!-- Acciones -->
                 <div class="form-actions">
-                    <button
-                        id="guardarCambiosPerfil"
-                        type="button"
-                        class="btn-cancel">
+                    <button id="guardarCambiosPerfil" type="button" class="btn-cancel">
                         Cancelar
                     </button>
                     <button type="submit" class="btn-submit">Guardar cambios</button>
