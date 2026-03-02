@@ -12,7 +12,7 @@
             <div class="avatar-wrap" id="avatarWrap">
                 <img
                     src="{{ str_replace('type=normal', 'type=large', $profile->avatar ?? '') }}"
-                    alt="Lucas Silva"
+                    alt="{{ Auth()->user()->username }}"
                     class="avatar-img"
                     id="avatarImg" />
                 <div class="avatar-overlay">
@@ -56,16 +56,15 @@
                 <div class="meta-top">
                     <div class="meta-left">
                         <div class="name-row">
-                            <h1 class="profile-name">{{ Auth::user()->name }}</h1>
-                            <span class="badge-pro">PRO</span>
+                            <h1 class="profile-name">{{ Auth::user()->name ?? '' }}</h1>
+                            <!--<span class="badge-pro">PRO</span>-->
                         </div>
                         <p class="handle">@ {{ Auth::user()->username }}</p>
                         <p class="bio">
-                            Full stack developer construyendo en público.<br />
-                            Apasionado por TypeScript, APIs y el arte de lanzar productos.
+                            {{ Auth()->user()->profile->bio ?? '' }}
                         </p>
                         <a
-                            href="https://linkt.cons/lucassilva"
+                            href="{{ Auth()->user()->profile->website_url ?? '' }}"
                             class="profile-url"
                             target="_blank"
                             rel="noopener">
@@ -76,7 +75,7 @@
                                     stroke-width="2"
                                     d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                             </svg>
-                            linkt.cons/lucassilva
+                            {{ Auth()->user()->profile->website_url ?? '' }}
                         </a>
                     </div>
 

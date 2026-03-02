@@ -25,7 +25,7 @@ class Profile extends Model
         'visibility',
         'last_seen_at',
         'created_at',
-        'update_at'
+        'updated_at'
     ];
     protected $casts = [
         'email_verified_at' => 'datetime',

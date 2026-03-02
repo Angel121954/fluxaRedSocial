@@ -46,6 +46,9 @@ Route::middleware(['auth', 'verified', 'prevent-back-history'])->group(function 
     Route::get('/configuration', [ConfigurationController::class, 'index'])
         ->name('configuration.index');
 
+    Route::patch('/configuration', [ConfigurationController::class, 'update'])
+        ->name('configuration.edit');
+
     Route::get('/account', [AccountController::class, 'index'])
         ->name('account.index');
 
