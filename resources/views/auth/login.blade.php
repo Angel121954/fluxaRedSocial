@@ -33,6 +33,15 @@
                     Iniciar sesión
                 </h2>
 
+                @if(session('status'))
+                <div class="error-message show" style="margin-bottom: 1rem; padding: 0.75rem 1rem; background: #f0fdfd; border-color: #12b3b6; color: #0d9b9e;">
+                    <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span>{{ session('status') }}</span>
+                </div>
+                @endif
+
                 <form id="loginForm" method="post" action="{{ route('login') }}" novalidate>
                     @csrf
                     <!-- Email Field -->

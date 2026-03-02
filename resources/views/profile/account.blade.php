@@ -216,30 +216,35 @@
             </p>
 
             <div class="danger-actions">
-                <!-- Desactivar cuenta -->
+                <!-- Desactivar -->
                 <div class="danger-item">
                     <div class="danger-info">
                         <span class="danger-label">Desactivar cuenta</span>
-                        <span class="danger-desc">
-                            Tu perfil dejará de ser visible. Podrás reactivarla iniciando sesión.
-                        </span>
+                        <span class="danger-desc">Tu perfil dejará de ser visible. Podrás reactivarla iniciando sesión.</span>
                     </div>
-                    <button type="button" class="btn-danger btn-danger--outline" id="btnDeactivate">
-                        Desactivar
-                    </button>
+                    <form action="{{ route('account.deactivate') }}" method="POST" id="formDeactivate">
+                        @csrf
+                        @method('PATCH')
+                        <button type="submit" class="btn-danger btn-danger--outline" id="btnDeactivate">
+                            Desactivar
+                        </button>
+                    </form>
                 </div>
 
-                <!-- Eliminar cuenta -->
+                <!-- Eliminar -->
                 <div class="danger-item">
                     <div class="danger-info">
                         <span class="danger-label">Eliminar cuenta permanentemente</span>
-                        <span class="danger-desc">
-                            Se borrarán todos tus datos, proyectos y publicaciones. Esta acción no se puede deshacer.
-                        </span>
+                        <span class="danger-desc">Se borrarán todos tus datos, proyectos y publicaciones. Esta acción no se puede deshacer.</span>
                     </div>
-                    <button type="button" class="btn-danger btn-danger--filled" id="btnDelete">
-                        Eliminar cuenta
-                    </button>
+                    <form data-username="{{ Auth()->user()->username }}"
+                        action="{{ route('account.destroy') }}" method="POST" id="formDestroy">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn-danger btn-danger--filled" id="btnDelete">
+                            Eliminar cuenta
+                        </button>
+                    </form>
                 </div>
             </div>
         </section>
@@ -254,5 +259,5 @@
 @endpush
 
 @push('scripts')
-<script src="{{ asset('js/account.js') }}"></script>
+<script src="{{ asset('js/destroyAccount.js') }}"></script>
 @endpush

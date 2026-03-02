@@ -36,10 +36,6 @@ class SocialAuthController extends Controller
         };
     }
 
-    /**
-     * Sube el avatar a Cloudinary y retorna la URL permanente.
-     * Si falla, retorna la URL original del proveedor como fallback.
-     */
     protected function uploadAvatarToCloudinary(string $avatarUrl, string $userId): string
     {
         try {
@@ -126,7 +122,6 @@ class SocialAuthController extends Controller
                         'provider_id'       => $socialUser->getId(),
                     ]);
 
-                    // Subir a Cloudinary DESPUÉS de crear el user (necesitamos el ID)
                     $avatar = $this->uploadAvatarToCloudinary($avatarOriginal, $user->id);
 
                     Profile::create([
@@ -142,8 +137,7 @@ class SocialAuthController extends Controller
                     'provider_id' => $socialUser->getId(),
                 ]);
 
-                // Solo re-sube si el avatar del perfil NO es ya de Cloudinary
-                $currentAvatar = $user->profile?->avatar ?? '';
+                $currentAvatar        = $user->profile?->avatar ?? '';
                 $isAlreadyInCloudinary = str_contains($currentAvatar, 'cloudinary.com');
 
                 $avatar = $isAlreadyInCloudinary
@@ -154,6 +148,17 @@ class SocialAuthController extends Controller
                     ['user_id' => $user->id],
                     ['avatar'  => $avatar]
                 );
+            }
+
+            if ($user->status === 'pending_deletion') {
+                $user->update([
+                    'status' => 'activo',
+                    'delete_at' => null,
+                ]);
+            }
+
+            if ($user->status === 'inactivo') {
+                $user->update(['status' => 'activo']);
             }
 
             Auth::login($user, true);

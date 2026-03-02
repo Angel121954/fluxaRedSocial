@@ -52,6 +52,12 @@ Route::middleware(['auth', 'verified', 'prevent-back-history'])->group(function 
     Route::post('/account', [AccountController::class, 'update'])
         ->name('account.edit');
 
+    Route::patch('/account/deactivate', [AccountController::class, 'deactivate'])
+        ->name('account.deactivate');
+
+    Route::delete('/account', [AccountController::class, 'destroy'])
+        ->name('account.destroy');
+
     Route::get('/explore', [ExploreController::class, 'index'])
         ->name('explore.index');
 
