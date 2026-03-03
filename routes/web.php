@@ -8,6 +8,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AboutFluxaController;
 use App\Http\Controllers\ConfigurationController;
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\SecurityController;
 use App\Http\Controllers\Auth\SocialAuthController;
 
 /*
@@ -60,6 +61,9 @@ Route::middleware(['auth', 'verified', 'prevent-back-history'])->group(function 
 
     Route::delete('/account', [AccountController::class, 'destroy'])
         ->name('account.destroy');
+
+    Route::get('/security', [SecurityController::class, 'index'])
+        ->name('security.index');
 
     Route::get('/explore', [ExploreController::class, 'index'])
         ->name('explore.index');

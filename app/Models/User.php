@@ -29,6 +29,7 @@ class User extends Authenticatable
         'avatar',
         'status',
         'delete_at',
+        'remember_token',
     ];
 
     /**

@@ -254,7 +254,6 @@
 @endsection
 
 @push('styles')
-<link rel="stylesheet" href="{{ asset('css/configuration.css') }}" />
 <link rel="stylesheet" href="{{ asset('css/account.css') }}" />
 @endpush
 

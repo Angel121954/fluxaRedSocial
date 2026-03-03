@@ -416,7 +416,7 @@
         <div class="modal-footer">
             <div class="comment-input-wrap">
                 <img
-                    src="{{ Auth::user()->profile->avatar }}"
+                    src="{{ Auth::user()->profile->avatar ?? '' }}"
                     alt="Tú"
                     class="comment-input-avatar" />
                 <div class="comment-input-form">

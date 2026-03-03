@@ -8,7 +8,9 @@
         <a href="{{ route('account.index') }}">
             <div class="sidebar-item {{ request()->routeIs('account*') ? 'active' : '' }}">Cuenta</div>
         </a>
-        <div class="sidebar-item">Seguridad</div>
+        <a href="{{ route('security.index') }}">
+            <div class="sidebar-item {{ request()->routeIs('security*') ? 'active' : '' }}">Seguridad</div>
+        </a>
         <div class="sidebar-item">Notificaciones</div>
         <div class="sidebar-item">Privacidad</div>
     </div>

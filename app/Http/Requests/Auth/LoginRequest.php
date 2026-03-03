@@ -38,7 +38,7 @@ class LoginRequest extends FormRequest
             ]);
         }
 
-        if ($user->status === 'pending_deletion') {
+        if ($user?->status === 'pending_deletion') {
             Auth::logout();
             throw ValidationException::withMessages([
                 'email' => 'Tu cuenta está programada para eliminarse y no puede acceder.',
