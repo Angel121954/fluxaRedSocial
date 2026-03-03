@@ -11,7 +11,9 @@
         <a href="{{ route('security.index') }}">
             <div class="sidebar-item {{ request()->routeIs('security*') ? 'active' : '' }}">Seguridad</div>
         </a>
-        <div class="sidebar-item">Notificaciones</div>
+        <a href="{{ route('notification-preference.index') }}">
+            <div class="sidebar-item {{ request()->routeIs('notification-preference*') ? 'active' : '' }}">Preferencias</div>
+        </a>
         <div class="sidebar-item">Privacidad</div>
     </div>
 
