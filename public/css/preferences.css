@@ -1,6 +1,8 @@
 /* ═══════════════════════════════════════════════════════════
-   notifications.css  —  Autónomo, no depende de configuration.css
+   preferences.css  —  Depende de sidebar.css
    Vista: /account/notifications  (Preferencias de notificaciones)
+   (reset, body, sidebar, avatar, btn-avatar-action ya
+    están definidos en sidebar.css)
 ═══════════════════════════════════════════════════════════ */
 
 /* ─── Design Tokens ───────────────────────────────────────── */
@@ -28,120 +30,6 @@
     --r-xl: 18px;
 }
 
-/* ─── Reset ───────────────────────────────────────────────── */
-*,
-*::before,
-*::after {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family:
-        "Inter",
-        -apple-system,
-        BlinkMacSystemFont,
-        sans-serif;
-    background: var(--bg);
-    color: var(--ink-700);
-    min-height: 100vh;
-    -webkit-font-smoothing: antialiased;
-    font-size: 15px;
-    line-height: 1.5;
-}
-
-/* ─── Navbar ──────────────────────────────────────────────── */
-.navbar {
-    background: rgba(255, 255, 255, 0.94);
-    backdrop-filter: blur(16px) saturate(200%);
-    -webkit-backdrop-filter: blur(16px) saturate(200%);
-    border-bottom: 1px solid var(--border);
-    position: sticky;
-    top: 0;
-    z-index: 200;
-}
-.navbar-inner {
-    max-width: 1160px;
-    margin: 0 auto;
-    padding: 0 1.5rem;
-    height: 54px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-.navbar-left {
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-}
-.nav-logo {
-    height: 70px;
-    width: auto;
-    cursor: pointer;
-    display: block;
-}
-.nav-links {
-    display: flex;
-    gap: 2px;
-}
-.nav-link {
-    padding: 0.4375rem 0.8125rem;
-    border-radius: 6px;
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: var(--ink-500);
-    text-decoration: none;
-    transition:
-        color 0.15s,
-        background 0.15s;
-    letter-spacing: -0.005em;
-}
-.nav-link:hover {
-    color: var(--ink-900);
-    background: var(--ink-100);
-}
-.navbar-right {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-}
-.btn-save {
-    display: flex;
-    align-items: center;
-    gap: 0.375rem;
-    padding: 0.4375rem 1rem;
-    background: var(--accent);
-    color: white;
-    border: none;
-    border-radius: var(--r-md);
-    font-size: 0.875rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition:
-        background 0.15s,
-        box-shadow 0.15s;
-}
-.btn-save:hover {
-    background: var(--accent-dark);
-    box-shadow: 0 2px 10px rgba(18, 179, 182, 0.28);
-}
-.nav-user-av {
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
-    border: 1.5px solid var(--border-strong);
-    object-fit: cover;
-    cursor: pointer;
-    transition:
-        border-color 0.2s,
-        box-shadow 0.2s;
-}
-.nav-user-av:hover {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px var(--accent-dim);
-}
-
 /* ─── Layout ──────────────────────────────────────────────── */
 .edit-layout {
     max-width: 1160px;
@@ -153,140 +41,6 @@ body {
     align-items: start;
 }
 
-/* ─── Sidebar ─────────────────────────────────────────────── */
-.sidebar {
-    position: sticky;
-    top: 70px;
-}
-
-.sidebar-nav {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--r-xl);
-    padding: 0.5rem;
-}
-.sidebar-item {
-    display: block;
-    padding: 0.625rem 1rem;
-    border-radius: var(--r-md);
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: var(--ink-500);
-    text-decoration: none;
-    cursor: pointer;
-    transition: all 0.15s;
-    letter-spacing: -0.005em;
-    margin-bottom: 0.25rem;
-}
-.sidebar-item:last-child {
-    margin-bottom: 0;
-}
-.sidebar-item:hover {
-    background: var(--ink-100);
-    color: var(--ink-700);
-}
-.sidebar-item.active {
-    background: var(--accent-dim);
-    color: var(--accent);
-    font-weight: 600;
-}
-
-/* Avatar section */
-.avatar-section {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--r-xl);
-    padding: 1.25rem;
-    margin-top: 1.125rem;
-}
-.avatar-title {
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: var(--ink-700);
-    margin-bottom: 1rem;
-}
-.avatar-container {
-    position: relative;
-    width: 120px;
-    height: 120px;
-    margin: 0 auto 1rem;
-}
-.avatar-img {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 2px solid var(--border-strong);
-}
-.avatar-overlay {
-    position: absolute;
-    inset: 0;
-    border-radius: 50%;
-    background: rgba(11, 15, 26, 0.65);
-    backdrop-filter: blur(3px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
-    opacity: 0;
-    transition: opacity 0.2s;
-    cursor: pointer;
-}
-.avatar-container:hover .avatar-overlay {
-    opacity: 1;
-}
-.avatar-btn {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.15);
-    border: 1.5px solid rgba(255, 255, 255, 0.3);
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.2s;
-}
-.avatar-btn:hover {
-    background: rgba(255, 255, 255, 0.25);
-    transform: scale(1.08);
-}
-.avatar-btn svg {
-    width: 16px;
-    height: 16px;
-}
-.btn-avatar-action {
-    width: 100%;
-    padding: 0.5rem;
-    border: 1.5px solid var(--border-strong);
-    border-radius: var(--r-md);
-    font-size: 0.8125rem;
-    font-weight: 600;
-    background: var(--surface);
-    color: var(--ink-600);
-    cursor: pointer;
-    transition: all 0.15s;
-    margin-bottom: 0.5rem;
-    font-family: inherit;
-}
-.btn-avatar-action:last-child {
-    margin-bottom: 0;
-}
-.btn-avatar-action:hover {
-    border-color: var(--accent);
-    background: var(--accent-dim);
-    color: var(--accent);
-}
-.btn-avatar-action.danger {
-    color: #e53e3e;
-    border-color: #fee2e2;
-}
-.btn-avatar-action.danger:hover {
-    background: #fef2f2;
-    border-color: #e53e3e;
-}
-
 /* ─── Main content ────────────────────────────────────────── */
 .main-content {
     background: var(--surface);
@@ -294,6 +48,7 @@ body {
     border-radius: var(--r-xl);
     padding: 2rem;
 }
+
 .page-title {
     font-size: 1.5rem;
     font-weight: 750;
@@ -301,6 +56,7 @@ body {
     letter-spacing: -0.035em;
     margin-bottom: 0.375rem;
 }
+
 .page-subtitle {
     font-size: 0.9375rem;
     color: var(--ink-400);
@@ -465,7 +221,6 @@ body {
     margin-top: 0.5rem;
 }
 
-/* Teléfono */
 .illus-notif-phone {
     width: 70px;
     height: 120px;
@@ -497,7 +252,6 @@ body {
     width: 65%;
 }
 
-/* Campana grande */
 .illus-bell {
     position: absolute;
     display: flex;
@@ -538,7 +292,6 @@ body {
     z-index: 4;
 }
 
-/* Campana pequeña */
 .illus-bell--sm {
     width: 44px;
     height: 44px;
@@ -555,7 +308,6 @@ body {
     height: 22px;
 }
 
-/* Engranaje */
 .illus-gear {
     position: absolute;
     bottom: 0;
@@ -576,7 +328,6 @@ body {
     height: 26px;
 }
 
-/* Sobre */
 .illus-envelope {
     position: absolute;
     top: 12px;
@@ -597,7 +348,6 @@ body {
     height: 20px;
 }
 
-/* Destellos / chispas */
 .illus-spark {
     position: absolute;
     background: var(--accent);
@@ -668,7 +418,6 @@ body {
     align-items: flex-start;
 }
 
-/* Ocultar el checkbox nativo */
 .notif-checkbox {
     position: absolute;
     opacity: 0;
@@ -676,7 +425,6 @@ body {
     height: 0;
 }
 
-/* Checkbox visual personalizado */
 .notif-check-custom {
     width: 20px;
     height: 20px;
@@ -728,7 +476,7 @@ body {
     font-weight: 600;
 }
 
-/* ─── Alerts ──────────────────────────────────────────────── */
+/* ─── Alertas ─────────────────────────────────────────────── */
 .notif-alert {
     display: flex;
     align-items: center;
@@ -781,19 +529,7 @@ body {
         grid-template-columns: 1fr;
         padding: 1rem;
     }
-    .sidebar {
-        position: static;
-    }
-    .sidebar-nav {
-        display: flex;
-        overflow-x: auto;
-        padding: 0.375rem;
-        gap: 0.25rem;
-    }
-    .sidebar-item {
-        white-space: nowrap;
-        margin-bottom: 0;
-    }
+
     .main-content {
         padding: 1.5rem;
     }
@@ -801,12 +537,15 @@ body {
     .notif-section {
         flex-direction: column;
     }
+
     .notif-illus {
         display: none;
     }
+
     .notif-actions {
         flex-direction: column;
     }
+
     .btn-cancel,
     .btn-submit {
         width: 100%;
