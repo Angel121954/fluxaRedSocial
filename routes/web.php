@@ -89,6 +89,9 @@ Route::middleware(['auth', 'verified', 'prevent-back-history'])->group(function 
     Route::get('/notification-preference', [NotificationPreferenceController::class, 'index'])
         ->name('notification-preference.index');
 
+    Route::patch('/notification-preference', [NotificationPreferenceController::class, 'update'])
+        ->name('notification-preference.update');
+
     Route::get('/about-fluxa', [AboutFluxaController::class, 'index'])
         ->name('about-fluxa');
 });

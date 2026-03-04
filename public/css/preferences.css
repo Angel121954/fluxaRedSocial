@@ -492,9 +492,9 @@
     flex-shrink: 0;
 }
 .notif-alert--success {
-    background: #ecfdf5;
-    color: #065f46;
-    border: 1px solid #6ee7b7;
+    background: #e6faf7;
+    color: #0a9e8a;
+    border: 1px solid #b2ece3;
 }
 .notif-alert--error {
     background: #fef2f2;
