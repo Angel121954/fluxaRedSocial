@@ -14,7 +14,9 @@
         <a href="{{ route('notification-preference.index') }}">
             <div class="sidebar-item {{ request()->routeIs('notification-preference*') ? 'active' : '' }}">Preferencias</div>
         </a>
-        <div class="sidebar-item">Privacidad</div>
+        <a href="{{ route('privacy.index') }}">
+            <div class="sidebar-item {{ request()->routeIs('privacy*') ? 'active' : '' }}">Privacidad</div>
+        </a>
     </div>
 
     <!-- Avatar section -->

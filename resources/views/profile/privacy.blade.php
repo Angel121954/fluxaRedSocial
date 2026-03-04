@@ -1,0 +1,95 @@
+@extends('layouts.app')
+@section('title', 'Privacidad')
+@section('content')
+@include('components.topbar')
+<div class="edit-layout">
+
+    @include('components.sidebar')
+
+    <main class="main-content">
+        <h1 class="page-title">Privacidad</h1>
+        <p class="page-subtitle">Gestiona la privacidad y protección de tu cuenta</p>
+
+        <form action="{{ route('privacy.update') }}" method="POST" id="privacyForm">
+            @csrf
+            @method('PATCH')
+
+            <!-- Toggles -->
+            <div class="toggle-group">
+
+                <div class="toggle-row">
+                    <div class="toggle-info">
+                        <span class="toggle-label">Perfil privado</span>
+                        <span class="toggle-desc">Haz que tu perfil sea privado para que solo tus seguidores puedan ver tu perfil y proyectos.</span>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" name="visibility" value="private"
+                            {{ old('visibility', $profile->visibility ?? 'public') === 'private' ? 'checked' : '' }}>
+                        <span class="toggle-track">
+                            <span class="toggle-thumb"></span>
+                        </span>
+                    </label>
+                </div>
+
+                <div class="toggle-row">
+                    <div class="toggle-info">
+                        <span class="toggle-label">Aceptar mensajes directos</span>
+                        <span class="toggle-desc">Permitir que otros usuarios te envíen mensajes directos.</span>
+                    </div>
+                    <label class="toggle-switch">
+                        <input
+                            type="checkbox"
+                            name="accept_messages"
+                            value="1"
+                            {{ old('accept_messages', $profile->accept_messages ?? true) ? 'checked' : '' }}>
+                        <span class="toggle-track">
+                            <span class="toggle-thumb"></span>
+                        </span>
+                    </label>
+                </div>
+
+                <div class="toggle-row">
+                    <div class="toggle-info">
+                        <span class="toggle-label">Mostrar el correo electrónico en el perfil</span>
+                        <span class="toggle-desc">Permitir que tu dirección de correo electrónico sea visible en tu perfil.</span>
+                    </div>
+                    <label class="toggle-switch">
+                        <input
+                            type="checkbox"
+                            name="show_email"
+                            value="1"
+                            {{ old('show_email', $profile->show_email ?? false) ? 'checked' : '' }}>
+                        <span class="toggle-track">
+                            <span class="toggle-thumb"></span>
+                        </span>
+                    </label>
+                </div>
+
+            </div>
+
+            <!-- Mensaje de éxito -->
+            @if (session('success'))
+            <div class="alert alert-success" id="alertMessage">
+                <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M5 13l4 4L19 7" />
+                </svg>
+                {{ session('success') }}
+            </div>
+            @endif
+
+            <!-- Acciones -->
+            <div class="form-actions">
+                <a href="{{ route('profile.index') }}" class="btn-cancel">Cancelar</a>
+                <button type="submit" class="btn-save">Guardar cambios</button>
+            </div>
+
+        </form>
+    </main>
+
+</div>
+@endsection
+
+@push('styles')
+<link rel="stylesheet" href="{{ asset('css/privacy.css') }}">
+@endpush

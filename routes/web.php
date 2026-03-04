@@ -2,18 +2,17 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\Auth\SocialAuthController;
 use App\Http\Controllers\Explore\ExploreController;
 use App\Http\Controllers\Notifications\NotificationController;
+use App\Http\Controllers\AboutFluxaController;
 
 use App\Http\Controllers\Profile\NotificationPreferenceController;
 use App\Http\Controllers\Profile\ProfileController;
 use App\Http\Controllers\Profile\AccountController;
 use App\Http\Controllers\Profile\SecurityController;
 use App\Http\Controllers\Profile\ConfigurationController;
-
-use App\Http\Controllers\AboutFluxaController;
-
-use App\Http\Controllers\Auth\SocialAuthController;
+use App\Http\Controllers\Profile\PrivacyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -74,6 +73,12 @@ Route::middleware(['auth', 'verified', 'prevent-back-history'])->group(function 
 
     Route::get('/security', [SecurityController::class, 'index'])
         ->name('security.index');
+
+    Route::get('/privacy', [PrivacyController::class, 'index'])
+        ->name('privacy.index');
+
+    Route::patch('/privacy', [PrivacyController::class, 'update'])
+        ->name('privacy.update');
 
     Route::get('/explore', [ExploreController::class, 'index'])
         ->name('explore.index');
