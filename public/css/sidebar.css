@@ -135,7 +135,9 @@
     justify-content: center;
     cursor: pointer;
     color: rgba(255, 255, 255, 0.9);
-    transition: color 0.15s ease, transform 0.15s ease;
+    transition:
+        color 0.15s ease,
+        transform 0.15s ease;
 }
 
 .avatar-btn svg {

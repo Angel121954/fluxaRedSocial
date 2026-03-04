@@ -4,79 +4,104 @@ namespace App\Http\Controllers\Profile;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProfileUpdateRequest;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use App\Models\Profile;
-use App\Models\User;
+use Exception;
 
 class ProfileController extends Controller
 {
-    public function index()
+    /**
+     * Muestra el perfil del usuario autenticado.
+     */
+    public function index(): View
     {
-        $user = Auth::user()->id;
+        $user    = Auth::id();
         $profile = Profile::where('user_id', $user)->first();
+
         return view('profile.profile', compact('profile'));
     }
+
     /**
-     * Display the user's profile form.
+     * Sube y actualiza el avatar del usuario en Cloudinary.
      */
-    public function edit(Request $request)
+    public function updateAvatar(Request $request): JsonResponse
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'username' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255'],
-            'password' => ['required', 'confirmed', 'min:2'],
+            'avatar' => ['required', 'image', 'max:2048'],
         ], [
-            'name.required' => 'El nombre es obligatorio',
-            'name.max' => 'El nombre debe tener un máximo de 255 caracteres',
-            'username.required' => 'El nombre de usuario es obligatorio',
-            'username.max' => 'El nombre de usuario debe tener un máximo de 255 caracteres',
-            'email.required' => 'El email es obligatorio',
-            'email.max' => 'El email debe tener un máximo de 255 caracteres',
-            'password.required' => 'La contraseña es obligatoria',
-            'password.min' => 'La contraseña debe tener un mínimo de 2 caracteres',
+            'avatar.required' => 'La imagen es obligatoria para poder actualizar',
+            'avatar.image'    => 'Debe ser una imagen válida',
+            'avatar.max'      => 'La imagen no puede superar los 2 MB',
         ]);
-        
-    }
 
-    /**
-     * Update the user's profile information.
-     */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
-    {
-        $request->user()->fill($request->validated());
+        try {
+            /** @var \App\Models\User $user */
+            $user      = Auth::user();
+            $avatarUrl = $request->file('avatar')->getRealPath();
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+            $cloudinary = new \Cloudinary\Cloudinary(config('cloudinary.cloud_url'));
+            $result     = $cloudinary->uploadApi()->upload($avatarUrl, [
+                'folder'         => 'avatares',
+                'public_id'      => 'user_' . $user->id,
+                'overwrite'      => true,
+                'transformation' => [
+                    [
+                        'width'        => 400,
+                        'height'       => 400,
+                        'crop'         => 'fill',
+                        'gravity'      => 'face',
+                        'quality'      => 'auto',
+                        'fetch_format' => 'auto',
+                    ],
+                ],
+            ]);
+
+            $user->profile()->updateOrCreate(
+                ['user_id' => $user->id],
+                ['avatar'  => $result['secure_url']]
+            );
+
+            return response()->json([
+                'success' => true,
+                'url'     => $result['secure_url'],
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ], 500);
         }
-
-        $request->user()->save();
-
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 
     /**
-     * Delete the user's account.
+     * Elimina el avatar del usuario de Cloudinary y la BD.
      */
-    public function destroy(Request $request): RedirectResponse
+    public function destroyAvatar(Request $request): JsonResponse
     {
-        $request->validateWithBag('userDeletion', [
-            'password' => ['required', 'current-password'],
-        ]);
+        try {
+            /** @var \App\Models\User $user */
+            $user    = Auth::user();
+            $profile = $user->profile;
 
-        $user = $request->user();
+            if (!$profile || !$profile->avatar) {
+                return response()->json(['success' => false, 'message' => 'No tienes foto de perfil'], 404);
+            }
 
-        Auth::logout();
+            // 1. Eliminar de Cloudinary usando el public_id
+            $cloudinary = new \Cloudinary\Cloudinary(config('cloudinary.cloud_url'));
+            $cloudinary->uploadApi()->destroy('avatares/user_' . $user->id);
 
-        $user->delete();
+            // 2. Eliminar la URL de la BD
+            $profile->update(['avatar' => null]);
 
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return Redirect::to('/');
+            return response()->json(['success' => true]);
+        } catch (Exception $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+        }
     }
 }

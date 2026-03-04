@@ -145,13 +145,10 @@ body {
     justify-content: center;
     cursor: pointer;
     padding: 0;
-    transition:
-        color 0.15s,
-        transform 0.15s;
+    transition: color 0.15s;
 }
 .av-btn:hover {
     color: white;
-    transform: scale(1.12);
 }
 .av-btn svg {
     width: 14px;

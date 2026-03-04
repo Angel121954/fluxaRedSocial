@@ -17,8 +17,7 @@
                     id="avatarImg" />
                 <div class="avatar-overlay">
                     <button
-                        class="av-btn"
-                        id="btnCam"
+                        class="av-btn btnCam"
                         aria-label="Cambiar foto"
                         title="Cambiar foto">
                         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -33,8 +32,7 @@
                         </svg>
                     </button>
                     <button
-                        class="av-btn"
-                        id="btnView"
+                        class="av-btn btnView"
                         aria-label="Ver foto"
                         title="Ver foto completa">
                         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -493,162 +491,20 @@
     </div>
 </div>
 <!-- end content -->
-
-<!-- Modal imagen -->
-<div class="img-modal" id="imgModal">
-    <div class="modal-wrap">
-        <button class="modal-x" id="modalX">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M6 18L18 6M6 6l12 12" />
-            </svg>
-        </button>
-        <img
-            src="{{ $profile->avatar ?? '' }}"
-            id="modalImg"
-            alt="Foto de perfil" />
-    </div>
-</div>
+@include('components.modalImage')
 
 <input type="file" id="fileIn" accept="image/*" style="display: none" />
 @endsection
 
 @push('scripts')
-<script>
-    /* ── Config ──────────────────────────────────────── */
-    const IS_OWN = true;
-
-    /* ── Refs ───────────────────────────────────────── */
-    const avatarWrap = document.getElementById("avatarWrap");
-    const avatarImg = document.getElementById("avatarImg");
-    const btnCam = document.getElementById("btnCam");
-    const btnView = document.getElementById("btnView");
-    const fileIn = document.getElementById("fileIn");
-    const imgModal = document.getElementById("imgModal");
-    const modalImg = document.getElementById("modalImg");
-    const modalX = document.getElementById("modalX");
-    const btnMore = document.getElementById("btnMore");
-    const dropMenu = document.getElementById("dropMenu");
-    const ownOpts = document.getElementById("ownOpts");
-    const otherOpts = document.getElementById("otherOpts");
-    const btnFollow = document.getElementById("btnFollow");
-
-    /* ── Dropdown según tipo de perfil ──────────────── */
-    if (ownOpts) ownOpts.style.display = IS_OWN ? "" : "none";
-    if (otherOpts) otherOpts.style.display = IS_OWN ? "none" : "";
-    if (btnFollow) btnFollow.style.display = IS_OWN ? "none" : "";
-
-    if (btnMore && dropMenu) {
-        btnMore.addEventListener("click", (e) => {
-            e.stopPropagation();
-            const isOpen = dropMenu.classList.toggle("open");
-            btnMore.classList.toggle("is-open", isOpen);
-        });
-    }
-
-    document.addEventListener("click", (e) => {
-        if (dropMenu && btnMore && !dropMenu.contains(e.target) && e.target !== btnMore) {
-            dropMenu.classList.remove("open");
-            btnMore.classList.remove("is-open");
-        }
-    });
-
-    document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape" && dropMenu) {
-            dropMenu.classList.remove("open");
-            btnMore?.classList.remove("is-open");
-        }
-    });
-
-    /* ── Seguir toggle ──────────────────────────────── */
-    if (btnFollow) {
-        btnFollow.addEventListener("click", () => {
-            const following = btnFollow.classList.toggle("is-following");
-            btnFollow.textContent = following ? "Siguiendo" : "Seguir";
-        });
-    }
-
-    /* ── Avatar: móvil touch toggle ─────────────────── */
-    const isMobile = () => window.innerWidth <= 680;
-
-    if (avatarWrap && avatarImg) {
-        avatarWrap.addEventListener("click", (e) => {
-            if (isMobile() && (e.target === avatarWrap || e.target === avatarImg)) {
-                avatarWrap.classList.toggle("active");
-            }
-        });
-        document.addEventListener("click", (e) => {
-            if (isMobile() && !avatarWrap.contains(e.target))
-                avatarWrap.classList.remove("active");
-        });
-    }
-
-    /* ── Cambiar foto ───────────────────────────────── */
-    if (btnCam && fileIn) {
-        btnCam.addEventListener("click", (e) => {
-            e.stopPropagation();
-            avatarWrap?.classList.remove("active");
-            fileIn.click();
-        });
-
-        fileIn.addEventListener("change", (e) => {
-            const f = e.target.files[0];
-            if (!f) return;
-            const r = new FileReader();
-            r.onload = (ev) => {
-                if (avatarImg) avatarImg.src = ev.target.result;
-                if (modalImg) modalImg.src = ev.target.result;
-            };
-            r.readAsDataURL(f);
-        });
-    }
-
-    /* ── Ver imagen ─────────────────────────────────── */
-    const closeModal = () => {
-        imgModal?.classList.remove("show");
-        document.body.style.overflow = "";
-    };
-
-    if (btnView && imgModal) {
-        btnView.addEventListener("click", (e) => {
-            e.stopPropagation();
-            avatarWrap?.classList.remove("active");
-            imgModal.classList.add("show");
-            document.body.style.overflow = "hidden";
-        });
-        imgModal.addEventListener("click", (e) => {
-            if (e.target === imgModal) closeModal();
-        });
-    }
-
-    if (modalX) modalX.addEventListener("click", closeModal);
-
-    document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape") closeModal();
-    });
-
-    /* ── Tabs ───────────────────────────────────────── */
-    document.querySelectorAll(".tab").forEach((t) => {
-        t.addEventListener("click", () => {
-            document.querySelectorAll(".tab").forEach((x) => x.classList.remove("active"));
-            t.classList.add("active");
-        });
-    });
-
-    /* ── Filter pills ───────────────────────────────── */
-    document.querySelectorAll(".f-pill").forEach((p) => {
-        p.addEventListener("click", () => {
-            document.querySelectorAll(".f-pill").forEach((x) => x.classList.remove("active"));
-            p.classList.add("active");
-        });
-    });
-</script>
-<script src="{{ asset('js/shareProfile.js') }}"></script>
+<script src="{{ asset('js/profile/profileOptions.js') }}"></script>
+<script src="{{ asset('js/profile/dropdown.js') }}"></script>
+<script src="{{ asset('js/profile/avatar.js') }}"></script>
+<script src="{{ asset('js/profile/tabs.js') }}"></script>
+<script src="{{ asset('js/profile/filters.js') }}"></script>
+<script src="{{ asset('js/profile/shareProfile.js') }}"></script>
 @endpush
 @push('styles')
-<!--Estilo Personalizado de perfil-->
 <link rel="stylesheet" href="{{ asset('css/profile.css') }}" />
+<link rel="stylesheet" href="{{ asset('css/modalImage.css') }}" />
 @endpush

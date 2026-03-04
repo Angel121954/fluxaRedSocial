@@ -48,6 +48,12 @@ Route::middleware(['auth', 'verified', 'prevent-back-history'])->group(function 
     Route::get('/profile', [ProfileController::class, 'index'])
         ->name('profile.index');
 
+    Route::post('/profile/avatar', [ProfileController::class, 'updateAvatar'])
+        ->name('profile.avatar');
+
+    Route::delete('/profile/avatar', [ProfileController::class, 'destroyAvatar'])
+        ->name('profile.avatar.destroy');
+
     Route::get('/configuration', [ConfigurationController::class, 'index'])
         ->name('configuration.index');
 
