@@ -496,6 +496,11 @@
 <input type="file" id="fileIn" accept="image/*" style="display: none" />
 @endsection
 
+@push('styles')
+<link rel="stylesheet" href="{{ asset('css/profile/profile.css') }}" />
+<link rel="stylesheet" href="{{ asset('css/profile/modalImage.css') }}" />
+@endpush
+
 @push('scripts')
 <script src="{{ asset('js/profile/profileOptions.js') }}"></script>
 <script src="{{ asset('js/profile/dropdown.js') }}"></script>
@@ -503,8 +508,4 @@
 <script src="{{ asset('js/profile/tabs.js') }}"></script>
 <script src="{{ asset('js/profile/filters.js') }}"></script>
 <script src="{{ asset('js/profile/shareProfile.js') }}"></script>
-@endpush
-@push('styles')
-<link rel="stylesheet" href="{{ asset('css/profile.css') }}" />
-<link rel="stylesheet" href="{{ asset('css/modalImage.css') }}" />
 @endpush

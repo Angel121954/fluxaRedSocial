@@ -1,212 +1,10 @@
 /* ═══════════════════════════════════════════════════════════
-   account.css  —  Depende de sidebar.css
-   (reset, body, sidebar, avatar, btn-avatar-action ya
-    están definidos en sidebar.css)
+   account.css  —  Específico de la página de Cuenta
+   Depende de: variables.css · shared.css · sidebar.css
+               notificationsProfile.css
 ═══════════════════════════════════════════════════════════ */
 
-/* ─── Design Tokens ───────────────────────────────────────── */
-:root {
-    --accent: #12b3b6;
-    --accent-dark: #0d8e91;
-    --accent-dim: rgba(18, 179, 182, 0.07);
-    --accent-ring: rgba(18, 179, 182, 0.18);
-
-    --surface: #ffffff;
-    --bg: #f7f8fa;
-
-    --ink-900: #0b0f1a;
-    --ink-700: #1c2333;
-    --ink-600: #374151;
-    --ink-500: #4a5568;
-    --ink-400: #718096;
-    --ink-300: #a0aabe;
-    --ink-200: #cbd5e0;
-    --ink-100: #edf0f7;
-
-    --border: rgba(0, 0, 0, 0.075);
-    --border-strong: rgba(0, 0, 0, 0.12);
-
-    --r-md: 10px;
-    --r-lg: 14px;
-    --r-xl: 18px;
-}
-
-/* ─── Layout ──────────────────────────────────────────────── */
-.edit-layout {
-    max-width: 1160px;
-    margin: 0 auto;
-    padding: 1.75rem 1.5rem;
-    display: grid;
-    grid-template-columns: 240px minmax(0, 1fr);
-    gap: 1.75rem;
-    align-items: start;
-}
-
-/* ─── Main content ────────────────────────────────────────── */
-.main-content {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--r-xl);
-    padding: 2rem;
-}
-
-.page-title {
-    font-size: 1.5rem;
-    font-weight: 750;
-    color: var(--ink-900);
-    letter-spacing: -0.035em;
-    margin-bottom: 0.375rem;
-}
-
-.page-subtitle {
-    font-size: 0.9375rem;
-    color: var(--ink-400);
-    margin-bottom: 2rem;
-    line-height: 1.6;
-}
-
-/* ─── Form elements ───────────────────────────────────────── */
-.form-group {
-    margin-bottom: 1.5rem;
-}
-
-.form-label {
-    display: block;
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: var(--ink-700);
-    margin-bottom: 0.5rem;
-    letter-spacing: -0.005em;
-}
-
-.form-hint {
-    display: block;
-    font-size: 0.8125rem;
-    color: var(--ink-400);
-    margin-bottom: 0.625rem;
-}
-
-.form-input {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    border: 1.5px solid var(--border-strong);
-    border-radius: var(--r-md);
-    font-size: 0.9375rem;
-    font-weight: 500;
-    color: var(--ink-700);
-    background: var(--surface);
-    font-family: inherit;
-    transition: all 0.15s;
-}
-.form-input::placeholder {
-    color: var(--ink-300);
-}
-.form-input:focus {
-    outline: none;
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px var(--accent-dim);
-}
-.form-input.input-error {
-    border-color: #dc2626 !important;
-    background: #fff8f8;
-}
-
-select.form-input {
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23a0aabe'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 0.75rem center;
-    background-size: 1rem;
-    padding-right: 2.5rem;
-    cursor: pointer;
-}
-
-.form-error {
-    display: block;
-    font-size: 0.8rem;
-    color: #dc2626;
-    margin-top: 0.3rem;
-}
-
-.form-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 0.75rem;
-    margin-top: 2rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--border);
-}
-
-/* ─── Buttons ─────────────────────────────────────────────── */
-.btn-cancel {
-    padding: 0.5rem 1.25rem;
-    border: 1.5px solid var(--border-strong);
-    border-radius: var(--r-md);
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: var(--ink-600);
-    background: var(--surface);
-    cursor: pointer;
-    transition: all 0.15s;
-    letter-spacing: -0.005em;
-    font-family: inherit;
-}
-.btn-cancel:hover {
-    background: var(--ink-100);
-    color: var(--ink-700);
-}
-
-.btn-submit {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.375rem;
-    padding: 0.5rem 1.5rem;
-    background: var(--accent);
-    color: white;
-    border: none;
-    border-radius: var(--r-md);
-    font-size: 0.875rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition:
-        background 0.15s,
-        box-shadow 0.15s;
-    letter-spacing: -0.01em;
-    font-family: inherit;
-}
-.btn-submit:hover {
-    background: var(--accent-dark);
-    box-shadow: 0 2px 10px rgba(18, 179, 182, 0.28);
-}
-
-.btn-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.375rem;
-    padding: 0.5rem 0.875rem;
-    border: 1.5px solid var(--border-strong);
-    border-radius: var(--r-md);
-    font-size: 0.8125rem;
-    font-weight: 600;
-    color: var(--ink-600);
-    background: var(--surface);
-    text-decoration: none;
-    cursor: pointer;
-    transition: all 0.15s;
-    white-space: nowrap;
-    font-family: inherit;
-}
-.btn-link:hover {
-    border-color: var(--accent);
-    color: var(--accent);
-    background: var(--accent-dim);
-}
-
-/* ─── Section helpers ─────────────────────────────────────── */
-.config-section {
-    margin-bottom: 0.25rem;
-}
-
+/* ─── Títulos de sección ──────────────────────────────────── */
 .section-title {
     font-size: 1rem;
     font-weight: 700;
@@ -224,13 +22,7 @@ select.form-input {
     line-height: 1.55;
 }
 
-.section-divider {
-    border: none;
-    border-top: 1px solid #f0f0f4;
-    margin: 1.75rem 0;
-}
-
-/* ─── Input con badge (email verificado) ──────────────────── */
+/* ─── Input con badge ─────────────────────────────────────── */
 .input-with-badge {
     position: relative;
     display: flex;
@@ -276,7 +68,31 @@ select.form-input {
     border-radius: 999px;
 }
 
-/* ─── Toggle switch ───────────────────────────────────────── */
+/* ─── Enlace tipo botón ───────────────────────────────────── */
+.btn-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.5rem 0.875rem;
+    border: 1.5px solid var(--border-strong);
+    border-radius: var(--r-md);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--ink-600);
+    background: var(--surface);
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+    font-family: inherit;
+}
+.btn-link:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--accent-dim);
+}
+
+/* ─── Toggle switch (2FA) ─────────────────────────────────── */
 .toggle-row {
     display: flex;
     align-items: center;
@@ -341,14 +157,13 @@ select.form-input {
     transform: translateX(20px);
 }
 
-/* ─── 2FA options ─────────────────────────────────────────── */
+/* ─── Opciones 2FA ────────────────────────────────────────── */
 .two-fa-options {
     margin-top: 1rem;
     display: flex;
     flex-direction: column;
     gap: 0.625rem;
 }
-
 .radio-card {
     display: flex;
     align-items: center;
@@ -371,7 +186,6 @@ select.form-input {
     height: 16px;
     flex-shrink: 0;
 }
-
 .radio-label {
     display: flex;
     align-items: center;
@@ -413,7 +227,18 @@ select.form-input {
     background: #0fa0a3;
 }
 
-/* ─── Logout row ──────────────────────────────────────────── */
+/* ─── Select dropdown ─────────────────────────────────────── */
+select.form-input {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23a0aabe'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 1rem;
+    padding-right: 2.5rem;
+    cursor: pointer;
+}
+
+/* ─── Fila de logout ──────────────────────────────────────── */
 .logout-row {
     display: flex;
     align-items: center;
@@ -424,7 +249,6 @@ select.form-input {
     border-radius: 10px;
     background: #f7fefe;
 }
-
 .logout-info {
     display: flex;
     align-items: center;
@@ -432,7 +256,6 @@ select.form-input {
     flex: 1;
     min-width: 0;
 }
-
 .logout-icon {
     width: 38px;
     height: 38px;
@@ -444,14 +267,12 @@ select.form-input {
     color: #0d9b9e;
     flex-shrink: 0;
 }
-
 .logout-details {
     display: flex;
     flex-direction: column;
     gap: 0.2rem;
     min-width: 0;
 }
-
 .logout-device {
     font-size: 0.875rem;
     font-weight: 600;
@@ -488,7 +309,7 @@ select.form-input {
     border-color: #fca5a5;
 }
 
-/* ─── Danger zone ─────────────────────────────────────────── */
+/* ─── Zona de peligro ─────────────────────────────────────── */
 .danger-actions {
     display: flex;
     flex-direction: column;
@@ -497,7 +318,6 @@ select.form-input {
     border-radius: 10px;
     overflow: hidden;
 }
-
 .danger-item {
     display: flex;
     align-items: center;
@@ -513,7 +333,6 @@ select.form-input {
 .danger-item:hover {
     background: #fff8f8;
 }
-
 .danger-info {
     display: flex;
     flex-direction: column;
@@ -560,62 +379,8 @@ select.form-input {
     border-color: #b91c1c;
 }
 
-/* ─── Alerts ──────────────────────────────────────────────── */
-.alert {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    padding: 0.85rem 1.2rem;
-    border-radius: 10px;
-    font-size: 0.9rem;
-    font-weight: 500;
-    margin-bottom: 1.2rem;
-    animation: fadeIn 0.3s ease;
-}
-.alert svg {
-    width: 18px;
-    height: 18px;
-    flex-shrink: 0;
-}
-.alert-success {
-    background: #ecfdf5;
-    color: #065f46;
-    border: 1px solid #6ee7b7;
-}
-.alert-error {
-    background: #fef2f2;
-    color: #991b1b;
-    border: 1px solid #fca5a5;
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(-6px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
 /* ─── Responsive ──────────────────────────────────────────── */
 @media (max-width: 768px) {
-    .edit-layout {
-        grid-template-columns: 1fr;
-        padding: 1rem;
-    }
-    .main-content {
-        padding: 1.5rem;
-    }
-    .form-actions {
-        flex-direction: column;
-    }
-    .btn-cancel,
-    .btn-submit {
-        width: 100%;
-        justify-content: center;
-    }
     .logout-row {
         flex-direction: column;
         align-items: flex-start;

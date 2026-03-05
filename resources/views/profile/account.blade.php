@@ -56,12 +56,12 @@
                         </button>
 
                         @if(session('status') === 'verification-link-sent')
-                        <p class="text-sm text-success">¡Enlace enviado! Revisa tu bandeja.</p>
+                        <p class="form-hint form-hint--success">¡Enlace enviado! Revisa tu bandeja.</p>
                         @endif
                         @endif
                     </div>
                     @error('email')
-                    <span class="form-error text-red-500">{{ $message }}</span>
+                    <span class="form-error">{{ $message }}</span>
                     @enderror
                 </div>
 
@@ -91,10 +91,10 @@
                             placeholder="Número de teléfono" />
                     </div>
                     @error('phone_code')
-                    <span class="form-error text-red-500">{{ $message }}</span>
+                    <span class="form-error">{{ $message }}</span>
                     @enderror
                     @error('phone_number')
-                    <span class="form-error text-red-500">{{ $message }}</span>
+                    <span class="form-error">{{ $message }}</span>
                     @enderror
                 </div>
 
@@ -110,9 +110,11 @@
                         <option value="de" {{ $currentLanguage == 'de' ? 'selected' : '' }}>Deutsch</option>
                     </select>
                     @error('language')
-                    <span class="form-error text-red-500">{{ $message }}</span>
+                    <span class="form-error">{{ $message }}</span>
                     @enderror
                 </div>
+
+                @include('components.alert')
 
                 <!-- Acciones -->
                 <div class="form-actions">
@@ -254,7 +256,7 @@
 @endsection
 
 @push('styles')
-<link rel="stylesheet" href="{{ asset('css/account.css') }}" />
+<link rel="stylesheet" href="{{ asset('css/profile/account.css') }}" />
 @endpush
 
 @push('scripts')
