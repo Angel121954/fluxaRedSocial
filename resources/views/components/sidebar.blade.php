@@ -38,8 +38,8 @@
 </aside>
 @include('components.modalImage')
 @push('styles')
-<link rel="stylesheet" href="{{ asset('css/sidebar.css') }}">
-<link rel="stylesheet" href="{{ asset('css/modalImage.css') }}">
+<link rel="stylesheet" href="{{ asset('css/profile/sidebar.css') }}">
+<link rel="stylesheet" href="{{ asset('css/profile/modalImage.css') }}">
 @endpush
 @push('scripts')
 <script src="{{ asset('js/profile/avatar.js') }}"></script>

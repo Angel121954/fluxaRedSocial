@@ -2,8 +2,8 @@
 @section('title', 'Privacidad')
 @section('content')
 @include('components.topbar')
-<div class="edit-layout">
 
+<div class="edit-layout">
     @include('components.sidebar')
 
     <main class="main-content">
@@ -14,7 +14,6 @@
             @csrf
             @method('PATCH')
 
-            <!-- Toggles -->
             <div class="toggle-group">
 
                 <div class="toggle-row">
@@ -37,10 +36,7 @@
                         <span class="toggle-desc">Permitir que otros usuarios te envíen mensajes directos.</span>
                     </div>
                     <label class="toggle-switch">
-                        <input
-                            type="checkbox"
-                            name="accept_messages"
-                            value="1"
+                        <input type="checkbox" name="accept_messages" value="1"
                             {{ old('accept_messages', $profile->accept_messages ?? true) ? 'checked' : '' }}>
                         <span class="toggle-track">
                             <span class="toggle-thumb"></span>
@@ -54,10 +50,7 @@
                         <span class="toggle-desc">Permitir que tu dirección de correo electrónico sea visible en tu perfil.</span>
                     </div>
                     <label class="toggle-switch">
-                        <input
-                            type="checkbox"
-                            name="show_email"
-                            value="1"
+                        <input type="checkbox" name="show_email" value="1"
                             {{ old('show_email', $profile->show_email ?? false) ? 'checked' : '' }}>
                         <span class="toggle-track">
                             <span class="toggle-thumb"></span>
@@ -67,29 +60,19 @@
 
             </div>
 
-            <!-- Mensaje de éxito -->
-            @if (session('success'))
-            <div class="alert alert-success" id="alertMessage">
-                <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M5 13l4 4L19 7" />
-                </svg>
-                {{ session('success') }}
-            </div>
-            @endif
+            @include('components.alert')
 
-            <!-- Acciones -->
             <div class="form-actions">
-                <a href="{{ route('profile.index') }}" class="btn-cancel">Cancelar</a>
-                <button type="submit" class="btn-save">Guardar cambios</button>
+                <x-btn-cancel href="{{ route('profile.index') }}" />
+                <x-btn-submit>Guardar cambios</x-btn-submit>
             </div>
 
         </form>
     </main>
-
 </div>
+
 @endsection
 
 @push('styles')
-<link rel="stylesheet" href="{{ asset('css/privacy.css') }}">
+<link rel="stylesheet" href="{{ asset('css/profile/privacy.css') }}">
 @endpush

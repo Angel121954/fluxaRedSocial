@@ -1,0 +1,60 @@
+/* ═══════════════════════════════════════════════════════════
+   notifications.css  —  Alertas reutilizables
+   Importar en cualquier vista que necesite mostrar mensajes
+   de éxito, error, advertencia o info.
+
+   Uso en Blade:
+     @push('styles')
+       <link rel="stylesheet" href="{{ asset('css/notifications.css') }}" />
+     @endpush
+═══════════════════════════════════════════════════════════ */
+
+/* ─── Base ────────────────────────────────────────────────── */
+.notif-alert {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.85rem 1.1rem;
+    border-radius: 10px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-top: 1.25rem;
+    animation: notifFadeIn 0.3s ease;
+}
+.notif-alert svg {
+    flex-shrink: 0;
+}
+
+/* ─── Variantes ───────────────────────────────────────────── */
+.notif-alert--success {
+    background: #e6faf7;
+    color: #0a9e8a;
+    border: 1px solid #b2ece3;
+}
+.notif-alert--error {
+    background: #fef2f2;
+    color: #991b1b;
+    border: 1px solid #fca5a5;
+}
+.notif-alert--warning {
+    background: #fffbeb;
+    color: #92400e;
+    border: 1px solid #fcd34d;
+}
+.notif-alert--info {
+    background: #eff6ff;
+    color: #1d4ed8;
+    border: 1px solid #bfdbfe;
+}
+
+/* ─── Animación ───────────────────────────────────────────── */
+@keyframes notifFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

@@ -7,8 +7,10 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Fluxa')</title>
     <link rel="preconnect" href="https://fonts.bunny.net">
-    @stack('styles')
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <link rel="stylesheet" href="{{ asset('css/variables.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/profile/shared.css') }}">
+    @stack('styles')
 </head>
 
 <body class="font-sans antialiased">

@@ -1,108 +1,8 @@
 /* ═══════════════════════════════════════════════════════════
-   preferences.css  —  Depende de sidebar.css
-   Vista: /account/notifications  (Preferencias de notificaciones)
-   (reset, body, sidebar, avatar, btn-avatar-action ya
-    están definidos en sidebar.css)
+   preferences.css  —  Específico de Preferencias de notificaciones
+   Depende de: variables.css · shared.css · sidebar.css
+               notificationsProfile.css
 ═══════════════════════════════════════════════════════════ */
-
-/* ─── Design Tokens ───────────────────────────────────────── */
-:root {
-    --accent: #12b3b6;
-    --accent-dark: #0d8e91;
-    --accent-dim: rgba(18, 179, 182, 0.07);
-    --accent-ring: rgba(18, 179, 182, 0.18);
-
-    --surface: #ffffff;
-    --bg: #f7f8fa;
-
-    --ink-900: #0b0f1a;
-    --ink-700: #1c2333;
-    --ink-600: #374151;
-    --ink-500: #4a5568;
-    --ink-400: #718096;
-    --ink-300: #a0aabe;
-    --ink-100: #edf0f7;
-
-    --border: rgba(0, 0, 0, 0.075);
-    --border-strong: rgba(0, 0, 0, 0.12);
-
-    --r-md: 10px;
-    --r-xl: 18px;
-}
-
-/* ─── Layout ──────────────────────────────────────────────── */
-.edit-layout {
-    max-width: 1160px;
-    margin: 0 auto;
-    padding: 1.75rem 1.5rem;
-    display: grid;
-    grid-template-columns: 240px minmax(0, 1fr);
-    gap: 1.75rem;
-    align-items: start;
-}
-
-/* ─── Main content ────────────────────────────────────────── */
-.main-content {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--r-xl);
-    padding: 2rem;
-}
-
-.page-title {
-    font-size: 1.5rem;
-    font-weight: 750;
-    color: var(--ink-900);
-    letter-spacing: -0.035em;
-    margin-bottom: 0.375rem;
-}
-
-.page-subtitle {
-    font-size: 0.9375rem;
-    color: var(--ink-400);
-    margin-bottom: 2rem;
-    line-height: 1.6;
-}
-
-/* ─── Botones base ────────────────────────────────────────── */
-.btn-cancel {
-    padding: 0.5rem 1.25rem;
-    border: 1.5px solid var(--border-strong);
-    border-radius: var(--r-md);
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: var(--ink-600);
-    background: var(--surface);
-    cursor: pointer;
-    transition: all 0.15s;
-    font-family: inherit;
-}
-.btn-cancel:hover {
-    background: var(--ink-100);
-    color: var(--ink-700);
-}
-
-.btn-submit {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.375rem;
-    padding: 0.5rem 1.5rem;
-    background: var(--accent);
-    color: white;
-    border: none;
-    border-radius: var(--r-md);
-    font-size: 0.875rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition:
-        background 0.15s,
-        box-shadow 0.15s;
-    font-family: inherit;
-}
-.btn-submit:hover {
-    background: var(--accent-dark);
-    box-shadow: 0 2px 10px rgba(18, 179, 182, 0.28);
-}
 
 /* ─── Sección principal con ilustración ──────────────────── */
 .notif-section {
@@ -112,7 +12,6 @@
     gap: 1.5rem;
     margin-bottom: 0.25rem;
 }
-
 .notif-section__content {
     flex: 1;
     min-width: 0;
@@ -120,7 +19,6 @@
     flex-direction: column;
     gap: 0;
 }
-
 .notif-section__title {
     font-size: 1.0625rem;
     font-weight: 700;
@@ -164,7 +62,7 @@
     font-weight: 600;
 }
 
-/* Switch personalizado */
+/* ─── Switch ──────────────────────────────────────────────── */
 .notif-switch {
     position: relative;
     display: inline-block;
@@ -178,7 +76,6 @@
     width: 0;
     height: 0;
 }
-
 .notif-track {
     position: absolute;
     inset: 0;
@@ -209,7 +106,7 @@
     outline-offset: 2px;
 }
 
-/* ─── Ilustración notificaciones ──────────────────────────── */
+/* ─── Ilustración ─────────────────────────────────────────── */
 .notif-illus {
     flex-shrink: 0;
     width: 220px;
@@ -220,7 +117,6 @@
     justify-content: center;
     margin-top: 0.5rem;
 }
-
 .illus-notif-phone {
     width: 70px;
     height: 120px;
@@ -273,7 +169,6 @@
     width: 34px;
     height: 34px;
 }
-
 .illus-bell__badge {
     position: absolute;
     top: -4px;
@@ -291,7 +186,6 @@
     border: 2px solid #fff;
     z-index: 4;
 }
-
 .illus-bell--sm {
     width: 44px;
     height: 44px;
@@ -352,7 +246,6 @@
     position: absolute;
     background: var(--accent);
     border-radius: 50%;
-    opacity: 0.55;
 }
 .illus-spark--1 {
     width: 7px;
@@ -390,18 +283,16 @@
     margin: 1.75rem 0;
 }
 
-/* ─── Tipos de notificaciones (checkboxes) ────────────────── */
+/* ─── Checkboxes de tipos ─────────────────────────────────── */
 .notif-types {
     margin-bottom: 0.25rem;
 }
-
 .notif-check-list {
     display: flex;
     flex-direction: column;
     gap: 0;
     margin-top: 1.25rem;
 }
-
 .notif-check-item {
     display: flex;
     align-items: center;
@@ -424,7 +315,6 @@
     width: 0;
     height: 0;
 }
-
 .notif-check-custom {
     width: 20px;
     height: 20px;
@@ -460,7 +350,6 @@
     color: var(--ink-900);
     font-weight: 600;
 }
-
 .notif-check-block {
     display: flex;
     flex-direction: column;
@@ -476,44 +365,7 @@
     font-weight: 600;
 }
 
-/* ─── Alertas ─────────────────────────────────────────────── */
-.notif-alert {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    padding: 0.85rem 1.1rem;
-    border-radius: 10px;
-    font-size: 0.875rem;
-    font-weight: 500;
-    margin-top: 1.25rem;
-    animation: fadeIn 0.3s ease;
-}
-.notif-alert svg {
-    flex-shrink: 0;
-}
-.notif-alert--success {
-    background: #e6faf7;
-    color: #0a9e8a;
-    border: 1px solid #b2ece3;
-}
-.notif-alert--error {
-    background: #fef2f2;
-    color: #991b1b;
-    border: 1px solid #fca5a5;
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(-5px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* ─── Acciones del form ───────────────────────────────────── */
+/* ─── Acciones ────────────────────────────────────────────── */
 .notif-actions {
     display: flex;
     justify-content: flex-end;
@@ -525,30 +377,13 @@
 
 /* ─── Responsive ──────────────────────────────────────────── */
 @media (max-width: 768px) {
-    .edit-layout {
-        grid-template-columns: 1fr;
-        padding: 1rem;
-    }
-
-    .main-content {
-        padding: 1.5rem;
-    }
-
     .notif-section {
         flex-direction: column;
     }
-
     .notif-illus {
         display: none;
     }
-
     .notif-actions {
         flex-direction: column;
-    }
-
-    .btn-cancel,
-    .btn-submit {
-        width: 100%;
-        justify-content: center;
     }
 }

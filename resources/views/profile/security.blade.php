@@ -299,7 +299,7 @@
 @endsection
 
 @push('styles')
-<link rel="stylesheet" href="{{ asset('css/security.css') }}" />
+<link rel="stylesheet" href="{{ asset('css/profile/security.css') }}" />
 @endpush
 
 @push('scripts')
