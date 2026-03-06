@@ -4,54 +4,89 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Validation\Rules\Password;
 use Illuminate\View\View;
 use Illuminate\Support\Str;
 
 class RegisteredUserController extends Controller
 {
-    /**
-     * Display the registration view.
-     */
     public function create(): View
     {
         return view('auth.register');
     }
 
-    /**
-     * Handle an incoming registration request.
-     *
-     * @throws \Illuminate\Validation\ValidationException
-     */
     public function store(Request $request): RedirectResponse
     {
+        $key = 'register:' . $request->ip();
+
+        //* Para evitar excesivas peticiones al mismo tiempo
+        if (RateLimiter::tooManyAttempts($key, 5)) {
+            $seconds = RateLimiter::availableIn($key);
+            return back()->withErrors([
+                'email' => "Demasiados intentos. Espera {$seconds} segundos."
+            ]);
+        }
+
+        RateLimiter::hit($key, 60);
+
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'username' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:' . User::class],
-            'password' => ['required', 'confirmed', 'min:2'],
+            'name' => [
+                'required',
+                'string',
+                'min:2',
+                'max:100',
+                'regex:/^[\pL\s\-]+$/u',
+            ],
+            'username' => [
+                'required',
+                'string',
+                'min:3',
+                'max:30',
+                'unique:users,username',
+                'regex:/^[a-zA-Z0-9_]+$/',
+                'not_regex:/^(admin|root|system|superuser)$/i',
+            ],
+            'email' => [
+                'required',
+                'string',
+                'email:rfc,dns',
+                'max:255',
+                'unique:users,email',
+            ],
+            'password' => [
+                'required',
+                'confirmed',
+                Password::min(6)
+            ],
         ], [
-            'name.required' => 'El nombre es obligatorio',
-            'name.max' => 'El nombre debe tener un máximo de 255 caracteres',
-            'username.required' => 'El nombre de usuario es obligatorio',
-            'username.max' => 'El nombre de usuario debe tener un máximo de 255 caracteres',
-            'email.required' => 'El email es obligatorio',
-            'email.max' => 'El email debe tener un máximo de 255 caracteres',
-            'password.required' => 'La contraseña es obligatoria',
-            'password.min' => 'La contraseña debe tener un mínimo de 2 caracteres',
+            'name.required'          => 'El nombre es obligatorio.',
+            'name.min'               => 'El nombre debe tener al menos 2 caracteres.',
+            'name.max'               => 'El nombre no puede superar 100 caracteres.',
+            'name.regex'             => 'El nombre solo puede contener letras, espacios y guiones.',
+            'username.required'      => 'El nombre de usuario es obligatorio.',
+            'username.min'           => 'El nombre de usuario debe tener al menos 3 caracteres.',
+            'username.max'           => 'El nombre de usuario no puede superar 30 caracteres.',
+            'username.unique'        => 'Este nombre de usuario ya está en uso.',
+            'username.regex'         => 'El nombre de usuario solo puede contener letras, números y guiones bajos.',
+            'username.not_regex'     => 'Este nombre de usuario no está permitido.',
+            'email.required'         => 'El email es obligatorio.',
+            'email.email'            => 'El email no tiene un formato válido.',
+            'email.unique'           => 'Este email ya está registrado.',
+            'password.required'      => 'La contraseña es obligatoria.',
+            'password.min' => 'La contraseña debe tener al menos 6 caracteres.',
         ]);
 
         $user = User::create([
-            'name' => $request->name,
-            'username' => $request->username,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'name'           => strip_tags($request->name),
+            'username'       => strtolower(strip_tags($request->username)),
+            'email'          => strtolower($request->email),
+            'password'       => Hash::make($request->password),
             'remember_token' => Str::random(60),
         ]);
 
@@ -59,6 +94,6 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect()->route('explore.index');
+        return redirect()->route('onboarding.technologies');
     }
 }

@@ -22,6 +22,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'username',
+        'role',
         'email',
         'email_verified_at',
         'password',
@@ -31,6 +32,7 @@ class User extends Authenticatable
         'status',
         'delete_at',
         'remember_token',
+        'onboarding_completed',
     ];
 
     /**
@@ -58,5 +60,9 @@ class User extends Authenticatable
     public function notificationPreferences()
     {
         return $this->hasOne(NotificationPreference::class);
+    }
+    public function technologies()
+    {
+        return $this->belongsToMany(Technology::class);
     }
 }

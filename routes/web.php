@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\SocialAuthController;
 use App\Http\Controllers\Explore\ExploreController;
 use App\Http\Controllers\Notifications\NotificationController;
 use App\Http\Controllers\AboutFluxaController;
+use App\Http\Controllers\OnboardingController;
 
 use App\Http\Controllers\Profile\NotificationPreferenceController;
 use App\Http\Controllers\Profile\ProfileController;
@@ -21,6 +22,21 @@ use App\Http\Controllers\Profile\PrivacyController;
 */
 
 Route::redirect('/', '/login');
+
+Route::get('/onboarding/technologies', [OnboardingController::class, 'technologies'])
+    ->name('onboarding.technologies');
+Route::post('/onboarding/technologies', [OnboardingController::class, 'saveTechnologies'])
+    ->name('onboarding.saveTechnologies');
+
+Route::get('/onboarding/role', [OnboardingController::class, 'role'])
+    ->name('onboarding.role');
+Route::post('/onboarding/role', [OnboardingController::class, 'saveRole'])
+    ->name('onboarding.saveRole');
+
+Route::get('/onboarding/suggestions', [OnboardingController::class, 'suggestions'])
+    ->name('onboarding.suggestions');
+Route::post('/onboarding/suggestions', [OnboardingController::class, 'saveSuggestions'])
+    ->name('onboarding.saveSuggestions');
 
 /*
 |--------------------------------------------------------------------------
@@ -39,7 +55,7 @@ Route::get('/auth/{provider}/callback', [SocialAuthController::class, 'callback'
 | Protected Routes
 |--------------------------------------------------------------------------
 */
-Route::middleware(['auth', 'verified', 'prevent-back-history'])->group(function () {
+Route::middleware(['auth', 'verified', 'prevent-back-history', 'onboarding'])->group(function () {
 
     Route::view('/dashboard', 'dashboard')
         ->name('dashboard');
