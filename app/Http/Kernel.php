@@ -24,6 +24,7 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \App\Http\Middleware\CheckUserActive::class,
+            \App\Http\Middleware\CleanExpiredGuests::class,
         ],
 
         'api' => [
@@ -45,5 +46,7 @@ class Kernel extends HttpKernel
         'verified'          => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'prevent-back-history' => \App\Http\Middleware\PreventBackHistory::class,
         'onboarding'         => \App\Http\Middleware\CheckOnboarding::class,
+        'restrict.guest'    => \App\Http\Middleware\RestrictGuest::class,
+        'clean.guests'      => \App\Http\Middleware\CleanExpiredGuests::class,
     ];
 }

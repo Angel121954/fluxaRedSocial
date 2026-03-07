@@ -15,7 +15,10 @@ class CheckOnboarding
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::check() && !Auth::user()->onboarding_completed) {
+        $user = Auth::user();
+        /** @var \App\Models\User $user */
+
+        if (Auth::check() && $user->role !== 'guest' && !$user->onboarding_completed) {
             return redirect()->route('onboarding.technologies');
         }
         return $next($request);
