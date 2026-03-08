@@ -120,6 +120,8 @@ class SocialAuthController extends Controller
                         'password'          => bcrypt(Str::random(16)),
                         'provider'          => $provider,
                         'provider_id'       => $socialUser->getId(),
+                        'status'            => 'activo',
+                        'role'              => 'user',
                     ]);
 
                     $avatar = $this->uploadAvatarToCloudinary($avatarOriginal, $user->id);

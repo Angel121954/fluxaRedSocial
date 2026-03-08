@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Profile;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -85,9 +86,15 @@ class RegisteredUserController extends Controller
         $user = User::create([
             'name'           => strip_tags($request->name),
             'username'       => strtolower(strip_tags($request->username)),
+            'role'           => 'user',
             'email'          => strtolower($request->email),
             'password'       => Hash::make($request->password),
             'remember_token' => Str::random(60),
+        ]);
+
+        Profile::create([
+            'user_id' => $user->id,
+            'avatar'  => 'https://api.dicebear.com/7.x/initials/svg?seed=' . strtolower($request->username) . "&backgroundColor=14b8a6",
         ]);
 
         event(new Registered($user));
