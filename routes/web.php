@@ -32,6 +32,10 @@ Route::redirect('/', '/login');
 Route::get('/guest-login', [GuestController::class, 'loginAsGuest'])
     ->name('auth.guest');
 
+Route::post('/guest/destroy', [GuestController::class, 'destroyGuest'])
+    ->name('guest.destroy')
+    ->middleware('auth');
+
 /*
 |--------------------------------------------------------------------------
 | Onboarding (auth requerido, sin verificación de email ni onboarding check)
