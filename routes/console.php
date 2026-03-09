@@ -20,3 +20,4 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote');
 
 Schedule::command('users:delete-pending')->daily();
+Schedule::command('users:delete-expired')->daily();

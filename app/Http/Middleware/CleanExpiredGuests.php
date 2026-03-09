@@ -1,21 +1,26 @@
 <?php
-// app/Http/Middleware/CleanExpiredGuests.php
 
 namespace App\Http\Middleware;
 
 use App\Models\User;
-use Closure;
 use Carbon\Carbon;
+use Closure;
+use Illuminate\Support\Facades\Log;
 
 class CleanExpiredGuests
 {
     public function handle($request, Closure $next)
     {
-        // Elimina visitantes creados hace más de 24 horas
-        User::where('status', 'temporal')
+        $guests = User::where('status', 'temporal')
             ->where('provider', 'guest')
             ->where('created_at', '<', Carbon::now()->subHours(24))
-            ->delete();
+            ->get();
+
+        if ($guests->isNotEmpty()) {
+            foreach ($guests as $guest) {
+                $guest->delete();
+            }
+        }
 
         return $next($request);
     }

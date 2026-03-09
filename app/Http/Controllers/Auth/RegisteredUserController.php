@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Profile;
+use App\Models\NotificationPreference;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -94,7 +95,11 @@ class RegisteredUserController extends Controller
 
         Profile::create([
             'user_id' => $user->id,
-            'avatar'  => 'https://api.dicebear.com/7.x/initials/svg?seed=' . strtolower($request->username) . "&backgroundColor=14b8a6",
+            'avatar'  => 'https://api.dicebear.com/7.x/initials/svg?seed=' . strtolower($request->username) . "&backgroundColor=12b3b6",
+        ]);
+
+        NotificationPreference::create([
+            'user_id' => $user->id,
         ]);
 
         event(new Registered($user));

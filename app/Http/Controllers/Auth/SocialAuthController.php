@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Laravel\Socialite\Facades\Socialite;
 use App\Models\User;
 use App\Models\Profile;
+use App\Models\NotificationPreference;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
@@ -35,7 +36,7 @@ class SocialAuthController extends Controller
             default    => $avatar,
         };
     }
-
+    
     protected function uploadAvatarToCloudinary(string $avatarUrl, string $userId): string
     {
         try {
@@ -131,6 +132,8 @@ class SocialAuthController extends Controller
                         'avatar'  => $avatar,
                     ]);
 
+                    
+
                     return $user;
                 });
             } else {
@@ -151,6 +154,10 @@ class SocialAuthController extends Controller
                     ['avatar'  => $avatar]
                 );
             }
+
+            NotificationPreference::firstOrCreate([
+                'user_id' => $user->id,
+            ]);
 
             if ($user->status === 'pending_deletion') {
                 $user->update([
