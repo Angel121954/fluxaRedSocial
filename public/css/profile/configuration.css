@@ -22,3 +22,22 @@
 .form-section-title .page-subtitle {
     margin-bottom: 0;
 }
+
+/* ─── Contador de caracteres ─────────────────────────────── */
+.char-count {
+    font-size: .75rem;
+    color: var(--ink-400);
+    text-align: right;
+    margin-top: .25rem;
+    font-family: var(--font);
+    transition: color .15s;
+}
+
+.char-count.warn {
+    color: #B45309;
+}
+
+.char-count.limit {
+    color: var(--danger, #B91C1C);
+    font-weight: 500;
+}

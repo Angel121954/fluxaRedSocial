@@ -8,11 +8,12 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('publications', function (Blueprint $table) {
+        Schema::create('projects', function (Blueprint $table) {
             $table->id();
 
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
 
+            $table->string('title', 100);
             $table->text('content')->nullable();
 
             $table->enum('privacy', ['public', 'followers', 'private'])->default('public');
@@ -21,7 +22,7 @@ return new class extends Migration
             $table->unsignedInteger('comments_count')->default(0);
             $table->unsignedInteger('shares_count')->default(0);
 
-            $table->foreignId('parent_id')->nullable()->constrained('publications');
+            $table->foreignId('parent_id')->nullable()->constrained('projects');
 
             $table->softDeletes();
 
@@ -31,6 +32,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('publications');
+        Schema::dropIfExists('projects');
     }
 };

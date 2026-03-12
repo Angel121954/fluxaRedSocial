@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Auth\SocialAuthController;
 use App\Http\Controllers\Auth\GuestController;
+use App\Http\Controllers\Projects\ProjectController;
 use App\Http\Controllers\Explore\ExploreController;
 use App\Http\Controllers\Notifications\NotificationController;
 use App\Http\Controllers\AboutFluxaController;
@@ -137,6 +138,14 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
 
         Route::patch('/notification-preference', [NotificationPreferenceController::class, 'update'])
             ->name('notification-preference.update');
+
+        Route::resource('projects', ProjectController::class);
+
+        Route::get(
+            '/technologies',
+            fn() =>
+            \App\Models\Technology::orderBy('name')->get(['id', 'name', 'icon'])
+        )->name('technologies.index');
     });
 });
 

@@ -5,7 +5,7 @@
     <div class="navbar-inner">
         <div class="navbar-left">
             <a href="{{ route('explore.index') }}">
-                <img src="{{ asset('img/logoFluxa.png') }}" alt="Logo de Fluxa en forma de hormiga tech" class="nav-logo" />
+                <img src="{{ asset('img/logoFluxa.png') }}" alt="Logo de Fluxa" class="nav-logo" />
             </a>
             <nav class="nav-links">
                 @if(Auth::user()->role !== 'guest')
@@ -29,14 +29,13 @@
 
         <div class="navbar-right">
             @if(Auth::user()->role === 'guest')
-            {{-- Visitante: banner + acciones --}}
             <form action="{{ route('guest.destroy') }}" method="POST" style="display:inline">
                 @csrf
                 <button type="submit" class="btn-new danger">Salir</button>
             </form>
             @else
-            {{-- Usuario real --}}
-            <button class="btn-new">
+            {{-- Sin id, solo onclick --}}
+            <button onclick="abrirModal()" class="btn-new">
                 <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
                         d="M12 4v16m8-8H4" />
@@ -44,15 +43,15 @@
                 Nuevo proyecto
             </button>
             <a href="{{ route('profile.index') }}">
-                <img src="{{ $profile->avatar ?? '' }}"
-                    alt="Tú"
-                    class="nav-user-av" />
+                <img src="{{ $profile->avatar ?? '' }}" alt="Tú" class="nav-user-av" />
             </a>
             @endif
         </div>
-
     </div>
 </nav>
+@if(Auth::user()->role != 'guest')
+@include('components.new-project')
+@endif
 
 @push('styles')
 <link rel="stylesheet" href="{{ asset('css/topbar.css') }}">

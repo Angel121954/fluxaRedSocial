@@ -8,25 +8,21 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('publication_media', function (Blueprint $table) {
+        Schema::create('project_media', function (Blueprint $table) {
             $table->id();
-
-            $table->foreignId('publication_id')
+            $table->foreignId('project_id')
                 ->constrained()
                 ->cascadeOnDelete();
-
             $table->string('media_url');
-
+            $table->string('public_id')->nullable();
             $table->enum('type', ['image', 'video', 'gif']);
-
             $table->unsignedInteger('position')->default(0);
-
             $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('publication_media');
+        Schema::dropIfExists('project_media');
     }
 };

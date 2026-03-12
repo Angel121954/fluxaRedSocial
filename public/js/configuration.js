@@ -1,5 +1,5 @@
 // ── Char counter ────────────────────────────────────
-const bioInput = document.getElementById("inputBio");
+const bioInput = document.getElementById("input-bio");
 const charCount = document.getElementById("charCount");
 
 if (bioInput && charCount) {
