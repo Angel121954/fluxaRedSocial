@@ -40,6 +40,10 @@ const commentsData = {
 
 // Abrir modal de comentarios
 function openCommentsModal(postData) {
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+    document.body.style.overflow = 'hidden';
+    document.body.style.paddingRight = scrollbarWidth + 'px';
+
     document.getElementById("modalPostAvatar").src = postData.avatar;
     document.getElementById("modalPostAuthor").textContent = postData.author;
     document.getElementById("modalPostHandleTime").textContent =
@@ -49,15 +53,14 @@ function openCommentsModal(postData) {
     loadComments(postData.commentsKey);
 
     commentsModal.classList.add("show");
-    document.body.style.overflow = "hidden";
-
     setTimeout(() => commentTextarea.focus(), 100);
 }
 
 // Cerrar modal
 function closeCommentsModal() {
+    document.body.style.overflow = '';
+    document.body.style.paddingRight = '';
     commentsModal.classList.remove("show");
-    document.body.style.overflow = "";
     resetCommentForm();
 }
 

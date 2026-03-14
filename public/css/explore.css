@@ -54,6 +54,7 @@ body {
     -webkit-font-smoothing: antialiased;
     font-size: 15px;
     line-height: 1.5;
+    scrollbar-gutter: stable;
 }
 
 /* ─────────────────────────────────────────────────
@@ -97,10 +98,12 @@ body {
     transition: all 0.15s;
     letter-spacing: -0.01em;
 }
+
 .feed-tab:hover {
     color: var(--ink-700);
     background: var(--ink-100);
 }
+
 .feed-tab.active {
     color: var(--accent);
     background: var(--accent-dim);
@@ -118,6 +121,7 @@ body {
         border-color 0.2s,
         box-shadow 0.2s;
 }
+
 .post-card:hover {
     border-color: var(--border-strong);
     box-shadow: var(--shadow-card);
@@ -167,6 +171,7 @@ body {
     justify-content: center;
     flex-shrink: 0;
 }
+
 .verify-badge svg {
     width: 9px;
     height: 9px;
@@ -202,10 +207,12 @@ body {
         color 0.15s;
     flex-shrink: 0;
 }
+
 .post-menu:hover {
     background: var(--ink-100);
     color: var(--ink-500);
 }
+
 .post-menu svg {
     width: 16px;
     height: 16px;
@@ -235,6 +242,7 @@ body {
     cursor: pointer;
     transition: all 0.15s;
 }
+
 .post-tag:hover {
     background: var(--accent-dim);
     color: var(--accent);
@@ -270,12 +278,15 @@ body {
     border: none;
     padding: 0;
 }
+
 .post-action:hover {
     color: var(--accent);
 }
+
 .post-action.liked {
     color: #ef4444;
 }
+
 .post-action svg {
     width: 18px;
     height: 18px;
@@ -321,6 +332,7 @@ body {
     text-decoration: none;
     transition: color 0.15s;
 }
+
 .widget-link:hover {
     color: var(--accent-dark);
 }
@@ -333,10 +345,12 @@ body {
     align-items: flex-start;
     border-bottom: 1px solid var(--border);
 }
+
 .person-item:last-child {
     border-bottom: none;
     padding-bottom: 0;
 }
+
 .person-item:first-child {
     padding-top: 0;
 }
@@ -367,6 +381,7 @@ body {
     align-items: center;
     justify-content: center;
 }
+
 .person-verify svg {
     width: 7px;
     height: 7px;
@@ -410,6 +425,7 @@ body {
     flex-shrink: 0;
     letter-spacing: -0.005em;
 }
+
 .btn-follow-mini:hover {
     background: var(--accent-dark);
 }
@@ -432,6 +448,7 @@ body {
     transition: all 0.15s;
     letter-spacing: -0.005em;
 }
+
 .topic-pill:hover {
     background: var(--accent-dim);
     color: var(--accent);
@@ -448,14 +465,9 @@ body {
     align-items: center;
     justify-content: center;
     padding: 1.5rem;
-    background: linear-gradient(
-        135deg,
-        rgba(18, 179, 182, 0.04) 0%,
-        rgba(11, 15, 26, 0.92) 100%
-    );
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    animation: fadeIn 0.25s ease;
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
 }
 
 .comments-modal.show {
@@ -466,6 +478,7 @@ body {
     from {
         opacity: 0;
     }
+
     to {
         opacity: 1;
     }
@@ -491,6 +504,7 @@ body {
         opacity: 0;
         transform: translateY(20px) scale(0.96);
     }
+
     to {
         opacity: 1;
         transform: translateY(0) scale(1);
@@ -895,7 +909,8 @@ body {
 .about-link {
     font-size: 13px;
     font-weight: 600;
-    color: #1da1a1; /* Ajusta al turquesa exacto de tu logo */
+    color: #1da1a1;
+    /* Ajusta al turquesa exacto de tu logo */
     text-decoration: none;
     transition: opacity 0.2s ease;
 }
