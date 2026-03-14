@@ -6,6 +6,20 @@
    de cada página.
 ═══════════════════════════════════════════════════════════ */
 
+body {
+    font-family:
+        "Inter",
+        -apple-system,
+        BlinkMacSystemFont,
+        sans-serif;
+    background: var(--bg);
+    color: var(--ink-700);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    font-size: 15px;
+    line-height: 1.5;
+}
+
 /* ─── Layout principal ────────────────────────────────────── */
 .edit-layout {
     max-width: 1160px;
@@ -97,14 +111,17 @@
     font-family: inherit;
     transition: all 0.15s;
 }
+
 .form-input::placeholder {
     color: var(--ink-300);
 }
+
 .form-input:focus {
     outline: none;
     border-color: var(--accent);
     box-shadow: 0 0 0 3px var(--accent-dim);
 }
+
 .form-input.input-error {
     border-color: #dc2626 !important;
     background: #fff8f8;
@@ -127,6 +144,7 @@ select.form-input {
     display: flex;
     align-items: center;
 }
+
 .input-with-icon .input-icon {
     position: absolute;
     left: 0.875rem;
@@ -136,6 +154,7 @@ select.form-input {
     flex-shrink: 0;
     pointer-events: none;
 }
+
 .form-input--icon {
     padding-left: 2.75rem;
 }
@@ -158,11 +177,13 @@ select.form-input {
     white-space: nowrap;
     font-family: inherit;
 }
+
 .btn-link:hover {
     border-color: var(--accent);
     color: var(--accent);
     background: var(--accent-dim);
 }
+
 .btn-link svg {
     width: 14px;
     height: 14px;
@@ -195,6 +216,7 @@ select.form-input {
     display: inline-flex;
     align-items: center;
 }
+
 .btn-cancel:hover {
     background: var(--ink-100);
     color: var(--ink-700);
@@ -219,6 +241,7 @@ select.form-input {
     letter-spacing: -0.01em;
     font-family: inherit;
 }
+
 .btn-submit:hover,
 .btn-save:hover {
     background: var(--accent-dark);
@@ -246,22 +269,36 @@ select.form-input {
     padding: 2rem;
     animation: imgModalFadeIn 0.22s ease;
 }
+
 .img-modal.show {
     display: flex;
 }
 
 @keyframes imgModalFadeIn {
-    from { opacity: 0; }
-    to   { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 .modal-wrap {
     position: relative;
     animation: imgModalZoomIn 0.22s ease;
 }
+
 @keyframes imgModalZoomIn {
-    from { transform: scale(0.86); opacity: 0; }
-    to   { transform: scale(1);    opacity: 1; }
+    from {
+        transform: scale(0.86);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 
 /* Avatar modal — tamaño grande y cuadrado para avatares de perfil */
@@ -292,10 +329,12 @@ select.form-input {
         background 0.15s,
         transform 0.2s;
 }
+
 .modal-x:hover {
     background: rgba(255, 255, 255, 0.18);
     transform: rotate(90deg);
 }
+
 .modal-x svg {
     width: 14px;
     height: 14px;
@@ -307,12 +346,15 @@ select.form-input {
         grid-template-columns: 1fr;
         padding: 1rem;
     }
+
     .main-content {
         padding: 1.5rem;
     }
+
     .form-actions {
         flex-direction: column;
     }
+
     .btn-cancel,
     .btn-submit,
     .btn-save {

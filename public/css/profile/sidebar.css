@@ -1,8 +1,4 @@
 /* En privacy.css o mejor en un css global */
-html {
-    scrollbar-gutter: stable;
-}
-
 /* ═══════════════════════════════════════════════════════════
    sidebar.css  —  Componente compartido
    Cargado vía @push('styles') en todas las páginas de
