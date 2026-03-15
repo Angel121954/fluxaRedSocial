@@ -10,12 +10,12 @@ return new class extends Migration
     {
         Schema::create('project_technology', function (Blueprint $table) {
             $table->foreignId('project_id')
-                  ->constrained()
-                  ->cascadeOnDelete();
+                ->constrained()
+                ->cascadeOnDelete();
 
             $table->foreignId('technology_id')
-                  ->constrained()
-                  ->cascadeOnDelete();
+                ->constrained()
+                ->cascadeOnDelete();
 
             $table->primary(['project_id', 'technology_id']);
         });

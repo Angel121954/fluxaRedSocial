@@ -20,16 +20,19 @@ class Project extends Model
         'parent_id',
     ];
 
+    // Relación con media
     public function media()
     {
         return $this->hasMany(ProjectMedia::class)->orderBy('position');
     }
 
+    // Relación con el usuario
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
+    // Si es una respuesta a otro proyecto (parent_id)
     public function parent()
     {
         return $this->belongsTo(Project::class, 'parent_id');
@@ -38,5 +41,10 @@ class Project extends Model
     public function technologies()
     {
         return $this->belongsToMany(Technology::class, 'project_technology');
+    }
+    // Accessor — lo llamas como $project->days_active
+    public function getDaysActiveAttribute(): int
+    {
+        return (int) $this->created_at->diffInDays(now());
     }
 }

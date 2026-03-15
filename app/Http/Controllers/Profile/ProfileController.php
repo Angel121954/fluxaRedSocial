@@ -8,6 +8,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use App\Models\Profile;
@@ -18,11 +19,26 @@ class ProfileController extends Controller
     /**
      * Muestra el perfil del usuario autenticado.
      */
-    public function index(): View
+    public function index()
     {
-        $profile = Auth::user()->profile;
+        $user    = Auth::user();
+        /** @var \App\Models\User $user */
+        $profile = $user->profile;
 
-        return view('profile.profile', compact('profile'));
+        $projects = $user->projects()
+            ->with(['media', 'technologies'])   // eager load
+            ->withCount('media')
+            ->latest()
+            ->get();
+
+        $technologies = $user->technologies()->orderBy('name')->get();
+
+        Log::info('Cargando los datos:', [
+            'profile' => $profile,
+            'projects' => $projects,
+        ]);
+
+        return view('profile.profile', compact('profile', 'projects', 'technologies'));
     }
 
     /**

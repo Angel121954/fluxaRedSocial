@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Profile;
 use App\Models\NotificationPreference;
+use App\Models\Project;
 
 class User extends Authenticatable
 {
@@ -64,5 +65,9 @@ class User extends Authenticatable
     public function technologies()
     {
         return $this->belongsToMany(Technology::class);
+    }
+    public function projects()
+    {
+        return $this->hasMany(Project::class);
     }
 }
