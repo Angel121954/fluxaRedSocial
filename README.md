@@ -1,66 +1,379 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+<div align="center">
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# 🌊 Fluxa
 
-## About Laravel
+**The social network built for developers, by developers.**
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Share your projects. Document your journey. Grow in public.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+[![Laravel](https://img.shields.io/badge/Laravel-12.x-FF2D20?style=flat-square&logo=laravel&logoColor=white)](https://laravel.com)
+[![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-3.x-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
+[![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?style=flat-square&logo=docker&logoColor=white)](https://www.docker.com)
+[![Cloudinary](https://img.shields.io/badge/Cloudinary-Media_Storage-3448C5?style=flat-square&logo=cloudinary&logoColor=white)](https://cloudinary.com)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](LICENSE)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](CONTRIBUTING.md)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+[Features](#-features) · [Screenshots](#-screenshots) · [Tech Stack](#-tech-stack) · [Installation](#-installation) · [Roadmap](#-roadmap) · [Contributing](#-contributing)
 
-## Learning Laravel
+</div>
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+---
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## 📖 About Fluxa
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+**Fluxa** is an open-source social platform designed specifically for developers. It gives programmers a dedicated space to share their projects, document their progress, showcase their tech stack, and connect with other developers — all in public.
 
-## Laravel Sponsors
+Inspired by the best parts of **GitHub**, **Twitter/X**, and **Dev.to**, Fluxa focuses on what developers care about most: *projects*, *growth*, and *community*. Whether you are building a side project, learning a new technology, or looking for collaborators, Fluxa is the place to share it.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+> Build in public. Grow with the community.
 
-### Premium Partners
+---
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+## 📸 Screenshots
 
-## Contributing
+<div align="center">
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 👤 Profile Page
+![Profile Page](https://res.cloudinary.com/demo/image/upload/fluxa/profile-page.png)
 
-## Code of Conduct
+### ⚙️ Profile Settings
+![Profile Settings](https://res.cloudinary.com/demo/image/upload/fluxa/profile-settings.png)
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 🚀 Create Project
+![Create Project](https://res.cloudinary.com/demo/image/upload/fluxa/create-project.png)
 
-## Security Vulnerabilities
+</div>
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+---
 
-## License
+## ✨ Features
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### 👤 User Profiles
+Every developer on Fluxa gets a rich, public profile that tells their story at a glance.
+
+- **Profile photo** — Upload and manage your developer avatar
+- **Biography** — Tell the community who you are and what you build
+- **Location** — Let others know where you are based
+- **Website / Portfolio link** — Connect your profile to your personal site
+- **Projects count** — Automatically reflects the number of published projects
+- **Followers & Following** — Build your network inside the platform
+- **Activity days** — Track and display your consistency streak
+- **CV Download** — Export your entire developer profile as a polished PDF résumé with one click, powered by `html2pdf.js`
+
+---
+
+### 🗂️ Projects
+The core of Fluxa is sharing what you build.
+
+- **Publish projects** — Create a dedicated page for each of your projects
+- **Title & Description** — Present your project clearly with rich text support
+- **Tech stack tags** — Tag every technology used so others can find your work by stack
+- **Media gallery** — Upload screenshots, demos, or banners via Cloudinary
+
+---
+
+### 📰 Activity Feed
+Stay up to date with what the community is building.
+
+- A real-time feed of projects and updates from developers you follow
+- See the latest publishes, new profiles, and recent activity in one place
+- A central hub for discovering what is happening across the platform
+
+---
+
+### 🔍 Explore Page
+Discover the best of what Fluxa has to offer.
+
+- **Trending projects** — Projects gaining the most traction right now
+- **Recent projects** — The newest additions to the platform
+- **Developers to follow** — Suggested developer profiles to connect with
+- Filter and browse by technology to find projects in your stack
+
+---
+
+### 🏷️ Technology Stack Tags
+- Attach technology tags to your projects (e.g., `Laravel`, `React`, `PostgreSQL`, `Docker`)
+- Tags are searchable and browsable across the platform
+- Help others find projects built with specific tools
+
+---
+
+### 📄 Profile CV Export
+- Generates a clean, formatted PDF résumé from your Fluxa developer profile
+- Includes your biography, location, tech stack, projects, and social stats
+- Powered by [`html2pdf.js`](https://github.com/eKoopmans/html2pdf.js) — no server-side rendering required
+- One-click download directly from your public profile page
+
+---
+
+### ⚙️ Settings
+- **Profile editing** — Update your photo, bio, location, and website at any time
+- **Account preferences** — Manage your username, email, and notification options
+- **Security options** — Change your password and manage active sessions
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer | Technology |
+|---|---|
+| **Backend** | [Laravel](https://laravel.com) |
+| **Frontend** | [Blade Templates](https://laravel.com/docs/blade) + [Tailwind CSS](https://tailwindcss.com) |
+| **Authentication** | [Laravel Breeze](https://laravel.com/docs/starter-kits#breeze) |
+| **Media Storage** | [Cloudinary](https://cloudinary.com) |
+| **Infrastructure** | [Docker](https://www.docker.com) + [Laravel Sail](https://laravel.com/docs/sail) |
+| **PDF Export** | [html2pdf.js](https://github.com/eKoopmans/html2pdf.js) |
+| **Database** | MySQL (via Sail) |
+
+---
+
+## ⚡ Installation
+
+### Requirements
+
+Before getting started, make sure you have the following installed on your machine:
+
+- [Docker Desktop](https://www.docker.com/products/docker-desktop/) (v24 or higher recommended)
+- [Git](https://git-scm.com/)
+- A terminal with `bash` support
+
+> **Note:** Laravel Sail handles PHP, Composer, Node, and all other dependencies inside Docker containers. You do **not** need to install PHP or Composer locally.
+
+---
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/your-username/fluxa.git
+cd fluxa
+```
+
+---
+
+### 2. Copy the Environment File
+
+```bash
+cp .env.example .env
+```
+
+---
+
+### 3. Configure Environment Variables
+
+Open `.env` and fill in the required values:
+
+```env
+# Application
+APP_NAME=Fluxa
+APP_URL=http://localhost
+
+# Database (Sail defaults — change only if needed)
+DB_CONNECTION=mysql
+DB_HOST=mysql
+DB_PORT=3306
+DB_DATABASE=fluxa
+DB_USERNAME=sail
+DB_PASSWORD=password
+
+# Cloudinary — get your credentials at https://cloudinary.com
+CLOUDINARY_URL=cloudinary://API_KEY:API_SECRET@CLOUD_NAME
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+CLOUDINARY_API_KEY=your_api_key
+CLOUDINARY_API_SECRET=your_api_secret
+```
+
+> ⚠️ Never commit your real `.env` file to version control. It is already listed in `.gitignore`.
+
+---
+
+### 4. Install PHP Dependencies via Docker
+
+If you do not have Composer installed locally, use this one-line Docker command to install dependencies:
+
+```bash
+docker run --rm \
+    -u "$(id -u):$(id -g)" \
+    -v "$(pwd):/var/www/html" \
+    -w /var/www/html \
+    laravelsail/php83-composer:latest \
+    composer install --ignore-platform-reqs
+```
+
+---
+
+### 5. Start Laravel Sail
+
+```bash
+./vendor/bin/sail up -d
+```
+
+This will spin up the following containers:
+
+| Container | Description |
+|---|---|
+| `fluxa_laravel` | Laravel application (PHP 8.3) |
+| `fluxa_mysql` | MySQL database |
+| `fluxa_redis` | Redis for queues and cache |
+| `fluxa_mailpit` | Local mail catching interface |
+
+---
+
+### 6. Generate Application Key
+
+```bash
+./vendor/bin/sail artisan key:generate
+```
+
+---
+
+### 7. Run Database Migrations
+
+```bash
+./vendor/bin/sail artisan migrate
+```
+
+---
+
+### 8. (Optional) Seed the Database
+
+Populate the database with sample data for local development:
+
+```bash
+./vendor/bin/sail artisan db:seed
+```
+
+---
+
+### 9. Install Frontend Dependencies and Compile Assets
+
+```bash
+./vendor/bin/sail npm install
+./vendor/bin/sail npm run dev
+```
+
+For a production build:
+
+```bash
+./vendor/bin/sail npm run build
+```
+
+---
+
+### ✅ Access the Application
+
+Once all steps are complete, open your browser and visit:
+
+```
+http://localhost
+```
+
+---
+
+## 🗂️ Project Structure
+
+```
+fluxa/
+├── app/
+│   ├── Http/
+│   │   ├── Controllers/        # Application controllers
+│   │   └── Requests/           # Form request validation
+│   ├── Models/                 # Eloquent models (User, Project, Follow...)
+│   └── Services/               # Business logic services
+├── database/
+│   ├── migrations/             # Database schema
+│   └── seeders/                # Sample data seeders
+├── resources/
+│   ├── views/                  # Blade templates
+│   │   ├── layouts/            # Base layouts
+│   │   ├── profile/            # Profile-related views
+│   │   ├── projects/           # Project views
+│   │   ├── feed/               # Feed views
+│   │   └── explore/            # Explore page views
+│   ├── css/                    # Tailwind entry point
+│   └── js/                     # JavaScript (including html2pdf.js usage)
+├── routes/
+│   ├── web.php                 # Web routes
+│   └── auth.php                # Authentication routes
+├── docker-compose.yml          # Sail / Docker configuration
+└── .env.example                # Environment variable template
+```
+
+---
+
+## 🗺️ Roadmap
+
+Fluxa is actively developed. Here is what is coming next:
+
+- [ ] 💬 **Comments on projects** — Allow developers to leave comments and feedback on any project
+- [ ] ❤️ **Project likes** — React to projects with likes and track the most appreciated work
+- [ ] 🔔 **Notifications system** — Real-time notifications for follows, comments, and activity
+- [ ] ✅ **Developer verification** — Badge system to verify active and trusted contributors
+- [ ] 🔌 **Public API** — RESTful API for third-party integrations and developer tooling
+- [ ] 🌐 **Internationalization (i18n)** — Full multi-language support across the platform
+- [ ] 🔎 **Advanced search** — Full-text search across projects, profiles, and tags
+- [ ] 📊 **Analytics dashboard** — Insights and stats for your own profile and projects
+
+Have an idea? [Open a feature request](https://github.com/your-username/fluxa/issues/new?template=feature_request.md) — contributions and suggestions are always welcome.
+
+---
+
+## 🤝 Contributing
+
+Contributions are what make open-source projects thrive. Every contribution, no matter how small, is appreciated and valued.
+
+### How to Contribute
+
+1. **Fork** the repository
+2. **Create** your feature branch:
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
+3. **Commit** your changes with a clear message:
+   ```bash
+   git commit -m "feat: add project like functionality"
+   ```
+4. **Push** to your branch:
+   ```bash
+   git push origin feature/your-feature-name
+   ```
+5. **Open a Pull Request** — describe your changes clearly and link any related issues
+
+### Guidelines
+
+- Follow the existing code style and conventions
+- Write clear, descriptive commit messages (we recommend [Conventional Commits](https://www.conventionalcommits.org/))
+- Add comments to complex logic
+- Test your changes locally before opening a PR
+- Be respectful and constructive in all communications
+
+Please read our [CONTRIBUTING.md](CONTRIBUTING.md) for the full contribution guidelines.
+
+---
+
+## 🐛 Reporting Issues
+
+Found a bug? Have a question? [Open an issue](https://github.com/your-username/fluxa/issues/new) and we will get back to you as soon as possible.
+
+Please include:
+- A clear description of the problem
+- Steps to reproduce it
+- Expected vs actual behavior
+- Your environment (OS, Docker version, browser)
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for full details.
+
+You are free to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of this software, subject to the conditions of the MIT License.
+
+---
+
+<div align="center">
+
+Made with ❤️ for the developer community.
+
+**[⬆ Back to top](#-fluxa)**
+
+</div>
