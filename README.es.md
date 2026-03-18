@@ -6,8 +6,8 @@
 
 Comparte tus proyectos. Documenta tu camino. Crece en público.
 
-[![Laravel](https://img.shields.io/badge/Laravel-12.x-FF2D20?style=flat-square&logo=laravel&logoColor=white)](https://laravel.com)
-[![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-3.x-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
+[![Laravel](https://img.shields.io/badge/Laravel-11.48.0-FF2D20?style=flat-square&logo=laravel&logoColor=white)](https://laravel.com)
+[![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-3.1.0-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
 [![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?style=flat-square&logo=docker&logoColor=white)](https://www.docker.com)
 [![Cloudinary](https://img.shields.io/badge/Cloudinary-Almacenamiento_de_Medios-3448C5?style=flat-square&logo=cloudinary&logoColor=white)](https://cloudinary.com)
 [![Licencia: MIT](https://img.shields.io/badge/Licencia-MIT-yellow.svg?style=flat-square)](LICENSE)
@@ -144,7 +144,7 @@ Antes de comenzar, asegúrate de tener instalado lo siguiente en tu máquina:
 ### 1. Clonar el Repositorio
 
 ```bash
-git clone https://github.com/tu-usuario/fluxa.git
+git clone https://github.com/Angel121954/fluxaRedSocial.git
 cd fluxa
 ```
 
@@ -282,15 +282,20 @@ fluxa/
 ├── database/
 │   ├── migrations/             # Esquema de base de datos
 │   └── seeders/                # Seeders con datos de ejemplo
+├── docs/                       # Capturas del proyecto para el readme
+├── public/
+│     ├── css/                  # Estilos personalizados de las vistas
+│     └── js/                   # JavaScript (incluye uso de html2pdf.js)
 ├── resources/
 │   ├── views/                  # Plantillas Blade
+│   │   ├── auth/               # Vistas de autentificación
+│   │   ├── components/         # Componentes reutilizables para las demás vistas
 │   │   ├── layouts/            # Layouts base
 │   │   ├── profile/            # Vistas relacionadas al perfil
 │   │   ├── projects/           # Vistas de proyectos
 │   │   ├── feed/               # Vistas del feed
 │   │   └── explore/            # Vistas de la página Explorar
-│   ├── css/                    # Punto de entrada de Tailwind
-│   └── js/                     # JavaScript (incluye uso de html2pdf.js)
+│   └── css/                    # Punto de entrada de Tailwind
 ├── routes/
 │   ├── web.php                 # Rutas web
 │   └── auth.php                # Rutas de autenticación

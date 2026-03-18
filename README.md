@@ -6,8 +6,8 @@
 
 Share your projects. Document your journey. Grow in public.
 
-[![Laravel](https://img.shields.io/badge/Laravel-12.x-FF2D20?style=flat-square&logo=laravel&logoColor=white)](https://laravel.com)
-[![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-3.x-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
+[![Laravel](https://img.shields.io/badge/Laravel-11.48.0-FF2D20?style=flat-square&logo=laravel&logoColor=white)](https://laravel.com)
+[![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-3.1.0-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
 [![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?style=flat-square&logo=docker&logoColor=white)](https://www.docker.com)
 [![Cloudinary](https://img.shields.io/badge/Cloudinary-Media_Storage-3448C5?style=flat-square&logo=cloudinary&logoColor=white)](https://cloudinary.com)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](LICENSE)
@@ -23,7 +23,7 @@ Share your projects. Document your journey. Grow in public.
 
 **Fluxa** is an open-source social platform designed specifically for developers. It gives programmers a dedicated space to share their projects, document their progress, showcase their tech stack, and connect with other developers — all in public.
 
-Inspired by the best parts of **GitHub**, **Twitter/X**, and **Dev.to**, Fluxa focuses on what developers care about most: *projects*, *growth*, and *community*. Whether you are building a side project, learning a new technology, or looking for collaborators, Fluxa is the place to share it.
+Inspired by the best of **GitHub**, **Twitter/X**, and **Dev.to**, Fluxa focuses on what developers care about most: *projects*, *growth*, and *community*. Whether you're building a side project, learning a new technology, or looking for collaborators, Fluxa is the place to share it.
 
 > Build in public. Grow with the community.
 
@@ -34,13 +34,13 @@ Inspired by the best parts of **GitHub**, **Twitter/X**, and **Dev.to**, Fluxa f
 <div align="center">
 
 ### 👤 Profile Page
-![Profile Page](https://res.cloudinary.com/demo/image/upload/fluxa/profile-page.png)
+![Profile Page](docs/profile.png)
 
 ### ⚙️ Profile Settings
-![Profile Settings](https://res.cloudinary.com/demo/image/upload/fluxa/profile-settings.png)
+![Profile Settings](docs/settings.png)
 
 ### 🚀 Create Project
-![Create Project](https://res.cloudinary.com/demo/image/upload/fluxa/create-project.png)
+![Create Project](docs/new-project.png)
 
 </div>
 
@@ -49,16 +49,16 @@ Inspired by the best parts of **GitHub**, **Twitter/X**, and **Dev.to**, Fluxa f
 ## ✨ Features
 
 ### 👤 User Profiles
-Every developer on Fluxa gets a rich, public profile that tells their story at a glance.
+Every developer on Fluxa has a rich public profile that tells their story at a glance.
 
-- **Profile photo** — Upload and manage your developer avatar
-- **Biography** — Tell the community who you are and what you build
-- **Location** — Let others know where you are based
-- **Website / Portfolio link** — Connect your profile to your personal site
-- **Projects count** — Automatically reflects the number of published projects
-- **Followers & Following** — Build your network inside the platform
-- **Activity days** — Track and display your consistency streak
-- **CV Download** — Export your entire developer profile as a polished PDF résumé with one click, powered by `html2pdf.js`
+- **Profile picture** — Upload and manage your developer avatar
+- **Bio** — Tell the community who you are and what you build
+- **Location** — Let others know where you're based
+- **Website / Portfolio** — Link your profile to your personal site
+- **Project counter** — Automatically updated with your published projects
+- **Followers & Following** — Build your network within the platform
+- **Activity streak** — Track and display your consistency streak
+- **Resume download** — Export your full developer profile as a polished PDF with a single click, powered by `html2pdf.js`
 
 ---
 
@@ -75,32 +75,32 @@ The core of Fluxa is sharing what you build.
 ### 📰 Activity Feed
 Stay up to date with what the community is building.
 
-- A real-time feed of projects and updates from developers you follow
-- See the latest publishes, new profiles, and recent activity in one place
-- A central hub for discovering what is happening across the platform
+- A real-time feed of projects and updates from the developers you follow
+- See the latest published projects, new profiles, and recent activity all in one place
+- A discovery hub to explore what's happening across the entire platform
 
 ---
 
 ### 🔍 Explore Page
 Discover the best of what Fluxa has to offer.
 
-- **Trending projects** — Projects gaining the most traction right now
-- **Recent projects** — The newest additions to the platform
+- **Trending projects** — The projects with the most traction right now
+- **Recent projects** — The latest additions to the platform
 - **Developers to follow** — Suggested developer profiles to connect with
 - Filter and browse by technology to find projects in your stack
 
 ---
 
-### 🏷️ Technology Stack Tags
-- Attach technology tags to your projects (e.g., `Laravel`, `React`, `PostgreSQL`, `Docker`)
-- Tags are searchable and browsable across the platform
-- Help others find projects built with specific tools
+### 🏷️ Tech Stack Tags
+- Add technology tags to your projects (e.g., `Laravel`, `React`, `PostgreSQL`, `Docker`)
+- Tags are searchable and browsable across the entire platform
+- Helps others discover projects built with specific tools
 
 ---
 
-### 📄 Profile CV Export
-- Generates a clean, formatted PDF résumé from your Fluxa developer profile
-- Includes your biography, location, tech stack, projects, and social stats
+### 📄 Profile Resume Export
+- Generate a clean, resume-formatted PDF from your Fluxa developer profile
+- Includes your bio, location, tech stack, projects, and social stats
 - Powered by [`html2pdf.js`](https://github.com/eKoopmans/html2pdf.js) — no server-side rendering required
 - One-click download directly from your public profile page
 
@@ -137,14 +137,14 @@ Before getting started, make sure you have the following installed on your machi
 - [Git](https://git-scm.com/)
 - A terminal with `bash` support
 
-> **Note:** Laravel Sail handles PHP, Composer, Node, and all other dependencies inside Docker containers. You do **not** need to install PHP or Composer locally.
+> **Note:** Laravel Sail manages PHP, Composer, Node, and all other dependencies inside Docker containers. You do **not** need to install PHP or Composer locally.
 
 ---
 
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/fluxa.git
+git clone https://github.com/Angel121954/fluxaRedSocial.git
 cd fluxa
 ```
 
@@ -160,14 +160,14 @@ cp .env.example .env
 
 ### 3. Configure Environment Variables
 
-Open `.env` and fill in the required values:
+Open the `.env` file and fill in the required values:
 
 ```env
 # Application
 APP_NAME=Fluxa
 APP_URL=http://localhost
 
-# Database (Sail defaults — change only if needed)
+# Database (Sail defaults — only change if needed)
 DB_CONNECTION=mysql
 DB_HOST=mysql
 DB_PORT=3306
@@ -182,13 +182,13 @@ CLOUDINARY_API_KEY=your_api_key
 CLOUDINARY_API_SECRET=your_api_secret
 ```
 
-> ⚠️ Never commit your real `.env` file to version control. It is already listed in `.gitignore`.
+> ⚠️ Never commit your real `.env` file to version control. It is already included in `.gitignore`.
 
 ---
 
 ### 4. Install PHP Dependencies via Docker
 
-If you do not have Composer installed locally, use this one-line Docker command to install dependencies:
+If you don't have Composer installed locally, use this Docker command to install the dependencies:
 
 ```bash
 docker run --rm \
@@ -213,12 +213,12 @@ This will spin up the following containers:
 |---|---|
 | `fluxa_laravel` | Laravel application (PHP 8.3) |
 | `fluxa_mysql` | MySQL database |
-| `fluxa_redis` | Redis for queues and cache |
-| `fluxa_mailpit` | Local mail catching interface |
+| `fluxa_redis` | Redis for queues and caching |
+| `fluxa_mailpit` | Local mail capture for development |
 
 ---
 
-### 6. Generate Application Key
+### 6. Generate the Application Key
 
 ```bash
 ./vendor/bin/sail artisan key:generate
@@ -276,21 +276,26 @@ fluxa/
 ├── app/
 │   ├── Http/
 │   │   ├── Controllers/        # Application controllers
-│   │   └── Requests/           # Form request validation
+│   │   └── Requests/           # Form validation (Form Requests)
 │   ├── Models/                 # Eloquent models (User, Project, Follow...)
 │   └── Services/               # Business logic services
 ├── database/
 │   ├── migrations/             # Database schema
-│   └── seeders/                # Sample data seeders
+│   └── seeders/                # Seeders with sample data
+├── docs/                       # Project screenshots for the readme
+├── public/
+│     ├── css/                  # Custom view styles
+│     └── js/                   # JavaScript (includes html2pdf.js usage)
 ├── resources/
 │   ├── views/                  # Blade templates
+│   │   ├── auth/               # Authentication views
+│   │   ├── components/         # Reusable components for other views
 │   │   ├── layouts/            # Base layouts
 │   │   ├── profile/            # Profile-related views
 │   │   ├── projects/           # Project views
 │   │   ├── feed/               # Feed views
 │   │   └── explore/            # Explore page views
-│   ├── css/                    # Tailwind entry point
-│   └── js/                     # JavaScript (including html2pdf.js usage)
+│   └── css/                    # Tailwind entry point
 ├── routes/
 │   ├── web.php                 # Web routes
 │   └── auth.php                # Authentication routes
@@ -302,18 +307,18 @@ fluxa/
 
 ## 🗺️ Roadmap
 
-Fluxa is actively developed. Here is what is coming next:
+Fluxa is in active development. Here's what's coming next:
 
-- [ ] 💬 **Comments on projects** — Allow developers to leave comments and feedback on any project
-- [ ] ❤️ **Project likes** — React to projects with likes and track the most appreciated work
-- [ ] 🔔 **Notifications system** — Real-time notifications for follows, comments, and activity
+- [ ] 💬 **Project comments** — Allow developers to leave comments and feedback on any project
+- [ ] ❤️ **Project likes** — React to projects with likes and highlight the most appreciated ones
+- [ ] 🔔 **Notification system** — Real-time notifications for follows, comments, and activity
 - [ ] ✅ **Developer verification** — Badge system to verify active and trusted contributors
 - [ ] 🔌 **Public API** — RESTful API for third-party integrations and developer tooling
-- [ ] 🌐 **Internationalization (i18n)** — Full multi-language support across the platform
+- [ ] 🌐 **Internationalization (i18n)** — Full multi-language support across the entire platform
 - [ ] 🔎 **Advanced search** — Full-text search across projects, profiles, and tags
-- [ ] 📊 **Analytics dashboard** — Insights and stats for your own profile and projects
+- [ ] 📊 **Analytics dashboard** — Stats and insights for your own profile and projects
 
-Have an idea? [Open a feature request](https://github.com/your-username/fluxa/issues/new?template=feature_request.md) — contributions and suggestions are always welcome.
+Have an idea? [Open a feature request](https://github.com/tu-usuario/fluxa/issues/new?template=feature_request.md) — contributions and suggestions are always welcome.
 
 ---
 
@@ -330,18 +335,18 @@ Contributions are what make open-source projects thrive. Every contribution, no 
    ```
 3. **Commit** your changes with a clear message:
    ```bash
-   git commit -m "feat: add project like functionality"
+   git commit -m "feat: add project likes feature"
    ```
-4. **Push** to your branch:
+4. **Push** your branch:
    ```bash
    git push origin feature/your-feature-name
    ```
-5. **Open a Pull Request** — describe your changes clearly and link any related issues
+5. **Open a Pull Request** — clearly describe your changes and link any related issues
 
 ### Guidelines
 
 - Follow the existing code style and conventions
-- Write clear, descriptive commit messages (we recommend [Conventional Commits](https://www.conventionalcommits.org/))
+- Write clear and descriptive commit messages (we recommend [Conventional Commits](https://www.conventionalcommits.org/en/))
 - Add comments to complex logic
 - Test your changes locally before opening a PR
 - Be respectful and constructive in all communications
@@ -352,12 +357,12 @@ Please read our [CONTRIBUTING.md](CONTRIBUTING.md) for the full contribution gui
 
 ## 🐛 Reporting Issues
 
-Found a bug? Have a question? [Open an issue](https://github.com/your-username/fluxa/issues/new) and we will get back to you as soon as possible.
+Found a bug? Have a question? [Open an issue](https://github.com/tu-usuario/fluxa/issues/new) and we'll get back to you as soon as possible.
 
 Please include:
 - A clear description of the problem
 - Steps to reproduce it
-- Expected vs actual behavior
+- Expected behavior vs actual behavior
 - Your environment (OS, Docker version, browser)
 
 ---
