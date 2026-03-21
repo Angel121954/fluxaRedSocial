@@ -113,15 +113,14 @@
                                         Compartir perfil
                                     </button>
 
-                                    <button
+                                    <a href="{{ route('cv.descargar') }}"
                                         title="¡Recuerda llenar toda la información correspondiente del perfil para mejorar el CV! :)"
-                                        class="drop-item"
-                                        onclick="downloadCV()">
+                                        class="drop-item">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m.75 12 3 3m0 0 3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
                                         </svg>
                                         Descargar CV
-                                    </button>
+                                    </a>
 
                                     <!-- Toast de confirmación -->
                                     <div id="share-toast" class="share-toast hidden">
@@ -327,7 +326,15 @@
 </div>
 <!-- end content -->
 @include('components.modalImage')
-@include('components.cv-template')
+@include('components.cv-template', [
+'profile' => $profile,
+'technologies' => $technologies,
+'projects' => $projects,
+'workExperiences' => $workExperiences,
+'avatarBase64' => null,
+'logoBase64' => null,
+'qrBase64' => null,
+])
 
 <input type="file" id="fileIn" accept="image/*" style="display: none" />
 @endsection
@@ -338,27 +345,10 @@
 @endpush
 
 @push('scripts')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script src="{{ asset('js/profile/profileOptions.js') }}"></script>
 <script src="{{ asset('js/profile/dropdown.js') }}"></script>
 <script src="{{ asset('js/profile/avatar.js') }}"></script>
 <script src="{{ asset('js/profile/tabs.js') }}"></script>
 <script src="{{ asset('js/profile/filters.js') }}"></script>
 <script src="{{ asset('js/profile/shareProfile.js') }}"></script>
-<script>
-    const CV_USERNAME = "{{ Auth::user()->username }}";
-    const CV_NAME = "{{ Auth::user()->name }}";
-</script>
-<style>
-    @keyframes spin {
-        from {
-            transform: rotate(0deg);
-        }
-
-        to {
-            transform: rotate(360deg);
-        }
-    }
-</style>
-<script src="{{ asset('js/profile/downloadCV.js') }}"></script>
 @endpush

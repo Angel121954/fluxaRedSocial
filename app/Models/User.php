@@ -70,4 +70,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(Project::class);
     }
+    public function workExperiences()
+    {
+        return $this->hasMany(WorkExperience::class)->orderBy('started_at', 'desc');
+    }
 }

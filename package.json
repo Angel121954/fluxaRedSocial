@@ -17,6 +17,7 @@
     },
     "dependencies": {
         "@inertiajs/vue3": "^2.3.16",
+        "puppeteer": "^24.40.0",
         "vue": "^3.5.29",
         "ziggy-js": "^2.6.1"
     }

@@ -17,6 +17,9 @@
         <a href="{{ route('privacy.index') }}">
             <div class="sidebar-item {{ request()->routeIs('privacy*') ? 'active' : '' }}">Privacidad</div>
         </a>
+        <a href="{{ route('work-experiences.index') }}">
+            <div class="sidebar-item {{ request()->routeIs('work-experiences*') ? 'active' : '' }}">Experiencia Laboral</div>
+        </a>
     </div>
 
     <!-- Avatar section -->

@@ -16,6 +16,7 @@ use App\Http\Controllers\Profile\AccountController;
 use App\Http\Controllers\Profile\SecurityController;
 use App\Http\Controllers\Profile\ConfigurationController;
 use App\Http\Controllers\Profile\PrivacyController;
+use App\Http\Controllers\Profile\WorkExperienceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -69,6 +70,14 @@ Route::get('/auth/{provider}', [SocialAuthController::class, 'redirect'])
 
 Route::get('/auth/{provider}/callback', [SocialAuthController::class, 'callback'])
     ->name('social.callback');
+
+Route::get('/cv/preview-interno', [ProfileController::class, 'previewInterno'])
+    ->name('cv.preview')
+    ->middleware('auth');
+
+Route::get('/cv/descargar', [ProfileController::class, 'descargarCV'])
+    ->name('cv.descargar')
+    ->middleware('auth');
 
 /*
 |--------------------------------------------------------------------------
@@ -138,6 +147,8 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
 
         Route::patch('/notification-preference', [NotificationPreferenceController::class, 'update'])
             ->name('notification-preference.update');
+
+        Route::resource('work-experiences', WorkExperienceController::class);
 
         Route::resource('projects', ProjectController::class);
 
