@@ -61,8 +61,9 @@
                         <p class="bio">
                             {{ Auth()->user()->profile->bio ?? '' }}
                         </p>
+                        @if(Auth()->user()->profile->website_url)
                         <a
-                            href="{{ Auth()->user()->profile->website_url ?? '' }}"
+                            href="{{ Auth()->user()->profile->website_url ?? '#' }}"
                             class="profile-url"
                             target="_blank"
                             rel="noopener">
@@ -75,6 +76,7 @@
                             </svg>
                             {{ Auth()->user()->profile->website_url ?? '' }}
                         </a>
+                        @endif
                     </div>
 
                     <!-- Actions -->
@@ -205,10 +207,16 @@
     <div class="tabs-inner">
         <div class="tab active" data-tab="progress">Progreso</div>
         <div class="tab" data-tab="projects">
-            Proyectos <span class="tab-count">3</span>
+            Proyectos
+            @if($projects->count() > 0)
+            <span class="tab-count">{{ $projects->count() ?? 0 }}</span>
+            @endif
         </div>
         <div class="tab" data-tab="stack">
-            Stack <span class="tab-count">8</span>
+            Stack
+            @if($technologies->count() > 0)
+            <span class="tab-count">{{ $technologies->count() }}</span>
+            @endif
         </div>
     </div>
 </div>

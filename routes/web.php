@@ -17,6 +17,7 @@ use App\Http\Controllers\Profile\SecurityController;
 use App\Http\Controllers\Profile\ConfigurationController;
 use App\Http\Controllers\Profile\PrivacyController;
 use App\Http\Controllers\Profile\WorkExperienceController;
+use App\Http\Controllers\Profile\EducationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -151,6 +152,8 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
         Route::resource('work-experiences', WorkExperienceController::class);
 
         Route::resource('projects', ProjectController::class);
+
+        Route::resource('educations', EducationController::class);
 
         Route::get(
             '/technologies',

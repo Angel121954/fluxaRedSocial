@@ -28,13 +28,14 @@ class ProfileController extends Controller
 
         $technologies    = $user->technologies()->orderBy('name')->get();
         $workExperiences = $user->workExperiences()->orderBy('started_at', 'desc')->get();
+        $educations = $user->educations()->orderBy('graduated_year', 'desc')->get();
 
         // Precalentar caché del CV en background al cargar el perfil
         dispatch(function () use ($user) {
             $this->prepararDatosCV($user);
         })->afterResponse();
 
-        return view('profile.profile', compact('profile', 'projects', 'technologies', 'workExperiences'));
+        return view('profile.profile', compact('profile', 'projects', 'technologies', 'workExperiences', 'educations'));
     }
 
     public function previewInterno()
@@ -83,7 +84,6 @@ class ProfileController extends Controller
     {
         $cacheKey = "cv_imagenes_{$usuario->id}";
 
-        // Cachear solo las imágenes (lo más lento) por 30 minutos
         $imagenesCacheadas = Cache::remember($cacheKey, now()->addMinutes(30), function () use ($usuario) {
             return [
                 'avatarBase64' => $this->convertirUrlABase64($usuario->profile->avatar ?? null),
@@ -100,12 +100,12 @@ class ProfileController extends Controller
             'technologies'    => $imagenesCacheadas['technologies'],
             'projects'        => $usuario->projects()->with('technologies')->latest()->get(),
             'workExperiences' => $usuario->workExperiences()->orderBy('started_at', 'desc')->get(),
+            'educations'      => $usuario->educations()->orderBy('graduated_year', 'desc')->get(), // 👈 FALTABA
             'avatarBase64'    => $imagenesCacheadas['avatarBase64'],
             'logoBase64'      => $imagenesCacheadas['logoBase64'],
             'qrBase64'        => $imagenesCacheadas['qrBase64'],
         ];
     }
-
     private function convertirUrlABase64(?string $url): ?string
     {
         if (empty($url)) return null;

@@ -356,6 +356,68 @@ $srcQr = $qrBase64
                         </div>
                         @endif
 
+                        {{-- ══ EDUCACIÓN ══ --}}
+                        @if(isset($educations) && $educations->isNotEmpty())
+                        <div>
+                            <h2 style="margin:0 0 14px;font-size:14px;font-weight:800;color:{{ $paleta['texto'] }};border-bottom:2px solid {{ $paleta['borde'] }};padding-bottom:7px;">Educación</h2>
+                            <div style="display:flex;flex-direction:column;gap:14px;">
+                                @foreach($educations->take(4) as $educacion)
+                                <div style="display:flex;gap:12px;align-items:flex-start;{{ !$loop->last ? 'padding-bottom:14px;border-bottom:1px solid '.$paleta['borde'].';' : '' }}">
+
+                                    {{-- Icono educación --}}
+                                    <div style="width:38px;height:38px;flex-shrink:0;border-radius:9px;background:{{ $paleta['secundario'] }};border:1px solid rgba(20,184,166,.35);display:flex;align-items:center;justify-content:center;">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="{{ $paleta['primario'] }}" stroke-width="1.8">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 14l9-5-9-5-9 5 9 5z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 14l6.16-3.422A12.083 12.083 0 0121 13.5c0 3.314-4.03 6-9 6s-9-2.686-9-6c0-.538.09-1.06.254-1.558L12 14z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 14v7" />
+                                        </svg>
+                                    </div>
+
+                                    <div style="flex:1;min-width:0;">
+
+                                        {{-- Título + badge "En curso" --}}
+                                        <div style="display:flex;align-items:center;gap:8px;margin-bottom:2px;flex-wrap:wrap;">
+                                            <h3 style="margin:0;font-size:13px;font-weight:700;color:{{ $paleta['texto'] }};">{{ $educacion->degree }}</h3>
+                                            @if($educacion->current)
+                                            <span style="font-size:9px;font-weight:600;color:{{ $paleta['primarioOscuro'] }};background:{{ $paleta['secundario'] }};border:1px solid rgba(20,184,166,.35);padding:2px 8px;border-radius:20px;white-space:nowrap;">En curso</span>
+                                            @endif
+                                        </div>
+
+                                        {{-- Institución + campo de estudio --}}
+                                        <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;flex-wrap:wrap;">
+                                            <span style="font-size:12px;font-weight:600;color:{{ $paleta['primario'] }};">{{ $educacion->institution }}</span>
+                                            @if(!empty($educacion->field))
+                                            <span style="font-size:11px;color:{{ $paleta['textoSuave'] }};">· {{ $educacion->field }}</span>
+                                            @endif
+                                        </div>
+
+                                        {{-- Año de graduación o "En curso" --}}
+                                        <div style="display:flex;align-items:center;gap:5px;">
+                                            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="{{ $paleta['textoSuave'] }}" stroke-width="2" style="flex-shrink:0;">
+                                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                                                <line x1="16" y1="2" x2="16" y2="6" />
+                                                <line x1="8" y1="2" x2="8" y2="6" />
+                                                <line x1="3" y1="10" x2="21" y2="10" />
+                                            </svg>
+                                            <span style="font-size:10px;color:{{ $paleta['textoSuave'] }};">
+                                                @if($educacion->current)
+                                                En curso
+                                                @elseif(!empty($educacion->graduated_year))
+                                                Graduado en {{ $educacion->graduated_year }}
+                                                @else
+                                                Año no especificado
+                                                @endif
+                                            </span>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                @endforeach
+                            </div>
+                        </div>
+                        @endif
+                        {{-- /EDUCACIÓN --}}
+
                         {{-- PROYECTOS --}}
                         @if($projects->isNotEmpty())
                         <div>

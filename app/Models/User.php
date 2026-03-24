@@ -74,4 +74,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(WorkExperience::class)->orderBy('started_at', 'desc');
     }
+    public function educations()
+    {
+        return $this->hasMany(Education::class)->orderBy('graduated_year', 'desc');
+    }
 }
