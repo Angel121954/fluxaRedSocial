@@ -16,8 +16,6 @@
     const modalImg = document.getElementById('modalImg');
     const modalX = document.getElementById('modalX');
 
-    const DEFAULT_AVATAR = '/img/default-avatar.png';
-
     const csrfToken =
         document.querySelector('meta[name="csrf-token"]')
             ?.getAttribute('content') ?? '';
@@ -83,14 +81,22 @@
             if (!result.isConfirmed) return;
 
             try {
+                const username = btnDelete.dataset.username;
+                const DEFAULT_AVATAR = `https://api.dicebear.com/7.x/initials/svg?seed=${username}
+                                        &backgroundColor=12b3b6`;
                 const response = await fetch('/profile/avatar', {
                     method: 'DELETE',
-                    headers: { 'X-CSRF-TOKEN': csrfToken, Accept: 'application/json' },
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken,
+                        'Accept': 'application/json'
+                    },
                 });
 
                 const data = await response.json();
-                if (!response.ok || !data.success) throw new Error(data.message);
 
+                if (!response.ok || !data.success) {
+                    throw new Error(data.message || 'Error al eliminar la foto');
+                }
                 setAllAvatars(DEFAULT_AVATAR);
                 showToast('Foto eliminada correctamente', 'success');
             } catch (err) {
@@ -157,7 +163,7 @@
             document.body.appendChild(toast);
         }
         toast.textContent = message;
-        toast.style.backgroundColor = type === 'success' ? '#22c55e' : '#ef4444';
+        toast.style.backgroundColor = type === 'success' ? '#12b3b6' : '#ef4444';
         toast.style.opacity = '1';
         clearTimeout(toast._hideTimer);
         toast._hideTimer = setTimeout(() => { toast.style.opacity = '0'; }, 3000);

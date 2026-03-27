@@ -39,7 +39,7 @@
 
         <input type="file" id="fileIn" accept="image/*" hidden>
         <button class="btn-avatar-action btnCam" id="btnChange">Cambiar foto</button>
-        <button class="btn-avatar-action danger" id="btnDelete">Eliminar foto</button>
+        <button data-username="{{ Auth()->user()->username }}" class="btn-avatar-action danger" id="btnDelete">Eliminar foto</button>
     </div>
 </aside>
 @include('components.modalImage')

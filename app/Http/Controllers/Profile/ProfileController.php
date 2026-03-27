@@ -230,6 +230,13 @@ class ProfileController extends Controller
             // Invalidar caché del CV
             self::invalidarCacheCV($user->id);
 
+            // Usar el username del modelo User
+            Profile::where('user_id', $user->id)->update([
+                'avatar' => 'https://api.dicebear.com/7.x/initials/svg?seed='
+                    . strtolower($user->username)
+                    . "&backgroundColor=12b3b6",
+            ]);
+
             return response()->json(['success' => true]);
         } catch (Exception $e) {
             return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
