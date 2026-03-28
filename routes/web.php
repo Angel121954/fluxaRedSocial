@@ -21,15 +21,16 @@ use App\Http\Controllers\Profile\EducationController;
 
 /*
 |--------------------------------------------------------------------------
-| Web Routes
+| Redirección inicial
 |--------------------------------------------------------------------------
 */
 
 Route::redirect('/', '/login');
 
+
 /*
 |--------------------------------------------------------------------------
-| Visitante (sin autenticación)
+| Invitado
 |--------------------------------------------------------------------------
 */
 Route::get('/guest-login', [GuestController::class, 'loginAsGuest'])
@@ -39,31 +40,10 @@ Route::post('/guest/destroy', [GuestController::class, 'destroyGuest'])
     ->name('guest.destroy')
     ->middleware('auth');
 
-/*
-|--------------------------------------------------------------------------
-| Onboarding (auth requerido, sin verificación de email ni onboarding check)
-|--------------------------------------------------------------------------
-*/
-Route::middleware(['auth', 'prevent-back-history'])->group(function () {
-    Route::get('/onboarding/technologies', [OnboardingController::class, 'technologies'])
-        ->name('onboarding.technologies');
-    Route::post('/onboarding/technologies', [OnboardingController::class, 'saveTechnologies'])
-        ->name('onboarding.saveTechnologies');
-
-    Route::get('/onboarding/role', [OnboardingController::class, 'role'])
-        ->name('onboarding.role');
-    Route::post('/onboarding/role', [OnboardingController::class, 'saveRole'])
-        ->name('onboarding.saveRole');
-
-    Route::get('/onboarding/suggestions', [OnboardingController::class, 'suggestions'])
-        ->name('onboarding.suggestions');
-    Route::post('/onboarding/suggestions', [OnboardingController::class, 'saveSuggestions'])
-        ->name('onboarding.saveSuggestions');
-});
 
 /*
 |--------------------------------------------------------------------------
-| Social Authentication (Google, GitHub, Facebook)
+| Autenticación social
 |--------------------------------------------------------------------------
 */
 Route::get('/auth/{provider}', [SocialAuthController::class, 'redirect'])
@@ -72,6 +52,39 @@ Route::get('/auth/{provider}', [SocialAuthController::class, 'redirect'])
 Route::get('/auth/{provider}/callback', [SocialAuthController::class, 'callback'])
     ->name('social.callback');
 
+
+/*
+|--------------------------------------------------------------------------
+| Onboarding (solo auth)
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth', 'prevent-back-history'])->group(function () {
+
+    Route::get('/onboarding/technologies', [OnboardingController::class, 'technologies'])
+        ->name('onboarding.technologies');
+
+    Route::post('/onboarding/technologies', [OnboardingController::class, 'saveTechnologies'])
+        ->name('onboarding.saveTechnologies');
+
+    Route::get('/onboarding/role', [OnboardingController::class, 'role'])
+        ->name('onboarding.role');
+
+    Route::post('/onboarding/role', [OnboardingController::class, 'saveRole'])
+        ->name('onboarding.saveRole');
+
+    Route::get('/onboarding/suggestions', [OnboardingController::class, 'suggestions'])
+        ->name('onboarding.suggestions');
+
+    Route::post('/onboarding/suggestions', [OnboardingController::class, 'saveSuggestions'])
+        ->name('onboarding.saveSuggestions');
+});
+
+
+/*
+|--------------------------------------------------------------------------
+| CV
+|--------------------------------------------------------------------------
+*/
 Route::get('/cv/preview-interno', [ProfileController::class, 'previewInterno'])
     ->name('cv.preview')
     ->middleware('auth');
@@ -80,10 +93,10 @@ Route::get('/cv/descargar', [ProfileController::class, 'descargarCV'])
     ->name('cv.descargar')
     ->middleware('auth');
 
+
 /*
 |--------------------------------------------------------------------------
-| Rutas protegidas — accesibles también para visitantes (role: guest)
-| Solo requieren auth + prevent-back-history + onboarding completado
+| Rutas protegidas (auth + onboarding)
 |--------------------------------------------------------------------------
 */
 Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(function () {
@@ -97,13 +110,19 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
     Route::get('/about-fluxa', [AboutFluxaController::class, 'index'])
         ->name('about-fluxa');
 
+
     /*
     |--------------------------------------------------------------------------
-    | Rutas bloqueadas para visitantes — requieren cuenta real
+    | Solo usuarios reales (verificados y no guest)
     |--------------------------------------------------------------------------
     */
     Route::middleware(['verified', 'restrict.guest'])->group(function () {
 
+        /*
+        |--------------------------------------------------------------------------
+        | Perfil
+        |--------------------------------------------------------------------------
+        */
         Route::get('/profile', [ProfileController::class, 'index'])
             ->name('profile.index');
 
@@ -113,6 +132,12 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
         Route::delete('/profile/avatar', [ProfileController::class, 'destroyAvatar'])
             ->name('profile.avatar.destroy');
 
+
+        /*
+        |--------------------------------------------------------------------------
+        | Configuración y cuenta
+        |--------------------------------------------------------------------------
+        */
         Route::get('/configuration', [ConfigurationController::class, 'index'])
             ->name('configuration.index');
 
@@ -131,6 +156,12 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
         Route::delete('/account', [AccountController::class, 'destroy'])
             ->name('account.destroy');
 
+
+        /*
+        |--------------------------------------------------------------------------
+        | Seguridad y privacidad
+        |--------------------------------------------------------------------------
+        */
         Route::get('/security', [SecurityController::class, 'index'])
             ->name('security.index');
 
@@ -140,6 +171,12 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
         Route::patch('/privacy', [PrivacyController::class, 'update'])
             ->name('privacy.update');
 
+
+        /*
+        |--------------------------------------------------------------------------
+        | Notificaciones
+        |--------------------------------------------------------------------------
+        */
         Route::get('/notifications', [NotificationController::class, 'index'])
             ->name('notifications.index');
 
@@ -149,18 +186,30 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
         Route::patch('/notification-preference', [NotificationPreferenceController::class, 'update'])
             ->name('notification-preference.update');
 
+
+        /*
+        |--------------------------------------------------------------------------
+        | Recursos del perfil
+        |--------------------------------------------------------------------------
+        */
         Route::resource('work-experiences', WorkExperienceController::class);
-
         Route::resource('projects', ProjectController::class);
-
         Route::resource('educations', EducationController::class);
 
+
+        /*
+        |--------------------------------------------------------------------------
+        | Tecnologías (AJAX)
+        |--------------------------------------------------------------------------
+        */
         Route::get(
             '/technologies',
             fn() =>
-            \App\Models\Technology::orderBy('name')->get(['id', 'name', 'icon'])
+            \App\Models\Technology::orderBy('name')
+                ->get(['id', 'name', 'icon'])
         )->name('technologies.index');
     });
 });
+
 
 require __DIR__ . '/auth.php';
