@@ -19,6 +19,8 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     @stack('scripts')
+
+    <script src="{{ asset('js/modalScrollFix.js') }}"></script>
 </body>
 
 </html>
