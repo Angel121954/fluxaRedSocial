@@ -3,23 +3,18 @@
 namespace App\Http\Controllers\Profile;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreWorkExperienceRequest;
+use App\Http\Requests\UpdateWorkExperienceRequest;
 use App\Models\WorkExperience;
-use App\Models\Profile;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class WorkExperienceController extends Controller
 {
-    // ── Límites por plan ─────────────────────────────────────────────
     private function getLimits(): array
     {
-        // TODO: cuando implementes planes, descomenta esto y elimina el return de abajo
-        // $plan = Auth::user()->plan ?? 'free';
-        // return config("plans.{$plan}");
-
         return [
             'max_work_experiences' => 5,
-            'max_current_jobs'     => 2,
+            'max_current_jobs' => 2,
         ];
     }
 
@@ -30,14 +25,14 @@ class WorkExperienceController extends Controller
             ->get();
 
         $profile = Auth::user()->profile;
-        $limits  = $this->getLimits();
+        $limits = $this->getLimits();
 
         return view('profile.work-experiences', compact('experiences', 'profile', 'limits'));
     }
 
-    public function store(Request $request)
+    public function store(StoreWorkExperienceRequest $request)
     {
-        $limits     = $this->getLimits();
+        $limits = $this->getLimits();
         $totalCount = WorkExperience::where('user_id', Auth::id())->count();
 
         if ($totalCount >= $limits['max_work_experiences']) {
@@ -46,16 +41,7 @@ class WorkExperienceController extends Controller
                 ->withErrors(['company' => "Has alcanzado el límite de {$limits['max_work_experiences']} experiencias laborales."]);
         }
 
-        $validated = $request->validate([
-            'company'     => 'required|string|max:100',
-            'position'    => 'required|string|max:100',
-            'location'    => 'nullable|string|max:100',
-            'started_at'  => 'required|date',
-            'ended_at'    => 'nullable|date|after_or_equal:started_at|required_if:current,0',
-            'current'     => 'nullable|boolean',
-            'description' => 'nullable|string|max:1000',
-        ]);
-
+        $validated = $request->validated();
         $validated['user_id'] = Auth::id();
         $validated['current'] = $request->boolean('current');
 
@@ -69,22 +55,13 @@ class WorkExperienceController extends Controller
             ->with('success', 'Experiencia laboral agregada correctamente.');
     }
 
-    public function update(Request $request, WorkExperience $workExperience)
+    public function update(UpdateWorkExperienceRequest $request, WorkExperience $workExperience)
     {
         if ($workExperience->user_id !== Auth::id()) {
             abort(403);
         }
 
-        $validated = $request->validate([
-            'company'     => 'required|string|max:100',
-            'position'    => 'required|string|max:100',
-            'location'    => 'nullable|string|max:100',
-            'started_at'  => 'required|date',
-            'ended_at'    => 'nullable|date|after_or_equal:started_at|required_if:current,0',
-            'current'     => 'nullable|boolean',
-            'description' => 'nullable|string|max:1000',
-        ]);
-
+        $validated = $request->validated();
         $validated['current'] = $request->boolean('current');
 
         if ($validated['current']) {

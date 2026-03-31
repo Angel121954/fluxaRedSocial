@@ -3,20 +3,29 @@
 namespace App\Http\Controllers\Profile;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UpdateAvatarRequest;
+use App\Models\Profile;
+use App\Services\ProfileService;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Spatie\Browsershot\Browsershot;
-use App\Models\Profile;
-use Exception;
 
 class ProfileController extends Controller
 {
+    protected ProfileService $profileService;
+
+    public function __construct(ProfileService $profileService)
+    {
+        $this->profileService = $profileService;
+    }
+
     public function index()
     {
-        $user    = Auth::user();
+        $user = Auth::user();
         /** @var \App\Models\User $user */
         $profile = $user->profile;
 
@@ -26,7 +35,7 @@ class ProfileController extends Controller
             ->latest()
             ->get();
 
-        $technologies    = $user->technologies()->orderBy('name')->get();
+        $technologies = $user->technologies()->orderBy('name')->get();
         $workExperiences = $user->workExperiences()->orderBy('started_at', 'desc')->get();
         $educations = $user->educations()->orderBy('graduated_year', 'desc')->get();
 
@@ -35,20 +44,21 @@ class ProfileController extends Controller
             $this->prepararDatosCV($user);
         })->afterResponse();
 
-        return view('profile.profile', compact('profile', 'projects', 'technologies', 'workExperiences', 'educations'));
+        return view('profile.index', compact('profile', 'projects', 'technologies', 'workExperiences', 'educations'));
     }
 
     public function previewInterno()
     {
         $usuario = Auth::user();
-        $datos   = $this->prepararDatosCV($usuario);
+        $datos = $this->prepararDatosCV($usuario);
+
         return view('components.cv-template', $datos);
     }
 
     public function descargarCV()
     {
-        $usuario   = Auth::user();
-        $datos     = $this->prepararDatosCV($usuario);
+        $usuario = Auth::user();
+        $datos = $this->prepararDatosCV($usuario);
         $contenido = view('components.cv-template', $datos)->render();
 
         $html = '<!DOCTYPE html>
@@ -58,7 +68,7 @@ class ProfileController extends Controller
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <style>* { margin:0; padding:0; box-sizing:border-box; } body { background:#f8fafc; }</style>
 </head>
-<body>' . $contenido . '</body>
+<body>'.$contenido.'</body>
 </html>';
 
         $pdf = Browsershot::html($html)
@@ -72,8 +82,8 @@ class ProfileController extends Controller
             ->pdf();
 
         return response($pdf, 200, [
-            'Content-Type'        => 'application/pdf',
-            'Content-Disposition' => 'attachment; filename="CV_' . $usuario->username . '.pdf"',
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'attachment; filename="CV_'.$usuario->username.'.pdf"',
         ]);
     }
 
@@ -87,72 +97,79 @@ class ProfileController extends Controller
         $imagenesCacheadas = Cache::remember($cacheKey, now()->addMinutes(30), function () use ($usuario) {
             return [
                 'avatarBase64' => $this->convertirUrlABase64($usuario->profile->avatar ?? null),
-                'logoBase64'   => 'data:image/png;base64,' . base64_encode(
+                'logoBase64' => 'data:image/png;base64,'.base64_encode(
                     file_get_contents(public_path('img/logoFluxa.png'))
                 ),
-                'qrBase64'     => $this->convertirUrlABase64($this->generarUrlQr($usuario->username)),
+                'qrBase64' => $this->convertirUrlABase64($this->generarUrlQr($usuario->username)),
                 'technologies' => $this->cargarIconosTecnologias($usuario),
             ];
         });
 
         return [
-            'profile'         => $usuario->profile,
-            'technologies'    => $imagenesCacheadas['technologies'],
-            'projects'        => $usuario->projects()->with('technologies')->latest()->get(),
+            'profile' => $usuario->profile,
+            'technologies' => $imagenesCacheadas['technologies'],
+            'projects' => $usuario->projects()->with('technologies')->latest()->get(),
             'workExperiences' => $usuario->workExperiences()->orderBy('started_at', 'desc')->get(),
-            'educations'      => $usuario->educations()->orderBy('graduated_year', 'desc')->get(), // 👈 FALTABA
-            'avatarBase64'    => $imagenesCacheadas['avatarBase64'],
-            'logoBase64'      => $imagenesCacheadas['logoBase64'],
-            'qrBase64'        => $imagenesCacheadas['qrBase64'],
+            'educations' => $usuario->educations()->orderBy('graduated_year', 'desc')->get(), // 👈 FALTABA
+            'avatarBase64' => $imagenesCacheadas['avatarBase64'],
+            'logoBase64' => $imagenesCacheadas['logoBase64'],
+            'qrBase64' => $imagenesCacheadas['qrBase64'],
         ];
     }
+
     private function convertirUrlABase64(?string $url): ?string
     {
-        if (empty($url)) return null;
+        if (empty($url)) {
+            return null;
+        }
         try {
             $contenido = file_get_contents($url);
-            $mime      = (new \finfo(FILEINFO_MIME_TYPE))->buffer($contenido);
-            return "data:{$mime};base64," . base64_encode($contenido);
+            $mime = (new \finfo(FILEINFO_MIME_TYPE))->buffer($contenido);
+
+            return "data:{$mime};base64,".base64_encode($contenido);
         } catch (Exception $e) {
             Log::warning('CV: no se pudo convertir imagen a base64', [
-                'url'   => $url,
+                'url' => $url,
                 'error' => $e->getMessage(),
             ]);
+
             return null;
         }
     }
 
     private function generarUrlQr(string $username): string
     {
-        $urlPerfil = request()->getHost() . '/' . $username;
+        $urlPerfil = request()->getHost().'/'.$username;
+
         return 'https://api.qrserver.com/v1/create-qr-code/?size=100x100&data='
-            . urlencode('https://' . $urlPerfil)
-            . '&color=0d9488&bgcolor=ffffff&margin=6';
+            .urlencode('https://'.$urlPerfil)
+            .'&color=0d9488&bgcolor=ffffff&margin=6';
     }
 
     private function cargarIconosTecnologias($usuario)
     {
         $excepcionesIcono = [
             'amazonwebservices' => 'plain-wordmark',
-            'angularjs'         => 'plain',
-            'django'            => 'plain',
-            'tailwindcss'       => 'plain',
-            'kubernetes'        => 'plain',
-            'graphql'           => 'plain',
-            'firebase'          => 'plain',
-            'express'           => 'original-wordmark',
+            'angularjs' => 'plain',
+            'django' => 'plain',
+            'tailwindcss' => 'plain',
+            'kubernetes' => 'plain',
+            'graphql' => 'plain',
+            'firebase' => 'plain',
+            'express' => 'original-wordmark',
         ];
 
         return $usuario->technologies()->orderBy('name')->get()
             ->map(function ($tech) use ($excepcionesIcono) {
                 $slug = (string) $tech->slug;
                 $tipo = $excepcionesIcono[$slug] ?? 'original';
-                $url  = "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/{$slug}/{$slug}-{$tipo}.svg";
+                $url = "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/{$slug}/{$slug}-{$tipo}.svg";
                 try {
-                    $tech->iconoB64 = 'data:image/svg+xml;base64,' . base64_encode(file_get_contents($url));
+                    $tech->iconoB64 = 'data:image/svg+xml;base64,'.base64_encode(file_get_contents($url));
                 } catch (Exception $e) {
                     $tech->iconoB64 = null;
                 }
+
                 return $tech;
             });
     }
@@ -168,45 +185,16 @@ class ProfileController extends Controller
     // ══════════════════════════════════════════
     //  AVATAR
     // ══════════════════════════════════════════
-    public function updateAvatar(Request $request): JsonResponse
+    public function updateAvatar(UpdateAvatarRequest $request): JsonResponse
     {
-        $request->validate([
-            'avatar' => ['required', 'image', 'max:2048'],
-        ], [
-            'avatar.required' => 'La imagen es obligatoria para poder actualizar',
-            'avatar.image'    => 'Debe ser una imagen válida',
-            'avatar.max'      => 'La imagen no puede superar los 2 MB',
-        ]);
-
         try {
-            /** @var \App\Models\User $user */
-            $user      = Auth::user();
-            $avatarUrl = $request->file('avatar')->getRealPath();
+            $user = Auth::user();
 
-            $cloudinary = new \Cloudinary\Cloudinary(config('cloudinary.cloud_url'));
-            $result     = $cloudinary->uploadApi()->upload($avatarUrl, [
-                'folder'         => 'avatares',
-                'public_id'      => 'user_' . $user->id,
-                'overwrite'      => true,
-                'transformation' => [[
-                    'width'        => 400,
-                    'height'       => 400,
-                    'crop'         => 'fill',
-                    'gravity'      => 'face',
-                    'quality'      => 'auto',
-                    'fetch_format' => 'auto',
-                ]],
-            ]);
+            $avatarUrl = $this->profileService->updateAvatar($user->id, $request->file('avatar'));
 
-            $user->profile()->updateOrCreate(
-                ['user_id' => $user->id],
-                ['avatar'  => $result['secure_url']]
-            );
-
-            // Invalidar caché del CV para que tome el nuevo avatar
             self::invalidarCacheCV($user->id);
 
-            return response()->json(['success' => true, 'url' => $result['secure_url']]);
+            return response()->json(['success' => true, 'url' => $avatarUrl]);
         } catch (Exception $e) {
             return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
         }
@@ -215,27 +203,22 @@ class ProfileController extends Controller
     public function destroyAvatar(Request $request): JsonResponse
     {
         try {
-            /** @var \App\Models\User $user */
-            $user    = Auth::user();
+            $user = Auth::user();
             $profile = $user->profile;
 
-            if (!$profile || !$profile->avatar) {
+            if (! $profile || ! $profile->avatar) {
                 return response()->json(['success' => false, 'message' => 'No tienes foto de perfil'], 404);
             }
 
-            $cloudinary = new \Cloudinary\Cloudinary(config('cloudinary.cloud_url'));
-            $cloudinary->uploadApi()->destroy('avatares/user_' . $user->id);
-            $profile->update(['avatar' => null]);
+            $this->profileService->deleteAvatar($user->id);
 
-            // Invalidar caché del CV
-            self::invalidarCacheCV($user->id);
-
-            // Usar el username del modelo User
             Profile::where('user_id', $user->id)->update([
                 'avatar' => 'https://api.dicebear.com/7.x/initials/svg?seed='
-                    . strtolower($user->username)
-                    . "&backgroundColor=12b3b6",
+                    .strtolower($user->username)
+                    .'&backgroundColor=12b3b6',
             ]);
+
+            self::invalidarCacheCV($user->id);
 
             return response()->json(['success' => true]);
         } catch (Exception $e) {

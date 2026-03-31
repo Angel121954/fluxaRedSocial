@@ -8,7 +8,7 @@
                 line-height: 1.6;
                 max-width: 420px;
               ">
-        Únete a la red social para desarrolladores del SENA que construyen
-        en público.
+        La red social donde los desarrolladores comparten proyectos,
+        crecen en público y conectan con otros builders.
     </p>
 </div>

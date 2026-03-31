@@ -59,59 +59,6 @@ body {
 }
 
 /* ═══════════════════════════════════════════════════════════
-   NAVBAR
-══════════════════════════════════════════════════════════ */
-.navbar {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-}
-
-.navbar-inner {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0 1.5rem;
-    height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.navbar-left {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-}
-
-.nav-logo {
-    height: 42px;
-    width: auto;
-}
-
-.nav-links {
-    display: flex;
-    gap: 4px;
-}
-
-.nav-link {
-    padding: 0.5rem 0.875rem;
-    border-radius: var(--r-sm);
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: var(--ink-600);
-    text-decoration: none;
-    transition: all 0.15s;
-}
-
-.nav-link:hover {
-    color: var(--ink-900);
-    background: var(--bg-secondary);
-}
-
-/* ═══════════════════════════════════════════════════════════
    HERO SECTION - Fondo blanco
 ══════════════════════════════════════════════════════════ */
 .hero {

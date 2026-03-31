@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Profile;
 
 use App\Http\Controllers\Controller;
-use App\Models\Profile;
+use App\Http\Requests\StoreEducationRequest;
+use App\Http\Requests\UpdateEducationRequest;
 use App\Models\Education;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
 
 class EducationController extends Controller
 {
@@ -15,21 +15,21 @@ class EducationController extends Controller
     public function index()
     {
         /** @var \App\Models\User $user */
-        $user     = Auth::user();
-        $profile  = $user->profile;
+        $user = Auth::user();
+        $profile = $user->profile;
 
         $educations = Education::where('user_id', $user->id)
             ->orderByDesc('graduated_year')
             ->get();
 
         return view('profile.educations', [
-            'profile'    => $profile,
+            'profile' => $profile,
             'educations' => $educations,
-            'limits'     => ['max_educations' => self::MAX_EDUCATIONS],
+            'limits' => ['max_educations' => self::MAX_EDUCATIONS],
         ]);
     }
 
-    public function store(Request $request)
+    public function store(StoreEducationRequest $request)
     {
         /** @var \App\Models\User $user */
         $user = Auth::user();
@@ -38,18 +38,10 @@ class EducationController extends Controller
             return back()->with('error', 'Has alcanzado el límite máximo de educaciones.');
         }
 
-        $validated = $request->validate([
-            'institution'    => ['required', 'string', 'max:150'],
-            'degree'         => ['required', 'string', 'max:150'],
-            'field'          => ['nullable', 'string', 'max:150'],
-            'graduated_year' => ['nullable', 'integer', 'min:1950', 'max:' . (date('Y') + 10)],
-            'current'        => ['nullable', 'boolean'],
-        ]);
-
+        $validated = $request->validated();
         $validated['user_id'] = $user->id;
         $validated['current'] = $request->boolean('current');
 
-        // Si está en curso, limpiar el año de graduación
         if ($validated['current']) {
             $validated['graduated_year'] = null;
         }
@@ -59,16 +51,9 @@ class EducationController extends Controller
         return back()->with('success', 'Educación agregada correctamente.');
     }
 
-    public function update(Request $request, Education $education)
+    public function update(UpdateEducationRequest $request, Education $education)
     {
-        $validated = $request->validate([
-            'institution'    => ['required', 'string', 'max:150'],
-            'degree'         => ['required', 'string', 'max:150'],
-            'field'          => ['nullable', 'string', 'max:150'],
-            'graduated_year' => ['nullable', 'integer', 'min:1950', 'max:' . (date('Y') + 10)],
-            'current'        => ['nullable', 'boolean'],
-        ]);
-
+        $validated = $request->validated();
         $validated['current'] = $request->boolean('current');
 
         if ($validated['current']) {
@@ -83,6 +68,7 @@ class EducationController extends Controller
     public function destroy(Education $education)
     {
         $education->delete();
+
         return back()->with('success', 'Educación eliminada correctamente.');
     }
 }
