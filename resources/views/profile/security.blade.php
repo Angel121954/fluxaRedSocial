@@ -1,12 +1,12 @@
 @extends('layouts.app')
 @section('title', 'Seguridad')
 @section('content')
-@include('components.topbar')
+<x-topbar :profile="$profile" />
 {{-- ══════════════════════════════════════════
      SECURITY CONFIGURATION LAYOUT
-══════════════════════════════════════════ --}}
+═════════════════════════════════════════ --}}
 <div class="edit-layout">
-    @include('components.sidebar')
+    <x-sidebar :profile="$profile" />
 
     {{-- ──── MAIN CONTENT ──── --}}
     <main class="main-content">

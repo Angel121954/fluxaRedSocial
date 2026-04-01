@@ -1,6 +1,8 @@
+@props(['profile'])
+
 <!-- ══════════════════════════════════════════
      NAVBAR
-══════════════════════════════════════════ -->
+═════════════════════════════════════════ -->
 <nav class="navbar">
     <div class="navbar-inner">
         <div class="navbar-left">
@@ -50,7 +52,7 @@
     </div>
 </nav>
 @if(Auth::user()->role != 'guest')
-@include('components.new-project')
+<x-new-project />
 @endif
 
 @push('styles')

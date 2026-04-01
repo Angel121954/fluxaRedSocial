@@ -1,3 +1,5 @@
+@props(['profile'])
+
 <!-- ──── SIDEBAR ──── -->
 <aside class="sidebar">
     <div class="sidebar-nav">
@@ -42,7 +44,7 @@
         <button data-username="{{ Auth()->user()->username }}" class="btn-avatar-action danger" id="btnDelete">Eliminar foto</button>
     </div>
 </aside>
-@include('components.modalImage')
+<x-modal-image />
 @push('styles')
 <link rel="stylesheet" href="{{ asset('css/profile/sidebar.css') }}">
 <link rel="stylesheet" href="{{ asset('css/profile/modalImage.css') }}">

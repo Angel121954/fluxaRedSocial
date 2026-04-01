@@ -1,10 +1,10 @@
 @extends('layouts.app')
 @section('title', 'Privacidad')
 @section('content')
-@include('components.topbar')
+<x-topbar :profile="$profile" />
 
 <div class="edit-layout">
-    @include('components.sidebar')
+    <x-sidebar :profile="$profile" />
 
     <main class="main-content">
         <h1 class="page-title">Privacidad</h1>
@@ -60,7 +60,7 @@
 
             </div>
 
-            @include('components.alert')
+            <x-alert />
 
             <div class="form-actions">
                 <x-btn-cancel href="{{ route('profile.index') }}" />

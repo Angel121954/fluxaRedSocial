@@ -7,9 +7,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use App\Models\Profile;
-use App\Models\NotificationPreference;
-use App\Models\Project;
 
 class User extends Authenticatable
 {
@@ -54,28 +51,44 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
     public function profile()
     {
         return $this->hasOne(Profile::class);
     }
+
     public function notificationPreferences()
     {
         return $this->hasOne(NotificationPreference::class);
     }
+
     public function technologies()
     {
         return $this->belongsToMany(Technology::class);
     }
+
     public function projects()
     {
         return $this->hasMany(Project::class);
     }
+
     public function workExperiences()
     {
         return $this->hasMany(WorkExperience::class)->orderBy('started_at', 'desc');
     }
+
     public function educations()
     {
         return $this->hasMany(Education::class)->orderBy('graduated_year', 'desc');
+    }
+
+    public function follows()
+    {
+        return $this->belongsToMany(User::class, 'follows', 'follower_id', 'followed_id');
+    }
+
+    public function followers()
+    {
+        return $this->belongsToMany(User::class, 'follows', 'followed_id', 'follower_id');
     }
 }

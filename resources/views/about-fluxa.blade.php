@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('title', 'Acerca de Fluxa')
 @section('content')
-@include('components.topbar')
+<x-topbar :profile="$profile" />
 
 <!-- ══════════════════════════════════════════
      HERO SECTION
@@ -166,7 +166,7 @@
     </div>
 </section>
 
-@include('components.footer')
+<x-footer />
 @endsection
 
 @push('styles')

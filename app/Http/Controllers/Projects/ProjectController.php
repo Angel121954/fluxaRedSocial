@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use App\Models\Project;
+use App\Models\ProjectLike;
 use App\Services\ProjectService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -106,5 +107,32 @@ class ProjectController extends Controller
 
         return redirect()->route('projects.index')
             ->with('success', 'Proyecto eliminado.');
+    }
+
+    public function like(Project $project)
+    {
+        $user = Auth::user();
+
+        $existingLike = ProjectLike::where('user_id', $user->id)
+            ->where('project_id', $project->id)
+            ->first();
+
+        if ($existingLike) {
+            $existingLike->delete();
+            $project->decrement('likes_count');
+            $isLiked = false;
+        } else {
+            ProjectLike::create([
+                'user_id' => $user->id,
+                'project_id' => $project->id,
+            ]);
+            $project->increment('likes_count');
+            $isLiked = true;
+        }
+
+        return response()->json([
+            'likes_count' => $project->likes_count,
+            'is_liked' => $isLiked,
+        ]);
     }
 }

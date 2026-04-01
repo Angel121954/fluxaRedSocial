@@ -1,6 +1,8 @@
+@props(['media'])
+
 {{--
     resources/views/components/project-media.blade.php
-    Uso: @include('components.project-media', ['media' => $project->media])
+    Uso: <x-project-media :media="$project->media" />
 --}}
 
 @php

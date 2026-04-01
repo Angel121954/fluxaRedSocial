@@ -1,10 +1,10 @@
 @extends('layouts.app')
 @section('title', 'Preferencias de notificaciones')
 @section('content')
-@include('components.topbar')
+<x-topbar :profile="$profile" />
 
 <div class="edit-layout">
-    @include('components.sidebar')
+    <x-sidebar :profile="$profile" />
 
     <main class="main-content">
         <h1 class="page-title">Preferencias de notificaciones</h1>
@@ -138,7 +138,7 @@
                 </div>
             </div>
 
-            @include('components.alert')
+            <x-alert />
 
             <div class="notif-actions">
                 <x-btn-cancel />

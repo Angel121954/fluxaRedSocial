@@ -42,6 +42,17 @@ class Project extends Model
     {
         return $this->belongsToMany(Technology::class, 'project_technology');
     }
+
+    public function likes()
+    {
+        return $this->hasMany(ProjectLike::class);
+    }
+
+    public function isLikedBy($userId)
+    {
+        return $this->likes()->where('user_id', $userId)->exists();
+    }
+
     // Accessor — lo llamas como $project->days_active
     public function getDaysActiveAttribute(): int
     {

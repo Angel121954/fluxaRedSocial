@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('title', 'Perfil')
 @section('content')
-@include('components.topbar')
+<x-topbar :profile="$profile" />
 <!-- ══════════════════════════════════════════
      PROFILE HEADER
 ══════════════════════════════════════════ -->
@@ -268,7 +268,7 @@
 
         {{-- Galería dinámica desde Cloudinary --}}
         @if($project->media->isNotEmpty())
-        @include('components.project-media', ['media' => $project->media])
+        <x-project-media :media="$project->media" />
         @endif
 
         {{-- Última actualización --}}
@@ -330,19 +330,19 @@
 
 {{-- Panel: Stack --}}
 <div class="content" data-panel="stack" style="display:none">
-    @include('components.stack-tab', ['technologies' => $technologies])
+    <x-stack-tab :technologies="$technologies" />
 </div>
 <!-- end content -->
-@include('components.modalImage')
-@include('components.cv-template', [
-'profile' => $profile,
-'technologies' => $technologies,
-'projects' => $projects,
-'workExperiences' => $workExperiences,
-'avatarBase64' => null,
-'logoBase64' => null,
-'qrBase64' => null,
-])
+<x-modal-image :profile="$profile" />
+<x-cv-template
+    :profile="$profile"
+    :technologies="$technologies"
+    :projects="$projects"
+    :work-experiences="$workExperiences"
+    :avatar-base64="null"
+    :logo-base64="null"
+    :qr-base64="null"
+/>
 
 <input type="file" id="fileIn" accept="image/*" style="display: none" />
 @endsection

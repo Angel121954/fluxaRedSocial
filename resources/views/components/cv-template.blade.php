@@ -1,4 +1,6 @@
 {{-- resources/views/components/cv-template.blade.php --}}
+@props(['profile', 'technologies', 'projects', 'workExperiences', 'avatarBase64', 'logoBase64', 'qrBase64'])
+
 @php
 /** @var \App\Models\User $usuarioActual */
 $usuarioActual = Auth::user();

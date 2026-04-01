@@ -143,7 +143,7 @@
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.16);
 }
 .illus-phone__screen {
-    background: linear-gradient(160deg, #e8f9f9 0%, #cbeeee 100%);
+    background: #e8f9f9;
     border-radius: 9px;
     height: 100%;
     display: flex;
@@ -187,7 +187,7 @@
     bottom: 8px;
     width: 56px;
     height: 56px;
-    background: linear-gradient(145deg, #e8f9f9, #c2eeee);
+    background: #e8f9f9;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -208,7 +208,7 @@
 .illus-laptop__screen {
     width: 118px;
     height: 76px;
-    background: linear-gradient(145deg, #dff4f4, #c8edee);
+    background: #dff4f4;
     border-radius: 8px 8px 0 0;
     border: 3px solid #b8d4da;
     display: flex;

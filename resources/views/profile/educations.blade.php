@@ -2,13 +2,13 @@
 @section('title', 'Educación')
 
 @section('content')
-@include('components.topbar')
+<x-topbar :profile="$profile" />
 
 {{-- ══════════════════════════════════════════
      EDUCATIONS LAYOUT
 ══════════════════════════════════════════ --}}
 <div class="edit-layout">
-    @include('components.sidebar')
+    <x-sidebar :profile="$profile" />
 
     {{-- ──── MAIN CONTENT ──── --}}
     <main class="main-content">
@@ -97,7 +97,7 @@
                 <p class="we-empty__sub">Usa el botón de arriba para agregar tu primera educación.</p>
             </div>
             @endforelse
-            @include('components.alert')
+            <x-alert />
         </div>
 
     </main>

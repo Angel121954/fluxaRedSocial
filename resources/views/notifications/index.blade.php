@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('title', 'Notificaciones')
 @section('content')
-@include('components.topbar')
+<x-topbar :profile="$profile" />
 
 <div class="notif-page">
     <div class="notif-wrapper">

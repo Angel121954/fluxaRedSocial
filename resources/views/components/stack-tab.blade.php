@@ -18,7 +18,9 @@ $deviconTypeOverrides = [
 
 <div class="stack-grid">
     @forelse($technologies as $tech)
-    @php
+@props(['technologies'])
+
+@php
     $iconSlug = (string) $tech->slug;
     $iconType = $deviconTypeOverrides[$iconSlug] ?? 'original';
     $iconUrl = "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/{$iconSlug}/{$iconSlug}-{$iconType}.svg";

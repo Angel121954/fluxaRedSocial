@@ -1,3 +1,9 @@
+@props(['profile' => null])
+
+@php
+$profile = $profile ?? Auth::user()->profile;
+@endphp
+
 <!-- Modal imagen -->
 <div class="img-modal" id="imgModal">
     <div class="modal-wrap">

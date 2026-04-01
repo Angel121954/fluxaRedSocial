@@ -128,7 +128,7 @@
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
 }
 .illus-notif-screen {
-    background: linear-gradient(160deg, #e6f9fa 0%, #c5eaec 100%);
+    background: #e6f9fa;
     border-radius: 10px;
     height: 100%;
     display: flex;
@@ -160,7 +160,7 @@
     height: 64px;
     bottom: 10px;
     right: 24px;
-    background: linear-gradient(145deg, #fef3c7, #fde68a);
+    background: #fef3c7;
     color: #d97706;
     box-shadow: 0 4px 16px rgba(217, 119, 6, 0.22);
     z-index: 3;
@@ -191,7 +191,7 @@
     height: 44px;
     top: 18px;
     right: 10px;
-    background: linear-gradient(145deg, #fef3c7, #fde68a);
+    background: #fef3c7;
     color: #d97706;
     box-shadow: 0 3px 10px rgba(217, 119, 6, 0.18);
     z-index: 2;
@@ -208,7 +208,7 @@
     left: 14px;
     width: 50px;
     height: 50px;
-    background: linear-gradient(145deg, #e0f2fe, #bae6fd);
+    background: #bae6fd;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -228,7 +228,7 @@
     left: 30px;
     width: 40px;
     height: 40px;
-    background: linear-gradient(145deg, #e0f2fe, #bae6fd);
+    background: #bae6fd;
     border-radius: 10px;
     display: flex;
     align-items: center;

@@ -20,7 +20,7 @@
     <div class="w-full max-w-6xl grid md:grid-cols-2 gap-8 items-center">
         <!-- Form Side -->
         <div class="flex flex-col">
-            @include('components.header')
+            <x-header />
             <!-- Form Card -->
             <div class="form-card">
                 <h2

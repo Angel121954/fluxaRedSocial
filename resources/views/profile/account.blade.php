@@ -1,12 +1,12 @@
 @extends('layouts.app')
 @section('title', 'Cuenta')
 @section('content')
-@include('components.topbar')
+<x-topbar :profile="$profile" />
 <!-- ══════════════════════════════════════════
      ACCOUNT CONFIGURATION LAYOUT
-══════════════════════════════════════════ -->
+═════════════════════════════════════════ -->
 <div class="edit-layout">
-    @include('components.sidebar')
+    <x-sidebar :profile="$profile" />
 
     <!-- ──── MAIN CONTENT ──── -->
     <main class="main-content">
@@ -114,7 +114,7 @@
                     @enderror
                 </div>
 
-                @include('components.alert')
+                <x-alert />
 
                 <!-- Acciones -->
                 <div class="form-actions">
