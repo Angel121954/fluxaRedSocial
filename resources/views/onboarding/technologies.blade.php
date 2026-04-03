@@ -81,11 +81,5 @@
 @endpush
 
 @push('scripts')
-<script>
-    function filterTech(query) {
-        document.querySelectorAll('#techGrid .tech-item').forEach(item => {
-            item.style.display = item.dataset.name.includes(query.toLowerCase()) ? '' : 'none';
-        });
-    }
-</script>
+<script src="{{ asset('js/onboarding/technologies.js') }}"></script>
 @endpush

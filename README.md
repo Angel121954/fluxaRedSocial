@@ -10,7 +10,7 @@ Share your projects. Document your journey. Grow in public.
 [![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-3.1.0-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
 [![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?style=flat-square&logo=docker&logoColor=white)](https://www.docker.com)
 [![Cloudinary](https://img.shields.io/badge/Cloudinary-Media_Storage-3448C5?style=flat-square&logo=cloudinary&logoColor=white)](https://cloudinary.com)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](LICENSE)
+[![License: Proprietary](https://img.shields.io/badge/License-Proprietary-red.svg?style=flat-square)](LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](CONTRIBUTING.md)
 
 [Features](#-features) · [Screenshots](#-screenshots) · [Tech Stack](#-tech-stack) · [Installation](#-installation) · [Roadmap](#-roadmap) · [Contributing](#-contributing)
@@ -369,9 +369,19 @@ Please include:
 
 ## 📄 License
 
-This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for full details.
+This project uses a **Proprietary License** — see the [LICENSE](LICENSE) file for full details.
 
-You are free to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of this software, subject to the conditions of the MIT License.
+**What you CAN do:**
+- Study and learn from the code structure
+- Use it for personal/learning projects
+- Use it as reference for learning architectures and patterns
+
+**What you CANNOT do:**
+- Use it commercially or as SaaS
+- Create a competing social network
+- Sell or redistribute the code
+
+For commercial licensing, contact the project owner.
 
 ---
 

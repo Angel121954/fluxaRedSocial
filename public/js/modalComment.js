@@ -40,10 +40,6 @@ const commentsData = {
 
 // Abrir modal de comentarios
 function openCommentsModal(postData) {
-    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-    document.body.style.overflow = 'hidden';
-    document.body.style.paddingRight = scrollbarWidth + 'px';
-
     document.getElementById("modalPostAvatar").src = postData.avatar;
     document.getElementById("modalPostAuthor").textContent = postData.author;
     document.getElementById("modalPostHandleTime").textContent =
@@ -58,8 +54,6 @@ function openCommentsModal(postData) {
 
 // Cerrar modal
 function closeCommentsModal() {
-    document.body.style.overflow = '';
-    document.body.style.paddingRight = '';
     commentsModal.classList.remove("show");
     resetCommentForm();
 }
@@ -206,39 +200,29 @@ btnSubmitComment.addEventListener("click", () => {
     resetCommentForm();
 });
 
-// Botones de comentarios en posts
-document.querySelectorAll(".post-action").forEach((btn) => {
-    const svg = btn.querySelector("svg");
-    const isCommentBtn = svg && svg.querySelector('path[d*="M8 12h"]');
+// Botones de comentarios en posts (event delegation)
+document.addEventListener("click", (e) => {
+    const btn = e.target.closest(".comment-btn");
+    if (!btn) return;
+    
+    const postCard = btn.closest(".post-card");
+    if (!postCard) return;
 
-    if (isCommentBtn) {
-        btn.addEventListener("click", function (e) {
-            e.stopPropagation();
+    const avatar = postCard.querySelector(".post-avatar")?.src || "";
+    const author = postCard.querySelector(".post-author")?.textContent || "";
+    const handle = postCard.querySelector(".post-handle")?.textContent || "";
+    const time = postCard.querySelector(".post-time")?.textContent || "";
+    const content = postCard.querySelector(".post-content")?.textContent || "";
+    const projectId = btn.dataset.projectId;
 
-            const postCard = this.closest(".post-card");
-            const avatar = postCard.querySelector(".post-avatar").src;
-            const author = postCard.querySelector(".post-author").textContent;
-            const handle = postCard.querySelector(".post-handle").textContent;
-            const time = postCard.querySelector(".post-time").textContent;
-            const content = postCard.querySelector(".post-content").textContent;
-
-            let commentsKey = "post3";
-            if (content.includes("Laravel y React")) {
-                commentsKey = "post1";
-            } else if (content.includes("productividad")) {
-                commentsKey = "post2";
-            }
-
-            openCommentsModal({
-                avatar,
-                author,
-                handle,
-                time,
-                content,
-                commentsKey,
-            });
-        });
-    }
+    openCommentsModal({
+        avatar,
+        author,
+        handle,
+        time,
+        content,
+        commentsKey: `project_${projectId}`,
+    });
 });
 
 console.log("Fluxa: Modal de comentarios inicializado");

@@ -85,33 +85,5 @@
 @endpush
 
 @push('scripts')
-<script>
-    function toggleFollow(btn, userId) {
-        const input = document.getElementById('follow_' + userId);
-        const isFollowing = btn.classList.contains('following');
-
-        if (isFollowing) {
-            btn.classList.remove('following');
-            btn.textContent = 'Seguir';
-            input.disabled = true;
-            input.value = '';
-        } else {
-            btn.classList.add('following');
-            btn.textContent = 'Siguiendo ✓';
-            input.disabled = false;
-            input.value = userId;
-        }
-    }
-
-    function skipOnboarding() {
-        fetch('{{ route("onboarding.saveSuggestions") }}', {
-            method: 'POST',
-            headers: {
-                'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({})
-        });
-    }
-</script>
+<script src="{{ asset('js/onboarding/suggestions.js') }}"></script>
 @endpush

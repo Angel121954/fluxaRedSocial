@@ -5,6 +5,7 @@ $user = $project->user;
 $profile = $user->profile;
 $timeAgo = $project->created_at->diffForHumans();
 $isLiked = $project->isLikedBy(auth()->id());
+$isBookmarked = $project->isBookmarkedBy(auth()->id());
 @endphp
 
 <div class="post-card" data-project-id="{{ $project->id }}">
@@ -13,7 +14,8 @@ $isLiked = $project->isLikedBy(auth()->id());
             <img
                 src="{{ $profile->avatar ?? 'https://api.dicebear.com/7.x/initials/svg?seed=' . strtolower($user->username) . '&backgroundColor=12b3b6' }}"
                 alt="{{ $user->name }}"
-                class="post-avatar" />
+                class="post-avatar"
+                loading="lazy" />
             <div class="post-meta">
                 <div class="post-author-row">
                     <span class="post-author">{{ $user->name }}</span>
@@ -32,20 +34,46 @@ $isLiked = $project->isLikedBy(auth()->id());
                 </div>
             </div>
         </div>
-        <button class="post-menu">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01" />
-            </svg>
-        </button>
+        <div class="drop-wrap">
+            <button class="btn-icon post-menu-btn" data-project-id="{{ $project->id }}">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01" />
+                </svg>
+            </button>
+            <div class="drop-menu" data-project-id="{{ $project->id }}">
+                <button class="drop-item" data-action="bookmark" data-project-id="{{ $project->id }}">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
+                    </svg>
+                    <span>{{ $isBookmarked ? 'Quitar de favoritos' : 'Agregar a favoritos' }}</span>
+                </button>
+                <button class="drop-item" data-action="share" data-project-id="{{ $project->id }}">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                    </svg>
+                    <span>Compartir</span>
+                </button>
+                <button class="drop-item" data-action="copy-link" data-project-id="{{ $project->id }}">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+                    </svg>
+                    <span>Copiar enlace</span>
+                </button>
+                <button class="drop-item" data-action="report" data-project-id="{{ $project->id }}">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9" />
+                    </svg>
+                    <span>Reportar</span>
+                </button>
+            </div>
+        </div>
     </div>
 
     <h3 class="project-title">{{ $project->title }}</h3>
     <p class="post-content">{{ $project->content }}</p>
 
     @if($project->media->count() > 0)
-    @foreach($project->media as $media)
-    <img src="{{ $media->media_url }}" alt="{{ $media->all_text ?? 'Project image' }}" class="post-image" />
-    @endforeach
+    <x-project-media :media="$project->media" />
     @endif
 
     @if($project->technologies->count() > 0)

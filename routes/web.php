@@ -109,6 +109,9 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
     Route::get('/explore/following', [ExploreController::class, 'following'])
         ->name('explore.following');
 
+    Route::get('/explore/topic/{slug}', [ExploreController::class, 'topic'])
+        ->name('explore.topic');
+
     Route::get('/about-fluxa', [AboutFluxaController::class, 'index'])
         ->name('about-fluxa');
 
@@ -195,6 +198,12 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
 
         Route::post('/projects/{project}/like', [ProjectController::class, 'like'])
             ->name('projects.like');
+
+        Route::post('/projects/{project}/bookmark', [ProjectController::class, 'bookmark'])
+            ->name('projects.bookmark');
+
+        Route::post('/projects/{project}/report', [ProjectController::class, 'report'])
+            ->name('projects.report');
 
         /*
         |--------------------------------------------------------------------------

@@ -53,6 +53,16 @@ class Project extends Model
         return $this->likes()->where('user_id', $userId)->exists();
     }
 
+    public function bookmarks()
+    {
+        return $this->hasMany(ProjectBookmark::class);
+    }
+
+    public function isBookmarkedBy($userId)
+    {
+        return $this->bookmarks()->where('user_id', $userId)->exists();
+    }
+
     // Accessor — lo llamas como $project->days_active
     public function getDaysActiveAttribute(): int
     {

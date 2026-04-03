@@ -1,0 +1,137 @@
+FLUXA PROPRIETARY LICENSE
+Copyright © 2024 Fluxa. All Rights Reserved.
+
+AVISO IMPORTANTE: Este software NO es de código abierto. Al acceder, descargar,
+instalar o utilizar este software, usted acepta boundurse a los términos de esta licencia.
+
+─────────────────────────────────────────────────────────────────────────────
+
+                    LICENCIA PROPIETARIA DE FLUXA
+
+─────────────────────────────────────────────────────────────────────────────
+
+1. DEFINICIONES
+
+"Software" se refiere al código fuente, código objeto, documentación, y todos
+los archivos incluidos en este proyecto.
+
+"Uso Personal" se refiere al uso del software por una persona física para
+fines educativos, de aprendizaje personal, o para crear proyectos personales
+no relacionados con una red social.
+
+"Red Social Competidora" se refiere a cualquier plataforma, aplicación o
+servicio que tenga como funcionalidad principal conectar usuarios, permitir
+compartir contenido, perfiles de usuario, seguimiento de usuarios, o cualquier
+funcionalidad similar a Fluxa.
+
+"Uso Comercial" se refiere a cualquier uso del software para obtener beneficio
+económico directo o indirecto, incluyendo pero no limitado a: ofrecer el
+software como servicio (SaaS), cobrar por acceso al software, o incluir el
+software en productos o servicios comercializados.
+
+─────────────────────────────────────────────────────────────────────────────
+
+2. USO PERMÍTIDO (SIN COSTO)
+
+Sujeto a los términos de esta licencia, Fluxa le otorga permiso para:
+
+a) Descargar y estudiar el código fuente para fines educativos y de aprendizaje.
+
+b) Ejecutar el software en un entorno local para propósitos de aprendizaje y
+   desarrollo personal.
+
+c) Modificar el software para su uso personal (no relacionado con una red social).
+
+d) Utilizar el software como referencia para aprender arquitecturas, patrones
+   de diseño, y mejores prácticas de desarrollo.
+
+e) Crear proyectos personales que NO sean una red social competidora.
+
+Este permiso es gratuito y no requiere pago.
+
+─────────────────────────────────────────────────────────────────────────────
+
+3. PROHIBICIONES ABSOLUTAS
+
+Queda PROHIBIDO terminantemente:
+
+a) Uso Comercial: NO puede usar este software para fines comerciales, incluyendo
+   pero no limitándose a ofrecerlo como servicio (SaaS), cobrar por acceso,
+   o monetizar de cualquier forma.
+
+b) Derivados Comerciales: NO puede crear productos, servicios, o plataformas
+   basados en este software para uso comercial.
+
+c) Red Social Competidora: NO puede utilizar este software, en todo o en parte,
+   para crear una red social competidora, forked, o cualquier plataforma que
+   compita con Fluxa.
+
+d) Reventa: NO puede redistribuir, vender, oLicensing este software a terceros
+   sin autorización escrita de Fluxa.
+
+e) Uso en Producción: NO puede utilizar este software en entornos de producción
+   o ambientes accesibles públicamente sin autorización escrita.
+
+f) Eliminación de Avisos: No puede eliminar, modificar, u ocultar los avisos
+   de copyright y licencia de este software.
+
+g) Uso Ilegal o Dañino: NO puede utilizar este software para:
+   - Actividades ilegales, fraudulentas, o maliciosas
+   - Dañar, infiltrar, o comprometer sistemas de terceros
+   - Violar la privacidad o derechos de otros usuarios
+   - Cualquier propósito que involucre abuso, acoso, o discriminación
+   - Recopilar datos de usuarios de forma no autorizada
+
+─────────────────────────────────────────────────────────────────────────────
+
+4. PROPIEDAD Y DERECHOS
+
+Este software es propiedad exclusiva de Fluxa. Esta licencia NO otorga ningún
+derecho de propiedad sobre el software. Todos los derechos no expresamente
+otorgados quedan reservados por Fluxa.
+
+El autor original (Fluxa) conserva todos los derechos de propiedad intelectual
+sobre el código fuente, estructura, diseño, arquitectura, y documentación.
+
+─────────────────────────────────────────────────────────────────────────────
+
+5. EXENCIÓN DE GARANTÍA
+
+EL SOFTWARE SE PROPORCIONA "TAL CUAL", SIN GARANTÍAS DE NINGÚN TIPO, EXPRESAS
+O IMPLÍCITAS, INCLUYENDO PERO NO LIMITÁNDOSE A GARANTÍAS DE COMERCIABILIDAD,
+APTIDAD PARA UN PROPÓSITO PARTICULAR, Y NO VIOLACIÓN.
+
+EN NINGÚN CASO LOS AUTORES O TITULARES DE DERECHOS SERÁN RESPONSABLES POR
+CUALQUIER RECLAMO, DAÑO U OTRA RESPONSABILIDAD, YA SEA EN UNA ACCIÓN DE
+CONTRATO, AGRAVIO O DE OTRA MANERA, DERIVADA DE O EN CONEXIÓN CON EL SOFTWARE
+O EL USO U OTROS TRATOS EN EL SOFTWARE.
+
+─────────────────────────────────────────────────────────────────────────────
+
+6. TERMINACIÓN
+
+Esta licencia será vigente mientras usted cumpla con sus términos. Si viola
+cualquier término de esta licencia, sus derechos bajo esta licencia terminarán
+automáticamente sin previo aviso.
+
+Al terminar, debe destruir todas las copias del software que tenga en su poder.
+
+─────────────────────────────────────────────────────────────────────────────
+
+7. CONTACTO PARA LICENCIA COMERCIAL
+
+Si desea obtener una licencia comercial para usar este software en un producto,
+servicio, o red social, contacte a Fluxa para negociar una licencia comercial.
+
+Email: [contacto@fluxa.com]
+
+─────────────────────────────────────────────────────────────────────────────
+
+8. LEY APLICABLE
+
+Esta licencia se regirá por las leyes de [tu país/jurisdicción].
+
+─────────────────────────────────────────────────────────────────────────────
+
+Al utilizar este software, usted reconoce haber leído, entendido, y aceptar
+los términos y condiciones de esta licencia.

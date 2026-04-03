@@ -11,10 +11,18 @@
     <div class="feed-main">
         <!-- Tabs -->
         <div class="feed-tabs">
-            <button class="feed-tab active" data-tab="trending" data-url="{{ route('explore.trending') }}">🔥 Tendencias</button>
-            <button class="feed-tab" data-tab="recent" data-url="{{ route('explore.recent') }}">Recientes</button>
-            <button class="feed-tab" data-tab="following" data-url="{{ route('explore.following') }}">Siguiendo</button>
+            <a href="{{ route('explore.trending') }}" class="feed-tab {{ request()->is('explore/trending') || request()->is('explore') ? 'active' : '' }}" data-url="{{ route('explore.trending') }}">🔥 Tendencias</a>
+            <a href="{{ route('explore.recent') }}" class="feed-tab {{ request()->is('explore/recent') ? 'active' : '' }}" data-url="{{ route('explore.recent') }}">Recientes</a>
+            <a href="{{ route('explore.following') }}" class="feed-tab {{ request()->is('explore/following') ? 'active' : '' }}" data-url="{{ route('explore.following') }}">Siguiendo</a>
         </div>
+
+        @if(isset($technology))
+        <div class="topic-header">
+            <span class="topic-label">Filtrando por:</span>
+            <span class="topic-current">#{{ $technology->name }}</span>
+            <a href="{{ route('explore.trending') }}" class="topic-clear">✕</a>
+        </div>
+        @endif
 
         <!-- Publications Container -->
         <div id="publications-container">
@@ -113,13 +121,17 @@
         <div class="widget">
             <div class="widget-header">
                 <h3 class="widget-title">Temas populares</h3>
-                <a href="#" class="widget-link">Ver más →</a>
+                @if($topTechnologies->count() > 5)
+                <button class="widget-link" id="showMoreTopics">Ver más →</button>
+                @endif
             </div>
-            <div class="topics-grid">
-                <span class="topic-pill">#Desarrollo</span>
-                <span class="topic-pill">#UX</span>
-                <span class="topic-pill">#Freelance</span>
-                <span class="topic-pill">#JavaScript</span>
+            <div class="topics-grid" id="topicsGrid">
+                @foreach($topTechnologies->take(5) as $tech)
+                <a href="{{ route('explore.topic', $tech->slug) }}" class="topic-pill">#{{ $tech->name }}</a>
+                @endforeach
+                @foreach($topTechnologies->skip(5)->take(10) as $tech)
+                <a href="{{ route('explore.topic', $tech->slug) }}" class="topic-pill more-topic" style="display: none">#{{ $tech->name }}</a>
+                @endforeach
             </div>
         </div>
 
@@ -151,152 +163,20 @@
     </aside>
 </div>
 
-<!-- ══════════════════════════════════════════
-     MODAL DE COMENTARIOS
-══════════════════════════════════════════ -->
-<div class="comments-modal" id="commentsModal">
-    <div class="modal-content">
-        <!-- Header -->
-        <div class="modal-header">
-            <h3 class="modal-title">Comentarios</h3>
-            <button
-                class="modal-close"
-                id="closeCommentsModal"
-                aria-label="Cerrar">
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M6 18L18 6M6 6l12 12" />
-                </svg>
-            </button>
-        </div>
-
-        <!-- Original post -->
-        <div class="modal-original-post">
-            <div class="modal-post-header">
-                <img src="" alt="" class="modal-post-avatar" id="modalPostAvatar" />
-                <div class="modal-post-meta">
-                    <div class="modal-post-author">
-                        <span id="modalPostAuthor"></span>
-                        <div class="verify-badge">
-                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    d="M5 13l4 4L19 7" />
-                            </svg>
-                        </div>
-                    </div>
-                    <div
-                        class="modal-post-handle-time"
-                        id="modalPostHandleTime"></div>
-                </div>
-            </div>
-            <p class="modal-post-content" id="modalPostContent"></p>
-        </div>
-
-        <!-- Comments list -->
-        <div class="modal-comments" id="modalCommentsList">
-            <!-- Los comentarios se cargan dinámicamente aquí -->
-        </div>
-
-        <!-- Comment input -->
-        <div class="modal-footer">
-            <div class="comment-input-wrap">
-                <img
-                    src="{{ Auth::user()->profile->avatar ?? '' }}"
-                    alt="Tú"
-                    class="comment-input-avatar" />
-                <div class="comment-input-form">
-                    <textarea
-                        class="comment-textarea"
-                        id="commentTextarea"
-                        placeholder="Escribe un comentario..."
-                        rows="1"></textarea>
-                    <div
-                        class="comment-input-actions"
-                        id="commentActions"
-                        style="display: none">
-                        <button class="btn-comment-cancel" id="btnCancelComment">
-                            Cancelar
-                        </button>
-                        <button
-                            class="btn-comment-submit"
-                            id="btnSubmitComment"
-                            disabled>
-                            Comentar
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-</div>
+<x-modal-comments />
+<x-modal-report />
+<x-toast />
 @endsection
 
 @push('scripts')
+<script src="{{ asset('js/modalScrollFix.js') }}"></script>
+<script src="{{ asset('js/explore/topics.js') }}"></script>
 <script src="{{ asset('js/modalComment.js') }}"></script>
-<script>
-    // Tab switching with AJAX
-    document.querySelectorAll(".feed-tab").forEach((tab) => {
-        tab.addEventListener("click", function() {
-            document.querySelectorAll(".feed-tab").forEach((t) => t.classList.remove("active"));
-            this.classList.add("active");
-
-            const url = this.dataset.url;
-            const container = document.getElementById("publications-container");
-
-            fetch(url)
-                .then(response => response.text())
-                .then(html => {
-                    container.innerHTML = html;
-                })
-                .catch(error => console.error("Error:", error));
-        });
-    });
-
-    // Like button handling
-    document.addEventListener("click", function(e) {
-        const likeBtn = e.target.closest(".like-btn");
-        if (likeBtn) {
-            e.preventDefault();
-            const projectId = likeBtn.dataset.projectId;
-            
-            fetch(`/projects/${projectId}/like`, {
-                method: "POST",
-                headers: {
-                    "X-CSRF-TOKEN": "{{ csrf_token() }}",
-                    "Content-Type": "application/json"
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                const countSpan = likeBtn.querySelector(".like-count");
-                const svg = likeBtn.querySelector("svg");
-                
-                countSpan.textContent = data.likes_count;
-                likeBtn.classList.toggle("liked");
-                svg.setAttribute("fill", likeBtn.classList.contains("liked") ? "currentColor" : "none");
-            })
-            .catch(error => console.error("Error:", error));
-        }
-    });
-
-    // Comment button handling
-    document.addEventListener("click", function(e) {
-        const commentBtn = e.target.closest(".comment-btn");
-        if (commentBtn) {
-            const projectId = commentBtn.dataset.projectId;
-            // Open comments modal
-            document.getElementById("commentsModal").classList.add("active");
-            // Load comments via AJAX
-        }
-    });
-</script>
+<script src="{{ asset('js/explore/tabs.js') }}"></script>
+<script src="{{ asset('js/explore/loadMore.js') }}"></script>
+<script src="{{ asset('js/explore/index.js') }}"></script>
+<script src="{{ asset('js/explore/like.js') }}"></script>
+<script src="{{ asset('js/explore/projectMenu.js') }}"></script>
 @endpush
 @push('styles')
 <!--Estilo Personalizado de explorar-->
