@@ -40,3 +40,5 @@ function initLikeButton() {
         });
     });
 }
+
+window.initLikeButton = initLikeButton;

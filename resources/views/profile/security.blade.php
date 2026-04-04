@@ -299,6 +299,8 @@
 @endsection
 
 @push('styles')
+<link rel="stylesheet" href="{{ asset('css/profile/shared.css') }}" />
+<link rel="stylesheet" href="{{ asset('css/profile/sidebar.css') }}" />
 <link rel="stylesheet" href="{{ asset('css/profile/security.css') }}" />
 @endpush
 

@@ -2,21 +2,17 @@
 @props(['profile', 'technologies', 'projects', 'workExperiences', 'avatarBase64', 'logoBase64', 'qrBase64'])
 
 @php
-/** @var \App\Models\User $usuarioActual */
-$usuarioActual = Auth::user();
-
-/** @var \App\Models\Profile $perfilActual */
 $perfilActual = $profile;
+$usuarioActual = $perfilActual->user;
 
 $urlPerfil = request()->getHost() . '/' . $usuarioActual->username;
 $urlQrExterno = 'https://api.qrserver.com/v1/create-qr-code/?size=100x100&data='
 . urlencode('https://' . $urlPerfil)
 . '&color=0d9488&bgcolor=ffffff&margin=6';
 
-// Conteos del usuario
-$cantidadSeguidores = $usuarioActual->followers_count ?? 0;
-$cantidadSiguiendo = $usuarioActual->followings_count ?? 0;
-$diasActivo = (int) ($usuarioActual->days_active ?? 0);
+$cantidadSeguidores = $usuarioActual->followers()->count();
+$cantidadSiguiendo = $usuarioActual->follows()->count();
+$diasActivo = (int) ($perfilActual->days_active ?? 0);
 
 $excepcionesIcono = [
 'amazonwebservices' => 'plain-wordmark',

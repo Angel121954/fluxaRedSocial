@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-@section('title', 'Explorar')
+@section('title', request()->get('q') ? 'Buscar: ' . request()->get('q') : 'Explorar')
 <x-topbar :profile="$profile" />
 
 <!-- ══════════════════════════════════════════
@@ -11,7 +11,7 @@
     <div class="feed-main">
         <!-- Tabs -->
         <div class="feed-tabs">
-            <a href="{{ route('explore.trending') }}" class="feed-tab {{ request()->is('explore/trending') || request()->is('explore') ? 'active' : '' }}" data-url="{{ route('explore.trending') }}">🔥 Tendencias</a>
+            <a href="{{ route('explore.trending') }}" class="feed-tab {{ request()->is('explore/trending') || request()->is('explore') && !request()->get('q') ? 'active' : '' }}" data-url="{{ route('explore.trending') }}">🔥 Tendencias</a>
             <a href="{{ route('explore.recent') }}" class="feed-tab {{ request()->is('explore/recent') ? 'active' : '' }}" data-url="{{ route('explore.recent') }}">Recientes</a>
             <a href="{{ route('explore.following') }}" class="feed-tab {{ request()->is('explore/following') ? 'active' : '' }}" data-url="{{ route('explore.following') }}">Siguiendo</a>
         </div>
@@ -20,6 +20,14 @@
         <div class="topic-header">
             <span class="topic-label">Filtrando por:</span>
             <span class="topic-current">#{{ $technology->name }}</span>
+            <a href="{{ route('explore.trending') }}" class="topic-clear">✕</a>
+        </div>
+        @endif
+
+        @if(request()->get('q'))
+        <div class="topic-header">
+            <span class="topic-label">Buscando:</span>
+            <span class="topic-current">"{{ request()->get('q') }}"</span>
             <a href="{{ route('explore.trending') }}" class="topic-clear">✕</a>
         </div>
         @endif

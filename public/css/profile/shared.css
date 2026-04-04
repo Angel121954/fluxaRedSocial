@@ -340,19 +340,39 @@ select.form-input {
     height: 14px;
 }
 
-/* ─── Responsive ──────────────────────────────────────────── */
-@media (max-width: 768px) {
+/* ─── Responsive (solo móvil) ──────────────────────────── */
+@media (max-width: 640px) {
     .edit-layout {
         grid-template-columns: 1fr;
-        padding: 1rem;
+        padding: 0;
+        gap: 0;
+    }
+
+    .sidebar {
+        margin: 0;
+        padding: 0;
+        background: transparent;
+        border: none;
     }
 
     .main-content {
-        padding: 1.5rem;
+        padding: 1.25rem;
+        border: none;
+        border-radius: 0;
+    }
+
+    .page-title {
+        font-size: 1.25rem;
+    }
+
+    .page-subtitle {
+        font-size: 0.875rem;
+        margin-bottom: 1.5rem;
     }
 
     .form-actions {
         flex-direction: column;
+        gap: 0.75rem;
     }
 
     .btn-cancel,
@@ -360,5 +380,41 @@ select.form-input {
     .btn-save {
         width: 100%;
         justify-content: center;
+    }
+
+    .form-group {
+        margin-bottom: 1.25rem;
+    }
+
+    .form-label {
+        font-size: 0.8125rem;
+    }
+
+    .form-input {
+        font-size: 1rem;
+        padding: 0.875rem 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-content {
+        padding: 1rem;
+    }
+
+    .page-title {
+        font-size: 1.125rem;
+    }
+
+    .form-input {
+        padding: 0.75rem;
+    }
+
+    .form-section-title {
+        margin: 1.5rem 0 1rem;
+        padding-top: 1rem;
+    }
+
+    .form-section-title h2 {
+        font-size: 0.9375rem;
     }
 }

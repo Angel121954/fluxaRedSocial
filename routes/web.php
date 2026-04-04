@@ -83,7 +83,7 @@ Route::get('/cv/preview-interno', [ProfileController::class, 'previewInterno'])
     ->name('cv.preview')
     ->middleware('auth');
 
-Route::get('/cv/descargar', [ProfileController::class, 'descargarCV'])
+Route::get('/cv/descargar/{username?}', [ProfileController::class, 'descargarCV'])
     ->name('cv.descargar')
     ->middleware('auth');
 
@@ -99,6 +99,9 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
 
     Route::get('/explore', [ExploreController::class, 'index'])
         ->name('explore.index');
+
+    Route::get('/explore/search', [ExploreController::class, 'search'])
+        ->name('explore.search');
 
     Route::get('/explore/trending', [ExploreController::class, 'trending'])
         ->name('explore.trending');
@@ -129,6 +132,9 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
         */
         Route::get('/profile', [ProfileController::class, 'index'])
             ->name('profile.index');
+
+        Route::get('/profile/{username}', [ProfileController::class, 'show'])
+            ->name('profile.show');
 
         Route::post('/profile/avatar', [ProfileController::class, 'updateAvatar'])
             ->name('profile.avatar');

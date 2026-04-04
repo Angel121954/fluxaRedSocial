@@ -5,12 +5,12 @@ namespace App\Http\Controllers\Profile;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateAvatarRequest;
 use App\Models\Profile;
+use App\Models\ProjectLike;
 use App\Services\ProfileService;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Spatie\Browsershot\Browsershot;
 
@@ -26,8 +26,8 @@ class ProfileController extends Controller
     public function index()
     {
         $user = Auth::user();
-        /** @var \App\Models\User $user */
         $profile = $user->profile;
+        $isOwner = true;
 
         $projects = $user->projects()
             ->with(['media', 'technologies'])
@@ -35,16 +35,48 @@ class ProfileController extends Controller
             ->latest()
             ->get();
 
+        $likedIds = ProjectLike::where('user_id', $user->id)
+            ->whereIn('project_id', $projects->pluck('id'))
+            ->pluck('project_id')
+            ->toArray();
+
         $technologies = $user->technologies()->orderBy('name')->get();
         $workExperiences = $user->workExperiences()->orderBy('started_at', 'desc')->get();
         $educations = $user->educations()->orderBy('graduated_year', 'desc')->get();
+        $followingCount = $user->follows()->count();
+        $followersCount = $user->followers()->count();
 
-        // Precalentar caché del CV en background al cargar el perfil
-        dispatch(function () use ($user) {
-            $this->prepararDatosCV($user);
-        })->afterResponse();
+        return view('profile.index', compact('user', 'profile', 'projects', 'isOwner', 'technologies', 'workExperiences', 'educations', 'followingCount', 'followersCount'));
+    }
 
-        return view('profile.index', compact('profile', 'projects', 'technologies', 'workExperiences', 'educations'));
+    public function show(string $username)
+    {
+        $user = \App\Models\User::where('username', $username)->with('profile')->firstOrFail();
+        $profile = $user->profile;
+        $isOwner = Auth::id() === $user->id;
+
+        $projects = $user->projects()
+            ->with(['media', 'technologies'])
+            ->where('privacy', 'public')
+            ->withCount('media')
+            ->latest()
+            ->get();
+
+        if (Auth::check()) {
+            $likedIds = ProjectLike::where('user_id', Auth::id())
+                ->whereIn('project_id', $projects->pluck('id'))
+                ->pluck('project_id')
+                ->toArray();
+            $projects->each(fn($p) => $p->isLiked = in_array($p->id, $likedIds));
+        }
+
+        $technologies = $user->technologies()->orderBy('name')->get();
+        $workExperiences = $user->workExperiences()->orderBy('started_at', 'desc')->get();
+        $educations = $user->educations()->orderBy('graduated_year', 'desc')->get();
+        $followingCount = $user->follows()->count();
+        $followersCount = $user->followers()->count();
+
+        return view('profile.index', compact('user', 'profile', 'projects', 'isOwner', 'technologies', 'workExperiences', 'educations', 'followingCount', 'followersCount'));
     }
 
     public function previewInterno()
@@ -55,9 +87,14 @@ class ProfileController extends Controller
         return view('components.cv-template', $datos);
     }
 
-    public function descargarCV()
+    public function descargarCV(?string $username = null)
     {
-        $usuario = Auth::user();
+        if ($username) {
+            $usuario = \App\Models\User::where('username', $username)->firstOrFail();
+        } else {
+            $usuario = Auth::user();
+        }
+
         $datos = $this->prepararDatosCV($usuario);
         $contenido = view('components.cv-template', $datos)->render();
 
@@ -68,7 +105,7 @@ class ProfileController extends Controller
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <style>* { margin:0; padding:0; box-sizing:border-box; } body { background:#f8fafc; }</style>
 </head>
-<body>'.$contenido.'</body>
+<body>' . $contenido . '</body>
 </html>';
 
         $pdf = Browsershot::html($html)
@@ -83,7 +120,7 @@ class ProfileController extends Controller
 
         return response($pdf, 200, [
             'Content-Type' => 'application/pdf',
-            'Content-Disposition' => 'attachment; filename="CV_'.$usuario->username.'.pdf"',
+            'Content-Disposition' => 'attachment; filename="CV_' . $usuario->username . '.pdf"',
         ]);
     }
 
@@ -92,28 +129,17 @@ class ProfileController extends Controller
     // ══════════════════════════════════════════
     private function prepararDatosCV($usuario): array
     {
-        $cacheKey = "cv_imagenes_{$usuario->id}";
-
-        $imagenesCacheadas = Cache::remember($cacheKey, now()->addMinutes(30), function () use ($usuario) {
-            return [
-                'avatarBase64' => $this->convertirUrlABase64($usuario->profile->avatar ?? null),
-                'logoBase64' => 'data:image/png;base64,'.base64_encode(
-                    file_get_contents(public_path('img/logoFluxa.png'))
-                ),
-                'qrBase64' => $this->convertirUrlABase64($this->generarUrlQr($usuario->username)),
-                'technologies' => $this->cargarIconosTecnologias($usuario),
-            ];
-        });
-
         return [
             'profile' => $usuario->profile,
-            'technologies' => $imagenesCacheadas['technologies'],
+            'technologies' => $this->cargarIconosTecnologias($usuario),
             'projects' => $usuario->projects()->with('technologies')->latest()->get(),
             'workExperiences' => $usuario->workExperiences()->orderBy('started_at', 'desc')->get(),
-            'educations' => $usuario->educations()->orderBy('graduated_year', 'desc')->get(), // 👈 FALTABA
-            'avatarBase64' => $imagenesCacheadas['avatarBase64'],
-            'logoBase64' => $imagenesCacheadas['logoBase64'],
-            'qrBase64' => $imagenesCacheadas['qrBase64'],
+            'educations' => $usuario->educations()->orderBy('graduated_year', 'desc')->get(),
+            'avatarBase64' => $this->convertirUrlABase64($usuario->profile->avatar ?? null),
+            'logoBase64' => 'data:image/png;base64,' . base64_encode(
+                file_get_contents(public_path('img/logoFluxa.png'))
+            ),
+            'qrBase64' => $this->convertirUrlABase64($this->generarUrlQr($usuario->username)),
         ];
     }
 
@@ -126,7 +152,7 @@ class ProfileController extends Controller
             $contenido = file_get_contents($url);
             $mime = (new \finfo(FILEINFO_MIME_TYPE))->buffer($contenido);
 
-            return "data:{$mime};base64,".base64_encode($contenido);
+            return "data:{$mime};base64," . base64_encode($contenido);
         } catch (Exception $e) {
             Log::warning('CV: no se pudo convertir imagen a base64', [
                 'url' => $url,
@@ -139,11 +165,11 @@ class ProfileController extends Controller
 
     private function generarUrlQr(string $username): string
     {
-        $urlPerfil = request()->getHost().'/'.$username;
+        $urlPerfil = request()->getHost() . '/' . $username;
 
         return 'https://api.qrserver.com/v1/create-qr-code/?size=100x100&data='
-            .urlencode('https://'.$urlPerfil)
-            .'&color=0d9488&bgcolor=ffffff&margin=6';
+            . urlencode('https://' . $urlPerfil)
+            . '&color=0d9488&bgcolor=ffffff&margin=6';
     }
 
     private function cargarIconosTecnologias($usuario)
@@ -165,21 +191,13 @@ class ProfileController extends Controller
                 $tipo = $excepcionesIcono[$slug] ?? 'original';
                 $url = "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/{$slug}/{$slug}-{$tipo}.svg";
                 try {
-                    $tech->iconoB64 = 'data:image/svg+xml;base64,'.base64_encode(file_get_contents($url));
+                    $tech->iconoB64 = 'data:image/svg+xml;base64,' . base64_encode(file_get_contents($url));
                 } catch (Exception $e) {
                     $tech->iconoB64 = null;
                 }
 
                 return $tech;
             });
-    }
-
-    // ══════════════════════════════════════════
-    //  INVALIDAR CACHÉ (llamar cuando cambie el perfil)
-    // ══════════════════════════════════════════
-    public static function invalidarCacheCV(int $userId): void
-    {
-        Cache::forget("cv_imagenes_{$userId}");
     }
 
     // ══════════════════════════════════════════
@@ -191,8 +209,6 @@ class ProfileController extends Controller
             $user = Auth::user();
 
             $avatarUrl = $this->profileService->updateAvatar($user->id, $request->file('avatar'));
-
-            self::invalidarCacheCV($user->id);
 
             return response()->json(['success' => true, 'url' => $avatarUrl]);
         } catch (Exception $e) {
@@ -214,11 +230,9 @@ class ProfileController extends Controller
 
             Profile::where('user_id', $user->id)->update([
                 'avatar' => 'https://api.dicebear.com/7.x/initials/svg?seed='
-                    .strtolower($user->username)
-                    .'&backgroundColor=12b3b6',
+                    . strtolower($user->username)
+                    . '&backgroundColor=12b3b6',
             ]);
-
-            self::invalidarCacheCV($user->id);
 
             return response()->json(['success' => true]);
         } catch (Exception $e) {

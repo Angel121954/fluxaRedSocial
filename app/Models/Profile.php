@@ -3,12 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\User;
 
 class Profile extends Model
 {
     protected $fillable = [
         'user_id',
+        'username',
+        'name',
         'avatar',
         'cover_image',
         'bio',
@@ -25,11 +26,13 @@ class Profile extends Model
         'visibility',
         'last_seen_at',
         'created_at',
-        'updated_at'
+        'updated_at',
     ];
+
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
     public function user()
     {
         return $this->belongsTo(User::class);

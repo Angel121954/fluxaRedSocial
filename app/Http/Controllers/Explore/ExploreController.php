@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Profile;
 use App\Models\Project;
 use App\Models\Technology;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ExploreController extends Controller
@@ -93,6 +94,31 @@ class ExploreController extends Controller
             ->get();
 
         return view('explore.index', compact('profile', 'projects', 'topTechnologies', 'technology'));
+    }
+
+    public function search(Request $request)
+    {
+        $query = $request->get('q', '');
+        $profile = Profile::where('user_id', Auth::id())->first();
+
+        $projects = Project::with(['user.profile', 'media', 'technologies'])
+            ->where('parent_id', null)
+            ->where('privacy', 'public')
+            ->where('title', 'like', "%{$query}%")
+            ->orderByDesc('likes_count')
+            ->orderByDesc('comments_count')
+            ->paginate(15);
+
+        $topTechnologies = Technology::withCount('projects')
+            ->orderByDesc('projects_count')
+            ->limit(15)
+            ->get();
+
+        if ($request->ajax()) {
+            return view('components.project-list', compact('projects'))->render();
+        }
+
+        return view('explore.index', compact('profile', 'projects', 'topTechnologies'));
     }
 
     private function getProjects($type)
