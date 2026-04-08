@@ -7,41 +7,41 @@
      FEED LAYOUT
 ══════════════════════════════════════════ -->
 <div class="feed-layout">
-    <!-- ──── FEED COLUMN ──── -->
-    <div class="feed-main">
-        <!-- Tabs -->
-        <div class="feed-tabs">
-            <a href="{{ route('explore.trending') }}" class="feed-tab {{ request()->is('explore/trending') || request()->is('explore') && !request()->get('q') ? 'active' : '' }}" data-url="{{ route('explore.trending') }}">🔥 Tendencias</a>
-            <a href="{{ route('explore.recent') }}" class="feed-tab {{ request()->is('explore/recent') ? 'active' : '' }}" data-url="{{ route('explore.recent') }}">Recientes</a>
-            <a href="{{ route('explore.following') }}" class="feed-tab {{ request()->is('explore/following') ? 'active' : '' }}" data-url="{{ route('explore.following') }}">Siguiendo</a>
-        </div>
-
-        @if(isset($technology))
-        <div class="topic-header">
-            <span class="topic-label">Filtrando por:</span>
-            <span class="topic-current">#{{ $technology->name }}</span>
-            <a href="{{ route('explore.trending') }}" class="topic-clear">✕</a>
-        </div>
-        @endif
-
-        @if(request()->get('q'))
-        <div class="topic-header">
-            <span class="topic-label">Buscando:</span>
-            <span class="topic-current">"{{ request()->get('q') }}"</span>
-            <a href="{{ route('explore.trending') }}" class="topic-clear">✕</a>
-        </div>
-        @endif
-
-        <!-- Publications Container -->
-        <div id="publications-container">
-            <x-project-list :projects="$projects" />
-        </div>
+  <!-- ──── FEED COLUMN ──── -->
+  <div class="feed-main">
+    <!-- Tabs -->
+    <div class="feed-tabs">
+      <a href="{{ route('explore.trending') }}" class="feed-tab {{ request()->is('explore/trending') || request()->is('explore') && !request()->get('q') ? 'active' : '' }}" data-url="{{ route('explore.trending') }}">🔥 Tendencias</a>
+      <a href="{{ route('explore.recent') }}" class="feed-tab {{ request()->is('explore/recent') ? 'active' : '' }}" data-url="{{ route('explore.recent') }}">Recientes</a>
+      <a href="{{ route('explore.following') }}" class="feed-tab {{ request()->is('explore/following') ? 'active' : '' }}" data-url="{{ route('explore.following') }}">Siguiendo</a>
     </div>
 
-    <!-- ──── SIDEBAR ──── -->
-    <aside class="sidebar">
-        <!-- Personas recomendadas -->
-        <!--  <div class="widget">
+    @if(isset($technology))
+    <div class="topic-header">
+      <span class="topic-label">Filtrando por:</span>
+      <span class="topic-current">#{{ $technology->name }}</span>
+      <a href="{{ route('explore.trending') }}" class="topic-clear">✕</a>
+    </div>
+    @endif
+
+    @if(request()->get('q'))
+    <div class="topic-header">
+      <span class="topic-label">Buscando:</span>
+      <span class="topic-current">"{{ request()->get('q') }}"</span>
+      <a href="{{ route('explore.trending') }}" class="topic-clear">✕</a>
+    </div>
+    @endif
+
+    <!-- Publications Container -->
+    <div id="publications-container">
+      <x-project-list :projects="$projects" />
+    </div>
+  </div>
+
+  <!-- ──── SIDEBAR ──── -->
+  <aside class="sidebar">
+    <!-- Personas recomendadas -->
+    <!--  <div class="widget">
           <div class="widget-header">
             <h3 class="widget-title">Personas recomendadas</h3>
           </div>
@@ -125,50 +125,50 @@
           </div>
         </div> -->
 
-        <!-- Temas populares -->
-        <div class="widget">
-            <div class="widget-header">
-                <h3 class="widget-title">Temas populares</h3>
-                @if($topTechnologies->count() > 5)
-                <button class="widget-link" id="showMoreTopics">Ver más →</button>
-                @endif
-            </div>
-            <div class="topics-grid" id="topicsGrid">
-                @foreach($topTechnologies->take(5) as $tech)
-                <a href="{{ route('explore.topic', $tech->slug) }}" class="topic-pill">#{{ $tech->name }}</a>
-                @endforeach
-                @foreach($topTechnologies->skip(5)->take(10) as $tech)
-                <a href="{{ route('explore.topic', $tech->slug) }}" class="topic-pill more-topic" style="display: none">#{{ $tech->name }}</a>
-                @endforeach
-            </div>
-        </div>
+    <!-- Temas populares -->
+    <div class="widget">
+      <div class="widget-header">
+        <h3 class="widget-title">Temas populares</h3>
+        @if($topTechnologies->count() > 5)
+        <button class="widget-link" id="showMoreTopics">Ver más →</button>
+        @endif
+      </div>
+      <div class="topics-grid" id="topicsGrid">
+        @foreach($topTechnologies->take(5) as $tech)
+        <a href="{{ route('explore.topic', $tech->slug) }}" class="topic-pill">#{{ $tech->name }}</a>
+        @endforeach
+        @foreach($topTechnologies->skip(5)->take(10) as $tech)
+        <a href="{{ route('explore.topic', $tech->slug) }}" class="topic-pill more-topic" style="display: none">#{{ $tech->name }}</a>
+        @endforeach
+      </div>
+    </div>
 
-        <!-- Sobre Fluxa -->
-        <div class="about-fluxa-card">
-            <div class="about-header">
-                <img
-                    src="{{ asset('img/logoFluxa.png') }}"
-                    alt="Fluxa Logo"
-                    class="about-logo" />
-                <h4>Sobre Fluxa</h4>
-            </div>
+    <!-- Sobre Fluxa -->
+    <div class="about-fluxa-card">
+      <div class="about-header">
+        <img
+          src="{{ asset('img/logoFluxa.png') }}"
+          alt="Fluxa Logo"
+          class="about-logo" />
+        <h4>Sobre Fluxa</h4>
+      </div>
 
-            <p class="about-description">
-                Fluxa es una red social enfocada en compartir proyectos,
-                conocimiento y crecimiento profesional de forma segura y
-                transparente.
-            </p>
+      <p class="about-description">
+        Fluxa es una red social enfocada en compartir proyectos,
+        conocimiento y crecimiento profesional de forma segura y
+        transparente.
+      </p>
 
-            <ul class="about-list">
-                <li>✔ Perfiles verificados</li>
-                <li>✔ Normas claras de comunidad</li>
-                <li>✔ Protección de datos</li>
-                <li>✔ Moderación responsable</li>
-            </ul>
+      <ul class="about-list">
+        <li>✔ Perfiles verificados</li>
+        <li>✔ Normas claras de comunidad</li>
+        <li>✔ Protección de datos</li>
+        <li>✔ Moderación responsable</li>
+      </ul>
 
-            <a href="{{ route('about-fluxa') }}" class="about-link"> Conocer más → </a>
-        </div>
-    </aside>
+      <a href="{{ route('about-fluxa') }}" class="about-link"> Conocer más → </a>
+    </div>
+  </aside>
 </div>
 
 <x-modal-comments />

@@ -2,6 +2,7 @@
 @section('title', $user->name ?? 'Perfil')
 @section('content')
 <x-topbar :profile="$user->profile" />
+<body class="font-sans antialiased" data-user-avatar="{{ $user->avatar_url }}" data-user-name="{{ $user->name }}" data-user-handle="{{ $user->username }}">
 <!-- ══════════════════════════════════════════
      PROFILE HEADER
 ══════════════════════════════════════════ -->
@@ -308,6 +309,7 @@
 <input type="file" id="fileIn" accept="image/*" style="display: none" />
 <x-modal-comments />
 <x-modal-report />
+</body>
 @endsection
 
 @push('styles')
@@ -326,31 +328,5 @@
 <script src="{{ asset('js/explore/like.js') }}"></script>
 <script src="{{ asset('js/modalComment.js') }}"></script>
 <script src="{{ asset('js/modalScrollFix.js') }}"></script>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    initLikeButton();
-
-    document.addEventListener('click', function(e) {
-        const commentBtn = e.target.closest('.comment-btn');
-        if (!commentBtn) return;
-
-        const projectId = commentBtn.dataset.projectId;
-        const projectCard = document.querySelector(`[data-project-id="${projectId}"]`);
-        if (!projectCard) return;
-
-        const content = projectCard.querySelector('.card-title')?.textContent || '';
-        
-        if (typeof openCommentsModal === 'function') {
-            openCommentsModal({
-                avatar: '{{ $user->avatar_url }}',
-                author: '{{ $user->name }}',
-                handle: '{{ $user->username }}',
-                time: '',
-                content: content,
-                commentsKey: `project_${projectId}`
-            });
-        }
-    });
-});
-</script>
+<script src="{{ asset('js/profile/commentHandler.js') }}"></script>
 @endpush

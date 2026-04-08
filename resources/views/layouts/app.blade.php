@@ -29,6 +29,23 @@
     @yield('content')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <div class="toast" id="toast" style="display:none;">
+        <span id="toastMessage"></span>
+    </div>
+
+    @if(session('success'))
+    <script>
+        (function() {
+            const toast = document.getElementById('toast');
+            const msg = document.getElementById('toastMessage');
+            msg.textContent = '{{ session('success') }}';
+            toast.style.cssText = 'position:fixed;bottom:1.5rem;right:1.5rem;background:#12b3b6;color:#fff;padding:0.75rem 1.25rem;border-radius:0.5rem;font-size:0.9rem;z-index:9999;';
+            toast.style.display = 'block';
+            setTimeout(() => toast.style.display = 'none', 3000);
+        })();
+    </script>
+    @endif
+
     @stack('scripts')
 
     <script src="{{ asset('js/modalScrollFix.js') }}"></script>

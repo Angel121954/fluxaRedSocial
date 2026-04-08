@@ -1,11 +1,11 @@
 <?php
 
-use App\Http\Controllers\AboutFluxaController;
 use App\Http\Controllers\Auth\GuestController;
 use App\Http\Controllers\Auth\SocialAuthController;
 use App\Http\Controllers\Explore\ExploreController;
 use App\Http\Controllers\Notifications\NotificationController;
-use App\Http\Controllers\OnboardingController;
+use App\Http\Controllers\Onboarding\OnboardingController;
+use App\Http\Controllers\Pages\AboutFluxaController;
 use App\Http\Controllers\Profile\AccountController;
 use App\Http\Controllers\Profile\ConfigurationController;
 use App\Http\Controllers\Profile\EducationController;
@@ -15,6 +15,8 @@ use App\Http\Controllers\Profile\ProfileController;
 use App\Http\Controllers\Profile\SecurityController;
 use App\Http\Controllers\Profile\WorkExperienceController;
 use App\Http\Controllers\Projects\ProjectController;
+use App\Http\Controllers\Suggestions\SuggestionController;
+use App\Http\Controllers\Technology\TechnologyController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -195,6 +197,42 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
 
         /*
         |--------------------------------------------------------------------------
+        | Sugerencias
+        |--------------------------------------------------------------------------
+        */
+        Route::get('suggestions/create', [SuggestionController::class, 'create'])
+            ->name('suggestions.create');
+
+        Route::post('suggestions', [SuggestionController::class, 'store'])
+            ->name('suggestions.store');
+
+        /*
+        |--------------------------------------------------------------------------
+        | Sugerencias (admin)
+        |--------------------------------------------------------------------------
+        */
+        Route::get('admin/suggestions', [SuggestionController::class, 'index'])
+            ->name('admin.suggestions.index')
+            ->middleware('admin');
+
+        Route::get('admin/suggestions/{suggestion}', [SuggestionController::class, 'show'])
+            ->name('admin.suggestions.show')
+            ->middleware('admin');
+
+        Route::patch('admin/suggestions/{suggestion}/approve', [SuggestionController::class, 'approve'])
+            ->name('admin.suggestions.approve')
+            ->middleware('admin');
+
+        Route::patch('admin/suggestions/{suggestion}/markRead', [SuggestionController::class, 'markRead'])
+            ->name('admin.suggestions.markRead')
+            ->middleware('admin');
+
+        Route::delete('admin/suggestions/{suggestion}', [SuggestionController::class, 'destroy'])
+            ->name('admin.suggestions.destroy')
+            ->middleware('admin');
+
+        /*
+        |--------------------------------------------------------------------------
         | Recursos del perfil
         |--------------------------------------------------------------------------
         */
@@ -216,11 +254,8 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
         | Tecnologías (AJAX)
         |--------------------------------------------------------------------------
         */
-        Route::get(
-            '/technologies',
-            fn () => \App\Models\Technology::orderBy('name')
-                ->get(['id', 'name', 'icon'])
-        )->name('technologies.index');
+        Route::get('/technologies', [TechnologyController::class, 'index'])
+            ->name('technologies.index');
     });
 });
 

@@ -26,8 +26,8 @@
                 {{-- @var \App\Models\User $dev --}}
                 <div class="user-card">
                     <div class="avatar">
-                        @if($dev->avatar)
-                        <img src="{{ $dev->avatar ?? '' }}" alt="{{ $dev->username }}">
+                        @if(isset($dev->avatar) && $dev->avatar)
+                        <img src="{{ $dev->avatar }}" alt="{{ $dev->username }}">
                         @else
                         {{ strtoupper(substr($dev->name, 0, 1)) }}
                         @endif
@@ -57,7 +57,7 @@
         </form>
 
         <p class="skip">
-            <a href="{{ route('explore.index') }}" onclick="skipOnboarding()">Omitir e ir a Explorar</a>
+            <a href="{{ route('explore.index') }}" onclick="skipOnboarding(event)">Omitir e ir a Explorar</a>
         </p>
     </div>
 

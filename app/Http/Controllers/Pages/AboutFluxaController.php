@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Pages;
 
+use App\Http\Controllers\Controller;
 use App\Models\Profile;
-use Illuminate\Http\Request;
-use Spatie\FlareClient\View;
 use Illuminate\Support\Facades\Auth;
 
 class AboutFluxaController extends Controller
@@ -12,6 +11,7 @@ class AboutFluxaController extends Controller
     public function index()
     {
         $profile = Profile::where('user_id', Auth::user()->id)->first();
+
         return view('about-fluxa', compact('profile'));
     }
 }

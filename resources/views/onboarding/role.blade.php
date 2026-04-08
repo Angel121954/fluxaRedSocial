@@ -89,6 +89,3 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
 <link rel="stylesheet" href="{{ asset('css/role.css') }}">
 @endpush
-
-@push('scripts')
-@endpush

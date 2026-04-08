@@ -64,6 +64,13 @@ class CloudinaryService
         ]);
     }
 
+    public function uploadSuggestionImage(UploadedFile $file, string $publicId): array
+    {
+        return $this->upload($file, 'suggestions', $publicId, [
+            'resource_type' => 'image',
+        ]);
+    }
+
     public function delete(string $publicId, string $resourceType = 'image'): bool
     {
         try {

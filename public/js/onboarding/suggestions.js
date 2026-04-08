@@ -19,16 +19,27 @@ function toggleFollow(btn, userId) {
     }
 }
 
-function skipOnboarding() {
+async function skipOnboarding(event) {
+    event.preventDefault();
+    
     const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content 
         || document.querySelector('input[name="_token"]')?.value;
+    const form = document.getElementById('suggestionsForm');
     
-    fetch(window._routes?.onboardingSave || '/onboarding/save-suggestions', {
-        method: 'POST',
-        headers: {
-            'X-CSRF-TOKEN': csrfToken,
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({})
-    });
+    try {
+        const formData = new FormData(form);
+        await fetch(form.action, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': csrfToken,
+                'Accept': 'application/json',
+            },
+            body: formData,
+            credentials: 'same-origin'
+        });
+    } catch (e) {
+        console.error('Error:', e);
+    }
+    
+    window.location.href = event.currentTarget.href;
 }

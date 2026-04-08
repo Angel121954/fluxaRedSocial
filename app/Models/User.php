@@ -14,8 +14,11 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'role',
+        'status',
         'username',
         'password',
+        'onboarding_completed',
     ];
 
     protected $hidden = [
@@ -26,6 +29,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'onboarding_completed' => 'boolean',
     ];
 
     public function profile()
@@ -66,6 +70,11 @@ class User extends Authenticatable
     public function followers()
     {
         return $this->belongsToMany(User::class, 'follows', 'followed_id', 'follower_id');
+    }
+
+    public function suggestions()
+    {
+        return $this->hasOne(Suggestion::class);
     }
 
     public function getAvatarUrlAttribute(): string
