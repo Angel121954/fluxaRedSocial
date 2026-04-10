@@ -77,7 +77,7 @@
                 <span>Nuevo proyecto</span>
             </button>
             <a href="{{ route('profile.index') }}" aria-label="Ver mi perfil">
-                <img src="{{ $profile->user->avatar_url ?? '' }}" alt="Tu perfil" class="nav-user-av" />
+                <img src="{{ Auth::user()->avatar_url }}" alt="Tu perfil" class="nav-user-av" />
             </a>
             @endif
 
@@ -209,8 +209,8 @@
 </div>
 
 @push('scripts')
-<script src="{{ asset('js/topbar.js') }}"></script>
+@vite('resources/js/shared/topbar.js')
 @endpush
 @push('styles')
-<link rel="stylesheet" href="{{ asset('css/topbar.css') }}">
+@vite('resources/css/topbar.css')
 @endpush

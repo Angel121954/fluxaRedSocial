@@ -6,7 +6,6 @@
     },
     "devDependencies": {
         "@tailwindcss/forms": "^0.5.2",
-        "alpinejs": "^3.4.2",
         "autoprefixer": "^10.4.2",
         "axios": "^1.1.2",
         "laravel-echo": "^2.3.1",
@@ -18,9 +17,7 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
-        "@inertiajs/vue3": "^2.3.16",
         "puppeteer": "^24.40.0",
-        "vue": "^3.5.29",
         "ziggy-js": "^2.6.1"
     }
 }

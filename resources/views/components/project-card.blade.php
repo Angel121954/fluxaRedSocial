@@ -2,7 +2,6 @@
 
 @php
 $user = $project->user;
-$profile = $user->profile;
 $timeAgo = $project->created_at->diffForHumans();
 $isLiked = $project->isLikedBy(auth()->id());
 $isBookmarked = $project->isBookmarkedBy(auth()->id());
@@ -11,11 +10,13 @@ $isBookmarked = $project->isBookmarkedBy(auth()->id());
 <div class="post-card" data-project-id="{{ $project->id }}">
     <div style="display: flex; justify-content: space-between">
         <div class="post-header">
-            <img
-                src="{{ $profile->avatar ?? 'https://api.dicebear.com/7.x/initials/svg?seed=' . strtolower($user->username) . '&backgroundColor=12b3b6' }}"
-                alt="{{ $user->name }}"
-                class="post-avatar"
-                loading="lazy" />
+            <a href="/profile/{{ $user->username ?? '/profile' }}">
+                <img
+                    src="{{ $user->avatar_url }}"
+                    alt="{{ $user->username }}"
+                    class="post-avatar"
+                    loading="lazy" />
+            </a>
             <div class="post-meta">
                 <div class="post-author-row">
                     <span class="post-author">{{ $user->name }}</span>

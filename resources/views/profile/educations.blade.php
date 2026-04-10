@@ -97,7 +97,6 @@
                 <p class="we-empty__sub">Usa el botón de arriba para agregar tu primera educación.</p>
             </div>
             @endforelse
-            <x-alert />
         </div>
 
     </main>
@@ -190,11 +189,12 @@
 @endsection
 
 @push('styles')
-<link rel="stylesheet" href="{{ asset('css/profile/shared.css') }}" />
-<link rel="stylesheet" href="{{ asset('css/profile/sidebar.css') }}" />
-<link rel="stylesheet" href="{{ asset('css/profile/workExperience.css') }}" />
+@vite('resources/css/profile/shared.css')
+@vite('resources/css/profile/sidebar.css')
+@vite('resources/css/profile/workExperience.css')
 @endpush
 
 @push('scripts')
-<script src="{{ asset('js/profile/education.js') }}"></script>
+@vite('resources/js/profile/education.js')
+@vite('resources/js/profile/avatar.js')
 @endpush

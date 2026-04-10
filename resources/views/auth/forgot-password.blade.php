@@ -121,9 +121,9 @@
 @endsection
 
 @push('scripts')
-<script src="{{ asset('js/emailModalSend.js') }}"></script>
+@vite('resources/js/shared/emailModalSend.js')
 @endpush
 
 @push('styles')
-<link rel="stylesheet" href="{{ asset('css/forgotPassword.css') }}">
+@vite('resources/css/forgotPassword.css')
 @endpush

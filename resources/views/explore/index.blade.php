@@ -173,20 +173,11 @@
 
 <x-modal-comments />
 <x-modal-report />
-<x-toast />
 @endsection
 
 @push('scripts')
-<script src="{{ asset('js/modalScrollFix.js') }}"></script>
-<script src="{{ asset('js/explore/topics.js') }}"></script>
-<script src="{{ asset('js/modalComment.js') }}"></script>
-<script src="{{ asset('js/explore/tabs.js') }}"></script>
-<script src="{{ asset('js/explore/loadMore.js') }}"></script>
-<script src="{{ asset('js/explore/index.js') }}"></script>
-<script src="{{ asset('js/explore/like.js') }}"></script>
-<script src="{{ asset('js/explore/projectMenu.js') }}"></script>
+@vite('resources/js/explore/index.js')
 @endpush
 @push('styles')
-<!--Estilo Personalizado de explorar-->
-<link rel="stylesheet" href="{{ asset('css/explore.css') }}" />
+@vite('resources/css/explore.css')
 @endpush

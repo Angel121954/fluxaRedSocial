@@ -138,8 +138,6 @@
                 </div>
             </div>
 
-            <x-alert />
-
             <div class="notif-actions">
                 <x-btn-cancel />
                 <x-btn-submit>
@@ -157,7 +155,11 @@
 @endsection
 
 @push('styles')
-<link rel="stylesheet" href="{{ asset('css/profile/shared.css') }}" />
-<link rel="stylesheet" href="{{ asset('css/profile/sidebar.css') }}" />
-<link rel="stylesheet" href="{{ asset('css/profile/preferences.css') }}" />
+@vite('resources/css/profile/shared.css')
+@vite('resources/css/profile/sidebar.css')
+@vite('resources/css/profile/preferences.css')
+@endpush
+
+@push('scripts')
+@vite('resources/js/profile/avatar.js')
 @endpush

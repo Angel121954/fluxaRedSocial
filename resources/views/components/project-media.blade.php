@@ -113,10 +113,10 @@ return "https://res.cloudinary.com/{$cloud}/image/upload/{$t}/{$publicId}";
 </div>
 
 @push('styles')
-<link rel="stylesheet" href="{{ asset('css/projectMedia.css') }}">
+@vite('resources/css/projectMedia.css')
 @endpush
 
 @push('scripts')
-<script src="{{ asset('js/projectMedia.js') }}"></script>
+@vite('resources/js/projects/projectMedia.js')
 @endpush
 @endonce

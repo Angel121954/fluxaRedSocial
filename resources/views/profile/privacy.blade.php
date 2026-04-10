@@ -60,8 +60,6 @@
 
             </div>
 
-            <x-alert />
-
             <div class="form-actions">
                 <x-btn-cancel href="{{ route('profile.index') }}" />
                 <x-btn-submit>Guardar cambios</x-btn-submit>
@@ -74,7 +72,11 @@
 @endsection
 
 @push('styles')
-<link rel="stylesheet" href="{{ asset('css/profile/shared.css') }}" />
-<link rel="stylesheet" href="{{ asset('css/profile/sidebar.css') }}" />
-<link rel="stylesheet" href="{{ asset('css/profile/privacy.css') }}">
+@vite('resources/css/profile/shared.css')
+@vite('resources/css/profile/sidebar.css')
+@vite('resources/css/profile/privacy.css')
+@endpush
+
+@push('scripts')
+@vite('resources/js/profile/avatar.js')
 @endpush

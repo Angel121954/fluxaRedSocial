@@ -3,7 +3,7 @@
 @section('title', 'Crear Sugerencia Fluxa')
 
 @push('styles')
-<link rel="stylesheet" href="{{ asset('css/suggestions/suggestions.css') }}">
+@vite('resources/css/suggestions/suggestions.css')
 @endpush
 
 @section('content')
@@ -37,10 +37,10 @@
 
             <div class="adm-form-group">
                 <label for="description" class="adm-label">Descripción</label>
-                <textarea 
-                    id="description" 
-                    name="description" 
-                    class="adm-textarea" 
+                <textarea
+                    id="description"
+                    name="description"
+                    class="adm-textarea"
                     rows="5"
                     placeholder="Describe tu sugerencia..."
                     required
@@ -55,11 +55,11 @@
             <div class="adm-form-group">
                 <label for="image" class="adm-label">Imagen (opcional)</label>
                 <div class="adm-upload-wrap">
-                    <input 
-                        type="file" 
-                        id="image" 
-                        name="image" 
-                        class="adm-upload-input" 
+                    <input
+                        type="file"
+                        id="image"
+                        name="image"
+                        class="adm-upload-input"
                         accept="image/*"
                         onchange="previewSuggestionImage(this)">
                     <div class="adm-upload-zone" id="uploadZone">
@@ -89,5 +89,5 @@
 @endsection
 
 @push('scripts')
-<script src="{{ asset('js/suggestions/index.js') }}"></script>
+@vite('resources/js/suggestions/index.js')
 @endpush

@@ -263,10 +263,9 @@
 @endsection
 
 @push('styles')
-<!--Estilo Personalizado de login-->
-<link rel="stylesheet" href="{{ asset('css/login.css') }}" />
+@vite('resources/css/login.css')
 @endpush
 
 @push('scripts')
-<script src="{{ asset('js/passwordVisibility.js') }}"></script>
+@vite('resources/js/shared/passwordVisibility.js')
 @endpush

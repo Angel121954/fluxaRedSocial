@@ -47,5 +47,5 @@
 <x-modal-image />
 
 @push('scripts')
-<script src="{{ asset('js/profile/avatar.js') }}"></script>
+@vite('resources/js/shared/topbar.js')
 @endpush

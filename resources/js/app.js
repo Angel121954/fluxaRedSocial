@@ -1,5 +1,6 @@
 import "./bootstrap";
 import "../css/app.css";
+import "./shared/toast.js";
 
 document.addEventListener("DOMContentLoaded", () => {
     window.addEventListener("popstate", () => {

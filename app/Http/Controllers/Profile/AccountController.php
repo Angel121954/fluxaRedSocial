@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Profile;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UpdateAccountRequest;
 use App\Models\Profile;
 use Illuminate\Support\Facades\Auth;
 

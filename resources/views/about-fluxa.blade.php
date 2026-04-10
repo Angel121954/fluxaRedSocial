@@ -170,5 +170,5 @@
 @endsection
 
 @push('styles')
-<link rel="stylesheet" href="{{ asset('css/aboutFluxa.css') }}" />
+@vite('resources/css/aboutFluxa.css')
 @endpush

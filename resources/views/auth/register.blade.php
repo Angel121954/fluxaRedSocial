@@ -383,10 +383,9 @@
 @endsection
 
 @push('styles')
-<!--Estilo personalizado de registro-->
-<link rel="stylesheet" href="{{ asset('css/register.css') }}" />
+@vite('resources/css/register.css')
 @endpush
 
 @push('scripts')
-<script src="{{ asset('js/passwordVisibility.js') }}"></script>
+@vite('resources/js/shared/passwordVisibility.js')
 @endpush

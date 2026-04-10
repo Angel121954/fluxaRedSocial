@@ -222,8 +222,8 @@
 </div>
 
 @push('styles')
-<link rel="stylesheet" href="{{ asset('css/newProject.css') }}">
+@vite('resources/css/newProject.css')
 @endpush
 @push('scripts')
-<script src="{{ asset('js/newProject.js') }}"></script>
+@vite('resources/js/projects/index.js')
 @endpush

@@ -3,7 +3,7 @@
 @section('title', 'Sugerencias — Admin Fluxa')
 
 @push('styles')
-<link rel="stylesheet" href="{{ asset('css/suggestions/suggestions.css') }}">
+@vite('resources/css/suggestions/suggestions.css')
 @endpush
 
 @section('content')
@@ -317,7 +317,7 @@
 </div>{{-- /adm-wrap --}}
 
 @push('scripts')
-<script src="{{ asset('js/suggestions/index.js') }}"></script>
+@vite('resources/js/onboarding/index.js')
 @endpush
 
 @endsection

@@ -299,11 +299,12 @@
 @endsection
 
 @push('styles')
-<link rel="stylesheet" href="{{ asset('css/profile/shared.css') }}" />
-<link rel="stylesheet" href="{{ asset('css/profile/sidebar.css') }}" />
-<link rel="stylesheet" href="{{ asset('css/profile/security.css') }}" />
+@vite('resources/css/profile/shared.css')
+@vite('resources/css/profile/sidebar.css')
+@vite('resources/css/profile/security.css')
 @endpush
 
 @push('scripts')
-<script src="{{ asset('js/security.js') }}"></script>
+@vite('resources/js/shared/security.js')
+@vite('resources/js/profile/avatar.js')
 @endpush

@@ -77,9 +77,9 @@
 
 @push('styles')
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{{ asset('css/technologies.css') }}">
+@vite('resources/css/technologies.css')
 @endpush
 
 @push('scripts')
-<script src="{{ asset('js/onboarding/technologies.js') }}"></script>
+@vite('resources/js/onboarding/index.js')
 @endpush

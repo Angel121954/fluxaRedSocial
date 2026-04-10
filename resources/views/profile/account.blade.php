@@ -114,7 +114,7 @@
                     @enderror
                 </div>
 
-                <x-alert />
+
 
                 <!-- Acciones -->
                 <div class="form-actions">
@@ -256,11 +256,11 @@
 @endsection
 
 @push('styles')
-<link rel="stylesheet" href="{{ asset('css/profile/shared.css') }}" />
-<link rel="stylesheet" href="{{ asset('css/profile/sidebar.css') }}" />
-<link rel="stylesheet" href="{{ asset('css/profile/account.css') }}" />
+@vite('resources/css/profile/shared.css')
+@vite('resources/css/profile/sidebar.css')
+@vite('resources/css/profile/account.css')
 @endpush
 
 @push('scripts')
-<script src="{{ asset('js/destroyAccount.js') }}"></script>
+@vite('resources/js/profile/index.js')
 @endpush
