@@ -14,7 +14,7 @@
 
             <nav class="nav-links" aria-label="Links principales">
                 @if(Auth::user()->role !== 'guest')
-                <a href="#"
+                <a href="{{ route('feed.index') }}"
                     class="nav-link {{ request()->routeIs('feed*') ? 'active' : '' }}"
                     @if(request()->routeIs('feed*')) aria-current="page" @endif>
                     Feed
@@ -124,7 +124,7 @@
 
         {{-- Links de navegación --}}
         @if(Auth::user()->role !== 'guest')
-        <a href="#"
+        <a href="{{ route('feed.index') }}"
             class="mobile-menu-link {{ request()->routeIs('feed*') ? 'active' : '' }}"
             @if(request()->routeIs('feed*')) aria-current="page" @endif>
             <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">

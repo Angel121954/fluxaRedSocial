@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\GuestController;
 use App\Http\Controllers\Auth\SocialAuthController;
 use App\Http\Controllers\Explore\ExploreController;
+use App\Http\Controllers\Feed\FeedController;
 use App\Http\Controllers\Notifications\NotificationController;
 use App\Http\Controllers\Onboarding\OnboardingController;
 use App\Http\Controllers\Pages\AboutFluxaController;
@@ -99,6 +100,12 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
     Route::view('/dashboard', 'dashboard')
         ->name('dashboard');
 
+    Route::get('/feed', [FeedController::class, 'index'])
+        ->name('feed.index');
+
+    Route::get('/feed/paginate', [FeedController::class, 'paginate'])
+        ->name('feed.paginate');
+
     Route::get('/explore', [ExploreController::class, 'index'])
         ->name('explore.index');
 
@@ -110,9 +117,6 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
 
     Route::get('/explore/recent', [ExploreController::class, 'recent'])
         ->name('explore.recent');
-
-    Route::get('/explore/following', [ExploreController::class, 'following'])
-        ->name('explore.following');
 
     Route::get('/explore/topic/{slug}', [ExploreController::class, 'topic'])
         ->name('explore.topic');

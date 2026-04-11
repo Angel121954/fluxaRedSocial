@@ -13,7 +13,6 @@
     <div class="feed-tabs">
       <a href="{{ route('explore.trending') }}" class="feed-tab {{ request()->is('explore/trending') || request()->is('explore') && !request()->get('q') ? 'active' : '' }}" data-url="{{ route('explore.trending') }}">🔥 Tendencias</a>
       <a href="{{ route('explore.recent') }}" class="feed-tab {{ request()->is('explore/recent') ? 'active' : '' }}" data-url="{{ route('explore.recent') }}">Recientes</a>
-      <a href="{{ route('explore.following') }}" class="feed-tab {{ request()->is('explore/following') ? 'active' : '' }}" data-url="{{ route('explore.following') }}">Siguiendo</a>
     </div>
 
     @if(isset($technology))

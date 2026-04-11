@@ -57,22 +57,6 @@ class ExploreController extends Controller
         return view('explore.index', compact('profile', 'projects', 'topTechnologies'));
     }
 
-    public function following()
-    {
-        $profile = Profile::where('user_id', Auth::id())->first();
-        $projects = $this->getProjects('following');
-        $topTechnologies = Technology::withCount('projects')
-            ->orderByDesc('projects_count')
-            ->limit(15)
-            ->get();
-
-        if (request()->ajax()) {
-            return view('components.project-list', compact('projects'))->render();
-        }
-
-        return view('explore.index', compact('profile', 'projects', 'topTechnologies'));
-    }
-
     public function topic($slug)
     {
         $profile = Profile::where('user_id', Auth::id())->first();
@@ -135,17 +119,6 @@ class ExploreController extends Controller
 
             case 'recent':
                 return $query->orderByDesc('created_at')
-                    ->paginate(15);
-
-            case 'following':
-                $followingIds = Auth::user()->follows()->pluck('followed_id');
-
-                if ($followingIds->isEmpty()) {
-                    return $query->whereRaw('1 = 0')->paginate(15);
-                }
-
-                return $query->whereIn('user_id', $followingIds)
-                    ->orderByDesc('created_at')
                     ->paginate(15);
 
             default:
