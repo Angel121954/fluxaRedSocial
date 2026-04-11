@@ -25,6 +25,7 @@ class ProfileController extends Controller
 
     public function index()
     {
+        $profilePrivate = Profile::where('');
         $user = Auth::user();
         $profile = $user->profile;
         $isOwner = true;
@@ -55,6 +56,10 @@ class ProfileController extends Controller
         $profile = $user->profile;
         $isOwner = Auth::id() === $user->id;
 
+        if ($profile->visibility === 'private' && ! $isOwner) {
+            abort(403, 'Este perfil es privado');
+        }
+
         $projects = $user->projects()
             ->with(['media', 'technologies'])
             ->where('privacy', 'public')
@@ -67,7 +72,7 @@ class ProfileController extends Controller
                 ->whereIn('project_id', $projects->pluck('id'))
                 ->pluck('project_id')
                 ->toArray();
-            $projects->each(fn($p) => $p->isLiked = in_array($p->id, $likedIds));
+            $projects->each(fn ($p) => $p->isLiked = in_array($p->id, $likedIds));
         }
 
         $technologies = $user->technologies()->orderBy('name')->get();
@@ -105,7 +110,7 @@ class ProfileController extends Controller
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <style>* { margin:0; padding:0; box-sizing:border-box; } body { background:#f8fafc; }</style>
 </head>
-<body>' . $contenido . '</body>
+<body>'.$contenido.'</body>
 </html>';
 
         $pdf = Browsershot::html($html)
@@ -120,7 +125,7 @@ class ProfileController extends Controller
 
         return response($pdf, 200, [
             'Content-Type' => 'application/pdf',
-            'Content-Disposition' => 'attachment; filename="CV_' . $usuario->username . '.pdf"',
+            'Content-Disposition' => 'attachment; filename="CV_'.$usuario->username.'.pdf"',
         ]);
     }
 
@@ -136,7 +141,7 @@ class ProfileController extends Controller
             'workExperiences' => $usuario->workExperiences()->orderBy('started_at', 'desc')->get(),
             'educations' => $usuario->educations()->orderBy('graduated_year', 'desc')->get(),
             'avatarBase64' => $this->convertirUrlABase64($usuario->profile->avatar ?? null),
-            'logoBase64' => 'data:image/png;base64,' . base64_encode(
+            'logoBase64' => 'data:image/png;base64,'.base64_encode(
                 file_get_contents(public_path('img/logoFluxa.png'))
             ),
             'qrBase64' => $this->convertirUrlABase64($this->generarUrlQr($usuario->username)),
@@ -152,7 +157,7 @@ class ProfileController extends Controller
             $contenido = file_get_contents($url);
             $mime = (new \finfo(FILEINFO_MIME_TYPE))->buffer($contenido);
 
-            return "data:{$mime};base64," . base64_encode($contenido);
+            return "data:{$mime};base64,".base64_encode($contenido);
         } catch (Exception $e) {
             Log::warning('CV: no se pudo convertir imagen a base64', [
                 'url' => $url,
@@ -165,11 +170,11 @@ class ProfileController extends Controller
 
     private function generarUrlQr(string $username): string
     {
-        $urlPerfil = request()->getHost() . '/' . $username;
+        $urlPerfil = request()->getHost().'/'.$username;
 
         return 'https://api.qrserver.com/v1/create-qr-code/?size=100x100&data='
-            . urlencode('https://' . $urlPerfil)
-            . '&color=0d9488&bgcolor=ffffff&margin=6';
+            .urlencode('https://'.$urlPerfil)
+            .'&color=0d9488&bgcolor=ffffff&margin=6';
     }
 
     private function cargarIconosTecnologias($usuario)
@@ -191,7 +196,7 @@ class ProfileController extends Controller
                 $tipo = $excepcionesIcono[$slug] ?? 'original';
                 $url = "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/{$slug}/{$slug}-{$tipo}.svg";
                 try {
-                    $tech->iconoB64 = 'data:image/svg+xml;base64,' . base64_encode(file_get_contents($url));
+                    $tech->iconoB64 = 'data:image/svg+xml;base64,'.base64_encode(file_get_contents($url));
                 } catch (Exception $e) {
                     $tech->iconoB64 = null;
                 }
@@ -230,8 +235,8 @@ class ProfileController extends Controller
 
             Profile::where('user_id', $user->id)->update([
                 'avatar' => 'https://api.dicebear.com/7.x/initials/svg?seed='
-                    . strtolower($user->username)
-                    . '&backgroundColor=12b3b6',
+                    .strtolower($user->username)
+                    .'&backgroundColor=12b3b6',
             ]);
 
             return response()->json(['success' => true]);

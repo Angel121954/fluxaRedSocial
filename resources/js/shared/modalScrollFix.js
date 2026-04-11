@@ -1,57 +1,36 @@
 (function () {
-    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
     let openCount = 0;
 
     function updateBodyScroll() {
+        const sbw = window.innerWidth - document.documentElement.clientWidth;
         if (openCount > 0) {
             document.body.style.overflow = 'hidden';
-            document.body.style.paddingRight = scrollbarWidth + 'px';
+            document.body.style.marginRight = sbw > 0 ? sbw + 'px' : '';
         } else {
             document.body.style.overflow = '';
-            document.body.style.paddingRight = '';
+            document.body.style.marginRight = '';
         }
     }
 
-    function handleClassChange(el) {
-        const hasShow = el.classList.contains('show');
-        const wasShow = el.getAttribute('data-was-open') === 'true';
+    function checkAndUpdate() {
+        const modals = document.querySelectorAll(
+            '.img-modal.show, .we-backdrop.show, .pwd-modal-backdrop.show, .comments-modal.show'
+        );
         
-        if (hasShow && !wasShow) {
-            openCount++;
-            updateBodyScroll();
-        } else if (!hasShow && wasShow) {
-            openCount = Math.max(0, openCount - 1);
+        let newCount = 0;
+        modals.forEach(() => newCount++);
+
+        if (newCount !== openCount) {
+            openCount = newCount;
             updateBodyScroll();
         }
-        
-        el.setAttribute('data-was-open', hasShow);
     }
 
-    const observer = new MutationObserver((mutations) => {
-        mutations.forEach((mutation) => {
-            if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
-                const target = mutation.target;
-                const hasIsOpen = target.classList.contains('is-open');
-                const wasOpen = mutation.oldValue?.includes('is-open');
-
-                if (hasIsOpen && !wasOpen) {
-                    openCount++;
-                    updateBodyScroll();
-                } else if (!hasIsOpen && wasOpen) {
-                    openCount = Math.max(0, openCount - 1);
-                    updateBodyScroll();
-                }
-            }
-        });
+    document.addEventListener('DOMContentLoaded', () => {
+        setInterval(checkAndUpdate, 50);
     });
 
-    document.querySelectorAll('.we-backdrop, .pwd-modal-backdrop, .img-modal, modal-comments')
-        .forEach((el) => {
-            observer.observe(el, { attributes: true, attributeOldValue: true, attributeFilter: ['class'] });
-        });
-
-    document.querySelectorAll('.comments-modal').forEach((el) => {
-        const obs = new MutationObserver(() => handleClassChange(el));
-        obs.observe(el, { attributes: true, attributeFilter: ['class'] });
+    window.addEventListener('resize', () => {
+        if (openCount > 0) updateBodyScroll();
     });
 })();

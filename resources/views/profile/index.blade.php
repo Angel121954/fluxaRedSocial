@@ -17,8 +17,9 @@
                         alt="{{ $user->username }}"
                         class="avatar-img"
                         id="avatarImg" />
-                    @if(isset($isOwner) && $isOwner)
+
                     <div class="avatar-overlay">
+                        @if(isset($isOwner) && $isOwner)
                         <button
                             class="av-btn btnCam"
                             aria-label="Cambiar foto"
@@ -34,6 +35,7 @@
                                     d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
                             </svg>
                         </button>
+                        @endif
                         <button
                             class="av-btn btnView"
                             aria-label="Ver foto"
@@ -50,7 +52,7 @@
                             </svg>
                         </button>
                     </div>
-                    @endif
+
                 </div>
 
                 <!-- Meta -->
