@@ -268,4 +268,4 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
     });
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
