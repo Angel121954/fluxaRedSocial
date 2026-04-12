@@ -257,8 +257,8 @@
                     <div class="upd-foot">
                         <span class="upd-time">{{ $project->updated_at->diffForHumans() }}</span>
                         <div class="upd-actions">
-                            <button class="post-action like-btn {{ ($project->isLiked ?? false) ? 'liked' : '' }}" data-project-id="{{ $project->id }}">
-                                <svg fill="{{ ($project->isLiked ?? false) ? 'currentColor' : 'none' }}" stroke="currentColor" viewBox="0 0 24 24">
+                            <button class="post-action like-btn {{ $project->isLikedBy(auth()->id()) ? 'liked' : '' }}" data-project-id="{{ $project->id }}">
+                                <svg fill="{{ $project->isLikedBy(auth()->id()) ? 'currentColor' : 'none' }}" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                                 </svg>
                                 <span class="like-count">{{ $project->likes_count }}</span>
