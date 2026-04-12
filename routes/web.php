@@ -9,6 +9,7 @@ use App\Http\Controllers\Onboarding\OnboardingController;
 use App\Http\Controllers\Pages\AboutFluxaController;
 use App\Http\Controllers\Profile\AccountController;
 use App\Http\Controllers\Profile\ConfigurationController;
+use App\Http\Controllers\Profile\CVSettingsController;
 use App\Http\Controllers\Profile\EducationController;
 use App\Http\Controllers\Profile\NotificationPreferenceController;
 use App\Http\Controllers\Profile\PrivacyController;
@@ -86,8 +87,8 @@ Route::get('/cv/preview-interno', [ProfileController::class, 'previewInterno'])
     ->name('cv.preview')
     ->middleware('auth');
 
-Route::get('/cv/descargar/{username?}', [ProfileController::class, 'descargarCV'])
-    ->name('cv.descargar')
+Route::get('/cv/download/{username?}', [ProfileController::class, 'downloadCV'])
+    ->name('cv.download.public')
     ->middleware('auth');
 
 /*
@@ -241,6 +242,10 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
         |--------------------------------------------------------------------------
         */
         Route::resource('work-experiences', WorkExperienceController::class);
+        Route::get('/settings/cv', [CvSettingsController::class, 'edit'])->name('cv.edit');
+        Route::put('/settings/cv', [CvSettingsController::class, 'update'])->name('cv.update');
+        Route::get('/settings/cv/restore', [CvSettingsController::class, 'restore'])->name('cv.restore');
+        Route::get('/settings/cv/download', [CvSettingsController::class, 'download'])->name('cv.download');
         Route::resource('projects', ProjectController::class);
         Route::resource('educations', EducationController::class);
 

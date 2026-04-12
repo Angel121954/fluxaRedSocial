@@ -25,12 +25,14 @@ class Profile extends Model
         'gender',
         'visibility',
         'last_seen_at',
+        'cv_settings',
         'created_at',
         'updated_at',
     ];
 
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'cv_settings' => 'array',
     ];
 
     public function user()

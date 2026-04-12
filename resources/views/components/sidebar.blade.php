@@ -22,6 +22,9 @@
         <a href="{{ route('work-experiences.index') }}">
             <div class="sidebar-item {{ request()->routeIs('work-experiences*') ? 'active' : '' }}">Experiencia Laboral</div>
         </a>
+        <a href="{{ route('cv.edit') }}">
+            <div class="sidebar-item {{ request()->routeIs('cv*') ? 'active' : '' }}">CV / Perfil Profesional</div>
+        </a>
         <a href="{{ route('educations.index') }}">
             <div class="sidebar-item {{ request()->routeIs('educations*') ? 'active' : '' }}">Educación</div>
         </a>

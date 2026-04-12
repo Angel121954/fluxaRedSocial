@@ -110,7 +110,7 @@
                                             </svg>
                                             Compartir perfil
                                         </button>
-                                        <a href="{{ route('cv.descargar') }}" title="¡Recuerda llenar toda la información correspondiente del perfil para mejorar el CV! :)" class="drop-item">
+                                        <a href="{{ route('cv.download.public') }}" title="¡Recuerda llenar toda la información correspondiente del perfil para mejorar el CV! :)" class="drop-item">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m.75 12 3 3m0 0 3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
                                             </svg>
@@ -304,12 +304,15 @@
     <x-modal-image :profile="$profile" />
     <x-cv-template
         :profile="$profile"
+        :user="$user"
         :technologies="$technologies"
         :projects="$projects"
         :work-experiences="$workExperiences"
+        :educations="collect([])"
         :avatar-base64="null"
         :logo-base64="null"
-        :qr-base64="null" />
+        :qr-base64="null"
+        :cv-settings="$profile->cv_settings ?? ['show_photo'=>true,'show_location'=>true,'show_email'=>true,'show_projects'=>true,'show_experience'=>true,'show_education'=>true,'section_order'=>['experience','projects','education']]" />
 
     <input type="file" id="fileIn" accept="image/*" style="display: none" />
     <x-modal-comments />

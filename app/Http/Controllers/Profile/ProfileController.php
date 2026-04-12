@@ -92,7 +92,7 @@ class ProfileController extends Controller
         return view('components.cv-template', $datos);
     }
 
-    public function descargarCV(?string $username = null)
+    public function downloadCV(?string $username = null)
     {
         if ($username) {
             $usuario = \App\Models\User::where('username', $username)->firstOrFail();
@@ -114,9 +114,10 @@ class ProfileController extends Controller
 </html>';
 
         $pdf = Browsershot::html($html)
-            ->setNodeBinary(env('NODE_BINARY', '/usr/bin/node'))
-            ->setNpmBinary(env('NPM_BINARY', '/usr/bin/npm'))
-            ->setChromePath(env('CHROME_PATH', '/usr/bin/google-chrome'))
+            ->setNodeBinary('/usr/bin/node')
+            ->setNpmBinary('/usr/bin/npm')
+            ->setNodeModulePath(env('NODE_MODULES_PATH', '/var/www/html/node_modules'))
+            ->setChromePath(env('CHROME_PATH'))
             ->noSandbox()
             ->format('A4')
             ->deviceScaleFactor(1)
@@ -134,8 +135,22 @@ class ProfileController extends Controller
     // ══════════════════════════════════════════
     private function prepararDatosCV($usuario): array
     {
+        $cvDefaults = [
+            'show_photo' => true,
+            'show_location' => true,
+            'show_email' => true,
+            'show_projects' => true,
+            'show_experience' => true,
+            'show_education' => true,
+            'section_order' => ['experience', 'projects', 'education'],
+        ];
+        $cvSettings = $usuario->profile->cv_settings
+            ? array_merge($cvDefaults, $usuario->profile->cv_settings)
+            : $cvDefaults;
+
         return [
             'profile' => $usuario->profile,
+            'user' => $usuario,
             'technologies' => $this->cargarIconosTecnologias($usuario),
             'projects' => $usuario->projects()->with('technologies')->latest()->get(),
             'workExperiences' => $usuario->workExperiences()->orderBy('started_at', 'desc')->get(),
@@ -145,6 +160,8 @@ class ProfileController extends Controller
                 file_get_contents(public_path('img/logoFluxa.png'))
             ),
             'qrBase64' => $this->convertirUrlABase64($this->generarUrlQr($usuario->username)),
+            'cvSettings' => $cvSettings,
+            'urlQrExterno' => $this->generarUrlQr($usuario->username),
         ];
     }
 

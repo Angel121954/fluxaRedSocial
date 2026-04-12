@@ -18,9 +18,8 @@
     <title>@yield('title', 'Fluxa')</title>
     <link rel="icon" type="image/png" href="{{ asset('img/logoFluxa.png') }}">
     <link rel="preconnect" href="https://fonts.bunny.net">
-    @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/shared/index.js'])
+    @vite(['resources/css/app.css', 'resources/css/variables.css', 'resources/css/profile/shared.css', 'resources/js/app.js', 'resources/js/shared/index.js'])
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
-    @vite(['resources/css/app.css', 'resources/css/variables.css', 'resources/css/profile/shared.css'])
     @stack('styles')
 </head>
 

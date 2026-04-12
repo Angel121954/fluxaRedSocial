@@ -15,6 +15,7 @@ services:
             LARAVEL_SAIL: 1
         volumes:
             - '.:/var/www/html'
+            - 'puppeteer-cache:/home/sail/.cache/puppeteer'
         networks:
             - sail
         depends_on:
@@ -54,4 +55,6 @@ networks:
         driver: bridge
 volumes:
     sail-mysql:
+        driver: local
+    puppeteer-cache:
         driver: local
