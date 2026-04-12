@@ -20,36 +20,15 @@ $cantidadSiguiendo = $cantidadSiguiendo ?? 0;
 $diasActivo = $diasActivo ?? 0;
 $rolProfesional = $rolProfesional ?? 'Software Developer';
 $estadisticas = $estadisticas ?? [];
-$srcAvatar = $srcAvatar ?? ($profile->avatar ? str_replace('type=normal', 'type=large', $profile->avatar) : '');
-$srcLogo = $srcLogo ?? asset('img/logoFluxa.png');
-$srcQr = $srcQr ?? $urlQrExterno;
-
-$defaults = [
-    'show_photo' => true,
-    'show_location' => true,
-    'show_email' => true,
-    'show_projects' => true,
-    'show_experience' => true,
-    'show_education' => true,
-    'section_order' => ['experience', 'projects', 'education'],
-];
-$cvSettings = array_merge($defaults, $cvSettings ?? []);
-
+$srcAvatar = $avatarBase64 ?? ($profile->avatar ? str_replace('type=normal', 'type=large', $profile->avatar) : '');
+$srcLogo = $logoBase64 ?? 'data:image/png;base64,'.base64_encode(file_get_contents(public_path('img/logoFluxa.png')));
+$srcQr = $qrBase64;
 $paleta = [
     'fondo' => '#f8fafc', 'tarjeta' => '#ffffff', 'primario' => '#14b8a6',
     'primarioOscuro' => '#0d9488', 'secundario' => '#f0fdfa', 'borde' => '#e2e8f0',
     'texto' => '#0f172a', 'textoSuave' => '#64748b', 'barraLateral' => '#f8fafc',
     'azul' => '#0ea5e9', 'linkedin' => '#0077b5', 'twitter' => '#1da1f2',
 ];
-
-$rolProfesional = $technologies->isNotEmpty()
-    ? $technologies->first()->name . ' Developer'
-    : 'Software Developer';
-
-$srcAvatar = $avatarBase64 
-    ?? ($profile->avatar ? str_replace('type=normal', 'type=large', $profile->avatar) : '');
-$srcLogo = $logoBase64 ?? asset('img/logoFluxa.png');
-$srcQr = $qrBase64 ?? $urlQrExterno;
 @endphp
 
 {{-- Wrapper: oculto para html2pdf, visible para Browsershot --}}
@@ -141,27 +120,17 @@ $srcQr = $qrBase64 ?? $urlQrExterno;
                                 @foreach($technologies as $tecnologia)
                                 @php
                                 $slugIcono = (string) $tecnologia->slug;
-                                $tipoIcono = $excepcionesIcono[$slugIcono] ?? 'original';
                                 $inicialesTech = strtoupper(substr((string) $tecnologia->name, 0, 2));
-
-                                // Base64 si viene del controlador, URL externa si es preview
-                                $srcIcono = $tecnologia->iconoB64
-                                ?? "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/{$slugIcono}/{$slugIcono}-{$tipoIcono}.svg";
+                                $srcIcono = $tecnologia->iconoB64 ?? null;
                                 @endphp
                                 <div title="{{ $tecnologia->name }}"
                                     style="width:34px;height:34px;border-radius:8px;background:{{ $paleta['tarjeta'] }};border:1px solid {{ $paleta['borde'] }};display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;flex-shrink:0;">
-                                    @if($tecnologia->iconoB64)
-                                    {{-- PDF: base64, sin onerror --}}
+                                    @if($srcIcono)
                                     <img src="{{ $srcIcono }}" width="20" height="20"
                                         alt="{{ $tecnologia->name }}"
                                         style="width:20px;height:20px;display:block;" />
                                     @else
-                                    {{-- Preview: URL externa con fallback JS --}}
-                                    <img src="{{ $srcIcono }}" width="20" height="20"
-                                        alt="{{ $tecnologia->name }}"
-                                        style="width:20px;height:20px;display:block;"
-                                        onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
-                                    <span style="display:none;position:absolute;inset:0;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:{{ $paleta['primarioOscuro'] }};background:{{ $paleta['secundario'] }};text-align:center;">{{ $inicialesTech }}</span>
+                                    <span style="position:absolute;inset:0;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:{{ $paleta['primarioOscuro'] }};background:{{ $paleta['secundario'] }};text-align:center;">{{ $inicialesTech }}</span>
                                     @endif
                                 </div>
                                 @endforeach
