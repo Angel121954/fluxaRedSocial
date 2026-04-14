@@ -1,0 +1,360 @@
+/* ═══════════════════════════════════════════════════════════
+   twoFactor.css  —  Verificación en dos pasos
+   Sigue el mismo sistema de diseño que login.css
+═══════════════════════════════════════════════════════════ */
+
+:root {
+    --accent: #12b3b6;
+    --accent-dark: #0d8e91;
+    --accent-dim: rgba(18, 179, 182, 0.07);
+    --accent-ring: rgba(18, 179, 182, 0.18);
+
+    --text-primary: #0b0f1a;
+    --text-secondary: #4a5568;
+    --text-tertiary: #718096;
+
+    --surface: #ffffff;
+    --bg: #f7f8fa;
+
+    --border: rgba(0, 0, 0, 0.08);
+    --border-strong: rgba(0, 0, 0, 0.12);
+
+    --error: #ef4444;
+    --success: #10b981;
+
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.07);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Inter", -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text-primary);
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+}
+
+/* ═══════════════════════════════════════════════════
+   LAYOUT
+═══════════════════════════════════════════════════ */
+.two-factor-wrapper {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+}
+
+.two-factor-container {
+    width: 100%;
+    max-width: 440px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* ═══════════════════════════════════════════════════
+   LOGO
+═══════════════════════════════════════════════════ */
+.logo-img {
+    height: 80px;
+    width: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+/* ═══════════════════════════════════════════════════
+   CARD
+═══════════════════════════════════════════════════ */
+.form-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 2.5rem;
+    box-shadow: var(--shadow-md);
+}
+
+/* ═══════════════════════════════════════════════════
+   ÍCONO DE SEGURIDAD
+═══════════════════════════════════════════════════ */
+.security-icon {
+    width: 56px;
+    height: 56px;
+    background: var(--accent-dim);
+    border: 1.5px solid var(--accent-ring);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.25rem;
+    color: var(--accent);
+}
+
+/* ═══════════════════════════════════════════════════
+   TÍTULOS
+═══════════════════════════════════════════════════ */
+.card-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.02em;
+}
+
+.card-subtitle {
+    font-size: 0.9rem;
+    color: var(--text-tertiary);
+    line-height: 1.55;
+    margin-bottom: 2rem;
+}
+
+/* ═══════════════════════════════════════════════════
+   INPUT OTP
+═══════════════════════════════════════════════════ */
+.input-group {
+    margin-bottom: 1.25rem;
+}
+
+.input-label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.input-otp {
+    width: 100%;
+    padding: 0.875rem 1rem;
+    border: 1.5px solid var(--border-strong);
+    border-radius: 10px;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    background: var(--surface);
+    font-family: "JetBrains Mono", monospace;
+    letter-spacing: 0.35em;
+    text-align: center;
+    transition: all 0.15s;
+}
+
+.input-otp::placeholder {
+    color: var(--border-strong);
+    letter-spacing: 0.25em;
+    font-weight: 400;
+    font-size: 1.2rem;
+}
+
+.input-otp:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-ring);
+}
+
+.input-otp.error {
+    border-color: var(--error);
+}
+
+.input-otp.error:focus {
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+/* ═══════════════════════════════════════════════════
+   ERROR MESSAGE
+═══════════════════════════════════════════════════ */
+.error-message {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    margin-top: 0.5rem;
+    font-size: 0.8125rem;
+    color: var(--error);
+    font-weight: 500;
+}
+
+/* ═══════════════════════════════════════════════════
+   BOTÓN PRINCIPAL
+═══════════════════════════════════════════════════ */
+.btn {
+    width: 100%;
+    padding: 0.75rem 1.25rem;
+    border-radius: 10px;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.625rem;
+    letter-spacing: -0.005em;
+    text-decoration: none;
+    border: none;
+}
+
+.btn-primary {
+    background: var(--accent);
+    color: white;
+    box-shadow: 0 2px 8px rgba(18, 179, 182, 0.2);
+    position: relative;
+}
+
+.btn-primary:hover:not(:disabled) {
+    background: var(--accent-dark);
+    box-shadow: 0 4px 12px rgba(18, 179, 182, 0.3);
+    transform: translateY(-1px);
+}
+
+.btn-primary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btn-primary.loading .btn-text {
+    opacity: 0;
+}
+
+.btn-primary.loading .loader {
+    display: block;
+}
+
+/* ═══════════════════════════════════════════════════
+   LOADER
+═══════════════════════════════════════════════════ */
+.loader {
+    display: none;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 0.6s linear infinite;
+    position: absolute;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ═══════════════════════════════════════════════════
+   RECUPERACIÓN
+═══════════════════════════════════════════════════ */
+.recovery-toggle {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+}
+
+.recovery-toggle summary {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--text-tertiary);
+    font-weight: 500;
+    cursor: pointer;
+    user-select: none;
+    transition: color 0.15s;
+}
+
+.recovery-toggle summary:hover {
+    color: var(--accent);
+}
+
+.recovery-toggle summary::-webkit-details-marker {
+    display: none;
+}
+
+.recovery-toggle[open] summary {
+    color: var(--accent);
+    margin-bottom: 1rem;
+}
+
+.recovery-chevron {
+    margin-left: auto;
+    transition: transform 0.2s ease;
+    color: var(--text-tertiary);
+}
+
+.recovery-toggle[open] .recovery-chevron {
+    transform: rotate(180deg);
+}
+
+.input-recovery {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1.5px solid var(--border-strong);
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    background: var(--surface);
+    font-family: "JetBrains Mono", monospace;
+    letter-spacing: 0.05em;
+    transition: all 0.15s;
+    margin-bottom: 0.75rem;
+}
+
+.input-recovery:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-ring);
+}
+
+.btn-secondary {
+    background: var(--surface);
+    color: var(--text-primary);
+    border: 1.5px solid var(--border-strong) !important;
+}
+
+.btn-secondary:hover {
+    background: var(--bg);
+    border-color: var(--text-tertiary) !important;
+}
+
+/* ═══════════════════════════════════════════════════
+   FOOTER LINK
+═══════════════════════════════════════════════════ */
+.back-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.375rem;
+    font-size: 0.875rem;
+    color: var(--text-tertiary);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.15s;
+}
+
+.back-link:hover {
+    color: var(--accent);
+}
+
+/* ═══════════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════════ */
+@media (max-width: 480px) {
+    .form-card {
+        padding: 2rem 1.5rem;
+    }
+
+    .card-title {
+        font-size: 1.3rem;
+    }
+
+    .input-otp {
+        font-size: 1.25rem;
+    }
+}

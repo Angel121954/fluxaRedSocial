@@ -139,36 +139,12 @@
             <div class="toggle-row">
                 <div class="toggle-info">
                     <span class="toggle-label">Autenticación de dos factores</span>
-                    <span class="toggle-hint">Actualmente <strong>desactivada</strong></span>
+                    <span class="toggle-hint">Actualmente <strong id="twoFaStatus">{{ auth()->user()->hasEnabledTwoFactorAuthentication() ? 'activada' : 'desactivada' }}</strong></span>
                 </div>
                 <label class="toggle-switch">
-                    <input type="checkbox" id="toggle2FA" />
+                    <input type="checkbox" id="toggle2FA" {{ auth()->user()->hasEnabledTwoFactorAuthentication() ? 'checked' : '' }} />
                     <span class="toggle-track"></span>
                 </label>
-            </div>
-
-            <div class="two-fa-options" id="twoFaOptions" style="display:none;">
-                <div class="radio-card">
-                    <input type="radio" name="twoFaMethod" id="methodApp" value="app" checked />
-                    <label for="methodApp" class="radio-label">
-                        <span class="radio-icon">📱</span>
-                        <div>
-                            <span class="radio-title">Aplicación de autenticación</span>
-                            <span class="radio-desc">Google Authenticator, Authy, etc.</span>
-                        </div>
-                    </label>
-                </div>
-                <div class="radio-card">
-                    <input type="radio" name="twoFaMethod" id="methodSMS" value="sms" />
-                    <label for="methodSMS" class="radio-label">
-                        <span class="radio-icon">💬</span>
-                        <div>
-                            <span class="radio-title">Mensaje de texto (SMS)</span>
-                            <span class="radio-desc">Recibe un código en tu teléfono</span>
-                        </div>
-                    </label>
-                </div>
-                <button type="button" class="btn-setup-2fa">Configurar ahora</button>
             </div>
         </section>
 
@@ -253,6 +229,7 @@
 
     </main>
 </div>
+<x-modal-qr />
 @endsection
 
 @push('styles')

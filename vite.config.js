@@ -32,6 +32,7 @@ export default defineConfig({
                 "resources/css/profile/modalImage.css",
                 "resources/css/suggestions/suggestions.css",
                 "resources/css/projectMedia.css",
+                "resources/css/twoFactor.css",
                 "resources/js/app.js",
                 "resources/js/explore/index.js",
                 "resources/js/profile/index.js",
