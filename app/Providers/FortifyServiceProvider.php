@@ -6,15 +6,16 @@ use App\Actions\Fortify\CreateNewUser;
 use App\Actions\Fortify\ResetUserPassword;
 use App\Actions\Fortify\UpdateUserPassword;
 use App\Actions\Fortify\UpdateUserProfileInformation;
+use App\Http\Responses\FailedTwoFactorLoginResponse;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
-use Laravel\Fortify\Fortify;
-use Laravel\Fortify\Http\Responses\LoginResponse;
+use Laravel\Fortify\Contracts\FailedTwoFactorLoginResponse as FailedTwoFactorLoginResponseContract;
 use Laravel\Fortify\Contracts\LoginResponse as LoginResponseContract;
 use Laravel\Fortify\Contracts\TwoFactorLoginResponse as TwoFactorLoginResponseContract;
+use Laravel\Fortify\Fortify;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -30,12 +31,10 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::updateUserPasswordsUsing(UpdateUserPassword::class);
         Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
 
-        // Vista del challenge 2FA
         Fortify::twoFactorChallengeView(function () {
             return view('auth.two-factor-challenge');
         });
 
-        // Pipeline de autenticación con soporte 2FA
         Fortify::authenticateThrough(function (Request $request) {
             return array_filter([
                 \Laravel\Fortify\Actions\RedirectIfTwoFactorAuthenticatable::class,
@@ -44,11 +43,11 @@ class FortifyServiceProvider extends ServiceProvider
             ]);
         });
 
-        // Rate limiters
         RateLimiter::for('login', function (Request $request) {
             $throttleKey = Str::transliterate(
-                Str::lower($request->input(Fortify::username())) . '|' . $request->ip()
+                Str::lower($request->input(Fortify::username())).'|'.$request->ip()
             );
+
             return Limit::perMinute(5)->by($throttleKey);
         });
 
@@ -57,7 +56,8 @@ class FortifyServiceProvider extends ServiceProvider
         });
 
         $this->app->singleton(LoginResponseContract::class, function () {
-            return new class implements LoginResponseContract {
+            return new class implements LoginResponseContract
+            {
                 public function toResponse($request)
                 {
                     return redirect()->intended(RouteServiceProvider::HOME);
@@ -66,12 +66,17 @@ class FortifyServiceProvider extends ServiceProvider
         });
 
         $this->app->singleton(TwoFactorLoginResponseContract::class, function () {
-            return new class implements TwoFactorLoginResponseContract {
+            return new class implements TwoFactorLoginResponseContract
+            {
                 public function toResponse($request)
                 {
                     return redirect()->intended(RouteServiceProvider::HOME);
                 }
             };
+        });
+
+        $this->app->singleton(FailedTwoFactorLoginResponseContract::class, function () {
+            return new FailedTwoFactorLoginResponse;
         });
     }
 }

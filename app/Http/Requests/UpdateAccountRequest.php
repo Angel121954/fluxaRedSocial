@@ -9,18 +9,20 @@ class UpdateAccountRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true;
+        return $this->user() !== null;
     }
 
     public function rules(): array
     {
+        $userId = $this->user()?->id;
+
         return [
             'email' => [
                 'required',
                 'string',
                 'email',
                 'max:255',
-                Rule::unique('users', 'email')->ignore($this->user()->id),
+                Rule::unique('users', 'email')->ignore($userId),
             ],
             'phone_code' => ['required', 'string', 'max:5'],
             'phone_number' => ['required', 'string', 'max:15'],

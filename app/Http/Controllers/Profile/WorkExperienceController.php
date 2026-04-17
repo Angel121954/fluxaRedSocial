@@ -24,10 +24,9 @@ class WorkExperienceController extends Controller
             ->orderBy('started_at', 'desc')
             ->get();
 
-        $profile = Auth::user()->profile;
         $limits = $this->getLimits();
 
-        return view('profile.work-experiences', compact('experiences', 'profile', 'limits'));
+        return view('profile.work-experiences', compact('experiences', 'limits'));
     }
 
     public function store(StoreWorkExperienceRequest $request)

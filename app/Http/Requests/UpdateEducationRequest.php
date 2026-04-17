@@ -8,7 +8,7 @@ class UpdateEducationRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true;
+        return $this->user() !== null;
     }
 
     public function rules(): array
@@ -18,7 +18,7 @@ class UpdateEducationRequest extends FormRequest
             'degree' => ['required', 'string', 'max:150'],
             'field' => ['nullable', 'string', 'max:150'],
             'graduated_year' => ['nullable', 'integer', 'min:1950', 'max:'.(date('Y') + 10)],
-            'current' => ['nullable', 'boolean'],
+            'current' => ['nullable', 'in:on,1,0,true,false'],
         ];
     }
 }

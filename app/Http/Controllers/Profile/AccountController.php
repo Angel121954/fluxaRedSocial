@@ -4,26 +4,13 @@ namespace App\Http\Controllers\Profile;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateAccountRequest;
-use App\Models\Profile;
 use Illuminate\Support\Facades\Auth;
 
 class AccountController extends Controller
 {
     public function index()
     {
-        $user = Auth::user();
-
-        $profile = Profile::firstOrCreate(
-            ['user_id' => $user->id],
-            [
-                'avatar' => null,
-                'phone_code' => null,
-                'phone_number' => null,
-                'language' => 'es',
-            ]
-        );
-
-        return view('profile.account', compact('profile'));
+        return view('profile.account');
     }
 
     public function update(UpdateAccountRequest $request)

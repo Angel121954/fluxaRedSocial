@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Suggestions;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreSuggestionRequest;
 use App\Models\Profile;
 use App\Models\Suggestion;
 use App\Services\CloudinaryService;
@@ -59,13 +60,8 @@ class SuggestionController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreSuggestionRequest $request)
     {
-        $validated = $request->validate([
-            'description' => 'required|string|min:10|max:1000',
-            'image' => 'nullable|image|max:5120',
-        ]);
-
         $imagePath = null;
 
         if ($request->hasFile('image')) {
@@ -78,8 +74,8 @@ class SuggestionController extends Controller
         }
 
         Suggestion::create([
-            'user_id' => Auth::user()->id,
-            'description' => $validated['description'],
+            'user_id' => $request->user()->id,
+            'description' => $request->validated()['description'],
             'image_path' => $imagePath,
             'status' => 'pending',
         ]);

@@ -14,16 +14,11 @@ class EducationController extends Controller
 
     public function index()
     {
-        /** @var \App\Models\User $user */
-        $user = Auth::user();
-        $profile = $user->profile;
-
-        $educations = Education::where('user_id', $user->id)
+        $educations = Education::where('user_id', Auth::id())
             ->orderByDesc('graduated_year')
             ->get();
 
         return view('profile.educations', [
-            'profile' => $profile,
             'educations' => $educations,
             'limits' => ['max_educations' => self::MAX_EDUCATIONS],
         ]);
@@ -31,15 +26,12 @@ class EducationController extends Controller
 
     public function store(StoreEducationRequest $request)
     {
-        /** @var \App\Models\User $user */
-        $user = Auth::user();
-
-        if (Education::where('user_id', $user->id)->count() >= self::MAX_EDUCATIONS) {
+        if (Education::where('user_id', Auth::id())->count() >= self::MAX_EDUCATIONS) {
             return back()->with('error', 'Has alcanzado el límite máximo de educaciones.');
         }
 
         $validated = $request->validated();
-        $validated['user_id'] = $user->id;
+        $validated['user_id'] = Auth::id();
         $validated['current'] = $request->boolean('current');
 
         if ($validated['current']) {
