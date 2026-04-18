@@ -19,6 +19,14 @@ import './shareProfile.js';
 import './commentHandler.js';       // gestiona likes + apertura del modal de comentarios
 import '../comments/modalComment.js'; // inicializa listeners de cierre del modal
 
+// ── Sistema de endorsement (compartido con explore) ────────────────────────
+import { initSkillEndorsement } from '../explore/skillEndorsement.js';
+import '../explore/projectMenu.js';
+
+document.addEventListener('DOMContentLoaded', () => {
+    initSkillEndorsement();
+});
+
 // ── Páginas de configuración (se auto-desactivan si el DOM no aplica) ──────
 import './account.js';        // toggle 2FA, sidebar nav
 import './configuration.js';  // contador de caracteres en bio

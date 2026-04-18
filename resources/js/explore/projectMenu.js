@@ -6,7 +6,7 @@ import { showToast } from '../shared/toast.js';
 
 // ── Abrir / cerrar dropdown ────────────────────────────────────────────────
 document.addEventListener('click', (e) => {
-    const menuBtn  = e.target.closest('.post-menu-btn');
+    const menuBtn = e.target.closest('.post-menu-btn');
     const dropItem = e.target.closest('.drop-item');
 
     if (menuBtn) {
@@ -14,7 +14,7 @@ document.addEventListener('click', (e) => {
         e.stopPropagation();
 
         const projectId = menuBtn.dataset.projectId;
-        const dropdown  = document.querySelector(`.drop-menu[data-project-id="${projectId}"]`);
+        const dropdown = document.querySelector(`.drop-menu[data-project-id="${projectId}"]`);
 
         // Cerrar otros dropdowns abiertos
         document.querySelectorAll('.drop-menu').forEach(d => {
@@ -30,8 +30,13 @@ document.addEventListener('click', (e) => {
     }
 
     if (dropItem) {
-        e.preventDefault();
         const { action, projectId } = dropItem.dataset;
+
+        // Solo interceptar drop-items de proyectos con action definida
+        // Los <a href> del perfil (Configuración, Descargar CV) no tienen action
+        if (!action) return;
+
+        e.preventDefault();
 
         handleProjectAction(action, projectId, dropItem, () => {
             dropItem.closest('.drop-menu')?.classList.remove('open');
@@ -57,24 +62,24 @@ document.addEventListener('keydown', (e) => {
 // ── Lógica de acciones ────────────────────────────────────────────────────
 function handleProjectAction(action, projectId, dropItem, closeMenu) {
     const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
-    const url       = `${window.location.origin}/projects/${projectId}`;
+    const url = `${window.location.origin}/projects/${projectId}`;
 
     switch (action) {
         case 'bookmark': {
-            const span             = dropItem.querySelector('span');
-            const isBookmarked     = span.textContent.includes('Quitar');
-            span.textContent       = isBookmarked ? 'Agregar a favoritos' : 'Quitar de favoritos';
+            const span = dropItem.querySelector('span');
+            const isBookmarked = span.textContent.includes('Quitar');
+            span.textContent = isBookmarked ? 'Agregar a favoritos' : 'Quitar de favoritos';
             closeMenu?.();
 
             fetch(`/projects/${projectId}/bookmark`, {
                 method: 'POST',
                 headers: { 'X-CSRF-TOKEN': csrfToken },
             })
-            .then(res => res.json())
-            .then(data => {
-                span.textContent = data.is_bookmarked ? 'Quitar de favoritos' : 'Agregar a favoritos';
-            })
-            .catch(() => { span.textContent = isBookmarked ? 'Quitar de favoritos' : 'Agregar a favoritos'; });
+                .then(res => res.json())
+                .then(data => {
+                    span.textContent = data.is_bookmarked ? 'Quitar de favoritos' : 'Agregar a favoritos';
+                })
+                .catch(() => { span.textContent = isBookmarked ? 'Quitar de favoritos' : 'Agregar a favoritos'; });
             break;
         }
 
@@ -126,9 +131,9 @@ document.getElementById('reportForm')?.addEventListener('submit', function (e) {
         },
         body: JSON.stringify({ reason }),
     })
-    .then(res => res.json())
-    .then(data => {
-        document.getElementById('reportModal')?.classList.remove('show');
-        showToast(data.message || 'Reporte enviado');
-    });
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById('reportModal')?.classList.remove('show');
+            showToast(data.message || 'Reporte enviado');
+        });
 });

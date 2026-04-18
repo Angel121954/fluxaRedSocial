@@ -12,6 +12,6 @@ class AboutFluxaController extends Controller
     {
         $profile = Profile::where('user_id', Auth::user()->id)->first();
 
-        return view('about-fluxa', compact('profile'));
+        return view('pages.about-fluxa', compact('profile'));
     }
 }

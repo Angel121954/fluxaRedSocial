@@ -1,15 +1,15 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     initSearch(document.getElementById('globalSearch'), document.getElementById('searchResults'));
 
     const mobileInput = document.getElementById('mobileSearch');
     if (mobileInput) {
-        mobileInput.addEventListener('input', function() {
+        mobileInput.addEventListener('input', function () {
             const q = this.value.trim();
             const desktopInput = document.getElementById('globalSearch');
             if (desktopInput) desktopInput.value = q;
             if (q.length >= 2) performSearch(q, document.getElementById('searchResults'));
         });
-        mobileInput.addEventListener('keydown', function(e) {
+        mobileInput.addEventListener('keydown', function (e) {
             if (e.key === 'Enter') {
                 e.preventDefault();
                 if (this.value.trim().length >= 2) {
@@ -24,7 +24,7 @@ export function initSearch(input, resultsEl) {
     if (!input || !resultsEl) return;
     let timeout;
 
-    input.addEventListener('input', function() {
+    input.addEventListener('input', function () {
         clearTimeout(timeout);
         const q = this.value.trim();
         if (q.length < 2) {
@@ -35,7 +35,7 @@ export function initSearch(input, resultsEl) {
         timeout = setTimeout(() => performSearch(q, resultsEl), 300);
     });
 
-    input.addEventListener('keydown', function(e) {
+    input.addEventListener('keydown', function (e) {
         if (e.key === 'Enter') {
             e.preventDefault();
             if (this.value.trim().length >= 2) {
@@ -44,7 +44,7 @@ export function initSearch(input, resultsEl) {
         }
     });
 
-    input.addEventListener('focus', function() {
+    input.addEventListener('focus', function () {
         if (this.value.trim().length >= 2) resultsEl.classList.add('active');
     });
 }
@@ -97,10 +97,10 @@ function performSearch(query, resultsEl) {
         });
 }
 
-document.addEventListener('click', function(e) {
+document.addEventListener('click', function (e) {
     const input = document.getElementById('globalSearch');
     const results = document.getElementById('searchResults');
-    if (results && !input.contains(e.target) && !results.contains(e.target)) {
+    if (results && input && !input.contains(e.target) && !results.contains(e.target)) {
         results.classList.remove('active');
     }
 });
@@ -130,7 +130,7 @@ function closeMobileMenuAndOpen() {
     if (typeof abrirModal === 'function') abrirModal();
 }
 
-document.addEventListener('click', function(e) {
+document.addEventListener('click', function (e) {
     const menu = document.getElementById('mobileMenu');
     const btn = document.getElementById('mobileMenuBtn');
     if (menu && menu.classList.contains('active') &&
@@ -141,7 +141,7 @@ document.addEventListener('click', function(e) {
     }
 });
 
-document.addEventListener('keydown', function(e) {
+document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') {
         const menu = document.getElementById('mobileMenu');
         const btn = document.getElementById('mobileMenuBtn');

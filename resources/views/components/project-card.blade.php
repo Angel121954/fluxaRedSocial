@@ -5,34 +5,45 @@ $user = $project->user;
 $timeAgo = $project->created_at->diffForHumans();
 $isLiked = $project->isLikedBy(auth()->id());
 $isBookmarked = $project->isBookmarkedBy(auth()->id());
+$skillCounts = $project->skill_counts;
+$userEndorsement = auth()->check() ? \App\Models\SkillEndorsement::getUserEndorsement(auth()->id(), $project->id) : null;
+$totalEndorsements = array_sum($skillCounts);
+
+$skills = [
+    'technical_communication' => ['label' => 'Comunicación Técnica', 'color' => '#3B82F6', 'icon' => 'M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z'],
+    'logical_thinking' => ['label' => 'Pensamiento Lógico', 'color' => '#8B5CF6', 'icon' => 'M4 4v5h.582m0 0a8.001 8.001 0 011.682 7.337l-.582-.581m0 0L12 12m-6.418-6.418a8 8 0 0111.764 0l.582.581M12 12v5.418'],
+    'collaboration' => ['label' => 'Colaboración', 'color' => '#10B981', 'icon' => 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H8m0 0H3v-2a3 3 0 015.356-1.857M3 20h5v-2a3 3 0 00-5.356-1.857M10 6V5a2 2 0 00-4 0v1m4 0a2 2 0 014 0v1m-6 4h6'],
+    'architecture' => ['label' => 'Arquitectura', 'color' => '#F59E0B', 'icon' => 'M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 12a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1v-2zM4 19a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1v-2z'],
+    'leadership' => ['label' => 'Liderazgo', 'color' => '#EF4444', 'icon' => 'M12 19l9 2-9-18-9 18 9-2zm0 0v-8'],
+];
+$skillKeys = array_keys($skills);
+$userSkillColor = $userEndorsement ? ($skills[$userEndorsement]['color'] ?? '#6B7280') : '#6B7280';
 @endphp
 
 <div class="post-card" data-project-id="{{ $project->id }}">
-    <div style="display: flex; justify-content: space-between">
-        <div class="post-header">
-            <a href="/profile/{{ $user->username ?? '/profile' }}">
-                <img
-                    src="{{ $user->avatar_url }}"
-                    alt="{{ $user->username }}"
-                    class="post-avatar"
-                    loading="lazy" />
-            </a>
-            <div class="post-meta">
-                <div class="post-author-row">
-                    <span class="post-author">{{ $user->name }}</span>
-                    @if($user->email_verified_at)
-                    <div class="verify-badge">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                        </svg>
-                    </div>
-                    @endif
+    <div class="post-header">
+        <a href="/profile/{{ $user->username ?? '/profile' }}">
+            <img
+                src="{{ $user->avatar_url }}"
+                alt="{{ $user->username }}"
+                class="post-avatar"
+                loading="lazy" />
+        </a>
+        <div class="post-meta">
+            <div class="post-author-row">
+                <span class="post-author">{{ $user->name }}</span>
+                @if($user->email_verified_at)
+                <div class="verify-badge">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
                 </div>
-                <div style="display: flex; align-items: center; gap: 0.375rem">
-                    <span class="post-handle">{{ '@' . $user->username }}</span>
-                    <span style="color: var(--ink-200)">·</span>
-                    <span class="post-time">{{ $timeAgo }}</span>
-                </div>
+                @endif
+            </div>
+            <div style="display: flex; align-items: center; gap: 0.375rem">
+                <span class="post-handle">{{ '@' . $user->username }}</span>
+                <span style="color: var(--ink-200)">·</span>
+                <span class="post-time">{{ $timeAgo }}</span>
             </div>
         </div>
         <div class="drop-wrap">
@@ -92,6 +103,26 @@ $isBookmarked = $project->isBookmarkedBy(auth()->id());
             </svg>
             <span class="like-count">{{ $project->likes_count }}</span>
         </button>
+
+        <div class="endorsement-wrapper">
+            <button class="post-action endorsement-btn {{ $userEndorsement ? 'active' : '' }}" data-project-id="{{ $project->id }}" style="--skill-color: {{ $userSkillColor }}">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span class="endorsement-count">{{ $totalEndorsements }}</span>
+            </button>
+            <div class="skill-panel" data-project-id="{{ $project->id }}">
+                @foreach($skillKeys as $skill)
+                <button class="skill-btn {{ $userEndorsement === $skill ? 'active' : '' }}" data-skill-type="{{ $skill }}" style="--skill-color: {{ $skills[$skill]['color'] }}">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="20" height="20">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="{{ $skills[$skill]['icon'] }}"/>
+                    </svg>
+                    <span class="skill-tooltip">{{ $skills[$skill]['label'] }}</span>
+                </button>
+                @endforeach
+            </div>
+        </div>
+
         <button class="post-action comment-btn" data-project-id="{{ $project->id }}">
             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />

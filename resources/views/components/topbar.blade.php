@@ -36,11 +36,11 @@
                     @if(request()->routeIs('suggestions*')) aria-current="page" @endif>
                     Sugerencias
                 </a>
-                <a href="{{ route('suggestions.create') }}"
+                <!-- <a href="{{ route('suggestions.create') }}"
                     class="nav-link {{ request()->routeIs('suggestions*') ? 'active' : '' }}"
                     @if(request()->routeIs('suggestions*')) aria-current="page" @endif>
                     Mensajes
-                </a>
+                </a> -->
                 @if(Auth::user()->role === 'admin')
                 <a href="{{ route('admin.suggestions.index') }}"
                     class="nav-link {{ request()->routeIs('admin.suggestions*') ? 'active' : '' }}"

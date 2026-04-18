@@ -58,6 +58,21 @@ class Project extends Model
         return $this->hasMany(ProjectBookmark::class);
     }
 
+    public function skillEndorsements()
+    {
+        return $this->hasMany(SkillEndorsement::class);
+    }
+
+    public function getSkillCountsAttribute(): array
+    {
+        return SkillEndorsement::getSkillCounts($this->id);
+    }
+
+    public function getUserEndorsementAttribute($userId): ?string
+    {
+        return SkillEndorsement::getUserEndorsement($userId, $this->id);
+    }
+
     public function isBookmarkedBy($userId)
     {
         return $this->bookmarks()->where('user_id', $userId)->exists();

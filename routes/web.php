@@ -258,6 +258,9 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
         Route::post('/projects/{project}/report', [ProjectController::class, 'report'])
             ->name('projects.report');
 
+        Route::post('/projects/{project}/endorse', [ProjectController::class, 'endorse'])
+            ->name('projects.endorse');
+
         /*
         |--------------------------------------------------------------------------
         | Tecnologías (AJAX)

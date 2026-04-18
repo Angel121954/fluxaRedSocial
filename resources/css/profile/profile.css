@@ -344,6 +344,7 @@ body {
 ───────────────────────────────────────────────── */
 .drop-wrap {
     position: relative;
+    overflow: visible;
 }
 
 .drop-menu {
@@ -586,6 +587,7 @@ body {
     border-radius: var(--r-xl);
     padding: 1.75rem;
     margin-bottom: 1.125rem;
+    overflow: visible;
     transition:
         border-color 0.2s,
         box-shadow 0.2s;
@@ -603,6 +605,7 @@ body {
     justify-content: space-between;
     align-items: flex-start;
     margin-bottom: 1rem;
+    overflow: visible;
 }
 
 .card-title {
@@ -857,6 +860,8 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
 }
 
 .upd-time {
@@ -868,6 +873,30 @@ body {
 .upd-actions {
     display: flex;
     gap: 1.125rem;
+    flex-wrap: wrap;
+    overflow: visible;
+}
+
+.upd-actions .endorsement-wrapper {
+    position: relative;
+}
+
+.upd-actions .skill-panel {
+    position: absolute;
+    bottom: calc(100% + 6px);
+    left: 0;
+    transform: translateY(8px) scale(0.94);
+    transform-origin: bottom center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.upd-actions .endorsement-wrapper:hover .skill-panel,
+.upd-actions .skill-panel.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
 }
 
 .upd-act {

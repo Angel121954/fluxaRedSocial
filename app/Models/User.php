@@ -81,6 +81,42 @@ class User extends Authenticatable
         return $this->hasOne(Suggestion::class);
     }
 
+    public function skillEndorsementsReceived()
+    {
+        return $this->hasMany(SkillEndorsement::class, 'user_id');
+    }
+
+    public function getSkillCounts(): array
+    {
+        $counts = $this->skillEndorsementsReceived()
+            ->select('skill_type')
+            ->selectRaw('COUNT(*) as count')
+            ->groupBy('skill_type')
+            ->pluck('count', 'skill_type')
+            ->toArray();
+
+        $result = [];
+        foreach (SkillEndorsement::SKILLS as $key => $skill) {
+            $result[$key] = $counts[$key] ?? 0;
+        }
+
+        return $result;
+    }
+
+    public function getMasteryLevel(string $skillType): string
+    {
+        $count = $this->skillEndorsementsReceived()
+            ->where('skill_type', $skillType)
+            ->count();
+
+        return match (true) {
+            $count >= 500 => 'master',
+            $count >= 200 => 'advanced',
+            $count >= 50 => 'competent',
+            default => 'novice',
+        };
+    }
+
     public function getAvatarUrlAttribute(): string
     {
         if ($this->profile?->avatar) {

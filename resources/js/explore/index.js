@@ -10,6 +10,7 @@ import { openCommentsModal } from '../comments/index.js';
 import { initTabs }       from './tabs.js';
 import { initLoadMore }   from './loadMore.js';
 import { initLikeButton } from './like.js';
+import { initSkillEndorsement } from './skillEndorsement.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     const container = document.getElementById('publications-container');
@@ -19,6 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
     loadMore();
     initTabs(() => loadMore());
     initLikeButton();
+    initSkillEndorsement();
 
     // Delegar apertura del modal de comentarios desde cualquier post-card
     document.addEventListener('click', (e) => {

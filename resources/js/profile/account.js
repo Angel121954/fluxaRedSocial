@@ -146,10 +146,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
         recoveryCodes.style.display = "block";
 
-        document.getElementById("btnCloseModal")?.addEventListener("click", () => {
+        const btnClose = document.getElementById("btnCloseModal");
+        if (btnClose) btnClose.onclick = () => {
             modal2FA.style.display = "none";
             resetModalView();
-        });
+        };
     }
 
     function resetModalView() {

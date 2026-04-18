@@ -9,6 +9,7 @@ use App\Models\Project;
 use App\Models\ProjectBookmark;
 use App\Models\ProjectLike;
 use App\Models\ProjectReport;
+use App\Models\SkillEndorsement;
 use App\Services\ProjectService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -174,7 +175,7 @@ class ProjectController extends Controller
 
         if ($repeatedReport) {
             return response()->json([
-                'message' => 'Ya enviaste 1 reporte para esté proyecto. Lo estaremos revisando.',
+                'message' => 'Ya enviaste 1 reporte paraesté proyecto. Lo estaremos revisando.',
             ]);
         }
 
@@ -186,6 +187,59 @@ class ProjectController extends Controller
 
         return response()->json([
             'message' => 'Reporte enviado. Gracias por ayudar a mantener la comunidad segura.',
+        ]);
+    }
+
+    public function endorse(Request $request, Project $project)
+    {
+        $validated = $request->validate([
+            'skill_type' => 'required|string|in:' . implode(',', array_keys(SkillEndorsement::SKILLS)),
+        ]);
+
+        $user = Auth::user();
+
+        if ($project->user_id === $user->id) {
+            return response()->json([
+                'message' => 'No puedes recomendar las habilidades de tu propio proyecto.',
+            ], 403);
+        }
+
+        $currentEndorsement = SkillEndorsement::where('user_id', $user->id)
+            ->where('project_id', $project->id)
+            ->first();
+
+        if ($currentEndorsement) {
+            if ($currentEndorsement->skill_type === $validated['skill_type']) {
+                $currentEndorsement->delete();
+                $isEndorsed = false;
+                $userEndorsement = null;
+            } else {
+                $currentEndorsement->delete();
+                SkillEndorsement::create([
+                    'user_id' => $user->id,
+                    'project_id' => $project->id,
+                    'skill_type' => $validated['skill_type'],
+                ]);
+                $isEndorsed = true;
+                $userEndorsement = $validated['skill_type'];
+            }
+        } else {
+            SkillEndorsement::create([
+                'user_id' => $user->id,
+                'project_id' => $project->id,
+                'skill_type' => $validated['skill_type'],
+            ]);
+            $isEndorsed = true;
+            $userEndorsement = $validated['skill_type'];
+        }
+
+        $skillCounts = SkillEndorsement::getSkillCounts($project->id);
+        $dbUserEndorsement = SkillEndorsement::getUserEndorsement($user->id, $project->id);
+
+        return response()->json([
+            'skill_counts' => $skillCounts,
+            'user_endorsement' => $dbUserEndorsement,
+            'is_endorsed' => $isEndorsed,
         ]);
     }
 }
