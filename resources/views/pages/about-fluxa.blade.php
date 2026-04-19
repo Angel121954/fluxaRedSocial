@@ -170,5 +170,5 @@
 @endsection
 
 @push('styles')
-@vite('resources/css/aboutFluxa.css')
+@vite('resources/css/pages/aboutFluxa.css')
 @endpush

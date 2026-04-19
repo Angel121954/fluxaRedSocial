@@ -37,9 +37,13 @@
         </div>
 
         <div class="footer-links">
-            <a href="/terminos" class="footer-link">Términos</a>
-            <a href="/privacidad" class="footer-link">Privacidad</a>
-            <a href="/contacto" class="footer-link">Contacto</a>
+            <a href="{{ route('terms') }}" class="footer-link">Términos</a>
+            <a href="{{ route('privacy.policy') }}" class="footer-link">Privacidad</a>
+            <a href="{{ route('contact.index') }}" class="footer-link">Contacto</a>
         </div>
     </div>
 </footer>
+
+@push('styles')
+@vite('resources/css/pages/footer.css')
+@endpush
