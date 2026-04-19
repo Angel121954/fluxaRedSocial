@@ -19,6 +19,7 @@ export default defineConfig({
                 "resources/css/pages/aboutFluxa.css",
                 "resources/css/pages/terms.css",
                 "resources/css/pages/privacyPolicy.css",
+                "resources/css/pages/contact.css",
                 "resources/css/pages/footer.css",
                 "resources/css/role.css",
                 "resources/css/technologies.css",
