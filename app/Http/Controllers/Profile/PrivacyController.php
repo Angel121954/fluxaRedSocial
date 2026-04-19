@@ -9,7 +9,7 @@ class PrivacyController extends Controller
 {
     public function index()
     {
-        return view('profile.privacy');
+        return view('settings.privacy');
     }
 
     public function update(UpdatePrivacyRequest $request)

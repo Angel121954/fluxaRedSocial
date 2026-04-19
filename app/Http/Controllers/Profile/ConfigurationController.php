@@ -9,7 +9,7 @@ class ConfigurationController extends Controller
 {
     public function index()
     {
-        return view('profile.configuration');
+        return view('settings.configuration');
     }
 
     public function update(UpdateConfigurationRequest $request)

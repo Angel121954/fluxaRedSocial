@@ -10,8 +10,6 @@ class TermsController extends Controller
 {
     public function index()
     {
-        $profile = Profile::where('user_id', Auth::user()->id)->first();
-
-        return view('pages.terms', compact('profile'));
+        return view('public.terms');
     }
 }

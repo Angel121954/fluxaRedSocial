@@ -22,7 +22,7 @@ class CVSettingsController extends Controller
             'section_order' => ['experience', 'projects', 'education', 'skills'],
         ];
 
-        return view('profile.cv', compact('cvSettings'));
+        return view('cv.cv', compact('cvSettings'));
     }
 
     public function update(UpdateCVSettingsRequest $request)

@@ -12,9 +12,7 @@ class ContactController extends Controller
 {
     public function index()
     {
-        $profile = Profile::where('user_id', Auth::user()->id)->first();
-
-        return view('pages.contact', compact('profile'));
+        return view('public.contact');
     }
 
     public function store(StoreContactRequest $request)

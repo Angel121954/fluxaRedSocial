@@ -2,20 +2,20 @@
 
 namespace App\View\Composers;
 
+use App\Models\Profile;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 class ProfileComposer
 {
-    public function compose(View $view)
+    public function compose(View $view): void
     {
-        if (! Auth::check()) {
-            return;
+        $profile = null;
+
+        if (Auth::check()) {
+            $profile = Profile::where('user_id', Auth::id())->first();
         }
 
-        $user = Auth::user();
-        $profile = $user->profile;
-
-        $view->with(compact('user', 'profile'));
+        $view->with('profile', $profile);
     }
 }

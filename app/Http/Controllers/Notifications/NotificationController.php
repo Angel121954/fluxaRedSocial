@@ -13,6 +13,6 @@ class NotificationController extends Controller
         $user = Auth::user()->id;
         $profile = Profile::where('user_id', $user)->first();
 
-        return view('notifications.index', compact('profile'));
+        return view('notifications.index');
     }
 }

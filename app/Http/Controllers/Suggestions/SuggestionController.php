@@ -4,11 +4,9 @@ namespace App\Http\Controllers\Suggestions;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreSuggestionRequest;
-use App\Models\Profile;
 use App\Models\Suggestion;
 use App\Services\CloudinaryService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class SuggestionController extends Controller
 {
@@ -24,8 +22,6 @@ class SuggestionController extends Controller
      */
     public function index(Request $request)
     {
-        $profile = Profile::where('user_id', Auth::user()->id)->first();
-
         $query = Suggestion::with('user');
 
         if ($search = $request->get('search')) {
@@ -44,7 +40,7 @@ class SuggestionController extends Controller
 
         $suggestions = $query->paginate(10);
 
-        return view('suggestions.index', compact('suggestions', 'profile'));
+        return view('admin.suggestions.index', compact('suggestions'));
     }
 
     /**
@@ -52,9 +48,7 @@ class SuggestionController extends Controller
      */
     public function create()
     {
-        $profile = Profile::where('user_id', Auth::user()->id)->first();
-
-        return view('suggestions.create', compact('profile'));
+        return view('suggestions.create');
     }
 
     /**

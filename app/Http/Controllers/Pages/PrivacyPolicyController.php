@@ -10,8 +10,6 @@ class PrivacyPolicyController extends Controller
 {
     public function index()
     {
-        $profile = Profile::where('user_id', Auth::user()->id)->first();
-
-        return view('pages.privacy-policy', compact('profile'));
+        return view('public.privacy-policy');
     }
 }

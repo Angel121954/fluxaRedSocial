@@ -9,7 +9,7 @@ class NotificationPreferenceController extends Controller
 {
     public function index()
     {
-        return view('profile.notification-preference');
+        return view('settings.notification-preference');
     }
 
     public function update(UpdateNotificationPreferenceRequest $request)

@@ -10,7 +10,7 @@ class AccountController extends Controller
 {
     public function index()
     {
-        return view('profile.account');
+        return view('settings.account');
     }
 
     public function update(UpdateAccountRequest $request)

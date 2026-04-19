@@ -8,6 +8,6 @@ class SecurityController extends Controller
 {
     public function index()
     {
-        return view('profile.security');
+        return view('settings.security');
     }
 }
