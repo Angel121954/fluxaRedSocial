@@ -61,6 +61,7 @@ export default defineConfig({
                 // JS global
                 "resources/js/app.js",
                 "resources/js/shared/index.js",
+                "resources/js/core/globals.js",
 
                 // Profile JS
                 "resources/js/profile/index.js",
@@ -85,6 +86,7 @@ export default defineConfig({
 
                 // Projects JS
                 "resources/js/projects/modalComment.js",
+                "resources/js/core/projects/newProject.js",
                 "resources/js/core/projects/projectMedia.js",
 
                 // Onboarding JS

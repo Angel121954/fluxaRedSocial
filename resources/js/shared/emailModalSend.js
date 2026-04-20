@@ -25,3 +25,5 @@ function resend(e) {
     document.body.appendChild(form);
     form.submit();
 }
+
+window.resend = resend;

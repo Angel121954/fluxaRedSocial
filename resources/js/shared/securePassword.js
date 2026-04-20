@@ -1,12 +1,15 @@
 // Mostrar/ocultar contraseña
 function togglePassword(fieldId, btn) {
     const input = document.getElementById(fieldId);
+    if (!input) return;
     const isPassword = input.type === "password";
     input.type = isPassword ? "text" : "password";
 
     // Cambiar icono (ojo abierto / ojo cerrado)
     btn.querySelector("svg").style.opacity = isPassword ? "0.5" : "1";
 }
+
+window.togglePassword = togglePassword;
 
 // Indicador de fortaleza de contraseña
 const passwordInput = document.getElementById("password");

@@ -6,10 +6,8 @@
  * y en las vistas de auth (login, register, forgot-password, etc.)
  */
 
-import './topbar.js';
+import '../core/globals.js';
 import './modalScrollFix.js';
 import './passwordVisibility.js';
-import './securePassword.js';
 import './security.js';
 import './toast.js';
-import './emailModalSend.js';

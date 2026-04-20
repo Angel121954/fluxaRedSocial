@@ -99,6 +99,8 @@ export function openCommentsModal(postData) {
     setTimeout(() => commentTextarea?.focus(), 100);
 }
 
+window.openCommentsModal = openCommentsModal;
+
 function closeCommentsModal() {
     commentsModal.classList.remove("show");
     resetCommentForm();
