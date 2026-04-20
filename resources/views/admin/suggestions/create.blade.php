@@ -3,7 +3,7 @@
 @section('title', 'Crear Sugerencia Fluxa')
 
 @push('styles')
-@vite('resources/css/suggestions/suggestions.css')
+@vite('resources/css/admin/suggestions.css')
 @endpush
 
 @section('content')
@@ -89,5 +89,5 @@
 @endsection
 
 @push('scripts')
-@vite('resources/js/suggestions/index.js')
+@vite('resources/js/admin/index.js')
 @endpush

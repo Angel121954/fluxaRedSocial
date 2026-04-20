@@ -176,6 +176,6 @@
 @endpush
 
 @push('styles')
-@vite('resources/css/forgotPassword.css')
-@vite('resources/css/resetPassword.css')
+@vite('resources/css/auth/forgotPassword.css')
+@vite('resources/css/auth/resetPassword.css')
 @endpush

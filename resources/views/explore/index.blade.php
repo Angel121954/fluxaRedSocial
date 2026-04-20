@@ -175,8 +175,8 @@
 @endsection
 
 @push('scripts')
-@vite('resources/js/explore/index.js')
+@vite('resources/js/core/explore/index.js')
 @endpush
 @push('styles')
-@vite('resources/css/explore.css')
+@vite('resources/css/core/explore.css')
 @endpush

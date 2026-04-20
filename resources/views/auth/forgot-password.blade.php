@@ -125,5 +125,5 @@
 @endpush
 
 @push('styles')
-@vite('resources/css/forgotPassword.css')
+@vite('resources/css/auth/forgotPassword.css')
 @endpush

@@ -1,4 +1,4 @@
-import { showToast } from '../shared/toast.js';
+import { showToast } from '../../shared/toast.js';
 
 const SKILLS = {
     technical_communication: { label: 'Comunicación Técnica', color: '#3B82F6' },

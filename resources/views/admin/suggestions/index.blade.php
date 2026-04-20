@@ -3,7 +3,7 @@
 @section('title', 'Sugerencias — Admin Fluxa')
 
 @push('styles')
-@vite('resources/css/suggestions/suggestions.css')
+@vite('resources/css/admin/suggestions.css')
 @endpush
 
 @section('content')

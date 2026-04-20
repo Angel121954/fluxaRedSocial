@@ -263,7 +263,7 @@
 @endsection
 
 @push('styles')
-@vite('resources/css/login.css')
+@vite('resources/css/auth/login.css')
 @endpush
 
 @push('scripts')

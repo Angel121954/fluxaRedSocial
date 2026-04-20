@@ -5,58 +5,94 @@ export default defineConfig({
     plugins: [
         laravel({
             input: [
+                // CSS global
                 "resources/css/app.css",
                 "resources/css/variables.css",
+
+                // Auth
+                "resources/css/auth/login.css",
+                "resources/css/auth/register.css",
+                "resources/css/auth/forgotPassword.css",
+                "resources/css/auth/resetPassword.css",
+                "resources/css/auth/twoFactor.css",
+
+                // Shared
+                "resources/css/shared/topbar.css",
+
+                // Core
+                "resources/css/core/explore.css",
+                "resources/css/core/notifications.css",
+
+                // Profile (views)
                 "resources/css/profile/shared.css",
-                "resources/css/login.css",
-                "resources/css/register.css",
-                "resources/css/forgotPassword.css",
-                "resources/css/resetPassword.css",
-                "resources/css/topbar.css",
-                "resources/css/explore.css",
-                "resources/css/newProject.css",
-                "resources/css/notifications.css",
-                "resources/css/pages/aboutFluxa.css",
-                "resources/css/pages/terms.css",
-                "resources/css/pages/privacyPolicy.css",
-                "resources/css/pages/contact.css",
-                "resources/css/pages/footer.css",
-                "resources/css/role.css",
-                "resources/css/technologies.css",
-                "resources/css/suggestions.css",
-                "resources/css/profile/profile.css",
                 "resources/css/profile/sidebar.css",
-                "resources/css/profile/security.css",
-                "resources/css/profile/account.css",
-                "resources/css/profile/configuration.css",
-                "resources/css/profile/privacy.css",
-                "resources/css/profile/preferences.css",
+                "resources/css/profile/profile.css",
                 "resources/css/profile/workExperience.css",
                 "resources/css/profile/cv.css",
                 "resources/css/profile/modalImage.css",
-                "resources/css/suggestions/suggestions.css",
-                "resources/css/projectMedia.css",
-                "resources/css/twoFactor.css",
+                "resources/css/profile/notificationsProfile.css",
+
+                // Settings
+                "resources/css/settings/account.css",
+                "resources/css/settings/security.css",
+                "resources/css/settings/configuration.css",
+                "resources/css/settings/privacy.css",
+                "resources/css/settings/preferences.css",
+
+                // Projects
+                "resources/css/projects/newProject.css",
+                "resources/css/projects/projectMedia.css",
+
+                // Public
+                "resources/css/public/aboutFluxa.css",
+                "resources/css/public/terms.css",
+                "resources/css/public/privacyPolicy.css",
+                "resources/css/public/contact.css",
+                "resources/css/public/footer.css",
+
+                // Onboarding
+                "resources/css/onboarding/role.css",
+                "resources/css/onboarding/technologies.css",
+                "resources/css/onboarding/suggestions.css",
+
+                // Admin
+                "resources/css/admin/suggestions.css",
+
+                // JS global
                 "resources/js/app.js",
-                "resources/js/explore/index.js",
-                "resources/js/profile/index.js",
-                "resources/js/profile/workExperience.js",
-                "resources/js/profile/education.js",
-                "resources/js/projects/index.js",
-                "resources/js/projects/projectMedia.js",
-                "resources/js/comments/index.js",
-                "resources/js/shared/security.js",
-                "resources/js/onboarding/index.js",
-                "resources/js/shared/passwordVisibility.js",
-                "resources/js/shared/securePassword.js",
-                "resources/js/profile/account.js",
-                "resources/js/profile/configuration.js",
-                "resources/js/suggestions/index.js",
                 "resources/js/shared/index.js",
-                "resources/js/shared/topbar.js",
-                "resources/js/shared/modalScrollFix.js",
+
+                // Profile JS
+                "resources/js/profile/index.js",
                 "resources/js/profile/avatar.js",
                 "resources/js/profile/cv.js",
+                "resources/js/profile/account.js",
+                "resources/js/profile/configuration.js",
+                "resources/js/profile/workExperience.js",
+                "resources/js/profile/education.js",
+                "resources/js/profile/commentHandler.js",
+
+                // Shared JS
+                "resources/js/shared/topbar.js",
+                "resources/js/shared/toast.js",
+                "resources/js/shared/passwordVisibility.js",
+                "resources/js/shared/securePassword.js",
+                "resources/js/shared/security.js",
+                "resources/js/shared/modalScrollFix.js",
+
+                // Core JS
+                "resources/js/core/explore/index.js",
+
+                // Projects JS
+                "resources/js/projects/modalComment.js",
+                "resources/js/core/projects/projectMedia.js",
+
+                // Onboarding JS
+                "resources/js/onboarding/index.js",
+                "resources/js/onboarding/technologies.js",
+
+                // Admin JS
+                "resources/js/admin/index.js",
             ],
             refresh: true,
         }),

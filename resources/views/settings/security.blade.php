@@ -301,7 +301,7 @@
 @push('styles')
 @vite('resources/css/profile/shared.css')
 @vite('resources/css/profile/sidebar.css')
-@vite('resources/css/profile/security.css')
+@vite('resources/css/settings/security.css')
 @endpush
 
 @push('scripts')

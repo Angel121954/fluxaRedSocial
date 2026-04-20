@@ -17,11 +17,11 @@ import './tabs.js';
 import './filters.js';
 import './shareProfile.js';
 import './commentHandler.js';       // gestiona likes + apertura del modal de comentarios
-import '../comments/modalComment.js'; // inicializa listeners de cierre del modal
+import '../projects/modalComment.js'; // inicializa listeners de cierre del modal
 
 // ── Sistema de endorsement (compartido con explore) ────────────────────────
-import { initSkillEndorsement } from '../explore/skillEndorsement.js';
-import '../explore/projectMenu.js';
+import { initSkillEndorsement } from '../core/explore/skillEndorsement.js';
+import '../core/explore/projectMenu.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     initSkillEndorsement();

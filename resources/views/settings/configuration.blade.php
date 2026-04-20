@@ -148,7 +148,7 @@
 @push('styles')
 @vite('resources/css/profile/shared.css')
 @vite('resources/css/profile/sidebar.css')
-@vite('resources/css/profile/configuration.css')
+@vite('resources/css/settings/configuration.css')
 @endpush
 
 @push('scripts')

@@ -2,7 +2,7 @@
  * explore/projectMenu.js — Dropdown de acciones por proyecto
  */
 
-import { showToast } from '../shared/toast.js';
+import { showToast } from '../../shared/toast.js';
 
 // ── Abrir / cerrar dropdown ────────────────────────────────────────────────
 document.addEventListener('click', (e) => {

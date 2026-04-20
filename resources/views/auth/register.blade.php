@@ -383,7 +383,7 @@
 @endsection
 
 @push('styles')
-@vite('resources/css/register.css')
+@vite('resources/css/auth/register.css')
 @endpush
 
 @push('scripts')

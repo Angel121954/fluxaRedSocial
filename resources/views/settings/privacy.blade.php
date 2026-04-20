@@ -74,7 +74,7 @@
 @push('styles')
 @vite('resources/css/profile/shared.css')
 @vite('resources/css/profile/sidebar.css')
-@vite('resources/css/profile/privacy.css')
+@vite('resources/css/settings/privacy.css')
 @endpush
 
 @push('scripts')

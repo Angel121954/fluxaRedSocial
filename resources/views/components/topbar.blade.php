@@ -217,5 +217,5 @@
 @vite('resources/js/shared/topbar.js')
 @endpush
 @push('styles')
-@vite('resources/css/topbar.css')
+@vite('resources/css/shared/topbar.css')
 @endpush

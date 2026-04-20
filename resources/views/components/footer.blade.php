@@ -45,5 +45,5 @@
 </footer>
 
 @push('styles')
-@vite('resources/css/pages/footer.css')
+@vite('resources/css/public/footer.css')
 @endpush

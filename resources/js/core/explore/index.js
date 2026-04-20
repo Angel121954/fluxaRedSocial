@@ -3,10 +3,9 @@
  * @vite('resources/js/explore/index.js')
  */
 
-import '../shared/modalScrollFix.js';
+import '../../shared/modalScrollFix.js';
 import './topics.js';
 import './projectMenu.js';
-import { openCommentsModal } from '../comments/index.js';
 import { initTabs }       from './tabs.js';
 import { initLoadMore }   from './loadMore.js';
 import { initLikeButton } from './like.js';

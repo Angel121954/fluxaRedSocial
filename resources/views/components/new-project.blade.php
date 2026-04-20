@@ -222,8 +222,8 @@
 </div>
 
 @push('styles')
-@vite('resources/css/newProject.css')
+@vite('resources/css/projects/newProject.css')
 @endpush
 @push('scripts')
-@vite('resources/js/projects/index.js')
+@vite('resources/js/projects/modalComment.js')
 @endpush

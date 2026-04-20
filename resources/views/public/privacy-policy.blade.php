@@ -455,5 +455,5 @@
 @endsection
 
 @push('styles')
-@vite('resources/css/pages/privacyPolicy.css')
+@vite('resources/css/public/privacyPolicy.css')
 @endpush

@@ -387,7 +387,7 @@
 @endsection
 
 @push('styles')
-@vite('resources/css/explore.css')
+@vite('resources/css/core/explore.css')
 @vite('resources/css/profile/profile.css')
 @vite('resources/css/profile/modalImage.css')
 @endpush

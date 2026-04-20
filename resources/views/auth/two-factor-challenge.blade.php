@@ -109,7 +109,7 @@
 @endsection
 
 @push('styles')
-@vite('resources/css/twoFactor.css')
+@vite('resources/css/auth/twoFactor.css')
 @endpush
 
 @push('scripts')

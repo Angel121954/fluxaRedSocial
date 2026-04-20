@@ -220,5 +220,5 @@
 @endsection
 
 @push('styles')
-@vite('resources/css/pages/contact.css')
+@vite('resources/css/public/contact.css')
 @endpush

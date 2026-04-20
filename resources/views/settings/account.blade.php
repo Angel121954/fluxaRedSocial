@@ -235,7 +235,7 @@
 @push('styles')
 @vite('resources/css/profile/shared.css')
 @vite('resources/css/profile/sidebar.css')
-@vite('resources/css/profile/account.css')
+@vite('resources/css/settings/account.css')
 @endpush
 
 @push('scripts')

@@ -1,5 +1,5 @@
-import { initLikeButton } from '../explore/like.js';
-import { openCommentsModal } from '../comments/modalComment.js';
+import { initLikeButton } from '../core/explore/like.js';
+import { openCommentsModal } from '../projects/modalComment.js';
 
 document.addEventListener('DOMContentLoaded', function() {
     initLikeButton();

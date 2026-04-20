@@ -290,5 +290,5 @@
 @endsection
 
 @push('styles')
-@vite('resources/css/pages/terms.css')
+@vite('resources/css/public/terms.css')
 @endpush

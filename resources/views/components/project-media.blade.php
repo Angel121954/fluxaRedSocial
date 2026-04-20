@@ -113,10 +113,10 @@ return "https://res.cloudinary.com/{$cloud}/image/upload/{$t}/{$publicId}";
 </div>
 
 @push('styles')
-@vite('resources/css/projectMedia.css')
+@vite('resources/css/projects/projectMedia.css')
 @endpush
 
 @push('scripts')
-@vite('resources/js/projects/projectMedia.js')
+@vite('resources/js/core/projects/projectMedia.js')
 @endpush
 @endonce
