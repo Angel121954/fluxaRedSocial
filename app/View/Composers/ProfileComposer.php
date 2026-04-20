@@ -10,6 +10,11 @@ class ProfileComposer
 {
     public function compose(View $view): void
     {
+        // profile.index ya recibe $profile del controlador (propio o del usuario visitado)
+        if ($view->getName() === 'profile.index') {
+            return;
+        }
+
         $profile = null;
 
         if (Auth::check()) {
