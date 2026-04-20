@@ -20,7 +20,11 @@
 
     /* ── Selectores DOM ───────────────────────────── */
     const el = id => document.getElementById(id);
+    const $  = (id, fn) => { const e = el(id); return e && fn ? fn(e) : e; };
     const todos = selector => document.querySelectorAll(selector);
+
+    /* ── Early exit if modal not present ──────── */
+    if (!el('modal-overlay')) return;
 
     /* ════════════════════════════════════════════════
        INICIALIZACIÓN

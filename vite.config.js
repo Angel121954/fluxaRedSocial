@@ -102,8 +102,26 @@ export default defineConfig({
     server: {
         host: "0.0.0.0",
         port: 5173,
+        strictPort: false,
         hmr: {
-            host: "localhost",
+            host: "127.0.0.1",
         },
     },
+    optimizeDeps: {
+        include: ['laravel-echo', 'pusher-js'],
+        exclude: ['lucide-react'],
+    },
+    build: {
+        rollupOptions: {
+            output: {
+                manualChunks: {
+                    vendor: ['axios', 'lodash'],
+                },
+            },
+        },
+    },
+    esbuild: {
+        js: true,
+    },
+    cacheDir: 'node_modules/.vite',
 });

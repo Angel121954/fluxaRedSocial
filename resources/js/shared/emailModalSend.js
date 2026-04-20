@@ -2,6 +2,7 @@
 function resend(e) {
     e.preventDefault();
     const link = document.getElementById("resend-link");
+    if (!link) return;
     link.textContent = "Enviando...";
     link.style.pointerEvents = "none";
 
