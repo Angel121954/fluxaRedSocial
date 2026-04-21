@@ -1,9 +1,20 @@
 import { defineConfig } from "vite";
 import laravel from "laravel-vite-plugin";
+import path from "path";
+import os from "os";
+
+const projectPath = process.env.LARAVEL_SAIL ? '/var/www/html' : __dirname;
+const cachePath = process.env.LARAVEL_SAIL 
+    ? path.join(os.homedir(), '.vite') 
+    : path.join(__dirname, '.vite');
 
 export default defineConfig({
+    cacheDir: cachePath,
     plugins: [
         laravel({
+            publicDirectory: path.join(projectPath, 'public'),
+            hotFile: path.join(projectPath, 'public', 'hot'),
+            buildDirectory: path.join(projectPath, 'public', 'build'),
             input: [
                 // CSS global
                 "resources/css/app.css",
@@ -120,8 +131,4 @@ export default defineConfig({
             },
         },
     },
-    esbuild: {
-        js: true,
-    },
-    cacheDir: 'node_modules/.vite',
-});
+    });

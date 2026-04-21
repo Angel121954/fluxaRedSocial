@@ -45,6 +45,7 @@ class AppServiceProvider extends ServiceProvider
             'public.contact',
             'public.privacy-policy',
             'public.terms',
+            'messages.index',
         ], \App\View\Composers\ProfileComposer::class);
     }
 }

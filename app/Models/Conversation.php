@@ -1,0 +1,58 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
+class Conversation extends Model
+{
+    use HasFactory;
+
+    protected $fillable = [
+        'user_a_id',
+        'user_b_id',
+    ];
+
+    public function userA(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_a_id');
+    }
+
+    public function userB(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_b_id');
+    }
+
+    public function messages(): HasMany
+    {
+        return $this->hasMany(Message::class);
+    }
+
+    public function otherUser(User $user): ?User
+    {
+        if ($this->user_a_id === $user->id) {
+            return $this->userB;
+        }
+        if ($this->user_b_id === $user->id) {
+            return $this->userA;
+        }
+        return null;
+    }
+
+    public function lastMessage(): ?Message
+    {
+        return Message::where('conversation_id', $this->id)
+            ->orderBy('created_at', 'desc')
+            ->first();
+    }
+
+    public function unread(): bool
+    {
+        $lastMsg = $this->lastMessage();
+        if (!$lastMsg) return false;
+        return $lastMsg->sender_id !== auth()->id() && $lastMsg->read_at === null;
+    }
+}

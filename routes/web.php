@@ -21,6 +21,7 @@ use App\Http\Controllers\Profile\SecurityController;
 use App\Http\Controllers\Profile\WorkExperienceController;
 use App\Http\Controllers\Projects\ProjectController;
 use App\Http\Controllers\Suggestions\SuggestionController;
+use App\Http\Controllers\Messages\MessageController;
 use App\Http\Controllers\Technology\TechnologyController;
 use Illuminate\Support\Facades\Route;
 
@@ -250,6 +251,16 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
         Route::delete('admin/suggestions/{suggestion}', [SuggestionController::class, 'destroy'])
             ->name('admin.suggestions.destroy')
             ->middleware('admin');
+
+        /*
+        |--------------------------------------------------------------------------
+        | Sistema de mensajería
+        |--------------------------------------------------------------------------
+        */
+        Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
+        Route::post('/messages/{conversation}', [MessageController::class, 'store'])->name('messages.store');
+        Route::get('/messages/user/{username}', [MessageController::class, 'getOrCreateConversation'])->name('messages.user');
+        Route::post('/messages/user/{user_id}', [MessageController::class, 'storeNewConversation'])->name('messages.storeNew');
 
         /*
         |--------------------------------------------------------------------------
