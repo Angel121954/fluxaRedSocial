@@ -84,6 +84,14 @@ class ProfileController extends Controller
                 ->pluck('project_id')
                 ->toArray();
             $projects->each(fn($p) => $p->isLiked = in_array($p->id, $likedIds));
+
+            if (! $isOwner) {
+                $conversation = \App\Models\Conversation::where(function ($q) use ($user) {
+                    $q->where('user_a_id', auth()->id())->where('user_b_id', $user->id);
+                })->orWhere(function ($q) use ($user) {
+                    $q->where('user_a_id', $user->id)->where('user_b_id', auth()->id());
+                })->first();
+            }
         }
 
         $technologies    = $user->technologies()->orderBy('name')->get();
@@ -101,7 +109,8 @@ class ProfileController extends Controller
             'workExperiences',
             'educations',
             'followingCount',
-            'followersCount'
+            'followersCount',
+            'conversation' ?? null
         ));
     }
 

@@ -55,4 +55,12 @@ class Conversation extends Model
         if (!$lastMsg) return false;
         return $lastMsg->sender_id !== auth()->id() && $lastMsg->read_at === null;
     }
+
+    public function unreadCount(): int
+    {
+        return Message::where('conversation_id', $this->id)
+            ->where('sender_id', '!=', auth()->id())
+            ->whereNull('read_at')
+            ->count();
+    }
 }

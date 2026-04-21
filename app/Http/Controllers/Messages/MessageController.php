@@ -191,4 +191,28 @@ class MessageController extends Controller
             ],
         ]);
     }
+
+    public function redirectToConversation(string $username)
+    {
+        $user = \App\Models\User::where('username', $username)->firstOrFail();
+
+        if ($user->id === auth()->id()) {
+            return redirect()->route('messages.index');
+        }
+
+        $conversation = Conversation::where(function ($q) use ($user) {
+            $q->where('user_a_id', auth()->id())->where('user_b_id', $user->id);
+        })->orWhere(function ($q) use ($user) {
+            $q->where('user_a_id', $user->id)->where('user_b_id', auth()->id());
+        })->first();
+
+        if (!$conversation) {
+            $conversation = Conversation::create([
+                'user_a_id' => auth()->id(),
+                'user_b_id' => $user->id,
+            ]);
+        }
+
+        return redirect()->route('messages.index', ['conv' => $conversation->id]);
+    }
 }

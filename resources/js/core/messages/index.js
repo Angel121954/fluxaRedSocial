@@ -183,8 +183,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    /* ══════════════════════════════════════════
-       NAVEGACIÓN MÓVIL — sidebar ↔ chat
+/* ══════════════════════════════════════════
+        NAVEGACIÓN MÓVIL — sidebar ↔ chat
     ══════════════════════════════════════════ */
     /* Si hay una conversación activa al cargar, activar el modo chat en móvil */
     if (bubbleList && layout) {
@@ -197,14 +197,15 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    /* Al hacer clic en una conversación en móvil, navegar y activar chat-active */
+    /* Al hacer clic en una conversación en móvil, activar chat-active para animación.
+       Nota: El href del link ya hace la navegación, solo animamos la transición. */
     convList?.addEventListener('click', (e) => {
         const item = e.target.closest('.msgs-conv-item');
         if (!item) return;
-        /* La navegación real la hace el href del link,
-           pero marcamos chat-active para la animación móvil */
         if (window.innerWidth <= 680 && layout) {
+            e.preventDefault();
             layout.classList.add('chat-active');
+            window.location.href = item.href;
         }
     });
 

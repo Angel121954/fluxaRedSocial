@@ -260,6 +260,7 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
         Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
         Route::post('/messages/{conversation}', [MessageController::class, 'store'])->name('messages.store');
         Route::get('/messages/user/{username}', [MessageController::class, 'getOrCreateConversation'])->name('messages.user');
+        Route::get('/messages/chat/{username}', [MessageController::class, 'redirectToConversation'])->name('messages.chat');
         Route::post('/messages/user/{user_id}', [MessageController::class, 'storeNewConversation'])->name('messages.storeNew');
 
         /*

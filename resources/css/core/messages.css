@@ -620,6 +620,26 @@
     color: rgba(255, 255, 255, 0.6);
 }
 
+/* ── Separador de fecha ── */
+
+.msgs-date-separator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 1rem 0 0.75rem;
+}
+
+.msgs-date-separator span {
+    background: var(--ink-100);
+    color: var(--ink-500);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    text-transform: uppercase;
+}
+
 /* ── Input de envío ── */
 
 .msgs-input-bar {

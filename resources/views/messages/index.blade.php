@@ -63,7 +63,7 @@
                                     {{ $lastMsg ? Str::limit($lastMsg->body, 40) : '' }}
                                 </span>
                                 @if($conv->unread())
-                                <span class="msgs-unread-badge">1</span>
+                                <span class="msgs-unread-badge">{{ $conv->unreadCount() }}</span>
                                 @endif
                             </div>
                         </div>
@@ -105,8 +105,30 @@
 
                 <!-- Burbujas -->
                 <div class="msgs-bubble-list" id="msgsBubbleList" role="log" aria-live="polite">
+                    @php $lastDate = null; @endphp
                     @foreach($activeConversation->messages as $message)
-                    @php $isMine = $message->sender_id === auth()->id(); @endphp
+                    @php
+                    $isMine = $message->sender_id === auth()->id();
+                    $msgDate = $message->created_at->toDateString();
+                    $today = now()->toDateString();
+                    $yesterday = now()->subDay()->toDateString();
+
+                    if ($msgDate === $today) {
+                        $dateLabel = 'Hoy';
+                    } elseif ($msgDate === $yesterday) {
+                        $dateLabel = 'Ayer';
+                    } else {
+                        $dateLabel = $message->created_at->translatedFormat('d MMM, Y');
+                    }
+
+                    $showDateSeparator = $lastDate !== $msgDate;
+                    $lastDate = $msgDate;
+                    @endphp
+                    @if($showDateSeparator)
+                    <div class="msgs-date-separator">
+                        <span>{{ $dateLabel }}</span>
+                    </div>
+                    @endif
                     <div class="msgs-bubble-wrap{{ $isMine ? ' mine' : ' theirs' }}">
                         @if(!$isMine)
                         <img src="{{ $message->sender->avatar_url }}"
