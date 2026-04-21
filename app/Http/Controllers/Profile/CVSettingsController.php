@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Profile;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateCVSettingsRequest;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 use Spatie\Browsershot\Browsershot;
 
 class CVSettingsController extends Controller

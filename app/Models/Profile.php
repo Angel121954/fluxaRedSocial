@@ -26,6 +26,8 @@ class Profile extends Model
         'visibility',
         'last_seen_at',
         'cv_settings',
+        'accept_messages',
+        'show_email',
         'created_at',
         'updated_at',
     ];
@@ -33,6 +35,8 @@ class Profile extends Model
     protected $casts = [
         'email_verified_at' => 'datetime',
         'cv_settings' => 'array',
+        'accept_messages' => 'boolean',
+        'show_email' => 'boolean',
     ];
 
     public function user()
