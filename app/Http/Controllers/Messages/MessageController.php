@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Messages;
 use App\Http\Controllers\Controller;
 use App\Models\Conversation;
 use App\Models\Message;
-use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -14,44 +13,28 @@ class MessageController extends Controller
 {
     public function index(Request $request): View
     {
-        $user                = auth()->user();
-        $activeConversation  = null;
-        $otherUser           = null;
+        $user = auth()->user();
+        $activeConversation = null;
+        $otherUser = null;
 
-        if ($request->filled('conv')) {
+        if ($request->has('conv') && $request->conv) {
             $activeConversation = Conversation::with(['userA', 'userB', 'messages'])
                 ->where('id', $request->conv)
                 ->first();
 
             if ($activeConversation) {
-                /* FIX: verificar que la conversación no fue eliminada por este usuario */
-                if ($user->id === $activeConversation->user_a_id && $activeConversation->deleted_by_a_at) {
-                    $activeConversation = null;
-                } elseif ($user->id === $activeConversation->user_b_id && $activeConversation->deleted_by_b_at) {
-                    $activeConversation = null;
-                } else {
-                    $otherUser = $activeConversation->otherUser($user);
+                $otherUser = $activeConversation->otherUser($user);
 
-                    Message::where('conversation_id', $activeConversation->id)
-                        ->where('sender_id', '!=', $user->id)
-                        ->whereNull('read_at')
-                        ->update(['read_at' => now()]);
-                }
+                Message::where('conversation_id', $activeConversation->id)
+                    ->where('sender_id', '!=', $user->id)
+                    ->whereNull('read_at')
+                    ->update(['read_at' => now()]);
             }
         }
 
         $conversations = Conversation::with(['userA', 'userB'])
             ->where(function ($q) use ($user) {
                 $q->where('user_a_id', $user->id)->orWhere('user_b_id', $user->id);
-            })
-            ->where(function ($q) use ($user) {
-                $q->where(function ($q2) use ($user) {
-                    $q2->where('user_a_id', $user->id)
-                        ->whereNull('deleted_by_a_at');
-                })->orWhere(function ($q2) use ($user) {
-                    $q2->where('user_b_id', $user->id)
-                        ->whereNull('deleted_by_b_at');
-                });
             })
             ->get()
             ->sortByDesc(fn($c) => $c->lastMessage()?->created_at);
@@ -100,23 +83,17 @@ class MessageController extends Controller
 
         $message = $conversation->messages()->create([
             'sender_id' => auth()->id(),
-            'body'      => $request->body,
+            'body' => $request->body,
         ]);
 
         $message->load('sender');
 
-        $recipient = $conversation->user_a_id === $user->id 
-            ? $conversation->userB 
-            : $conversation->userA;
-
-        event(new \App\Events\NewMessageEvent($message, $recipient));
-
         return response()->json([
-            'id'   => $message->id,
+            'id' => $message->id,
             'body' => $message->body,
             'sender' => [
-                'id'         => $message->sender->id,
-                'name'       => $message->sender->name,
+                'id' => $message->sender->id,
+                'name' => $message->sender->name,
                 'avatar_url' => $message->sender->avatar_url,
             ],
             'created_at' => $message->created_at->toIso8601String(),
@@ -127,11 +104,11 @@ class MessageController extends Controller
     {
         $request->validate([
             'user_id' => 'required|integer|exists:users,id',
-            'body'    => 'required|string|max:2000',
+            'body' => 'required|string|max:2000',
         ]);
 
         $otherUserId = $request->user_id;
-        $userId      = auth()->id();
+        $userId = auth()->id();
 
         if ($otherUserId === $userId) {
             return response()->json(['error' => 'No puedes enviarte mensajes a ti mismo.'], 422);
@@ -154,7 +131,7 @@ class MessageController extends Controller
 
         $message = $conversation->messages()->create([
             'sender_id' => $userId,
-            'body'      => $request->body,
+            'body' => $request->body,
         ]);
 
         $message->load('sender');
@@ -162,11 +139,11 @@ class MessageController extends Controller
         return response()->json([
             'conversation_id' => $conversation->id,
             'message' => [
-                'id'   => $message->id,
+                'id' => $message->id,
                 'body' => $message->body,
                 'sender' => [
-                    'id'         => $message->sender->id,
-                    'name'       => $message->sender->name,
+                    'id' => $message->sender->id,
+                    'name' => $message->sender->name,
                     'avatar_url' => $message->sender->avatar_url,
                 ],
                 'created_at' => $message->created_at->toIso8601String(),
@@ -187,7 +164,7 @@ class MessageController extends Controller
         }
 
         $currentUserId = auth()->id();
-        $otherUserId   = $user->id;
+        $otherUserId = $user->id;
 
         $conversation = Conversation::where(function ($query) use ($currentUserId, $otherUserId) {
             $query->where(function ($q) use ($currentUserId, $otherUserId) {
@@ -207,9 +184,9 @@ class MessageController extends Controller
         return response()->json([
             'conversation_id' => $conversation->id,
             'other_user' => [
-                'id'         => $user->id,
-                'name'       => $user->name,
-                'username'   => $user->username,
+                'id' => $user->id,
+                'name' => $user->name,
+                'username' => $user->username,
                 'avatar_url' => $user->avatar_url,
             ],
         ]);
@@ -237,22 +214,5 @@ class MessageController extends Controller
         }
 
         return redirect()->route('messages.index', ['conv' => $conversation->id]);
-    }
-
-    public function destroyConversation(Conversation $conversation): JsonResponse
-    {
-        $user = auth()->user();
-
-        if ($conversation->user_a_id !== $user->id && $conversation->user_b_id !== $user->id) {
-            return response()->json(['error' => 'No tienes acceso a esta conversación.'], 403);
-        }
-
-        if ($conversation->user_a_id === $user->id) {
-            $conversation->update(['deleted_by_a_at' => now()]);
-        } else {
-            $conversation->update(['deleted_by_b_at' => now()]);
-        }
-
-        return response()->json(['success' => true]);
     }
 }
