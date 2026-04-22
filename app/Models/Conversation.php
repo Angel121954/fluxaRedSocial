@@ -14,6 +14,8 @@ class Conversation extends Model
     protected $fillable = [
         'user_a_id',
         'user_b_id',
+        'deleted_by_a_at',
+        'deleted_by_b_at'
     ];
 
     public function userA(): BelongsTo
@@ -59,6 +61,19 @@ class Conversation extends Model
     public function unreadCount(): int
     {
         return Message::where('conversation_id', $this->id)
+            ->where('sender_id', '!=', auth()->id())
+            ->whereNull('read_at')
+            ->count();
+    }
+
+    public function totalCount(): int
+    {
+        return Message::whereIn('conversation_id', function ($q) {
+            $q->select('id')
+                ->from('conversations')
+                ->where('user_a_id', auth()->id())
+                ->orWhere('user_b_id', auth()->id());
+        })
             ->where('sender_id', '!=', auth()->id())
             ->whereNull('read_at')
             ->count();

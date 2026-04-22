@@ -44,30 +44,37 @@
                     $otherChat = $conv->otherUser(auth()->user());
                     $lastMsg = $conv->lastMessage();
                     @endphp
-                    <a href="{{ route('messages.index', ['conv' => $conv->id]) }}" class="msgs-conv-item{{ $isActive ? ' active' : '' }}" role="listitem">
-                        <div class="msgs-conv-avatar-wrap">
-                            <img src="{{ $otherChat->avatar_url }}"
-                                alt="{{ $otherChat->name }}" class="msgs-conv-avatar"
-                                onerror="this.src='/img/default-avatar.png'">
-                        </div>
-                        <div class="msgs-conv-info">
-                            <div class="msgs-conv-row-top">
-                                <span class="msgs-conv-name">{{ $otherChat->name }}</span>
-                                <span class="msgs-conv-time">{{ $lastMsg ? $lastMsg->created_at->diffForHumans() : '' }}</span>
+                    <div class="msgs-conv-item-wrapper{{ $isActive ? ' active' : '' }}">
+                        <a href="{{ route('messages.index', ['conv' => $conv->id]) }}" class="msgs-conv-item" role="listitem">
+                            <div class="msgs-conv-avatar-wrap">
+                                <img src="{{ $otherChat->avatar_url }}"
+                                    alt="{{ $otherChat->name }}" class="msgs-conv-avatar"
+                                    onerror="this.src='/img/default-avatar.png'">
                             </div>
-                            <div class="msgs-conv-row-bottom">
-                                <span class="msgs-conv-preview">
-                                    @if($lastMsg && $lastMsg->sender_id === auth()->id())
-                                    <span class="msgs-conv-preview-you">Tú: </span>
+                            <div class="msgs-conv-info">
+                                <div class="msgs-conv-row-top">
+                                    <span class="msgs-conv-name">{{ $otherChat->name }}</span>
+                                    <span class="msgs-conv-time">{{ $lastMsg ? $lastMsg->created_at->diffForHumans() : '' }}</span>
+                                </div>
+                                <div class="msgs-conv-row-bottom">
+                                    <span class="msgs-conv-preview">
+                                        @if($lastMsg && $lastMsg->sender_id === auth()->id())
+                                        <span class="msgs-conv-preview-you">Tú: </span>
+                                        @endif
+                                        {{ $lastMsg ? Str::limit($lastMsg->body, 40) : '' }}
+                                    </span>
+                                    @if($conv->unread())
+                                    <span class="msgs-unread-badge">{{ $conv->unreadCount() }}</span>
                                     @endif
-                                    {{ $lastMsg ? Str::limit($lastMsg->body, 40) : '' }}
-                                </span>
-                                @if($conv->unread())
-                                <span class="msgs-unread-badge">{{ $conv->unreadCount() }}</span>
-                                @endif
+                                </div>
                             </div>
-                        </div>
-                    </a>
+                        </a>
+                        <button class="msgs-conv-menu-btn" data-conv-id="{{ $conv->id }}" data-user-id="{{ $otherChat->id }}" aria-label="Opciones">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01" />
+                            </svg>
+                        </button>
+                    </div>
                     @empty
                     <div class="msgs-empty-sidebar">
                         <p>No tienes conversaciones aún.</p>
@@ -86,11 +93,13 @@
                 <!-- Cabecera -->
                 <div class="msgs-chat-header">
                     <div class="msgs-chat-header-user">
-                        <div class="msgs-chat-header-avatar-wrap">
-                            <img src="{{ $otherUser->avatar_url }}"
-                                alt="{{ $otherUser->name }}" class="msgs-chat-header-avatar"
-                                onerror="this.src='/img/default-avatar.png'">
-                        </div>
+                        <a href="http://localhost/profile/{{ $otherUser->username }}">
+                            <div class="msgs-chat-header-avatar-wrap">
+                                <img src="{{ $otherUser->avatar_url }}"
+                                    alt="{{ $otherUser->name }}" class="msgs-chat-header-avatar"
+                                    onerror="this.src='/img/default-avatar.png'">
+                            </div>
+                        </a>
                         <div class="msgs-chat-header-info">
                             <span class="msgs-chat-header-name">{{ $otherUser->name }}</span>
                             <span class="msgs-chat-header-sub">&#64;{{ $otherUser->username }}</span>
@@ -114,11 +123,11 @@
                     $yesterday = now()->subDay()->toDateString();
 
                     if ($msgDate === $today) {
-                        $dateLabel = 'Hoy';
+                    $dateLabel = 'Hoy';
                     } elseif ($msgDate === $yesterday) {
-                        $dateLabel = 'Ayer';
+                    $dateLabel = 'Ayer';
                     } else {
-                        $dateLabel = $message->created_at->translatedFormat('d MMM, Y');
+                    $dateLabel = $message->created_at->translatedFormat('d MMM, Y');
                     }
 
                     $showDateSeparator = $lastDate !== $msgDate;
@@ -141,10 +150,15 @@
                             <span class="msgs-bubble-time">
                                 {{ $message->created_at->format('H:i') }}
                                 @if($isMine)
-                                @if($message->isRead())
-                                <svg class="msgs-read-check" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                                </svg>
+                                @if($message->read_at)
+                                <span class="msgs-double-check">
+                                    <svg class="msgs-read-check" width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                    <svg class="msgs-read-check" width="12" height="12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                </span>
                                 @else
                                 <svg class="msgs-sent-check" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
@@ -167,8 +181,9 @@
                         aria-label="Escribe un mensaje"></textarea>
                     <button class="msgs-send-btn"
                         id="msgsSendBtn"
-                        data-conv-id="{{ $activeConversation->id }}"
-                        data-recipient="{{ $otherUser->username }}"
+                        data-conv-id="{{ $activeConversation->id ?? '' }}"
+                        data-recipient="{{ $otherUser->username ?? '' }}"
+                        data-user-id="{{ auth()->id() }}"
                         aria-label="Enviar mensaje">
                         <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
