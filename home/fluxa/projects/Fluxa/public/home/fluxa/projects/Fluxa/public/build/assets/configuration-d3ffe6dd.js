@@ -1,1 +1,0 @@
-const n=document.getElementById("input-bio"),t=document.getElementById("charCount");if(n&&t){let e=function(){const a=n.value.length,s=parseInt(n.getAttribute("maxlength"));t.textContent=`${a}/${s}`,t.classList.remove("warn","danger"),a>=s?t.classList.add("danger"):a>=s*.8&&t.classList.add("warn")};var c=e;n.addEventListener("input",e),e()}

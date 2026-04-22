@@ -1,6 +1,9 @@
 /* ─────────────────────────────────────────────────────────────
    resources/js/core/messages/index.js
    Sistema de mensajería de Fluxa — lógica de UI
+   Maneja: autosize del textarea, envío de mensajes,
+   búsqueda de conversaciones, modal de nueva conversación,
+   scroll al último mensaje, y navegación móvil.
 ───────────────────────────────────────────────────────────── */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -19,10 +22,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalClose = document.getElementById('msgsModalClose');
     const modalSearch = document.getElementById('msgsModalSearch');
     const modalResults = document.getElementById('msgsModalResults');
-
-    /* FIX: declarar vars de reply para evitar ReferenceError al enviar */
-    let replyingToMsgId = null;
-    let replyToMessage = null;
 
     /* ══════════════════════════════════════════
        SCROLL AL ÚLTIMO MENSAJE
@@ -90,9 +89,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const recipient = sendBtn.dataset.recipient;
         if (!convId && !recipient) return;
 
+        /* Deshabilitar mientras se envía */
         sendBtn.disabled = true;
         input.disabled = true;
 
+        /* Burbuja optimista (se agrega al instante) */
         const tempBubble = createOwnBubble(body, 'sending');
         if (bubbleList) {
             bubbleList.appendChild(tempBubble);
@@ -115,26 +116,20 @@ document.addEventListener('DOMContentLoaded', () => {
                     'X-CSRF-TOKEN': csrfToken,
                     'Accept': 'application/json',
                 },
-                body: JSON.stringify({
-                    body,
-                    ...(replyingToMsgId ? { parent_id: replyingToMsgId } : {}),
-                }),
+                body: JSON.stringify({ body }),
             });
-
-            if (res.ok && replyingToMsgId) {
-                replyingToMsgId = null;
-                replyToMessage = null;
-            }
 
             if (!res.ok) throw new Error('Error al enviar el mensaje');
 
             const data = await res.json();
 
+            /* Actualizar burbuja temporal con id y check enviado */
             tempBubble.dataset.msgId = data.id ?? '';
             tempBubble.querySelector('.msgs-bubble-time')?.classList.remove('sending');
 
         } catch (err) {
             console.error('[Fluxa Messages]', err);
+            /* Marcar burbuja como fallida */
             tempBubble.classList.add('msgs-bubble-failed');
             const time = tempBubble.querySelector('.msgs-bubble-time');
             if (time) time.textContent = 'Error al enviar';
@@ -145,6 +140,12 @@ document.addEventListener('DOMContentLoaded', () => {
         syncSendBtn();
     }
 
+    /**
+     * Crea una burbuja propia para inserción optimista.
+     * @param {string} text
+     * @param {string} [status] - 'sending'
+     * @returns {HTMLElement}
+     */
     function createOwnBubble(text, status = '') {
         const now = new Date();
         const time = now.toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit', hour12: false });
@@ -176,14 +177,16 @@ document.addEventListener('DOMContentLoaded', () => {
             items.forEach((item) => {
                 const name = item.querySelector('.msgs-conv-name')?.textContent?.toLowerCase() ?? '';
                 const preview = item.querySelector('.msgs-conv-preview')?.textContent?.toLowerCase() ?? '';
-                item.style.display = (name.includes(query) || preview.includes(query)) ? '' : 'none';
+                const matches = name.includes(query) || preview.includes(query);
+                item.style.display = matches ? '' : 'none';
             });
         });
     }
 
-    /* ══════════════════════════════════════════
-       NAVEGACIÓN MÓVIL — sidebar ↔ chat
+/* ══════════════════════════════════════════
+        NAVEGACIÓN MÓVIL — sidebar ↔ chat
     ══════════════════════════════════════════ */
+    /* Si hay una conversación activa al cargar, activar el modo chat en móvil */
     if (bubbleList && layout) {
         layout.classList.add('chat-active');
     }
@@ -194,6 +197,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    /* Al hacer clic en una conversación en móvil, activar chat-active para animación.
+       Nota: El href del link ya hace la navegación, solo animamos la transición. */
     convList?.addEventListener('click', (e) => {
         const item = e.target.closest('.msgs-conv-item');
         if (!item) return;
@@ -234,6 +239,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.key === 'Escape') closeModal();
     });
 
+    /* ── Búsqueda de usuarios en el modal ── */
     let searchTimeout = null;
 
     modalSearch?.addEventListener('input', () => {
@@ -316,176 +322,5 @@ document.addEventListener('DOMContentLoaded', () => {
         div.appendChild(document.createTextNode(String(str ?? '')));
         return div.innerHTML;
     }
-
-    /* ══════════════════════════════════════════
-       MENÚ DE OPCIONES DE CONVERSACIÓN
-    ══════════════════════════════════════════ */
-    let activeConvMenu = null;
-
-    convList?.addEventListener('click', (e) => {
-        const menuBtn = e.target.closest('.msgs-conv-menu-btn');
-        if (!menuBtn) {
-            if (activeConvMenu) {
-                activeConvMenu.remove();
-                activeConvMenu = null;
-            }
-            return;
-        }
-
-        e.preventDefault();
-        e.stopPropagation();
-
-        const convId = menuBtn.dataset.convId;
-        const userId = menuBtn.dataset.userId;
-        const wrapper = menuBtn.closest('.msgs-conv-item-wrapper');
-
-        if (activeConvMenu) {
-            activeConvMenu.remove();
-        }
-
-        const menu = document.createElement('div');
-        menu.className = 'msgs-conv-menu';
-        menu.innerHTML = `
-            <button class="msgs-conv-menu-item" data-action="block" data-user-id="${userId}">
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" /></svg>
-                Bloquear usuario
-            </button>
-            <button class="msgs-conv-menu-item danger" data-action="delete" data-conv-id="${convId}">
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
-                Eliminar chat
-            </button>
-        `;
-
-        wrapper.style.position = 'relative';
-        wrapper.appendChild(menu);
-        activeConvMenu = menu;
-
-        menu.querySelectorAll('.msgs-conv-menu-item').forEach(item => {
-            item.addEventListener('click', async (evt) => {
-                evt.stopPropagation();
-                handleConvAction(item.dataset.action, item, convId, userId);
-            });
-        });
-    });
-
-    async function handleConvAction(action, item, convId, userId) {
-        if (activeConvMenu) {
-            activeConvMenu.remove();
-            activeConvMenu = null;
-        }
-
-        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content ?? '';
-
-        switch (action) {
-            case 'block':
-                alert('Función de bloqueo pronto disponible');
-                break;
-
-            case 'delete':
-                if (!confirm('¿Eliminar esta conversación?')) return;
-                try {
-                    const res = await fetch(`/messages/conversation/${convId}`, {
-                        method: 'PUT',
-                        headers: {
-                            'X-CSRF-TOKEN': csrfToken,
-                            'Accept': 'application/json',
-                        },
-                    });
-
-                    if (res.ok) {
-                        /* FIX: redirect limpio sin el parámetro ?conv para evitar
-                           que el controlador vuelva a cargar la conv eliminada */
-                        window.location.href = '/messages';
-                    } else {
-                        alert('Error al eliminar');
-                    }
-                } catch (err) {
-                    console.error('[Fluxa Messages] Delete chat error:', err);
-                    alert('Error al eliminar chat');
-                }
-                break;
-        }
-    }
-
-    /* ══════════════════════════════════════════
-       REALTIME - Escuchar mensajes nuevos
-    ══════════════════════════════════════════ */
-    function initReverb() {
-        if (typeof window.Echo === 'undefined') return;
-
-        const userId = sendBtn?.dataset?.userId;
-        if (!userId) return;
-
-        const currentConvId = new URLSearchParams(window.location.search).get('conv');
-
-        if (currentConvId) {
-            window.Echo.private(`conversation.${currentConvId}`)
-                .listen('NewMessageEvent', (e) => {
-                    if (e.message) {
-                        addMessageToBubbleList(e.message);
-                    }
-                });
-        }
-
-        window.Echo.private(`user.${userId}`)
-            .listen('NewMessageEvent', (e) => {
-                updateConversationList(e.message);
-            });
-    }
-
-    function addMessageToBubbleList(message) {
-        if (!bubbleList) return;
-
-        const userId = sendBtn?.dataset?.userId;
-        if (!userId) return;
-
-        const currentConvId = new URLSearchParams(window.location.search).get('conv');
-
-        if (message.conversation_id == currentConvId) {
-            const isMine = message.sender_id === userId;
-            const bubble = createIncomingBubble(message.body, message.sender, message.created_at);
-            bubbleList.appendChild(bubble);
-            scrollToBottom(true);
-        }
-
-        if (typeof updateUnreadBadge === 'function') {
-            updateUnreadBadge();
-        }
-    }
-
-    function createIncomingBubble(text, sender, createdAt) {
-        const wrap = document.createElement('div');
-        wrap.className = 'msgs-bubble-wrap theirs';
-
-        const avatar = document.createElement('img');
-        avatar.src = sender.avatar_url;
-        avatar.alt = sender.name;
-        avatar.className = 'msgs-bubble-avatar';
-        avatar.onerror = function() { this.src = '/img/default-avatar.png'; };
-
-        const bubble = document.createElement('div');
-        bubble.className = 'msgs-bubble msgs-bubble-theirs';
-        bubble.textContent = text;
-
-        const timeSpan = document.createElement('span');
-        timeSpan.className = 'msgs-bubble-time';
-        const time = new Date(createdAt).toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit', hour12: false });
-        timeSpan.textContent = time;
-
-        bubble.appendChild(timeSpan);
-        wrap.appendChild(avatar);
-        wrap.appendChild(bubble);
-
-        return wrap;
-    }
-
-    function updateConversationList(message) {
-        const convItem = document.querySelector(`.msgs-conv-item-wrapper a[href*="conv=${message.conversation_id}"]`);
-        if (convItem) {
-            window.location.reload();
-        }
-    }
-
-    initReverb();
 
 });

@@ -25,9 +25,6 @@ use App\Http\Controllers\Messages\MessageController;
 use App\Http\Controllers\Technology\TechnologyController;
 use Illuminate\Support\Facades\Route;
 
-//* clases de Livewire
-use App\Livewire\Messages\MessagesPage;
-
 /*
 |--------------------------------------------------------------------------
 | Redirección inicial
@@ -260,9 +257,8 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
         | Sistema de mensajería
         |--------------------------------------------------------------------------
         */
-        Route::get('/messages', MessagesPage::class)->name('messages.index');
+        Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
         Route::post('/messages/{conversation}', [MessageController::class, 'store'])->name('messages.store');
-        Route::put('/messages/conversation/{conversation}', [MessageController::class, 'destroyConversation'])->name('messages.destroyConversation');
         Route::get('/messages/user/{username}', [MessageController::class, 'getOrCreateConversation'])->name('messages.user');
         Route::get('/messages/chat/{username}', [MessageController::class, 'redirectToConversation'])->name('messages.chat');
         Route::post('/messages/user/{user_id}', [MessageController::class, 'storeNewConversation'])->name('messages.storeNew');
