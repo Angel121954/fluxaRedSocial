@@ -1,8 +1,21 @@
 @props(['profile'])
 
+@php
+use App\Models\Conversation;
+$unreadMessages = 0;
+if (auth()->check()) {
+$conversations = Conversation::where('user_a_id', auth()->id())
+->orWhere('user_b_id', auth()->id())
+->get();
+foreach ($conversations as $conv) {
+$unreadMessages += $conv->unreadCount();
+}
+}
+@endphp
+
 <!-- ══════════════════════════════════════════
      NAVBAR
-═════════════════════════════════════════ -->
+══════════════════════════════════════════ -->
 <nav class="navbar" role="navigation" aria-label="Navegación principal">
     <div class="navbar-inner">
 
@@ -37,9 +50,12 @@
                     Sugerencias
                 </a>
                 <a href="{{ route('messages.index') }}"
-                    class="nav-link {{ request()->routeIs('messages*') ? 'active' : '' }}"
+                    class="nav-link nav-link--with-badge {{ request()->routeIs('messages*') ? 'active' : '' }}"
                     @if(request()->routeIs('messages*')) aria-current="page" @endif>
                     Mensajes
+                    @if($unreadMessages > 0)
+                    <span class="topbar-badge">{{ $unreadMessages }}</span>
+                    @endif
                 </a>
                 @if(Auth::user()->role === 'admin')
                 <a href="{{ route('admin.suggestions.index') }}"

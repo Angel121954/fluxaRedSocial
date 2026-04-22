@@ -163,6 +163,12 @@
 
 /* ── Item de conversación ── */
 
+.msgs-conv-item-wrapper {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
 .msgs-conv-item {
     display: flex;
     align-items: center;
@@ -174,6 +180,7 @@
     position: relative;
     border-radius: var(--r-lg);
     transition: background 0.15s, box-shadow 0.15s;
+    flex: 1;
 }
 
 .msgs-conv-item:hover {
@@ -181,7 +188,7 @@
     box-shadow: var(--shadow-xs);
 }
 
-.msgs-conv-item.active {
+.msgs-conv-item-wrapper.active .msgs-conv-item {
     background: var(--surface);
     box-shadow:
         0 0 0 1.5px rgba(18, 179, 182, 0.22),
@@ -311,6 +318,72 @@
 .msgs-conv-preview-you {
     color: var(--ink-500);
     font-weight: 500;
+}
+
+.msgs-conv-menu-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--bg-white);
+    border: none;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.2s, background 0.2s;
+    color: var(--ink-500);
+    z-index: 10;
+    box-shadow: var(--shadow-xs);
+}
+
+.msgs-conv-item-wrapper:hover .msgs-conv-menu-btn {
+    opacity: 1;
+}
+
+.msgs-conv-menu-btn:hover {
+    background: var(--ink-100);
+    color: var(--ink-700);
+}
+
+.msgs-conv-menu {
+    position: absolute;
+    right: 8px;
+    top: 100%;
+    background: var(--bg-white);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--r-md);
+    box-shadow: var(--shadow-lg);
+    min-width: 160px;
+    z-index: 50;
+    overflow: hidden;
+}
+
+.msgs-conv-menu-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    font-size: 0.875rem;
+    color: var(--ink-700);
+    cursor: pointer;
+    transition: background 0.15s;
+    border: none;
+    background: var(--surface);
+    width: 100%;
+    text-align: left;
+}
+
+.msgs-conv-menu-item.danger {
+    color: var(--danger);
+}
+
+.msgs-conv-menu-item svg {
+    width: 16px;
+    height: 16px;
 }
 
 /* Badge no leídos con micro-animación */
@@ -526,6 +599,7 @@
     gap: 0.375rem;
     scrollbar-width: thin;
     scrollbar-color: var(--ink-200) transparent;
+    overflow-x: hidden;
 }
 
 .msgs-bubble-list::-webkit-scrollbar {
@@ -612,6 +686,14 @@
     width: 14px;
     height: 14px;
     color: rgba(255, 255, 255, 0.95);
+}
+
+.msgs-double-check {
+    display: inline-flex;
+}
+
+.msgs-double-check .msgs-read-check + .msgs-read-check {
+    margin-left: -8px;
 }
 
 .msgs-sent-check {
@@ -716,13 +798,12 @@
     border-radius: var(--r-md);
     cursor: pointer;
     flex-shrink: 0;
-    transition: background 0.15s, box-shadow 0.15s, transform 0.1s;
+    transition: background 0.15s, box-shadow 0.15s;
 }
 
 .msgs-send-btn:hover {
     background: var(--accent-dark);
     box-shadow: 0 3px 12px rgba(18, 179, 182, 0.32);
-    transform: translateY(-1px);
 }
 
 .msgs-send-btn:active {
