@@ -86,11 +86,14 @@
                 <!-- Cabecera -->
                 <div class="msgs-chat-header">
                     <div class="msgs-chat-header-user">
-                        <div class="msgs-chat-header-avatar-wrap">
-                            <img src="{{ $otherUser->avatar_url }}"
-                                alt="{{ $otherUser->name }}" class="msgs-chat-header-avatar"
-                                onerror="this.src='/img/default-avatar.png'">
-                        </div>
+                        <a href="{{ route('profile.show', ['username' => $otherUser->username]) }}">
+                            <div class="msgs-chat-header-avatar-wrap">
+                                <img src="{{ $otherUser->avatar_url }}"
+                                    alt="{{ $otherUser->name }}"
+                                    class="msgs-chat-header-avatar"
+                                    onerror="this.src='/img/default-avatar.png'">
+                            </div>
+                        </a>
                         <div class="msgs-chat-header-info">
                             <span class="msgs-chat-header-name">{{ $otherUser->name }}</span>
                             <span class="msgs-chat-header-sub">&#64;{{ $otherUser->username }}</span>
@@ -114,11 +117,11 @@
                     $yesterday = now()->subDay()->toDateString();
 
                     if ($msgDate === $today) {
-                        $dateLabel = 'Hoy';
+                    $dateLabel = 'Hoy';
                     } elseif ($msgDate === $yesterday) {
-                        $dateLabel = 'Ayer';
+                    $dateLabel = 'Ayer';
                     } else {
-                        $dateLabel = $message->created_at->translatedFormat('d MMM, Y');
+                    $dateLabel = $message->created_at->translatedFormat('d \d\e F Y');
                     }
 
                     $showDateSeparator = $lastDate !== $msgDate;

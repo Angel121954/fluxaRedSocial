@@ -1,9 +1,6 @@
 /* ─────────────────────────────────────────────────────────────
    resources/js/core/messages/index.js
    Sistema de mensajería de Fluxa — lógica de UI
-   Maneja: autosize del textarea, envío de mensajes,
-   búsqueda de conversaciones, modal de nueva conversación,
-   scroll al último mensaje, y navegación móvil.
 ───────────────────────────────────────────────────────────── */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -89,11 +86,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const recipient = sendBtn.dataset.recipient;
         if (!convId && !recipient) return;
 
-        /* Deshabilitar mientras se envía */
         sendBtn.disabled = true;
         input.disabled = true;
 
-        /* Burbuja optimista (se agrega al instante) */
         const tempBubble = createOwnBubble(body, 'sending');
         if (bubbleList) {
             bubbleList.appendChild(tempBubble);
@@ -115,6 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     'Content-Type': 'application/json',
                     'X-CSRF-TOKEN': csrfToken,
                     'Accept': 'application/json',
+                    'X-Socket-ID': window.Echo?.socketId() ?? '',
                 },
                 body: JSON.stringify({ body }),
             });
@@ -123,13 +119,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const data = await res.json();
 
-            /* Actualizar burbuja temporal con id y check enviado */
             tempBubble.dataset.msgId = data.id ?? '';
             tempBubble.querySelector('.msgs-bubble-time')?.classList.remove('sending');
 
         } catch (err) {
             console.error('[Fluxa Messages]', err);
-            /* Marcar burbuja como fallida */
             tempBubble.classList.add('msgs-bubble-failed');
             const time = tempBubble.querySelector('.msgs-bubble-time');
             if (time) time.textContent = 'Error al enviar';
@@ -140,12 +134,6 @@ document.addEventListener('DOMContentLoaded', () => {
         syncSendBtn();
     }
 
-    /**
-     * Crea una burbuja propia para inserción optimista.
-     * @param {string} text
-     * @param {string} [status] - 'sending'
-     * @returns {HTMLElement}
-     */
     function createOwnBubble(text, status = '') {
         const now = new Date();
         const time = now.toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit', hour12: false });
@@ -177,16 +165,14 @@ document.addEventListener('DOMContentLoaded', () => {
             items.forEach((item) => {
                 const name = item.querySelector('.msgs-conv-name')?.textContent?.toLowerCase() ?? '';
                 const preview = item.querySelector('.msgs-conv-preview')?.textContent?.toLowerCase() ?? '';
-                const matches = name.includes(query) || preview.includes(query);
-                item.style.display = matches ? '' : 'none';
+                item.style.display = (name.includes(query) || preview.includes(query)) ? '' : 'none';
             });
         });
     }
 
-/* ══════════════════════════════════════════
-        NAVEGACIÓN MÓVIL — sidebar ↔ chat
+    /* ══════════════════════════════════════════
+       NAVEGACIÓN MÓVIL
     ══════════════════════════════════════════ */
-    /* Si hay una conversación activa al cargar, activar el modo chat en móvil */
     if (bubbleList && layout) {
         layout.classList.add('chat-active');
     }
@@ -197,8 +183,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    /* Al hacer clic en una conversación en móvil, activar chat-active para animación.
-       Nota: El href del link ya hace la navegación, solo animamos la transición. */
     convList?.addEventListener('click', (e) => {
         const item = e.target.closest('.msgs-conv-item');
         if (!item) return;
@@ -239,7 +223,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.key === 'Escape') closeModal();
     });
 
-    /* ── Búsqueda de usuarios en el modal ── */
     let searchTimeout = null;
 
     modalSearch?.addEventListener('input', () => {
@@ -295,7 +278,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         users.forEach((user) => {
             const item = document.createElement('a');
-            item.href = `/messages/user/${user.username}`;
+            item.href = `/messages/chat/${user.username}`;
             item.className = 'msgs-modal-user-item';
             item.setAttribute('role', 'option');
 
@@ -315,8 +298,71 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     /* ══════════════════════════════════════════
-       UTILIDADES
+       TIEMPO REAL — ESCUCHAR MENSAJES
     ══════════════════════════════════════════ */
+    const activeConvId = sendBtn?.dataset.convId;
+
+    console.log('[Reverb] convId:', activeConvId, 'Echo:', !!window.Echo);
+
+    if (activeConvId && window.Echo) {
+        const channel = window.Echo.private(`messages.${activeConvId}`);
+
+        // ✅ FIX 2 — Punto al inicio del nombre del evento (broadcastAs)
+        channel.listen('.message.sent', (msg) => {
+            console.log('[Reverb] Mensaje recibido:', msg);
+            appendReceivedBubble(msg);
+            scrollToBottom(true);
+            markConvAsUnread(msg.conversation_id);
+        });
+
+        channel.on('pusher:subscription_succeeded', () => {
+            console.log('[Reverb] Suscrito OK a messages.' + activeConvId);
+        });
+
+        channel.on('pusher:subscription_error', (err) => {
+            console.error('[Reverb] Error suscripción:', err);
+        });
+
+        console.log('[Reverb] Escuchando messages.' + activeConvId);
+    }
+
+    function appendReceivedBubble(msg) {
+        if (!bubbleList) return;
+
+        const wrap = document.createElement('div');
+        wrap.className = 'msgs-bubble-wrap theirs';
+
+        wrap.innerHTML = `
+            <img src="${escapeHtml(msg.sender.avatar_url)}"
+                 alt="" class="msgs-bubble-avatar"
+                 onerror="this.src='/img/default-avatar.png'">
+            <div class="msgs-bubble msgs-bubble-theirs">
+                ${escapeHtml(msg.body)}
+                <span class="msgs-bubble-time">${formatTime(msg.created_at)}</span>
+            </div>
+        `;
+
+        bubbleList.appendChild(wrap);
+    }
+
+    function markConvAsUnread(convId) {
+        const convItem = convList?.querySelector(`[href*="conv=${convId}"]`);
+        if (!convItem) return;
+
+        if (!convItem.querySelector('.msgs-unread-badge')) {
+            const badge = document.createElement('span');
+            badge.className = 'msgs-unread-badge';
+            badge.textContent = '1';
+            const rowBottom = convItem.querySelector('.msgs-conv-row-bottom');
+            if (rowBottom) rowBottom.appendChild(badge);
+        }
+    }
+
+    function formatTime(isoString) {
+        const d = new Date(isoString);
+        return d.toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit', hour12: false });
+    }
+
     function escapeHtml(str) {
         const div = document.createElement('div');
         div.appendChild(document.createTextNode(String(str ?? '')));

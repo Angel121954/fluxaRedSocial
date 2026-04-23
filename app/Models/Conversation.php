@@ -63,4 +63,21 @@ class Conversation extends Model
             ->whereNull('read_at')
             ->count();
     }
+
+    public function totalCount(): int
+    {
+        return self::getUnreadGlobalCount();
+    }
+
+    public static function getUnreadGlobalCount(): int
+    {
+        $conversationIds = self::where('user_a_id', auth()->id())
+            ->orWhere('user_b_id', auth()->id())
+            ->pluck('id');
+
+        return Message::whereIn('conversation_id', $conversationIds)
+            ->where('sender_id', '!=', auth()->id())
+            ->whereNull('read_at')
+            ->count();
+    }
 }

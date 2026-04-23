@@ -23,6 +23,7 @@ use App\Http\Controllers\Projects\ProjectController;
 use App\Http\Controllers\Suggestions\SuggestionController;
 use App\Http\Controllers\Messages\MessageController;
 use App\Http\Controllers\Technology\TechnologyController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -251,6 +252,13 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
         Route::delete('admin/suggestions/{suggestion}', [SuggestionController::class, 'destroy'])
             ->name('admin.suggestions.destroy')
             ->middleware('admin');
+
+        /*
+        |--------------------------------------------------------------------------
+        | Buscador de usuarios para el sistema de mensajería
+        |--------------------------------------------------------------------------
+        */
+        Route::get('/users/search', [UserController::class, 'search'])->name('users.search');
 
         /*
         |--------------------------------------------------------------------------

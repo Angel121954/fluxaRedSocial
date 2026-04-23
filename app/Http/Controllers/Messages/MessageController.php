@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Messages;
 use App\Http\Controllers\Controller;
 use App\Models\Conversation;
 use App\Models\Message;
+use App\Events\NewMessage;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -51,7 +53,6 @@ class MessageController extends Controller
         }
 
         $conversation->load(['userA', 'userB', 'messages']);
-
         $otherUser = $conversation->otherUser($user);
 
         Message::where('conversation_id', $conversation->id)
@@ -83,17 +84,23 @@ class MessageController extends Controller
 
         $message = $conversation->messages()->create([
             'sender_id' => auth()->id(),
-            'body' => $request->body,
+            'body'      => $request->body,
         ]);
 
         $message->load('sender');
 
+        $recipientId = $conversation->user_a_id === auth()->id()
+            ? $conversation->user_b_id
+            : $conversation->user_a_id;
+
+        broadcast(new NewMessage($message, $conversation->id, $recipientId))->toOthers();
+
         return response()->json([
-            'id' => $message->id,
-            'body' => $message->body,
-            'sender' => [
-                'id' => $message->sender->id,
-                'name' => $message->sender->name,
+            'id'         => $message->id,
+            'body'       => $message->body,
+            'sender'     => [
+                'id'         => $message->sender->id,
+                'name'       => $message->sender->name,
                 'avatar_url' => $message->sender->avatar_url,
             ],
             'created_at' => $message->created_at->toIso8601String(),
@@ -104,11 +111,11 @@ class MessageController extends Controller
     {
         $request->validate([
             'user_id' => 'required|integer|exists:users,id',
-            'body' => 'required|string|max:2000',
+            'body'    => 'required|string|max:2000',
         ]);
 
         $otherUserId = $request->user_id;
-        $userId = auth()->id();
+        $userId      = auth()->id();
 
         if ($otherUserId === $userId) {
             return response()->json(['error' => 'No puedes enviarte mensajes a ti mismo.'], 422);
@@ -131,19 +138,25 @@ class MessageController extends Controller
 
         $message = $conversation->messages()->create([
             'sender_id' => $userId,
-            'body' => $request->body,
+            'body'      => $request->body,
         ]);
 
         $message->load('sender');
 
+        try {
+            broadcast(new NewMessage($message, $conversation->id, $otherUserId))->toOthers();
+        } catch (\Exception $e) {
+            Log::error('Broadcast error (new conversation)', ['error' => $e->getMessage()]);
+        }
+
         return response()->json([
             'conversation_id' => $conversation->id,
             'message' => [
-                'id' => $message->id,
-                'body' => $message->body,
-                'sender' => [
-                    'id' => $message->sender->id,
-                    'name' => $message->sender->name,
+                'id'         => $message->id,
+                'body'       => $message->body,
+                'sender'     => [
+                    'id'         => $message->sender->id,
+                    'name'       => $message->sender->name,
                     'avatar_url' => $message->sender->avatar_url,
                 ],
                 'created_at' => $message->created_at->toIso8601String(),
@@ -164,7 +177,7 @@ class MessageController extends Controller
         }
 
         $currentUserId = auth()->id();
-        $otherUserId = $user->id;
+        $otherUserId   = $user->id;
 
         $conversation = Conversation::where(function ($query) use ($currentUserId, $otherUserId) {
             $query->where(function ($q) use ($currentUserId, $otherUserId) {
@@ -183,10 +196,10 @@ class MessageController extends Controller
 
         return response()->json([
             'conversation_id' => $conversation->id,
-            'other_user' => [
-                'id' => $user->id,
-                'name' => $user->name,
-                'username' => $user->username,
+            'other_user'      => [
+                'id'         => $user->id,
+                'name'       => $user->name,
+                'username'   => $user->username,
                 'avatar_url' => $user->avatar_url,
             ],
         ]);

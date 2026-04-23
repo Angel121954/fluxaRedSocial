@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\ServiceProvider;
+use App\Models\Conversation;
 
 class AppServiceProvider extends ServiceProvider
 {

@@ -3,6 +3,12 @@
 <!-- ══════════════════════════════════════════
      NAVBAR
 ═════════════════════════════════════════ -->
+@php
+    $unreadMessages = Auth::user()->role !== 'guest' 
+        ? \App\Models\Conversation::getUnreadGlobalCount() 
+        : 0;
+@endphp
+
 <nav class="navbar" role="navigation" aria-label="Navegación principal">
     <div class="navbar-inner">
 
@@ -40,6 +46,9 @@
                     class="nav-link {{ request()->routeIs('messages*') ? 'active' : '' }}"
                     @if(request()->routeIs('messages*')) aria-current="page" @endif>
                     Mensajes
+                    @if($unreadMessages > 0)
+                    <span class="nav-badge">{{ $unreadMessages > 99 ? '99+' : $unreadMessages }}</span>
+                    @endif
                 </a>
                 @if(Auth::user()->role === 'admin')
                 <a href="{{ route('admin.suggestions.index') }}"
