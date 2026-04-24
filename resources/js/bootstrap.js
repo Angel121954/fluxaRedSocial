@@ -16,6 +16,7 @@ window.Echo = new Echo({
     wsPort: import.meta.env.VITE_REVERB_PORT ?? 8080,
     forceTLS: (import.meta.env.VITE_REVERB_SCHEME ?? 'http') === 'https',
     enabledTransports: ['ws'],
+    enableClientEvents: true,
     authorizer: (channel, options) => {
         return {
             authorize: (socketId, callback) => {
@@ -39,7 +40,7 @@ window.Echo = new Echo({
     },
 });
 
-window.Echo.connector.pusher.connection.bind('connected', () => {
+/* window.Echo.connector.pusher.connection.bind('connected', () => {
     console.log('[Reverb] Conectado al servidor WebSocket');
 });
 
@@ -49,4 +50,4 @@ window.Echo.connector.pusher.connection.bind('disconnected', () => {
 
 window.Echo.connector.pusher.connection.bind('error', (err) => {
     console.error('[Reverb] Error de conexión:', err);
-});
+}); */

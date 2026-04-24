@@ -167,7 +167,10 @@
                         id="msgsInput"
                         placeholder="Escribe un mensaje..."
                         rows="1"
-                        aria-label="Escribe un mensaje"></textarea>
+                        aria-label="Escribe un mensaje"
+                        data-user-id="{{ auth()->id() }}"
+                        data-user-name="{{ auth()->user()->name }}"
+                        data-user-avatar="{{ auth()->user()->avatar_url }}"></textarea>
                     <button class="msgs-send-btn"
                         id="msgsSendBtn"
                         data-conv-id="{{ $activeConversation->id }}"
