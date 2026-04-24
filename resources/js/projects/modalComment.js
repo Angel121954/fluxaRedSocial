@@ -26,7 +26,7 @@ const commentsData = {
             avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100",
             author: "Carlos Ruiz",
             time: "Hace 30 min",
-            text: "Muy buenos consejos, especialmente el punto 3 💡",
+            text: "Muy buenos consejos, especialmente el punto 3",
         },
     ],
     post3: [],
@@ -77,7 +77,7 @@ function initCommentModal() {
         const commentText = commentTextarea.value.trim();
         if (!commentText) return;
 
-        console.log("💬 Comentario enviado:", commentText);
+        console.log("Comentario enviado:", commentText);
         addComment(commentText);
         resetCommentForm();
     });

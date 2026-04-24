@@ -23,11 +23,26 @@
     @stack('styles')
 </head>
 
-<body class="font-sans antialiased">
+<body class="font-sans antialiased" data-user-id="{{ auth()->id() }}">
     @yield('content')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <x-toast />
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Cargar lista de notificaciones
+        if (typeof initNotificationsList === 'function') {
+            initNotificationsList();
+        }
+        
+        // Inicializar realtime
+        var userId = document.body.dataset.userId;
+        if (userId && typeof initNotificationsRealtime === 'function') {
+            initNotificationsRealtime(userId);
+        }
+    });
+    </script>
 
     @stack('scripts')
 </body>

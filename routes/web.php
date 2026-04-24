@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\GuestController;
 use App\Http\Controllers\Auth\SocialAuthController;
 use App\Http\Controllers\Explore\ExploreController;
 use App\Http\Controllers\Feed\FeedController;
+use App\Http\Controllers\Follows\FollowController;
 use App\Http\Controllers\Notifications\NotificationController;
 use App\Http\Controllers\Onboarding\OnboardingController;
 use App\Http\Controllers\Pages\AboutFluxaController;
@@ -163,6 +164,15 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
         Route::post('/profile/avatar', [ProfileController::class, 'updateAvatar'])
             ->name('profile.avatar');
 
+        Route::post('/users/{user}/follow', [FollowController::class, 'toggle'])
+            ->name('users.follow');
+
+        Route::get('/users/{user}/followers', [FollowController::class, 'followers'])
+            ->name('users.followers');
+
+        Route::get('/users/{user}/following', [FollowController::class, 'following'])
+            ->name('users.following');
+
         Route::delete('/profile/avatar', [ProfileController::class, 'destroyAvatar'])
             ->name('profile.avatar.destroy');
 
@@ -210,6 +220,18 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
         */
         Route::get('/notifications', [NotificationController::class, 'index'])
             ->name('notifications.index');
+
+        Route::get('/notifications/list', [NotificationController::class, 'list'])
+            ->name('notifications.list');
+
+        Route::get('/notifications/unread', [NotificationController::class, 'unread'])
+            ->name('notifications.unread');
+
+        Route::patch('/notifications/{notification}/read', [NotificationController::class, 'markAsRead'])
+            ->name('notifications.markAsRead');
+
+        Route::patch('/notifications/read-all', [NotificationController::class, 'markAllAsRead'])
+            ->name('notifications.markAllAsRead');
 
         Route::get('/notification-preference', [NotificationPreferenceController::class, 'index'])
             ->name('notification-preference.index');

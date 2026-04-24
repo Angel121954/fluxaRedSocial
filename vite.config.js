@@ -32,9 +32,9 @@ export default defineConfig({
 
                 // Core
                 "resources/css/core/explore.css",
-                "resources/css/core/notifications.css",
 
-                // Profile (views)
+                // Notifications
+                "resources/css/notifications.css",
                 "resources/css/profile/shared.css",
                 "resources/css/profile/sidebar.css",
                 "resources/css/profile/profile.css",
@@ -42,6 +42,7 @@ export default defineConfig({
                 "resources/css/profile/cv.css",
                 "resources/css/profile/modalImage.css",
                 "resources/css/profile/notificationsProfile.css",
+                "resources/css/profile/notifications.css",
 
                 // Settings
                 "resources/css/settings/account.css",

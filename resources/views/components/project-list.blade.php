@@ -12,7 +12,7 @@
 </div>
 @endforelse
 
-@if($projects->hasMorePages())
+@if(method_exists($projects, 'hasMorePages') && $projects->hasMorePages())
 <div class="load-more-wrapper">
     <button
         class="btn-load-more"

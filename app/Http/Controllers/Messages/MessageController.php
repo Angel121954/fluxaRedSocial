@@ -5,10 +5,12 @@ namespace App\Http\Controllers\Messages;
 use App\Http\Controllers\Controller;
 use App\Models\Conversation;
 use App\Models\Message;
+use App\Models\Profile;
 use App\Events\NewMessage;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 class MessageController extends Controller
@@ -16,6 +18,7 @@ class MessageController extends Controller
     public function index(Request $request): View
     {
         $user = auth()->user();
+        $profile = Profile::where('user_id', $user->id)->first();
         $activeConversation = null;
         $otherUser = null;
 
@@ -41,12 +44,13 @@ class MessageController extends Controller
             ->get()
             ->sortByDesc(fn($c) => $c->lastMessage()?->created_at);
 
-        return view('messages.index', compact('conversations', 'activeConversation', 'otherUser'));
+        return view('messages.index', compact('conversations', 'activeConversation', 'otherUser', 'profile'));
     }
 
     public function show(Conversation $conversation): View
     {
         $user = auth()->user();
+        $profile = Profile::where('user_id', $user->id)->first();
 
         if ($conversation->user_a_id !== $user->id && $conversation->user_b_id !== $user->id) {
             abort(403, 'No tienes acceso a esta conversación.');
@@ -67,7 +71,7 @@ class MessageController extends Controller
             ->get()
             ->sortByDesc(fn($c) => $c->lastMessage()?->created_at);
 
-        return view('messages.index', compact('conversation', 'otherUser', 'conversations'));
+        return view('messages.index', compact('conversation', 'otherUser', 'conversations', 'profile'));
     }
 
     public function store(Request $request, Conversation $conversation): JsonResponse

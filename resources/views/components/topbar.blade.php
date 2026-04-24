@@ -7,6 +7,9 @@
     $unreadMessages = Auth::user()->role !== 'guest' 
         ? \App\Models\Conversation::getUnreadGlobalCount() 
         : 0;
+    $unreadNotifications = Auth::user()->role !== 'guest'
+        ? \App\Models\Notification::unreadCount(Auth::id())
+        : 0;
 @endphp
 
 <nav class="navbar" role="navigation" aria-label="Navegación principal">
@@ -36,6 +39,9 @@
                     class="nav-link {{ request()->routeIs('notifications*') ? 'active' : '' }}"
                     @if(request()->routeIs('notifications*')) aria-current="page" @endif>
                     Notificaciones
+                    @if($unreadNotifications > 0)
+                    <span class="nav-badge">{{ $unreadNotifications > 99 ? '99+' : $unreadNotifications }}</span>
+                    @endif
                 </a>
                 <a href="{{ route('suggestions.create') }}"
                     class="nav-link {{ request()->routeIs('suggestions*') ? 'active' : '' }}"
@@ -168,6 +174,9 @@
                     d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
             </svg>
             Notificaciones
+            @if($unreadNotifications > 0)
+            <span class="mobile-badge">{{ $unreadNotifications > 99 ? '99+' : $unreadNotifications }}</span>
+            @endif
         </a>
 
         <a href="{{ route('messages.index') }}"

@@ -10,77 +10,32 @@ use App\Models\ProjectBookmark;
 use App\Models\ProjectLike;
 use App\Models\ProjectReport;
 use App\Models\SkillEndorsement;
+use App\Models\User;
+use App\Models\Profile;
+use App\Models\Notification;
+use App\Notifications\CreatesNotifications;
 use App\Services\ProjectService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class ProjectController extends Controller
 {
-    protected ProjectService $projectService;
 
-    public function __construct(ProjectService $projectService)
-    {
-        $this->projectService = $projectService;
-    }
-
-    public function index()
-    {
-        $user = Auth::user();
-
-        $projects = Project::with('media', 'technologies')
-            ->where('user_id', $user->id)
-            ->latest()
-            ->paginate(10);
-
-        return view('projects.index', compact('projects'));
-    }
-
-    public function create()
-    {
-        return view('projects.create');
-    }
-
-    public function store(StoreProjectRequest $request)
-    {
-        $validated = $request->validated();
-
-        Log::info('Iniciando creacion de proyecto', [
-            'user_id' => Auth::id(),
-            'title' => $validated['title'],
-            'privacy' => $validated['privacy'] ?? 'public',
-            'techs_count' => is_array($validated['techs'] ?? []) ? count($validated['techs']) : 0,
-            'media_count' => $request->hasFile('media') ? count($request->file('media')) : 0,
-            'ip' => $request->ip(),
-            'user_agent' => $request->userAgent(),
-        ]);
-
-        $project = $this->projectService->create($validated, Auth::id());
-
-        if ($request->hasFile('media')) {
-            $this->projectService->attachMedia($project, $request->file('media'));
-        }
-
-        Log::info('Proyecto publicado correctamente', [
-            'project_id' => $project->id,
-            'user_id' => $project->user_id,
-            'title' => $project->title,
-            'media_total' => $project->media->count(),
-            'techs_total' => $project->technologies->count(),
-        ]);
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Proyecto publicado correctamente.',
-            'project' => $project->load('media', 'technologies'),
-        ]);
-    }
-
-    public function show(Project $project)
+public function show(Project $project)
     {
         $project->load('media', 'technologies');
+        $profile = Profile::where('user_id', Auth::id())->first();
+        
+        $projects = new Collection([$project]);
+        
+        $topTechnologies = \App\Models\Technology::withCount('projects')
+            ->orderByDesc('projects_count')
+            ->take(15)
+            ->get();
 
-        return view('explore.index', compact('project'));
+        return view('explore.index', compact('project', 'profile', 'projects', 'topTechnologies'));
     }
 
     public function edit(Project $project)
@@ -132,6 +87,16 @@ class ProjectController extends Controller
             ]);
             $project->increment('likes_count');
             $isLiked = true;
+
+            if ($project->user_id !== $user->id) {
+                CreatesNotifications::notifyProjectLike(
+                    $project->user_id,
+                    $user->id,
+                    $user->name,
+                    $project->id,
+                    $project->title
+                );
+            }
         }
 
         return response()->json([
@@ -208,6 +173,8 @@ class ProjectController extends Controller
             ->where('project_id', $project->id)
             ->first();
 
+        $isNewEndorsement = false;
+
         if ($currentEndorsement) {
             if ($currentEndorsement->skill_type === $validated['skill_type']) {
                 $currentEndorsement->delete();
@@ -222,6 +189,7 @@ class ProjectController extends Controller
                 ]);
                 $isEndorsed = true;
                 $userEndorsement = $validated['skill_type'];
+                $isNewEndorsement = true;
             }
         } else {
             SkillEndorsement::create([
@@ -231,6 +199,18 @@ class ProjectController extends Controller
             ]);
             $isEndorsed = true;
             $userEndorsement = $validated['skill_type'];
+            $isNewEndorsement = true;
+        }
+
+        if ($isNewEndorsement && $project->user_id !== $user->id) {
+            CreatesNotifications::notifyEndorsement(
+                $project->user_id,
+                $user->id,
+                $user->name,
+                $project->id,
+                $project->title,
+                $validated['skill_type']
+            );
         }
 
         $skillCounts = SkillEndorsement::getSkillCounts($project->id);

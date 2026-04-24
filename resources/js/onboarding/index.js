@@ -3,12 +3,13 @@
  * @vite('resources/js/onboarding/index.js')
  */
 
-// suggestions.js expone toggleFollow y skipOnboarding en window (usados desde Blade)
 import './suggestions.js';
-
-// technologies.js exporta initTechFilter; lo inicializamos aquí
 import { initTechFilter } from './technologies.js';
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', function() {
     initTechFilter();
+    
+    if (document.getElementById('notificationList') && typeof initNotificationsList === 'function') {
+        initNotificationsList();
+    }
 });

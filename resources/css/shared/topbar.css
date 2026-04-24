@@ -95,6 +95,21 @@
     pointer-events: none;
 }
 
+.mobile-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    margin-left: auto;
+    background: var(--accent);
+    color: white;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    border-radius: 9px;
+}
+
 .nav-link.active::after {
     content: "";
     position: absolute;
