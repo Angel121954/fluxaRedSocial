@@ -42,6 +42,17 @@ class Conversation extends Model
         return null;
     }
 
+    public function otherUserId(int $userId): ?User
+    {
+        if ($this->user_a_id === $userId) {
+            return $this->userB;
+        }
+        if ($this->user_b_id === $userId) {
+            return $this->userA;
+        }
+        return null;
+    }
+
     public function lastMessage(): ?Message
     {
         return Message::where('conversation_id', $this->id)

@@ -53,7 +53,7 @@
                         <div class="msgs-conv-info">
                             <div class="msgs-conv-row-top">
                                 <span class="msgs-conv-name">{{ $otherChat->name }}</span>
-                                <span class="msgs-conv-time">{{ $lastMsg ? $lastMsg->created_at->diffForHumans() : '' }}</span>
+                                <span class="msgs-conv-time" data-timestamp="{{ $lastMsg ? $lastMsg->created_at->getTimestampMs() : '' }}">{{ $lastMsg ? $lastMsg->created_at->diffForHumans() : '' }}</span>
                             </div>
                             <div class="msgs-conv-row-bottom">
                                 <span class="msgs-conv-preview">

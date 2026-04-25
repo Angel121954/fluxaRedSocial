@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Messages;
 
+use App\Events\ConversationCreated;
+use App\Events\NewMessage;
 use App\Http\Controllers\Controller;
 use App\Models\Conversation;
 use App\Models\Message;
 use App\Models\Profile;
-use App\Events\NewMessage;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 
 class MessageController extends Controller
@@ -175,7 +175,9 @@ class MessageController extends Controller
             });
         })->first();
 
-        if (!$conversation) {
+        $isNewConversation = !$conversation;
+
+        if ($isNewConversation) {
             $conversation = Conversation::create([
                 'user_a_id' => $userId,
                 'user_b_id' => $otherUserId,
@@ -188,9 +190,16 @@ class MessageController extends Controller
         ]);
 
         $message->load('sender');
-
+        
         try {
-            broadcast(new NewMessage($message, $conversation->id, $otherUserId))->toOthers();
+            if ($message) {
+                broadcast(new NewMessage($message, $conversation->id, $otherUserId));
+            }
+            if ($isNewConversation) {
+                broadcast(new ConversationCreated($conversation, $otherUserId, $message));
+            }
+            
+            Log::info('=== BROADCAST END ===');
         } catch (\Exception $e) {
             Log::error('Broadcast error (new conversation)', ['error' => $e->getMessage()]);
         }
@@ -265,11 +274,23 @@ class MessageController extends Controller
             $q->where('user_a_id', $user->id)->where('user_b_id', auth()->id());
         })->first();
 
-        if (!$conversation) {
+        $isNewConversation = !$conversation;
+
+        if ($isNewConversation) {
             $conversation = Conversation::create([
                 'user_a_id' => auth()->id(),
                 'user_b_id' => $user->id,
             ]);
+
+            try {
+                broadcast(new ConversationCreated($conversation, $user->id));
+                \Log::info('ConversationCreated broadcast from redirectToConversation', [
+                    'conversation_id' => $conversation->id,
+                    'otherUserId' => $user->id,
+                ]);
+            } catch (\Exception $e) {
+                \Log::error('Broadcast error in redirectToConversation', ['error' => $e->getMessage()]);
+            }
         }
 
         return redirect()->route('messages.index', ['conv' => $conversation->id]);

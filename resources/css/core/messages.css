@@ -97,6 +97,7 @@
     position: relative;
     flex: 1;
     min-width: 0;
+    display: flex;
 }
 
 .msgs-search-icon {
@@ -1019,6 +1020,10 @@
 
     .msgs-conv-name {
         font-size: 0.8125rem;
+    }
+
+    .msgs-search-wrap {
+        display: flex;
     }
 }
 
