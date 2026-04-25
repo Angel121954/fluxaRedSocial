@@ -206,4 +206,8 @@ document.addEventListener('DOMContentLoaded', () => {
     initModal({ modalOverlay, modalClose, modalSearch, modalResults });
     initTypingBroadcast(sendBtn?.dataset.convId, input);
     initRealtime(sendBtn?.dataset.convId, bubbleList, currentUser);
+    
+    if (window.updateBadges) {
+        window.updateBadges();
+    }
 });

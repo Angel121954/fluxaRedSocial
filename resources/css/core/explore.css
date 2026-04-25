@@ -96,6 +96,15 @@ body {
     cursor: pointer;
     transition: all 0.15s;
     letter-spacing: -0.01em;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.feed-tab svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
 }
 
 .feed-tab:hover {

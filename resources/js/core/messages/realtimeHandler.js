@@ -26,8 +26,18 @@ export function initRealtime(convId, bubbleList, currentUser) {
     });
 
     channel.listen('.message.sent', (msg) => {
-        appendReceivedBubble(msg, bubbleList);
-        removeTypingIndicator();
-        scrollToBottom(bubbleList, true);
+        if (msg.sender_id !== currentUserId) {
+            appendReceivedBubble(msg, bubbleList);
+            removeTypingIndicator();
+            scrollToBottom(bubbleList, true);
+            
+            fetch(`/messages/message/${msg.id}/read`, {
+                method: 'PATCH',
+                headers: { 
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content,
+                    'Content-Type': 'application/json'
+                }
+            });
+        }
     });
 }

@@ -81,4 +81,15 @@ class NotificationController extends Controller
 
         return response()->json(['message' => 'All marked as read']);
     }
+
+    public function destroy(Notification $notification): JsonResponse
+    {
+        if ($notification->user_id !== Auth::id()) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+
+        $notification->delete();
+
+        return response()->json(['success' => true]);
+    }
 }

@@ -47,6 +47,48 @@ class MessageController extends Controller
         return view('messages.index', compact('conversations', 'activeConversation', 'otherUser', 'profile'));
     }
 
+    public function unreadCount(): JsonResponse
+    {
+        $count = Conversation::getUnreadGlobalCount();
+        return response()->json(['count' => $count]);
+    }
+
+    public function markAsRead(Conversation $conversation): JsonResponse
+    {
+        $user = auth()->user();
+        
+        if ($conversation->user_a_id !== $user->id && $conversation->user_b_id !== $user->id) {
+            return response()->json(['error' => 'No tienes acceso'], 403);
+        }
+
+        Message::where('conversation_id', $conversation->id)
+            ->where('sender_id', '!=', $user->id)
+            ->whereNull('read_at')
+            ->update(['read_at' => now()]);
+
+        return response()->json(['success' => true]);
+    }
+
+    public function markMessageAsRead(Message $message): JsonResponse
+    {
+        $user = auth()->user();
+        
+        $conversation = $message->conversation;
+        if ($conversation->user_a_id !== $user->id && $conversation->user_b_id !== $user->id) {
+            return response()->json(['error' => 'No tienes acceso'], 403);
+        }
+
+        if ($message->sender_id === $user->id) {
+            return response()->json(['error' => 'No puedes leer tu propio mensaje'], 400);
+        }
+
+        if ($message->read_at === null) {
+            $message->update(['read_at' => now()]);
+        }
+
+        return response()->json(['success' => true]);
+    }
+
     public function show(Conversation $conversation): View
     {
         $user = auth()->user();

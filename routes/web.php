@@ -233,6 +233,9 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
         Route::patch('/notifications/read-all', [NotificationController::class, 'markAllAsRead'])
             ->name('notifications.markAllAsRead');
 
+        Route::delete('/notifications/{notification}', [NotificationController::class, 'destroy'])
+            ->name('notifications.destroy');
+
         Route::get('/notification-preference', [NotificationPreferenceController::class, 'index'])
             ->name('notification-preference.index');
 
@@ -288,6 +291,9 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
         |--------------------------------------------------------------------------
         */
         Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
+        Route::get('/messages/unread/count', [MessageController::class, 'unreadCount'])->name('messages.unreadCount');
+        Route::patch('/messages/{conversation}/read', [MessageController::class, 'markAsRead'])->name('messages.markAsRead');
+        Route::patch('/messages/message/{message}/read', [MessageController::class, 'markMessageAsRead'])->name('messages.markMessageAsRead');
         Route::post('/messages/{conversation}', [MessageController::class, 'store'])->name('messages.store');
         Route::get('/messages/user/{username}', [MessageController::class, 'getOrCreateConversation'])->name('messages.user');
         Route::get('/messages/chat/{username}', [MessageController::class, 'redirectToConversation'])->name('messages.chat');

@@ -15,6 +15,10 @@ Broadcast::channel('messages.{conversationId}', function ($user, int $conversati
         ->exists();
 });
 
+Broadcast::channel('messages.user.{userId}', function ($user, int $userId) {
+    return (int) $user->id === (int) $userId;
+});
+
 Broadcast::channel('notifications.{userId}', function ($user, int $userId) {
     return (int) $user->id === (int) $userId;
 });

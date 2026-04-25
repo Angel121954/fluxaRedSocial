@@ -39,9 +39,7 @@
                     class="nav-link {{ request()->routeIs('notifications*') ? 'active' : '' }}"
                     @if(request()->routeIs('notifications*')) aria-current="page" @endif>
                     Notificaciones
-                    @if($unreadNotifications > 0)
-                    <span class="nav-badge">{{ $unreadNotifications > 99 ? '99+' : $unreadNotifications }}</span>
-                    @endif
+                    <span class="nav-badge" id="navNotificationsBadge" style="{{ $unreadNotifications > 0 ? '' : 'display: none' }}">{{ $unreadNotifications > 99 ? '99+' : $unreadNotifications }}</span>
                 </a>
                 <a href="{{ route('suggestions.create') }}"
                     class="nav-link {{ request()->routeIs('suggestions*') ? 'active' : '' }}"
@@ -52,9 +50,7 @@
                     class="nav-link {{ request()->routeIs('messages*') ? 'active' : '' }}"
                     @if(request()->routeIs('messages*')) aria-current="page" @endif>
                     Mensajes
-                    @if($unreadMessages > 0)
-                    <span class="nav-badge">{{ $unreadMessages > 99 ? '99+' : $unreadMessages }}</span>
-                    @endif
+                    <span class="nav-badge" id="navMessagesBadge" style="{{ $unreadMessages > 0 ? '' : 'display: none' }}">{{ $unreadMessages > 99 ? '99+' : $unreadMessages }}</span>
                 </a>
                 @if(Auth::user()->role === 'admin')
                 <a href="{{ route('admin.suggestions.index') }}"

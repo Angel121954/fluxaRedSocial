@@ -28,6 +28,15 @@
 .footer-text {
     font-size: 0.8125rem;
     color: var(--ink-400);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.footer-text svg {
+    width: 14px;
+    height: 14px;
+    vertical-align: middle;
 }
 
 .footer-links {

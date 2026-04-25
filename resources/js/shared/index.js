@@ -12,4 +12,5 @@ import './passwordVisibility.js';
 import './security.js';
 import './toast.js';
 import '../notifications/index.js';
+import '../notifications/badges.js';
 import '../notifications/realtime.js';

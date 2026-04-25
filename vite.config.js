@@ -42,7 +42,7 @@ export default defineConfig({
                 "resources/css/profile/cv.css",
                 "resources/css/profile/modalImage.css",
                 "resources/css/profile/notificationsProfile.css",
-                "resources/css/profile/notifications.css",
+                "resources/css/profile/notificationsProfile.css",
 
                 // Settings
                 "resources/css/settings/account.css",
