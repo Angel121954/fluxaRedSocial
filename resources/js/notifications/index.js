@@ -75,6 +75,9 @@ function renderNotificationCard(n) {
         
         card.classList.add('deleting');
         
+        var countEl = document.getElementById('notificationCount');
+        var currentCount = countEl ? parseInt(countEl.textContent) || 0 : 0;
+        
         fetch('/notifications/' + n.id, {
             method: 'DELETE',
             headers: { 
@@ -87,6 +90,11 @@ function renderNotificationCard(n) {
             setTimeout(function() {
                 card.remove();
                 updateEmptyState();
+                
+                if (countEl && currentCount > 0) {
+                    var newCount = currentCount - 1;
+                    countEl.textContent = newCount > 0 ? newCount + ' sin leer' : 'Estás al día';
+                }
             }, 300);
             
             if (window.updateBadges) {

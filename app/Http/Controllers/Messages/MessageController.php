@@ -23,20 +23,20 @@ class MessageController extends Controller
         $profile = $user->profile;
         $activeConversation = null;
         $otherUser = null;
-        $conversationId = $request->query('conv');
+        $conversationId = $request->query('conv') ? (int) $request->query('conv') : null;
 
-        $conversations = Conversation::with([
+$conversations = Conversation::with([
             'userA',
             'userB',
             'messages' => function ($q) {
-                $q->with('sender')->latest();
+                $q->with('sender')->oldest();
             },
         ])
             ->where(function ($q) use ($user) {
                 $q->where('user_a_id', $user->id)->orWhere('user_b_id', $user->id);
             })
             ->get()
-            ->sortByDesc(fn ($c) => $c->messages->first()?->created_at);
+            ->sortByDesc(fn ($c) => $c->messages->last()?->created_at);
 
         if ($conversationId) {
             $activeConversation = $conversations->firstWhere('id', $conversationId);
@@ -47,6 +47,17 @@ class MessageController extends Controller
                     ->where('sender_id', '!=', $user->id)
                     ->whereNull('read_at')
                     ->update(['read_at' => now()]);
+
+                $conversations = $conversations->map(function ($conv) use ($conversationId) {
+                    if ($conv->id === $conversationId) {
+                        $conv->load([
+                            'messages' => fn ($q) => $q->with('sender')->orderBy('created_at', 'asc'),
+                        ]);
+                    }
+                    return $conv;
+                });
+
+                $activeConversation = $conversations->firstWhere('id', $conversationId);
             }
         }
 
@@ -54,7 +65,8 @@ class MessageController extends Controller
             $other = $conv->otherUser($user);
 
             return $other?->id;
-        })->filter()->unique()->merge([$user->id]);
+        })->filter()->unique()->values()->toArray();
+        $userIds[] = $user->id;
 
         $profiles = Profile::whereIn('user_id', $userIds)->get()->keyBy('user_id');
         $usersWithProfiles = User::whereIn('id', $userIds)->get()->keyBy('id');
@@ -123,34 +135,34 @@ class MessageController extends Controller
             abort(403, 'No tienes acceso a esta conversación.');
         }
 
-        $conversation->load([
-            'userA',
-            'userB',
-            'messages' => function ($q) {
-                $q->with('sender')->latest();
-            },
-        ]);
-        $otherUser = $conversation->otherUser($user);
-
         Message::where('conversation_id', $conversation->id)
             ->where('sender_id', '!=', $user->id)
             ->whereNull('read_at')
             ->update(['read_at' => now()]);
 
+        $conversation->load([
+            'userA',
+            'userB',
+            'messages' => function ($q) {
+                $q->with('sender')->orderBy('created_at', 'asc');
+            },
+        ]);
+        $otherUser = $conversation->otherUser($user);
+
         $conversations = Conversation::with([
             'userA',
             'userB',
             'messages' => function ($q) {
-                $q->with('sender')->latest();
+                $q->with('sender')->orderBy('created_at', 'asc');
             },
         ])
             ->where(function ($q) use ($user) {
                 $q->where('user_a_id', $user->id)->orWhere('user_b_id', $user->id);
             })
             ->get()
-            ->sortByDesc(fn ($c) => $c->messages->first()?->created_at);
+            ->sortByDesc(fn ($c) => $c->messages->last()?->created_at);
 
-        return view('messages.index', compact('conversation', 'otherUser', 'conversations', 'profile'));
+        return view('messages.index', compact('activeConversation', 'otherUser', 'conversations', 'profile'));
     }
 
     public function store(Request $request, Conversation $conversation): JsonResponse

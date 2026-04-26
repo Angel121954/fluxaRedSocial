@@ -57,7 +57,7 @@ class Conversation extends Model
 
     public function lastMessage(): ?Message
     {
-        return $this->messages()->latest()->first();
+        return $this->messages()->oldest()->first();
     }
 
     public function unread(): bool
@@ -66,7 +66,7 @@ class Conversation extends Model
             return false;
         }
 
-        $lastMsg = $this->messages->first();
+        $lastMsg = $this->messages->last();
         if (! $lastMsg) {
             return false;
         }
