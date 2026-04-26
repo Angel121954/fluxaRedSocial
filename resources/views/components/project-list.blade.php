@@ -16,7 +16,7 @@
 <div class="load-more-wrapper">
     <button
         class="btn-load-more"
-        data-url="{{ $projects->nextPageUrl() }}">
+        data-url="{{ str_replace('http://', 'https://', $projects->nextPageUrl()) }}">
         Cargar más proyectos
     </button>
 

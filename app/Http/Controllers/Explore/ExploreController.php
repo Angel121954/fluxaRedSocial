@@ -62,7 +62,14 @@ class ExploreController extends Controller
         $profile = Profile::where('user_id', Auth::id())->first();
         $technology = Technology::where('slug', $slug)->firstOrFail();
 
-        $projects = Project::with(['user.profile', 'media', 'technologies'])
+        $projects = Project::with([
+            'user.profile',
+            'media',
+            'technologies',
+            'likes',
+            'bookmarks',
+            'skillEndorsements',
+        ])
             ->where('parent_id', null)
             ->where('privacy', 'public')
             ->whereHas('technologies', function ($query) use ($technology) {
@@ -85,7 +92,14 @@ class ExploreController extends Controller
         $query = $request->get('q', '');
         $profile = Profile::where('user_id', Auth::id())->first();
 
-        $projects = Project::with(['user.profile', 'media', 'technologies'])
+        $projects = Project::with([
+            'user.profile',
+            'media',
+            'technologies',
+            'likes',
+            'bookmarks',
+            'skillEndorsements',
+        ])
             ->where('parent_id', null)
             ->where('privacy', 'public')
             ->where('title', 'like', "%{$query}%")
@@ -107,7 +121,14 @@ class ExploreController extends Controller
 
     private function getProjects($type)
     {
-        $query = Project::with(['user.profile', 'media', 'technologies'])
+        $query = Project::with([
+            'user.profile',
+            'media',
+            'technologies',
+            'likes',
+            'bookmarks',
+            'skillEndorsements',
+        ])
             ->where('parent_id', null)
             ->where('privacy', 'public');
 

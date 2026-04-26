@@ -3,34 +3,36 @@
 namespace App\Http\Controllers\Projects;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
+use App\Models\Profile;
 use App\Models\Project;
 use App\Models\ProjectBookmark;
 use App\Models\ProjectLike;
 use App\Models\ProjectReport;
 use App\Models\SkillEndorsement;
-use App\Models\User;
-use App\Models\Profile;
-use App\Models\Notification;
+use App\Models\Technology;
 use App\Notifications\CreatesNotifications;
-use App\Services\ProjectService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 
 class ProjectController extends Controller
 {
-
-public function show(Project $project)
+    public function show(Project $project)
     {
-        $project->load('media', 'technologies');
+        $project->load([
+            'user.profile',
+            'media',
+            'technologies',
+            'likes',
+            'bookmarks',
+            'skillEndorsements',
+        ]);
         $profile = Profile::where('user_id', Auth::id())->first();
-        
+
         $projects = new Collection([$project]);
-        
-        $topTechnologies = \App\Models\Technology::withCount('projects')
+
+        $topTechnologies = Technology::withCount('projects')
             ->orderByDesc('projects_count')
             ->take(15)
             ->get();
@@ -41,7 +43,14 @@ public function show(Project $project)
     public function edit(Project $project)
     {
         $this->authorize('update', $project);
-        $project->load('media', 'technologies');
+        $project->load([
+            'user.profile',
+            'media',
+            'technologies',
+            'likes',
+            'bookmarks',
+            'skillEndorsements',
+        ]);
 
         return view('projects.edit', compact('project'));
     }
@@ -158,7 +167,7 @@ public function show(Project $project)
     public function endorse(Request $request, Project $project)
     {
         $validated = $request->validate([
-            'skill_type' => 'required|string|in:' . implode(',', array_keys(SkillEndorsement::SKILLS)),
+            'skill_type' => 'required|string|in:'.implode(',', array_keys(SkillEndorsement::SKILLS)),
         ]);
 
         $user = Auth::user();

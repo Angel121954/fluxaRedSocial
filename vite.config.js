@@ -3,18 +3,17 @@ import laravel from "laravel-vite-plugin";
 import path from "path";
 import os from "os";
 
-const projectPath = process.env.LARAVEL_SAIL ? '/var/www/html' : __dirname;
-const cachePath = process.env.LARAVEL_SAIL 
-    ? path.join(os.homedir(), '.vite') 
+const cachePath = process.env.LARAVEL_SAIL
+    ? path.join(os.homedir(), '.vite')
     : path.join(__dirname, '.vite');
 
 export default defineConfig({
     cacheDir: cachePath,
     plugins: [
         laravel({
-            publicDirectory: path.join(projectPath, 'public'),
-            hotFile: path.join(projectPath, 'public', 'hot'),
-            buildDirectory: path.join(projectPath, 'public', 'build'),
+            publicDirectory: 'public',
+            hotFile: 'public/hot',
+            buildDirectory: 'build',
             input: [
                 // CSS global
                 "resources/css/app.css",
@@ -32,6 +31,7 @@ export default defineConfig({
 
                 // Core
                 "resources/css/core/explore.css",
+                "resources/css/core/messages.css",
 
                 // Notifications
                 "resources/css/notifications.css",
@@ -41,7 +41,6 @@ export default defineConfig({
                 "resources/css/profile/workExperience.css",
                 "resources/css/profile/cv.css",
                 "resources/css/profile/modalImage.css",
-                "resources/css/profile/notificationsProfile.css",
                 "resources/css/profile/notificationsProfile.css",
 
                 // Settings
@@ -84,6 +83,12 @@ export default defineConfig({
                 "resources/js/profile/workExperience.js",
                 "resources/js/profile/education.js",
                 "resources/js/profile/commentHandler.js",
+                "resources/js/profile/destroyAccount.js",
+                "resources/js/profile/dropdown.js",
+                "resources/js/profile/filters.js",
+                "resources/js/profile/profileOptions.js",
+                "resources/js/profile/shareProfile.js",
+                "resources/js/profile/tabs.js",
 
                 // Shared JS
                 "resources/js/shared/topbar.js",
@@ -92,9 +97,31 @@ export default defineConfig({
                 "resources/js/shared/securePassword.js",
                 "resources/js/shared/security.js",
                 "resources/js/shared/modalScrollFix.js",
+                "resources/js/shared/emailModalSend.js",
 
-                // Core JS
+                // Core Explore JS
                 "resources/js/core/explore/index.js",
+                "resources/js/core/explore/like.js",
+                "resources/js/core/explore/loadMore.js",
+                "resources/js/core/explore/projectMenu.js",
+                "resources/js/core/explore/skillEndorsement.js",
+                "resources/js/core/explore/tabs.js",
+                "resources/js/core/explore/topics.js",
+
+                // Core Messages JS
+                "resources/js/core/messages/index.js",
+                "resources/js/core/messages/messageRenderer.js",
+                "resources/js/core/messages/messageService.js",
+                "resources/js/core/messages/messageUtils.js",
+                "resources/js/core/messages/realtimeHandler.js",
+                "resources/js/core/messages/sender.js",
+                "resources/js/core/messages/typingHandler.js",
+                "resources/js/core/messages/ui.js",
+
+                // Core Notifications JS
+                "resources/js/notifications/index.js",
+                "resources/js/notifications/badges.js",
+                "resources/js/notifications/realtime.js",
 
                 // Projects JS
                 "resources/js/projects/modalComment.js",
@@ -103,6 +130,7 @@ export default defineConfig({
 
                 // Onboarding JS
                 "resources/js/onboarding/index.js",
+                "resources/js/onboarding/suggestions.js",
                 "resources/js/onboarding/technologies.js",
 
                 // Admin JS
@@ -116,7 +144,12 @@ export default defineConfig({
         port: 5173,
         strictPort: false,
         hmr: {
-            host: "127.0.0.1",
+            host: 'localhost',
+            protocol: 'ws',
+            clientPort: 5173,
+        },
+        cors: {
+            origin: '*',
         },
     },
     optimizeDeps: {
@@ -132,4 +165,4 @@ export default defineConfig({
             },
         },
     },
-    });
+});

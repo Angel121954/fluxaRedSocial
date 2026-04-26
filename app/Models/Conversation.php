@@ -39,6 +39,7 @@ class Conversation extends Model
         if ($this->user_b_id === $user->id) {
             return $this->userA;
         }
+
         return null;
     }
 
@@ -50,26 +51,39 @@ class Conversation extends Model
         if ($this->user_b_id === $userId) {
             return $this->userA;
         }
+
         return null;
     }
 
     public function lastMessage(): ?Message
     {
-        return Message::where('conversation_id', $this->id)
-            ->orderBy('created_at', 'desc')
-            ->first();
+        return $this->messages()->latest()->first();
     }
 
     public function unread(): bool
     {
-        $lastMsg = $this->lastMessage();
-        if (!$lastMsg) return false;
+        if (! $this->relationLoaded('messages')) {
+            return false;
+        }
+
+        $lastMsg = $this->messages->first();
+        if (! $lastMsg) {
+            return false;
+        }
+
         return $lastMsg->sender_id !== auth()->id() && $lastMsg->read_at === null;
     }
 
     public function unreadCount(): int
     {
-        return Message::where('conversation_id', $this->id)
+        if (! $this->relationLoaded('messages')) {
+            return Message::where('conversation_id', $this->id)
+                ->where('sender_id', '!=', auth()->id())
+                ->whereNull('read_at')
+                ->count();
+        }
+
+        return $this->messages
             ->where('sender_id', '!=', auth()->id())
             ->whereNull('read_at')
             ->count();

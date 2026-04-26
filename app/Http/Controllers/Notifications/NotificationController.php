@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Notifications;
 
 use App\Http\Controllers\Controller;
 use App\Models\Notification;
-use App\Models\Profile;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,7 +13,9 @@ class NotificationController extends Controller
 {
     public function index(): View
     {
-        $profile = Profile::where('user_id', Auth::id())->first();
+        $user = Auth::user();
+        $user->load('profile');
+        $profile = $user->profile;
 
         return view('notifications.index', [
             'profile' => $profile,
@@ -31,7 +32,7 @@ class NotificationController extends Controller
             $query->where('type', $filter);
         }
 
-        $notifications = $query->limit(50)->get();
+        $notifications = $query->with('fromUser')->limit(50)->get();
 
         return response()->json([
             'notifications' => $notifications->map(function ($n) {

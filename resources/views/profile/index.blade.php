@@ -173,13 +173,13 @@
                     <!-- Stats -->
                     <div class="stats-row">
                         <div class="stat">
-                            <span class="stat-n">{{ $projects->count() }}</span><span class="stat-l">Proyectos</span>
+                            <span class="stat-n">{{ $projectsCount ?? $projects->count() }}</span><span class="stat-l">Proyectos</span>
                         </div>
                         <div class="stat">
-                            <span class="stat-n">{{ $followingCount ?? 0 }}</span><span class="stat-l">Siguiendo</span>
+                            <span class="stat-n">{{ $user->follows_count }}</span><span class="stat-l">Siguiendo</span>
                         </div>
                         <div class="stat">
-                            <span class="stat-n">{{ $followersCount ?? 0 }}</span><span class="stat-l">Seguidores</span>
+                            <span class="stat-n">{{ $user->followers_count }}</span><span class="stat-l">Seguidores</span>
                         </div>
                     </div>
                 </div>
@@ -216,9 +216,9 @@
     <div class="content" data-panel="progress">
         @forelse ($projects as $project)
         @php
-        $isLiked = $project->isLikedBy(auth()->id());
-        $skillCounts = $project->skill_counts;
-        $userEndorsement = auth()->check() ? \App\Models\SkillEndorsement::getUserEndorsement(auth()->id(), $project->id) : null;
+        $isLiked = $project->precomputed_is_liked ?? false;
+        $skillCounts = $project->skillEndorsements->groupBy('skill_type')->map->count()->toArray();
+        $userEndorsement = $project->precomputed_user_endorsement ?? null;
         $totalEndorsements = array_sum($skillCounts);
         $skills = [
         'technical_communication' => ['label' => 'Comunicación Técnica', 'color' => '#3B82F6', 'icon' => 'M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z'],
@@ -259,7 +259,7 @@
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />
                             </svg>
-                            <span>{{ $project->isBookmarkedBy(auth()->id()) ? 'Quitar de favoritos' : 'Agregar a favoritos' }}</span>
+                            <span>{{ $project->precomputed_is_bookmarked ? 'Quitar de favoritos' : 'Agregar a favoritos' }}</span>
                         </button>
                         <button class="drop-item" data-action="share" data-project-id="{{ $project->id }}">
                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">

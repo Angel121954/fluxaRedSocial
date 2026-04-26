@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Conversation;
 use App\Models\Message;
 use App\Models\Profile;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -18,15 +19,27 @@ class MessageController extends Controller
     public function index(Request $request): View
     {
         $user = auth()->user();
-        $profile = Profile::where('user_id', $user->id)->first();
+        $user->load('profile');
+        $profile = $user->profile;
         $activeConversation = null;
         $otherUser = null;
+        $conversationId = $request->query('conv');
 
-        if ($request->has('conv') && $request->conv) {
-            $activeConversation = Conversation::with(['userA', 'userB', 'messages'])
-                ->where('id', $request->conv)
-                ->first();
+        $conversations = Conversation::with([
+            'userA',
+            'userB',
+            'messages' => function ($q) {
+                $q->with('sender')->latest();
+            },
+        ])
+            ->where(function ($q) use ($user) {
+                $q->where('user_a_id', $user->id)->orWhere('user_b_id', $user->id);
+            })
+            ->get()
+            ->sortByDesc(fn ($c) => $c->messages->first()?->created_at);
 
+        if ($conversationId) {
+            $activeConversation = $conversations->firstWhere('id', $conversationId);
             if ($activeConversation) {
                 $otherUser = $activeConversation->otherUser($user);
 
@@ -37,12 +50,23 @@ class MessageController extends Controller
             }
         }
 
-        $conversations = Conversation::with(['userA', 'userB'])
-            ->where(function ($q) use ($user) {
-                $q->where('user_a_id', $user->id)->orWhere('user_b_id', $user->id);
-            })
-            ->get()
-            ->sortByDesc(fn($c) => $c->lastMessage()?->created_at);
+        $userIds = $conversations->map(function ($conv) use ($user) {
+            $other = $conv->otherUser($user);
+
+            return $other?->id;
+        })->filter()->unique()->merge([$user->id]);
+
+        $profiles = Profile::whereIn('user_id', $userIds)->get()->keyBy('user_id');
+        $usersWithProfiles = User::whereIn('id', $userIds)->get()->keyBy('id');
+
+        $conversations->each(function ($conv) use ($user, $profiles, $usersWithProfiles) {
+            $otherUser = $conv->otherUser($user);
+            if ($otherUser && isset($usersWithProfiles[$otherUser->id])) {
+                $other = $usersWithProfiles[$otherUser->id];
+                $other->setRelation('profile', $profiles[$otherUser->id] ?? null);
+                $conv->setRelation('otherChat', $other);
+            }
+        });
 
         return view('messages.index', compact('conversations', 'activeConversation', 'otherUser', 'profile'));
     }
@@ -50,13 +74,14 @@ class MessageController extends Controller
     public function unreadCount(): JsonResponse
     {
         $count = Conversation::getUnreadGlobalCount();
+
         return response()->json(['count' => $count]);
     }
 
     public function markAsRead(Conversation $conversation): JsonResponse
     {
         $user = auth()->user();
-        
+
         if ($conversation->user_a_id !== $user->id && $conversation->user_b_id !== $user->id) {
             return response()->json(['error' => 'No tienes acceso'], 403);
         }
@@ -72,7 +97,7 @@ class MessageController extends Controller
     public function markMessageAsRead(Message $message): JsonResponse
     {
         $user = auth()->user();
-        
+
         $conversation = $message->conversation;
         if ($conversation->user_a_id !== $user->id && $conversation->user_b_id !== $user->id) {
             return response()->json(['error' => 'No tienes acceso'], 403);
@@ -98,7 +123,13 @@ class MessageController extends Controller
             abort(403, 'No tienes acceso a esta conversación.');
         }
 
-        $conversation->load(['userA', 'userB', 'messages']);
+        $conversation->load([
+            'userA',
+            'userB',
+            'messages' => function ($q) {
+                $q->with('sender')->latest();
+            },
+        ]);
         $otherUser = $conversation->otherUser($user);
 
         Message::where('conversation_id', $conversation->id)
@@ -106,12 +137,18 @@ class MessageController extends Controller
             ->whereNull('read_at')
             ->update(['read_at' => now()]);
 
-        $conversations = Conversation::with(['userA', 'userB'])
+        $conversations = Conversation::with([
+            'userA',
+            'userB',
+            'messages' => function ($q) {
+                $q->with('sender')->latest();
+            },
+        ])
             ->where(function ($q) use ($user) {
                 $q->where('user_a_id', $user->id)->orWhere('user_b_id', $user->id);
             })
             ->get()
-            ->sortByDesc(fn($c) => $c->lastMessage()?->created_at);
+            ->sortByDesc(fn ($c) => $c->messages->first()?->created_at);
 
         return view('messages.index', compact('conversation', 'otherUser', 'conversations', 'profile'));
     }
@@ -130,7 +167,7 @@ class MessageController extends Controller
 
         $message = $conversation->messages()->create([
             'sender_id' => auth()->id(),
-            'body'      => $request->body,
+            'body' => $request->body,
         ]);
 
         $message->load('sender');
@@ -142,11 +179,11 @@ class MessageController extends Controller
         broadcast(new NewMessage($message, $conversation->id, $recipientId))->toOthers();
 
         return response()->json([
-            'id'         => $message->id,
-            'body'       => $message->body,
-            'sender'     => [
-                'id'         => $message->sender->id,
-                'name'       => $message->sender->name,
+            'id' => $message->id,
+            'body' => $message->body,
+            'sender' => [
+                'id' => $message->sender->id,
+                'name' => $message->sender->name,
                 'avatar_url' => $message->sender->avatar_url,
             ],
             'created_at' => $message->created_at->toIso8601String(),
@@ -157,11 +194,11 @@ class MessageController extends Controller
     {
         $request->validate([
             'user_id' => 'required|integer|exists:users,id',
-            'body'    => 'required|string|max:2000',
+            'body' => 'required|string|max:2000',
         ]);
 
         $otherUserId = $request->user_id;
-        $userId      = auth()->id();
+        $userId = auth()->id();
 
         if ($otherUserId === $userId) {
             return response()->json(['error' => 'No puedes enviarte mensajes a ti mismo.'], 422);
@@ -175,7 +212,7 @@ class MessageController extends Controller
             });
         })->first();
 
-        $isNewConversation = !$conversation;
+        $isNewConversation = ! $conversation;
 
         if ($isNewConversation) {
             $conversation = Conversation::create([
@@ -186,11 +223,11 @@ class MessageController extends Controller
 
         $message = $conversation->messages()->create([
             'sender_id' => $userId,
-            'body'      => $request->body,
+            'body' => $request->body,
         ]);
 
         $message->load('sender');
-        
+
         try {
             if ($message) {
                 broadcast(new NewMessage($message, $conversation->id, $otherUserId));
@@ -198,7 +235,7 @@ class MessageController extends Controller
             if ($isNewConversation) {
                 broadcast(new ConversationCreated($conversation, $otherUserId, $message));
             }
-            
+
             Log::info('=== BROADCAST END ===');
         } catch (\Exception $e) {
             Log::error('Broadcast error (new conversation)', ['error' => $e->getMessage()]);
@@ -207,11 +244,11 @@ class MessageController extends Controller
         return response()->json([
             'conversation_id' => $conversation->id,
             'message' => [
-                'id'         => $message->id,
-                'body'       => $message->body,
-                'sender'     => [
-                    'id'         => $message->sender->id,
-                    'name'       => $message->sender->name,
+                'id' => $message->id,
+                'body' => $message->body,
+                'sender' => [
+                    'id' => $message->sender->id,
+                    'name' => $message->sender->name,
                     'avatar_url' => $message->sender->avatar_url,
                 ],
                 'created_at' => $message->created_at->toIso8601String(),
@@ -221,9 +258,9 @@ class MessageController extends Controller
 
     public function getOrCreateConversation(string $username): JsonResponse
     {
-        $user = \App\Models\User::where('username', $username)->first();
+        $user = User::where('username', $username)->first();
 
-        if (!$user) {
+        if (! $user) {
             return response()->json(['error' => 'Usuario no encontrado.'], 404);
         }
 
@@ -232,7 +269,7 @@ class MessageController extends Controller
         }
 
         $currentUserId = auth()->id();
-        $otherUserId   = $user->id;
+        $otherUserId = $user->id;
 
         $conversation = Conversation::where(function ($query) use ($currentUserId, $otherUserId) {
             $query->where(function ($q) use ($currentUserId, $otherUserId) {
@@ -242,7 +279,7 @@ class MessageController extends Controller
             });
         })->first();
 
-        if (!$conversation) {
+        if (! $conversation) {
             $conversation = Conversation::create([
                 'user_a_id' => $currentUserId,
                 'user_b_id' => $user->id,
@@ -251,10 +288,10 @@ class MessageController extends Controller
 
         return response()->json([
             'conversation_id' => $conversation->id,
-            'other_user'      => [
-                'id'         => $user->id,
-                'name'       => $user->name,
-                'username'   => $user->username,
+            'other_user' => [
+                'id' => $user->id,
+                'name' => $user->name,
+                'username' => $user->username,
                 'avatar_url' => $user->avatar_url,
             ],
         ]);
@@ -262,7 +299,7 @@ class MessageController extends Controller
 
     public function redirectToConversation(string $username)
     {
-        $user = \App\Models\User::where('username', $username)->firstOrFail();
+        $user = User::where('username', $username)->firstOrFail();
 
         if ($user->id === auth()->id()) {
             return redirect()->route('messages.index');
@@ -274,7 +311,7 @@ class MessageController extends Controller
             $q->where('user_a_id', $user->id)->where('user_b_id', auth()->id());
         })->first();
 
-        $isNewConversation = !$conversation;
+        $isNewConversation = ! $conversation;
 
         if ($isNewConversation) {
             $conversation = Conversation::create([

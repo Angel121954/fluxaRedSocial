@@ -41,8 +41,8 @@
                     @forelse($conversations as $conv)
                     @php
                     $isActive = isset($activeConversation) && $activeConversation->id === $conv->id;
-                    $otherChat = $conv->otherUser(auth()->user());
-                    $lastMsg = $conv->lastMessage();
+                    $otherChat = $conv->otherChat;
+                    $lastMsg = $conv->messages->first();
                     @endphp
                     <a href="{{ route('messages.index', ['conv' => $conv->id]) }}" class="msgs-conv-item{{ $isActive ? ' active' : '' }}" role="listitem">
                         <div class="msgs-conv-avatar-wrap">

@@ -44,7 +44,14 @@ class FeedController extends Controller
             return $emptyPaginator;
         }
 
-        return Project::with(['user.profile', 'media', 'technologies'])
+        return Project::with([
+            'user.profile',
+            'media',
+            'technologies',
+            'likes',
+            'bookmarks',
+            'skillEndorsements',
+        ])
             ->where('parent_id', null)
             ->where('privacy', 'public')
             ->whereIn('user_id', $followingIds)

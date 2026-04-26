@@ -65,11 +65,21 @@ class Project extends Model
 
     public function getSkillCountsAttribute(): array
     {
+        if ($this->relationLoaded('skillEndorsements')) {
+            return $this->skillEndorsements->groupBy('skill_type')->map->count()->toArray();
+        }
+
         return SkillEndorsement::getSkillCounts($this->id);
     }
 
     public function getUserEndorsementAttribute($userId): ?string
     {
+        if ($this->relationLoaded('skillEndorsements')) {
+            return $this->skillEndorsements
+                ->where('user_id', $userId)
+                ->first()?->skill_type;
+        }
+
         return SkillEndorsement::getUserEndorsement($userId, $this->id);
     }
 
