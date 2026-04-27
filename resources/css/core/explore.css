@@ -441,7 +441,6 @@ body {
 }
 
 .like-btn:hover {
-    background: var(--accent-dim);
     color: var(--accent);
 }
 
@@ -1262,6 +1261,10 @@ body {
 }
 
 @media (max-width: 640px) {
+    .post-menu-btn:hover {
+        background: none;
+    }
+
     .navbar-inner {
         padding: 0 1rem;
     }

@@ -28,6 +28,7 @@ class Profile extends Model
         'cv_settings',
         'accept_messages',
         'show_email',
+        'show_bookmarks',
         'created_at',
         'updated_at',
     ];
@@ -37,6 +38,7 @@ class Profile extends Model
         'cv_settings' => 'array',
         'accept_messages' => 'boolean',
         'show_email' => 'boolean',
+        'show_bookmarks' => 'boolean',
     ];
 
     public function user()

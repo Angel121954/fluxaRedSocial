@@ -58,6 +58,20 @@
                     </label>
                 </div>
 
+                <div class="toggle-row">
+                    <div class="toggle-info">
+                        <span class="toggle-label">Mostrar proyectos favoritos</span>
+                        <span class="toggle-desc">Permitir que otros usuarios puedan ver tus proyectos favoritos.</span>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" name="show_bookmarks" value="1"
+                            {{ old('show_bookmarks', $profile->show_bookmarks ?? false) ? 'checked' : '' }}>
+                        <span class="toggle-track">
+                            <span class="toggle-thumb"></span>
+                        </span>
+                    </label>
+                </div>
+
             </div>
 
             <div class="form-actions">

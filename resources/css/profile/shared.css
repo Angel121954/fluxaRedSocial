@@ -346,6 +346,8 @@ select.form-input {
         grid-template-columns: 1fr;
         padding: 0;
         gap: 0;
+        max-width: 100vw;
+        overflow-x: hidden;
     }
 
     .sidebar {
@@ -353,12 +355,15 @@ select.form-input {
         padding: 0;
         background: transparent;
         border: none;
+        overflow-x: auto;
     }
 
     .main-content {
         padding: 1.25rem;
         border: none;
         border-radius: 0;
+        max-width: 100%;
+        overflow-x: hidden;
     }
 
     .page-title {

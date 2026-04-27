@@ -17,6 +17,7 @@ class UpdatePrivacyRequest extends FormRequest
             'visibility' => ['nullable', 'string', 'in:on,1,private'],
             'accept_messages' => ['nullable', 'in:on,1,0,true,false'],
             'show_email' => ['nullable', 'in:on,1,0,true,false'],
+            'show_bookmarks' => ['nullable', 'in:on,1,0,true,false'],
         ];
     }
 }

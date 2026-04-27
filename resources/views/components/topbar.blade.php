@@ -4,12 +4,12 @@
      NAVBAR
 ═════════════════════════════════════════ -->
 @php
-    $unreadMessages = Auth::user()->role !== 'guest' 
-        ? \App\Models\Conversation::getUnreadGlobalCount() 
-        : 0;
-    $unreadNotifications = Auth::user()->role !== 'guest'
-        ? \App\Models\Notification::unreadCount(Auth::id())
-        : 0;
+$unreadMessages = Auth::user()->role !== 'guest'
+? \App\Models\Conversation::getUnreadGlobalCount()
+: 0;
+$unreadNotifications = Auth::user()->role !== 'guest'
+? \App\Models\Notification::unreadCount(Auth::id())
+: 0;
 @endphp
 
 <nav class="navbar" role="navigation" aria-label="Navegación principal">
@@ -207,6 +207,38 @@
                     d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
             </svg>
             Mi perfil
+        </a>
+
+        <a href="{{ route('about-fluxa') }}"
+            class="mobile-menu-link {{ request()->routeIs('about-fluxa*') ? 'active' : '' }}"
+            @if(request()->routeIs('about-fluxa*')) aria-current="page" @endif>
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8"
+                stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" aria-hidden="true">
+
+                <!-- Antenas -->
+                <path d="M10 5.5 L7.5 3" />
+                <path d="M14 5.5 L16.5 3" />
+
+                <!-- Cabeza -->
+                <circle cx="12" cy="7" r="2" />
+
+                <!-- Tórax -->
+                <circle cx="12" cy="11" r="1.5" />
+
+                <!-- Abdomen -->
+                <ellipse cx="12" cy="16" rx="2.2" ry="3" />
+
+                <!-- Patas -->
+                <path d="M10.5 10.5 L7 9" />
+                <path d="M13.5 10.5 L17 9" />
+
+                <path d="M10.5 11.5 L7 12" />
+                <path d="M13.5 11.5 L17 12" />
+
+                <path d="M10.5 12.5 L7 14.5" />
+                <path d="M13.5 12.5 L17 14.5" />
+            </svg>
+            Sobre Fluxa
         </a>
 
         <div class="mobile-menu-divider"></div>

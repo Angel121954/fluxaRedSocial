@@ -507,6 +507,8 @@ body {
 .tabs-bar {
     background: var(--surface);
     border-bottom: 1px solid var(--border);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 .tabs-inner {

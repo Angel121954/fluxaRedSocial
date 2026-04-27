@@ -48,6 +48,7 @@ $conversations = Conversation::with([
                     ->whereNull('read_at')
                     ->update(['read_at' => now()]);
 
+<<<<<<< HEAD
                 $conversations = $conversations->map(function ($conv) use ($conversationId) {
                     if ($conv->id === $conversationId) {
                         $conv->load([
@@ -58,6 +59,9 @@ $conversations = Conversation::with([
                 });
 
                 $activeConversation = $conversations->firstWhere('id', $conversationId);
+=======
+                $activeConversation->setRelation('messages', $activeConversation->messages()->latest()->get());
+>>>>>>> 7979f8e (feat(project bookmarks): Implementación de proyectos favoritos para los usuarios deseen tomar inspiración de otros devs con posibilidad de hacerlo público o privado si el desarrollador lo desea)
             }
         }
 
