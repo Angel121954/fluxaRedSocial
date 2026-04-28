@@ -25,7 +25,7 @@ class MessageController extends Controller
         $otherUser = null;
         $conversationId = $request->query('conv') ? (int) $request->query('conv') : null;
 
-$conversations = Conversation::with([
+        $conversations = Conversation::with([
             'userA',
             'userB',
             'messages' => function ($q) {
@@ -36,7 +36,7 @@ $conversations = Conversation::with([
                 $q->where('user_a_id', $user->id)->orWhere('user_b_id', $user->id);
             })
             ->get()
-            ->sortByDesc(fn ($c) => $c->messages->last()?->created_at);
+            ->sortByDesc(fn($c) => $c->messages->last()?->created_at);
 
         if ($conversationId) {
             $activeConversation = $conversations->firstWhere('id', $conversationId);
@@ -48,20 +48,7 @@ $conversations = Conversation::with([
                     ->whereNull('read_at')
                     ->update(['read_at' => now()]);
 
-<<<<<<< HEAD
-                $conversations = $conversations->map(function ($conv) use ($conversationId) {
-                    if ($conv->id === $conversationId) {
-                        $conv->load([
-                            'messages' => fn ($q) => $q->with('sender')->orderBy('created_at', 'asc'),
-                        ]);
-                    }
-                    return $conv;
-                });
-
-                $activeConversation = $conversations->firstWhere('id', $conversationId);
-=======
                 $activeConversation->setRelation('messages', $activeConversation->messages()->latest()->get());
->>>>>>> 7979f8e (feat(project bookmarks): Implementación de proyectos favoritos para los usuarios deseen tomar inspiración de otros devs con posibilidad de hacerlo público o privado si el desarrollador lo desea)
             }
         }
 
@@ -164,7 +151,7 @@ $conversations = Conversation::with([
                 $q->where('user_a_id', $user->id)->orWhere('user_b_id', $user->id);
             })
             ->get()
-            ->sortByDesc(fn ($c) => $c->messages->last()?->created_at);
+            ->sortByDesc(fn($c) => $c->messages->last()?->created_at);
 
         return view('messages.index', compact('activeConversation', 'otherUser', 'conversations', 'profile'));
     }
