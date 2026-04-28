@@ -28,7 +28,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        URL::forceScheme('https');
         View::composer('components.cv-template', \App\View\Composers\CvTemplateComposer::class);
 
         View::composer([

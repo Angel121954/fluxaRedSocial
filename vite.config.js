@@ -144,8 +144,8 @@ export default defineConfig({
         port: 5173,
         strictPort: true,
         hmr: {
-            host: 'non-zones-generated-parties.trycloudflare.com',
-            protocol: 'wss',
+            host: 'localhost',
+            protocol: 'ws',
         },
         cors: {
             origin: '*',
