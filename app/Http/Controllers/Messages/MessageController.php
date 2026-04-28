@@ -38,6 +38,8 @@ class MessageController extends Controller
             ->get()
             ->sortByDesc(fn($c) => $c->messages->last()?->created_at);
 
+        $activeMessages = collect();
+        
         if ($conversationId) {
             $activeConversation = $conversations->firstWhere('id', $conversationId);
             if ($activeConversation) {
@@ -48,7 +50,7 @@ class MessageController extends Controller
                     ->whereNull('read_at')
                     ->update(['read_at' => now()]);
 
-                $activeConversation->setRelation('messages', $activeConversation->messages()->latest()->get());
+                $activeMessages = $activeConversation->messages()->with('sender')->oldest()->get();
             }
         }
 
@@ -71,7 +73,7 @@ class MessageController extends Controller
             }
         });
 
-        return view('messages.index', compact('conversations', 'activeConversation', 'otherUser', 'profile'));
+        return view('messages.index', compact('conversations', 'activeConversation', 'otherUser', 'profile', 'activeMessages'));
     }
 
     public function unreadCount(): JsonResponse
@@ -131,20 +133,15 @@ class MessageController extends Controller
             ->whereNull('read_at')
             ->update(['read_at' => now()]);
 
-        $conversation->load([
-            'userA',
-            'userB',
-            'messages' => function ($q) {
-                $q->with('sender')->orderBy('created_at', 'asc');
-            },
-        ]);
+        $activeConversation = $conversation;
+        $activeMessages = $conversation->messages()->with('sender')->oldest()->get();
         $otherUser = $conversation->otherUser($user);
 
         $conversations = Conversation::with([
             'userA',
             'userB',
             'messages' => function ($q) {
-                $q->with('sender')->orderBy('created_at', 'asc');
+                $q->with('sender')->oldest();
             },
         ])
             ->where(function ($q) use ($user) {
@@ -153,7 +150,7 @@ class MessageController extends Controller
             ->get()
             ->sortByDesc(fn($c) => $c->messages->last()?->created_at);
 
-        return view('messages.index', compact('activeConversation', 'otherUser', 'conversations', 'profile'));
+        return view('messages.index', compact('activeConversation', 'otherUser', 'conversations', 'profile', 'activeMessages'));
     }
 
     public function store(Request $request, Conversation $conversation): JsonResponse

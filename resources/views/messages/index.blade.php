@@ -109,7 +109,7 @@
                 <!-- Burbujas -->
                 <div class="msgs-bubble-list" id="msgsBubbleList" role="log" aria-live="polite">
                     @php $lastDate = null; @endphp
-                    @foreach($activeConversation->messages as $message)
+                    @foreach($activeMessages as $message)
                     @php
                     $isMine = $message->sender_id === auth()->id();
                     $msgDate = $message->created_at->toDateString();
