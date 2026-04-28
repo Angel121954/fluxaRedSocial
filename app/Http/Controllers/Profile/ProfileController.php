@@ -29,14 +29,14 @@ class ProfileController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $user->load(['profile', 'followers', 'follows', 'technologies', 'workExperiences', 'educations']);
         $user->loadCount(['followers', 'follows']);
         $profile = $user->profile;
         $isOwner = true;
+        $projectsCount = null;
 
         $projects = $user->projects()
             ->with([
-                'user.profile',
+                'user',
                 'media',
                 'technologies',
                 'likes' => fn ($q) => $q->where('user_id', $user->id),
@@ -57,30 +57,9 @@ class ProfileController extends Controller
                 ->first()?->skill_type;
         });
 
-        $bookmarkedProjects = $user->projectBookmarks()
-            ->with([
-                'user.profile',
-                'media',
-                'technologies',
-                'likes' => fn ($q) => $q->where('user_id', $user->id),
-                'bookmarks' => fn ($q) => $q->where('user_id', $user->id),
-                'skillEndorsements',
-            ])
-            ->withCount(['media', 'likes'])
-            ->latest()
-            ->get();
-
-        $bookmarkedProjects->each(function ($project) use ($user) {
-            $project->precomputed_is_liked = $project->likes->isNotEmpty();
-            $project->precomputed_is_bookmarked = $project->bookmarks->isNotEmpty();
-            $project->precomputed_user_endorsement = $project->skillEndorsements
-                ->where('user_id', $user->id)
-                ->first()?->skill_type;
-        });
-
-        $technologies = $user->technologies;
-        $workExperiences = $user->workExperiences;
-        $educations = $user->educations;
+        $technologies = $user->technologies()->orderBy('name')->get();
+        $workExperiences = $user->workExperiences()->orderBy('started_at', 'desc')->get();
+        $educations = $user->educations()->orderBy('graduated_year', 'desc')->get();
 
         return view('profile.index', compact(
             'user',
@@ -91,24 +70,20 @@ class ProfileController extends Controller
             'technologies',
             'workExperiences',
             'educations',
-            'bookmarkedProjects',
         ));
     }
 
     public function show(string $username)
     {
-        $user = User::where('username', $username)
-            ->with(['profile', 'followers', 'follows', 'technologies', 'workExperiences', 'educations'])
-            ->firstOrFail();
+        $user = User::where('username', $username)->with('profile')->firstOrFail();
         $user->loadCount(['followers', 'follows']);
         $profile = $user->profile;
         $isOwner = Auth::id() === $user->id;
         $projectsCount = null;
-        $bookmarkedProjects = null;
 
         $projects = $user->projects()
             ->with([
-                'user.profile',
+                'user',
                 'media',
                 'technologies',
                 'likes' => fn ($q) => $q->where('user_id', auth()->id()),
@@ -130,62 +105,19 @@ class ProfileController extends Controller
                 ->first()?->skill_type;
         });
 
-        if ($isOwner) {
-            $bookmarkedProjects = $user->projectBookmarks()
-                ->with([
-                    'user.profile',
-                    'media',
-                    'technologies',
-                    'likes' => fn ($q) => $q->where('user_id', $user->id),
-                    'bookmarks' => fn ($q) => $q->where('user_id', $user->id),
-                    'skillEndorsements',
-                ])
-                ->withCount(['media', 'likes'])
-                ->latest()
-                ->get();
-
-            $bookmarkedProjects->each(function ($project) use ($user) {
-                $project->precomputed_is_liked = $project->likes->isNotEmpty();
-                $project->precomputed_is_bookmarked = $project->bookmarks->isNotEmpty();
-                $project->precomputed_user_endorsement = $project->skillEndorsements
-                    ->where('user_id', $user->id)
-                    ->first()?->skill_type;
-            });
-        } elseif ($profile && $profile->show_bookmarks) {
-            $bookmarkedProjects = $user->projectBookmarks()
-                ->with([
-                    'user.profile',
-                    'media',
-                    'technologies',
-                    'likes' => fn ($q) => $q->where('user_id', auth()->id()),
-                    'bookmarks' => fn ($q) => $q->where('user_id', auth()->id()),
-                    'skillEndorsements',
-                ])
-                ->withCount(['media', 'likes'])
-                ->latest()
-                ->get();
-
-            $bookmarkedProjects->each(function ($project) use ($user) {
-                $project->precomputed_is_liked = $project->likes->isNotEmpty();
-                $project->precomputed_is_bookmarked = $project->bookmarks->isNotEmpty();
-                $project->precomputed_user_endorsement = $project->skillEndorsements
-                    ->where('user_id', $user->id)
-                    ->first()?->skill_type;
-            });
+        if (Auth::check()) {
+            if (! $isOwner) {
+                $conversation = Conversation::where(function ($q) use ($user) {
+                    $q->where('user_a_id', auth()->id())->where('user_b_id', $user->id);
+                })->orWhere(function ($q) use ($user) {
+                    $q->where('user_a_id', $user->id)->where('user_b_id', auth()->id());
+                })->first();
+            }
         }
 
-        $conversation = null;
-        if (Auth::check() && !$isOwner) {
-            $conversation = Conversation::where(function ($q) use ($user) {
-                $q->where('user_a_id', auth()->id())->where('user_b_id', $user->id);
-            })->orWhere(function ($q) use ($user) {
-                $q->where('user_a_id', $user->id)->where('user_b_id', auth()->id());
-            })->first();
-        }
-
-        $technologies = $user->technologies;
-        $workExperiences = $user->workExperiences;
-        $educations = $user->educations;
+        $technologies = $user->technologies()->orderBy('name')->get();
+        $workExperiences = $user->workExperiences()->orderBy('started_at', 'desc')->get();
+        $educations = $user->educations()->orderBy('graduated_year', 'desc')->get();
 
         return view('profile.index', compact(
             'user',
@@ -196,8 +128,7 @@ class ProfileController extends Controller
             'technologies',
             'workExperiences',
             'educations',
-            'bookmarkedProjects',
-            'conversation'
+            'conversation' ?? null
         ));
     }
 

@@ -122,12 +122,6 @@ class User extends Authenticatable
         };
     }
 
-    public function projectBookmarks()
-    {
-        return $this->belongsToMany(Project::class, 'project_bookmarks', 'user_id', 'project_id')
-            ->withTimestamps();
-    }
-
     public function getAvatarUrlAttribute(): string
     {
         if ($this->profile?->avatar) {

@@ -49,7 +49,7 @@
 
 /* ─── Scroll ─────────────────────────────────────────── */
 body {
-    overflow-x: hidden;
     overflow-y: scroll;
+    /* siempre reserva el espacio del scrollbar */
     scrollbar-gutter: stable;
 }
