@@ -39,7 +39,7 @@ class MessageController extends Controller
             ->sortByDesc(fn($c) => $c->messages->last()?->created_at);
 
         $activeMessages = collect();
-        
+
         if ($conversationId) {
             $activeConversation = $conversations->firstWhere('id', $conversationId);
             if ($activeConversation) {
