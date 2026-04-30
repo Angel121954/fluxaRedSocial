@@ -61,6 +61,11 @@ class ProfileController extends Controller
         $workExperiences = $user->workExperiences()->orderBy('started_at', 'desc')->get();
         $educations = $user->educations()->orderBy('graduated_year', 'desc')->get();
 
+        $favoriteProjects = $user->bookmarkedProjects()
+            ->with(['user', 'media', 'technologies'])
+            ->latest()
+            ->get();
+
         return view('profile.index', compact(
             'user',
             'profile',
@@ -70,6 +75,7 @@ class ProfileController extends Controller
             'technologies',
             'workExperiences',
             'educations',
+            'favoriteProjects',
         ));
     }
 
@@ -119,6 +125,14 @@ class ProfileController extends Controller
         $workExperiences = $user->workExperiences()->orderBy('started_at', 'desc')->get();
         $educations = $user->educations()->orderBy('graduated_year', 'desc')->get();
 
+        $favoriteProjects = collect();
+        if ($isOwner || $profile->show_favorites) {
+            $favoriteProjects = $user->bookmarkedProjects()
+                ->with(['user', 'media', 'technologies'])
+                ->latest()
+                ->get();
+        }
+
         return view('profile.index', compact(
             'user',
             'profile',
@@ -128,6 +142,7 @@ class ProfileController extends Controller
             'technologies',
             'workExperiences',
             'educations',
+            'favoriteProjects',
             'conversation' ?? null
         ));
     }

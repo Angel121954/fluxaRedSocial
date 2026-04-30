@@ -59,15 +59,16 @@ class ExploreController extends Controller
 
     public function topic($slug)
     {
-        $profile = Profile::where('user_id', Auth::id())->first();
+        $userId = Auth::id();
+        $profile = Profile::where('user_id', $userId)->first();
         $technology = Technology::where('slug', $slug)->firstOrFail();
 
         $projects = Project::with([
             'user.profile',
             'media',
             'technologies',
-            'likes',
-            'bookmarks',
+            'likes' => fn ($q) => $q->where('user_id', $userId),
+            'bookmarks' => fn ($q) => $q->where('user_id', $userId),
             'skillEndorsements',
         ])
             ->where('parent_id', null)
@@ -79,6 +80,15 @@ class ExploreController extends Controller
             ->orderByDesc('comments_count')
             ->paginate(15);
 
+        // Precomputar estados
+        $projects->each(function ($project) use ($userId) {
+            $project->precomputed_is_liked = $project->likes->isNotEmpty();
+            $project->precomputed_is_bookmarked = $project->bookmarks->isNotEmpty();
+            $project->precomputed_user_endorsement = $project->skillEndorsements
+                ->where('user_id', $userId)
+                ->first()?->skill_type;
+        });
+
         $topTechnologies = Technology::withCount('projects')
             ->orderByDesc('projects_count')
             ->limit(15)
@@ -89,15 +99,16 @@ class ExploreController extends Controller
 
     public function search(Request $request)
     {
+        $userId = Auth::id();
         $query = $request->get('q', '');
-        $profile = Profile::where('user_id', Auth::id())->first();
+        $profile = Profile::where('user_id', $userId)->first();
 
         $projects = Project::with([
             'user.profile',
             'media',
             'technologies',
-            'likes',
-            'bookmarks',
+            'likes' => fn ($q) => $q->where('user_id', $userId),
+            'bookmarks' => fn ($q) => $q->where('user_id', $userId),
             'skillEndorsements',
         ])
             ->where('parent_id', null)
@@ -106,6 +117,15 @@ class ExploreController extends Controller
             ->orderByDesc('likes_count')
             ->orderByDesc('comments_count')
             ->paginate(15);
+
+        // Precomputar estados
+        $projects->each(function ($project) use ($userId) {
+            $project->precomputed_is_liked = $project->likes->isNotEmpty();
+            $project->precomputed_is_bookmarked = $project->bookmarks->isNotEmpty();
+            $project->precomputed_user_endorsement = $project->skillEndorsements
+                ->where('user_id', $userId)
+                ->first()?->skill_type;
+        });
 
         $topTechnologies = Technology::withCount('projects')
             ->orderByDesc('projects_count')
@@ -121,29 +141,36 @@ class ExploreController extends Controller
 
     private function getProjects($type)
     {
+        $userId = Auth::id();
         $query = Project::with([
             'user.profile',
             'media',
             'technologies',
-            'likes',
-            'bookmarks',
+            'likes' => fn ($q) => $q->where('user_id', $userId),
+            'bookmarks' => fn ($q) => $q->where('user_id', $userId),
             'skillEndorsements',
         ])
             ->where('parent_id', null)
             ->where('privacy', 'public');
 
-        switch ($type) {
-            case 'trending':
-                return $query->orderByDesc('likes_count')
-                    ->orderByDesc('comments_count')
-                    ->paginate(15);
+        $projects = match ($type) {
+            'trending' => $query->orderByDesc('likes_count')
+                ->orderByDesc('comments_count')
+                ->paginate(15),
+            'recent' => $query->orderByDesc('created_at')
+                ->paginate(15),
+            default => $query->orderByDesc('created_at')->paginate(15),
+        };
 
-            case 'recent':
-                return $query->orderByDesc('created_at')
-                    ->paginate(15);
+        // Precomputar estados
+        $projects->each(function ($project) use ($userId) {
+            $project->precomputed_is_liked = $project->likes->isNotEmpty();
+            $project->precomputed_is_bookmarked = $project->bookmarks->isNotEmpty();
+            $project->precomputed_user_endorsement = $project->skillEndorsements
+                ->where('user_id', $userId)
+                ->first()?->skill_type;
+        });
 
-            default:
-                return $query->orderByDesc('created_at')->paginate(15);
-        }
+        return $projects;
     }
 }

@@ -20,6 +20,7 @@ class PrivacyController extends Controller
             'visibility' => $request->has('visibility') ? 'private' : 'public',
             'accept_messages' => $request->boolean('accept_messages'),
             'show_email' => $request->boolean('show_email'),
+            'show_favorites' => $request->boolean('show_favorites'),
         ]);
 
         return redirect()->back()->with('success', 'Preferencias de privacidad actualizadas');

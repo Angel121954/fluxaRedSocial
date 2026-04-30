@@ -1,18 +1,17 @@
 @php
 /**
-* Solo se mapean los slugs que NO usan el tipo 'original' en Devicon.
-* El slug viene directamente de $tech->slug en la DB (ya es el slug correcto de Devicon).
-* Cualquier tecnología nueva agregada a la DB funciona automáticamente.
-*/
+ * Solo se mapean los tipos de iconos que NO usan 'original' en Devicon.
+ * El slug viene directamente de $tech->slug en la DB (ya es el slug correcto de Devicon).
+ */
 $deviconTypeOverrides = [
-'amazonwebservices' => 'plain-wordmark',
-'angularjs' => 'plain',
-'django' => 'plain',
-'tailwindcss' => 'plain',
-'kubernetes' => 'plain',
-'graphql' => 'plain',
-'firebase' => 'plain',
-'express' => 'original-wordmark', // express no tiene variante 'original' con color
+    'amazonwebservices' => 'plain-wordmark',
+    'angularjs' => 'plain',
+    'django' => 'plain',
+    'tailwindcss' => 'plain',
+    'kubernetes' => 'plain',
+    'graphql' => 'plain',
+    'firebase' => 'plain',
+    'express' => 'original-wordmark',
 ];
 @endphp
 

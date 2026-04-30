@@ -205,6 +205,14 @@
                 <span class="tab-count">{{ $technologies->count() }}</span>
                 @endif
             </div>
+            @if($isOwner || $profile->show_favorites)
+            <div class="tab" data-tab="favorites">
+                Favoritos
+                @if(isset($favoriteProjects) && $favoriteProjects->count() > 0)
+                <span class="tab-count">{{ $favoriteProjects->count() }}</span>
+                @endif
+            </div>
+            @endif
         </div>
     </div>
 
@@ -377,6 +385,33 @@
     <div class="content" data-panel="stack" style="display:none">
         <x-stack-tab :technologies="$technologies" />
     </div>
+
+    {{-- Panel: Favoritos --}}
+    @if($isOwner || $profile->show_favorites)
+    <div class="content" data-panel="favorites" style="display:none">
+        @if(isset($favoriteProjects) && $favoriteProjects->count() > 0)
+            @foreach($favoriteProjects as $project)
+            <div class="p-card">
+                <div class="card-head">
+                    <h3 class="card-title">{{ $project->title }}</h3>
+                </div>
+                @if($project->content)
+                <p class="card-desc">{{ $project->content }}</p>
+                @endif
+                @if($project->technologies->isNotEmpty())
+                <div class="tech-row">
+                    @foreach($project->technologies as $tech)
+                    <span class="t-tag">{{ $tech->name }}</span>
+                    @endforeach
+                </div>
+                @endif
+            </div>
+            @endforeach
+        @else
+            <p class="empty-state">No hay proyectos favoritos aún.</p>
+        @endif
+    </div>
+    @endif
     <!-- end content -->
     <x-modal-image :profile="$profile" />
     <x-cv-template

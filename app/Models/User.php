@@ -56,6 +56,13 @@ class User extends Authenticatable
         return $this->belongsToMany(Technology::class);
     }
 
+    public function bookmarkedProjects()
+    {
+        return $this->belongsToMany(Project::class, 'project_bookmarks')
+            ->withTimestamps()
+            ->orderByPivot('created_at', 'desc');
+    }
+
     public function workExperiences()
     {
         return $this->hasMany(WorkExperience::class)->orderBy('started_at', 'desc');
