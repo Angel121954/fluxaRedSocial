@@ -142,6 +142,10 @@ async function toggleCommentLike(commentId, button) {
         return;
     }
 
+    // Evitar múltiples clics
+    if (button.disabled) return;
+    button.disabled = true;
+
     try {
         const response = await fetch(`/comments/${commentId}/like`, {
             method: 'POST',
@@ -162,16 +166,21 @@ async function toggleCommentLike(commentId, button) {
         const data = await response.json();
         console.log('Like response:', data);
         
-        const svg = button.querySelector('svg');
+        const svgPath = button.querySelector('svg path');
+        
+        // Remover primero
+        button.classList.remove('liked');
+        if (svgPath) svgPath.setAttribute('fill', 'none');
+        
+        // Aplicar nuevo estado
         if (data.liked) {
             button.classList.add('liked');
-            svg.setAttribute('fill', 'currentColor');
-        } else {
-            button.classList.remove('liked');
-            svg.setAttribute('fill', 'none');
+            if (svgPath) svgPath.setAttribute('fill', 'currentColor');
         }
     } catch (error) {
         console.error('Error al dar like:', error.message);
+    } finally {
+        button.disabled = false;
     }
 }
 

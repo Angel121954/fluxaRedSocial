@@ -1072,9 +1072,9 @@ body {
     color: #e74c3c;
 }
 
-.like-comment-btn.liked svg {
-    fill: currentColor;
-    stroke: currentColor;
+.like-comment-btn.liked svg path {
+    fill: currentColor !important;
+    stroke: currentColor !important;
 }
 
 .comment-action svg {

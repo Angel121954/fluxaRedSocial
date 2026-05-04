@@ -4,12 +4,12 @@ function initializeLikeButtons(container) {
     if (!container) return;
     const likeButtons = container.querySelectorAll('.like-comment-btn');
     likeButtons.forEach(button => {
-        const svg = button.querySelector('svg');
-        if (!svg) return;
+        const path = button.querySelector('svg path');
+        if (!path) return;
         if (button.classList.contains('liked')) {
-            svg.setAttribute('fill', 'currentColor');
+            path.setAttribute('fill', 'currentColor');
         } else {
-            svg.setAttribute('fill', 'none');
+            path.setAttribute('fill', 'none');
         }
     });
 }
