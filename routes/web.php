@@ -21,6 +21,8 @@ use App\Http\Controllers\Profile\ProfileController;
 use App\Http\Controllers\Profile\SecurityController;
 use App\Http\Controllers\Profile\WorkExperienceController;
 use App\Http\Controllers\Projects\ProjectController;
+use App\Http\Controllers\Projects\CommentController;
+use App\Http\Controllers\Projects\CommentLikeController;
 use App\Http\Controllers\Suggestions\SuggestionController;
 use App\Http\Controllers\Messages\MessageController;
 use App\Http\Controllers\Technology\TechnologyController;
@@ -323,6 +325,20 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
 
         Route::post('/projects/{project}/endorse', [ProjectController::class, 'endorse'])
             ->name('projects.endorse');
+
+        /*
+         |--------------------------------------------------------------------------
+         | Comentarios
+         |--------------------------------------------------------------------------
+         */
+        Route::get('/projects/{project}/comments', [CommentController::class, 'index'])
+            ->name('comments.index');
+        Route::post('/projects/{project}/comments', [CommentController::class, 'store'])
+            ->name('comments.store');
+        Route::post('/comments/{comment}/like', [CommentLikeController::class, 'toggle'])
+            ->name('comments.like');
+        Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])
+            ->name('comments.destroy');
 
         /*
         |--------------------------------------------------------------------------

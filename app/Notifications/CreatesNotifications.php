@@ -81,7 +81,7 @@ trait CreatesNotifications
         );
     }
 
-public static function notifyProjectComment(int $ownerId, int $commenterId, string $commenterName, int $projectId, string $projectTitle): Notification
+    public static function notifyProjectComment(int $ownerId, int $commenterId, string $commenterName, int $projectId, string $projectTitle): Notification
     {
         return self::createNotification(
             userId: $ownerId,
@@ -90,6 +90,20 @@ public static function notifyProjectComment(int $ownerId, int $commenterId, stri
             body: "{$commenterName} comentó en tu proyecto \"{$projectTitle}\"",
             link: "/projects/{$projectId}",
             fromUserId: $commenterId,
+            referenceId: $projectId,
+            referenceType: 'project'
+        );
+    }
+
+    public static function notifyCommentReply(int $commentOwnerId, int $replierId, string $replierName, int $projectId, string $projectTitle): Notification
+    {
+        return self::createNotification(
+            userId: $commentOwnerId,
+            type: Notification::TYPE_COMMENT,
+            title: 'Nueva respuesta',
+            body: "{$replierName} respondió a tu comentario en \"{$projectTitle}\"",
+            link: "/projects/{$projectId}",
+            fromUserId: $replierId,
             referenceId: $projectId,
             referenceType: 'project'
         );
@@ -122,6 +136,20 @@ public static function notifyProjectComment(int $ownerId, int $commenterId, stri
             fromUserId: $mentionerId,
             referenceId: $referenceId,
             referenceType: $referenceType
+        );
+    }
+
+    public static function notifyCommentLike(int $commentOwnerId, int $likerId, string $likerName, int $commentId, int $projectId, string $projectTitle): Notification
+    {
+        return self::createNotification(
+            userId: $commentOwnerId,
+            type: Notification::TYPE_LIKE,
+            title: 'Like en tu comentario',
+            body: "{$likerName} dio like a tu comentario en \"{$projectTitle}\"",
+            link: "/projects/{$projectId}",
+            fromUserId: $likerId,
+            referenceId: $commentId,
+            referenceType: 'comment'
         );
     }
 }

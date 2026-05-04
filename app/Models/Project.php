@@ -58,6 +58,11 @@ class Project extends Model
         return $this->hasMany(ProjectBookmark::class);
     }
 
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
     public function skillEndorsements()
     {
         return $this->hasMany(SkillEndorsement::class);

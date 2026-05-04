@@ -30,6 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!postCard) return;
 
         openCommentsModal({
+            projectId:   commentBtn.dataset.projectId || null,
             avatar:      postCard.querySelector('.post-avatar')?.src        || '',
             author:      postCard.querySelector('.post-author')?.textContent || '',
             handle:      postCard.querySelector('.post-handle')?.textContent || '',

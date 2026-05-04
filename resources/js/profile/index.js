@@ -16,8 +16,8 @@ import './avatar.js';
 import './tabs.js';
 import './filters.js';
 import './shareProfile.js';
-import './commentHandler.js';       // gestiona likes + apertura del modal de comentarios
 import '../projects/modalComment.js'; // inicializa listeners de cierre del modal
+import './commentHandler.js';       // gestiona likes + apertura del modal de comentarios
 
 // ── Sistema de endorsement (compartido con explore) ────────────────────────
 import { initSkillEndorsement } from '../core/explore/skillEndorsement.js';
