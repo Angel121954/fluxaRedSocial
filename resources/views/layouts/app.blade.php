@@ -8,15 +8,24 @@
     <meta name="description" content="Fluxa - Plataforma para desarrolladores que quieren compartir su progreso, aprender juntos y crecer como comunidad.">
     <meta name="keywords" content="Fluxa, desarrollo, programación, comunidad, proyectos, open source">
 
-    <!-- Open Graph -->
+    <!-- Open Graph / Facebook -->
     <meta property="og:title" content="@yield('title', 'Fluxa')">
     <meta property="og:description" content="Plataforma para desarrolladores que quieren compartir su progreso, aprender juntos y crecer como comunidad.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ request()->url() }}">
-    <meta property="og:image" content="{{ asset('img/logoFluxa.png') }}">
+    <meta property="og:image" content="{{ asset('img/logo.png') }}">
+    <meta property="og:image:width" content="1536">
+    <meta property="og:image:height" content="1024">
+    <meta property="og:site_name" content="Fluxa">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="@yield('title', 'Fluxa')">
+    <meta name="twitter:description" content="Plataforma para desarrolladores que quieren compartir su progreso, aprender juntos y crecer como comunidad.">
+    <meta name="twitter:image" content="{{ asset('img/logo.png') }}">
 
     <title>@yield('title', 'Fluxa')</title>
-    <link rel="icon" type="image/png" href="{{ asset('img/logoFluxa.png') }}">
+    <link rel="icon" type="image/png" href="{{ asset('img/logo.png') }}">
     <link rel="preconnect" href="https://fonts.bunny.net">
     @vite(['resources/css/app.css', 'resources/css/variables.css', 'resources/css/profile/shared.css', 'resources/js/app.js', 'resources/js/shared/index.js'])
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
@@ -30,18 +39,18 @@
     <x-toast />
 
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Cargar lista de notificaciones
-        if (typeof initNotificationsList === 'function') {
-            initNotificationsList();
-        }
-        
-        // Inicializar realtime
-        var userId = document.body.dataset.userId;
-        if (userId && typeof initNotificationsRealtime === 'function') {
-            initNotificationsRealtime(userId);
-        }
-    });
+        document.addEventListener('DOMContentLoaded', function() {
+            // Cargar lista de notificaciones
+            if (typeof initNotificationsList === 'function') {
+                initNotificationsList();
+            }
+
+            // Inicializar realtime
+            var userId = document.body.dataset.userId;
+            if (userId && typeof initNotificationsRealtime === 'function') {
+                initNotificationsRealtime(userId);
+            }
+        });
     </script>
 
     @stack('scripts')
