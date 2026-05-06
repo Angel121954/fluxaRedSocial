@@ -29,8 +29,6 @@ class Profile extends Model
         'accept_messages',
         'show_email',
         'show_favorites',
-        'created_at',
-        'updated_at',
     ];
 
     protected $casts = [

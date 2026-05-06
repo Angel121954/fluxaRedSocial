@@ -25,6 +25,8 @@ class User extends Authenticatable
         'two_factor_secret',
         'two_factor_recovery_codes',
         'two_factor_confirmed_at',
+        'delete_at',
+        'email_verified_at',
     ];
 
     protected $hidden = [

@@ -80,17 +80,9 @@ class SocialAuthController extends Controller
         }
 
         try {
-            Log::info('SocialAuth callback started', ['provider' => $provider]);
-
             $driver = Socialite::driver($provider);
 
-            if ($provider === 'google') {
-                $driver->stateless();
-            }
-
-            Log::info('SocialAuth getting social user', ['provider' => $provider]);
             $socialUser = $driver->user();
-            Log::info('SocialAuth social user received', ['provider' => $provider, 'email' => $socialUser->getEmail()]);
 
             if (!$socialUser->getEmail()) {
                 return redirect()
@@ -165,9 +157,17 @@ class SocialAuthController extends Controller
                 );
             }
 
-            NotificationPreference::firstOrCreate([
-                'user_id' => $user->id,
-            ]);
+            NotificationPreference::firstOrCreate(
+                ['user_id' => $user->id],
+                [
+                    'email_enabled'    => true,
+                    'push_enabled'     => true,
+                    'notify_comments'  => true,
+                    'notify_followers' => true,
+                    'notify_mentions'  => true,
+                    'weekly_summary'   => false,
+                ]
+            );
 
             if ($user->status === 'pending_deletion') {
                 $user->update([
