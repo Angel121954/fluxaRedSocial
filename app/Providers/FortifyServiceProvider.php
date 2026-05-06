@@ -31,12 +31,17 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::updateUserPasswordsUsing(UpdateUserPassword::class);
         Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
 
+        Fortify::loginView(function () {
+            return view('auth.login');
+        });
+
         Fortify::twoFactorChallengeView(function () {
             return view('auth.two-factor-challenge');
         });
 
         Fortify::authenticateThrough(function (Request $request) {
             return array_filter([
+                \App\Actions\Fortify\CheckUserStatus::class,
                 \Laravel\Fortify\Actions\RedirectIfTwoFactorAuthenticatable::class,
                 \Laravel\Fortify\Actions\AttemptToAuthenticate::class,
                 \Laravel\Fortify\Actions\PrepareAuthenticatedSession::class,

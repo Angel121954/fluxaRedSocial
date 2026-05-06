@@ -19,6 +19,8 @@ class User extends Authenticatable
         'status',
         'username',
         'password',
+        'provider',
+        'provider_id',
         'onboarding_completed',
         'two_factor_secret',
         'two_factor_recovery_codes',

@@ -80,7 +80,17 @@ class SocialAuthController extends Controller
         }
 
         try {
-            $socialUser = Socialite::driver($provider)->user();
+            Log::info('SocialAuth callback started', ['provider' => $provider]);
+
+            $driver = Socialite::driver($provider);
+
+            if ($provider === 'google') {
+                $driver->stateless();
+            }
+
+            Log::info('SocialAuth getting social user', ['provider' => $provider]);
+            $socialUser = $driver->user();
+            Log::info('SocialAuth social user received', ['provider' => $provider, 'email' => $socialUser->getEmail()]);
 
             if (!$socialUser->getEmail()) {
                 return redirect()
@@ -168,6 +178,17 @@ class SocialAuthController extends Controller
 
             if ($user->status === 'inactivo') {
                 $user->update(['status' => 'activo']);
+            }
+
+            if ($user->two_factor_secret &&
+                in_array(\Laravel\Fortify\TwoFactorAuthenticatable::class, class_uses_recursive($user))) {
+                request()->session()->put([
+                    'login.id' => $user->getKey(),
+                    'login.remember' => true,
+                ]);
+                session()->put('url.intended', route('explore.index'));
+
+                return redirect()->route('two-factor.login');
             }
 
             Auth::login($user, true);

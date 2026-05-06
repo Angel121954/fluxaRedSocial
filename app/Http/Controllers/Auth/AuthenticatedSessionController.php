@@ -8,9 +8,9 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\View\View;
-use Laravel\Fortify\TwoFactorAuthenticatable;
 use Illuminate\Support\Facades\Session;
+use Illuminate\View\View;
+
 
 class AuthenticatedSessionController extends Controller
 {
@@ -28,19 +28,6 @@ class AuthenticatedSessionController extends Controller
     public function store(LoginRequest $request): RedirectResponse
     {
         $request->authenticate();
-
-        // 👇 chequea 2FA antes de regenerar sesión
-        $user = Auth::user();
-        /** @var \App\models\User $user */
-
-        if ($user->hasEnabledTwoFactorAuthentication()) {
-            // Guarda el ID en sesión para el challenge y cierra la sesión temporalmente
-            Session::put('login.id', $user->getKey());
-            Session::put('login.remember', $request->boolean('remember'));
-            Auth::logout();
-
-            return redirect()->route('two-factor.login');
-        }
 
         $request->session()->regenerate();
         return redirect()->intended(RouteServiceProvider::HOME);
