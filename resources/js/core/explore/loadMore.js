@@ -18,8 +18,10 @@ export function initLoadMore(container) {
             try {
                 const response = await fetch(url, {
                     headers: {
-                        'X-Requested-With': 'XMLHttpRequest'
-                    }
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Accept': 'text/html',
+                    },
+                    credentials: 'same-origin',
                 });
                 
                 if (!response.ok) throw new Error('Error en la petición');

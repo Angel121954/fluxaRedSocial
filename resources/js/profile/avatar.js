@@ -83,6 +83,7 @@ import { showToast } from '../shared/toast.js';
                 const response = await fetch('/profile/avatar', {
                     method: 'DELETE',
                     headers: { 'X-CSRF-TOKEN': csrfToken, Accept: 'application/json' },
+                    credentials: 'same-origin',
                 });
                 const data = await response.json();
 
@@ -109,6 +110,7 @@ import { showToast } from '../shared/toast.js';
             const response = await fetch('/profile/avatar', {
                 method: 'POST',
                 headers: { 'X-CSRF-TOKEN': csrfToken, Accept: 'application/json' },
+                credentials: 'same-origin',
                 body: formData,
             });
             const data = await response.json();

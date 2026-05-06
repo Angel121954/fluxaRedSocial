@@ -21,10 +21,15 @@ export function initLikeButton() {
             method: "POST",
             headers: {
                 "X-CSRF-TOKEN": csrfToken,
-                "Content-Type": "application/json"
-            }
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            credentials: "same-origin"
         })
-            .then((response) => response.json())
+            .then((response) => {
+                if (!response.ok) throw new Error("Network response was not ok");
+                return response.json();
+            })
             .then((data) => {
                 countSpan.textContent = data.likes_count;
             })

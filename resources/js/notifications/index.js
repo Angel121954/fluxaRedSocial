@@ -82,8 +82,10 @@ function renderNotificationCard(n) {
             method: 'DELETE',
             headers: { 
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content, 
-                'Content-Type': 'application/json' 
-            }
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            credentials: 'same-origin',
         })
         .then(function(r) { return r.json(); })
         .then(function() {
@@ -117,8 +119,10 @@ function renderNotificationCard(n) {
                     method: 'PATCH',
                     headers: { 
                         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content, 
-                        'Content-Type': 'application/json' 
-                    }
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                    },
+                    credentials: 'same-origin',
                 })
                 .then(function() {
                     if (window.updateBadges) {
@@ -165,7 +169,10 @@ function loadNotifications() {
     var url = new URL('/notifications/list', window.location.origin);
     url.searchParams.set('filter', currentFilter);
     
-    fetch(url, { headers: { 'Accept': 'application/json' } })
+    fetch(url, { 
+        headers: { 'Accept': 'application/json' },
+        credentials: 'same-origin',
+    })
     .then(function(r) { return r.json(); })
     .then(function(data) {
         var countEl = document.getElementById('notificationCount');
@@ -215,8 +222,10 @@ function initNotificationsList() {
                 method: 'PATCH',
                 headers: { 
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content, 
-                    'Content-Type': 'application/json' 
-                }
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                },
+                credentials: 'same-origin',
             })
             .then(function() {
                 loadNotifications();

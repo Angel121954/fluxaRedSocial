@@ -73,9 +73,17 @@ function handleProjectAction(action, projectId, dropItem, closeMenu) {
 
             fetch(`/projects/${projectId}/bookmark`, {
                 method: 'POST',
-                headers: { 'X-CSRF-TOKEN': csrfToken },
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken,
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'same-origin',
             })
-                .then(res => res.json())
+                .then(res => {
+                    if (!res.ok) throw new Error('Network response was not ok');
+                    return res.json();
+                })
                 .then(data => {
                     span.textContent = data.is_bookmarked ? 'Quitar de favoritos' : 'Agregar a favoritos';
                 })

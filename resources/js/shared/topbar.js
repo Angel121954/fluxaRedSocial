@@ -53,7 +53,9 @@ function performSearch(query, resultsEl) {
     resultsEl.innerHTML = '<div class="search-results-empty">Buscando…</div>';
     resultsEl.classList.add('active');
 
-    fetch(`/api/search?q=${encodeURIComponent(query)}`)
+    fetch(`/api/search?q=${encodeURIComponent(query)}`, {
+        credentials: 'same-origin',
+    })
         .then(res => res.json())
         .then(data => {
             if (data.users.length === 0 && data.projects.length === 0) {

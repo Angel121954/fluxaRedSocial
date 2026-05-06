@@ -4,8 +4,14 @@
 
 function updateBadges() {
     Promise.all([
-        fetch('/notifications/unread', { headers: { 'Accept': 'application/json' } }).then(r => r.json()),
-        fetch('/messages/unread/count', { headers: { 'Accept': 'application/json' } }).then(r => r.json())
+        fetch('/notifications/unread', { 
+            headers: { 'Accept': 'application/json' },
+            credentials: 'same-origin',
+        }).then(r => r.json()),
+        fetch('/messages/unread/count', { 
+            headers: { 'Accept': 'application/json' },
+            credentials: 'same-origin',
+        }).then(r => r.json())
     ])
     .then(function(results) {
         var notifData = results[0];

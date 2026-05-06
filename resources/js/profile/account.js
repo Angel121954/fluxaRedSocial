@@ -16,6 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 "Content-Type": "application/json",
                 Accept: "application/json",
             },
+            credentials: "same-origin",
             ...(body ? { body: JSON.stringify(body) } : {}),
         });
 

@@ -92,7 +92,9 @@ export function initSkillEndorsement() {
                     headers: {
                         'X-CSRF-TOKEN': csrfToken,
                         'Content-Type': 'application/json',
+                        'Accept': 'application/json',
                     },
+                    credentials: 'same-origin',
                     body: JSON.stringify({ skill_type: skillType }),
                 });
 

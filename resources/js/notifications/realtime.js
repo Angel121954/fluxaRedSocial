@@ -195,8 +195,10 @@ function initNotificationsRealtime(userId) {
                     method: 'PATCH',
                     headers: { 
                         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content,
-                        'Content-Type': 'application/json'
-                    }
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                    },
+                    credentials: 'same-origin',
                 });
             }
         }

@@ -44,7 +44,9 @@ export function initCommentForm({ onSubmit, getCurrentProjectId }) {
                 headers: {
                     'Content-Type': 'application/json',
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    'Accept': 'application/json',
                 },
+                credentials: 'same-origin',
                 body: JSON.stringify(body),
             });
 

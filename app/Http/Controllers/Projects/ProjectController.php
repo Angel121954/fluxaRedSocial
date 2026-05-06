@@ -9,11 +9,19 @@ use App\Models\Project;
 use App\Models\ProjectReport;
 use App\Models\SkillEndorsement;
 use App\Models\Technology;
+use App\Services\ProjectService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 
 class ProjectController extends Controller
 {
+    protected ProjectService $projectService;
+
+    public function __construct(ProjectService $projectService)
+    {
+        $this->projectService = $projectService;
+    }
+
     public function show(Project $project)
     {
         $this->authorize('view', $project);

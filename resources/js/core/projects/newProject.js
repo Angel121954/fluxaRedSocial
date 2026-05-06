@@ -33,6 +33,7 @@
         try {
             const respuesta = await fetch('/technologies', {
                 headers: { 'Accept': 'application/json' },
+                credentials: 'same-origin',
             });
             const datos = await respuesta.json();
             estado.tecnologiasDisponibles = datos.map(t => t.name);

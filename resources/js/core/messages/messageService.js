@@ -12,6 +12,7 @@ export async function sendMessage(body, convId, recipient) {
             'Accept': 'application/json',
             'X-Socket-ID': window.Echo?.socketId() ?? '',
         },
+        credentials: 'same-origin',
         body: JSON.stringify({ body }),
     });
 
@@ -27,6 +28,7 @@ export async function searchUsers(query) {
             'Accept': 'application/json',
             'X-CSRF-TOKEN': csrfToken,
         },
+        credentials: 'same-origin',
     });
 
     if (!res.ok) throw new Error('Error en la búsqueda');
