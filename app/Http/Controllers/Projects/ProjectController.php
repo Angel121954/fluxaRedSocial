@@ -6,13 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateProjectRequest;
 use App\Models\Profile;
 use App\Models\Project;
-use App\Models\ProjectBookmark;
-use App\Models\ProjectLike;
 use App\Models\ProjectReport;
 use App\Models\SkillEndorsement;
 use App\Models\Technology;
-use App\Notifications\CreatesNotifications;
-use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 
@@ -81,63 +77,16 @@ class ProjectController extends Controller
 
     public function like(Project $project)
     {
-        $user = Auth::user();
-
-        $existingLike = ProjectLike::where('user_id', $user->id)
-            ->where('project_id', $project->id)
-            ->first();
-
-        if ($existingLike) {
-            $existingLike->delete();
-            $project->decrement('likes_count');
-            $isLiked = false;
-        } else {
-            ProjectLike::create([
-                'user_id' => $user->id,
-                'project_id' => $project->id,
-            ]);
-            $project->increment('likes_count');
-            $isLiked = true;
-
-            if ($project->user_id !== $user->id) {
-                CreatesNotifications::notifyProjectLike(
-                    $project->user_id,
-                    $user->id,
-                    $user->name,
-                    $project->id,
-                    $project->title
-                );
-            }
-        }
-
-        return response()->json([
-            'likes_count' => $project->likes_count,
-            'is_liked' => $isLiked,
-        ]);
+        $result = $this->projectService->toggleLike($project, Auth::id());
+        
+        return response()->json($result);
     }
 
     public function bookmark(Project $project)
     {
-        $user = Auth::user();
-
-        $existingBookmark = ProjectBookmark::where('user_id', $user->id)
-            ->where('project_id', $project->id)
-            ->first();
-
-        if ($existingBookmark) {
-            $existingBookmark->delete();
-            $isBookmarked = false;
-        } else {
-            ProjectBookmark::create([
-                'user_id' => $user->id,
-                'project_id' => $project->id,
-            ]);
-            $isBookmarked = true;
-        }
-
-        return response()->json([
-            'is_bookmarked' => $isBookmarked,
-        ]);
+        $result = $this->projectService->toggleBookmark($project, Auth::id());
+        
+        return response()->json($result);
     }
 
     public function report(Request $request, Project $project)
@@ -172,65 +121,18 @@ class ProjectController extends Controller
             'skill_type' => 'required|string|in:'.implode(',', array_keys(SkillEndorsement::SKILLS)),
         ]);
 
-        $user = Auth::user();
-
-        if ($project->user_id === $user->id) {
-            return response()->json([
-                'message' => 'No puedes recomendar las habilidades de tu propio proyecto.',
-            ], 403);
-        }
-
-        $currentEndorsement = SkillEndorsement::where('user_id', $user->id)
-            ->where('project_id', $project->id)
-            ->first();
-
-        $isNewEndorsement = false;
-
-        if ($currentEndorsement) {
-            if ($currentEndorsement->skill_type === $validated['skill_type']) {
-                $currentEndorsement->delete();
-                $isEndorsed = false;
-                $userEndorsement = null;
-            } else {
-                $currentEndorsement->delete();
-                SkillEndorsement::create([
-                    'user_id' => $user->id,
-                    'project_id' => $project->id,
-                    'skill_type' => $validated['skill_type'],
-                ]);
-                $isEndorsed = true;
-                $userEndorsement = $validated['skill_type'];
-                $isNewEndorsement = true;
-            }
-        } else {
-            SkillEndorsement::create([
-                'user_id' => $user->id,
-                'project_id' => $project->id,
-                'skill_type' => $validated['skill_type'],
-            ]);
-            $isEndorsed = true;
-            $userEndorsement = $validated['skill_type'];
-            $isNewEndorsement = true;
-        }
-
-        if ($isNewEndorsement && $project->user_id !== $user->id) {
-            CreatesNotifications::notifyEndorsement(
-                $project->user_id,
-                $user->id,
-                $user->name,
-                $project->id,
-                $project->title,
+        try {
+            $result = $this->projectService->endorseProject(
+                $project,
+                Auth::id(),
                 $validated['skill_type']
             );
+            
+            return response()->json($result);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => $e->getMessage(),
+            ], 403);
         }
-
-        $skillCounts = SkillEndorsement::getSkillCounts($project->id);
-        $dbUserEndorsement = SkillEndorsement::getUserEndorsement($user->id, $project->id);
-
-        return response()->json([
-            'skill_counts' => $skillCounts,
-            'user_endorsement' => $dbUserEndorsement,
-            'is_endorsed' => $isEndorsed,
-        ]);
     }
 }

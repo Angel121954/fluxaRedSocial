@@ -3,7 +3,12 @@
 namespace App\Services;
 
 use App\Models\Project;
+use App\Models\ProjectLike;
+use App\Models\ProjectBookmark;
+use App\Models\SkillEndorsement;
 use App\Models\Technology;
+use App\Models\User;
+use App\Notifications\CreatesNotifications;
 use Illuminate\Support\Facades\Log;
 
 class ProjectService
@@ -75,6 +80,125 @@ class ProjectService
         $project->delete();
 
         Log::info('Proyecto eliminado', ['project_id' => $project->id]);
+    }
+
+    public function toggleLike(Project $project, int $userId): array
+    {
+        $existingLike = ProjectLike::where('user_id', $userId)
+            ->where('project_id', $project->id)
+            ->first();
+
+        if ($existingLike) {
+            $existingLike->delete();
+            $project->decrement('likes_count');
+            $isLiked = false;
+        } else {
+            ProjectLike::create([
+                'user_id' => $userId,
+                'project_id' => $project->id,
+            ]);
+            $project->increment('likes_count');
+            $isLiked = true;
+
+            if ($project->user_id !== $userId) {
+                CreatesNotifications::notifyProjectLike(
+                    $project->user_id,
+                    $userId,
+                    User::find($userId)->name,
+                    $project->id,
+                    $project->title
+                );
+            }
+        }
+
+        return [
+            'likes_count' => $project->likes_count,
+            'is_liked' => $isLiked,
+        ];
+    }
+
+    public function toggleBookmark(Project $project, int $userId): array
+    {
+        $existingBookmark = ProjectBookmark::where('user_id', $userId)
+            ->where('project_id', $project->id)
+            ->first();
+
+        if ($existingBookmark) {
+            $existingBookmark->delete();
+            $isBookmarked = false;
+        } else {
+            ProjectBookmark::create([
+                'user_id' => $userId,
+                'project_id' => $project->id,
+            ]);
+            $isBookmarked = true;
+        }
+
+        return [
+            'is_bookmarked' => $isBookmarked,
+        ];
+    }
+
+    public function endorseProject(Project $project, int $userId, string $skillType): array
+    {
+        if ($project->user_id === $userId) {
+            throw new \Exception('No puedes recomendar las habilidades de tu propio proyecto.');
+        }
+
+        $currentEndorsement = SkillEndorsement::where('user_id', $userId)
+            ->where('project_id', $project->id)
+            ->first();
+
+        $isNewEndorsement = false;
+        $isEndorsed = false;
+        $userEndorsement = null;
+
+        if ($currentEndorsement) {
+            if ($currentEndorsement->skill_type === $skillType) {
+                $currentEndorsement->delete();
+                $isEndorsed = false;
+                $userEndorsement = null;
+            } else {
+                $currentEndorsement->delete();
+                SkillEndorsement::create([
+                    'user_id' => $userId,
+                    'project_id' => $project->id,
+                    'skill_type' => $skillType,
+                ]);
+                $isEndorsed = true;
+                $userEndorsement = $skillType;
+                $isNewEndorsement = true;
+            }
+        } else {
+            SkillEndorsement::create([
+                'user_id' => $userId,
+                'project_id' => $project->id,
+                'skill_type' => $skillType,
+            ]);
+            $isEndorsed = true;
+            $userEndorsement = $skillType;
+            $isNewEndorsement = true;
+        }
+
+        if ($isNewEndorsement && $project->user_id !== $userId) {
+            CreatesNotifications::notifyEndorsement(
+                $project->user_id,
+                $userId,
+                User::find($userId)->name,
+                $project->id,
+                $project->title,
+                $skillType
+            );
+        }
+
+        $skillCounts = SkillEndorsement::getSkillCounts($project->id);
+        $dbUserEndorsement = SkillEndorsement::getUserEndorsement($userId, $project->id);
+
+        return [
+            'skill_counts' => $skillCounts,
+            'user_endorsement' => $dbUserEndorsement,
+            'is_endorsed' => $isEndorsed,
+        ];
     }
 
     public function attachMedia(Project $project, array $files): void
