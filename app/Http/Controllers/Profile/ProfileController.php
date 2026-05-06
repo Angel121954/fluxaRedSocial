@@ -81,6 +81,7 @@ class ProfileController extends Controller
 
     public function show(string $username)
     {
+        $conversation = null;
         $user = User::where('username', $username)->with('profile')->firstOrFail();
         $profile = $user->profile;
         
@@ -146,7 +147,7 @@ class ProfileController extends Controller
             'workExperiences',
             'educations',
             'favoriteProjects',
-            'conversation' ?? null
+            'conversation'
         ));
     }
 
