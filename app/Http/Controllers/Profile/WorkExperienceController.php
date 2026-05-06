@@ -56,9 +56,7 @@ class WorkExperienceController extends Controller
 
     public function update(UpdateWorkExperienceRequest $request, WorkExperience $workExperience)
     {
-        if ($workExperience->user_id !== Auth::id()) {
-            abort(403);
-        }
+        $this->authorize('update', $workExperience);
 
         $validated = $request->validated();
         $validated['current'] = $request->boolean('current');
@@ -75,9 +73,7 @@ class WorkExperienceController extends Controller
 
     public function destroy(WorkExperience $workExperience)
     {
-        if ($workExperience->user_id !== Auth::id()) {
-            abort(403);
-        }
+        $this->authorize('delete', $workExperience);
 
         $workExperience->delete();
 

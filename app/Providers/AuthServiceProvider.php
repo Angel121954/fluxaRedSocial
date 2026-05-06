@@ -2,29 +2,36 @@
 
 namespace App\Providers;
 
-// use Illuminate\Support\Facades\Gate;
+use App\Models\Comment;
+use App\Models\Conversation;
+use App\Models\Education;
+use App\Models\Message;
+use App\Models\Project;
+use App\Models\Profile;
+use App\Models\WorkExperience;
+use App\Policies\CommentPolicy;
+use App\Policies\ConversationPolicy;
+use App\Policies\EducationPolicy;
+use App\Policies\MessagePolicy;
+use App\Policies\ProfilePolicy;
+use App\Policies\ProjectPolicy;
+use App\Policies\WorkExperiencePolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
 {
-    /**
-     * The model to policy mappings for the application.
-     *
-     * @var array<class-string, class-string>
-     */
     protected $policies = [
-        'App\Models\Comment' => 'App\Policies\CommentPolicy',
+        Comment::class => CommentPolicy::class,
+        Project::class => ProjectPolicy::class,
+        Profile::class => ProfilePolicy::class,
+        Message::class => MessagePolicy::class,
+        Conversation::class => ConversationPolicy::class,
+        Education::class => EducationPolicy::class,
+        WorkExperience::class => WorkExperiencePolicy::class,
     ];
 
-    /**
-     * Register any authentication / authorization services.
-     *
-     * @return void
-     */
     public function boot()
     {
         $this->registerPolicies();
-
-        //
     }
 }

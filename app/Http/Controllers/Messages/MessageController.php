@@ -85,11 +85,9 @@ class MessageController extends Controller
 
     public function markAsRead(Conversation $conversation): JsonResponse
     {
-        $user = auth()->user();
+        $this->authorize('view', $conversation);
 
-        if ($conversation->user_a_id !== $user->id && $conversation->user_b_id !== $user->id) {
-            return response()->json(['error' => 'No tienes acceso'], 403);
-        }
+        $user = auth()->user();
 
         Message::where('conversation_id', $conversation->id)
             ->where('sender_id', '!=', $user->id)
@@ -101,12 +99,9 @@ class MessageController extends Controller
 
     public function markMessageAsRead(Message $message): JsonResponse
     {
-        $user = auth()->user();
+        $this->authorize('view', $message);
 
-        $conversation = $message->conversation;
-        if ($conversation->user_a_id !== $user->id && $conversation->user_b_id !== $user->id) {
-            return response()->json(['error' => 'No tienes acceso'], 403);
-        }
+        $user = auth()->user();
 
         if ($message->sender_id === $user->id) {
             return response()->json(['error' => 'No puedes leer tu propio mensaje'], 400);
@@ -124,9 +119,7 @@ class MessageController extends Controller
         $user = auth()->user();
         $profile = Profile::where('user_id', $user->id)->first();
 
-        if ($conversation->user_a_id !== $user->id && $conversation->user_b_id !== $user->id) {
-            abort(403, 'No tienes acceso a esta conversación.');
-        }
+        $this->authorize('view', $conversation);
 
         Message::where('conversation_id', $conversation->id)
             ->where('sender_id', '!=', $user->id)
@@ -157,9 +150,7 @@ class MessageController extends Controller
     {
         $user = auth()->user();
 
-        if ($conversation->user_a_id !== $user->id && $conversation->user_b_id !== $user->id) {
-            return response()->json(['error' => 'No tienes acceso a esta conversación.'], 403);
-        }
+        $this->authorize('sendMessage', $conversation);
 
         $request->validate([
             'body' => 'required|string|max:2000',

@@ -82,8 +82,11 @@ class ProfileController extends Controller
     public function show(string $username)
     {
         $user = User::where('username', $username)->with('profile')->firstOrFail();
-        $user->loadCount(['followers', 'follows']);
         $profile = $user->profile;
+        
+        $this->authorize('view', $profile);
+        
+        $user->loadCount(['followers', 'follows']);
         $isOwner = Auth::id() === $user->id;
         $projectsCount = null;
 
@@ -159,11 +162,10 @@ class ProfileController extends Controller
     {
         if ($username) {
             $usuario = User::where('username', $username)->firstOrFail();
-
+            $profile = $usuario->profile;
+            
             $isOwner = Auth::id() === $usuario->id;
-            if ($usuario->profile->visibility === 'private' && ! $isOwner) {
-                abort(403, 'Este perfil es privado');
-            }
+            $this->authorize('view', $profile);
         } else {
             $usuario = Auth::user();
         }

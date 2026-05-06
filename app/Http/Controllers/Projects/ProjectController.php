@@ -20,6 +20,8 @@ class ProjectController extends Controller
 {
     public function show(Project $project)
     {
+        $this->authorize('view', $project);
+        
         $project->load([
             'user.profile',
             'media',

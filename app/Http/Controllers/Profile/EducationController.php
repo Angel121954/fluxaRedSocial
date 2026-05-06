@@ -45,6 +45,8 @@ class EducationController extends Controller
 
     public function update(UpdateEducationRequest $request, Education $education)
     {
+        $this->authorize('update', $education);
+        
         $validated = $request->validated();
         $validated['current'] = $request->boolean('current');
 
@@ -59,6 +61,8 @@ class EducationController extends Controller
 
     public function destroy(Education $education)
     {
+        $this->authorize('delete', $education);
+        
         $education->delete();
 
         return back()->with('success', 'Educación eliminada correctamente.');
