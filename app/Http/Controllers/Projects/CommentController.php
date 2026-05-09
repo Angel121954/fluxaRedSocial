@@ -3,21 +3,16 @@
 namespace App\Http\Controllers\Projects;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreCommentRequest;
 use App\Models\Project;
 use App\Models\Comment;
 use App\Notifications\CreatesNotifications;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
 {
-    public function store(Request $request, Project $project)
+    public function store(StoreCommentRequest $request, Project $project)
     {
-        $request->validate([
-            'content' => 'required|string|max:1000',
-            'parent_id' => 'nullable|exists:comments,id',
-        ]);
-
         if ($project->privacy !== 'public' && $project->user_id !== Auth::id()) {
             abort(403, 'No puedes comentar en este proyecto');
         }
@@ -66,21 +61,22 @@ class CommentController extends Controller
     {
         $comments = $project->comments()
             ->whereNull('parent_id')
-            ->with(['user', 'children.user'])
+            ->with(['user', 'children.user', 'children.likes', 'likes'])
             ->latest()
             ->get();
 
-        // Append avatar_url and is_liked
-        $comments->each(function ($comment) {
+        $userId = auth()->id();
+
+        $comments->each(function ($comment) use ($userId) {
             if ($comment->user) {
                 $comment->user->append('avatar_url');
             }
-            $comment->setAttribute('is_liked', $comment->is_liked);
-            $comment->children->each(function ($child) {
+            $comment->setAttribute('is_liked', $comment->likes->contains('user_id', $userId));
+            $comment->children->each(function ($child) use ($userId) {
                 if ($child->user) {
                     $child->user->append('avatar_url');
                 }
-                $child->setAttribute('is_liked', $child->is_liked);
+                $child->setAttribute('is_liked', $child->likes->contains('user_id', $userId));
             });
         });
 

@@ -97,13 +97,14 @@ $paleta = [
                                 </div>
                                 @endif
 
-                                @if(($cvSettings['show_location'] ?? true) && !empty($profile->location))
+                                @php $cvLocation = trim(($profile->city ?? '') . ', ' . ($profile->country ?? ''), ' ,'); @endphp
+                                @if(($cvSettings['show_location'] ?? true) && !empty($cvLocation))
                                 <div style="display:flex;gap:7px;align-items:flex-start;">
                                     <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="{{ $paleta['primario'] }}" stroke-width="2.2" style="flex-shrink:0;margin-top:1px;">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                                     </svg>
-                                    <span style="font-size:11px;color:{{ $paleta['texto'] }};line-height:1.4;">{{ $profile->location }}</span>
+                                    <span style="font-size:11px;color:{{ $paleta['texto'] }};line-height:1.4;">{{ $cvLocation }}</span>
                                 </div>
                                 @endif
 
@@ -208,14 +209,14 @@ $paleta = [
                             <h2 style="margin:0 0 10px;font-size:14px;font-weight:800;color:{{ $paleta['texto'] }};border-bottom:2px solid {{ $paleta['borde'] }};padding-bottom:7px;">Sobre mí</h2>
                             <div style="display:flex;flex-direction:column;gap:7px;">
 
-                                @if(!empty($profile->location))
+                                @if(!empty($cvLocation))
                                 <div style="display:flex;gap:8px;align-items:center;">
                                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="{{ $paleta['primario'] }}" stroke-width="2" style="flex-shrink:0;">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                                     </svg>
                                     <span style="font-size:12px;color:{{ $paleta['textoSuave'] }};font-weight:600;min-width:85px;">Ubicación:</span>
-                                    <span style="font-size:12px;color:{{ $paleta['texto'] }};">{{ $profile->location }}</span>
+                                    <span style="font-size:12px;color:{{ $paleta['texto'] }};">{{ $cvLocation }}</span>
                                 </div>
                                 @endif
 

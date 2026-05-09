@@ -57,44 +57,41 @@ class Conversation extends Model
 
     public function lastMessage(): ?Message
     {
-        return $this->messages()->oldest()->first();
+        return $this->messages()->latest()->first();
     }
 
-    public function unread(): bool
+    public function unread(?int $userId = null): bool
     {
-        return $this->unreadCount() > 0;
+        return $this->unreadCount($userId) > 0;
     }
 
-    public function unreadCount(): int
+    public function unreadCount(?int $userId = null): int
     {
+        $userId = $userId ?? auth()->id();
+
         if (! $this->relationLoaded('messages')) {
             return Message::where('conversation_id', $this->id)
-                ->where('sender_id', '!=', auth()->id())
+                ->where('sender_id', '!=', $userId)
                 ->whereNull('read_at')
                 ->count();
         }
 
         return $this->messages
-            ->where('sender_id', '!=', auth()->id())
+            ->where('sender_id', '!=', $userId)
             ->whereNull('read_at')
             ->count();
     }
 
-    public function totalCount(): int
+    public static function getUnreadGlobalCount(int $userId, ?int $excludeConvId = null): int
     {
-        return self::getUnreadGlobalCount();
-    }
-
-    public static function getUnreadGlobalCount(?int $excludeConvId = null): int
-    {
-        $conversationIds = self::where('user_a_id', auth()->id())
-            ->orWhere('user_b_id', auth()->id())
+        $conversationIds = self::where('user_a_id', $userId)
+            ->orWhere('user_b_id', $userId)
             ->pluck('id');
 
         $query = Message::whereIn('conversation_id', $conversationIds)
-            ->where('sender_id', '!=', auth()->id())
+            ->where('sender_id', '!=', $userId)
             ->whereNull('read_at');
-        
+
         if ($excludeConvId) {
             $query->where('conversation_id', '!=', $excludeConvId);
         }

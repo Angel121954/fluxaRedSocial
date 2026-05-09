@@ -26,7 +26,7 @@ use App\Http\Controllers\Projects\CommentLikeController;
 use App\Http\Controllers\Suggestions\SuggestionController;
 use App\Http\Controllers\Messages\MessageController;
 use App\Http\Controllers\Technology\TechnologyController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\Profile\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*

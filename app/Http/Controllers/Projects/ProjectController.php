@@ -24,9 +24,14 @@ class ProjectController extends Controller
         $this->projectService = $projectService;
     }
 
+    public function index()
+    {
+        return redirect()->route('explore.index');
+    }
+
     public function create()
     {
-        return redirect()->route('home');
+        return redirect()->route('explore.index');
     }
 
     public function store(StoreProjectRequest $request)

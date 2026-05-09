@@ -6,7 +6,7 @@
 @php
     $currentConvId = request()->query('conv') ? (int) request()->query('conv') : null;
     $unreadMessages = Auth::user()->role !== 'guest' 
-        ? \App\Models\Conversation::getUnreadGlobalCount($currentConvId) 
+        ? \App\Models\Conversation::getUnreadGlobalCount(Auth::id(), $currentConvId) 
         :0;
     $unreadNotifications = Auth::user()->role !== 'guest'
         ? \App\Models\Notification::unreadCount(Auth::id())

@@ -33,30 +33,20 @@
                 <div class="char-count" id="charCount">0/160</div>
             </x-form-group>
 
-            <x-form-group name="location" label="Ubicación">
-                @php $currentLocation = old('location', Auth()->user()->profile->location ?? 'pereira') @endphp
-                <select class="form-input" id="input-location" name="location">
-                    <option value="bogotá" {{ $currentLocation == 'bogotá'        ? 'selected' : '' }}>Bogotá</option>
-                    <option value="medellín" {{ $currentLocation == 'medellín'      ? 'selected' : '' }}>Medellín</option>
-                    <option value="cali" {{ $currentLocation == 'cali'          ? 'selected' : '' }}>Cali</option>
-                    <option value="barranquilla" {{ $currentLocation == 'barranquilla'  ? 'selected' : '' }}>Barranquilla</option>
-                    <option value="cartagena" {{ $currentLocation == 'cartagena'     ? 'selected' : '' }}>Cartagena</option>
-                    <option value="cúcuta" {{ $currentLocation == 'cúcuta'        ? 'selected' : '' }}>Cúcuta</option>
-                    <option value="bucaramanga" {{ $currentLocation == 'bucaramanga'   ? 'selected' : '' }}>Bucaramanga</option>
-                    <option value="pereira" {{ $currentLocation == 'pereira'       ? 'selected' : '' }}>Pereira</option>
-                    <option value="manizales" {{ $currentLocation == 'manizales'     ? 'selected' : '' }}>Manizales</option>
-                    <option value="armenia" {{ $currentLocation == 'armenia'       ? 'selected' : '' }}>Armenia</option>
-                    <option value="ibagué" {{ $currentLocation == 'ibagué'        ? 'selected' : '' }}>Ibagué</option>
-                    <option value="villavicencio" {{ $currentLocation == 'villavicencio' ? 'selected' : '' }}>Villavicencio</option>
-                    <option value="santa marta" {{ $currentLocation == 'santa marta'   ? 'selected' : '' }}>Santa Marta</option>
-                    <option value="neiva" {{ $currentLocation == 'neiva'         ? 'selected' : '' }}>Neiva</option>
-                    <option value="popayán" {{ $currentLocation == 'popayán'       ? 'selected' : '' }}>Popayán</option>
-                    <option value="sincelejo" {{ $currentLocation == 'sincelejo'     ? 'selected' : '' }}>Sincelejo</option>
-                    <option value="riohacha" {{ $currentLocation == 'riohacha'      ? 'selected' : '' }}>Riohacha</option>
-                    <option value="quibdó" {{ $currentLocation == 'quibdó'        ? 'selected' : '' }}>Quibdó</option>
-                    <option value="yopal" {{ $currentLocation == 'yopal'         ? 'selected' : '' }}>Yopal</option>
-                    <option value="leticia" {{ $currentLocation == 'leticia'       ? 'selected' : '' }}>Leticia</option>
+            @php $locationService = app('App\Services\LocationService'); $countries = $locationService->getCountries(); @endphp
+            <x-form-group name="country" label="País">
+                <select class="form-input" id="input-country" name="country">
+                    <option value="">Seleccionar país...</option>
+                    @foreach($countries as $c)
+                    <option value="{{ $c['name'] }}" {{ old('country', Auth()->user()->profile->country) === $c['name'] ? 'selected' : '' }}>{{ $c['name'] }}</option>
+                    @endforeach
                 </select>
+            </x-form-group>
+
+            <x-form-group name="city" label="Ciudad">
+                <input name="city" type="text" class="form-input" id="input-city"
+                    value="{{ old('city', Auth()->user()->profile->city ?? '') }}"
+                    placeholder="Ej: Medellín" />
             </x-form-group>
 
             <x-form-group name="website_url" label="Sitio web">

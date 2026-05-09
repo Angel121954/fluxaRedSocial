@@ -1,14 +1,19 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Profile;
 
-use App\Models\UserReport;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Models\Conversation;
+use App\Models\UserReport;
+use App\Services\MessageService;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+    public function __construct(
+        protected MessageService $messageService,
+    ) {}
+
     public function search(Request $request)
     {
         $query = $request->query('q', '');
@@ -17,21 +22,13 @@ class UserController extends Controller
             return response()->json([]);
         }
 
-        if (!auth()->check()) {
+        if (! auth()->check()) {
             return response()->json(['error' => 'No autenticado'], 401);
         }
 
         $currentUserId = auth()->id();
 
-        $existingConvUserIds = Conversation::where('user_a_id', $currentUserId)
-            ->orWhere('user_b_id', $currentUserId)
-            ->select('user_a_id', 'user_b_id')
-            ->get()
-            ->map(function ($conv) use ($currentUserId) {
-                return $conv->user_a_id === $currentUserId ? $conv->user_b_id : $conv->user_a_id;
-            })
-            ->unique()
-            ->toArray();
+        $existingConvUserIds = $this->messageService->getExistingConversationUserIds($currentUserId);
 
         $users = User::where('id', '!=', $currentUserId)
             ->whereHas('profile', function ($q) use ($query) {
@@ -44,7 +41,7 @@ class UserController extends Controller
             })
             ->with('profile');
 
-        if (!empty($existingConvUserIds)) {
+        if (! empty($existingConvUserIds)) {
             $users->whereNotIn('id', $existingConvUserIds);
         }
 

@@ -13,7 +13,6 @@ class Profile extends Model
         'avatar',
         'cover_image',
         'bio',
-        'location',
         'country',
         'city',
         'language',

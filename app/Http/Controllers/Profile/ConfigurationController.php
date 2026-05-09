@@ -23,7 +23,8 @@ class ConfigurationController extends Controller
 
         $user->profile->update([
             'bio' => $request->bio,
-            'location' => $request->location,
+            'country' => $request->country,
+            'city' => $request->city,
             'website_url' => $request->website_url,
             'github_url' => $request->github_url,
             'twitter_url' => $request->twitter_url,

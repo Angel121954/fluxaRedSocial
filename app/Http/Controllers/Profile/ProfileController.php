@@ -7,24 +7,19 @@ use App\Http\Requests\UpdateAvatarRequest;
 use App\Models\Conversation;
 use App\Models\Profile;
 use App\Models\User;
+use App\Services\CVService;
 use App\Services\ProfileService;
-use Endroid\QrCode\QrCode;
-use Endroid\QrCode\Writer\SvgWriter;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
-use Spatie\Browsershot\Browsershot;
 
 class ProfileController extends Controller
 {
-    protected ProfileService $profileService;
-
-    public function __construct(ProfileService $profileService)
-    {
-        $this->profileService = $profileService;
-    }
+    public function __construct(
+        protected ProfileService $profileService,
+        protected CVService $cvService,
+    ) {}
 
     public function index()
     {
@@ -32,7 +27,6 @@ class ProfileController extends Controller
         $user->loadCount(['followers', 'follows']);
         $profile = $user->profile;
         $isOwner = true;
-        $projectsCount = null;
 
         $projects = $user->projects()
             ->with([
@@ -46,8 +40,6 @@ class ProfileController extends Controller
             ->withCount(['media', 'likes'])
             ->latest()
             ->get();
-
-        $projectsCount = $projects->count();
 
         $projects->each(function ($project) use ($user) {
             $project->precomputed_is_liked = $project->likes->isNotEmpty();
@@ -70,7 +62,6 @@ class ProfileController extends Controller
             'user',
             'profile',
             'projects',
-            'projectsCount',
             'isOwner',
             'technologies',
             'workExperiences',
@@ -84,14 +75,13 @@ class ProfileController extends Controller
         $conversation = null;
         $user = User::where('username', $username)->with('profile')->firstOrFail();
         $profile = $user->profile;
-        
+
         $this->authorize('view', $profile);
-        
+
         $user->loadCount(['followers', 'follows']);
         $isOwner = Auth::id() === $user->id;
         $isFollowing = Auth::check() && Auth::user()->follows()->where('followed_id', $user->id)->exists();
         $isFollowedBy = Auth::check() && $user->follows()->where('followed_id', Auth::id())->exists();
-        $projectsCount = null;
 
         $projects = $user->projects()
             ->with([
@@ -106,8 +96,6 @@ class ProfileController extends Controller
             ->where('privacy', 'public')
             ->latest()
             ->get();
-
-        $projectsCount = $projects->count();
 
         $projects->each(function ($project) use ($user) {
             $project->precomputed_is_liked = $project->likes->isNotEmpty();
@@ -143,7 +131,6 @@ class ProfileController extends Controller
             'user',
             'profile',
             'projects',
-            'projectsCount',
             'isOwner',
             'isFollowing',
             'isFollowedBy',
@@ -158,7 +145,7 @@ class ProfileController extends Controller
     public function previewInterno()
     {
         $usuario = Auth::user();
-        $datos = $this->prepararDatosCV($usuario);
+        $datos = $this->cvService->prepareCvData($usuario);
 
         return view('components.cv-template', $datos);
     }
@@ -168,14 +155,14 @@ class ProfileController extends Controller
         if ($username) {
             $usuario = User::where('username', $username)->firstOrFail();
             $profile = $usuario->profile;
-            
+
             $isOwner = Auth::id() === $usuario->id;
             $this->authorize('view', $profile);
         } else {
             $usuario = Auth::user();
         }
 
-        $datos = $this->prepararDatosCV($usuario);
+        $datos = $this->cvService->prepareCvData($usuario);
         $contenido = view('components.cv-template', $datos)->render();
 
         $html = '<!DOCTYPE html>
@@ -185,146 +172,17 @@ class ProfileController extends Controller
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <style>* { margin:0; padding:0; box-sizing:border-box; } body { background:#f8fafc; }</style>
 </head>
-<body>'.$contenido.'</body>
+<body>' . $contenido . '</body>
 </html>';
 
-        $pdf = Browsershot::html($html)
-            ->setNodeBinary('/usr/bin/node')
-            ->setNpmBinary('/usr/bin/npm')
-            ->setNodeModulePath(env('NODE_MODULES_PATH', '/var/www/html/node_modules'))
-            ->setChromePath(env('CHROME_PATH'))
-            ->noSandbox()
-            ->timeout(300)
-            ->setOption('waitUntil', 'domcontentloaded')
-            ->format('A4')
-            ->margins(0, 0, 0, 0)
-            ->pdf();
+        $pdf = $this->cvService->generatePdf($html);
 
         return response($pdf, 200, [
             'Content-Type' => 'application/pdf',
-            'Content-Disposition' => 'attachment; filename="CV_'.$usuario->username.'.pdf"',
+            'Content-Disposition' => 'attachment; filename="CV_' . $usuario->username . '.pdf"',
         ]);
     }
 
-    // ══════════════════════════════════════════
-    //  PREPARAR DATOS CV
-    // ══════════════════════════════════════════
-    private function prepararDatosCV($usuario): array
-    {
-        $cvDefaults = [
-            'show_photo' => true,
-            'show_location' => true,
-            'show_email' => true,
-            'show_projects' => true,
-            'show_experience' => true,
-            'show_education' => true,
-            'section_order' => ['experience', 'projects', 'education'],
-        ];
-
-        $cvSettings = $usuario->profile->cv_settings
-            ? array_merge($cvDefaults, $usuario->profile->cv_settings)
-            : $cvDefaults;
-
-        return [
-            'profile' => $usuario->profile,
-            'user' => $usuario,
-            'technologies' => $this->cargarIconosTecnologias($usuario),
-            'projects' => $usuario->projects()
-                ->with([
-                    'media',
-                    'technologies',
-                    'likes',
-                    'bookmarks',
-                    'skillEndorsements',
-                ])
-                ->where('privacy', 'public')
-                ->latest()
-                ->get(),
-            'workExperiences' => $usuario->workExperiences()->orderBy('started_at', 'desc')->get(),
-            'educations' => $usuario->educations()->orderBy('graduated_year', 'desc')->get(),
-            'avatarBase64' => $this->convertirUrlABase64($usuario->profile->avatar ?? null),
-            'logoBase64' => 'data:image/png;base64,'.base64_encode(
-                file_get_contents(public_path('img/logoFluxa.png'))
-            ),
-            'qrBase64' => $this->generarQrCode('https://'.request()->getHost().'/'.$usuario->username),
-            'cvSettings' => $cvSettings,
-            'urlQrExterno' => null,
-        ];
-    }
-
-    private function convertirUrlABase64(?string $url): ?string
-    {
-        if (empty($url)) {
-            return null;
-        }
-
-        try {
-            $contenido = file_get_contents($url);
-            $mime = (new \finfo(FILEINFO_MIME_TYPE))->buffer($contenido);
-
-            return "data:{$mime};base64,".base64_encode($contenido);
-        } catch (Exception $e) {
-            Log::warning('CV: no se pudo convertir imagen a base64', [
-                'url' => $url,
-                'error' => $e->getMessage(),
-            ]);
-
-            return null;
-        }
-    }
-
-    private function generarQrCode(string $data): ?string
-    {
-        try {
-            $qrCode = new QrCode(
-                data: $data,
-                size: 150,
-                margin: 0,
-            );
-
-            $writer = new SvgWriter;
-            $svg = $writer->write($qrCode)->getString();
-
-            return 'data:image/svg+xml;base64,'.base64_encode($svg);
-        } catch (Exception $e) {
-            Log::warning('CV: error generando QR', ['error' => $e->getMessage()]);
-
-            return null;
-        }
-    }
-
-    private function cargarIconosTecnologias($usuario)
-    {
-        $excepcionesIcono = [
-            'amazonwebservices' => 'plain-wordmark',
-            'angularjs' => 'plain',
-            'django' => 'plain',
-            'tailwindcss' => 'plain',
-            'kubernetes' => 'plain',
-            'graphql' => 'plain',
-            'firebase' => 'plain',
-            'express' => 'original-wordmark',
-        ];
-
-        return $usuario->technologies()->orderBy('name')->get()
-            ->map(function ($tech) use ($excepcionesIcono) {
-                $slug = (string) $tech->slug;
-                $tipo = $excepcionesIcono[$slug] ?? 'original';
-                $url = "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/{$slug}/{$slug}-{$tipo}.svg";
-
-                try {
-                    $tech->iconoB64 = 'data:image/svg+xml;base64,'.base64_encode(file_get_contents($url));
-                } catch (Exception $e) {
-                    $tech->iconoB64 = null;
-                }
-
-                return $tech;
-            });
-    }
-
-    // ══════════════════════════════════════════
-    //  AVATAR
-    // ══════════════════════════════════════════
     public function updateAvatar(UpdateAvatarRequest $request): JsonResponse
     {
         try {
@@ -351,8 +209,8 @@ class ProfileController extends Controller
 
             Profile::where('user_id', $user->id)->update([
                 'avatar' => 'https://api.dicebear.com/7.x/initials/svg?seed='
-                    .strtolower($user->username)
-                    .'&backgroundColor=12b3b6',
+                    . strtolower($user->username)
+                    . '&backgroundColor=12b3b6',
             ]);
 
             return response()->json(['success' => true]);
