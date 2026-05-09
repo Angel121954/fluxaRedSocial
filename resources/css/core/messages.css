@@ -673,15 +673,45 @@
 .msgs-input {
     flex: 1;
     padding: 0.625rem 0.875rem;
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    background: var(--surface);
+    color: var(--ink-900);
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    resize: none;
+    min-height: 42px;
+    max-height: 140px;
+    overflow-y: auto;
+    transition: border-color .15s, box-shadow .15s;
+}
+
+.msgs-input:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--primary-100);
+}
+
+.msgs-input--disabled,
+.msgs-input:disabled {
+    background: var(--surface-200);
+    color: var(--ink-400);
+    cursor: not-allowed;
+    border-color: var(--border);
+}
+
+.msgs-input-bar--disabled {
+    background: var(--surface-200);
+    border-color: var(--border);
+    padding: 0.625rem 0.875rem;
+}
+
+.msgs-input-bar--disabled .msgs-input--disabled {
     background: transparent;
     border: none;
-    outline: none;
-    font-size: 0.875rem;
-    font-family: inherit;
-    color: var(--ink-700);
-    resize: none;
-    max-height: 140px;
-    line-height: 1.5;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0;
 }
 
 .msgs-input::placeholder {
@@ -1116,6 +1146,7 @@
         opacity: 0;
         transform: translateY(4px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -1160,10 +1191,14 @@
 }
 
 @keyframes typing-bounce {
-    0%, 80%, 100% {
+
+    0%,
+    80%,
+    100% {
         transform: scale(0.6);
         opacity: 0.4;
     }
+
     40% {
         transform: scale(1);
         opacity: 1;
@@ -1175,4 +1210,37 @@
     color: var(--ink-400);
     font-style: italic;
     margin-bottom: 2px;
+}
+
+.msgs-not-accepting {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    color: var(--ink-500);
+    font-size: 0.875rem;
+    margin: 1rem auto;
+    max-width: 400px;
+    box-shadow: var(--shadow-xs);
+    animation: fadeIn 0.3s ease;
+}
+
+.msgs-not-accepting svg {
+    flex-shrink: 0;
+    color: var(--ink-400);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }

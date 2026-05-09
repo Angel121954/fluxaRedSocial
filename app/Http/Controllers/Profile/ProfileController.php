@@ -89,6 +89,8 @@ class ProfileController extends Controller
         
         $user->loadCount(['followers', 'follows']);
         $isOwner = Auth::id() === $user->id;
+        $isFollowing = Auth::check() && Auth::user()->follows()->where('followed_id', $user->id)->exists();
+        $isFollowedBy = Auth::check() && $user->follows()->where('followed_id', Auth::id())->exists();
         $projectsCount = null;
 
         $projects = $user->projects()
@@ -143,6 +145,8 @@ class ProfileController extends Controller
             'projects',
             'projectsCount',
             'isOwner',
+            'isFollowing',
+            'isFollowedBy',
             'technologies',
             'workExperiences',
             'educations',
@@ -233,6 +237,7 @@ class ProfileController extends Controller
                     'bookmarks',
                     'skillEndorsements',
                 ])
+                ->where('privacy', 'public')
                 ->latest()
                 ->get(),
             'workExperiences' => $usuario->workExperiences()->orderBy('started_at', 'desc')->get(),

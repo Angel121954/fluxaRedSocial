@@ -4,19 +4,50 @@
 
 function toggleFollow(btn, userId) {
     const input = document.getElementById('follow_' + userId);
-    const isFollowing = btn.classList.contains('following');
+    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
+    const wasFollowing = btn.classList.contains('following');
 
-    if (isFollowing) {
-        btn.classList.remove('following');
-        btn.textContent = 'Seguir';
-        input.disabled = true;
-        input.value = '';
-    } else {
-        btn.classList.add('following');
-        btn.textContent = 'Siguiendo ✓';
-        input.disabled = false;
-        input.value = userId;
+    // Optimistic UI: toggle inmediato
+    const nowFollowing = !wasFollowing;
+    const label = nowFollowing ? 'Siguiendo \u2713' : 'Seguir';
+    btn.classList.toggle('following', nowFollowing);
+    btn.textContent = label;
+    if (input) {
+        input.disabled = !nowFollowing;
+        input.value = nowFollowing ? userId : '';
     }
+
+    fetch(`/users/${userId}/follow`, {
+        method: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': csrfToken,
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+        },
+    })
+        .then(res => {
+            if (!res.ok) throw new Error('Error al seguir');
+            return res.json();
+        })
+        .then(data => {
+            const following = data.following;
+            btn.classList.toggle('following', following);
+            btn.textContent = following ? 'Siguiendo \u2713' : 'Seguir';
+            if (input) {
+                input.disabled = !following;
+                input.value = following ? userId : '';
+            }
+        })
+        .catch(err => {
+            console.error('[Follow]', err);
+            // Revertir al estado anterior
+            btn.classList.toggle('following', wasFollowing);
+            btn.textContent = wasFollowing ? 'Siguiendo \u2713' : 'Seguir';
+            if (input) {
+                input.disabled = !wasFollowing;
+                input.value = wasFollowing ? userId : '';
+            }
+        });
 }
 
 async function skipOnboarding(event) {

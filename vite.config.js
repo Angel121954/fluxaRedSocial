@@ -79,6 +79,7 @@ export default defineConfig({
                 "resources/js/profile/avatar.js",
                 "resources/js/profile/cv.js",
                 "resources/js/profile/account.js",
+                "resources/js/settings/locationSelects.js",
                 "resources/js/profile/configuration.js",
                 "resources/js/profile/workExperience.js",
                 "resources/js/profile/education.js",

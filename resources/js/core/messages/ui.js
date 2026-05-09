@@ -10,6 +10,10 @@ export function initUI({ input, sendBtn, bubbleList, convList, sidebarSearch, la
 
     function syncSendBtn() {
         if (!sendBtn || !input) return;
+        if (input.disabled) {
+            sendBtn.disabled = true;
+            return;
+        }
         sendBtn.disabled = input.value.trim().length === 0;
     }
 
@@ -47,15 +51,6 @@ export function initMobileNavigation(convList, layout, backBtn, bubbleList) {
         });
     }
 
-    convList?.addEventListener('click', (e) => {
-        const item = e.target.closest('.msgs-conv-item');
-        if (!item) return;
-        if (window.innerWidth <= 680 && layout) {
-            e.preventDefault();
-            layout.classList.add('chat-active');
-            window.location.href = item.href;
-        }
-    });
 }
 
 export function initModal({ modalOverlay, modalClose, modalSearch, modalResults }) {

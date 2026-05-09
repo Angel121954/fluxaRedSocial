@@ -34,18 +34,23 @@ function renderNotificationToast(data) {
 
 window.renderNotificationToast = renderNotificationToast;
 
-function formatTimeAgo(dateStr) {
-    var d = new Date(dateStr), now = new Date(), diff = now - d;
-    var mins = Math.floor(diff / 60000), hours = Math.floor(diff / 3600000), days = Math.floor(diff / 86400000);
-    if (mins < 1) return 'Ahora';
-    if (mins < 60) return mins + 'm';
-    if (hours < 24) return hours + 'h';
-    if (days < 7) return days + 'd';
-    return d.toLocaleDateString('es', { day: 'numeric', month: 'short' });
+function getTimestamp(dateStr) {
+    return new Date(dateStr).getTime();
+}
+
+function formatTimeAgo(timestamp) {
+    var now = Date.now(), diff = Math.floor((now - timestamp) / 1000);
+    if (diff < 1) return 'Ahora';
+    if (diff < 60) return 'Hace ' + diff + 's';
+    if (diff < 3600) return 'Hace ' + Math.floor(diff / 60) + 'm';
+    if (diff < 86400) return 'Hace ' + Math.floor(diff / 3600) + 'h';
+    var days = Math.floor(diff / 86400);
+    return days === 1 ? 'Ayer' : 'Hace ' + days + 'd';
 }
 
 function renderNotificationCard(n) {
-    var time = formatTimeAgo(n.created_at);
+    var timestamp = getTimestamp(n.created_at);
+    var time = formatTimeAgo(timestamp);
     var icon = getIconForType(n.type);
     
     var card = document.createElement('div');
@@ -59,7 +64,7 @@ function renderNotificationCard(n) {
         (n.from_user?.avatar_url ? '<img src="' + n.from_user.avatar_url + '" alt="" class="notif-avatar">' : '<div class="notif-icon">' + icon + '</div>') +
         '<div class="notif-body"><div class="notif-text">' + (n.from_user ? '<strong>' + n.from_user.name + '</strong> ' : '') + n.body + '</div>' +
         '<div class="notif-meta">@' + (n.from_user?.username || 'sistema') + ' · ' + time + '</div></div>' +
-        '<div class="notif-time">' + time + (!n.is_read ? '<span class="unread-dot"></span>' : '') + '</div>';
+        '<div class="notif-time" data-timestamp="' + timestamp + '">' + time + (!n.is_read ? '<span class="unread-dot"></span>' : '') + '</div>';
     
     var deleteBtn = document.createElement('button');
     deleteBtn.className = 'notif-delete';
@@ -160,6 +165,58 @@ function updateEmptyState() {
     }
 }
 
+var notificationTimeInterval = null;
+
+function updateNotificationTimes() {
+    var list = document.getElementById('notificationList');
+    if (!list) return;
+    
+    var times = list.querySelectorAll('.notif-time[data-timestamp]');
+    var now = Date.now();
+    
+    times.forEach(function(el) {
+        var timestamp = parseInt(el.dataset.timestamp);
+        if (!timestamp) return;
+        
+        var diff = Math.floor((now - timestamp) / 1000);
+        var text;
+        if (diff < 1) {
+            text = 'Ahora';
+        } else if (diff < 60) {
+            text = 'Hace ' + diff + 's';
+        } else if (diff < 3600) {
+            text = 'Hace ' + Math.floor(diff / 60) + 'm';
+        } else if (diff < 86400) {
+            text = 'Hace ' + Math.floor(diff / 3600) + 'h';
+        } else {
+            var days = Math.floor(diff / 86400);
+            text = days === 1 ? 'Ayer' : 'Hace ' + days + 'd';
+        }
+        
+        el.textContent = text;
+        
+        var card = el.closest('.notif-card');
+        if (card) {
+            var meta = card.querySelector('.notif-meta');
+            if (meta) {
+                var idx = meta.textContent.lastIndexOf('·');
+                if (idx !== -1) {
+                    meta.textContent = meta.textContent.substring(0, idx) + '· ' + text;
+                }
+            }
+        }
+    });
+}
+
+function startNotificationTimeUpdates() {
+    var list = document.getElementById('notificationList');
+    if (!list) return;
+    
+    if (notificationTimeInterval) clearInterval(notificationTimeInterval);
+    updateNotificationTimes();
+    notificationTimeInterval = setInterval(updateNotificationTimes, 1000);
+}
+
 function loadNotifications() {
     var list = document.getElementById('notificationList');
     if (!list) return;
@@ -188,6 +245,8 @@ function loadNotifications() {
         } else {
             list.innerHTML = '<div class="empty-box"><div class="empty-icon"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div><h3 class="empty-title">Todo al día</h3><p class="empty-text">No tienes notificaciones pendientes. ¡Sigue así!</p></div>';
         }
+        
+        startNotificationTimeUpdates();
     })
     .catch(function(err) {
         console.error('[Notificaciones] Error:', err);

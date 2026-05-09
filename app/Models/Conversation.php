@@ -62,16 +62,7 @@ class Conversation extends Model
 
     public function unread(): bool
     {
-        if (! $this->relationLoaded('messages')) {
-            return false;
-        }
-
-        $lastMsg = $this->messages->last();
-        if (! $lastMsg) {
-            return false;
-        }
-
-        return $lastMsg->sender_id !== auth()->id() && $lastMsg->read_at === null;
+        return $this->unreadCount() > 0;
     }
 
     public function unreadCount(): int
@@ -94,15 +85,20 @@ class Conversation extends Model
         return self::getUnreadGlobalCount();
     }
 
-    public static function getUnreadGlobalCount(): int
+    public static function getUnreadGlobalCount(?int $excludeConvId = null): int
     {
         $conversationIds = self::where('user_a_id', auth()->id())
             ->orWhere('user_b_id', auth()->id())
             ->pluck('id');
 
-        return Message::whereIn('conversation_id', $conversationIds)
+        $query = Message::whereIn('conversation_id', $conversationIds)
             ->where('sender_id', '!=', auth()->id())
-            ->whereNull('read_at')
-            ->count();
+            ->whereNull('read_at');
+        
+        if ($excludeConvId) {
+            $query->where('conversation_id', '!=', $excludeConvId);
+        }
+
+        return $query->count();
     }
 }

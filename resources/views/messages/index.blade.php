@@ -107,28 +107,28 @@
                 </div>
 
                 <!-- Burbujas -->
-                <div class="msgs-bubble-list" id="msgsBubbleList" role="log" aria-live="polite">
+                <div class="msgs-bubble-list" id="msgsBubbleList" role="log" aria-live="polite" data-conv-id="{{ $activeConversation->id }}">
                     @php $lastDate = null; @endphp
                     @foreach($activeMessages as $message)
                     @php
                     $isMine = $message->sender_id === auth()->id();
-                    $msgDate = $message->created_at->toDateString();
-                    $today = now()->toDateString();
-                    $yesterday = now()->subDay()->toDateString();
+                    $msgDate = $message->created_at->timezone('America/Bogota')->toDateString();
+                    $today = now()->timezone('America/Bogota')->toDateString();
+                    $yesterday = now()->timezone('America/Bogota')->subDay()->toDateString();
 
                     if ($msgDate === $today) {
                     $dateLabel = 'Hoy';
                     } elseif ($msgDate === $yesterday) {
                     $dateLabel = 'Ayer';
                     } else {
-                    $dateLabel = $message->created_at->translatedFormat('d \d\e F Y');
+                    $dateLabel = $message->created_at->timezone('America/Bogota')->translatedFormat('d \d\e F Y');
                     }
 
                     $showDateSeparator = $lastDate !== $msgDate;
                     $lastDate = $msgDate;
                     @endphp
                     @if($showDateSeparator)
-                    <div class="msgs-date-separator">
+                    <div class="msgs-date-separator" data-date="{{ $msgDate }}">
                         <span>{{ $dateLabel }}</span>
                     </div>
                     @endif
@@ -161,7 +161,7 @@
                 </div>
 
                 <!-- Input -->
-                <div class="msgs-input-bar">
+                <div class="msgs-input-bar" id="msgsInputBar">
                     <textarea
                         class="msgs-input"
                         id="msgsInput"
@@ -170,17 +170,25 @@
                         aria-label="Escribe un mensaje"
                         data-user-id="{{ auth()->id() }}"
                         data-user-name="{{ auth()->user()->name }}"
-                        data-user-avatar="{{ auth()->user()->avatar_url }}"></textarea>
+                        data-user-avatar="{{ auth()->user()->avatar_url }}"
+                        style="display: {{ ($otherUser->profile->accept_messages ?? true) ? '' : 'none' }}"></textarea>
                     <button class="msgs-send-btn"
                         id="msgsSendBtn"
                         data-conv-id="{{ $activeConversation->id }}"
                         data-recipient="{{ $otherUser->username }}"
-                        aria-label="Enviar mensaje">
+                        aria-label="Enviar mensaje"
+                        style="display: {{ ($otherUser->profile->accept_messages ?? true) ? '' : 'none' }}">
                         <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
                         </svg>
                     </button>
+                    <div id="msgsInputDisabled" class="msgs-input msgs-input--disabled" style="display: {{ ($otherUser->profile->accept_messages ?? true) ? 'none' : 'flex' }}; align-items: center; gap: 0.5rem; padding: 0.625rem 0.875rem;">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636a9 9 0 010 12.728M5.636 5.636a9 9 0 0112.728 0M12 2v4m0 12v4m-7.07-15.07l2.829 2.828m8.485 8.485l2.828 2.828M2 12h4m12 0h4" />
+                        </svg>
+                        <span id="msgsDisabledText">{{ $otherUser->name }} no acepta mensajes directos</span>
+                    </div>
                 </div>
 
                 @else

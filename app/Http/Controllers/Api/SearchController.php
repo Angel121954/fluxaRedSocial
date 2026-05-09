@@ -18,8 +18,11 @@ class SearchController extends Controller
         }
 
         $users = User::whereHas('profile', function ($q) use ($query) {
-            $q->where('name', 'like', "%{$query}%")
-                ->orWhere('username', 'like', "%{$query}%");
+            $q->where('visibility', 'public')
+                ->where(function ($q2) use ($query) {
+                    $q2->where('name', 'like', "%{$query}%")
+                        ->orWhere('username', 'like', "%{$query}%");
+                });
         })
             ->with('profile')
             ->limit(5)

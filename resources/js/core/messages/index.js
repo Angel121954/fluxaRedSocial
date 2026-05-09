@@ -32,9 +32,14 @@ document.addEventListener('DOMContentLoaded', () => {
     initModal({ modalOverlay, modalClose, modalSearch, modalResults });
     startTimeUpdates();
     initTypingBroadcast(sendBtn?.dataset.convId, input);
-    initRealtime(sendBtn?.dataset.convId, bubbleList, currentUser);
+    initRealtime(bubbleList?.dataset.convId, bubbleList, currentUser);
     
     if (window.updateBadges) {
         window.updateBadges();
+    }
+
+    // Ensure input is disabled if recipient doesn't accept messages (server-side rendering)
+    if (input && input.disabled) {
+        if (sendBtn) sendBtn.disabled = true;
     }
 });

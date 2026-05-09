@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Projects;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use App\Models\Profile;
 use App\Models\Project;
@@ -21,6 +22,24 @@ class ProjectController extends Controller
     public function __construct(ProjectService $projectService)
     {
         $this->projectService = $projectService;
+    }
+
+    public function create()
+    {
+        return redirect()->route('home');
+    }
+
+    public function store(StoreProjectRequest $request)
+    {
+        $validated = $request->validated();
+
+        $project = $this->projectService->create($validated, Auth::id());
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Proyecto publicado',
+            'project' => $project,
+        ], 201);
     }
 
     public function show(Project $project)

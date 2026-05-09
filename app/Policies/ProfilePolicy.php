@@ -10,11 +10,10 @@ class ProfilePolicy
 {
     public function view(User $user, Profile $profile): bool
     {
-        $fieldPrivacy = $profile->fields_privacy ?? [];
-        if (empty($fieldPrivacy) || !isset($fieldPrivacy['profile']) || $fieldPrivacy['profile'] === 'public') {
+        if ($profile->visibility === 'public') {
             return true;
         }
-        if (isset($fieldPrivacy['profile']) && $fieldPrivacy['profile'] === 'followers') {
+        if ($profile->visibility === 'followers') {
             return $user->follows->contains($profile->user_id);
         }
         return $user->id === $profile->user_id;

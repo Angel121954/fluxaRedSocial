@@ -104,11 +104,20 @@ function handleProjectAction(action, projectId, dropItem, closeMenu) {
 
         case 'report':
             closeMenu?.();
-            document.getElementById('reportModal')?.classList.add('show');
-            if (document.getElementById('reportForm')) {
-                document.getElementById('reportForm').dataset.projectId = projectId;
-                document.getElementById('reportReason').value = '';
+            const reportForm = document.getElementById('reportForm');
+            const reportTitle = document.getElementById('reportModalTitle');
+            const reportDesc = document.getElementById('reportModalDesc');
+            if (reportTitle) reportTitle.textContent = 'Reportar proyecto';
+            if (reportDesc) reportDesc.textContent = '¿Por qué quieres reportar este proyecto?';
+            if (reportForm) {
+                reportForm.dataset.projectId = projectId;
+                reportForm.removeAttribute('data-user-id');
+                reportForm.dataset.type = 'project';
             }
+            const reasonField = document.getElementById('reportReason');
+            if (reasonField) reasonField.value = '';
+            const modal = document.getElementById('reportModal');
+            if (modal) modal.classList.add('show');
             break;
     }
 }
@@ -131,7 +140,15 @@ document.getElementById('reportForm')?.addEventListener('submit', function (e) {
     const reason = document.getElementById('reportReason').value;
     if (reason.length < 10) return;
 
-    fetch(`/projects/${this.dataset.projectId}/report`, {
+    const type = this.dataset.type || 'project';
+    let url;
+    if (type === 'user' && this.dataset.userId) {
+        url = `/users/${this.dataset.userId}/report`;
+    } else {
+        url = `/projects/${this.dataset.projectId}/report`;
+    }
+
+    fetch(url, {
         method: 'POST',
         headers: {
             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,

@@ -121,86 +121,69 @@ function initNotificationsRealtime(userId) {
         }
     })
     .listen('.message.sent', function(data) {
-        
         var convList = document.getElementById('msgsConvList');
         var currentConvId = new URLSearchParams(window.location.search).get('conv');
         var currentUserId = parseInt(document.body.dataset.userId || '0');
         var isFromMe = data.sender_id === currentUserId;
         
-        if (convList) {
-            var previewText = isFromMe ? 'Tú: ' + data.body : data.body;
-            if (previewText.length > 40) {
-                previewText = previewText.substring(0, 40) + '...';
-            }
-            
-            var item = convList.querySelector('a[href*="conv=' + data.conversation_id + '"]');
-            if (item) {
-                var preview = item.querySelector('.msgs-conv-preview');
-                if (preview) {
-                    preview.textContent = previewText;
-                }
-                var time = item.querySelector('.msgs-conv-time');
-                if (time) {
-                    time.textContent = 'Ahora';
-                    time.dataset.timestamp = Date.now();
-                }
-                var badge = item.querySelector('.msgs-unread-badge');
-                if (!isFromMe && (!currentConvId || parseInt(currentConvId) !== data.conversation_id)) {
-                    if (badge) {
-                        var currentCount = parseInt(badge.textContent) || 0;
-                        badge.textContent = currentCount + 1;
-                    } else {
-                        badge = document.createElement('span');
-                        badge.className = 'msgs-unread-badge';
-                        badge.textContent = '1';
-                        var rowBottom = item.querySelector('.msgs-conv-row-bottom');
-                        if (rowBottom) rowBottom.appendChild(badge);
-                    }
-                }
-                convList.prepend(item);
-            } else if (!isFromMe) {
-                var item = document.createElement('a');
-                item.href = '/messages?conv=' + data.conversation_id;
-                item.className = 'msgs-conv-item';
-                item.setAttribute('role', 'listitem');
-                item.dataset.timestamp = Date.now();
-                item.innerHTML = 
-                    '<div class="msgs-conv-avatar-wrap">' +
-                        '<img src="' + (data.sender?.avatar_url || '/img/default-avatar.png') + '" ' +
-                            'alt="' + (data.sender?.name || 'Usuario') + '" class="msgs-conv-avatar" ' +
-                            'onerror="this.src=\'/img/default-avatar.png\'">' +
-                    '</div>' +
-                    '<div class="msgs-conv-info">' +
-                        '<div class="msgs-conv-row-top">' +
-                            '<span class="msgs-conv-name">' + (data.sender?.name || 'Usuario') + '</span>' +
-                            '<span class="msgs-conv-time" data-timestamp="' + Date.now() + '">Ahora</span>' +
-                        '</div>' +
-                        '<div class="msgs-conv-row-bottom">' +
-                            '<span class="msgs-conv-preview">' + previewText + '</span>' +
-                            '<span class="msgs-unread-badge">1</span>' +
-                        '</div>' +
-                    '</div>';
-                convList.insertBefore(item, convList.firstChild);
-            }
+        if (!convList) {
+            if (window.updateBadges) window.updateBadges();
+            return;
         }
         
-        if (currentConvId && parseInt(currentConvId) === data.conversation_id && !isFromMe) {
-            var bubbleList = document.getElementById('msgsBubbleList');
-            if (typeof window.appendReceivedBubble === 'function' && bubbleList) {
-                window.appendReceivedBubble(data, bubbleList);
-                if (typeof window.scrollToBottom === 'function') {
-                    window.scrollToBottom(bubbleList, true);
-                }
-                fetch('/messages/message/' + data.id + '/read', {
-                    method: 'PATCH',
-                    headers: { 
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content,
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json',
-                    },
-                    credentials: 'same-origin',
-                });
+        var previewText = isFromMe ? 'Tú: ' + data.body : data.body;
+        if (previewText.length > 40) {
+            previewText = previewText.substring(0, 40) + '...';
+        }
+        
+        var item = convList.querySelector('a[href*="conv=' + data.conversation_id + '"]');
+        if (item) {
+            var preview = item.querySelector('.msgs-conv-preview');
+            if (preview) {
+                preview.textContent = previewText;
             }
+            var time = item.querySelector('.msgs-conv-time');
+            if (time) {
+                time.textContent = 'Ahora';
+                time.dataset.timestamp = Date.now();
+            }
+            if (!isFromMe && (!currentConvId || parseInt(currentConvId) !== data.conversation_id)) {
+                var badge = item.querySelector('.msgs-unread-badge');
+                if (badge) {
+                    var currentCount = parseInt(badge.textContent) || 0;
+                    badge.textContent = currentCount + 1;
+                } else {
+                    badge = document.createElement('span');
+                    badge.className = 'msgs-unread-badge';
+                    badge.textContent = '1';
+                    var rowBottom = item.querySelector('.msgs-conv-row-bottom');
+                    if (rowBottom) rowBottom.appendChild(badge);
+                }
+            }
+            convList.prepend(item);
+        } else if (!isFromMe) {
+            var item = document.createElement('a');
+            item.href = '/messages?conv=' + data.conversation_id;
+            item.className = 'msgs-conv-item';
+            item.setAttribute('role', 'listitem');
+            item.dataset.timestamp = Date.now();
+            item.innerHTML = 
+                '<div class="msgs-conv-avatar-wrap">' +
+                    '<img src="' + (data.sender?.avatar_url || '/img/default-avatar.png') + '" ' +
+                        'alt="' + (data.sender?.name || 'Usuario') + '" class="msgs-conv-avatar" ' +
+                        'onerror="this.src=\'/img/default-avatar.png\'">' +
+                '</div>' +
+                '<div class="msgs-conv-info">' +
+                    '<div class="msgs-conv-row-top">' +
+                        '<span class="msgs-conv-name">' + (data.sender?.name || 'Usuario') + '</span>' +
+                        '<span class="msgs-conv-time" data-timestamp="' + Date.now() + '">Ahora</span>' +
+                    '</div>' +
+                    '<div class="msgs-conv-row-bottom">' +
+                        '<span class="msgs-conv-preview">' + previewText + '</span>' +
+                        '<span class="msgs-unread-badge">1</span>' +
+                    '</div>' +
+                '</div>';
+            convList.insertBefore(item, convList.firstChild);
         }
         
         if (window.updateBadges) {

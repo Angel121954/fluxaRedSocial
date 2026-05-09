@@ -67,6 +67,13 @@ class OnboardingController extends Controller
             return redirect()->route('login');
         }
 
+        $followIds = $request->input('follow', []);
+        foreach ($followIds as $id) {
+            if (is_numeric($id) && $user->id != $id) {
+                $user->follows()->syncWithoutDetaching([(int) $id]);
+            }
+        }
+
         $user->update(['onboarding_completed' => true]);
 
         return redirect()->route('explore.index');

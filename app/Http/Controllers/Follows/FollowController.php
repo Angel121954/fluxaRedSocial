@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Follows;
 
+use App\Events\FollowToggled;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Notifications\CreatesNotifications;
@@ -35,10 +36,26 @@ class FollowController extends Controller
             );
         }
 
+        $targetFollowersCount = $user->followers()->count();
+        $targetFollowingCount = $user->follows()->count();
+        $followerFollowersCount = $currentUser->followers()->count();
+        $followerFollowingCount = $currentUser->follows()->count();
+
+        broadcast(new FollowToggled(
+            followerId: $currentUser->id,
+            targetId: $user->id,
+            following: $following,
+            targetFollowersCount: $targetFollowersCount,
+            targetFollowingCount: $targetFollowingCount,
+            followerFollowersCount: $followerFollowersCount,
+            followerFollowingCount: $followerFollowingCount,
+        ))->toOthers();
+
         return response()->json([
             'following' => $following,
-            'followers_count' => $user->followers()->count(),
-            'following_count' => $user->follows()->count(),
+            'is_followed_by' => $user->follows()->where('followed_id', $currentUser->id)->exists(),
+            'followers_count' => $targetFollowersCount,
+            'following_count' => $targetFollowingCount,
         ]);
     }
 

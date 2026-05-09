@@ -4,9 +4,10 @@
      NAVBAR
 ═════════════════════════════════════════ -->
 @php
+    $currentConvId = request()->query('conv') ? (int) request()->query('conv') : null;
     $unreadMessages = Auth::user()->role !== 'guest' 
-        ? \App\Models\Conversation::getUnreadGlobalCount() 
-        : 0;
+        ? \App\Models\Conversation::getUnreadGlobalCount($currentConvId) 
+        :0;
     $unreadNotifications = Auth::user()->role !== 'guest'
         ? \App\Models\Notification::unreadCount(Auth::id())
         : 0;

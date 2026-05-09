@@ -3,7 +3,7 @@ export async function sendMessage(body, convId, recipient) {
     const url = convId
         ? `/messages/${convId}`
         : `/messages/user/${recipient}`;
-
+    
     const res = await fetch(url, {
         method: 'POST',
         headers: {
@@ -16,7 +16,13 @@ export async function sendMessage(body, convId, recipient) {
         body: JSON.stringify({ body }),
     });
 
-    if (!res.ok) throw new Error('Error al enviar el mensaje');
+    if (!res.ok) {
+        const errorData = await res.json();
+        if (res.status === 403 && errorData.recipient_accepts_messages === false) {
+            throw new Error('USER_NOT_ACCEPTING_MESSAGES');
+        }
+        throw new Error('Error al enviar el mensaje');
+    }
 
     return await res.json();
 }

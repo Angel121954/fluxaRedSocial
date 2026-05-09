@@ -98,6 +98,46 @@
                     @enderror
                 </div>
 
+                <!-- País -->
+                <div class="form-group">
+                    <label class="form-label" for="inputCountry">País</label>
+                    <span class="form-hint">¿De dónde eres? Esto ayuda a conectar con personas cercanas</span>
+                    <select
+                        class="form-input {{ $errors->has('country') ? 'input-error' : '' }}"
+                        id="inputCountry"
+                        name="country">
+                        <option value="">Selecciona un país</option>
+                        @foreach($countries as $c)
+                            <option value="{{ $c['name'] }}" {{ old('country', Auth()->user()->profile->country ?? '') === $c['name'] ? 'selected' : '' }}>
+                                {{ $c['name'] }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('country')
+                    <span class="form-error">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <!-- Ciudad -->
+                <div class="form-group">
+                    <label class="form-label" for="inputCity">Ciudad</label>
+                    <span class="form-hint">Selecciona primero un país para ver las ciudades disponibles</span>
+                    <select
+                        class="form-input {{ $errors->has('city') ? 'input-error' : '' }}"
+                        id="inputCity"
+                        name="city">
+                        <option value="">Selecciona una ciudad</option>
+                        @foreach($cities as $city)
+                            <option value="{{ $city }}" {{ old('city', Auth()->user()->profile->city ?? '') === $city ? 'selected' : '' }}>
+                                {{ $city }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('city')
+                    <span class="form-error">{{ $message }}</span>
+                    @enderror
+                </div>
+
                 <!-- Idioma -->
                 <div class="form-group">
                     <label class="form-label" for="inputLanguage">Idioma</label>
@@ -113,8 +153,6 @@
                     <span class="form-error">{{ $message }}</span>
                     @enderror
                 </div>
-
-
 
                 <!-- Acciones -->
                 <div class="form-actions">
@@ -240,4 +278,5 @@
 
 @push('scripts')
 @vite('resources/js/profile/index.js')
+@vite('resources/js/profile/account.js')
 @endpush

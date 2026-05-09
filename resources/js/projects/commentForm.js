@@ -20,6 +20,15 @@ export function initCommentForm({ onSubmit, getCurrentProjectId }) {
         this.style.height = Math.min(this.scrollHeight, 120) + "px";
     });
 
+    commentTextarea.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" && !e.shiftKey) {
+            e.preventDefault();
+            if (btnSubmitComment && !btnSubmitComment.disabled) {
+                btnSubmitComment.click();
+            }
+        }
+    });
+
     if (btnCancelComment) {
         btnCancelComment.addEventListener("click", () => {
             resetCommentForm();

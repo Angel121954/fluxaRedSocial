@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Cloudinary\Cloudinary;
+use App\Services\CloudinaryService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -30,8 +30,6 @@ class Suggestion extends Model
             return $this->image_path;
         }
 
-        $cloudinary = new Cloudinary(config('cloudinary.cloud_url'));
-
-        return $cloudinary->image($this->image_path)->toUrl();
+        return app(CloudinaryService::class)->getImageUrl($this->image_path);
     }
 }

@@ -27,6 +27,8 @@ class UpdateAccountRequest extends FormRequest
             'phone_code' => ['required', 'string', 'max:5'],
             'phone_number' => ['required', 'string', 'max:15'],
             'language' => ['required', 'string'],
+            'country' => ['nullable', 'string', 'max:100'],
+            'city' => ['nullable', 'string', 'max:150'],
         ];
     }
 

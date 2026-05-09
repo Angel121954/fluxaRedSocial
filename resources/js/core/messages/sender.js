@@ -1,5 +1,5 @@
 import { scrollToBottom, autosizeInput } from './messageUtils.js';
-import { createOwnBubble, updateBubbleStatus, ensureDateSeparator } from './messageRenderer.js';
+import { createOwnBubble, updateBubbleStatus, ensureDateSeparator, showNotAcceptingMessages } from './messageRenderer.js';
 import { sendMessage } from './messageService.js';
 import { removeTypingIndicator } from './typingHandler.js';
 
@@ -102,9 +102,11 @@ export async function handleSendMessage({ input, sendBtn, bubbleList, syncSendBt
     sendBtn.disabled = true;
     input.disabled = true;
 
-    const tempBubble = createOwnBubble(body, 'sending');
+    const now = new Date();
+    const dateKey = now.toLocaleDateString('en-CA', { timeZone: 'America/Bogota' });
+    const tempBubble = createOwnBubble(body, 'sending', now.toISOString());
     if (bubbleList) {
-        ensureDateSeparator(bubbleList);
+        ensureDateSeparator(bubbleList, dateKey);
         bubbleList.appendChild(tempBubble);
         scrollToBottom(bubbleList, true);
     }
@@ -163,9 +165,20 @@ export async function handleSendMessage({ input, sendBtn, bubbleList, syncSendBt
         tempBubble.dataset.msgId = data.id ?? '';
         updateBubbleStatus(tempBubble, 'sent');
         removeTypingIndicator();
+        
+        // If recipient doesn't accept messages, show notice but keep message as sent
+        if (data && data.recipient_accepts_messages === false) {
+            showNotAcceptingMessages(bubbleList);
+            if (sendBtn) sendBtn.disabled = true;
+        }
     } catch (err) {
         console.error('[Fluxa Messages]', err);
-        updateBubbleStatus(tempBubble, 'error');
+        if (err.message === 'USER_NOT_ACCEPTING_MESSAGES') {
+            showNotAcceptingMessages(bubbleList);
+            if (sendBtn) sendBtn.disabled = true;
+        } else {
+            updateBubbleStatus(tempBubble, 'error');
+        }
     }
 
     input.disabled = false;
@@ -178,12 +191,18 @@ export function attachSendHandler(input, sendBtn, bubbleList, syncSendBtn) {
         input.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault();
-                handleSendMessage({ input, sendBtn, bubbleList, syncSendBtn });
+                if (!input.disabled) {
+                    handleSendMessage({ input, sendBtn, bubbleList, syncSendBtn });
+                }
             }
         });
     }
 
     if (sendBtn) {
-        sendBtn.addEventListener('click', () => handleSendMessage({ input, sendBtn, bubbleList, syncSendBtn }));
+        sendBtn.addEventListener('click', () => {
+            if (!input.disabled) {
+                handleSendMessage({ input, sendBtn, bubbleList, syncSendBtn });
+            }
+        });
     }
 }

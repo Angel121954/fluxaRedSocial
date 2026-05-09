@@ -2,6 +2,8 @@
  * profile/account.js — Configuración de cuenta + 2FA
  */
 
+import '../settings/locationSelects.js';
+
 document.addEventListener("DOMContentLoaded", () => {
 
     // ── Helpers ────────────────────────────────────────────────

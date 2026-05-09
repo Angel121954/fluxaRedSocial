@@ -18,13 +18,19 @@ import './filters.js';
 import './shareProfile.js';
 import '../projects/modalComment.js'; // inicializa listeners de cierre del modal
 import './commentHandler.js';       // gestiona likes + apertura del modal de comentarios
+import { initPrivacyUpdates } from './privacyUpdates.js';
+import { initFollowUpdates } from './followUpdates.js';
 
 // ── Sistema de endorsement (compartido con explore) ────────────────────────
 import { initSkillEndorsement } from '../core/explore/skillEndorsement.js';
+import { initLikeButton } from '../core/explore/like.js';
 import '../core/explore/projectMenu.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     initSkillEndorsement();
+    initLikeButton();
+    initPrivacyUpdates();
+    initFollowUpdates();
 });
 
 // ── Páginas de configuración (se auto-desactivan si el DOM no aplica) ──────

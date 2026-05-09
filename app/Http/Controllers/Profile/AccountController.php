@@ -10,7 +10,11 @@ class AccountController extends Controller
 {
     public function index()
     {
-        return view('settings.account');
+        $locationService = app(\App\Services\LocationService::class);
+        $countries = $locationService->getCountries();
+        $userCountry = old('country', Auth()->user()->profile->country ?? null);
+        $cities = $userCountry ? $locationService->getCities($userCountry) : [];
+        return view('settings.account', compact('countries', 'cities'));
     }
 
     public function update(UpdateAccountRequest $request)
@@ -30,6 +34,8 @@ class AccountController extends Controller
             'phone_code' => $validated['phone_code'],
             'phone_number' => $validated['phone_number'],
             'language' => $validated['language'],
+            'country' => $validated['country'] ?? null,
+            'city' => $validated['city'] ?? null,
         ]);
 
         return redirect()->route('account.index')

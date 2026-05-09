@@ -40,7 +40,7 @@ class NewMessage implements ShouldBroadcast
             'body' => $this->message->body,
             'sender_id' => $this->message->sender_id,
             'conversation_id' => $this->conversationId,
-            'created_at' => $this->message->created_at->toIso8601String(),
+            'created_at' => $this->message->created_at->timezone('America/Bogota')->toIso8601String(),
             'sender' => [
                 'id' => $this->message->sender->id,
                 'name' => $this->message->sender->name,

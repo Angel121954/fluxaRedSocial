@@ -36,11 +36,16 @@ class NotificationController extends Controller
 
         return response()->json([
             'notifications' => $notifications->map(function ($n) {
+                $body = $n->body;
+                if ($n->fromUser && str_starts_with($body, $n->fromUser->name)) {
+                    $body = trim(substr($body, strlen($n->fromUser->name)));
+                }
+
                 return [
                     'id' => $n->id,
                     'type' => $n->type,
                     'title' => $n->title,
-                    'body' => $n->body,
+                    'body' => $body,
                     'link' => $n->link,
                     'is_read' => $n->is_read,
                     'created_at' => $n->created_at->toIso8601String(),

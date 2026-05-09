@@ -84,6 +84,10 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
 
     Route::post('/onboarding/suggestions', [OnboardingController::class, 'saveSuggestions'])
         ->name('onboarding.saveSuggestions');
+
+    Route::post('/users/{user}/follow', [FollowController::class, 'toggle'])
+        ->name('users.follow')
+        ->middleware('restrict.guest');
 });
 
 /*
@@ -166,8 +170,8 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
         Route::post('/profile/avatar', [ProfileController::class, 'updateAvatar'])
             ->name('profile.avatar');
 
-        Route::post('/users/{user}/follow', [FollowController::class, 'toggle'])
-            ->name('users.follow');
+        Route::post('/users/{user}/report', [UserController::class, 'report'])
+            ->name('users.report');
 
         Route::get('/users/{user}/followers', [FollowController::class, 'followers'])
             ->name('users.followers');
@@ -294,6 +298,8 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
         */
         Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
         Route::get('/messages/unread/count', [MessageController::class, 'unreadCount'])->name('messages.unreadCount');
+        Route::post('/messages/viewing', [MessageController::class, 'setViewing'])->name('messages.setViewing');
+        Route::post('/messages/viewing/clear', [MessageController::class, 'clearViewing'])->name('messages.clearViewing');
         Route::patch('/messages/{conversation}/read', [MessageController::class, 'markAsRead'])->name('messages.markAsRead');
         Route::patch('/messages/message/{message}/read', [MessageController::class, 'markMessageAsRead'])->name('messages.markMessageAsRead');
         Route::post('/messages/{conversation}', [MessageController::class, 'store'])->name('messages.store');

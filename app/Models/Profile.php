@@ -14,6 +14,8 @@ class Profile extends Model
         'cover_image',
         'bio',
         'location',
+        'country',
+        'city',
         'language',
         'phone_code',
         'phone_number',
