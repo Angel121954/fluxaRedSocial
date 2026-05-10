@@ -4,9 +4,14 @@ namespace App\Http\Controllers\Profile;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateConfigurationRequest;
+use App\Services\BadgeService;
 
 class ConfigurationController extends Controller
 {
+    public function __construct(
+        protected BadgeService $badgeService,
+    ) {}
+
     public function index()
     {
         return view('settings.configuration');
@@ -32,6 +37,8 @@ class ConfigurationController extends Controller
             'birth_date' => $request->birth_date,
             'gender' => $request->gender,
         ]);
+
+        $this->badgeService->scanUser($user);
 
         return redirect()->back()->with('success', 'Perfil actualizado correctamente');
     }

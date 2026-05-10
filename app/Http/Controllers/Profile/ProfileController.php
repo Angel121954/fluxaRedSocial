@@ -5,10 +5,12 @@ namespace App\Http\Controllers\Profile;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateAvatarRequest;
 use App\Http\Requests\UpdateTechnologiesRequest;
+use App\Models\Badge;
 use App\Models\Conversation;
 use App\Models\Profile;
 use App\Models\Technology;
 use App\Models\User;
+use App\Services\BadgeService;
 use App\Services\CVService;
 use App\Services\ProfileService;
 use Exception;
@@ -21,6 +23,7 @@ class ProfileController extends Controller
     public function __construct(
         protected ProfileService $profileService,
         protected CVService $cvService,
+        protected BadgeService $badgeService,
     ) {}
 
     public function index()
@@ -62,6 +65,9 @@ class ProfileController extends Controller
             ->latest()
             ->get();
 
+        $badges = $user->badges()->get();
+        $allBadges = Badge::orderBy('order')->get();
+
         return view('profile.index', compact(
             'user',
             'profile',
@@ -73,6 +79,8 @@ class ProfileController extends Controller
             'workExperiences',
             'educations',
             'favoriteProjects',
+            'badges',
+            'allBadges',
         ));
     }
 
@@ -135,6 +143,9 @@ class ProfileController extends Controller
                 ->get();
         }
 
+        $badges = $user->badges()->get();
+        $allBadges = Badge::orderBy('order')->get();
+
         return view('profile.index', compact(
             'user',
             'profile',
@@ -148,6 +159,8 @@ class ProfileController extends Controller
             'workExperiences',
             'educations',
             'favoriteProjects',
+            'badges',
+            'allBadges',
             'conversation'
         ));
     }
@@ -182,14 +195,14 @@ class ProfileController extends Controller
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <style>* { margin:0; padding:0; box-sizing:border-box; } body { background:#f8fafc; }</style>
 </head>
-<body>' . $contenido . '</body>
+<body>'.$contenido.'</body>
 </html>';
 
         $pdf = $this->cvService->generatePdf($html);
 
         return response($pdf, 200, [
             'Content-Type' => 'application/pdf',
-            'Content-Disposition' => 'attachment; filename="CV_' . $usuario->username . '.pdf"',
+            'Content-Disposition' => 'attachment; filename="CV_'.$usuario->username.'.pdf"',
         ]);
     }
 
@@ -198,6 +211,8 @@ class ProfileController extends Controller
         try {
             $user = Auth::user();
             $avatarUrl = $this->profileService->updateAvatar($user->id, $request->file('avatar'));
+
+            $this->badgeService->scanUser($user);
 
             return response()->json(['success' => true, 'url' => $avatarUrl]);
         } catch (Exception $e) {
@@ -219,8 +234,8 @@ class ProfileController extends Controller
 
             Profile::where('user_id', $user->id)->update([
                 'avatar' => 'https://api.dicebear.com/7.x/initials/svg?seed='
-                    . strtolower($user->username)
-                    . '&backgroundColor=12b3b6',
+                    .strtolower($user->username)
+                    .'&backgroundColor=12b3b6',
             ]);
 
             return response()->json(['success' => true]);
@@ -231,8 +246,10 @@ class ProfileController extends Controller
 
     public function updateTechnologies(UpdateTechnologiesRequest $request): JsonResponse
     {
-        $user = Auth::user();
+        $user = $request->user();
         $user->technologies()->sync($request->technologies ?? []);
+
+        $this->badgeService->scanUser($user);
 
         return response()->json(['success' => true]);
     }

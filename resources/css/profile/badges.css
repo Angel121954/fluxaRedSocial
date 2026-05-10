@@ -1,0 +1,297 @@
+/* ── Badges Section ─────────────────────────────── */
+.badges-section {
+    margin-top: 0;
+}
+
+.badges-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+}
+
+.badges-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--ink-900);
+    letter-spacing: -0.02em;
+}
+
+.badges-view-all {
+    font-size: 0.8125rem;
+    color: var(--accent);
+    font-weight: 500;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--r-sm);
+    transition: background 0.15s;
+}
+
+.badges-view-all:hover {
+    background: var(--accent-dim);
+}
+
+.badges-grid {
+    display: flex;
+    gap: 0.625rem;
+    flex-wrap: wrap;
+}
+
+.badge-card {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    cursor: default;
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.badge-card:hover {
+    border-color: var(--border-strong);
+    box-shadow: var(--shadow-xs);
+}
+
+.badge-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.badge-icon svg {
+    width: 16px;
+    height: 16px;
+}
+
+.badge-icon--tier-1 {
+    background: rgba(180, 130, 60, 0.12);
+    color: #8B6914;
+}
+
+.badge-icon--tier-2 {
+    background: rgba(160, 170, 190, 0.15);
+    color: #5a6577;
+}
+
+.badge-icon--tier-3 {
+    background: rgba(245, 190, 50, 0.12);
+    color: #b8860b;
+}
+
+.badge-icon--locked {
+    opacity: 0.35;
+}
+
+.badge-name {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--ink-700);
+    white-space: nowrap;
+}
+
+.badges-empty {
+    font-size: 0.875rem;
+    color: var(--ink-400);
+    padding: 1.5rem 0;
+    text-align: center;
+    width: 100%;
+}
+
+.badges-empty-link {
+    display: block;
+    margin: 0.5rem auto 0;
+    background: none;
+    border: none;
+    color: var(--accent);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: inherit;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+/* ── Badges Modal ───────────────────────────────── */
+.badges-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(11, 15, 26, 0.45);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    z-index: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+}
+
+.badges-modal-backdrop.is-open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.badges-modal {
+    background: var(--surface);
+    border-radius: 18px;
+    width: 100%;
+    max-width: 620px;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.14);
+    transform: translateY(12px) scale(0.98);
+    transition: transform 0.22s ease, opacity 0.22s ease;
+    opacity: 0;
+}
+
+.badges-modal-backdrop.is-open .badges-modal {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+}
+
+.badges-modal-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.5rem 1.5rem 1.25rem;
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+}
+
+.badges-modal-header-text {
+    flex: 1;
+}
+
+.badges-modal-title {
+    font-size: 1.0625rem;
+    font-weight: 700;
+    color: var(--ink-900);
+}
+
+.badges-modal-subtitle {
+    font-size: 0.8125rem;
+    color: var(--ink-400);
+    margin-top: 0.2rem;
+}
+
+.badges-modal-close {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: none;
+    background: transparent;
+    color: var(--ink-400);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s;
+    flex-shrink: 0;
+}
+
+.badges-modal-close:hover {
+    background: var(--ink-100);
+    color: var(--ink-700);
+}
+
+.badges-modal-close svg {
+    width: 18px;
+    height: 18px;
+}
+
+.badges-modal-body {
+    padding: 1.25rem 1.5rem;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.badges-modal-category {
+    margin-bottom: 1.5rem;
+}
+
+.badges-modal-category:last-child {
+    margin-bottom: 0;
+}
+
+.badges-modal-category-title {
+    font-size: 0.9375rem;
+    font-weight: 700;
+    color: var(--ink-700);
+    letter-spacing: -0.02em;
+    margin-bottom: 0.75rem;
+}
+
+.badges-modal-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.badges-modal-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: var(--r-md);
+    transition: background 0.15s;
+}
+
+.badges-modal-item:hover {
+    background: var(--bg-subtle);
+}
+
+.badges-modal-item--locked {
+    opacity: 0.5;
+}
+
+.badges-modal-item-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+}
+
+.badges-modal-item-name {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--ink-700);
+}
+
+.badges-modal-item-desc {
+    font-size: 0.75rem;
+    color: var(--ink-400);
+}
+
+.badges-modal-item-earned {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    color: var(--accent-dark);
+    margin-top: 0.125rem;
+}
+
+.badges-modal-item-locked {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    color: var(--ink-300);
+    margin-top: 0.125rem;
+}
+
+/* ── Responsive ──────────────────────────────────── */
+@media (max-width: 680px) {
+    .badges-grid {
+        justify-content: center;
+    }
+}

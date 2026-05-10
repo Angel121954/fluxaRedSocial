@@ -6,12 +6,17 @@ use App\Events\FollowToggled;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Notifications\CreatesNotifications;
+use App\Services\BadgeService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class FollowController extends Controller
 {
+    public function __construct(
+        protected BadgeService $badgeService,
+    ) {}
+
     public function toggle(Request $request, User $user): JsonResponse
     {
         $currentUser = Auth::user();
@@ -35,6 +40,9 @@ class FollowController extends Controller
                 $currentUser->name
             );
         }
+
+        $this->badgeService->scanUser($currentUser);
+        $this->badgeService->scanUser($user);
 
         $targetFollowersCount = $user->followers()->count();
         $targetFollowingCount = $user->follows()->count();
@@ -64,7 +72,7 @@ class FollowController extends Controller
         $followers = $user->followers()
             ->select('users.id', 'users.name', 'users.username')
             ->get()
-            ->map(fn($u) => [
+            ->map(fn ($u) => [
                 'id' => $u->id,
                 'name' => $u->name,
                 'username' => $u->username,
@@ -79,7 +87,7 @@ class FollowController extends Controller
         $following = $user->follows()
             ->select('users.id', 'users.name', 'users.username')
             ->get()
-            ->map(fn($u) => [
+            ->map(fn ($u) => [
                 'id' => $u->id,
                 'name' => $u->name,
                 'username' => $u->username,

@@ -36,6 +36,7 @@ class Notification extends Model
     const TYPE_MENTION = 'mention';
     const TYPE_PROJECT = 'project';
     const TYPE_ENDORSEMENT = 'endorsement';
+    const TYPE_BADGE = 'badge';
 
     public function getTypeLabelAttribute(): string
     {

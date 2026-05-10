@@ -44,6 +44,7 @@ export default defineConfig({
                 "resources/css/profile/workExperience.css",
                 "resources/css/profile/cv.css",
                 "resources/css/profile/modalImage.css",
+                "resources/css/profile/badges.css",
                 "resources/css/profile/notificationsProfile.css",
 
                 // Settings
@@ -93,6 +94,7 @@ export default defineConfig({
                 "resources/js/profile/profileOptions.js",
                 "resources/js/profile/shareProfile.js",
                 "resources/js/profile/stackModal.js",
+                "resources/js/profile/badgesModal.js",
                 "resources/js/profile/tabs.js",
 
                 // Shared JS

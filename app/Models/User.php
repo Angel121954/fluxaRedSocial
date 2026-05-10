@@ -99,6 +99,23 @@ class User extends Authenticatable
         return $this->hasMany(Notification::class)->orderBy('created_at', 'desc');
     }
 
+    public function badges()
+    {
+        return $this->belongsToMany(Badge::class, 'user_badge')
+            ->withPivot('earned_at', 'notified')
+            ->withTimestamps();
+    }
+
+    public function salaryReports()
+    {
+        return $this->hasMany(SalaryReport::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
     public function skillEndorsementsReceived()
     {
         return $this->hasMany(SkillEndorsement::class, 'user_id');

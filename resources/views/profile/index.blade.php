@@ -210,6 +210,12 @@
                 <span class="tab-count">{{ $technologies->count() }}</span>
                 @endif
             </div>
+            <div class="tab" data-tab="badges">
+                Logros
+                @if(isset($badges) && $badges->count() > 0)
+                <span class="tab-count">{{ $badges->count() }}</span>
+                @endif
+            </div>
             @if($isOwner || $profile->show_favorites)
             <div class="tab" data-tab="favorites">
                 Favoritos
@@ -391,6 +397,14 @@
         <x-stack-tab :technologies="$technologies" :isOwner="$isOwner" />
     </div>
 
+    {{-- Panel: Logros --}}
+    <div class="content" data-panel="badges" style="display:none">
+        <x-badge-grid :badges="$badges ?? collect()" :all-badges="$allBadges ?? collect()" :is-owner="$isOwner" />
+        @if($isOwner)
+        <x-badges-modal :badges="$badges ?? collect()" :all-badges="$allBadges ?? collect()" />
+        @endif
+    </div>
+
     {{-- Panel: Favoritos --}}
     @if($isOwner || $profile->show_favorites)
     <div class="content" data-panel="favorites" style="display:none">
@@ -446,9 +460,11 @@
 @vite('resources/css/core/explore.css')
 @vite('resources/css/profile/profile.css')
 @vite('resources/css/profile/modalImage.css')
+@vite('resources/css/profile/badges.css')
 @endpush
 
 @push('scripts')
 @vite('resources/js/profile/index.js')
 @vite('resources/js/profile/stackModal.js')
+@vite('resources/js/profile/badgesModal.js')
 @endpush
