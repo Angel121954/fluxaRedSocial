@@ -48,6 +48,51 @@ function showPanel(wrapper) {
     }
 }
 
+async function toggleEndorsement(projectId, skillType, panel, wrapper) {
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
+    const countEl = wrapper.querySelector('.endorsement-count');
+    const prevCount = parseInt(countEl?.textContent || '0', 10);
+
+    try {
+        const res = await fetch(`/projects/${projectId}/endorse`, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': csrfToken,
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            credentials: 'same-origin',
+            body: JSON.stringify({ skill_type: skillType }),
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+            showToast(data.message || 'No se pudo actualizar el endorsement', 'error');
+            return;
+        }
+
+        if (data.skill_counts) {
+            const total = Object.values(data.skill_counts).reduce((sum, val) => sum + (val || 0), 0);
+            countEl.textContent = total;
+        }
+
+        panel.querySelectorAll('.skill-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.skillType === data.user_endorsement);
+        });
+
+        if (data.user_endorsement) {
+            wrapper.classList.add('active');
+            wrapper.style.setProperty('--skill-color', SKILLS[data.user_endorsement]?.color || '#6B7280');
+        } else {
+            wrapper.classList.remove('active');
+            wrapper.style.removeProperty('--skill-color');
+        }
+    } catch (err) {
+        showToast('Error de conexión. Inténtalo de nuevo.', 'error');
+    }
+}
+
 export function initSkillEndorsement() {
     document.addEventListener('click', async (e) => {
         const skillBtn = e.target.closest('.skill-btn');
@@ -57,80 +102,31 @@ export function initSkillEndorsement() {
             const panel = skillBtn.closest('.skill-panel');
             const projectId = panel.dataset.projectId;
             const skillType = skillBtn.dataset.skillType;
-            const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
             const wrapper = panel.closest('.endorsement-wrapper');
 
-            const countEl = wrapper.querySelector('.endorsement-count');
-            const prevCount = parseInt(countEl?.textContent || '0', 10);
+            if (window.innerWidth <= 640) {
+                panel.classList.remove('show');
+            }
 
             const prevActive = panel.querySelector('.skill-btn.active');
             const wasActive = prevActive?.dataset.skillType === skillType;
-            const skillColor = skillBtn.style.getPropertyValue('--skill-color');
 
-            if (prevActive && !wasActive) {
-                prevActive.classList.remove('active');
-            }
-            const isNowActive = !wasActive;
             panel.querySelectorAll('.skill-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
-            skillBtn.classList.toggle('active', isNowActive);
+            skillBtn.classList.toggle('active', !wasActive);
 
             if (wrapper) {
-                if (isNowActive) {
+                if (!wasActive) {
                     wrapper.classList.add('active');
-                    wrapper.style.setProperty('--skill-color', skillColor);
+                    wrapper.style.setProperty('--skill-color', skillBtn.style.getPropertyValue('--skill-color'));
                 } else {
                     wrapper.classList.remove('active');
                     wrapper.style.removeProperty('--skill-color');
                 }
             }
 
-            try {
-                const res = await fetch(`/projects/${projectId}/endorse`, {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': csrfToken,
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json',
-                    },
-                    credentials: 'same-origin',
-                    body: JSON.stringify({ skill_type: skillType }),
-                });
-
-                const data = await res.json();
-
-                if (!res.ok) {
-                    skillBtn.classList.toggle('active', wasActive);
-                    if (prevActive) prevActive.classList.add('active');
-                    if (!wasActive) wrapper.classList.remove('active');
-                    showToast(data.message || 'No se pudo actualizar el endorsement', 'error');
-                    return;
-                }
-
-                if (data.skill_counts) {
-                    const total = Object.values(data.skill_counts).reduce((sum, val) => sum + (val || 0), 0);
-                    countEl.textContent = total;
-                }
-
-                panel.querySelectorAll('.skill-btn').forEach(btn => {
-                    btn.classList.toggle('active', btn.dataset.skillType === data.user_endorsement);
-                });
-
-                if (data.user_endorsement) {
-                    wrapper.classList.add('active');
-                    wrapper.style.setProperty('--skill-color', SKILLS[data.user_endorsement]?.color || '#6B7280');
-                } else {
-                    wrapper.classList.remove('active');
-                    wrapper.style.removeProperty('--skill-color');
-                }
-            } catch (err) {
-                skillBtn.classList.toggle('active', wasActive);
-                if (prevActive) prevActive.classList.add('active');
-                if (!wasActive) wrapper.classList.remove('active');
-                showToast('Error de conexión. Inténtalo de nuevo.', 'error');
-                countEl.textContent = prevCount;
-            }
+            await toggleEndorsement(projectId, skillType, panel, wrapper);
         }
 
         const endorsementBtn = e.target.closest('.endorsement-btn');

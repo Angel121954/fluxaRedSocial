@@ -81,8 +81,6 @@ class ToastManager {
             box-shadow: 0 4px 12px rgba(0,0,0,0.15);
             font-size: 14px;
             font-family: system-ui, -apple-system, sans-serif;
-            min-width: 280px;
-            max-width: 400px;
             pointer-events: auto;
             animation: toast-in 0.3s ease-out;
         `;
@@ -239,6 +237,36 @@ style.textContent = `
         0% { transform: scale(1); }
         50% { transform: scale(1.02); }
         100% { transform: scale(1); }
+    }
+
+    .toast-entry {
+        min-width: 280px;
+        max-width: 400px;
+    }
+    .toast-entry .toast-content {
+        overflow-wrap: break-word;
+        word-break: break-word;
+        min-width: 0;
+    }
+
+    @media (max-width: 640px) {
+        #toast-container {
+            left: 16px !important;
+            right: 16px !important;
+            bottom: 16px !important;
+            top: auto !important;
+            transform: none !important;
+            width: auto !important;
+        }
+        #toast-container .toast-entry {
+            min-width: 0;
+            max-width: 100%;
+            width: 100%;
+            padding: 12px 14px;
+            font-size: 13px;
+            gap: 10px;
+            box-sizing: border-box;
+        }
     }
 `;
 document.head.appendChild(style);

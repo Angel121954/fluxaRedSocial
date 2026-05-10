@@ -3,11 +3,20 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const mobileInput = document.getElementById('mobileSearch');
     if (mobileInput) {
+        var mobileTimeout;
         mobileInput.addEventListener('input', function () {
+            clearTimeout(mobileTimeout);
             const q = this.value.trim();
             const desktopInput = document.getElementById('globalSearch');
             if (desktopInput) desktopInput.value = q;
-            if (q.length >= 2) performSearch(q, document.getElementById('searchResults'));
+            if (q.length >= 2) {
+                mobileTimeout = setTimeout(function () {
+                    performSearch(q, document.getElementById('mobileSearchResults'));
+                }, 350);
+            } else {
+                document.getElementById('mobileSearchResults').classList.remove('active');
+                document.getElementById('mobileSearchResults').innerHTML = '';
+            }
         });
         mobileInput.addEventListener('keydown', function (e) {
             if (e.key === 'Enter') {
@@ -15,6 +24,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (this.value.trim().length >= 2) {
                     window.location.href = `/explore?q=${encodeURIComponent(this.value.trim())}`;
                 }
+            }
+        });
+        mobileInput.addEventListener('focus', function () {
+            if (this.value.trim().length >= 2) {
+                document.getElementById('mobileSearchResults').classList.add('active');
             }
         });
     }
@@ -104,6 +118,12 @@ document.addEventListener('click', function (e) {
     const results = document.getElementById('searchResults');
     if (results && input && !input.contains(e.target) && !results.contains(e.target)) {
         results.classList.remove('active');
+    }
+
+    const mobileInput = document.getElementById('mobileSearch');
+    const mobileResults = document.getElementById('mobileSearchResults');
+    if (mobileResults && mobileInput && !mobileInput.contains(e.target) && !mobileResults.contains(e.target)) {
+        mobileResults.classList.remove('active');
     }
 });
 

@@ -1078,6 +1078,10 @@
         overflow: hidden;
     }
 
+    .msgs-modal-overlay {
+        padding: 1rem;
+    }
+
     .msgs-sidebar {
         width: 100%;
         min-width: 100%;

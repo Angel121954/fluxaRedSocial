@@ -297,6 +297,7 @@ select.form-input {
     gap: 0.875rem;
     flex: 1;
     min-width: 0;
+    overflow: hidden;
 }
 
 .logout-icon {
@@ -316,6 +317,7 @@ select.form-input {
     flex-direction: column;
     gap: 0.2rem;
     min-width: 0;
+    overflow: hidden;
 }
 
 .logout-device {
@@ -330,6 +332,7 @@ select.form-input {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    min-width: 0;
 }
 
 .btn-logout {
@@ -440,7 +443,7 @@ select.form-input {
 @media (max-width: 768px) {
     .logout-row {
         flex-direction: column;
-        align-items: flex-start;
+        align-items: stretch;
     }
 
     .danger-item {

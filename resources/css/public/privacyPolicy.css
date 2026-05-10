@@ -154,11 +154,37 @@
     .privacy-layout {
         grid-template-columns: 1fr;
         gap: 32px;
+        overflow-x: hidden;
     }
 
     .privacy-nav {
         position: static !important;
         border-radius: 12px;
+        min-width: 0;
+    }
+
+    .privacy-content {
+        min-width: 0;
+    }
+}
+
+@media (max-width: 520px) {
+    .privacy-layout {
+        padding: 0 16px;
+        margin: 32px auto 60px;
+        overflow-x: hidden;
+    }
+
+    .privacy-nav {
+        min-width: 0;
+        overflow: hidden;
+        padding: 14px;
+    }
+
+    .privacy-nav-list li a {
+        padding: 6px 8px;
+        font-size: 12px;
+        word-break: break-word;
     }
 }
 
@@ -478,6 +504,7 @@
     text-decoration-color: #c4b5fd;
     text-underline-offset: 3px;
     transition: text-decoration-color .15s;
+    word-break: break-all;
 }
 
 .privacy-link:hover {

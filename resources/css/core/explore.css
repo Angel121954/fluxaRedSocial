@@ -1268,6 +1268,17 @@ body {
     .nav-search-wrap {
         display: none;
     }
+
+    .post-menu-btn:hover {
+        background: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .feed-layout {
+        padding: 1.5rem;
+        overflow-x: hidden;
+    }
 }
 
 @media (max-width: 640px) {
@@ -1280,7 +1291,33 @@ body {
     }
 
     .feed-layout {
-        padding: 1rem;
+        padding: 1.25rem 1.5rem;
+    }
+
+    .post-card {
+        padding: 1.25rem;
+        margin-bottom: 1rem;
+        border-radius: var(--r-xl);
+    }
+
+    .post-header {
+        gap: 0.75rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .post-content {
+        font-size: 0.9375rem;
+        line-height: 1.7;
+        margin-bottom: 0.75rem;
+    }
+
+    .post-tags {
+        gap: 0.5rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .post-actions {
+        padding-top: 0.75rem;
     }
 
     .btn-new {
@@ -1306,6 +1343,74 @@ body {
         height: 100vh;
         max-height: 100vh;
         border-radius: 0;
+    }
+
+    .like-btn {
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .like-btn:hover,
+    .like-btn:active {
+        background: none;
+        color: var(--ink-400);
+    }
+
+    .like-btn.liked:hover,
+    .like-btn.liked:active {
+        color: #EF4444;
+    }
+
+    .endorsement-wrapper:hover .skill-panel {
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(8px) scale(0.94);
+    }
+
+    .endorsement-wrapper .skill-panel.show,
+    .skill-panel.show {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0) scale(1);
+    }
+
+    .skill-panel {
+        flex-direction: column;
+        gap: 0.25rem;
+        left: 0;
+        min-width: 180px;
+    }
+
+    .skill-btn {
+        width: 100%;
+        height: auto;
+        justify-content: flex-start;
+        gap: 0.5rem;
+        padding: 0.5rem 0.75rem;
+        border-radius: 8px;
+    }
+
+    .skill-btn svg {
+        width: 18px;
+        height: 18px;
+        flex-shrink: 0;
+    }
+
+    .skill-tooltip {
+        position: static;
+        transform: none;
+        background: none;
+        color: inherit;
+        padding: 0;
+        border-radius: 0;
+        white-space: nowrap;
+        opacity: 1;
+        pointer-events: auto;
+        font-size: 0.75rem;
+        font-weight: 500;
+    }
+
+    .skill-btn:hover .skill-tooltip {
+        transform: none;
     }
 }
 

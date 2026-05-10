@@ -346,6 +346,7 @@ select.form-input {
         grid-template-columns: 1fr;
         padding: 0;
         gap: 0;
+        overflow-x: hidden;
     }
 
     .sidebar {

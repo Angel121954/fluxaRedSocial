@@ -231,7 +231,7 @@ routes/
 - Búsqueda de usuarios (API interna)
 
 ## Notas para el agente
-- **Leer este archivo antes de cualquier cambio**
+- **Leer AGENTS.md y UI_UX.md antes de cualquier cambio** (ambos son obligatorios)
 - Nunca usar Alpine.js salvo indicación explícita
 - Nunca poner directivas Blade dentro de `<script>`; usar `data-*`
 - Nunca JS inline en vistas Blade

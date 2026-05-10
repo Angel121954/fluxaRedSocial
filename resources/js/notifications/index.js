@@ -22,11 +22,11 @@ function renderNotificationToast(data) {
     
     var icon = getIconForType(data.type);
     var msg = data.body || 'Nueva notificación';
-    if (data.from_user) msg = data.from_user.name + ' ' + msg;
+    if (data.from_user) msg = '<strong>' + data.from_user.name + '</strong> ' + msg;
     
     new ToastManager().create({
         type: 'info',
-        message: '<span style="display:flex;align-items:center;gap:8px"><span style="flex-shrink:0">' + icon + '</span><span>' + msg + '</span></span>',
+        message: '<span style="display:flex;align-items:flex-start;gap:8px;min-width:0"><span style="flex-shrink:0;margin-top:2px">' + icon + '</span><span style="min-width:0;overflow-wrap:break-word;word-break:break-word">' + msg + '</span></span>',
         duration: 5000,
         dismissible: true
     });

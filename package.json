@@ -2,6 +2,7 @@
     "private": true,
     "scripts": {
         "dev": "vite",
+        "prebuild": "rm -rf public/build/assets 2>/dev/null",
         "build": "vite build"
     },
     "devDependencies": {

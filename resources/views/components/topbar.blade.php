@@ -4,13 +4,13 @@
      NAVBAR
 ═════════════════════════════════════════ -->
 @php
-    $currentConvId = request()->query('conv') ? (int) request()->query('conv') : null;
-    $unreadMessages = Auth::user()->role !== 'guest' 
-        ? \App\Models\Conversation::getUnreadGlobalCount(Auth::id(), $currentConvId) 
-        :0;
-    $unreadNotifications = Auth::user()->role !== 'guest'
-        ? \App\Models\Notification::unreadCount(Auth::id())
-        : 0;
+$currentConvId = request()->query('conv') ? (int) request()->query('conv') : null;
+$unreadMessages = Auth::user()->role !== 'guest'
+? \App\Models\Conversation::getUnreadGlobalCount(Auth::id(), $currentConvId)
+:0;
+$unreadNotifications = Auth::user()->role !== 'guest'
+? \App\Models\Notification::unreadCount(Auth::id())
+: 0;
 @endphp
 
 <nav class="navbar" role="navigation" aria-label="Navegación principal">
@@ -138,6 +138,7 @@
                 autocomplete="off"
                 aria-label="Buscar en Fluxa">
         </div>
+        <div class="mobile-search-results" id="mobileSearchResults"></div>
 
         {{-- Links de navegación --}}
         @if(Auth::user()->role !== 'guest')
@@ -208,6 +209,21 @@
                     d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
             </svg>
             Mi perfil
+        </a>
+
+        <a href="{{ route('about-fluxa') }}"
+            class="mobile-menu-link {{ request()->routeIs('about-fluxa*') ? 'active' : '' }}"
+            @if(request()->routeIs('about-fluxa*')) aria-current="page" @endif>
+            <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M10 8l-3-4M14 8l3-4" stroke-linecap="round" stroke-width="2" />
+                <circle cx="12" cy="10" r="2" stroke-width="2" />
+                <circle cx="12" cy="14.5" r="2.5" stroke-width="2" />
+                <ellipse cx="12" cy="19.5" rx="3.5" ry="2.5" stroke-width="2" />
+                <path d="M9.5 10l-3 1.5M14.5 10l3 1.5" stroke-linecap="round" stroke-width="2" />
+                <path d="M8.5 14.5l-3.5 1.5M15.5 14.5l3.5 1.5" stroke-linecap="round" stroke-width="2" />
+                <path d="M9 18.5l-2 2.5M15 18.5l2 2.5" stroke-linecap="round" stroke-width="2" />
+            </svg>
+            Sobre Fluxa
         </a>
 
         <div class="mobile-menu-divider"></div>
