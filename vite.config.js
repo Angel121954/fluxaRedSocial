@@ -19,6 +19,9 @@ export default defineConfig({
                 "resources/css/app.css",
                 "resources/css/variables.css",
 
+                // Salaries
+                "resources/css/salaries/index.css",
+
                 // Auth
                 "resources/css/auth/login.css",
                 "resources/css/auth/register.css",
@@ -134,6 +137,9 @@ export default defineConfig({
                 "resources/js/onboarding/index.js",
                 "resources/js/onboarding/suggestions.js",
                 "resources/js/onboarding/technologies.js",
+
+                // Salaries JS
+                "resources/js/salaries/index.js",
 
                 // Admin JS
                 "resources/js/admin/index.js",

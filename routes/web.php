@@ -23,6 +23,7 @@ use App\Http\Controllers\Profile\WorkExperienceController;
 use App\Http\Controllers\Projects\ProjectController;
 use App\Http\Controllers\Projects\CommentController;
 use App\Http\Controllers\Projects\CommentLikeController;
+use App\Http\Controllers\SalaryController;
 use App\Http\Controllers\Suggestions\SuggestionController;
 use App\Http\Controllers\Messages\MessageController;
 use App\Http\Controllers\Technology\TechnologyController;
@@ -133,6 +134,15 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
 
     Route::get('/explore/topic/{slug}', [ExploreController::class, 'topic'])
         ->name('explore.topic');
+
+    Route::get('/salaries', [SalaryController::class, 'index'])
+        ->name('salaries.index');
+
+    Route::get('/salaries/data', [SalaryController::class, 'data'])
+        ->name('salaries.data');
+
+    Route::post('/salaries', [SalaryController::class, 'store'])
+        ->name('salaries.store');
 
     Route::get('/about-fluxa', [AboutFluxaController::class, 'index'])
         ->name('about-fluxa');
