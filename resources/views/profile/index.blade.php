@@ -388,7 +388,7 @@
 
     {{-- Panel: Stack --}}
     <div class="content" data-panel="stack" style="display:none">
-        <x-stack-tab :technologies="$technologies" />
+        <x-stack-tab :technologies="$technologies" :isOwner="$isOwner" />
     </div>
 
     {{-- Panel: Favoritos --}}
@@ -421,6 +421,9 @@
     @endif
     <!-- end content -->
     <x-modal-image :profile="$profile" />
+    @if($isOwner)
+    @include('profile.partials.stack-modal')
+    @endif
     <x-cv-template
         :profile="$profile"
         :user="$user"
@@ -447,4 +450,5 @@
 
 @push('scripts')
 @vite('resources/js/profile/index.js')
+@vite('resources/js/profile/stackModal.js')
 @endpush

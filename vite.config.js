@@ -89,6 +89,7 @@ export default defineConfig({
                 "resources/js/profile/filters.js",
                 "resources/js/profile/profileOptions.js",
                 "resources/js/profile/shareProfile.js",
+                "resources/js/profile/stackModal.js",
                 "resources/js/profile/tabs.js",
 
                 // Shared JS

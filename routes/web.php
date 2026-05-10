@@ -182,6 +182,9 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
         Route::delete('/profile/avatar', [ProfileController::class, 'destroyAvatar'])
             ->name('profile.avatar.destroy');
 
+        Route::post('/profile/technologies', [ProfileController::class, 'updateTechnologies'])
+            ->name('profile.technologies.update');
+
         /*
         |--------------------------------------------------------------------------
         | Configuración y cuenta

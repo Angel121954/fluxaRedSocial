@@ -1046,6 +1046,61 @@ body {
     box-shadow: var(--shadow-hover);
 }
 
+.stack-footer {
+    display: flex;
+    justify-content: center;
+    padding: 0.5rem 0 1.5rem;
+    border-top: 1px solid var(--border);
+    margin-top: 0.5rem;
+}
+
+.stack-add-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--accent);
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: var(--r-md);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.2s;
+}
+
+.stack-add-link:hover {
+    background: color-mix(in srgb, var(--accent) 10%, transparent);
+}
+
+.stack-add-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--accent);
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-decoration: none;
+    margin-top: 0.75rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--accent);
+    border-radius: var(--r-md);
+    background: transparent;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.2s;
+}
+
+.stack-add-btn:hover {
+    background: color-mix(in srgb, var(--accent) 10%, transparent);
+}
+
+.stack-empty p {
+    margin-bottom: 0.25rem;
+}
+
 /* ─────────────────────────────────────────────────
    IMAGE MODAL
    Los estilos del modal (.img-modal, .modal-wrap, .modal-x)
@@ -1053,6 +1108,267 @@ body {
    en todas las páginas de configuración.
    Asegúrate de cargar shared.css en esta vista también.
 ───────────────────────────────────────────────── */
+
+/* ── Stack Modal ────────────────────────────────── */
+.stack-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(11, 15, 26, 0.45);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    z-index: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+}
+
+.stack-modal-backdrop.is-open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.stack-modal {
+    background: var(--surface);
+    border-radius: 18px;
+    width: 100%;
+    max-width: 580px;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.14), 0 4px 16px rgba(0, 0, 0, 0.08);
+    transform: translateY(12px) scale(0.98);
+    transition: transform 0.22s ease, opacity 0.22s ease;
+    opacity: 0;
+}
+
+.stack-modal-backdrop.is-open .stack-modal {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+}
+
+.stack-modal-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.5rem 1.5rem 1.25rem;
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+}
+
+.stack-modal-header-text {
+    flex: 1;
+}
+
+.stack-modal-title {
+    font-size: 1.0625rem;
+    font-weight: 700;
+    color: var(--ink-900);
+    letter-spacing: -0.025em;
+}
+
+.stack-modal-subtitle {
+    font-size: 0.8125rem;
+    color: var(--ink-400);
+    margin-top: 0.2rem;
+}
+
+.stack-modal-close {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: none;
+    background: transparent;
+    color: var(--ink-400);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s;
+    flex-shrink: 0;
+}
+
+.stack-modal-close:hover {
+    background: var(--ink-100);
+    color: var(--ink-700);
+}
+
+.stack-modal-close svg {
+    width: 18px;
+    height: 18px;
+}
+
+.stack-modal-body {
+    padding: 1.25rem 1.5rem;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.stack-modal-search {
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+.stack-modal-search svg {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+    height: 18px;
+    color: var(--ink-400);
+    pointer-events: none;
+}
+
+.stack-modal-search input {
+    width: 100%;
+    padding: 0.625rem 0.75rem 0.625rem 2.25rem;
+    border: 1px solid var(--border);
+    border-radius: var(--r-md);
+    font-size: 0.875rem;
+    font-family: inherit;
+    background: var(--surface);
+    color: var(--ink-900);
+    transition: border-color 0.15s;
+    box-sizing: border-box;
+}
+
+.stack-modal-search input:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+.stack-modal-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 0.5rem;
+}
+
+.stack-modal-item {
+    position: relative;
+}
+
+.stack-modal-item input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.stack-modal-item label {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 0.625rem 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: var(--r-md);
+    cursor: pointer;
+    font-size: 0.8125rem;
+    color: var(--ink-700);
+    font-weight: 500;
+    transition: border-color 0.15s, background 0.15s;
+}
+
+.stack-modal-item label:hover {
+    border-color: var(--accent);
+    background: var(--accent-dim);
+}
+
+.stack-modal-item input[type="checkbox"]:checked + label {
+    border-color: var(--accent);
+    background: var(--accent-dim);
+}
+
+.stack-modal-check {
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+    border: 2px solid var(--border-strong);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.15s;
+}
+
+.stack-modal-item input[type="checkbox"]:checked + label .stack-modal-check {
+    background: var(--accent);
+    border-color: var(--accent);
+}
+
+.stack-modal-check svg {
+    width: 10px;
+    height: 10px;
+    opacity: 0;
+    transition: opacity 0.15s;
+}
+
+.stack-modal-item input[type="checkbox"]:checked + label .stack-modal-check svg {
+    opacity: 1;
+}
+
+.stack-modal-item label i {
+    font-size: 20px;
+}
+
+.stack-modal-empty {
+    color: var(--ink-400);
+    font-size: 0.875rem;
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 2rem 0;
+}
+
+.stack-modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    padding: 1.25rem 1.5rem;
+    border-top: 1px solid var(--border);
+    flex-shrink: 0;
+}
+
+.stack-modal-btn-cancel {
+    padding: 0.5rem 1.25rem;
+    border-radius: var(--r-md);
+    border: 1px solid var(--border-strong);
+    background: var(--surface);
+    color: var(--ink-600);
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s;
+    font-family: inherit;
+}
+
+.stack-modal-btn-cancel:hover {
+    background: var(--ink-100);
+}
+
+.stack-modal-btn-save {
+    padding: 0.5rem 1.25rem;
+    border-radius: var(--r-md);
+    border: none;
+    background: var(--accent);
+    color: #fff;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.15s;
+    font-family: inherit;
+}
+
+.stack-modal-btn-save:hover {
+    opacity: 0.9;
+}
+
+.stack-modal-btn-save:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
 
 /* ─────────────────────────────────────────────────
    RESPONSIVE

@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Profile;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateAvatarRequest;
+use App\Http\Requests\UpdateTechnologiesRequest;
 use App\Models\Conversation;
 use App\Models\Profile;
+use App\Models\Technology;
 use App\Models\User;
 use App\Services\CVService;
 use App\Services\ProfileService;
@@ -50,6 +52,8 @@ class ProfileController extends Controller
         });
 
         $technologies = $user->technologies()->orderBy('name')->get();
+        $allTechnologies = Technology::orderBy('name')->get();
+        $userTechnologies = $technologies;
         $workExperiences = $user->workExperiences()->orderBy('started_at', 'desc')->get();
         $educations = $user->educations()->orderBy('graduated_year', 'desc')->get();
 
@@ -64,6 +68,8 @@ class ProfileController extends Controller
             'projects',
             'isOwner',
             'technologies',
+            'allTechnologies',
+            'userTechnologies',
             'workExperiences',
             'educations',
             'favoriteProjects',
@@ -116,6 +122,8 @@ class ProfileController extends Controller
         }
 
         $technologies = $user->technologies()->orderBy('name')->get();
+        $allTechnologies = Technology::orderBy('name')->get();
+        $userTechnologies = $technologies;
         $workExperiences = $user->workExperiences()->orderBy('started_at', 'desc')->get();
         $educations = $user->educations()->orderBy('graduated_year', 'desc')->get();
 
@@ -135,6 +143,8 @@ class ProfileController extends Controller
             'isFollowing',
             'isFollowedBy',
             'technologies',
+            'allTechnologies',
+            'userTechnologies',
             'workExperiences',
             'educations',
             'favoriteProjects',
@@ -217,5 +227,13 @@ class ProfileController extends Controller
         } catch (Exception $e) {
             return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
         }
+    }
+
+    public function updateTechnologies(UpdateTechnologiesRequest $request): JsonResponse
+    {
+        $user = Auth::user();
+        $user->technologies()->sync($request->technologies ?? []);
+
+        return response()->json(['success' => true]);
     }
 }
