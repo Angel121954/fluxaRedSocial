@@ -41,7 +41,6 @@ class RegisteredUserController extends Controller
             'username' => strtolower(strip_tags($request->username)),
             'role' => 'user',
             'email' => strtolower($request->email),
-            'email_verified_at' => now(),
             'password' => Hash::make($request->password),
             'remember_token' => Str::random(60),
         ]);

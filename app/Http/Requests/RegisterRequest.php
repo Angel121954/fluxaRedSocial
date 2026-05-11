@@ -57,7 +57,7 @@ class RegisterRequest extends FormRequest
             'password' => [
                 'required',
                 'confirmed',
-                Password::min(6),
+                Password::min(8),
             ],
         ];
     }
@@ -79,7 +79,7 @@ class RegisterRequest extends FormRequest
             'email.email' => 'El email no tiene un formato válido.',
             'email.unique' => 'Este email ya está registrado.',
             'password.required' => 'La contraseña es obligatoria.',
-            'password.min' => 'La contraseña debe tener al menos 6 caracteres.',
+            'password.min' => 'La contraseña debe tener al menos 8 caracteres.',
         ];
     }
 }

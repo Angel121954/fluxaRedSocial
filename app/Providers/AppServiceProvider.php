@@ -2,12 +2,11 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\Facades\View;
-use Illuminate\Support\Facades\Broadcast;
-use Illuminate\Support\ServiceProvider;
-use App\Models\Conversation;
-use Illuminate\Http\Request;
+use App\View\Composers\CvTemplateComposer;
+use App\View\Composers\ProfileComposer;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\View;
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,12 +22,14 @@ class AppServiceProvider extends ServiceProvider
 
     /**
      * Bootstrap any application services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
-        View::composer('components.cv-template', \App\View\Composers\CvTemplateComposer::class);
+        if (app()->environment('production')) {
+            URL::forceScheme('https');
+        }
+
+        View::composer('components.cv-template', CvTemplateComposer::class);
 
         View::composer([
             'profile.index',
@@ -50,6 +51,6 @@ class AppServiceProvider extends ServiceProvider
             'public.privacy-policy',
             'public.terms',
             'messages.index',
-        ], \App\View\Composers\ProfileComposer::class);
+        ], ProfileComposer::class);
     }
 }
