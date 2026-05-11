@@ -110,21 +110,26 @@ class SalaryController extends Controller
             ->groupBy('country')
             ->orderByDesc('avg')
             ->get();
-        $byTechnology = SalaryReport::selectRaw('technology_id, ROUND(AVG(salary_usd)) as avg, COUNT(*) as count')
+        $byTechnologyRaw = SalaryReport::selectRaw('technology_id, ROUND(AVG(salary_usd)) as avg, COUNT(*) as count')
             ->join('salary_report_technology', 'salary_reports.id', '=', 'salary_report_technology.salary_report_id')
             ->groupBy('technology_id')
             ->orderByDesc('avg')
-            ->get()
-            ->map(function ($item) {
-                $tech = Technology::find($item->technology_id);
+            ->get();
 
-                return [
-                    'technology' => $tech?->name ?? 'Desconocida',
-                    'slug' => $tech?->slug,
-                    'avg' => (int) $item->avg,
-                    'count' => (int) $item->count,
-                ];
-            });
+        $techMap = Technology::whereIn('id', $byTechnologyRaw->pluck('technology_id'))
+            ->get()
+            ->keyBy('id');
+
+        $byTechnology = $byTechnologyRaw->map(function ($item) use ($techMap) {
+            $tech = $techMap->get($item->technology_id);
+
+            return [
+                'technology' => $tech?->name ?? 'Desconocida',
+                'slug' => $tech?->slug,
+                'avg' => (int) $item->avg,
+                'count' => (int) $item->count,
+            ];
+        });
 
         $reports = SalaryReport::with('technologies')
             ->latest()
