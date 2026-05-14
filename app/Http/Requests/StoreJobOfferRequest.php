@@ -23,6 +23,7 @@ class StoreJobOfferRequest extends FormRequest
             'salary_min' => 'nullable|integer|min:0|max:999999',
             'salary_max' => 'nullable|integer|min:0|max:999999',
             'currency' => 'nullable|string|size:3',
+            'whatsapp' => 'nullable|string|max:20',
         ];
     }
 

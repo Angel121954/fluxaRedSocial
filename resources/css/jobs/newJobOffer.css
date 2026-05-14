@@ -265,3 +265,51 @@
     margin-top: 0.3125rem;
     line-height: 1.3;
 }
+
+/* ── WhatsApp field ──────────────────────────── */
+.jo-input-wrap {
+    display: flex;
+    align-items: stretch;
+    border: 1.5px solid var(--border-strong);
+    border-radius: var(--r-md);
+    overflow: hidden;
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+.jo-input-wrap:focus-within {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-ring);
+}
+
+.jo-input-prefix {
+    display: flex;
+    align-items: center;
+    padding: 0 0.5rem 0 0.75rem;
+    font-size: 0.875rem;
+    color: var(--ink-500);
+    background: var(--bg-subtle, #f9fafb);
+    border-right: 1px solid var(--border-strong);
+    font-weight: 500;
+}
+
+.jo-input--prefixed {
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    outline: none !important;
+    padding: 0.5625rem 0.75rem;
+    flex: 1;
+    min-width: 0;
+}
+
+.jo-field-hint {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--ink-400);
+    margin-top: 0.3125rem;
+}
+
+.jo-field .hint {
+    font-weight: 400;
+    color: var(--ink-400);
+    font-size: 0.75rem;
+}

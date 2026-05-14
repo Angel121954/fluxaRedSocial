@@ -696,6 +696,31 @@
     border-color: var(--jobs-teal);
 }
 
+.job-detail__actions .btn-whatsapp {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--accent, #12b3b6);
+    color: #fff;
+    text-decoration: none;
+    transition: background 0.15s, transform 0.15s, box-shadow 0.15s;
+    flex-shrink: 0;
+}
+
+.job-detail__actions .btn-whatsapp svg {
+    width: 20px;
+    height: 20px;
+}
+
+.job-detail__actions .btn-whatsapp:hover {
+    background: var(--accent-dark, #0a8a8c);
+    transform: scale(1.05);
+    box-shadow: 0 2px 10px rgba(18, 179, 182, 0.3);
+}
+
 /* ── Cargar más ──────────────────────────────────────────────────── */
 .jobs-load-more-wrap {
     margin-top: .75rem;

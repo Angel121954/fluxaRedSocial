@@ -144,6 +144,7 @@ class JobController extends Controller
             'seniority' => $request->seniority,
             'salary_min' => $request->salary_min,
             'salary_max' => $request->salary_max,
+            'whatsapp' => $request->whatsapp,
             'currency' => $request->currency ?? 'usd',
             'salary_currency' => strtoupper($request->currency ?? 'usd'),
             'status' => 'published',

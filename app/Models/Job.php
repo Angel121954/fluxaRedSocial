@@ -32,6 +32,7 @@ class Job extends Model
         'salary_max',
         'currency',
         'salary_currency',
+        'whatsapp',
         'is_featured',
         'tags',
         'application_url',

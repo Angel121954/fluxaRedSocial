@@ -86,6 +86,16 @@
                         placeholder="Ej: Bogotá, Colombia / Remoto" maxlength="100" />
                 </div>
 
+                <div class="jo-field">
+                    <label for="jo-whatsapp">WhatsApp <span class="hint">(opcional)</span></label>
+                    <div class="jo-input-wrap">
+                        <span class="jo-input-prefix">+</span>
+                        <input id="jo-whatsapp" name="whatsapp" type="text" class="jo-input jo-input--prefixed"
+                            placeholder="573001234567" maxlength="20" />
+                    </div>
+                    <span class="jo-field-hint">Se mostrará un botón de contacto en la oferta</span>
+                </div>
+
                 <div class="jo-row jo-row--3">
                     <div class="jo-field">
                         <label for="jo-salary-min">Salario mín.</label>
