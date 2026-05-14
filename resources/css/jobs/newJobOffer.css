@@ -1,0 +1,189 @@
+/* ═══════════════════════════════════════════════════════════
+   resources/css/jobs/newJobOffer.css
+   Modal: Publicar oferta de empleo (para usuarios company)
+   Sigue el patrón de #modal-overlay / #modal-card de newProject
+════════════════════════════════════════════════════════════ */
+
+/* ── Overlay ──────────────────────────────────── */
+#jobOfferOverlay {
+    display: flex;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgba(0, 0, 0, 0.4);
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+#jobOfferOverlay.open {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* ── Card ─────────────────────────────────────── */
+#jobOfferCard {
+    background: var(--surface);
+    border-radius: 12px;
+    width: 100%;
+    max-width: 560px;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12), 0 1px 4px rgba(0, 0, 0, 0.06);
+    opacity: 0;
+    transform: translateY(20px) scale(0.97);
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.25s ease;
+}
+
+#jobOfferOverlay.open #jobOfferCard {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+/* ── Header ───────────────────────────────────── */
+#jobOfferHeader {
+    padding: 1.25rem 1.5rem 1rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-shrink: 0;
+}
+
+#jobOfferTitle {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--ink-900);
+    line-height: 1.4;
+}
+
+#jobOfferSubtitle {
+    font-size: 0.8125rem;
+    color: var(--ink-400);
+    margin-top: 0.1875rem;
+}
+
+/* ── Body (scrollable) ─────────────────────────── */
+#jobOfferBody {
+    padding: 1.25rem 1.5rem;
+    flex: 1;
+    overflow-y: auto;
+}
+
+/* ── Footer ───────────────────────────────────── */
+#jobOfferFooter {
+    padding: 1rem 1.5rem 1.25rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    flex-shrink: 0;
+}
+
+/* ── Form fields ───────────────────────────────── */
+.jo-field {
+    margin-bottom: 1rem;
+}
+
+.jo-field label {
+    display: block;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--ink-700);
+    margin-bottom: 0.375rem;
+}
+
+.jo-field .req {
+    color: #ef4444;
+}
+
+.jo-input {
+    width: 100%;
+    padding: 0.5625rem 0.75rem;
+    border: 1.5px solid var(--border-strong);
+    border-radius: var(--r-md);
+    font-size: 0.875rem;
+    font-family: inherit;
+    color: var(--ink-900);
+    background: var(--surface);
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    box-sizing: border-box;
+}
+
+.jo-input::placeholder {
+    color: var(--ink-300);
+}
+
+.jo-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-ring);
+}
+
+.jo-textarea {
+    resize: vertical;
+    min-height: 100px;
+    line-height: 1.6;
+}
+
+.jo-select {
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%239ca3af'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.625rem center;
+    background-size: 14px;
+    padding-right: 2rem;
+    cursor: pointer;
+}
+
+/* ── Row layout ───────────────────────────────── */
+.jo-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+}
+
+.jo-row--3 {
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+/* ── Buttons (reuse btn pattern) ───────────────── */
+#jobOfferFooter .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.5rem 1.125rem;
+    border-radius: var(--r-md);
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.15s, box-shadow 0.15s;
+    border: none;
+    white-space: nowrap;
+}
+
+#jobOfferFooter .btn-secondary {
+    background: var(--ink-100);
+    color: var(--ink-600);
+}
+
+#jobOfferFooter .btn-secondary:hover {
+    background: var(--ink-200);
+}
+
+#jobOfferFooter .btn-primary {
+    background: var(--accent);
+    color: #fff;
+}
+
+#jobOfferFooter .btn-primary:hover {
+    background: var(--accent-dark);
+    box-shadow: 0 2px 10px rgba(18, 179, 182, 0.28);
+}

@@ -30,11 +30,34 @@ $unreadNotifications = Auth::user()->role !== 'guest'
                     Feed
                 </a>
                 @endif
-                <a href="{{ route('salaries.index') }}"
-                    class="nav-link {{ request()->routeIs('salaries*') ? 'active' : '' }}"
-                    @if(request()->routeIs('salaries*')) aria-current="page" @endif>
-                    Sueldos
-                </a>
+                <div class="nav-dropdown">
+                    <button class="nav-dropdown-trigger {{ request()->routeIs('salaries*') || request()->routeIs('jobs*') ? 'active' : '' }}"
+                            id="jobsDropdownBtn"
+                            aria-haspopup="true"
+                            aria-expanded="false"
+                            onclick="toggleJobsDropdown(event)">
+                        Oportunidades
+                        <svg class="nav-dropdown-chevron" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                    <div class="nav-dropdown-menu" id="jobsDropdownMenu" role="menu" aria-labelledby="jobsDropdownBtn">
+                        <a href="{{ route('salaries.index') }}"
+                            class="nav-dropdown-item {{ request()->routeIs('salaries*') ? 'active' : '' }}"
+                            @if(request()->routeIs('salaries*')) aria-current="page" @endif
+                            role="menuitem">
+                            Sueldos
+                        </a>
+                        @if(Auth::user()->role !== 'guest')
+                        <a href="{{ route('jobs.index') }}"
+                            class="nav-dropdown-item {{ request()->routeIs('jobs*') ? 'active' : '' }}"
+                            @if(request()->routeIs('jobs*')) aria-current="page" @endif
+                            role="menuitem">
+                            Bolsa de empleo
+                        </a>
+                        @endif
+                    </div>
+                </div>
                 <a href="{{ route('explore.index') }}"
                     class="nav-link {{ request()->routeIs('explore*') ? 'active' : '' }}"
                     @if(request()->routeIs('explore*')) aria-current="page" @endif>
@@ -90,6 +113,14 @@ $unreadNotifications = Auth::user()->role !== 'guest'
                 @csrf
                 <button type="submit" class="btn-new danger">Salir</button>
             </form>
+            @elseif(Auth::user()->account_type === 'company')
+            <button onclick="abrirJobOffer()" class="btn-new" aria-label="Publicar oferta de empleo">
+                <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                </svg>
+                <span>Publicar oferta</span>
+            </button>
             @else
             <button onclick="abrirModal()" class="btn-new" aria-label="Crear nuevo proyecto">
                 <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -98,10 +129,10 @@ $unreadNotifications = Auth::user()->role !== 'guest'
                 </svg>
                 <span>Nuevo proyecto</span>
             </button>
+            @endif
             <a href="{{ route('profile.index') }}" aria-label="Ver mi perfil">
                 <img src="{{ Auth::user()->avatar_url }}" alt="Tu perfil" class="nav-user-av" />
             </a>
-            @endif
 
             <button
                 class="mobile-menu-btn"
@@ -124,6 +155,9 @@ $unreadNotifications = Auth::user()->role !== 'guest'
 {{-- Modal nuevo proyecto (solo usuarios registrados) --}}
 @if(Auth::user()->role !== 'guest')
 <x-new-project />
+@if(Auth::user()->account_type === 'company')
+<x-new-job-offer />
+@endif
 @endif
 
 {{-- ── Menú móvil ── --}}

@@ -14,6 +14,7 @@ class DatabaseSeeder extends Seeder
             ProfileSeeder::class,
             ProjectSeeder::class,
             SuggestionSeeder::class,
+            JobSeeder::class,
         ]);
     }
 }

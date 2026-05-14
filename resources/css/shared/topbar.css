@@ -78,6 +78,129 @@
     font-weight: 600;
 }
 
+/* ── Dropdown "Empleos" ──────────────────── */
+
+.nav-dropdown {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.nav-dropdown-trigger {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 0.4375rem 0.625rem;
+    border-radius: var(--r-sm);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--ink-500);
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.15s, background 0.15s;
+    font-family: inherit;
+    letter-spacing: -0.005em;
+    white-space: nowrap;
+}
+
+.nav-dropdown-trigger:hover {
+    color: var(--ink-900);
+    background: var(--ink-100);
+}
+
+.nav-dropdown-trigger.active {
+    color: var(--accent);
+    font-weight: 600;
+}
+
+.nav-dropdown-trigger.active::after {
+    content: "";
+    position: absolute;
+    bottom: -12px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--accent);
+}
+
+.nav-dropdown-chevron {
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+}
+
+.nav-dropdown-trigger[aria-expanded="true"] .nav-dropdown-chevron {
+    transform: rotate(180deg);
+}
+
+.nav-dropdown-menu {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    left: 50%;
+    transform: translateX(-50%) translateY(-4px);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    box-shadow: var(--shadow-md);
+    min-width: 170px;
+    padding: 0.375rem;
+    display: none;
+    z-index: 300;
+    opacity: 0;
+    transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.nav-dropdown-menu.active {
+    display: block;
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.nav-dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: var(--r-sm);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--ink-600);
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+    white-space: nowrap;
+}
+
+.nav-dropdown-item:hover {
+    background: var(--ink-100);
+    color: var(--ink-900);
+}
+
+.nav-dropdown-item.active {
+    color: var(--accent);
+    background: var(--accent-dim);
+    font-weight: 600;
+}
+
+.nav-dropdown-item.active:hover {
+    background: var(--accent-dim);
+}
+
+/* Flechita superior del dropdown */
+.nav-dropdown-menu::before {
+    content: "";
+    position: absolute;
+    top: -5px;
+    left: 50%;
+    transform: translateX(-50%) rotate(45deg);
+    width: 8px;
+    height: 8px;
+    background: var(--surface);
+    border-left: 1px solid var(--border);
+    border-top: 1px solid var(--border);
+}
+
 .nav-badge {
     display: inline-flex;
     align-items: center;
@@ -448,9 +571,14 @@
         height: 60px;
     }
 
-    .nav-link {
+    .nav-link,
+    .nav-dropdown-trigger {
         padding: 0.375rem 0.625rem;
         font-size: 0.8125rem;
+    }
+
+    .nav-dropdown-trigger.active::after {
+        bottom: -11px;
     }
 
     .nav-search-wrap {

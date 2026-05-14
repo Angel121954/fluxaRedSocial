@@ -28,6 +28,7 @@ use App\Http\Controllers\Suggestions\SuggestionController;
 use App\Http\Controllers\Messages\MessageController;
 use App\Http\Controllers\Technology\TechnologyController;
 use App\Http\Controllers\Profile\UserController;
+use App\Http\Controllers\Jobs\JobController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -260,6 +261,23 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
 
         Route::patch('/notification-preference', [NotificationPreferenceController::class, 'update'])
             ->name('notification-preference.update');
+
+        /*
+        |--------------------------------------------------------------------------
+        | Bolsa de empleo
+        |--------------------------------------------------------------------------
+        */
+        Route::get('/jobs', [JobController::class, 'index'])
+            ->name('jobs.index');
+        Route::get('/jobs/saved', [JobController::class, 'saved'])
+            ->name('jobs.saved');
+        Route::get('/jobs/create', [JobController::class, 'create'])
+            ->name('jobs.create');
+        Route::get('/jobs/{id}', [JobController::class, 'show'])
+            ->name('jobs.show');
+        Route::post('/jobs/bookmark', [JobController::class, 'bookmark'])
+            ->name('jobs.bookmark');
+
 
         /*
         |--------------------------------------------------------------------------

@@ -70,6 +70,10 @@ export default defineConfig({
                 "resources/css/onboarding/technologies.css",
                 "resources/css/onboarding/suggestions.css",
 
+                // Jobs
+                "resources/css/jobs/jobs.css",
+                "resources/css/jobs/newJobOffer.css",
+
                 // Admin
                 "resources/css/admin/suggestions.css",
 
@@ -142,6 +146,10 @@ export default defineConfig({
 
                 // Salaries JS
                 "resources/js/salaries/index.js",
+
+                // Jobs JS
+                "resources/js/jobs/index.js",
+                "resources/js/jobs/newJobOffer.js",
 
                 // Admin JS
                 "resources/js/admin/index.js",

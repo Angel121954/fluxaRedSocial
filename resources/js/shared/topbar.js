@@ -125,7 +125,36 @@ document.addEventListener('click', function (e) {
     if (mobileResults && mobileInput && !mobileInput.contains(e.target) && !mobileResults.contains(e.target)) {
         mobileResults.classList.remove('active');
     }
+
+    // Cerrar dropdown Empleos si se clickea fuera
+    const ddBtn = document.getElementById('jobsDropdownBtn');
+    const ddMenu = document.getElementById('jobsDropdownMenu');
+    if (ddBtn && ddMenu && ddMenu.classList.contains('active') &&
+        !ddBtn.contains(e.target) && !ddMenu.contains(e.target)) {
+        ddBtn.setAttribute('aria-expanded', 'false');
+        ddMenu.classList.remove('active');
+    }
 });
+
+function toggleJobsDropdown(e) {
+    e.stopPropagation();
+    const btn = document.getElementById('jobsDropdownBtn');
+    const menu = document.getElementById('jobsDropdownMenu');
+    const expanded = btn.getAttribute('aria-expanded') === 'true';
+
+    // Cerrar cualquier otro dropdown abierto
+    document.querySelectorAll('.nav-dropdown-menu.active').forEach(m => {
+        if (m.id !== 'jobsDropdownMenu') {
+            m.classList.remove('active');
+            const trigger = document.querySelector(`[aria-controls="${m.id}"]`);
+            if (trigger) trigger.setAttribute('aria-expanded', 'false');
+        }
+    });
+
+    const now = !expanded;
+    btn.setAttribute('aria-expanded', now);
+    menu.classList.toggle('active', now);
+}
 
 function toggleMobileMenu() {
     const menu = document.getElementById('mobileMenu');
@@ -172,9 +201,19 @@ document.addEventListener('keydown', function (e) {
             btn.setAttribute('aria-expanded', 'false');
             menu.setAttribute('aria-hidden', 'true');
             btn.focus();
+            return;
+        }
+
+        const ddBtn = document.getElementById('jobsDropdownBtn');
+        const ddMenu = document.getElementById('jobsDropdownMenu');
+        if (ddBtn && ddMenu && ddMenu.classList.contains('active')) {
+            ddBtn.setAttribute('aria-expanded', 'false');
+            ddMenu.classList.remove('active');
+            ddBtn.focus();
         }
     }
 });
 
 window.toggleMobileMenu = toggleMobileMenu;
 window.closeMobileMenuAndOpen = closeMobileMenuAndOpen;
+window.toggleJobsDropdown = toggleJobsDropdown;
