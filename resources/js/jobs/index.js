@@ -15,3 +15,6 @@ import './bookmark.js';
 import './follow.js';
 import './loadMore.js';
 import './alert.js';
+import { startJobTimeUpdates } from './timeTicker.js';
+
+document.addEventListener('DOMContentLoaded', startJobTimeUpdates);

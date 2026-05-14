@@ -35,7 +35,7 @@
                 </div>
 
                 <div class="job-card__actions">
-                    <span class="job-card__date">
+                    <span class="job-card__date" data-timestamp="{{ $job->created_at->timestamp * 1000 }}">
                         Publicado {{ $job->created_at->diffForHumans() }}
                     </span>
                     <button
