@@ -10,6 +10,24 @@ use Illuminate\Support\Facades\Auth;
 
 class OnboardingController extends Controller
 {
+    public function accountType()
+    {
+        return view('onboarding.account-type');
+    }
+
+    public function saveAccountType(Request $request)
+    {
+        $request->validate([
+            'account_type' => 'required|in:developer,company',
+        ]);
+
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+        $user->update(['account_type' => $request->account_type]);
+
+        return redirect()->route('onboarding.technologies');
+    }
+
     public function technologies()
     {
         $technologies = Technology::orderBy('name')->get();

@@ -58,6 +58,6 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect()->route('onboarding.technologies');
+        return redirect()->route('onboarding.accountType');
     }
 }

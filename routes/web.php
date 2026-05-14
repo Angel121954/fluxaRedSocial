@@ -69,6 +69,12 @@ Route::get('/auth/{provider}/callback', [SocialAuthController::class, 'callback'
 */
 Route::middleware(['auth', 'prevent-back-history'])->group(function () {
 
+    Route::get('/onboarding/account-type', [OnboardingController::class, 'accountType'])
+        ->name('onboarding.accountType');
+
+    Route::post('/onboarding/account-type', [OnboardingController::class, 'saveAccountType'])
+        ->name('onboarding.saveAccountType');
+
     Route::get('/onboarding/technologies', [OnboardingController::class, 'technologies'])
         ->name('onboarding.technologies');
 
@@ -277,6 +283,8 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
             ->name('jobs.show');
         Route::post('/jobs/bookmark', [JobController::class, 'bookmark'])
             ->name('jobs.bookmark');
+        Route::post('/jobs', [JobController::class, 'store'])
+            ->name('jobs.store');
 
 
         /*

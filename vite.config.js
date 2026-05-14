@@ -66,6 +66,7 @@ export default defineConfig({
                 "resources/css/public/footer.css",
 
                 // Onboarding
+                "resources/css/onboarding/account-type.css",
                 "resources/css/onboarding/role.css",
                 "resources/css/onboarding/technologies.css",
                 "resources/css/onboarding/suggestions.css",
