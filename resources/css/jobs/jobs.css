@@ -672,6 +672,9 @@
 }
 
 .job-detail__actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     padding-top: 1.25rem;
     border-top: 1px solid var(--border-100, #e5e7eb);
 }
