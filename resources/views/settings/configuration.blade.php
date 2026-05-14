@@ -33,22 +33,6 @@
                 <div class="char-count" id="charCount">0/160</div>
             </x-form-group>
 
-            @php $locationService = app('App\Services\LocationService'); $countries = $locationService->getCountries(); @endphp
-            <x-form-group name="country" label="País">
-                <select class="form-input" id="input-country" name="country">
-                    <option value="">Seleccionar país...</option>
-                    @foreach($countries as $c)
-                    <option value="{{ $c['name'] }}" {{ old('country', Auth()->user()->profile->country) === $c['name'] ? 'selected' : '' }}>{{ $c['name'] }}</option>
-                    @endforeach
-                </select>
-            </x-form-group>
-
-            <x-form-group name="city" label="Ciudad">
-                <input name="city" type="text" class="form-input" id="input-city"
-                    value="{{ old('city', Auth()->user()->profile->city ?? '') }}"
-                    placeholder="Ej: Medellín" />
-            </x-form-group>
-
             <x-form-group name="website_url" label="Sitio web">
                 <div class="input-with-button">
                     <input name="website_url" type="url" class="form-input" id="input-website_url"
