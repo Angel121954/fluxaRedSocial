@@ -11,14 +11,15 @@
 <x-topbar :profile="$profile ?? null" />
 
 <div class="jobs-page">
-    <a href="{{ route('jobs.index') }}" class="job-back-link">
-        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width:16px;height:16px">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5m7-7l-7 7 7 7"/>
-        </svg>
-        Volver a ofertas
-    </a>
 
     <article class="job-detail">
+        <a href="{{ route('jobs.index') }}" class="job-back-link">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width:16px;height:16px">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12H5m7-7l-7 7 7 7"/>
+            </svg>
+            Volver a ofertas
+        </a>
+
         <div class="job-detail__header">
             <div class="job-detail__logo">
                 @if ($job->company_logo)
