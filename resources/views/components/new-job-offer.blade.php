@@ -19,7 +19,29 @@
 
         {{-- ── Body ─────────────────────────────────────────────── --}}
         <div id="jobOfferBody">
-            <form id="jobOfferForm">
+
+            {{-- Estado de éxito --}}
+            <div id="jo-success" class="jo-success" role="status" aria-live="polite" style="display:none">
+                <div class="jo-success-icon" aria-hidden="true">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                        <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                </div>
+                <h3>Oferta publicada</h3>
+                <p>Tu oferta ya está visible en la bolsa de empleo</p>
+            </div>
+
+            {{-- Banner de error --}}
+            <div id="jo-error-banner" class="jo-error-banner" role="alert" aria-live="assertive" style="display:none">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                    <circle cx="12" cy="12" r="10" />
+                    <line x1="12" y1="8" x2="12" y2="12" />
+                    <line x1="12" y1="16" x2="12.01" y2="16" />
+                </svg>
+                <ul id="jo-error-list"></ul>
+            </div>
+
+            <form id="jobOfferForm" action="{{ route('jobs.store') }}" method="POST">
                 @csrf
 
                 <div class="jo-field">
@@ -27,6 +49,7 @@
                     <input id="jo-title" name="title" type="text" class="jo-input"
                         placeholder="Ej: Desarrollador Laravel Senior"
                         aria-required="true" maxlength="120" />
+                    <span id="jo-title-err" class="jo-field-error" style="display:none"></span>
                 </div>
 
                 <div class="jo-field">
@@ -34,6 +57,7 @@
                     <textarea id="jo-description" name="description" class="jo-input jo-textarea"
                         placeholder="Describe las responsabilidades, requisitos y lo que ofrecen..."
                         aria-required="true" rows="5" maxlength="2000"></textarea>
+                    <span id="jo-desc-err" class="jo-field-error" style="display:none"></span>
                 </div>
 
                 <div class="jo-row">
@@ -92,8 +116,8 @@
 
         {{-- ── Footer ───────────────────────────────────────────── --}}
         <div id="jobOfferFooter">
-            <button class="btn btn-secondary" onclick="cerrarJobOffer()">Cancelar</button>
-            <button class="btn btn-primary" id="btnPublishJobOffer" onclick="window.toast?.success('Funcionalidad en desarrollo')">
+            <button class="btn btn-secondary" onclick="cerrarJobOffer()" id="jo-btn-cancel">Cancelar</button>
+            <button class="btn btn-primary" id="btnPublishJobOffer" onclick="publicarJobOffer()">
                 Publicar oferta
             </button>
         </div>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Jobs;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreJobOfferRequest;
 use App\Models\Job;
 use App\Models\Profile;
 use Illuminate\Http\Request;
@@ -114,6 +115,46 @@ class JobController extends Controller
         $profile = Profile::where('user_id', Auth::id())->first();
 
         return view('jobs.saved', compact('jobs', 'profile'));
+    }
+
+    public function store(StoreJobOfferRequest $request)
+    {
+        $modalityMap = [
+            'remoto' => ['label' => 'Remoto', 'location_type' => 'remote'],
+            'hibrido' => ['label' => 'Híbrido', 'location_type' => 'hybrid'],
+            'presencial' => ['label' => 'Presencial', 'location_type' => 'onsite'],
+        ];
+
+        $modality = $modalityMap[$request->modality];
+
+        $user = Auth::user();
+        $profile = $user->profile;
+
+        $job = Job::create([
+            'user_id' => $user->id,
+            'company_name' => $user->name,
+            'title' => $request->title,
+            'description' => $request->description,
+            'modality' => $request->modality,
+            'modality_label' => $modality['label'],
+            'location_type' => $modality['location_type'],
+            'location' => $request->location,
+            'country' => $profile?->country ?? $request->location,
+            'city' => $profile?->city,
+            'seniority' => $request->seniority,
+            'salary_min' => $request->salary_min,
+            'salary_max' => $request->salary_max,
+            'currency' => $request->currency ?? 'usd',
+            'salary_currency' => strtoupper($request->currency ?? 'usd'),
+            'status' => 'published',
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Oferta publicada exitosamente',
+            'job' => $job,
+            'html' => view('jobs._card', ['job' => $job])->render(),
+        ]);
     }
 
     public function create()
