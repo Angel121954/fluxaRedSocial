@@ -61,7 +61,10 @@ Proyecto final de grado SENA (programa ADSO). Dominio en evaluación: getfluxa.c
 - Cada sección tiene su propio archivo CSS en `resources/css/[sección]/[vista].css`
 
 ### Commits
-- Conventional Commits (`feat:`, `fix:`, `chore:`, `refactor:`, `docs:`, etc.)
+- Formato: `tipo(alcance): descripción en español`
+- Tipos: `feat`, `fix`, `chore`, `refactor`, `docs`, etc. (inglés)
+- Descripción siempre en español
+- Ejemplo: `feat(proyectos): añadir filtro por tecnología`
 
 ## Arquitectura
 
@@ -232,6 +235,7 @@ routes/
 
 ## Notas para el agente
 - **Leer AGENTS.md y UI_UX.md antes de cualquier cambio** (ambos son obligatorios)
+- **Pedir permiso antes de leer o modificar `.env` o archivos con credenciales**
 - Nunca usar Alpine.js salvo indicación explícita
 - Nunca poner directivas Blade dentro de `<script>`; usar `data-*`
 - Nunca JS inline en vistas Blade
