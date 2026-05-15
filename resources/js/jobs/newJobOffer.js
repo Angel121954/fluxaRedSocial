@@ -29,13 +29,12 @@ const cerrarJobOffer = () => {
 };
 
 const resetearJobOffer = () => {
-    el('jobOfferForm').reset();
-    el('jo-success').style.display = 'none';
-    el('jo-error-banner').style.display = 'none';
-    el('jo-error-list').innerHTML = '';
-    document.querySelectorAll('.jo-field-error').forEach(s => s.style.display = 'none');
-    el('btnPublishJobOffer').disabled = false;
-    el('btnPublishJobOffer').textContent = 'Publicar oferta';
+    const f = el('jobOfferForm'); if (f) f.reset();
+    const s = el('jo-success'); if (s) s.style.display = 'none';
+    const eb = el('jo-error-banner'); if (eb) eb.style.display = 'none';
+    const el_ = el('jo-error-list'); if (el_) el_.innerHTML = '';
+    document.querySelectorAll('.jo-field-error').forEach(el => { if (el) el.style.display = 'none'; });
+    const btn = el('btnPublishJobOffer'); if (btn) { btn.disabled = false; btn.textContent = 'Publicar oferta'; }
 };
 
 /* ── Errores ─────────────────────────────────────── */

@@ -74,27 +74,28 @@
             tocado: false,
         });
 
-        ['input-title', 'input-content', 'tech-search'].forEach(id => (el(id).value = ''));
+        ['input-title', 'input-content', 'tech-search'].forEach(id => { const e = el(id); if (e) e.value = ''; });
 
-        el('char-n').textContent = '0';
-        el('selected-tags').innerHTML = '';
-        el('media-grid').innerHTML = '';
-        el('success-state').style.display = 'none';
-        el('modal-footer').style.display = '';
-        el('stepper').style.display = '';
-        el('modal-title').textContent = 'Nuevo proyecto';
-        el('modal-subtitle').textContent = 'Paso 1 de 2 · Información básica';
+        const c = id => { const e = el(id); return e; };
+        if (c('char-n')) c('char-n').textContent = '0';
+        if (c('selected-tags')) c('selected-tags').innerHTML = '';
+        if (c('media-grid')) c('media-grid').innerHTML = '';
+        if (c('success-state')) c('success-state').style.display = 'none';
+        if (c('modal-footer')) c('modal-footer').style.display = '';
+        if (c('stepper')) c('stepper').style.display = '';
+        if (c('modal-title')) c('modal-title').textContent = 'Nuevo proyecto';
+        if (c('modal-subtitle')) c('modal-subtitle').textContent = 'Paso 1 de 2 · Información básica';
 
         todos('.step-panel').forEach(p => p.classList.remove('active'));
-        el('step-1').classList.add('active');
+        if (c('step-1')) c('step-1').classList.add('active');
         actualizarStepper(1);
 
-        el('btn-back').style.display = 'none';
-        el('btn-next').style.display = '';
-        el('btn-next').disabled = true;
-        el('btn-submit').style.display = 'none';
-        el('btn-cancel').style.display = '';
-        el('req-note').style.display = '';
+        if (c('btn-back')) c('btn-back').style.display = 'none';
+        if (c('btn-next')) c('btn-next').style.display = '';
+        if (c('btn-next')) c('btn-next').disabled = true;
+        if (c('btn-submit')) c('btn-submit').style.display = 'none';
+        if (c('btn-cancel')) c('btn-cancel').style.display = '';
+        if (c('req-note')) c('req-note').style.display = '';
 
         resetearTipoArchivo();
         limpiarError('title-err', 'input-title');
@@ -110,6 +111,7 @@
     const actualizarStepper = (pasoActual) => {
         for (let i = 1; i <= 2; i++) {
             const elemento = el(`st-${i}`);
+            if (!elemento) continue;
             elemento.className = `step-item${i === pasoActual ? ' active' : i < pasoActual ? ' done' : ''}`;
             elemento.querySelector('.step-num').textContent = i < pasoActual ? '✓' : String(i);
             i === pasoActual

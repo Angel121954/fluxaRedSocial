@@ -165,6 +165,7 @@
 @endsection
 
 @push('styles')
+@vite('resources/css/shared/modal.css')
 @vite('resources/css/salaries/index.css')
 @endpush
 

@@ -35,6 +35,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const recoveryCodes = document.getElementById("recoveryCodes");
     const recoveryList = document.getElementById("recoveryList");
 
+    const openModal = () => modal2FA.classList.add("is-open");
+    const closeModal = () => modal2FA.classList.remove("is-open");
+
     // ── Toggle 2FA ─────────────────────────────────────────────
     if (toggle2FA) {
         toggle2FA.addEventListener("change", async () => {
@@ -71,7 +74,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         resetModalView();
 
-        modal2FA.style.display = "flex";
+        openModal();
         setTimeout(() => codeInput.focus(), 100);
     }
 
@@ -135,11 +138,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function showRecoveryCodes(codes) {
         qrContainer.style.display = "none";
-        document.querySelector(".modal-secret").style.display = "none";
+        const secretEl = document.querySelector(".modal-secret");
+        if (secretEl) secretEl.style.display = "none";
         codeInput.style.display = "none";
         error2FA.style.display = "none";
         modalActions.style.display = "none";
-        document.querySelector("#modal2FA p").style.display = "none";
+        const subtitle = document.querySelector("#modal2FA .modal-subtitle");
+        if (subtitle) subtitle.style.display = "none";
 
         modalTitle.textContent = "Guarda tus codigos de recuperacion";
 
@@ -150,20 +155,27 @@ document.addEventListener("DOMContentLoaded", () => {
         recoveryCodes.style.display = "block";
 
         const btnClose = document.getElementById("btnCloseModal");
-        if (btnClose) btnClose.onclick = () => {
-            modal2FA.style.display = "none";
-            resetModalView();
-        };
+        if (btnClose) {
+            btnClose.style.display = "";
+            btnClose.onclick = () => {
+                closeModal();
+                resetModalView();
+            };
+        }
     }
 
     function resetModalView() {
         qrContainer.style.display = "";
-        document.querySelector(".modal-secret").style.display = "";
+        const secretEl = document.querySelector(".modal-secret");
+        if (secretEl) secretEl.style.display = "";
         codeInput.style.display = "";
         error2FA.style.display = "none";
         modalActions.style.display = "";
-        document.querySelector("#modal2FA p").style.display = "";
+        const subtitle = document.querySelector("#modal2FA .modal-subtitle");
+        if (subtitle) subtitle.style.display = "";
         recoveryCodes.style.display = "none";
+        const btnClose = document.getElementById("btnCloseModal");
+        if (btnClose) btnClose.style.display = "none";
         if (modalTitle) modalTitle.textContent = "Escanea el codigo QR";
     }
 
@@ -178,17 +190,27 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // ── Cancelar modal ─────────────────────────────────────────
-    document.getElementById("btnCancel2FA")?.addEventListener("click", () => {
-        modal2FA.style.display = "none";
+    const cancel2FA = () => {
+        closeModal();
         toggle2FA.checked = false;
         resetModalView();
         apiFetch("/user/two-factor-authentication", "DELETE");
-    });
+    };
+
+    document.getElementById("btnCancel2FA")?.addEventListener("click", cancel2FA);
+    document.getElementById("btnClose2FAHeader")?.addEventListener("click", cancel2FA);
 
     // Click en overlay cierra modal
     modal2FA?.addEventListener("click", (e) => {
         if (e.target === modal2FA) {
-            document.getElementById("btnCancel2FA")?.click();
+            cancel2FA();
+        }
+    });
+
+    // Escape cierra modal
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && modal2FA?.classList.contains("is-open")) {
+            cancel2FA();
         }
     });
 

@@ -189,6 +189,7 @@
 @endsection
 
 @push('styles')
+@vite('resources/css/shared/modal.css')
 @vite('resources/css/profile/shared.css')
 @vite('resources/css/profile/sidebar.css')
 @vite('resources/css/profile/workExperience.css')

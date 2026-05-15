@@ -862,37 +862,38 @@
 .msgs-modal-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(11, 15, 26, 0.4);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-    z-index: 400;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 9999;
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: center;
-    padding-top: 7rem;
+    padding: 1rem;
     opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.2s;
+    visibility: hidden;
+    transition: opacity 0.25s ease, visibility 0.25s ease;
 }
 
 .msgs-modal-overlay.active {
     opacity: 1;
-    pointer-events: auto;
+    visibility: visible;
 }
 
 .msgs-modal {
     background: var(--surface);
-    border: 1px solid var(--border-strong);
-    border-radius: var(--r-xl);
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.14), 0 4px 16px rgba(0, 0, 0, 0.08);
+    border-radius: 12px;
+    box-shadow:
+        0 4px 24px rgba(0, 0, 0, 0.12),
+        0 1px 4px rgba(0, 0, 0, 0.06);
     width: 100%;
     max-width: 460px;
     overflow: hidden;
-    transform: translateY(-10px) scale(0.97);
-    transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transform: translateY(20px) scale(0.97);
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.25s ease;
+    opacity: 0;
 }
 
 .msgs-modal-overlay.active .msgs-modal {
+    opacity: 1;
     transform: translateY(0) scale(1);
 }
 
@@ -900,28 +901,30 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1.125rem 1.25rem;
+    gap: 1rem;
+    padding: 1.25rem 1.5rem 1rem;
     border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
 }
 
 .msgs-modal-title {
     font-size: 1rem;
-    font-weight: 700;
+    font-weight: 600;
     color: var(--ink-900);
-    letter-spacing: -0.02em;
 }
 
 .msgs-modal-close {
-    width: 28px;
-    height: 28px;
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: none;
+    background: transparent;
     border: none;
+    border-radius: 50%;
     cursor: pointer;
     color: var(--ink-400);
-    border-radius: var(--r-sm);
     transition: background 0.15s, color 0.15s;
 }
 

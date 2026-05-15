@@ -783,98 +783,15 @@ body {
    COMMENTS MODAL
 ───────────────────────────────────────────────── */
 .comments-modal {
-    position: fixed;
-    inset: 0;
-    z-index: 500;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    padding: 1.5rem;
-    background: rgba(0, 0, 0, 0.45);
     backdrop-filter: blur(2px);
     -webkit-backdrop-filter: blur(2px);
 }
 
-.comments-modal.show {
-    display: flex;
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
-}
-
-.modal-content {
-    position: relative;
-    width: 100%;
+.comments-modal .modal-content {
     max-width: 640px;
-    max-height: 90vh;
-    background: var(--surface);
-    border-radius: var(--r-xl);
     box-shadow:
         0 24px 64px rgba(0, 0, 0, 0.2),
         0 8px 24px rgba(0, 0, 0, 0.15);
-    display: flex;
-    flex-direction: column;
-    animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-@keyframes slideUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px) scale(0.96);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
-
-/* Modal header */
-.modal-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1.25rem 1.5rem;
-    border-bottom: 1px solid var(--border);
-    flex-shrink: 0;
-}
-
-.modal-title {
-    font-size: 1.0625rem;
-    font-weight: 700;
-    color: var(--ink-900);
-    letter-spacing: -0.025em;
-}
-
-.modal-close {
-    width: 32px;
-    height: 32px;
-    background: none;
-    border: none;
-    border-radius: var(--r-sm);
-    color: var(--ink-400);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.15s;
-}
-
-.modal-close:hover {
-    background: var(--ink-100);
-    color: var(--ink-700);
-}
-
-.modal-close svg {
-    width: 18px;
-    height: 18px;
 }
 
 /* Original post in modal */
@@ -1083,7 +1000,8 @@ body {
 }
 
 /* Comment input */
-.modal-footer {
+.comments-modal .modal-footer {
+    display: block;
     padding: 1rem 1.5rem;
     border-top: 1px solid var(--border);
     flex-shrink: 0;
@@ -1494,140 +1412,29 @@ body {
 }
 
 /* Modal reportar */
-.modal-backdrop {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.2s, visibility 0.2s;
-}
-
-.modal-backdrop.show {
-    opacity: 1;
-    visibility: visible;
-}
-
+/* ── Report modal (custom card styles) ──────────── */
 .modal-report {
-    background: var(--surface);
-    border-radius: var(--r-xl);
-    padding: 1.5rem;
-    width: 90%;
-    max-width: 400px;
-    transform: scale(0.95);
-    transition: transform 0.2s;
-}
-
-.modal-backdrop.show .modal-report {
-    transform: scale(1);
-}
-
-.modal-report-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 1rem;
-}
-
-.modal-report-header h3 {
-    font-size: 1.125rem;
-    font-weight: 600;
-    color: var(--ink-900);
-}
-
-.modal-close-btn {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: transparent;
-    border: none;
-    color: var(--ink-400);
-    cursor: pointer;
-    transition: background 0.15s;
-}
-
-.modal-close-btn:hover {
-    background: var(--ink-100);
-}
-
-.modal-close-btn svg {
-    width: 18px;
-    height: 18px;
-}
-
-.modal-report-desc {
-    font-size: 0.875rem;
-    color: var(--ink-500);
-    margin-bottom: 1rem;
+    max-width: 420px;
 }
 
 .modal-report-textarea {
     width: 100%;
     padding: 0.75rem;
-    border: 1px solid var(--border);
+    border: 1.5px solid var(--border-strong);
     border-radius: var(--r-md);
     font-size: 0.875rem;
     font-family: inherit;
-    resize: none;
+    resize: vertical;
     background: var(--surface);
     color: var(--ink-900);
-    transition: border-color 0.15s;
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    box-sizing: border-box;
 }
 
 .modal-report-textarea:focus {
-    outline: none;
     border-color: var(--accent);
-}
-
-.modal-report-actions {
-    display: flex;
-    gap: 0.75rem;
-    justify-content: flex-end;
-    margin-top: 1rem;
-}
-
-.btn-cancel-report {
-    padding: 0.5rem 1rem;
-    border-radius: var(--r-md);
-    font-size: 0.875rem;
-    font-weight: 500;
-    background: transparent;
-    border: 1px solid var(--border);
-    color: var(--ink-600);
-    cursor: pointer;
-    transition: background 0.15s;
-}
-
-.btn-cancel-report:hover {
-    background: var(--ink-100);
-}
-
-.btn-submit-report {
-    padding: 0.5rem 1rem;
-    border-radius: var(--r-md);
-    font-size: 0.875rem;
-    font-weight: 500;
-    background: #ef4444;
-    border: none;
-    color: white;
-    cursor: pointer;
-    transition: background 0.15s;
-}
-
-.btn-submit-report:hover {
-    background: #dc2626;
-}
-
-.btn-submit-report:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
+    box-shadow: 0 0 0 3px var(--accent-ring);
 }
 
 /* Toast notification */

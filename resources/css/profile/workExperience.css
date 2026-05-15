@@ -278,16 +278,16 @@
 /* Contenedor del modal */
 .we-modal {
     background: var(--surface);
-    border-radius: 18px;
+    border-radius: 12px;
     width: 100%;
     max-width: 620px;
     max-height: 90vh;
     overflow-y: auto;
     box-shadow:
-        0 20px 60px rgba(0, 0, 0, 0.14),
-        0 4px 16px rgba(0, 0, 0, 0.08);
-    transform: translateY(12px) scale(0.98);
-    transition: transform 0.22s ease, opacity 0.22s ease;
+        0 4px 24px rgba(0, 0, 0, 0.12),
+        0 1px 4px rgba(0, 0, 0, 0.06);
+    transform: translateY(20px) scale(0.97);
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.25s ease;
     opacity: 0;
 }
 
@@ -339,24 +339,22 @@
 .we-modal__close {
     margin-left: auto;
     flex-shrink: 0;
-    width: 30px;
-    height: 30px;
+    width: 32px;
+    height: 32px;
+    background: transparent;
+    border: none;
     border-radius: 50%;
-    border: 1.5px solid var(--border-strong);
-    background: var(--surface);
     color: var(--ink-400);
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.15s;
-    font-family: inherit;
+    transition: background 0.15s, color 0.15s;
 }
 
 .we-modal__close:hover {
     background: var(--ink-100);
     color: var(--ink-700);
-    transform: rotate(90deg);
 }
 
 /* Body del modal */

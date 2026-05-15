@@ -17,19 +17,6 @@
             </button>
         </div>
 
-        {{-- ── Stepper ──────────────────────────────────────────── --}}
-        <div id="stepper" role="list">
-            <div id="st-1" class="step-item active" role="listitem" aria-current="step">
-                <div class="step-num">1</div>
-                <span>Información</span>
-            </div>
-            <div class="step-sep" aria-hidden="true"></div>
-            <div id="st-2" class="step-item" role="listitem">
-                <div class="step-num">2</div>
-                <span>Multimedia</span>
-            </div>
-        </div>
-
         {{-- ── Body ─────────────────────────────────────────────── --}}
         <div id="modal-body">
 
@@ -222,6 +209,7 @@
 </div>
 
 @push('styles')
+@vite('resources/css/shared/modal.css')
 @vite('resources/css/projects/newProject.css')
 @endpush
 @push('scripts')

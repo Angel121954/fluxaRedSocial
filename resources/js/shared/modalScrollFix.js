@@ -14,7 +14,7 @@
 
     function checkAndUpdate() {
         const modals = document.querySelectorAll(
-            '.img-modal.show, .we-backdrop.show, .pwd-modal-backdrop.show, .comments-modal.show'
+            '.img-modal.show, .we-backdrop.is-open, .pwd-modal-backdrop.is-open, .comments-modal.show, .modal-backdrop.show, .modal-backdrop.is-open'
         );
         
         let newCount = 0;

@@ -219,8 +219,9 @@
         <div class="msgs-modal-header">
             <h2 class="msgs-modal-title" id="msgsModalTitle">Nueva conversación</h2>
             <button class="msgs-modal-close" id="msgsModalClose" aria-label="Cerrar">
-                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
                 </svg>
             </button>
         </div>
@@ -241,6 +242,7 @@
 @endsection
 
 @push('styles')
+@vite('resources/css/shared/modal.css')
 @vite('resources/css/core/messages.css')
 @endpush
 

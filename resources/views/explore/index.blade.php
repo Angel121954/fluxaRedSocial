@@ -178,5 +178,6 @@
 @vite('resources/js/core/explore/index.js')
 @endpush
 @push('styles')
+@vite('resources/css/shared/modal.css')
 @vite('resources/css/core/explore.css')
 @endpush

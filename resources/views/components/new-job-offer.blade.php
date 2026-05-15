@@ -136,6 +136,7 @@
 </div>
 
 @push('styles')
+@vite('resources/css/shared/modal.css')
 @vite('resources/css/jobs/newJobOffer.css')
 @endpush
 @push('scripts')
