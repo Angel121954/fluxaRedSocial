@@ -13,9 +13,7 @@ class CommentController extends Controller
 {
     public function store(StoreCommentRequest $request, Project $project)
     {
-        if ($project->privacy !== 'public' && $project->user_id !== Auth::id()) {
-            abort(403, 'No puedes comentar en este proyecto');
-        }
+        $this->authorize('create', [$project::class, $project]);
 
         $comment = $project->comments()->create([
             'user_id' => Auth::id(),

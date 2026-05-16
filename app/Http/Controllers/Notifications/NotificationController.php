@@ -70,9 +70,7 @@ class NotificationController extends Controller
 
     public function markAsRead(Notification $notification): JsonResponse
     {
-        if ($notification->user_id !== Auth::id()) {
-            return response()->json(['message' => 'Unauthorized'], 403);
-        }
+        $this->authorize('view', $notification);
 
         $notification->markAsRead();
 
@@ -90,9 +88,7 @@ class NotificationController extends Controller
 
     public function destroy(Notification $notification): JsonResponse
     {
-        if ($notification->user_id !== Auth::id()) {
-            return response()->json(['error' => 'Unauthorized'], 403);
-        }
+        $this->authorize('delete', $notification);
 
         $notification->delete();
 

@@ -6,6 +6,7 @@ use App\Models\Comment;
 use App\Models\Conversation;
 use App\Models\Education;
 use App\Models\Message;
+use App\Models\Notification;
 use App\Models\Project;
 use App\Models\Profile;
 use App\Models\WorkExperience;
@@ -13,6 +14,7 @@ use App\Policies\CommentPolicy;
 use App\Policies\ConversationPolicy;
 use App\Policies\EducationPolicy;
 use App\Policies\MessagePolicy;
+use App\Policies\NotificationPolicy;
 use App\Policies\ProfilePolicy;
 use App\Policies\ProjectPolicy;
 use App\Policies\WorkExperiencePolicy;
@@ -27,6 +29,7 @@ class AuthServiceProvider extends ServiceProvider
         Message::class => MessagePolicy::class,
         Conversation::class => ConversationPolicy::class,
         Education::class => EducationPolicy::class,
+        Notification::class => NotificationPolicy::class,
         WorkExperience::class => WorkExperiencePolicy::class,
     ];
 

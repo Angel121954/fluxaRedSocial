@@ -65,10 +65,8 @@ class MessageController extends Controller
         $userId = auth()->id();
         $convId = (int) $request->conversation_id;
 
-        $conversation = Conversation::find($convId);
-        if (! $conversation || ($conversation->user_a_id !== $userId && $conversation->user_b_id !== $userId)) {
-            return response()->json(['error' => 'Unauthorized'], 403);
-        }
+        $conversation = Conversation::findOrFail($convId);
+        $this->authorize('view', $conversation);
 
         $this->messageService->setViewingConversation($userId, $convId);
 
