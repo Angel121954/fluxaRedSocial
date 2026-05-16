@@ -134,17 +134,25 @@ document.addEventListener('click', function (e) {
         ddBtn.setAttribute('aria-expanded', 'false');
         ddMenu.classList.remove('active');
     }
+
+    // Cerrar dropdown Ayuda si se clickea fuera
+    const helpBtn = document.getElementById('helpDropdownBtn');
+    const helpMenu = document.getElementById('helpDropdownMenu');
+    if (helpBtn && helpMenu && helpMenu.classList.contains('active') &&
+        !helpBtn.contains(e.target) && !helpMenu.contains(e.target)) {
+        helpBtn.setAttribute('aria-expanded', 'false');
+        helpMenu.classList.remove('active');
+    }
 });
 
-function toggleJobsDropdown(e) {
+function toggleDropdown(e, btnId, menuId) {
     e.stopPropagation();
-    const btn = document.getElementById('jobsDropdownBtn');
-    const menu = document.getElementById('jobsDropdownMenu');
+    const btn = document.getElementById(btnId);
+    const menu = document.getElementById(menuId);
     const expanded = btn.getAttribute('aria-expanded') === 'true';
 
-    // Cerrar cualquier otro dropdown abierto
     document.querySelectorAll('.nav-dropdown-menu.active').forEach(m => {
-        if (m.id !== 'jobsDropdownMenu') {
+        if (m.id !== menuId) {
             m.classList.remove('active');
             const trigger = document.querySelector(`[aria-controls="${m.id}"]`);
             if (trigger) trigger.setAttribute('aria-expanded', 'false');
@@ -154,6 +162,14 @@ function toggleJobsDropdown(e) {
     const now = !expanded;
     btn.setAttribute('aria-expanded', now);
     menu.classList.toggle('active', now);
+}
+
+function toggleJobsDropdown(e) {
+    toggleDropdown(e, 'jobsDropdownBtn', 'jobsDropdownMenu');
+}
+
+function toggleHelpDropdown(e) {
+    toggleDropdown(e, 'helpDropdownBtn', 'helpDropdownMenu');
 }
 
 function toggleMobileMenu() {
@@ -210,6 +226,15 @@ document.addEventListener('keydown', function (e) {
             ddBtn.setAttribute('aria-expanded', 'false');
             ddMenu.classList.remove('active');
             ddBtn.focus();
+            return;
+        }
+
+        const helpBtn = document.getElementById('helpDropdownBtn');
+        const helpMenu = document.getElementById('helpDropdownMenu');
+        if (helpBtn && helpMenu && helpMenu.classList.contains('active')) {
+            helpBtn.setAttribute('aria-expanded', 'false');
+            helpMenu.classList.remove('active');
+            helpBtn.focus();
         }
     }
 });
@@ -217,3 +242,4 @@ document.addEventListener('keydown', function (e) {
 window.toggleMobileMenu = toggleMobileMenu;
 window.closeMobileMenuAndOpen = closeMobileMenuAndOpen;
 window.toggleJobsDropdown = toggleJobsDropdown;
+window.toggleHelpDropdown = toggleHelpDropdown;

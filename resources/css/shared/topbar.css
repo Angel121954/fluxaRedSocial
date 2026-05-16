@@ -161,6 +161,7 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    width: 100%;
     padding: 0.5rem 0.75rem;
     border-radius: var(--r-sm);
     font-size: 0.875rem;
@@ -170,6 +171,8 @@
     cursor: pointer;
     transition: background 0.15s, color 0.15s;
     white-space: nowrap;
+    box-sizing: border-box;
+    font-family: inherit;
 }
 
 .nav-dropdown-item:hover {

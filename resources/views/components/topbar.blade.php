@@ -62,11 +62,6 @@
                     Notificaciones
                     <span class="nav-badge" id="navNotificationsBadge" style="{{ $unreadNotifications > 0 ? '' : 'display: none' }}">{{ $unreadNotifications > 99 ? '99+' : $unreadNotifications }}</span>
                 </a>
-                <a href="{{ route('suggestions.create') }}"
-                    class="nav-link {{ request()->routeIs('suggestions*') ? 'active' : '' }}"
-                    @if(request()->routeIs('suggestions*')) aria-current="page" @endif>
-                    Sugerencias
-                </a>
                 <a href="{{ route('messages.index') }}"
                     class="nav-link {{ request()->routeIs('messages*') ? 'active' : '' }}"
                     @if(request()->routeIs('messages*')) aria-current="page" @endif>
@@ -80,6 +75,32 @@
                     Admin
                 </a>
                 @endif
+                <div class="nav-dropdown">
+                    <button class="nav-dropdown-trigger {{ request()->routeIs('suggestions*') ? 'active' : '' }}"
+                            id="helpDropdownBtn"
+                            aria-haspopup="true"
+                            aria-expanded="false"
+                            onclick="toggleHelpDropdown(event)">
+                        Ayuda
+                        <svg class="nav-dropdown-chevron" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                    <div class="nav-dropdown-menu" id="helpDropdownMenu" role="menu" aria-labelledby="helpDropdownBtn">
+                        <a href="{{ route('suggestions.create') }}"
+                            class="nav-dropdown-item {{ request()->routeIs('suggestions*') ? 'active' : '' }}"
+                            @if(request()->routeIs('suggestions*')) aria-current="page" @endif
+                            role="menuitem">
+                            Sugerencias
+                        </a>
+                        <button type="button"
+                            class="nav-dropdown-item"
+                            onclick="abrirReportProblemModal()"
+                            role="menuitem">
+                            Reportar problema
+                        </button>
+                    </div>
+                </div>
                 @endif
             </nav>
 
@@ -307,9 +328,14 @@
     </div>
 </div>
 
+{{-- Modal reportar problema --}}
+<x-modal-report-problem />
+
 @push('scripts')
 @vite('resources/js/shared/topbar.js')
+@vite('resources/js/shared/reportProblem.js')
 @endpush
 @push('styles')
 @vite('resources/css/shared/topbar.css')
+@vite('resources/css/shared/modal.css')
 @endpush

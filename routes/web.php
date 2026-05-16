@@ -10,6 +10,7 @@ use App\Http\Controllers\Onboarding\OnboardingController;
 use App\Http\Controllers\Pages\AboutFluxaController;
 use App\Http\Controllers\Pages\TermsController;
 use App\Http\Controllers\Pages\PrivacyPolicyController;
+use App\Http\Controllers\Pages\ProblemReportController;
 use App\Http\Controllers\Pages\ContactController;
 use App\Http\Controllers\Profile\AccountController;
 use App\Http\Controllers\Profile\ConfigurationController;
@@ -160,11 +161,14 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
     Route::get('/privacy-policy', [PrivacyPolicyController::class, 'index'])
         ->name('privacy.policy');
 
-    Route::get('/contact', [ContactController::class, 'index'])
-        ->name('contact.index');
+        Route::get('/contact', [ContactController::class, 'index'])
+            ->name('contact.index');
 
-    Route::post('/contact', [ContactController::class, 'store'])
-        ->name('contact.store');
+        Route::post('/contact', [ContactController::class, 'store'])
+            ->name('contact.store');
+
+        Route::post('/report-problem', [ProblemReportController::class, 'store'])
+            ->name('report-problem.store');
 
     /*
     |--------------------------------------------------------------------------

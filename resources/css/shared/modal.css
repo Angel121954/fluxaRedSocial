@@ -214,6 +214,68 @@
     margin-bottom: 0;
 }
 
+/* ── Botones base para modales ─────────────────────── */
+.modal-footer .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.375rem;
+    padding: 0.5rem 1.125rem;
+    border-radius: var(--r-md);
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s, box-shadow 0.15s, transform 0.15s;
+    font-family: inherit;
+    border: none;
+    line-height: 1.4;
+}
+
+.modal-footer .btn-secondary {
+    background: var(--ink-100);
+    color: var(--ink-600);
+}
+
+.modal-footer .btn-secondary:hover {
+    background: var(--ink-200);
+}
+
+.modal-footer .btn-primary {
+    background: var(--accent);
+    color: white;
+}
+
+.modal-footer .btn-primary:hover {
+    background: var(--accent-dark);
+    box-shadow: 0 2px 10px rgba(18, 179, 182, 0.28);
+}
+
+.modal-footer .btn-primary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* ── Textarea para reportes ────────────────────────── */
+.modal-report-textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1.5px solid var(--border-strong);
+    border-radius: var(--r-md);
+    font-size: 0.875rem;
+    font-family: inherit;
+    resize: vertical;
+    background: var(--surface);
+    color: var(--ink-900);
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    box-sizing: border-box;
+}
+
+.modal-report-textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-ring);
+}
+
 /* ── Responsive ───────────────────────────────────── */
 @media (max-width: 640px) {
     .modal-backdrop {

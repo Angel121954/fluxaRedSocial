@@ -111,6 +111,7 @@ export default defineConfig({
                 "resources/js/shared/security.js",
                 "resources/js/shared/modalScrollFix.js",
                 "resources/js/shared/emailModalSend.js",
+                "resources/js/shared/reportProblem.js",
 
                 // Core Explore JS
                 "resources/js/core/explore/index.js",
