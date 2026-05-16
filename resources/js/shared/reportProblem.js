@@ -7,18 +7,21 @@ document.addEventListener('DOMContentLoaded', function () {
     const errorBanner = document.getElementById('reportProblemError');
     const errorText = document.getElementById('reportProblemErrorText');
     const textarea = document.getElementById('reportProblemMessage');
+    const typeSelect = document.getElementById('reportProblemType');
 
     function closeModal() {
         modal.classList.remove('show', 'is-open');
         textarea.value = '';
+        typeSelect.value = '';
         errorBanner.style.display = 'none';
     }
 
     function openModal() {
         modal.classList.add('show');
         textarea.value = '';
+        typeSelect.value = '';
         errorBanner.style.display = 'none';
-        setTimeout(() => textarea.focus(), 150);
+        setTimeout(() => typeSelect.focus(), 150);
     }
 
     window.abrirReportProblemModal = openModal;
@@ -33,11 +36,21 @@ document.addEventListener('DOMContentLoaded', function () {
 
     form.addEventListener('submit', function (e) {
         e.preventDefault();
+
+        const type = typeSelect.value;
         const message = textarea.value.trim();
+
+        if (!type) {
+            errorText.textContent = 'Selecciona el tipo de problema.';
+            errorBanner.style.display = 'flex';
+            typeSelect.focus();
+            return;
+        }
 
         if (message.length < 10) {
             errorText.textContent = 'El mensaje debe tener al menos 10 caracteres.';
             errorBanner.style.display = 'flex';
+            textarea.focus();
             return;
         }
 
@@ -52,7 +65,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '',
                 'Accept': 'application/json',
             },
-            body: JSON.stringify({ message }),
+            body: JSON.stringify({ type, message }),
         })
             .then(res => res.json())
             .then(data => {

@@ -11,6 +11,7 @@ class ProblemReport extends Model
 {
     protected $fillable = [
         'user_id',
+        'type',
         'message',
     ];
 

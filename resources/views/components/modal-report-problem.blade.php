@@ -21,13 +21,33 @@
                 <span id="reportProblemErrorText">Ocurrió un error al enviar tu reporte.</span>
             </div>
             <form id="reportProblemForm">
-                <textarea
-                    class="modal-report-textarea"
-                    id="reportProblemMessage"
-                    placeholder="Describe el problema detalladamente (mínimo 10 caracteres)"
-                    rows="5"
-                    required
-                    minlength="10"></textarea>
+                <div class="form-group" style="margin-bottom: 14px;">
+                    <label for="reportProblemType" style="display:block; font-size:13px; font-weight:500; margin-bottom:6px; color: var(--text-primary);">
+                        Tipo de problema
+                    </label>
+                    <select
+                        id="reportProblemType"
+                        class="modal-report-select"
+                        required>
+                        <option value="" disabled selected>Selecciona una categoría</option>
+                        <option value="error_tecnico">Error técnico</option>
+                        <option value="contenido_inapropiado">Contenido inapropiado</option>
+                        <option value="problema_cuenta">Problema con mi cuenta</option>
+                        <option value="otro">Otro</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="reportProblemMessage" style="display:block; font-size:13px; font-weight:500; margin-bottom:6px; color: var(--text-primary);">
+                        Descripción
+                    </label>
+                    <textarea
+                        class="modal-report-textarea"
+                        id="reportProblemMessage"
+                        placeholder="Describe el problema detalladamente (mínimo 10 caracteres)"
+                        rows="5"
+                        required
+                        minlength="10"></textarea>
+                </div>
             </form>
         </div>
 

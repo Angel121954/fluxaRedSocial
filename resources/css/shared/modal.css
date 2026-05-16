@@ -276,6 +276,36 @@
     box-shadow: 0 0 0 3px var(--accent-ring);
 }
 
+/* ── Select para reportes ──────────────────────────── */
+.modal-report-select {
+    width: 100%;
+    padding: 0.625rem 0.75rem;
+    border: 1.5px solid var(--border-strong);
+    border-radius: var(--r-md);
+    font-size: 0.875rem;
+    font-family: inherit;
+    background: var(--surface);
+    color: var(--ink-900);
+    outline: none;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' viewBox='0 0 24 24'%3E%3Cpath d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    padding-right: 2.25rem;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    box-sizing: border-box;
+}
+
+.modal-report-select:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-ring);
+}
+
+.modal-report-select option[value=""][disabled] {
+    color: var(--ink-400);
+}
+
 /* ── Responsive ───────────────────────────────────── */
 @media (max-width: 640px) {
     .modal-backdrop {
