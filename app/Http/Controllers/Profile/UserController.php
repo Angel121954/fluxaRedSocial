@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Profile;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreUserReportRequest;
 use App\Models\User;
 use App\Models\UserReport;
 use App\Services\MessageService;
@@ -59,15 +60,11 @@ class UserController extends Controller
         return response()->json($results);
     }
 
-    public function report(Request $request, User $user)
+    public function report(StoreUserReportRequest $request, User $user)
     {
         if ($user->id === auth()->id()) {
             return response()->json(['message' => 'No puedes reportarte a ti mismo'], 400);
         }
-
-        $validated = $request->validate([
-            'reason' => 'required|string|min:10',
-        ]);
 
         $existing = UserReport::where('reporter_id', auth()->id())
             ->where('reported_id', $user->id)
@@ -82,7 +79,7 @@ class UserController extends Controller
         UserReport::create([
             'reporter_id' => auth()->id(),
             'reported_id' => $user->id,
-            'reason' => $validated['reason'],
+            'reason' => $request->reason,
         ]);
 
         return response()->json([

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Projects;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreEndorsementRequest;
+use App\Http\Requests\StoreProjectReportRequest;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use App\Models\Profile;
@@ -122,12 +124,8 @@ class ProjectController extends Controller
         return response()->json($result);
     }
 
-    public function report(Request $request, Project $project)
+    public function report(StoreProjectReportRequest $request, Project $project)
     {
-        $validated = $request->validate([
-            'reason' => 'required|string|min:10',
-        ]);
-
         $repeatedReport = ProjectReport::where('project_id', $project->id)
             ->where('user_id', Auth::id())->first();
 
@@ -140,7 +138,7 @@ class ProjectController extends Controller
         ProjectReport::create([
             'user_id' => Auth::id(),
             'project_id' => $project->id,
-            'reason' => $validated['reason'],
+            'reason' => $request->reason,
         ]);
 
         return response()->json([
@@ -148,17 +146,14 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function endorse(Request $request, Project $project)
+    public function endorse(StoreEndorsementRequest $request, Project $project)
     {
-        $validated = $request->validate([
-            'skill_type' => 'required|string|in:'.implode(',', array_keys(SkillEndorsement::SKILLS)),
-        ]);
 
         try {
             $result = $this->projectService->endorseProject(
                 $project,
                 Auth::id(),
-                $validated['skill_type']
+                $request->skill_type
             );
             
             return response()->json($result);
