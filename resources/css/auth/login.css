@@ -42,7 +42,7 @@ body {
    LOGO
 ═══════════════════════════════════════════════════ */
 .logo-img {
-    height: 140px;
+    height: 90px;
     width: auto;
     display: block;
 }
@@ -54,7 +54,7 @@ body {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 18px;
-    padding: 2.5rem;
+    padding: 1.5rem;
     box-shadow: var(--shadow-md);
 }
 
@@ -62,7 +62,7 @@ body {
    INPUT GROUPS
 ═══════════════════════════════════════════════════ */
 .input-group {
-    margin-bottom: 1.25rem;
+    margin-bottom: 0.875rem;
 }
 
 .input-label {
@@ -278,7 +278,7 @@ body {
     display: flex;
     align-items: center;
     text-align: center;
-    margin: 1.25rem 0;
+    margin: 1rem 0;
 }
 
 .divider::before,
@@ -339,20 +339,6 @@ body {
 }
 
 /* ═══════════════════════════════════════════════════
-   ILLUSTRATION
-═══════════════════════════════════════════════════ */
-.illustration-side {
-    align-items: center;
-    justify-content: center;
-}
-
-.developer-image {
-    max-width: 100%;
-    height: auto;
-    filter: drop-shadow(0 8px 32px rgba(18, 179, 182, 0.15));
-}
-
-/* ═══════════════════════════════════════════════════
    RESPONSIVE
 ═══════════════════════════════════════════════════ */
 @media (max-width: 768px) {
@@ -361,6 +347,6 @@ body {
     }
 
     .logo-img {
-        height: 100px;
+        height: 64px;
     }
 }

@@ -17,37 +17,35 @@
 </div>
 
 <div class="min-h-screen flex items-center justify-center p-4 md:p-8">
-    <div class="w-full max-w-6xl grid md:grid-cols-2 gap-8 items-center">
-        <!-- Form Side -->
-        <div class="flex flex-col">
-            <!-- Header -->
-            <div class="mb-8">
-                <img src="{{ asset('img/logoFluxa.png') }}" alt="Fluxa" class="logo-img" />
-                <p
-                    style="
-                color: var(--text-secondary);
-                font-size: 1.0625rem;
-                line-height: 1.6;
-                max-width: 420px;
-              ">
-                    Únete a la red social para desarrolladores del SENA que construyen
-                    en público.
-                </p>
-            </div>
+    <div class="w-full max-w-md">
+        <!-- Header -->
+        <div class="mb-5">
+            <img src="{{ asset('img/logoFluxa.png') }}" alt="Fluxa" class="logo-img" />
+            <p
+                style="
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            line-height: 1.5;
+            max-width: 420px;
+            ">
+                Únete a la red social para desarrolladores del SENA que construyen
+                en público.
+            </p>
+        </div>
 
-            <!-- Form Card -->
-            <div class="form-card">
-                <h2
-                    style="
-                font-size: 1.625rem;
-                font-weight: 700;
-                margin-bottom: 1.75rem;
-                color: var(--text-primary);
-              ">
-                    Crear cuenta
-                </h2>
+        <!-- Form Card -->
+        <div class="form-card">
+            <h2
+                style="
+            font-size: 1.375rem;
+            font-weight: 700;
+            margin-bottom: 1.25rem;
+            color: var(--text-primary);
+            ">
+                Crear cuenta
+            </h2>
 
-                <form id="registerForm" method="POST" action="{{ route('register') }}" novalidate>
+            <form id="registerForm" method="POST" action="{{ route('register') }}" novalidate>
                     @csrf
                     <!-- Name Field -->
                     <div class="input-group">
@@ -351,7 +349,7 @@
                         type="submit"
                         class="btn btn-primary"
                         id="submitBtn"
-                        style="margin-top: 1.5rem">
+                        style="margin-top: 1.25rem">
                         <span class="loader"></span>
                         <span class="btn-text">Crear cuenta</span>
                     </button>
@@ -361,23 +359,14 @@
                 <p
                     style="
                 text-align: center;
-                margin-top: 1.75rem;
+                margin-top: 1.25rem;
                 color: var(--text-secondary);
-                font-size: 0.9375rem;
+                font-size: 0.875rem;
               ">
                     ¿Ya tienes una cuenta?
                     <a href="{{ route('login') }}" class="link">Iniciar sesión</a>
                 </p>
             </div>
-        </div>
-
-        <!-- Illustration Side -->
-        <div class="hidden md:flex illustration-side">
-            <img
-                src="{{ asset('img/desarrolladorRegistro.png') }}"
-                alt="Desarrollador trabajando"
-                class="developer-image" />
-        </div>
     </div>
 </div>
 @endsection

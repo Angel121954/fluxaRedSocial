@@ -31,7 +31,7 @@ body {
 
 /* Logo */
 .logo-img {
-    height: 140px;
+    height: 80px;
     width: auto;
     display: block;
 }
@@ -40,7 +40,7 @@ body {
 .form-card {
     background: white;
     border-radius: 20px;
-    padding: 3rem 2.5rem;
+    padding: 1.5rem;
     box-shadow:
         0 10px 40px rgba(0, 0, 0, 0.04),
         0 2px 8px rgba(0, 0, 0, 0.02);
@@ -75,7 +75,7 @@ body {
 /* Input Groups */
 .input-group {
     position: relative;
-    margin-bottom: 1.25rem;
+    margin-bottom: 0.875rem;
 }
 
 .input-label {
@@ -334,7 +334,7 @@ body {
     display: flex;
     align-items: center;
     text-align: center;
-    margin: 1.5rem 0;
+    margin: 1rem 0;
     color: var(--text-secondary);
     font-size: 0.8125rem;
     font-weight: 500;
@@ -362,26 +362,6 @@ body {
 .link:hover {
     color: var(--primary-dark);
     text-decoration: underline;
-}
-
-/* Illustration Side */
-.illustration-side {
-    background: linear-gradient(135deg, #e0f7f8 0%, #f0fdfe 50%, #ffffff 100%);
-    border-radius: 24px;
-    padding: 3rem;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    overflow: hidden;
-    min-height: 600px;
-}
-
-.developer-image {
-    max-width: 100%;
-    height: auto;
-    position: relative;
-    z-index: 1;
-    border-radius: 16px;
 }
 
 /* Success Notification */
@@ -423,6 +403,6 @@ body {
     }
 
     .logo-img {
-        height: 100px;
+        height: 64px;
     }
 }

@@ -17,17 +17,14 @@
 </div>
 
 <div class="min-h-screen flex items-center justify-center p-4 md:p-8">
-    <div class="w-full max-w-6xl grid md:grid-cols-2 gap-8 items-center">
-        <!-- Form Side -->
-        <div class="flex flex-col">
-            <x-header />
-            <!-- Form Card -->
-            <div class="form-card">
+    <div class="w-full max-w-md">
+        <x-header />
+        <div class="form-card">
                 <h2
                     style="
-                font-size: 1.625rem;
+                font-size: 1.375rem;
                 font-weight: 700;
-                margin-bottom: 1.75rem;
+                margin-bottom: 1.25rem;
                 color: var(--text-primary);
               ">
                     Iniciar sesión
@@ -144,7 +141,7 @@
                     </div>
 
                     <!-- Forgot Password -->
-                    <div style="text-align: right; margin-bottom: 1.5rem">
+                    <div style="text-align: right; margin-bottom: 1rem">
                         <a
                             href="{{ route('password.request') }}"
                             class="link"
@@ -189,7 +186,7 @@
                         type="button"
                         class="btn btn-github"
                         id="githubBtn"
-                        style="margin-top: 0.75rem">
+                        style="margin-top: 0.5rem">
                         <svg
                             width="20"
                             height="20"
@@ -209,7 +206,7 @@
                         type="button"
                         class="btn btn-facebook"
                         id="facebookBtn"
-                        style="margin-top: 0.75rem">
+                        style="margin-top: 0.5rem">
                         <svg
                             width="20"
                             height="20"
@@ -241,23 +238,14 @@
                 <p
                     style="
                 text-align: center;
-                margin-top: 1.75rem;
+                margin-top: 1.25rem;
                 color: var(--text-secondary);
-                font-size: 0.9375rem;
+                font-size: 0.875rem;
               ">
                     ¿Nuevo en Fluxa?
                     <a href="{{ route('register') }}" class="link">Crear cuenta</a>
                 </p>
             </div>
-        </div>
-
-        <!-- Illustration Side -->
-        <div class="hidden md:flex illustration-side">
-            <img
-                src="{{ asset('img/desarrolladorRegistro.png') }}"
-                alt="Desarrollador trabajando"
-                class="developer-image" />
-        </div>
     </div>
 </div>
 @endsection
