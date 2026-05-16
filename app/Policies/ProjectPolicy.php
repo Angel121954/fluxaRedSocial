@@ -34,6 +34,11 @@ class ProjectPolicy
         return $user->id === $project->user_id;
     }
 
+    public function comment(User $user, Project $project): bool
+    {
+        return $project->privacy === 'public' || $project->user_id === $user->id;
+    }
+
     public function restore(User $user, Project $project): bool
     {
         return $user->id === $project->user_id;

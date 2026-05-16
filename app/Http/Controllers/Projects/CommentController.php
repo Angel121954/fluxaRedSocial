@@ -13,7 +13,7 @@ class CommentController extends Controller
 {
     public function store(StoreCommentRequest $request, Project $project)
     {
-        $this->authorize('create', [$project::class, $project]);
+        $this->authorize('comment', $project);
 
         $comment = $project->comments()->create([
             'user_id' => Auth::id(),
