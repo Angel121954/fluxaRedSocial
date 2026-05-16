@@ -16,10 +16,9 @@
     </button>
 
     <div id="confirm-user-deletion"
-         class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/50"
-         style="display: none;">
+         class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/50">
         <div class="bg-white rounded-lg shadow-xl p-6 max-w-md w-full mx-4">
-            <form method="post" action="{{ route('profile.destroy') }}">
+            <form method="post" action="{{ route('account.destroy') }}">
                 @csrf
                 @method('delete')
 
