@@ -1,30 +1,35 @@
-// Reenviar correo: hace submit del form oculto
-function resend(e) {
-    e.preventDefault();
-    const link = document.getElementById("resend-link");
+(function () {
+    const link = document.getElementById('resend-link');
     if (!link) return;
-    link.textContent = "Enviando...";
-    link.style.pointerEvents = "none";
 
-    // Crea un form dinámico con el email guardado y lo submite
-    const form = document.createElement("form");
-    form.method = "POST";
-    form.action = "{{ route('password.email') }}";
+    link.addEventListener('click', function (e) {
+        e.preventDefault();
 
-    const token = document.createElement("input");
-    token.type = "hidden";
-    token.name = "_token";
-    token.value = "{{ csrf_token() }}";
+        const route = link.getAttribute('data-route');
+        const csrf = link.getAttribute('data-csrf');
+        const emailInput = document.getElementById('email');
+        const email = emailInput ? emailInput.value : '';
 
-    const emailInput = document.createElement("input");
-    emailInput.type = "hidden";
-    emailInput.name = "email";
-    emailInput.value = "{{ old('email') }}";
+        link.textContent = 'Enviando...';
+        link.style.pointerEvents = 'none';
 
-    form.appendChild(token);
-    form.appendChild(emailInput);
-    document.body.appendChild(form);
-    form.submit();
-}
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = route;
 
-window.resend = resend;
+        const tokenInput = document.createElement('input');
+        tokenInput.type = 'hidden';
+        tokenInput.name = '_token';
+        tokenInput.value = csrf;
+
+        const emailHidden = document.createElement('input');
+        emailHidden.type = 'hidden';
+        emailHidden.name = 'email';
+        emailHidden.value = email;
+
+        form.appendChild(tokenInput);
+        form.appendChild(emailHidden);
+        document.body.appendChild(form);
+        form.submit();
+    });
+})();

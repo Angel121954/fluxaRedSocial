@@ -95,7 +95,10 @@
                     </p>
                     <p class="resend-text">
                         ¿No llegó?
-                        <a href="#" id="resend-link" onclick="resend(event)">Reenviar correo</a>
+                        <a href="#"
+                           id="resend-link"
+                           data-route="{{ route('password.email') }}"
+                           data-csrf="{{ csrf_token() }}">Reenviar correo</a>
                     </p>
                 </div>
 
