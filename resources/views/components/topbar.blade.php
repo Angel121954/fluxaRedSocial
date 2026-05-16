@@ -1,17 +1,9 @@
 @props(['profile'])
 
 <!-- ══════════════════════════════════════════
-     NAVBAR
+     NAVBAR — $unreadMessages y $unreadNotifications
+     son inyectados por TopbarComposer
 ═════════════════════════════════════════ -->
-@php
-$currentConvId = request()->query('conv') ? (int) request()->query('conv') : null;
-$unreadMessages = Auth::user()->role !== 'guest'
-? \App\Models\Conversation::getUnreadGlobalCount(Auth::id(), $currentConvId)
-:0;
-$unreadNotifications = Auth::user()->role !== 'guest'
-? \App\Models\Notification::unreadCount(Auth::id())
-: 0;
-@endphp
 
 <nav class="navbar" role="navigation" aria-label="Navegación principal">
     <div class="navbar-inner">
