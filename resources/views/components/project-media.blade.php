@@ -16,7 +16,7 @@ $total === 3 => 'trio',
 default => 'quad',
 };
 
-$cloud = config('cloudinary.cloud_name', env('CLOUDINARY_CLOUD_NAME'));
+$cloud = config('cloudinary.cloud_name');
 
 $cdn = function(string $publicId, string $preset = 'fill') use ($cloud): string {
 $t = match($preset) {
