@@ -58,9 +58,7 @@ document.addEventListener('DOMContentLoaded', function () {
             .then(data => {
                 if (data.success) {
                     closeModal();
-                    if (typeof window.showToast === 'function') {
-                        window.showToast('Reporte enviado correctamente. ¡Gracias!', 'success');
-                    }
+                    window.toast?.success('Reporte enviado correctamente. ¡Gracias!');
                 } else {
                     throw new Error('Error al enviar');
                 }
