@@ -40,11 +40,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // ── Toggle 2FA ─────────────────────────────────────────────
     if (toggle2FA) {
-        toggle2FA.addEventListener("change", async () => {
+        toggle2FA.closest(".toggle-switch")?.addEventListener("click", async (e) => {
+            e.preventDefault();
+
             if (toggle2FA.checked) {
-                await handleEnable2FA();
-            } else {
                 await handleDisable2FA();
+            } else {
+                await handleEnable2FA();
             }
         });
     }
@@ -55,9 +57,10 @@ document.addEventListener("DOMContentLoaded", () => {
         const res = await apiFetch("/user/two-factor-authentication", "POST");
 
         if (!res.ok) {
-            toggle2FA.checked = false;
             return;
         }
+
+        toggle2FA.checked = true;
 
         const [qrRes, keyRes] = await Promise.all([
             apiFetch("/user/two-factor-qr-code"),
@@ -88,24 +91,26 @@ document.addEventListener("DOMContentLoaded", () => {
                 cancelButtonText: "Cancelar",
                 showCancelButton: true,
                 confirmButtonColor: "#dc2626",
+                allowOutsideClick: false,
             })).isConfirmed
             : confirm("Desactivar la autenticacion en dos pasos?");
 
         if (!confirmed) {
-            toggle2FA.checked = true;
             return;
         }
 
         const res = await apiFetch("/user/two-factor-authentication", "DELETE");
         if (res.ok) {
+            toggle2FA.checked = false;
             twoFaStatus.textContent = "desactivada";
-        } else {
-            toggle2FA.checked = true;
         }
     }
 
     // ── Confirmar código OTP ───────────────────────────────────
-    document.getElementById("btnConfirm2FA")?.addEventListener("click", async () => {
+    const btnConfirm2FA = document.getElementById("btnConfirm2FA");
+    btnConfirm2FA?.addEventListener("click", async () => {
+        if (btnConfirm2FA.disabled) return;
+
         const code = codeInput.value.replace(/\D/g, "").trim();
 
         if (code.length !== 6) {
@@ -115,6 +120,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         error2FA.style.display = "none";
+        btnConfirm2FA.disabled = true;
 
         const res = await apiFetch(
             "/user/confirmed-two-factor-authentication",
@@ -129,6 +135,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const codes = await codesRes.json();
             showRecoveryCodes(codes);
         } else {
+            btnConfirm2FA.disabled = false;
             error2FA.textContent = "Codigo incorrecto. Intenta de nuevo.";
             error2FA.style.display = "block";
             codeInput.value = "";
@@ -142,7 +149,10 @@ document.addEventListener("DOMContentLoaded", () => {
         if (secretEl) secretEl.style.display = "none";
         codeInput.style.display = "none";
         error2FA.style.display = "none";
-        modalActions.style.display = "none";
+        const btnCancel = document.getElementById("btnCancel2FA");
+        const btnConfirm = document.getElementById("btnConfirm2FA");
+        if (btnCancel) btnCancel.style.display = "none";
+        if (btnConfirm) btnConfirm.style.display = "none";
         const subtitle = document.querySelector("#modal2FA .modal-subtitle");
         if (subtitle) subtitle.style.display = "none";
 
@@ -171,6 +181,13 @@ document.addEventListener("DOMContentLoaded", () => {
         codeInput.style.display = "";
         error2FA.style.display = "none";
         modalActions.style.display = "";
+        const btnCancel = document.getElementById("btnCancel2FA");
+        const btnConfirm = document.getElementById("btnConfirm2FA");
+        if (btnCancel) btnCancel.style.display = "";
+        if (btnConfirm) {
+            btnConfirm.style.display = "";
+            btnConfirm.disabled = false;
+        }
         const subtitle = document.querySelector("#modal2FA .modal-subtitle");
         if (subtitle) subtitle.style.display = "";
         recoveryCodes.style.display = "none";
@@ -192,9 +209,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // ── Cancelar modal ─────────────────────────────────────────
     const cancel2FA = () => {
         closeModal();
-        toggle2FA.checked = false;
         resetModalView();
-        apiFetch("/user/two-factor-authentication", "DELETE");
     };
 
     document.getElementById("btnCancel2FA")?.addEventListener("click", cancel2FA);
