@@ -4,6 +4,31 @@
 Red social para desarrolladores latinoamericanos que combina conceptos de LinkedIn, GitHub y Dev.to.
 Proyecto final de grado SENA (programa ADSO). Dominio en evaluación: getfluxa.com / fluxahq.com.
 
+## Filosofía del proyecto
+
+### YAGNI — You Ain't Gonna Need It
+No construir para el futuro incierto. Cada línea de código debe resolver un problema **actual**, no uno imaginario. Si una abstracción solo sirve "por si acaso", no se hace.
+
+### KISS — Keep It Simple, Stupid
+La solución más simple que funciona es la mejor. No agregar capas de indirección, interfaces, herencia, patrones de diseño o dependencias sin que exista una necesidad real y presente.
+
+### Overengineering está prohibido
+- No crear interfaces o contratos hasta que existan **2+ implementaciones concretas** reales
+- No crear Services genéricos tipo `BaseService` o `CrudService` — cada Service tiene una responsabilidad única y concreta
+- No usar patrones de diseño como decorators, strategies, observers (PHP) a menos que el código actual lo exija, no "por si acaso"
+- No abstraer lógica que solo se usa en un lugar
+- No añadir repositorios — Eloquent **es** la capa de datos, no necesitas otra
+- No crear DTOs a menos que un método reciba 4+ parámetros del mismo tipo
+- No usar Traits para "compartir código bonito" — prefiere composición o duplicación controlada (rule of three)
+- La duplicación de código es aceptable hasta 3 veces; después de la 3ra ocurrencia, refactoriza
+
+### Principios generales
+- **Código explícito > código clever/ingenioso** — Un bloque `if` sencillo vale más que una expresión ternaria anidada de una línea
+- **Menos dependencias, mejor** — Cada dependencia nueva es un riesgo de seguridad, mantenimiento y breaking changes. Preguntar siempre ¿podemos hacerlo con lo que ya tenemos?
+- **Las reglas están para romperse, pero con permiso** — Si necesitas desviarte de estas convenciones, discútelo antes
+- **Cada archivo debe tener una responsabilidad única** — Si no puedes explicar qué hace en una frase, está haciendo demasiado
+- **Las vistas Blade no tienen lógica** — Sin condicionales complejos, sin consultas, sin procesamiento de datos. Solo `@if` simples y bucles `@foreach`
+
 ## Stack tecnológico
 
 | Capa | Tecnología |
@@ -32,6 +57,9 @@ Proyecto final de grado SENA (programa ADSO). Dominio en evaluación: getfluxa.c
 ## Convenciones de código
 
 ### PHP / Laravel
+- `declare(strict_types=1)` en **todos** los archivos PHP nuevos
+- Type hints y return types en **todos** los métodos, sin excepción
+- `readonly` properties donde el valor no cambia después de construcción
 - Lógica de negocio en `app/Services/` o `app/Actions/`, **nunca** en controladores
 - Observers para efectos secundarios en modelos (ej. sincronización Cloudinary)
 - Comandos Artisan para tareas programadas (ej. `cloudinary:cleanup`)
@@ -40,6 +68,16 @@ Proyecto final de grado SENA (programa ADSO). Dominio en evaluación: getfluxa.c
 - Sin lógica en vistas Blade
 - Límites de plan definidos en `config/plans.php`
 - Imágenes para PDF: siempre base64, nunca URLs externas (Browsershot no las resuelve)
+- Named arguments en llamadas a métodos con 3+ parámetros opcionales
+- Rutas invocables (`__invoke`) para controladores con una sola acción
+- Composición sobre herencia — sin herencia profunda de controladores o services
+- Modelos: definir `$fillable` o `$guarded`, `$casts`, `$with` para eager loading por defecto, `$primaryKey` si no es `id`
+- Migraciones: `Schema::dropIfExists()` en `down()`, nombres descriptivos como `add_avatar_column_to_users_table`
+- Rutas: usar route model binding, evitar recibir `$id` — recibir el modelo directamente
+- No usar `dd()`, `dump()`, `ray()` en commits — usar `Log::error()` o lanzar excepción
+- `config/` para configuración, nunca `env()` fuera de archivos de config
+- Preferir `firstOrCreate()` / `firstOrFail()` sobre `where()->first()` cuando aplique
+- Usar `?->` (nullsafe operator) y `??` (null coalescing) para evitar null checks verbosos
 
 ### JavaScript
 - **Sin Alpine.js** — vanilla JS únicamente (salvo autorización explícita)
@@ -48,6 +86,14 @@ Proyecto final de grado SENA (programa ADSO). Dominio en evaluación: getfluxa.c
 - IIFEs para evitar conflictos de scope global entre módulos
 - Todos los archivos JS están registrados individualmente en `vite.config.js` → `input[]`
 - No usar `import` dinámico entre módulos de feature; cada archivo es independiente
+- Un archivo JS = una responsabilidad (ej. `toast.js` solo maneja toasts)
+- `fetch` con `async/await`, no `.then()` — excepción: event listeners de un solo uso
+- Event delegation para elementos dinámicos (escuchar en padre con `e.target.closest()` )
+- No manipular `.style` directamente — usar `classList.add/remove/toggle` y CSS
+- Si algo se puede resolver con CSS (`:hover`, `:focus-within`, `transition`), no usar JS
+- Preferir `textContent` sobre `innerHTML` para prevenir XSS
+- Usar `data-*-id` para identificar elementos del DOM (ej. `data-project-id="5"`)
+- Constantes en UPPER_SNAKE_CASE, funciones en camelCase, eventos en kebab-case
 
 ### CSS / Diseño
 - Design tokens en `resources/css/variables.css` — **debe cargarse antes que cualquier otro CSS**
@@ -59,12 +105,58 @@ Proyecto final de grado SENA (programa ADSO). Dominio en evaluación: getfluxa.c
 - Sombras: `--shadow-xs` `--shadow-sm` `--shadow-md`
 - Dark mode: `darkMode: 'class'` (Tailwind) + clase `.dark` en `<html>` + `localStorage`
 - Cada sección tiene su propio archivo CSS en `resources/css/[sección]/[vista].css`
+- No hardcodear colores hex — usar siempre los tokens de `variables.css` o clases Tailwind basadas en tokens
+- Animaciones: preferir `transform` y `opacity` (compositor-friendly) sobre `width`, `height`, `top`, `left`
+- Transiciones: máximo 200-300ms, con `ease-out` o `ease-in-out`
 
-### Commits
-- Formato: `tipo(alcance): descripción en español`
-- Tipos: `feat`, `fix`, `chore`, `refactor`, `docs`, etc. (inglés)
-- Descripción siempre en español
-- Ejemplo: `feat(proyectos): añadir filtro por tecnología`
+### Testing (PestPHP)
+- `describe()` para agrupar tests relacionados, `it()` para cada caso individual
+- Tests nombrados en español: `it('crea un proyecto correctamente cuando el usuario está autenticado')`
+- AAA: Arrange (organizar), Act (actuar), Assert (afirmar) — separar con líneas en blanco
+- Factory states para variantes: `User::factory()->unverified()->create()`
+- Feature tests para HTTP (controladores, rutas, autorización)
+- Unit tests para Services, Actions, Jobs
+- No testear el framework — testear tu lógica de negocio
+- Cobertura mínima sugerida: 70% en Services y Actions
+- Usar `fake()` para facades (Storage, Queue, Notification, Mail)
+- Usar `Http::fake()` para llamadas externas (Cloudinary API, etc.)
+- No usar `assertDatabaseHas()` sin limpiar datos después
+
+### Base de datos / Migraciones
+- Nombres de tablas en snake_case plural: `work_experiences`, `project_media`
+- Columnas: `created_by` (user_id), `deleted_at` (soft deletes), `timestamps()`
+- Índices compuestos para queries frecuentes: `$table->index(['user_id', 'created_at'])`
+- Foreign keys: `$table->foreignId('user_id')->constrained()->cascadeOnDelete()`
+- Una migración por tabla (no mezclar schemas no relacionados)
+- No modificar migraciones existentes que ya corrieron en producción — crear nueva migración
+- `$casts` en modelos para atributos booleanos, fechas, arrays, etc.
+
+### Rendimiento
+- **N+1: prohibido** — siempre con `with()` o `load()` para relaciones
+- Eager loading por defecto en `$with` del modelo para relaciones siempre necesarias
+- `chunk()` o `lazy()` para procesar batches grandes sin agotar memoria
+- Cachear queries pesadas (Redis o file): `Cache::remember('trending_projects', 3600, fn() => ...)`
+- NO hacer queries dentro de loops — siempre eager load o collection methods
+- Usar `select()` explícito cuando solo necesitas columnas específicas
+- eager loading condicional: `->with('comments', fn($q) => $q->select('id', 'body'))`
+
+### Manejo de errores
+- Excepciones personalizadas para dominios específicos (`app/Exceptions/`)
+- `try/catch` en Services, no en Controllers — el Controller delega y deja fluir la excepción
+- Controllers: confiar en FormRequest + Policy para validar/autorizar; si llegan al método, fluyen
+- Loggear con contexto: `Log::error('No se pudo subir avatar a Cloudinary', ['user_id' => $user->id])`
+- Mostrar errores al usuario en español, con mensajes legibles no técnicos
+- En JS: `try/catch` en cada `fetch`, mostrar toast de error con mensaje amigable
+
+### Seguridad
+- **Nunca** exponer IDs internos en URLs si el modelo tiene `$slug` (`projects/{slug}` en vez de `projects/{id}`)
+- `XSS`: escapar output con `{{ }}` en Blade, evitar `{!! !!}`, no usar `innerHTML`
+- CSRF: `@csrf` en todos los formularios, `X-CSRF-TOKEN` en headers de fetch
+- SQL Injection: Eloquent lo maneja — no concatenar valores en queries raw
+- Autorización: siempre via Policy, nunca `if (auth()->id() === $model->user_id)` en el controller
+- Archivos subidos: validar tipo MIME, tamaño máximo, scan de virus (si aplica)
+- No almacenar secrets en `.env` que no tenga `.env.example` correspondiente
+- Guest users: middleware `RestrictGuest` en rutas protegidas, `CleanExpiredGuests` programado
 
 ## Arquitectura
 
@@ -210,6 +302,14 @@ routes/
 - **Freemium:** límites por plan definidos en `config/plans.php`, consultados en Services
 - **LocationService:** países y ciudades servidos via `/api/locations/` con selects encadenados en JS (`settings/locationSelects.js`)
 
+### Reglas de ORM / Eloquent
+- `User::find($id)` NO — `User::findOrFail($id)` SÍ, o route model binding mejor
+- `where('active', 1)->where('verified', 1)` NO — **local scopes** SÍ: `scopeActive()`, `scopeVerified()`
+- Relaciones siempre tipadas con docblock o PHP 8.2+ native return-type (cuando Laravel lo soporte)
+- `$model->relation()->create([...])` sobre `$model->relation()->save(new Related([...]))`
+- `loadCount()` / `loadSum()` para agregados sin cargar toda la relación
+- Evitar `withCount` en listas grandes — cachear o columna denormalizada
+
 ## Features implementados
 - OAuth social login + 2FA (Fortify)
 - Sistema de invitado (guest login + auto-cleanup)
@@ -247,3 +347,10 @@ routes/
 - Validación → siempre Form Request, nunca `$request->validate()` en el controller
 - Autorización → siempre Policy, nunca condicionales manuales en controllers
 - Nuevas rutas protegidas van dentro del grupo `verified + restrict.guest` salvo excepción justificada
+- **Overengineering está prohibido** — si crees que necesitas un patrón de diseño, una interfaz, una abstracción extra, pregúntate "¿qué problema resuelve HOY?" Si la respuesta es "ninguno, pero en el futuro quizás", no lo hagas
+- **Busca simplicidad primero** — antes de crear un Service, pregunta si una función en el modelo o un-scope no sería suficiente
+- **No añadas dependencias sin preguntar** — cada composer.json nuevo debe justificarse
+- **Si ves un patrón que se repite 3+ veces, refactoriza** — antes de eso, duplicar está bien
+- **No dejes commented code** — si no se necesita, se borra. Git guarda el historial
+- **No anidar más de 3 niveles** (if dentro de if dentro de if) — refactoriza a early return o método separado
+- **Respeta el principio de sorpresa mínima** — el código debe hacer lo que parece hacer
