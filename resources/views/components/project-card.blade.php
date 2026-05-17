@@ -43,7 +43,7 @@ $userSkillColor = $userEndorsement ? ($skills[$userEndorsement]['color'] ?? '#6B
             <div style="display: flex; align-items: center; gap: 0.375rem">
                 <span class="post-handle">{{ '@' . $user->username }}</span>
                 <span style="color: var(--ink-200)">·</span>
-                <span class="post-time">{{ $timeAgo }}</span>
+                <span class="post-time" data-live-time="{{ $project->created_at->timestamp }}">{{ $timeAgo }}</span>
             </div>
         </div>
         <div class="drop-wrap">

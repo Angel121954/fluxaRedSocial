@@ -329,7 +329,7 @@
                 <div class="upd-body">
                     <p class="upd-text">{{ $project->content ?? 'Sin descripción aún.' }}</p>
                     <div class="upd-foot">
-                        <span class="upd-time">{{ $project->updated_at->diffForHumans() }}</span>
+                        <span class="upd-time" data-live-time="{{ $project->created_at->timestamp }}">{{ $project->updated_at->diffForHumans() }}</span>
                         <div class="upd-actions">
                             <button class="post-action like-btn {{ $isLiked ? 'liked' : '' }}" data-project-id="{{ $project->id }}">
                                 <svg fill="{{ $isLiked ? 'currentColor' : 'none' }}" stroke="currentColor" viewBox="0 0 24 24">

@@ -14,3 +14,4 @@ import './toast.js';
 import '../notifications/index.js';
 import '../notifications/badges.js';
 import '../notifications/realtime.js';
+import './liveTime.js';
