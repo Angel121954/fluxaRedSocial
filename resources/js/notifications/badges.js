@@ -10,15 +10,19 @@ function updateBadges() {
         if (match) currentConvId = match[1];
     }
 
+    function fetchJson(url) {
+        return fetch(url, {
+            headers: { 'Accept': 'application/json' },
+            credentials: 'same-origin',
+        }).then(function (r) {
+            if (!r.ok) return { count: 0 };
+            return r.json().catch(function () { return { count: 0 }; });
+        });
+    }
+
     Promise.all([
-        fetch('/notifications/unread', {
-            headers: { 'Accept': 'application/json' },
-            credentials: 'same-origin',
-        }).then(r => r.json()),
-        fetch('/messages/unread/count?exclude_conv=' + (currentConvId || ''), {
-            headers: { 'Accept': 'application/json' },
-            credentials: 'same-origin',
-        }).then(r => r.json())
+        fetchJson('/notifications/unread'),
+        fetchJson('/messages/unread/count?exclude_conv=' + (currentConvId || '')),
     ])
         .then(function (results) {
             var notifData = results[0];
