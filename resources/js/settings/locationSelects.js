@@ -1,9 +1,7 @@
 const countryEl = document.getElementById('inputCountry');
 const cityEl = document.getElementById('inputCity');
 
-if (!countryEl || !cityEl) {
-    console.warn('[LocationSelects] Elementos no encontrados');
-} else {
+if (countryEl && cityEl) {
     countryEl.addEventListener('change', () => {
         const country = countryEl.value;
         cityEl.innerHTML = '<option value="">Cargando ciudades...</option>';
