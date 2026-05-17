@@ -160,7 +160,7 @@ class BadgeSeeder extends Seeder
                 'icon' => 'flag',
                 'category' => 'especial',
                 'criteria_type' => 'manual',
-                'criteria_config' => null,
+                'criteria_config' => [],
                 'tier' => 3,
                 'order' => 51,
             ],
@@ -200,7 +200,7 @@ class BadgeSeeder extends Seeder
         ];
 
         foreach ($badges as $badge) {
-            Badge::firstOrCreate(
+            Badge::updateOrCreate(
                 ['slug' => $badge['slug']],
                 $badge
             );
