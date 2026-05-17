@@ -17,6 +17,9 @@ class StoreJobOfferRequest extends FormRequest
         return [
             'title' => 'required|string|max:120',
             'description' => 'required|string|max:2000',
+            'requirements' => 'nullable|string|max:2000',
+            'benefits' => 'nullable|string|max:2000',
+            'application_url' => 'nullable|url|max:500',
             'modality' => 'required|in:remoto,hibrido,presencial',
             'seniority' => 'required|in:junior,mid,senior,lead',
             'location' => 'nullable|string|max:100',

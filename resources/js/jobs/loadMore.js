@@ -21,14 +21,15 @@ document.addEventListener('DOMContentLoaded', () => {
             const res = await fetch(url, {
                 headers: {
                     'X-Requested-With': 'XMLHttpRequest',
-                    'Accept': 'text/html',
+                    'Accept': 'application/json',
                 },
                 credentials: 'same-origin',
             });
 
             if (!res.ok) throw new Error('Error en la petición');
 
-            const html = await res.text();
+            const data = await res.json();
+            const html = data.html;
 
             const temp = document.createElement('div');
             temp.innerHTML = html;

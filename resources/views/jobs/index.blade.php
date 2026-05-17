@@ -153,25 +153,13 @@
 
             {{-- Paginación / cargar más --}}
             @if ($jobs->hasMorePages())
-                <div class="jobs-load-more-wrap">
+                <div class="jobs-load-more-wrap" id="loadMoreWrap">
                     <button
                         type="button"
                         class="btn-load-more"
                         id="btnLoadMore"
                         data-url="{{ $jobs->nextPageUrl() }}"
                     >
-                        Ver más ofertas
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"
-                             style="width:15px;height:15px">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
-                        </svg>
-                    </button>
-                </div>
-            @endif
-
-            @if ($jobs->hasMorePages())
-                <div class="jobs-load-more-wrap" id="loadMoreWrap">
-                    <button type="button" class="btn-load-more" id="btnLoadMore" data-url="{{ $jobs->nextPageUrl() }}">
                         Ver más ofertas
                         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"
                              style="width:15px;height:15px">

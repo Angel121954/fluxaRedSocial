@@ -55,9 +55,25 @@
                 <div class="jo-field">
                     <label for="jo-description">Descripción <span class="req" aria-hidden="true">*</span></label>
                     <textarea id="jo-description" name="description" class="jo-input jo-textarea"
-                        placeholder="Describe las responsabilidades, requisitos y lo que ofrecen..."
-                        aria-required="true" rows="5" maxlength="2000"></textarea>
+                        placeholder="Describe el cargo y sus responsabilidades..."
+                        aria-required="true" rows="4" maxlength="2000"></textarea>
                     <span id="jo-desc-err" class="jo-field-error" style="display:none"></span>
+                </div>
+
+                <div class="jo-field">
+                    <label for="jo-requirements">Requisitos</label>
+                    <textarea id="jo-requirements" name="requirements" class="jo-input jo-textarea"
+                        placeholder="Experiencia, tecnologías, conocimientos necesarios..."
+                        rows="3" maxlength="2000"></textarea>
+                    <span id="jo-requirements-err" class="jo-field-error" style="display:none"></span>
+                </div>
+
+                <div class="jo-field">
+                    <label for="jo-benefits">Beneficios</label>
+                    <textarea id="jo-benefits" name="benefits" class="jo-input jo-textarea"
+                        placeholder="Salario, prestaciones, flexibilidad, growth..."
+                        rows="3" maxlength="2000"></textarea>
+                    <span id="jo-benefits-err" class="jo-field-error" style="display:none"></span>
                 </div>
 
                 <div class="jo-row">
@@ -84,6 +100,14 @@
                     <label for="jo-location">Ubicación</label>
                     <input id="jo-location" name="location" type="text" class="jo-input"
                         placeholder="Ej: Bogotá, Colombia / Remoto" maxlength="100" />
+                </div>
+
+                <div class="jo-field">
+                    <label for="jo-application-url">URL de postulación <span class="hint">(opcional)</span></label>
+                    <input id="jo-application-url" name="application_url" type="url" class="jo-input"
+                        placeholder="https://tuempresa.com/postular" maxlength="500" />
+                    <span class="jo-field-hint">Enlace externo para recibir postulaciones</span>
+                    <span id="jo-application_url-err" class="jo-field-error" style="display:none"></span>
                 </div>
 
                 <div class="jo-field">
