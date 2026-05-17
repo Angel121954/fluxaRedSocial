@@ -56,7 +56,9 @@ document.addEventListener('keydown', (e) => {
     if (e.key !== 'Escape') return;
     document.querySelectorAll('.drop-menu.open').forEach(d => d.classList.remove('open'));
     document.querySelectorAll('.post-menu-btn.is-open').forEach(b => b.classList.remove('is-open'));
+    const hadOpenModals = document.querySelectorAll('.modal-backdrop.show').length > 0;
     document.querySelectorAll('.modal-backdrop.show').forEach(m => m.classList.remove('show'));
+    if (hadOpenModals) unlockBodyScroll();
 });
 
 // ── Lógica de acciones ────────────────────────────────────────────────────
@@ -117,7 +119,10 @@ function handleProjectAction(action, projectId, dropItem, closeMenu) {
             const reasonField = document.getElementById('reportReason');
             if (reasonField) reasonField.value = '';
             const modal = document.getElementById('reportModal');
-            if (modal) modal.classList.add('show');
+            if (modal) {
+                modal.classList.add('show');
+                lockBodyScroll();
+            }
             break;
     }
 }
@@ -126,11 +131,18 @@ function handleProjectAction(action, projectId, dropItem, closeMenu) {
 document.addEventListener('click', (e) => {
     const closeBtn = e.target.closest('[data-close]');
     if (closeBtn) {
-        document.getElementById(closeBtn.dataset.close)?.classList.remove('show');
+        const modal = document.getElementById(closeBtn.dataset.close);
+        if (modal) {
+            const wasOpen = modal.classList.contains('show');
+            modal.classList.remove('show');
+            if (wasOpen) unlockBodyScroll();
+        }
         return;
     }
     if (e.target.classList.contains('modal-backdrop')) {
+        const wasOpen = e.target.classList.contains('show');
         e.target.classList.remove('show');
+        if (wasOpen) unlockBodyScroll();
     }
 });
 

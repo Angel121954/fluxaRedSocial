@@ -106,12 +106,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // ── Helpers ───────────────────────────────────────────────
     function openModal() {
         backdrop.classList.add('is-open');
-        document.body.style.overflow = 'hidden';
+        lockBodyScroll();
     }
 
     function closeModal() {
         backdrop.classList.remove('is-open');
-        document.body.style.overflow = '';
+        unlockBodyScroll();
     }
 
     function resetForm() {

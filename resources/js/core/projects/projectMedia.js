@@ -33,7 +33,7 @@
         images = collectImages(grid);
         current = idx;
         lb.removeAttribute('hidden');
-        document.body.style.overflow = 'hidden';
+        lockBodyScroll();
         loadImage(current);
     }
 
@@ -62,7 +62,7 @@
     /* ── Cerrar ───────────────────────────────────────────── */
     function close() {
         lb.setAttribute('hidden', '');
-        document.body.style.overflow = '';
+        unlockBodyScroll();
         images = [];
         current = 0;
         lbImg.src = '';

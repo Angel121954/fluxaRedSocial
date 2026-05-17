@@ -3,7 +3,7 @@
  * @vite('resources/js/explore/index.js')
  */
 
-import '../../shared/modalScrollFix.js';
+import '../../shared/scrollLock.js';
 import './topics.js';
 import './projectMenu.js';
 import { initTabs }       from './tabs.js';

@@ -11,13 +11,13 @@
     function openModal() {
         if (!backdrop) return;
         backdrop.classList.add('is-open');
-        document.body.style.overflow = 'hidden';
+        lockBodyScroll();
     }
 
     function closeModal() {
         if (!backdrop) return;
         backdrop.classList.remove('is-open');
-        document.body.style.overflow = '';
+        unlockBodyScroll();
     }
 
     if (closeBtn) closeBtn.addEventListener('click', closeModal);

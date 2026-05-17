@@ -71,6 +71,7 @@ function initCommentModal() {
 export function openCommentsModal(postData) {
     getElements();
     if (!commentsModal) return;
+    lockBodyScroll();
 
     
     const projectId = postData.projectId;
@@ -101,6 +102,7 @@ window.openCommentsModal = openCommentsModal;
 
 function closeCommentsModal() {
     commentsModal.classList.remove("show");
+    unlockBodyScroll();
     resetForm();
     setCurrentProjectId(null);
 }

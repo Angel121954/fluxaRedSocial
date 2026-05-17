@@ -12,9 +12,7 @@ if (!el('jobOfferOverlay')) return;
 
 /* ── Abrir / Cerrar / Resetear ──────────────────── */
 const abrirJobOffer = () => {
-    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-    document.body.style.overflow = 'hidden';
-    document.body.style.paddingRight = scrollbarWidth + 'px';
+    lockBodyScroll();
 
     el('jobOfferOverlay').classList.add('open');
     setTimeout(() => { const t = el('jo-title'); if (t) t.focus(); }, 50);
@@ -23,8 +21,7 @@ const abrirJobOffer = () => {
 const cerrarJobOffer = () => {
     el('jobOfferOverlay').classList.remove('open');
     setTimeout(() => {
-        document.body.style.overflow = '';
-        document.body.style.paddingRight = '';
+        unlockBodyScroll();
     }, 250);
 };
 

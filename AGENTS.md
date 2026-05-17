@@ -232,7 +232,7 @@ resources/
 │   ├── projects/              # commentForm, commentRenderer, modalComment
 │   ├── settings/              # locationSelects
 │   ├── shared/                # index, toast, topbar, security, passwordVisibility,
-│   │                          # securePassword, modalScrollFix, emailModalSend
+│   │                          # securePassword, scrollLock, emailModalSend
 │   └── admin/                 # index
 └── views/
 ├── layouts/

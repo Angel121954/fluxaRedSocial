@@ -6,7 +6,7 @@
  * por lo que es seguro cargarlo en cualquier vista de perfil/settings.
  */
 
-import '../shared/modalScrollFix.js';
+import '../shared/scrollLock.js';
 import '../shared/toast.js';
 
 // ── Vista principal del perfil ─────────────────────────────────────────────

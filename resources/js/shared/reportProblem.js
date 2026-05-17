@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function closeModal() {
         modal.classList.remove('show', 'is-open');
+        unlockBodyScroll();
         textarea.value = '';
         typeSelect.value = '';
         errorBanner.style.display = 'none';
@@ -18,6 +19,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function openModal() {
         modal.classList.add('show');
+        lockBodyScroll();
         textarea.value = '';
         typeSelect.value = '';
         errorBanner.style.display = 'none';

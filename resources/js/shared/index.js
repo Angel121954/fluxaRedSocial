@@ -7,7 +7,7 @@
  */
 
 import '../core/globals.js';
-import './modalScrollFix.js';
+import './scrollLock.js';
 import './passwordVisibility.js';
 import './security.js';
 import './toast.js';

@@ -16,10 +16,12 @@
     /* ── Abrir / cerrar ── */
     function openModal() {
         backdrop.classList.add("is-open");
+        lockBodyScroll();
     }
 
     function closeModal() {
         backdrop.classList.remove("is-open");
+        unlockBodyScroll();
         const form = document.getElementById("formChangePassword");
         if (form) form.reset();
         if (strengthFill) strengthFill.style.width = "0%";

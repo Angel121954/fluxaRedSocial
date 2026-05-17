@@ -47,10 +47,7 @@
        MODAL — ABRIR / CERRAR / RESETEAR
     ════════════════════════════════════════════════ */
     const abrirModal = () => {
-        const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-        document.body.style.overflow = 'hidden';
-        document.body.style.paddingRight = `${scrollbarWidth}px`;
-
+        lockBodyScroll();
         el('modal-overlay').classList.add('open');
         setTimeout(() => el('input-title').focus(), 50);
         cargarTecnologias();
@@ -60,8 +57,7 @@
         el('modal-overlay').classList.remove('open');
 
         setTimeout(() => {
-            document.body.style.overflow = '';
-            document.body.style.paddingRight = '';
+            unlockBodyScroll();
             resetearModal();
         }, 250); // mismo tiempo que la transición del overlay
     };

@@ -144,9 +144,7 @@ import { showToast } from '../shared/toast.js';
     /* ── Modal ver avatar ──────────────────────────── */
     function closeAvatarModal() {
         imgModal?.classList.remove('show');
-        const sbw = window.innerWidth - document.documentElement.clientWidth;
-        document.body.style.overflow = '';
-        document.body.style.marginRight = '';
+        unlockBodyScroll();
     }
 
     if (btnView && imgModal) {
@@ -154,6 +152,7 @@ import { showToast } from '../shared/toast.js';
             e.stopPropagation();
             avatarWrap.classList.remove('active');
             imgModal.classList.add('show');
+            lockBodyScroll();
         });
 
         imgModal.addEventListener('click', (e) => {

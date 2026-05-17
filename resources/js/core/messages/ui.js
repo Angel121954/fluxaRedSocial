@@ -58,6 +58,7 @@ export function initModal({ modalOverlay, modalClose, modalSearch, modalResults 
         if (!modalOverlay) return;
         modalOverlay.classList.add('active');
         modalOverlay.setAttribute('aria-hidden', 'false');
+        lockBodyScroll();
         setTimeout(() => modalSearch?.focus(), 80);
     }
 
@@ -65,6 +66,7 @@ export function initModal({ modalOverlay, modalClose, modalSearch, modalResults 
         if (!modalOverlay) return;
         modalOverlay.classList.remove('active');
         modalOverlay.setAttribute('aria-hidden', 'true');
+        unlockBodyScroll();
         if (modalSearch) modalSearch.value = '';
         if (modalResults) modalResults.innerHTML = '<p class="msgs-modal-hint">Empieza a escribir para buscar usuarios.</p>';
     }

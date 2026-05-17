@@ -12,7 +12,7 @@
 
     function openModal() {
         backdrop.classList.add('is-open');
-        document.body.style.overflow = 'hidden';
+        lockBodyScroll();
         setTimeout(function () {
             if (searchInput) searchInput.focus();
         }, 100);
@@ -20,7 +20,7 @@
 
     function closeModal() {
         backdrop.classList.remove('is-open');
-        document.body.style.overflow = '';
+        unlockBodyScroll();
         if (searchInput) searchInput.value = '';
         filterItems('');
     }
