@@ -154,6 +154,17 @@ class BadgeSeeder extends Seeder
 
             // ── Especial ──────────────────────────────────
             [
+                'name' => 'Founder de Fluxa',
+                'slug' => 'founder',
+                'description' => 'Fuiste de las primeras personas en registrarse en Fluxa y formar parte de esta comunidad',
+                'icon' => 'flag',
+                'category' => 'especial',
+                'criteria_type' => 'count_check',
+                'criteria_config' => ['model' => 'registrations_order', 'operator' => '<=', 'value' => 50],
+                'tier' => 3,
+                'order' => 51,
+            ],
+            [
                 'name' => 'Early Adopter',
                 'slug' => 'early-adopter',
                 'description' => 'Te registraste durante los primeros 30 días de Fluxa',

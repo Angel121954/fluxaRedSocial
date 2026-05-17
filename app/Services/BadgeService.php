@@ -66,6 +66,7 @@ class BadgeService
             'salary_reports' => $user->salaryReports()->count(),
             'profile_completeness' => $this->getProfileCompleteness($user),
             'account_age_days' => $user->created_at->diffInDays(now()),
+            'registrations_order' => $user->id,
             default => 0,
         };
 
