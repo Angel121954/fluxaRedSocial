@@ -21,3 +21,4 @@ Artisan::command('inspire', function () {
 
 Schedule::command('users:delete-pending')->daily();
 Schedule::command('users:delete-expired')->daily();
+Schedule::command('cloudinary:clean-orphans')->weeklyOn(0, '03:00');
