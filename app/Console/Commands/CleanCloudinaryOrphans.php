@@ -177,24 +177,31 @@ class CleanCloudinaryOrphans extends Command
         $all = [];
         $nextCursor = null;
 
-        do {
-            $params = [
-                'type' => 'upload',
-                'prefix' => $prefix,
-                'max_results' => 500,
-            ];
+        $assetTypes = ['image', 'video'];
 
-            if ($nextCursor) {
-                $params['next_cursor'] = $nextCursor;
-            }
+        foreach ($assetTypes as $resourceType) {
+            $nextCursor = null;
 
-            $result = $this->cloudinary->adminApi()->resources($params);
+            do {
+                $params = [
+                    'type' => 'upload',
+                    'prefix' => $prefix,
+                    'max_results' => 500,
+                    'resource_type' => $resourceType,
+                ];
 
-            $resources = $result['resources'] ?? [];
-            $all = array_merge($all, $resources);
+                if ($nextCursor) {
+                    $params['next_cursor'] = $nextCursor;
+                }
 
-            $nextCursor = $result['next_cursor'] ?? null;
-        } while ($nextCursor);
+                $result = $this->cloudinary->adminApi()->assets($params);
+
+                $resources = $result['resources'] ?? [];
+                $all = array_merge($all, $resources);
+
+                $nextCursor = $result['next_cursor'] ?? null;
+            } while ($nextCursor);
+        }
 
         return $all;
     }
