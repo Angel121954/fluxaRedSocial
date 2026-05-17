@@ -324,76 +324,6 @@ body {
 /* ═══════════════════════════════════════════════════════════
    STATS SECTION - Fondo con accent
 ══════════════════════════════════════════════════════════ */
-.stats {
-    background: linear-gradient(180deg, var(--bg-white) 0%, var(--accent-dim) 100%);
-    padding: 4rem 1.5rem;
-}
-
-.stats-container {
-    max-width: 900px;
-    margin: 0 auto;
-}
-
-.stats-card {
-    background: var(--bg-white);
-    border-radius: var(--r-2xl);
-    padding: 3rem;
-    box-shadow: var(--shadow-lg);
-    border: 1px solid var(--border);
-}
-
-.stats-header {
-    text-align: center;
-    margin-bottom: 2.5rem;
-}
-
-.stats-header h2 {
-    font-size: 1.625rem;
-    font-weight: 700;
-    color: var(--ink-900);
-    margin-bottom: 0.5rem;
-}
-
-.stats-header p {
-    font-size: 0.9375rem;
-    color: var(--ink-500);
-}
-
-.stats-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1rem;
-}
-
-.stat-item {
-    text-align: center;
-    padding: 1.5rem 1rem;
-    background: var(--bg-primary);
-    border-radius: var(--r-lg);
-    border: 1px solid var(--border);
-}
-
-.stat-number {
-    display: block;
-    font-size: 2.25rem;
-    font-weight: 700;
-    color: var(--accent-dark);
-    letter-spacing: -0.02em;
-    line-height: 1;
-    margin-bottom: 0.375rem;
-}
-
-.stat-number small {
-    font-size: 1rem;
-    font-weight: 500;
-}
-
-.stat-label {
-    font-size: 0.8125rem;
-    color: var(--ink-500);
-    font-weight: 500;
-}
-
 /* ═══════════════════════════════════════════════════════════
    MISSION SECTION - Fondo gris claro
 ══════════════════════════════════════════════════════════ */
@@ -535,18 +465,6 @@ body {
 
     .value-card {
         padding: 1.5rem 1rem;
-    }
-
-    .stats {
-        padding: 2.5rem 1rem;
-    }
-
-    .stats-card {
-        padding: 2rem 1.5rem;
-    }
-
-    .stats-grid {
-        grid-template-columns: repeat(2, 1fr);
     }
 
     .mission {

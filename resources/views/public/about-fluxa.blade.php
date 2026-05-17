@@ -110,38 +110,6 @@
 </section>
 
 <!-- ══════════════════════════════════════════
-     STATS SECTION
-═════════════════════════════════════════ -->
-<section class="stats">
-    <div class="stats-container">
-        <div class="stats-card">
-            <div class="stats-header">
-                <h2>Fluxa en números</h2>
-                <p>Una comunidad en crecimiento comprometida con compartir conocimiento</p>
-            </div>
-            <div class="stats-grid">
-                <div class="stat-item">
-                    <span class="stat-number">100<small>%</small></span>
-                    <span class="stat-label">Desde cero</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">24<small>/7</small></span>
-                    <span class="stat-label">Disponible</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">∞</span>
-                    <span class="stat-label">Proyectos</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">1</span>
-                    <span class="stat-label">Comunidad</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- ══════════════════════════════════════════
      MISSION SECTION
 ═════════════════════════════════════════ -->
 <section class="mission">
