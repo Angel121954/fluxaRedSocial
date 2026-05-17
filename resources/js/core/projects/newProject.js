@@ -396,11 +396,11 @@
                 if (!data.success) throw new Error(data.message);
 
                 todos('.step-panel').forEach(p => p.classList.remove('active'));
-                el('success-state').style.display = 'flex';
-                el('modal-footer').style.display = 'none';
-                el('stepper').style.display = 'none';
-                el('modal-title').textContent = 'Proyecto publicado';
-                el('modal-subtitle').textContent = '';
+                const mostrar = el('success-state'); if (mostrar) mostrar.style.display = 'flex';
+                const ocultarFooter = el('modal-footer'); if (ocultarFooter) ocultarFooter.style.display = 'none';
+                const ocultarStepper = el('stepper'); if (ocultarStepper) ocultarStepper.style.display = 'none';
+                const titulo = el('modal-title'); if (titulo) titulo.textContent = 'Proyecto publicado';
+                const subtitulo = el('modal-subtitle'); if (subtitulo) subtitulo.textContent = '';
                 setTimeout(() => cerrarModal(), 2200);
             })
             .catch(error => {
