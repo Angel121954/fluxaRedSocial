@@ -10,39 +10,6 @@
     padding: 32px 24px 64px;
 }
 
-/* ─── Breadcrumb ─────────────────────────────────────────────── */
-.adm-breadcrumb {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 13px;
-    color: var(--ink-400);
-    margin-bottom: 24px;
-}
-
-.adm-bc-link {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    color: var(--ink-400);
-    text-decoration: none;
-    transition: color 0.15s;
-}
-
-.adm-bc-link:hover {
-    color: var(--accent);
-}
-
-.adm-bc-sep {
-    color: var(--ink-200);
-    font-size: 12px;
-}
-
-.adm-bc-current {
-    color: var(--ink-600);
-    font-weight: 500;
-}
-
 /* ─── Page header ────────────────────────────────────────────── */
 .adm-header {
     display: flex;
