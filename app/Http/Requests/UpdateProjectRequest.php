@@ -19,6 +19,8 @@ class UpdateProjectRequest extends FormRequest
             'privacy' => 'nullable|in:public,followers,private',
             'techs' => 'nullable|array',
             'techs.*' => 'string|max:50',
+            'media' => 'nullable|array|max:6',
+            'media.*' => 'file|mimes:jpg,jpeg,png,webp,gif,mp4,webm|max:10240',
         ];
     }
 }

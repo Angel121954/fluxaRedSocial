@@ -42,6 +42,10 @@ class ProjectController extends Controller
 
         $project = $this->projectService->create($validated, Auth::id());
 
+        if ($files = $request->file('media')) {
+            $this->projectService->attachMedia($project, $files);
+        }
+
         return response()->json([
             'success' => true,
             'message' => 'Proyecto publicado',
@@ -95,6 +99,10 @@ class ProjectController extends Controller
         $validated = $request->validated();
 
         $this->projectService->update($project, $validated);
+
+        if ($files = $request->file('media')) {
+            $this->projectService->attachMedia($project, $files);
+        }
 
         return redirect()->route('projects.show', $project)
             ->with('success', 'Proyecto actualizado.');
