@@ -176,6 +176,17 @@ class BadgeSeeder extends Seeder
                 'order' => 50,
             ],
             [
+                'name' => 'Beta Tester',
+                'slug' => 'beta-tester',
+                'description' => 'Formaste parte de los primeros usuarios en probar Fluxa en sus inicios',
+                'icon' => 'shield',
+                'category' => 'especial',
+                'criteria_type' => 'manual',
+                'criteria_config' => [],
+                'tier' => 3,
+                'order' => 52,
+            ],
+            [
                 'name' => 'Experiencia laboral',
                 'slug' => 'first-job',
                 'description' => 'Agregaste tu primera experiencia laboral al perfil',
