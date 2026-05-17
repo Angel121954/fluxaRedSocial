@@ -47,7 +47,7 @@ class SocialAuthController extends Controller
 
             $cloudinary = new \Cloudinary\Cloudinary(config('cloudinary.cloud_url'));
             $result     = $cloudinary->uploadApi()->upload($avatarUrl, [
-                'folder'         => 'avatares',
+                'folder'         => 'fluxa/avatares',
                 'public_id'      => 'user_' . $userId,
                 'overwrite'      => true,
                 'transformation' => [

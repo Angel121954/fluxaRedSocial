@@ -21,7 +21,7 @@ class UploadAvatarJob implements ShouldQueue
 
         $cloudinary = new \Cloudinary\Cloudinary(config('cloudinary.cloud_url'));
         $result = $cloudinary->uploadApi()->upload($this->tempPath, [
-            'folder'         => 'avatares',
+            'folder'         => 'fluxa/avatares',
             'public_id'      => 'user_' . $this->userId,
             'overwrite'      => true,
             'transformation' => [

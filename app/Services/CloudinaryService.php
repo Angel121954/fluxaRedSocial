@@ -42,7 +42,7 @@ class CloudinaryService
 
     public function uploadAvatar(UploadedFile $file, string $userId): array
     {
-        return $this->upload($file, 'avatares', "user_{$userId}", [
+        return $this->upload($file, 'fluxa/avatares', "user_{$userId}", [
             'transformation' => [[
                 'width' => 400,
                 'height' => 400,
@@ -59,14 +59,14 @@ class CloudinaryService
         $mime = $file->getMimeType();
         $resourceType = str_starts_with($mime, 'video/') ? 'video' : 'image';
 
-        return $this->upload($file, 'projects', null, [
+        return $this->upload($file, 'fluxa/projects', null, [
             'resource_type' => $resourceType,
         ]);
     }
 
     public function uploadSuggestionImage(UploadedFile $file, string $publicId): array
     {
-        return $this->upload($file, 'suggestions', $publicId, [
+        return $this->upload($file, 'fluxa/suggestions', $publicId, [
             'resource_type' => 'image',
         ]);
     }

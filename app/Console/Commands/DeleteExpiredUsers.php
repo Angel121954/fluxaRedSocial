@@ -31,7 +31,7 @@ class DeleteExpiredUsers extends Command
                 $avatarUrl = $user->profile?->avatar;
 
                 if ($avatarUrl && str_contains($avatarUrl, 'cloudinary.com')) {
-                    $cloudinary->uploadApi()->destroy('avatares/user_' . $user->id);
+                    $cloudinary->uploadApi()->destroy('fluxa/avatares/user_' . $user->id);
 
                     Log::info('Avatar eliminado de Cloudinary', ['user_id' => $user->id]);
                 }

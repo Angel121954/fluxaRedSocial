@@ -64,7 +64,7 @@ class ProfileService
         }
 
         $path = pathinfo($parts[1], PATHINFO_FILENAME);
-        $publicId = 'avatares/'.pathinfo($path, PATHINFO_BASENAME);
+        $publicId = 'fluxa/avatares/'.pathinfo($path, PATHINFO_BASENAME);
 
         return $publicId;
     }
