@@ -15,6 +15,10 @@ export default defineConfig({
             hotFile: 'public/hot',
             buildDirectory: 'build',
             input: [
+                // Admin
+                "resources/css/admin/dashboard.css",
+                "resources/js/admin/dashboard.js",
+
                 // CSS global
                 "resources/css/app.css",
                 "resources/css/variables.css",

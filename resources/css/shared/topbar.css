@@ -641,6 +641,7 @@
         top: 52px;
         left: 0;
         right: 0;
+        bottom: 0;
         background: var(--surface);
         border-bottom: 1px solid var(--border);
         box-shadow: var(--shadow-md);
@@ -664,6 +665,8 @@
         display: flex;
         flex-direction: column;
         gap: 2px;
+        max-height: calc(100dvh - 52px);
+        overflow-y: auto;
     }
 
     /* ── Búsqueda dentro del menú móvil ─────── */
@@ -713,11 +716,11 @@
     .mobile-menu-link {
         display: flex;
         align-items: center;
-        gap: 0.75rem;
-        padding: 0.8125rem 1rem;
+        gap: 0.625rem;
+        padding: 0.5rem 0.75rem;
         color: var(--ink-700);
         text-decoration: none;
-        font-size: 0.9375rem;
+        font-size: 0.8125rem;
         font-weight: 500;
         border-radius: var(--r-md);
         transition: background 0.15s, color 0.15s;
@@ -730,6 +733,8 @@
     }
 
     .mobile-menu-link svg {
+        width: 16px;
+        height: 16px;
         flex-shrink: 0;
         color: var(--ink-400);
         transition: color 0.15s;

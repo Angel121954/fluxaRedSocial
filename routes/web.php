@@ -119,8 +119,9 @@ Route::get('/cv/download/{username?}', [ProfileController::class, 'downloadCV'])
 */
 Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(function () {
 
-    Route::view('/dashboard', 'dashboard')
-        ->name('dashboard');
+    Route::get('/admin/dashboard', App\Http\Controllers\Admin\DashboardController::class)
+        ->name('admin.dashboard')
+        ->middleware('admin');
 
     Route::get('/feed', [FeedController::class, 'index'])
         ->name('feed.index');

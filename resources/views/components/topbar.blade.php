@@ -24,10 +24,10 @@
                 @endif
                 <div class="nav-dropdown">
                     <button class="nav-dropdown-trigger {{ request()->routeIs('salaries*') || request()->routeIs('jobs*') ? 'active' : '' }}"
-                            id="jobsDropdownBtn"
-                            aria-haspopup="true"
-                            aria-expanded="false"
-                            onclick="toggleJobsDropdown(event)">
+                        id="jobsDropdownBtn"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                        onclick="toggleJobsDropdown(event)">
                         Oportunidades
                         <svg class="nav-dropdown-chevron" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
@@ -69,18 +69,18 @@
                     <span class="nav-badge" id="navMessagesBadge" style="{{ $unreadMessages > 0 ? '' : 'display: none' }}">{{ $unreadMessages > 99 ? '99+' : $unreadMessages }}</span>
                 </a>
                 @if(Auth::user()->role === 'admin')
-                <a href="{{ route('admin.suggestions.index') }}"
-                    class="nav-link {{ request()->routeIs('admin.suggestions*') ? 'active' : '' }}"
-                    @if(request()->routeIs('admin.suggestions*')) aria-current="page" @endif>
+                <a href="{{ route('admin.dashboard') }}"
+                    class="nav-link {{ request()->routeIs('admin.dashboard*') ? 'active' : '' }}"
+                    @if(request()->routeIs('admin.dashboard*')) aria-current="page" @endif>
                     Admin
                 </a>
                 @endif
                 <div class="nav-dropdown">
                     <button class="nav-dropdown-trigger {{ request()->routeIs('suggestions*') ? 'active' : '' }}"
-                            id="helpDropdownBtn"
-                            aria-haspopup="true"
-                            aria-expanded="false"
-                            onclick="toggleHelpDropdown(event)">
+                        id="helpDropdownBtn"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                        onclick="toggleHelpDropdown(event)">
                         Ayuda
                         <svg class="nav-dropdown-chevron" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
@@ -130,7 +130,7 @@
             <button onclick="abrirJobOffer()" class="btn-new" aria-label="Publicar oferta de empleo">
                 <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                        d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
                 <span>Publicar oferta</span>
             </button>
@@ -262,14 +262,14 @@
         </a>
 
         @if(Auth::user()->role === 'admin')
-        <a href="{{ route('admin.suggestions.index') }}"
-            class="mobile-menu-link {{ request()->routeIs('admin.suggestions*') ? 'active' : '' }}"
-            @if(request()->routeIs('admin.suggestions*')) aria-current="page" @endif>
+        <a href="{{ route('admin.dashboard') }}"
+            class="mobile-menu-link {{ request()->routeIs('admin.*') ? 'active' : '' }}"
+            @if(request()->routeIs('admin.*')) aria-current="page" @endif>
             <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                <rect x="3" y="3" width="7" height="7" rx="1" />
+                <rect x="14" y="3" width="7" height="7" rx="1" />
+                <rect x="14" y="14" width="7" height="7" rx="1" />
+                <rect x="3" y="14" width="7" height="7" rx="1" />
             </svg>
             Admin
         </a>
