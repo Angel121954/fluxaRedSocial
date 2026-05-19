@@ -16,31 +16,31 @@
             </div>
             <div class="donut-legend">
                 @foreach ($suggestionsByStatus as $status => $count)
-                    @php
-                        $pct = $suggestionsCount > 0 ? round(($count / $suggestionsCount) * 100, 1) : 0;
-                        $dotColors = [
-                            'pending' => '#f59e0b',
-                            'reviewing' => '#3b82f6',
-                            'approved' => '#22c55e',
-                            'rejected' => '#ef4444',
-                        ];
-                        $labels = [
-                            'pending' => 'Pendientes',
-                            'reviewing' => 'En revisión',
-                            'approved' => 'Aprobadas',
-                            'rejected' => 'Rechazadas',
-                        ];
-                    @endphp
-                    <div class="legend-row">
-                        <div class="legend-left">
-                            <div class="legend-dot" style="background:{{ $dotColors[$status] ?? '#12b3b6' }}"></div>
-                            <span class="legend-lbl">{{ $labels[$status] ?? $status }}</span>
-                        </div>
-                        <div class="legend-nums">
-                            <span class="legend-val">{{ $count }}</span>
-                            <span class="legend-pct">({{ $pct }}%)</span>
-                        </div>
+                @php
+                $pct = $suggestionsCount > 0 ? round(($count / $suggestionsCount) * 100, 1) : 0;
+                $dotColors = [
+                'pending' => '#f59e0b',
+                'reviewing' => '#3b82f6',
+                'approved' => '#22c55e',
+                'rejected' => '#ef4444',
+                ];
+                $labels = [
+                'pending' => 'Pendientes',
+                'reviewing' => 'En revisión',
+                'approved' => 'Aprobadas',
+                'rejected' => 'Rechazadas',
+                ];
+                @endphp
+                <div class="legend-row">
+                    <div class="legend-left">
+                        <div class="legend-dot" style="background:{{ $dotColors[$status] ?? '#12b3b6' }}"></div>
+                        <span class="legend-lbl">{{ $labels[$status] ?? $status }}</span>
                     </div>
+                    <div class="legend-nums">
+                        <span class="legend-val">{{ $count }}</span>
+                        <span class="legend-pct">({{ $pct }}%)</span>
+                    </div>
+                </div>
                 @endforeach
             </div>
         </div>

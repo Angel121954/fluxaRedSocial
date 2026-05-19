@@ -141,17 +141,17 @@
                         <div class="adm-user">
                             <div class="adm-avatar-wrap">
                                 @if($user->avatar_url)
-                                    <img src="{{ $user->avatar_url }}"
-                                        alt="{{ $user->name }}"
-                                        class="adm-avatar"
-                                        loading="lazy">
+                                <img src="{{ $user->avatar_url }}"
+                                    alt="{{ $user->name }}"
+                                    class="adm-avatar"
+                                    loading="lazy">
                                 @else
-                                    <div class="adm-avatar adm-avatar--initials" aria-label="{{ $user->name }}">
-                                        {{ strtoupper(substr($user->name, 0, 2)) }}
-                                    </div>
+                                <div class="adm-avatar adm-avatar--initials" aria-label="{{ $user->name }}">
+                                    {{ strtoupper(substr($user->name, 0, 2)) }}
+                                </div>
                                 @endif
                                 @if($user->is_banned)
-                                    <span class="adm-avatar-banned-dot" title="Usuario baneado" aria-label="Usuario baneado"></span>
+                                <span class="adm-avatar-banned-dot" title="Usuario baneado" aria-label="Usuario baneado"></span>
                                 @endif
                             </div>
                             <div class="adm-user-info">
@@ -159,13 +159,13 @@
                                 <span class="adm-user-handle">{{ '@' . $user->username }}</span>
                             </div>
                             @if($user->hasBadge('beta-tester'))
-                                <span class="adm-badge-pill adm-badge-pill--beta" title="Beta Tester">
-                                    <svg width="10" height="10" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
-                                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                    Beta
-                                </span>
+                            <span class="adm-badge-pill adm-badge-pill--beta" title="Beta Tester">
+                                <svg width="10" height="10" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                Beta
+                            </span>
                             @endif
                         </div>
                     </td>
@@ -178,43 +178,43 @@
                     {{-- Rol --}}
                     <td class="adm-td adm-td--center">
                         @if($user->role)
-                            <span class="adm-badge adm-badge--role">
-                                {{ ucfirst($user->role) }}
-                            </span>
+                        <span class="adm-badge adm-badge--role">
+                            {{ ucfirst($user->role) }}
+                        </span>
                         @else
-                            <span class="adm-empty-cell" aria-label="Sin rol">—</span>
+                        <span class="adm-empty-cell" aria-label="Sin rol">—</span>
                         @endif
                     </td>
 
                     {{-- Estado --}}
                     <td class="adm-td adm-td--center">
                         @if($user->is_banned)
-                            <span class="adm-badge adm-badge--banned">
-                                <span class="adm-badge-dot"></span>
-                                Baneado
-                            </span>
+                        <span class="adm-badge adm-badge--banned">
+                            <span class="adm-badge-dot"></span>
+                            Baneado
+                        </span>
                         @else
-                            <span class="adm-badge adm-badge--active">
-                                <span class="adm-badge-dot"></span>
-                                Activo
-                            </span>
+                        <span class="adm-badge adm-badge--active">
+                            <span class="adm-badge-dot"></span>
+                            Activo
+                        </span>
                         @endif
                     </td>
 
                     {{-- Verificado --}}
                     <td class="adm-td adm-td--center">
                         @if($user->is_verified)
-                            <span class="adm-check adm-check--yes" title="Verificado" aria-label="Verificado">
-                                <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
-                                </svg>
-                            </span>
+                        <span class="adm-check adm-check--yes" title="Verificado" aria-label="Verificado">
+                            <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7" />
+                            </svg>
+                        </span>
                         @else
-                            <span class="adm-check adm-check--no" title="No verificado" aria-label="No verificado">
-                                <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12" />
-                                </svg>
-                            </span>
+                        <span class="adm-check adm-check--no" title="No verificado" aria-label="No verificado">
+                            <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </span>
                         @endif
                     </td>
 
@@ -263,46 +263,46 @@
 
                                 {{-- Banear / Desbanear --}}
                                 @if($user->is_banned)
-                                    <button
-                                        type="button"
-                                        class="adm-dropdown-item adm-dropdown-item--success btn-unban"
-                                        data-user-id="{{ $user->id }}"
-                                        data-user-name="{{ $user->name }}"
-                                        role="menuitem">
-                                        <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                        </svg>
-                                        Desbanear usuario
-                                    </button>
-                                    <form method="POST"
-                                        action="{{ route('admin.users.unban', $user) }}"
-                                        id="unban-form-{{ $user->id }}"
-                                        class="d-none">
-                                        @csrf
-                                        @method('PATCH')
-                                    </form>
+                                <button
+                                    type="button"
+                                    class="adm-dropdown-item adm-dropdown-item--success btn-unban"
+                                    data-user-id="{{ $user->id }}"
+                                    data-user-name="{{ $user->name }}"
+                                    role="menuitem">
+                                    <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    Desbanear usuario
+                                </button>
+                                <form method="POST"
+                                    action="{{ route('admin.users.unban', $user) }}"
+                                    id="unban-form-{{ $user->id }}"
+                                    class="d-none">
+                                    @csrf
+                                    @method('PATCH')
+                                </form>
                                 @else
-                                    <button
-                                        type="button"
-                                        class="adm-dropdown-item adm-dropdown-item--danger btn-ban"
-                                        data-user-id="{{ $user->id }}"
-                                        data-user-name="{{ $user->name }}"
-                                        role="menuitem">
-                                        <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
-                                        </svg>
-                                        Banear usuario
-                                    </button>
-                                    <form method="POST"
-                                        action="{{ route('admin.users.ban', $user) }}"
-                                        id="ban-form-{{ $user->id }}"
-                                        class="d-none">
-                                        @csrf
-                                        @method('PATCH')
-                                        <input type="hidden" name="reason" id="ban-reason-{{ $user->id }}">
-                                    </form>
+                                <button
+                                    type="button"
+                                    class="adm-dropdown-item adm-dropdown-item--danger btn-ban"
+                                    data-user-id="{{ $user->id }}"
+                                    data-user-name="{{ $user->name }}"
+                                    role="menuitem">
+                                    <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+                                    </svg>
+                                    Banear usuario
+                                </button>
+                                <form method="POST"
+                                    action="{{ route('admin.users.ban', $user) }}"
+                                    id="ban-form-{{ $user->id }}"
+                                    class="d-none">
+                                    @csrf
+                                    @method('PATCH')
+                                    <input type="hidden" name="reason" id="ban-reason-{{ $user->id }}">
+                                </form>
                                 @endif
 
                             </div>
@@ -381,11 +381,11 @@
                 <div class="adm-badge-list" id="badgeUserList">
                     @foreach($users as $user)
                     <label class="adm-badge-item {{ $user->hasBadge('beta-tester') ? 'adm-badge-item--disabled' : '' }}"
-                           data-name="{{ strtolower($user->name) }}"
-                           data-handle="{{ strtolower($user->username) }}">
+                        data-name="{{ strtolower($user->name) }}"
+                        data-handle="{{ strtolower($user->username) }}">
                         <input type="checkbox" name="user_ids[]" value="{{ $user->id }}"
-                               class="adm-badge-checkbox"
-                               {{ $user->hasBadge('beta-tester') ? 'disabled checked' : '' }}>
+                            class="adm-badge-checkbox"
+                            {{ $user->hasBadge('beta-tester') ? 'disabled checked' : '' }}>
                         <img src="{{ $user->avatar_url }}" alt="" class="adm-badge-avatar" loading="lazy">
                         <div class="adm-badge-user">
                             <span class="adm-badge-username">{{ $user->name }}</span>
