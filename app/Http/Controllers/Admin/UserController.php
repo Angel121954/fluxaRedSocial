@@ -28,7 +28,7 @@ class UserController extends Controller
             'total' => User::count(),
             'active' => User::where('status', 'activo')->count(),
             'verified' => User::whereNotNull('email_verified_at')->count(),
-            'beta_testers' => Badge::where('slug', 'beta_tester')->first()?->users()->count() ?? 0,
+            'beta_testers' => Badge::where('slug', 'beta-tester')->first()?->users()->count() ?? 0,
             'banned' => User::where('status', 'banned')->count(),
         ];
 
@@ -73,7 +73,7 @@ class UserController extends Controller
             'user_ids.*' => 'required|exists:users,id',
         ]);
 
-        $badge = Badge::where('slug', 'beta_tester')->first();
+        $badge = Badge::where('slug', 'beta-tester')->first();
 
         if (! $badge) {
             return redirect()->route('admin.users.index')

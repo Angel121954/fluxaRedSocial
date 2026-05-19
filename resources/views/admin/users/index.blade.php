@@ -158,7 +158,7 @@
                                 <span class="adm-user-name">{{ $user->name }}</span>
                                 <span class="adm-user-handle">{{ '@' . $user->username }}</span>
                             </div>
-                            @if($user->hasBadge('beta_tester'))
+                            @if($user->hasBadge('beta-tester'))
                                 <span class="adm-badge-pill adm-badge-pill--beta" title="Beta Tester">
                                     <svg width="10" height="10" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
@@ -380,18 +380,18 @@
                 {{-- Lista de usuarios con checkbox --}}
                 <div class="adm-badge-list" id="badgeUserList">
                     @foreach($users as $user)
-                    <label class="adm-badge-item {{ $user->hasBadge('beta_tester') ? 'adm-badge-item--disabled' : '' }}"
+                    <label class="adm-badge-item {{ $user->hasBadge('beta-tester') ? 'adm-badge-item--disabled' : '' }}"
                            data-name="{{ strtolower($user->name) }}"
                            data-handle="{{ strtolower($user->username) }}">
                         <input type="checkbox" name="user_ids[]" value="{{ $user->id }}"
                                class="adm-badge-checkbox"
-                               {{ $user->hasBadge('beta_tester') ? 'disabled checked' : '' }}>
+                               {{ $user->hasBadge('beta-tester') ? 'disabled checked' : '' }}>
                         <img src="{{ $user->avatar_url }}" alt="" class="adm-badge-avatar" loading="lazy">
                         <div class="adm-badge-user">
                             <span class="adm-badge-username">{{ $user->name }}</span>
                             <span class="adm-badge-userhandle">{{ '@' . $user->username }}</span>
                         </div>
-                        @if($user->hasBadge('beta_tester'))
+                        @if($user->hasBadge('beta-tester'))
                         <span class="adm-badge-pill adm-badge-pill--beta">Ya tiene</span>
                         @endif
                     </label>
