@@ -28,7 +28,11 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     const dt = $table.DataTable({
-        responsive: true,
+        responsive: {
+            details: {
+                type: 'inline',
+            },
+        },
         pageLength: 15,
         lengthMenu: [10, 15, 25, 50, 100],
         language: {
