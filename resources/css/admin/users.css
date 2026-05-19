@@ -995,4 +995,9 @@ table.dataTable thead .sorting::after {
     .adm-quick-stats {
         grid-template-columns: 1fr 1fr;
     }
+
+    .adm-actions-btn {
+        width: 36px;
+        height: 36px;
+    }
 }

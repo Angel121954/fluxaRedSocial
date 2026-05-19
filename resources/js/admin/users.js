@@ -30,8 +30,9 @@ document.addEventListener('DOMContentLoaded', function () {
             },
         },
         columnDefs: [
-            // Columna "Acciones" no ordenable
+            // Columna "Acciones" — siempre visible, no ordenable
             { orderable: false, targets: -1 },
+            { responsivePriority: 1, targets: -1 },
             // Columna "Verificado" — ordenar por data-verified del <tr>
             { orderable: true, targets: 4 },
         ],
@@ -235,33 +236,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
     badgeCheckboxes?.forEach(cb => cb.addEventListener('change', updateBadgeCount));
 
-    /* Abrir modal (botón principal del header) */
     document.getElementById('openBadgeModal')?.addEventListener('click', function () {
-        openBadgeModal();
-    });
-
-    /* Abrir modal desde dropdown de usuario específico */
-    document.addEventListener('click', function (e) {
-        const btn = e.target.closest('.btn-grant-badge');
-        if (!btn) return;
-
-        const userId = btn.dataset.userId;
-        openBadgeModal(userId);
-    });
-
-    function openBadgeModal(preselectedUserId) {
         closeAllModals();
 
-        // Resetear todos los checkboxes
         badgeCheckboxes?.forEach(cb => { cb.checked = false; });
         updateBadgeCount();
-
-        // Si viene con usuario preseleccionado, marcarlo
-        if (preselectedUserId) {
-            const cb = badgeList?.querySelector(`.adm-badge-checkbox:not(:disabled)[value="${preselectedUserId}"]`);
-            if (cb) cb.checked = true;
-            updateBadgeCount();
-        }
 
         if (badgeSearch) {
             badgeSearch.value = '';
@@ -269,7 +248,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         badgeBackdrop?.classList.add('is-open');
         badgeSearch?.focus();
-    }
+    });
 
     /* Filtrado de la lista por búsqueda */
     badgeSearch?.addEventListener('input', function () {

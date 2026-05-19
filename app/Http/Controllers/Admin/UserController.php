@@ -6,7 +6,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Badge;
+use App\Models\Notification;
 use App\Models\User;
+use App\Notifications\CreatesNotifications;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -37,7 +39,7 @@ class UserController extends Controller
         $user->update(['status' => 'banned']);
 
         return redirect()->route('admin.users.index')
-            ->with('status', 'Usuario baneado correctamente.');
+            ->with('success', 'Usuario baneado correctamente.');
     }
 
     public function unban(Request $request, User $user): RedirectResponse
@@ -45,7 +47,7 @@ class UserController extends Controller
         $user->update(['status' => 'activo']);
 
         return redirect()->route('admin.users.index')
-            ->with('status', 'Usuario desbaneado correctamente.');
+            ->with('success', 'Usuario desbaneado correctamente.');
     }
 
     public function grantBadge(Request $request): RedirectResponse
@@ -62,11 +64,29 @@ class UserController extends Controller
                 ->with('error', 'La insignia Beta Tester no existe.');
         }
 
-        $badge->users()->syncWithoutDetaching($request->user_ids);
+        $pivotData = collect($request->user_ids)->mapWithKeys(
+            fn (string $id) => [$id => ['earned_at' => now()]]
+        );
+
+        $badge->users()->syncWithoutDetaching($pivotData->toArray());
 
         $count = count($request->user_ids);
 
+        foreach ($request->user_ids as $userId) {
+            CreatesNotifications::createNotification(
+                userId: (int) $userId,
+                type: Notification::TYPE_BADGE,
+                title: '¡Nuevo logro!',
+                body: "Fluxa te ha reconocido el logro «{$badge->name}» — {$badge->description}",
+                link: route('profile.index', ['tab' => 'badges']),
+                fromUserId: null,
+                referenceId: $badge->id,
+                referenceType: 'badge',
+                broadcast: true,
+            );
+        }
+
         return redirect()->route('admin.users.index')
-            ->with('status', "Insignia otorgada a {$count} usuario(s) correctamente.");
+            ->with('success', "Insignia otorgada a {$count} usuario(s) correctamente.");
     }
 }
