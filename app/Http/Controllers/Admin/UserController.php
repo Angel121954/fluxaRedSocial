@@ -21,6 +21,7 @@ class UserController extends Controller
         $users = User::with('badges', 'profile')
             ->withCount('projects')
             ->where('role', '!=', 'admin')
+            ->where('account_type', 'developer')
             ->latest()
             ->get();
 
