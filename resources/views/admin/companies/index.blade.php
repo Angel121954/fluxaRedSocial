@@ -226,7 +226,7 @@
                     </td>
 
                 </tr>
-                @endforelse
+                @endforeach
             </tbody>
         </table>
     </div>
