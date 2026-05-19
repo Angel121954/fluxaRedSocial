@@ -129,7 +129,7 @@
                 </tr>
             </thead>
             <tbody>
-                @forelse($users as $user)
+                @foreach($users as $user)
                 <tr class="adm-tr {{ $user->is_banned ? 'adm-tr--banned' : '' }}"
                     data-user-id="{{ $user->id }}"
                     data-status="{{ $user->is_banned ? 'banned' : 'active' }}"
@@ -309,18 +309,6 @@
                         </div>
                     </td>
 
-                </tr>
-                @empty
-                <tr>
-                    <td colspan="8" class="adm-empty">
-                        <div class="adm-empty-state">
-                            <svg width="40" height="40" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                    d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M9 11a4 4 0 100-8 4 4 0 000 8zM23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75" />
-                            </svg>
-                            <p>No se encontraron usuarios</p>
-                        </div>
-                    </td>
                 </tr>
                 @endforelse
             </tbody>

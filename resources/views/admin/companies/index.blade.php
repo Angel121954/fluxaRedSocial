@@ -73,7 +73,7 @@
                 </tr>
             </thead>
             <tbody>
-                @forelse($companies as $company)
+                @foreach($companies as $company)
                 <tr class="adm-tr {{ $company->is_banned ? 'adm-tr--banned' : '' }}"
                     data-status="{{ $company->is_banned ? 'banned' : 'active' }}"
                     data-verified="{{ $company->is_verified ? '1' : '0' }}">
@@ -225,18 +225,6 @@
                         </div>
                     </td>
 
-                </tr>
-                @empty
-                <tr>
-                    <td colspan="7" class="adm-empty">
-                        <div class="adm-empty-state">
-                            <svg width="40" height="40" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                    d="M3 21h18M3 10h18M3 7l9-4 9 4M4 10v11m16-11v11M8 14v.01M12 14v.01M16 14v.01M12 18v.01" />
-                            </svg>
-                            <p>No hay empresas registradas</p>
-                        </div>
-                    </td>
                 </tr>
                 @endforelse
             </tbody>
