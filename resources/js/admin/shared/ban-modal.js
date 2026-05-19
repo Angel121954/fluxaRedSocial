@@ -1,5 +1,5 @@
 /**
- * admin/users/ban-modal.js — Modal de confirmar baneo + desbaneo directo
+ * admin/shared/ban-modal.js — Modal de confirmar baneo + desbaneo directo
  */
 
 document.addEventListener('DOMContentLoaded', function () {

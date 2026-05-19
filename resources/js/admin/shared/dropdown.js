@@ -1,5 +1,5 @@
 /**
- * admin/users/dropdown.js — Menús de acción por fila
+ * admin/shared/dropdown.js — Menús de acción por fila
  */
 
 document.addEventListener('DOMContentLoaded', function () {

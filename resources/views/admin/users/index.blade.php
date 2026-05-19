@@ -500,7 +500,7 @@
 <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
 @vite('resources/js/admin/users/table.js')
-@vite('resources/js/admin/users/dropdown.js')
+@vite('resources/js/admin/shared/dropdown.js')
+@vite('resources/js/admin/shared/ban-modal.js')
 @vite('resources/js/admin/users/badge-modal.js')
-@vite('resources/js/admin/users/ban-modal.js')
 @endpush

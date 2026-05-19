@@ -165,9 +165,10 @@ export default defineConfig({
                 // Admin JS
                 "resources/js/admin/index.js",
                 "resources/js/admin/users/table.js",
-                "resources/js/admin/users/dropdown.js",
                 "resources/js/admin/users/badge-modal.js",
-                "resources/js/admin/users/ban-modal.js",
+                "resources/js/admin/shared/dropdown.js",
+                "resources/js/admin/shared/ban-modal.js",
+                "resources/js/admin/companies/table.js",
             ],
             refresh: true,
         }),
