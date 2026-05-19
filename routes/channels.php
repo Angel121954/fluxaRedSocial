@@ -30,3 +30,7 @@ Broadcast::channel('user.privacy.{userId}', function ($user, int $userId) {
 Broadcast::channel('user.follow.{userId}', function ($user, int $userId) {
     return true;
 });
+
+Broadcast::channel('user.banned.{userId}', function ($user, int $userId) {
+    return (int) $user->id === (int) $userId;
+});

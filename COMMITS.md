@@ -1,7 +1,7 @@
 # Convención de commits
 
 ```
-(alcance en inglés): descripción en español
+acción en inglés(alcance en inglés): descripción en español
 ```
 
 ## Ejemplos

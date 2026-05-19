@@ -10,14 +10,22 @@ class CheckUserActive
 {
    public function handle(Request $request, Closure $next)
     {
-        if (Auth::check() && Auth::user()->status === 'inactivo') {
-            Auth::logout();
+        if (Auth::check()) {
+            $status = Auth::user()->status;
 
-            $request->session()->invalidate();
-            $request->session()->regenerateToken();
+            if (in_array($status, ['inactivo', 'banned'], true)) {
+                Auth::logout();
 
-            return redirect()->route('login')
-                ->withErrors(['email' => 'Tu cuenta está desactivada.']);
+                $request->session()->invalidate();
+                $request->session()->regenerateToken();
+
+                $message = $status === 'banned'
+                    ? 'Tu cuenta ha sido suspendida.'
+                    : 'Tu cuenta está desactivada.';
+
+                return redirect()->route('login')
+                    ->withErrors(['email' => $message]);
+            }
         }
 
         return $next($request);

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Actions\Fortify;
 
 use Closure;
@@ -16,11 +18,18 @@ class CheckUserStatus
         $credentials = $request->only('email', 'password');
         $user = Auth::getProvider()->retrieveByCredentials($credentials);
 
-        if (!$user || !Auth::getProvider()->validateCredentials($user, $credentials)) {
+        if (! $user || ! Auth::getProvider()->validateCredentials($user, $credentials)) {
             RateLimiter::hit(Str::transliterate(Str::lower($request->input('email')).'|'.$request->ip()));
-            
+
             throw ValidationException::withMessages([
                 'email' => trans('auth.failed'),
+            ]);
+        }
+
+        if ($user->status === 'banned') {
+            throw ValidationException::withMessages([
+                'email' => 'Tu cuenta ha sido suspendida'
+                    .($user->ban_reason ? ": {$user->ban_reason}" : '.'),
             ]);
         }
 

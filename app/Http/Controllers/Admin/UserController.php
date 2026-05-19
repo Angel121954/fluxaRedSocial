@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Badge;
 use App\Models\Notification;
 use App\Models\User;
+use App\Events\UserBanned;
 use App\Notifications\CreatesNotifications;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -36,7 +37,17 @@ class UserController extends Controller
 
     public function ban(Request $request, User $user): RedirectResponse
     {
-        $user->update(['status' => 'banned']);
+        $user->update([
+            'status' => 'banned',
+            'banned_at' => now(),
+            'banned_by' => $request->user()->id,
+            'ban_reason' => $request->input('reason'),
+        ]);
+
+        broadcast(new UserBanned(
+            userId: $user->id,
+            reason: $request->input('reason') ?? '',
+        ));
 
         return redirect()->route('admin.users.index')
             ->with('success', 'Usuario baneado correctamente.');
@@ -44,7 +55,12 @@ class UserController extends Controller
 
     public function unban(Request $request, User $user): RedirectResponse
     {
-        $user->update(['status' => 'activo']);
+        $user->update([
+            'status' => 'activo',
+            'banned_at' => null,
+            'banned_by' => null,
+            'ban_reason' => null,
+        ]);
 
         return redirect()->route('admin.users.index')
             ->with('success', 'Usuario desbaneado correctamente.');

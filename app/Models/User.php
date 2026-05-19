@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -30,6 +31,9 @@ class User extends Authenticatable
         'deleted_at',
         'delete_at',
         'email_verified_at',
+        'banned_at',
+        'banned_by',
+        'ban_reason',
     ];
 
     protected $hidden = [
@@ -39,9 +43,15 @@ class User extends Authenticatable
 
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'banned_at' => 'datetime',
         'password' => 'hashed',
         'onboarding_completed' => 'boolean',
     ];
+
+    public function banner(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'banned_by');
+    }
 
     public function profile()
     {
