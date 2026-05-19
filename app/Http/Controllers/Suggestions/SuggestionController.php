@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreSuggestionRequest;
 use App\Models\Suggestion;
 use App\Services\CloudinaryService;
-use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class SuggestionController extends Controller
 {
@@ -20,25 +20,11 @@ class SuggestionController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(): View
     {
-        $query = Suggestion::with('user');
-
-        if ($search = $request->get('search')) {
-            $query->where('description', 'like', "%{$search}%");
-        }
-
-        if ($status = $request->get('status')) {
-            $query->where('status', $status);
-        }
-
-        $order = $request->get('order', 'latest');
-        match ($order) {
-            'oldest' => $query->oldest(),
-            default => $query->latest(),
-        };
-
-        $suggestions = $query->paginate(10);
+        $suggestions = Suggestion::with('user')
+            ->latest()
+            ->get();
 
         return view('admin.suggestions.index', compact('suggestions'));
     }

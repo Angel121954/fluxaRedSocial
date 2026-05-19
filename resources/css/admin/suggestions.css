@@ -450,16 +450,14 @@
 }
 
 .adm-dropdown {
-    position: absolute;
-    right: 0;
-    top: calc(100% + 6px);
+    position: fixed;
     min-width: 176px;
     background: var(--surface);
     border: 1px solid var(--border-strong);
     border-radius: var(--r-xl);
     box-shadow: var(--shadow-lg);
     padding: 5px;
-    z-index: 50;
+    z-index: 300;
     opacity: 0;
     transform: translateY(-5px) scale(0.96);
     pointer-events: none;

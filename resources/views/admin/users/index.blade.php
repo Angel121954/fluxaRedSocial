@@ -115,7 +115,7 @@
 
     {{-- ── Tabla de usuarios ── --}}
     <div class="adm-table-wrap">
-        <table id="usersTable" class="adm-table" role="table" aria-label="Tabla de usuarios">
+        <table id="usersTable" class="adm-table {{ $users->isEmpty() ? 'adm-table--empty' : '' }}" role="table" aria-label="Tabla de usuarios">
             <thead>
                 <tr>
                     <th class="adm-th" scope="col">Usuario</th>

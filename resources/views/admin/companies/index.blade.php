@@ -60,7 +60,7 @@
     </div>
 
     <div class="adm-table-wrap">
-        <table id="companiesTable" class="adm-table" role="table" aria-label="Tabla de empresas">
+        <table id="companiesTable" class="adm-table {{ $companies->isEmpty() ? 'adm-table--empty' : '' }}" role="table" aria-label="Tabla de empresas">
             <thead>
                 <tr>
                     <th class="adm-th" scope="col">Empresa</th>

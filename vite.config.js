@@ -169,6 +169,8 @@ export default defineConfig({
                 "resources/js/admin/shared/dropdown.js",
                 "resources/js/admin/shared/ban-modal.js",
                 "resources/js/admin/companies/table.js",
+                "resources/js/admin/suggestions/delete.js",
+                "resources/js/admin/suggestions/table.js",
             ],
             refresh: true,
         }),

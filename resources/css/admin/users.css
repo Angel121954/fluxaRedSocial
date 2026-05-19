@@ -379,6 +379,10 @@
     color: var(--ink-700);
 }
 
+.adm-table--empty {
+    table-layout: fixed;
+}
+
 .adm-th {
     padding: 10px 16px;
     text-align: left;
