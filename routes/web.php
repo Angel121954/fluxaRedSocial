@@ -139,6 +139,18 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
         ->name('admin.users.grantBadge')
         ->middleware('admin');
 
+    Route::get('/admin/companies', [App\Http\Controllers\Admin\CompanyController::class, 'index'])
+        ->name('admin.companies.index')
+        ->middleware('admin');
+
+    Route::patch('/admin/companies/{user}/ban', [App\Http\Controllers\Admin\CompanyController::class, 'ban'])
+        ->name('admin.companies.ban')
+        ->middleware('admin');
+
+    Route::patch('/admin/companies/{user}/unban', [App\Http\Controllers\Admin\CompanyController::class, 'unban'])
+        ->name('admin.companies.unban')
+        ->middleware('admin');
+
     Route::get('/feed', [FeedController::class, 'index'])
         ->name('feed.index');
 
