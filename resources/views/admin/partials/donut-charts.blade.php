@@ -1,66 +1,47 @@
 <div class="card">
     <div class="card-header">
-        <span class="card-title">Estado de gestión</span>
+        <span class="card-title">Sugerencias por estado</span>
     </div>
     <div class="donuts-row">
-        <div class="donut-pane">
-            <div class="donut-subtitle">Sugerencias por estado</div>
+        <div class="donut-pane" style="border-right:none">
             <div class="donut-chart-wrap">
-                <canvas id="sugChart" width="148" height="148"></canvas>
+                <canvas id="sugChart" width="148" height="148"
+                    data-labels='{{ $suggestionsByStatus->keys()->toJson() }}'
+                    data-values='{{ $suggestionsByStatus->values()->toJson() }}'>
+                </canvas>
                 <div class="donut-center">
-                    <div class="dc-num">87</div>
+                    <div class="dc-num">{{ $suggestionsCount }}</div>
                     <div class="dc-sub">Total</div>
                 </div>
             </div>
             <div class="donut-legend">
-                <div class="legend-row">
-                    <div class="legend-left">
-                        <div class="legend-dot" style="background:#12b3b6"></div><span class="legend-lbl">Pendientes</span>
+                @foreach ($suggestionsByStatus as $status => $count)
+                    @php
+                        $pct = $suggestionsCount > 0 ? round(($count / $suggestionsCount) * 100, 1) : 0;
+                        $dotColors = [
+                            'pending' => '#f59e0b',
+                            'reviewing' => '#3b82f6',
+                            'approved' => '#22c55e',
+                            'rejected' => '#ef4444',
+                        ];
+                        $labels = [
+                            'pending' => 'Pendientes',
+                            'reviewing' => 'En revisión',
+                            'approved' => 'Aprobadas',
+                            'rejected' => 'Rechazadas',
+                        ];
+                    @endphp
+                    <div class="legend-row">
+                        <div class="legend-left">
+                            <div class="legend-dot" style="background:{{ $dotColors[$status] ?? '#12b3b6' }}"></div>
+                            <span class="legend-lbl">{{ $labels[$status] ?? $status }}</span>
+                        </div>
+                        <div class="legend-nums">
+                            <span class="legend-val">{{ $count }}</span>
+                            <span class="legend-pct">({{ $pct }}%)</span>
+                        </div>
                     </div>
-                    <div class="legend-nums"><span class="legend-val">45</span><span class="legend-pct">(51.7%)</span></div>
-                </div>
-                <div class="legend-row">
-                    <div class="legend-left">
-                        <div class="legend-dot" style="background:#f59e0b"></div><span class="legend-lbl">En revisión</span>
-                    </div>
-                    <div class="legend-nums"><span class="legend-val">28</span><span class="legend-pct">(32.2%)</span></div>
-                </div>
-                <div class="legend-row">
-                    <div class="legend-left">
-                        <div class="legend-dot" style="background:#22c55e"></div><span class="legend-lbl">Completadas</span>
-                    </div>
-                    <div class="legend-nums"><span class="legend-val">14</span><span class="legend-pct">(16.1%)</span></div>
-                </div>
-            </div>
-        </div>
-        <div class="donut-pane">
-            <div class="donut-subtitle">Reportes por estado</div>
-            <div class="donut-chart-wrap">
-                <canvas id="repChart" width="148" height="148"></canvas>
-                <div class="donut-center">
-                    <div class="dc-num">23</div>
-                    <div class="dc-sub">Total</div>
-                </div>
-            </div>
-            <div class="donut-legend">
-                <div class="legend-row">
-                    <div class="legend-left">
-                        <div class="legend-dot" style="background:#12b3b6"></div><span class="legend-lbl">Pendientes</span>
-                    </div>
-                    <div class="legend-nums"><span class="legend-val">10</span><span class="legend-pct">(43.5%)</span></div>
-                </div>
-                <div class="legend-row">
-                    <div class="legend-left">
-                        <div class="legend-dot" style="background:#f59e0b"></div><span class="legend-lbl">En revisión</span>
-                    </div>
-                    <div class="legend-nums"><span class="legend-val">9</span><span class="legend-pct">(39.1%)</span></div>
-                </div>
-                <div class="legend-row">
-                    <div class="legend-left">
-                        <div class="legend-dot" style="background:#22c55e"></div><span class="legend-lbl">Resueltos</span>
-                    </div>
-                    <div class="legend-nums"><span class="legend-val">4</span><span class="legend-pct">(17.4%)</span></div>
-                </div>
+                @endforeach
             </div>
         </div>
     </div>

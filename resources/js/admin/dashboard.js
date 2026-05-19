@@ -18,8 +18,16 @@ import Chart from 'chart.js/auto';
             overlay.classList.remove('visible');
         }
 
+        function toggleSidebar() {
+            if (window.innerWidth > 900) {
+                sidebar.classList.toggle('collapsed');
+            } else {
+                closeSidebar();
+            }
+        }
+
         mbToggle.addEventListener('click', openSidebar);
-        sbClose.addEventListener('click', closeSidebar);
+        sbClose.addEventListener('click', toggleSidebar);
         overlay.addEventListener('click', closeSidebar);
     }
 
@@ -46,127 +54,130 @@ import Chart from 'chart.js/auto';
     /* ── Area chart: Crecimiento ───────────────────── */
     const growthCanvas = document.getElementById('growthChart');
     if (growthCanvas) {
-        const labels = ['22 May', '24 May', '26 May', '28 May', '30 May', '1 Jun', '3 Jun', '5 Jun', '7 Jun', '9 Jun', '11 Jun', '13 Jun', '15 Jun', '17 Jun', '19 Jun', '22 Jun'];
-        const data = [598, 621, 645, 668, 692, 715, 738, 762, 785, 810, 836, 862, 888, 912, 940, 1042];
+        const labels = JSON.parse(growthCanvas.dataset.labels || '[]');
+        const data = JSON.parse(growthCanvas.dataset.values || '[]');
 
-        const ctx = growthCanvas.getContext('2d');
-        const grad = ctx.createLinearGradient(0, 0, 0, 200);
-        grad.addColorStop(0, 'rgba(18,179,182,.14)');
-        grad.addColorStop(1, 'rgba(18,179,182,0)');
+        if (labels.length && data.length) {
+            const ctx = growthCanvas.getContext('2d');
+            const grad = ctx.createLinearGradient(0, 0, 0, 200);
+            grad.addColorStop(0, 'rgba(18,179,182,.14)');
+            grad.addColorStop(1, 'rgba(18,179,182,0)');
 
-        new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels,
-                datasets: [{
-                    data,
-                    borderColor: '#12b3b6',
-                    borderWidth: 2,
-                    fill: true,
-                    backgroundColor: grad,
-                    tension: 0.42,
-                    pointRadius: 0,
-                    pointHoverRadius: 4,
-                    pointHoverBackgroundColor: '#12b3b6',
-                    pointHoverBorderColor: '#fff',
-                    pointHoverBorderWidth: 2,
-                }],
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                interaction: {
-                    intersect: false,
-                    mode: 'index',
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels,
+                    datasets: [{
+                        data,
+                        borderColor: '#12b3b6',
+                        borderWidth: 2,
+                        fill: true,
+                        backgroundColor: grad,
+                        tension: 0.42,
+                        pointRadius: 0,
+                        pointHoverRadius: 4,
+                        pointHoverBackgroundColor: '#12b3b6',
+                        pointHoverBorderColor: '#fff',
+                        pointHoverBorderWidth: 2,
+                    }],
                 },
-                plugins: {
-                    legend: {
-                        display: false,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        intersect: false,
+                        mode: 'index',
                     },
-                    tooltip: {
-                        ...tooltipDefaults,
-                        callbacks: {
-                            title: (i) => i[0].label,
-                            label: (i) => `${i.raw.toLocaleString('es-CO')} usuarios`,
-                        },
-                    },
-                },
-                scales: {
-                    x: {
-                        grid: {
+                    plugins: {
+                        legend: {
                             display: false,
                         },
-                        border: {
-                            display: false,
-                        },
-                        ticks: {
-                            color: '#a0aabe',
-                            font: {
-                                size: 11,
+                        tooltip: {
+                            ...tooltipDefaults,
+                            callbacks: {
+                                title: (i) => i[0].label,
+                                label: (i) => `${i.raw.toLocaleString('es-CO')} usuarios`,
                             },
-                            maxTicksLimit: 8,
-                            maxRotation: 0,
                         },
                     },
-                    y: {
-                        min: 0,
-                        max: 1500,
-                        grid: {
-                            color: 'rgba(0,0,0,.04)',
-                        },
-                        border: {
-                            display: false,
-                            dash: [3, 3],
-                        },
-                        ticks: {
-                            color: '#a0aabe',
-                            font: {
-                                size: 11,
+                    scales: {
+                        x: {
+                            grid: {
+                                display: false,
                             },
-                            padding: 6,
-                            callback: (v) => v >= 1000 ? (v / 1000).toFixed(1) + 'k' : v,
-                            stepSize: 300,
+                            border: {
+                                display: false,
+                            },
+                            ticks: {
+                                color: '#a0aabe',
+                                font: {
+                                    size: 11,
+                                },
+                                maxTicksLimit: 8,
+                                maxRotation: 0,
+                            },
+                        },
+                        y: {
+                            min: 0,
+                            grid: {
+                                color: 'rgba(0,0,0,.04)',
+                            },
+                            border: {
+                                display: false,
+                                dash: [3, 3],
+                            },
+                            ticks: {
+                                color: '#a0aabe',
+                                font: {
+                                    size: 11,
+                                },
+                                padding: 6,
+                                callback: (v) => v >= 1000 ? (v / 1000).toFixed(1) + 'k' : v,
+                            },
                         },
                     },
                 },
-            },
-        });
+            });
+        }
     }
 
-    /* ── Donut factory ─────────────────────────────── */
-    function makeDonut(id, data, total) {
-        const canvas = document.getElementById(id);
-        if (!canvas) return;
+    /* ── Donut chart: Sugerencias ──────────────────── */
+    const sugCanvas = document.getElementById('sugChart');
+    if (sugCanvas) {
+        const labels = JSON.parse(sugCanvas.dataset.labels || '[]');
+        const data = JSON.parse(sugCanvas.dataset.values || '[]');
+        const total = data.reduce((a, b) => a + b, 0);
 
-        new Chart(canvas.getContext('2d'), {
-            type: 'doughnut',
-            data: {
-                datasets: [{
-                    data,
-                    backgroundColor: ['#12b3b6', '#f59e0b', '#22c55e'],
-                    borderWidth: 2.5,
-                    borderColor: '#fff',
-                    hoverOffset: 3,
-                }],
-            },
-            options: {
-                responsive: false,
-                cutout: '74%',
-                plugins: {
-                    legend: {
-                        display: false,
-                    },
-                    tooltip: {
-                        ...tooltipDefaults,
-                        callbacks: {
-                            label: (i) => `${i.raw} (${((i.raw / total) * 100).toFixed(1)}%)`,
+        if (labels.length && data.length) {
+            const palette = ['#f59e0b', '#3b82f6', '#22c55e', '#ef4444', '#8b5cf6'];
+
+            new Chart(sugCanvas.getContext('2d'), {
+                type: 'doughnut',
+                data: {
+                    datasets: [{
+                        data,
+                        backgroundColor: labels.map((_, i) => palette[i % palette.length]),
+                        borderWidth: 2.5,
+                        borderColor: '#fff',
+                        hoverOffset: 3,
+                    }],
+                },
+                options: {
+                    responsive: false,
+                    cutout: '74%',
+                    plugins: {
+                        legend: {
+                            display: false,
+                        },
+                        tooltip: {
+                            ...tooltipDefaults,
+                            callbacks: {
+                                label: (i) => `${i.raw} (${((i.raw / total) * 100).toFixed(1)}%)`,
+                            },
                         },
                     },
                 },
-            },
-        });
+            });
+        }
     }
-
-    makeDonut('sugChart', [45, 28, 14], 87);
-    makeDonut('repChart', [10, 9, 4], 23);
 })();

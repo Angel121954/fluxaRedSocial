@@ -14,15 +14,15 @@
         <div class="sb-brand">
             <img class="sb-logo" src="{{ asset('img/logoFluxa.png') }}" alt="Fluxa">
             <button class="sb-toggle" id="sidebarClose" title="Colapsar" aria-label="Cerrar menú">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M15 18l-6-6 6-6" />
-            </svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M15 18l-6-6 6-6" />
+                </svg>
             </button>
         </div>
 
         <nav class="sb-nav">
             <span class="sb-group-label">Inicio</span>
-            <a class="sb-link active" href="{{ route('admin.dashboard') }}">
+            <a class="sb-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" href="{{ route('admin.dashboard') }}">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <rect x="3" y="3" width="7" height="7" />
                     <rect x="14" y="3" width="7" height="7" />
@@ -33,7 +33,7 @@
             </a>
 
             <span class="sb-group-label">Gestión</span>
-            <a class="sb-link">
+            <a class="sb-link {{ request()->routeIs('admin.users.*') ? 'active' : '' }}" href="{{ route('admin.users.index') }}">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
                     <circle cx="9" cy="7" r="4" />
@@ -135,19 +135,7 @@
             </a>
         </nav>
 
-        <div class="sb-footer">
-            <div class="founder-pill">
-                <div class="founder-badge">
-                    <svg viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                    </svg>
-                </div>
-                <div>
-                    <div class="founder-text-main">Panel de Founder</div>
-                    <div class="founder-text-sub">Acceso total</div>
-                </div>
-            </div>
-        </div>
+
     </aside>
 
     <!-- Mobile overlay -->
@@ -187,7 +175,7 @@
                     <img class="user-avatar" src="{{ auth()->user()->avatar_url }}" alt="{{ auth()->user()->name }}">
                     <div class="user-info-wrap">
                         <div class="user-name-text">{{ auth()->user()->name }}</div>
-                        <div class="user-role-text">Fundador</div>
+                        <div class="user-role-text">Administrador</div>
                     </div>
                 </div>
             </div>

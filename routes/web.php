@@ -123,6 +123,22 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
         ->name('admin.dashboard')
         ->middleware('admin');
 
+    Route::get('/admin/users', [App\Http\Controllers\Admin\UserController::class, 'index'])
+        ->name('admin.users.index')
+        ->middleware('admin');
+
+    Route::patch('/admin/users/{user}/ban', [App\Http\Controllers\Admin\UserController::class, 'ban'])
+        ->name('admin.users.ban')
+        ->middleware('admin');
+
+    Route::patch('/admin/users/{user}/unban', [App\Http\Controllers\Admin\UserController::class, 'unban'])
+        ->name('admin.users.unban')
+        ->middleware('admin');
+
+    Route::post('/admin/users/grant-badge', [App\Http\Controllers\Admin\UserController::class, 'grantBadge'])
+        ->name('admin.users.grantBadge')
+        ->middleware('admin');
+
     Route::get('/feed', [FeedController::class, 'index'])
         ->name('feed.index');
 

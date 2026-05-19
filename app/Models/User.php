@@ -170,4 +170,23 @@ class User extends Authenticatable
 
         return "https://api.dicebear.com/7.x/initials/svg?seed={$seed}&backgroundColor=12b3b6";
     }
+
+    public function getIsBannedAttribute(): bool
+    {
+        return $this->status === 'banned';
+    }
+
+    public function getIsVerifiedAttribute(): bool
+    {
+        return $this->email_verified_at !== null;
+    }
+
+    public function hasBadge(string $slug): bool
+    {
+        if ($this->relationLoaded('badges')) {
+            return $this->badges->contains('slug', $slug);
+        }
+
+        return $this->badges()->where('slug', $slug)->exists();
+    }
 }

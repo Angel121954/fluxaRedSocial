@@ -158,8 +158,13 @@ export default defineConfig({
                 "resources/js/jobs/index.js",
                 "resources/js/jobs/newJobOffer.js",
 
+                // Admin CSS
+                "resources/css/admin/suggestions.css",
+                "resources/css/admin/users.css",
+
                 // Admin JS
                 "resources/js/admin/index.js",
+                "resources/js/admin/users.js",
             ],
             refresh: true,
         }),
