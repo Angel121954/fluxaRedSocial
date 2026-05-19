@@ -52,15 +52,15 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    document.getElementById('closeBadgeModal')?.addEventListener('click', closeBadgeModal);
-    document.getElementById('cancelBadgeModal')?.addEventListener('click', closeBadgeModal);
-    badgeBackdrop?.addEventListener('click', function (e) {
-        if (e.target === badgeBackdrop) closeBadgeModal();
-    });
-
     window.closeBadgeModal = function () {
         badgeBackdrop?.classList.remove('is-open');
         if (badgeSearch) badgeSearch.value = '';
         filterBadgeItems('');
     };
+
+    document.getElementById('closeBadgeModal')?.addEventListener('click', closeBadgeModal);
+    document.getElementById('cancelBadgeModal')?.addEventListener('click', closeBadgeModal);
+    badgeBackdrop?.addEventListener('click', function (e) {
+        if (e.target === badgeBackdrop) closeBadgeModal();
+    });
 });
