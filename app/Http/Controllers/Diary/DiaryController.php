@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Diary;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreDiaryComment;
 use App\Http\Requests\StoreDiaryResponse;
 use App\Models\Diary;
