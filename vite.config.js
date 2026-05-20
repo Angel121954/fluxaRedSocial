@@ -80,6 +80,12 @@ export default defineConfig({
                 "resources/css/jobs/jobs.css",
                 "resources/css/jobs/newJobOffer.css",
 
+                // Diario
+                "resources/css/diary/diary.css",
+
+                // Admin Diario
+                "resources/css/admin/diary.css",
+
                 // Admin
                 "resources/css/admin/suggestions.css",
 
@@ -157,6 +163,13 @@ export default defineConfig({
                 // Jobs JS
                 "resources/js/jobs/index.js",
                 "resources/js/jobs/newJobOffer.js",
+
+                // Diario JS
+                "resources/js/diary/index.js",
+
+                // Admin Diario JS
+                "resources/js/admin/diary/modal.js",
+                "resources/js/admin/diary/close.js",
 
                 // Admin CSS
                 "resources/css/admin/suggestions.css",

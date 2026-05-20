@@ -30,6 +30,7 @@ use App\Http\Controllers\Messages\MessageController;
 use App\Http\Controllers\Technology\TechnologyController;
 use App\Http\Controllers\Profile\UserController;
 use App\Http\Controllers\Jobs\JobController;
+use App\Http\Controllers\DiaryController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -150,6 +151,48 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
     Route::patch('/admin/companies/{user}/unban', [App\Http\Controllers\Admin\CompanyController::class, 'unban'])
         ->name('admin.companies.unban')
         ->middleware('admin');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Diario
+    |--------------------------------------------------------------------------
+    */
+    Route::get('/admin/diary', [DiaryController::class, 'adminIndex'])
+        ->name('admin.diary.index')
+        ->middleware('admin');
+
+    Route::post('/admin/diary', [DiaryController::class, 'adminStore'])
+        ->name('admin.diary.store')
+        ->middleware('admin');
+
+    Route::patch('/admin/diary/{diary}/close', [DiaryController::class, 'close'])
+        ->name('admin.diary.close')
+        ->middleware('admin');
+
+    Route::patch('/admin/diary/{diary}', [DiaryController::class, 'update'])
+        ->name('admin.diary.update')
+        ->middleware('admin');
+
+    Route::get('/diary', [DiaryController::class, 'index'])
+        ->name('diary.index');
+
+    Route::post('/diary', [DiaryController::class, 'store'])
+        ->name('diary.reply');
+
+    Route::post('/diary/{response}/like', [DiaryController::class, 'like'])
+        ->name('diary.response.like');
+
+    Route::post('/diary/{response}/bookmark', [DiaryController::class, 'bookmark'])
+        ->name('diary.response.bookmark');
+
+    Route::post('/diary/{response}/comments', [DiaryController::class, 'comment'])
+        ->name('diary.response.comment');
+
+    Route::delete('/diary/{response}', [DiaryController::class, 'destroy'])
+        ->name('diary.response.destroy');
+
+    Route::get('/diary/load-more', [DiaryController::class, 'loadMore'])
+        ->name('diary.loadMore');
 
     Route::get('/feed', [FeedController::class, 'index'])
         ->name('feed.index');
