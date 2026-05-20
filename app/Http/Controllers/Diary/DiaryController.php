@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Diary;
 
 use App\Http\Requests\StoreDiaryComment;
 use App\Http\Requests\StoreDiaryResponse;
@@ -177,6 +177,11 @@ class DiaryController extends Controller
 
     public function update(Request $request, Diary $diary): RedirectResponse
     {
+        if ($diary->responses()->exists()) {
+            return redirect()->route('admin.diary.index')
+                ->with('error', 'No puedes editar la pregunta porque el diario ya tiene respuestas.');
+        }
+
         $validated = $request->validate([
             'question' => 'required|string|max:500',
             'emoji' => 'nullable|string|max:10',

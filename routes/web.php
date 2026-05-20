@@ -30,7 +30,7 @@ use App\Http\Controllers\Messages\MessageController;
 use App\Http\Controllers\Technology\TechnologyController;
 use App\Http\Controllers\Profile\UserController;
 use App\Http\Controllers\Jobs\JobController;
-use App\Http\Controllers\DiaryController;
+use App\Http\Controllers\Diary\DiaryController;
 use Illuminate\Support\Facades\Route;
 
 /*
