@@ -40,7 +40,7 @@ class Diary extends Model
 
     public function getClosesAtAttribute()
     {
-        return $this->created_at->endOfDay();
+        return $this->created_at->addHours(24);
     }
 
     public function getQuestionNumberAttribute(): int

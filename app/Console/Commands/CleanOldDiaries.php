@@ -16,7 +16,7 @@ class CleanOldDiaries extends Command
     public function handle(): void
     {
         $count = Diary::where('status', 'active')
-            ->whereDate('created_at', '<', today())
+            ->where('created_at', '<', now()->subHours(24))
             ->update(['status' => 'closed']);
 
         if ($count > 0) {
