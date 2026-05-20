@@ -204,6 +204,23 @@
     border-top: 1px solid var(--border);
 }
 
+/* Dropdown de ayuda → alineado a la derecha */
+.nav-help-dropdown .nav-dropdown-menu {
+    left: auto;
+    right: 0;
+    transform: translateY(-4px);
+}
+
+.nav-help-dropdown .nav-dropdown-menu.active {
+    transform: translateY(0);
+}
+
+.nav-help-dropdown .nav-dropdown-menu::before {
+    left: auto;
+    right: 12px;
+    transform: rotate(45deg);
+}
+
 .nav-badge {
     display: inline-flex;
     align-items: center;
@@ -340,6 +357,36 @@
 /* Contenedor del form de guest en desktop */
 .nav-guest-form {
     display: inline;
+}
+
+/* ── Botón de ayuda "?" ─────────────────────── */
+
+.nav-help-dropdown {
+    position: relative;
+}
+
+.nav-help-btn {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-subtle, #f1f3f7);
+    border: none;
+    border-radius: 50%;
+    color: var(--ink-400, #718096);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    font-family: inherit;
+}
+
+.nav-help-btn:hover {
+    background: var(--bg, #e8ecf2);
+    color: var(--ink-600, #374151);
+}
+
+.nav-help-btn svg {
+    display: block;
 }
 
 /* ── Botón "Nuevo proyecto" ──────────────────── */
