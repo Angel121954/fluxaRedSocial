@@ -163,6 +163,15 @@
     letter-spacing: 0.01em;
 }
 
+.diary-countdown__closed {
+    font-weight: 600;
+    color: var(--ink-500, #4a5568);
+}
+
+.diary-countdown--closed {
+    opacity: 0.7;
+}
+
 /* ── Caja de respuesta ───────────────────────────────────────────── */
 .diary-reply-box {
     display: flex;
@@ -250,6 +259,28 @@
 
 .diary-reply-box__btn svg {
     flex-shrink: 0;
+}
+
+/* ── Mensaje de diario cerrado ────────────────────────────────────── */
+.diary-reply-closed {
+    display: none;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.875rem 1rem;
+    border-radius: var(--r-lg, 14px);
+    background: var(--diary-violet-dim);
+    border: 1px solid var(--diary-violet-ring);
+    color: var(--ink-600, #374151);
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+}
+
+.diary-reply-closed svg {
+    flex-shrink: 0;
+    color: var(--diary-violet);
+    opacity: 0.7;
 }
 
 /* ── Respondentes ────────────────────────────────────────────────── */

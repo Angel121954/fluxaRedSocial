@@ -64,18 +64,30 @@
                     <circle cx="12" cy="12" r="10" />
                     <polyline points="12 6 12 12 16 14" />
                 </svg>
-                <span>Cierra en </span>
+                <span id="diary-countdown-label">Cierra en </span>
                 <span
                     id="diary-countdown-timer"
                     class="diary-countdown__time"
                     data-closes-at="{{ $diary->closes_at->timestamp }}">
                     {{ gmdate('H:i:s', max(0, $diary->closes_at->diffInSeconds(now()))) }}
                 </span>
+                <span id="diary-countdown-closed" class="diary-countdown__closed" style="display:none">
+                    Diario cerrado — Nos vemos mañana con una nueva pregunta.
+                </span>
+            </div>
+
+            {{-- Mensaje cuando el diario está cerrado --}}
+            <div id="diary-reply-closed" class="diary-reply-closed" style="display:none">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M12 20h9" />
+                    <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" />
+                </svg>
+                <span>Gracias por compartir tu perspectiva. La próxima pregunta llega muy pronto.</span>
             </div>
 
             {{-- Formulario de respuesta --}}
             @auth
-            <div class="diary-reply-box">
+            <div id="diary-reply-box" class="diary-reply-box">
                 <img
                     src="{{ Auth::user()->avatar_url }}"
                     alt="{{ $profile->name }}"
