@@ -9,6 +9,12 @@
         { label: 'segundo', seconds: 1 },
     ];
 
+    function pluralize(word, count) {
+        if (count === 1) return word;
+        if (word === 'mes') return 'meses';
+        return word + 's';
+    }
+
     function relativeTime(timestamp) {
         const diff = Math.floor((Date.now() / 1000) - timestamp);
         if (diff < 0) return 'recién';
@@ -16,8 +22,7 @@
         for (const unit of units) {
             const count = Math.floor(diff / unit.seconds);
             if (count >= 1) {
-                const plural = count > 1 ? 's' : '';
-                return `hace ${count} ${unit.label}${plural}`;
+                return `hace ${count} ${pluralize(unit.label, count)}`;
             }
         }
         return 'recién';
