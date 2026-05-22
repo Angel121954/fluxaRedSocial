@@ -701,6 +701,42 @@
     color: var(--ink-400, #718096);
 }
 
+/* ── Estado sin diario activo ──────────────────────────────────────── */
+.diary-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding: 4rem 2rem;
+    text-align: center;
+    background: var(--diary-card-bg);
+    border: 1px dashed var(--diary-card-border);
+    border-radius: var(--r-xl);
+}
+
+.diary-empty-state__icon {
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--diary-violet-dim);
+    border-radius: var(--r-xl);
+    color: var(--diary-violet);
+}
+
+.diary-empty-state__label {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--ink-700);
+    letter-spacing: -0.02em;
+}
+
+.diary-empty-state__sublabel {
+    font-size: 0.875rem;
+    color: var(--ink-400);
+}
+
 /* ── Cargar más ──────────────────────────────────────────────────── */
 .diary-load-more-wrap {
     display: flex;

@@ -10,7 +10,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         $schedule->command('users:delete-pending')->daily();
-        $schedule->command('diary:clean')->daily();
+        $schedule->command('diary:clean')->everyMinute();
         $schedule->command('badges:scan')->weekly();
     }
 

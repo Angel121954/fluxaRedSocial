@@ -25,7 +25,12 @@ class DiaryController extends Controller
     public function index(): View
     {
         $profile = Profile::where('user_id', Auth::id())->first();
-        $diary = Diary::active()->withCount('responses')->firstOrFail();
+        $diary = Diary::active()->withCount('responses')->first();
+
+        if (! $diary) {
+            return view('diary.index', compact('profile'))
+                ->with('noDiary', true);
+        }
 
         $sort = request('sort', 'top');
 
