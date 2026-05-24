@@ -782,11 +782,6 @@ body {
 /* ─────────────────────────────────────────────────
    COMMENTS MODAL
 ───────────────────────────────────────────────── */
-.comments-modal {
-    backdrop-filter: blur(2px);
-    -webkit-backdrop-filter: blur(2px);
-}
-
 .comments-modal .modal-content {
     max-width: 640px;
     box-shadow:
