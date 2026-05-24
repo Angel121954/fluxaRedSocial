@@ -4,7 +4,7 @@
 export function initTechFilter() {
     const input = document.getElementById('techSearch');
     if (!input) return;
-    
+
     input.addEventListener('input', (e) => {
         filterTech(e.target.value);
     });
@@ -19,11 +19,9 @@ function filterTech(query) {
         const matches = name.includes(q);
 
         if (!q) {
-            // Sin búsqueda: solo mostrar featured
-            item.style.display = isFeatured ? '' : 'none';
+            item.classList.toggle('hidden', !isFeatured);
         } else {
-            // Con búsqueda: mostrar los que coincidan
-            item.style.display = matches ? '' : 'none';
+            item.classList.toggle('hidden', !matches);
         }
     });
 }

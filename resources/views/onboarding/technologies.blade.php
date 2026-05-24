@@ -32,7 +32,7 @@
             @csrf
             <div class="tech-grid" id="techGrid">
                 @forelse($technologies as $tech)
-                <div class="tech-item {{ in_array($tech->slug, $featuredSlugs) ? 'featured' : '' }}" data-name="{{ strtolower($tech->name) }}">
+                <div class="tech-item {{ in_array($tech->slug, $featuredSlugs) ? 'featured' : 'hidden' }}" data-name="{{ strtolower($tech->name) }}">
                     <input type="checkbox" name="technologies[]" value="{{ $tech->id }}" id="tech_{{ $tech->id }}">
                     <label for="tech_{{ $tech->id }}">
                         <div class="check">

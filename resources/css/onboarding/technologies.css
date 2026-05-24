@@ -175,8 +175,8 @@ h1 {
     position: relative;
 }
 
-.tech-item:not(.featured) {
-    display: none;
+.tech-item.hidden {
+    display: none !important;
 }
 
 .tech-item input[type="checkbox"] {
