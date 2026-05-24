@@ -21,10 +21,10 @@
 
         <form action="{{ route('onboarding.saveSuggestions') }}" method="POST" id="suggestionsForm">
             @csrf
-            <div class="users-grid" id="usersGrid">
+            <div class="users-list" id="usersGrid">
                 @forelse($suggested as $dev)
                 {{-- @var \App\Models\User $dev --}}
-                <div class="user-card">
+                <div class="user-row">
                     <div class="avatar">
                         @if(isset($dev->avatar) && $dev->avatar)
                         <img src="{{ $dev->avatar }}" alt="{{ $dev->username }}">
@@ -35,9 +35,9 @@
                     <div class="user-info">
                         <span class="user-name">{{ $dev->name }}</span>
                         <div class="user-meta">
-                            <span>&#64;{{ $dev->username }}</span>
+                            <span class="user-handle">&#64;{{ $dev->username }}</span>
                             @if($dev->role)
-                            <span class="tag">{{ ucfirst($dev->role) }}</span>
+                            <span class="user-tag">{{ ucfirst($dev->role) }}</span>
                             @endif
                         </div>
                     </div>
