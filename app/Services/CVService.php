@@ -16,7 +16,7 @@ class CVService
         'amazonwebservices' => 'plain-wordmark',
         'angularjs' => 'plain',
         'django' => 'plain',
-        'tailwindcss' => 'plain',
+        'tailwindcss' => 'original',
         'kubernetes' => 'plain',
         'graphql' => 'plain',
         'firebase' => 'plain',
