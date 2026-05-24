@@ -29,7 +29,7 @@ class TechnologySeeder extends Seeder
             ['name' => 'Laravel',      'slug' => 'laravel',       'icon' => 'laravel.png'],
             ['name' => 'Django',       'slug' => 'django',        'icon' => 'django.png'],
             ['name' => 'Spring Boot',  'slug' => 'spring',        'icon' => 'spring.png'],
-            ['name' => 'Ruby on Rails','slug' => 'rubyonrails',   'icon' => 'rubyonrails.png'],
+            ['name' => 'Ruby on Rails','slug' => 'rails',   'icon' => 'rails.png'],
             ['name' => 'Nuxt.js',      'slug' => 'nuxtjs',        'icon' => 'nuxtjs.png'],
             ['name' => 'Bootstrap',    'slug' => 'bootstrap',     'icon' => 'bootstrap.png'],
             ['name' => 'React Native', 'slug' => 'reactnative',   'icon' => 'reactnative.png'],

@@ -83,7 +83,7 @@
                         @foreach($technologies as $tech)
                         <label class="salary-form-tech-item">
                             <input type="checkbox" name="technologies[]" value="{{ $tech->id }}">
-                            <i class="devicon-{{ $tech->slug }}-plain colored"></i>
+                            <i class="{{ $tech->deviconClass() }} colored"></i>
                             {{ $tech->name }}
                         </label>
                         @endforeach

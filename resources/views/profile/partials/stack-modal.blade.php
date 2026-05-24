@@ -33,7 +33,7 @@
                                 <path d="M2 5l2.5 2.5L8 3" stroke="#fff" stroke-width="1.5" stroke-linecap="round" />
                             </svg>
                         </div>
-                        <i class="devicon-{{ $tech->slug }}-plain colored"></i>
+                        <i class="{{ $tech->deviconClass() }} colored"></i>
                         {{ $tech->name }}
                     </label>
                 </div>
