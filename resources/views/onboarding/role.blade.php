@@ -64,21 +64,6 @@
             alt="Elige tu rol">
 
         <p class="tagline"><span>Conecta con desarrolladores</span><br>que comparten tu especialidad</p>
-
-        <div class="stat-cards">
-            <div class="stat-card">
-                <span class="num">2.4k</span>
-                <span class="label">Desarrolladores</span>
-            </div>
-            <div class="stat-card">
-                <span class="num">840+</span>
-                <span class="label">Proyectos</span>
-            </div>
-            <div class="stat-card">
-                <span class="num">6</span>
-                <span class="label">Especialidades</span>
-            </div>
-        </div>
     </div>
 
 </div>

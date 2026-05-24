@@ -289,39 +289,6 @@ h1 {
 
 .tagline span { color: var(--accent); }
 
-/* Stat cards */
-.stat-cards {
-    display: flex;
-    gap: 8px;
-    width: 100%;
-}
-
-.stat-card {
-    flex: 1;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--r);
-    padding: 14px;
-    text-align: center;
-}
-
-.stat-card .num {
-    display: block;
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: var(--accent);
-    letter-spacing: -0.03em;
-    line-height: 1.2;
-}
-
-.stat-card .lbl {
-    display: block;
-    font-size: 0.6875rem;
-    color: var(--ink-400);
-    font-weight: 500;
-    margin-top: 3px;
-}
-
 /* ─── Responsive ─────────────────────────────────── */
 @media (max-width: 768px) {
     .page { grid-template-columns: 1fr; min-height: auto; }
