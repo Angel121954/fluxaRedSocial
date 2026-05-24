@@ -26,7 +26,7 @@
                         </div>
                         <label class="notif-switch" aria-label="Activar notificaciones por email">
                             <input type="checkbox" name="email_enabled" id="toggleEmail"
-                                {{ old('email_enabled', auth()->user()->notificationPreferences->email_enabled ?? true) ? 'checked' : '' }} />
+                                {{ old('email_enabled', auth()->user()?->notificationPreferences?->email_enabled ?? true) ? 'checked' : '' }} />
                             <span class="notif-track"></span>
                         </label>
                     </div>
@@ -38,7 +38,7 @@
                         </div>
                         <label class="notif-switch" aria-label="Activar notificaciones push">
                             <input type="checkbox" name="push_enabled" id="togglePush"
-                                {{ old('push_enabled', auth()->user()->notificationPreferences->push_enabled ?? true) ? 'checked' : '' }} />
+                                {{ old('push_enabled', auth()->user()?->notificationPreferences?->push_enabled ?? true) ? 'checked' : '' }} />
                             <span class="notif-track"></span>
                         </label>
                     </div>
@@ -90,7 +90,7 @@
 
                     <label class="notif-check-item">
                         <input type="checkbox" name="notify_comments" class="notif-checkbox"
-                            {{ old('notify_comments', auth()->user()->notificationPreferences->notify_comments ?? true) ? 'checked' : '' }} />
+                            {{ old('notify_comments', auth()->user()?->notificationPreferences?->notify_comments ?? true) ? 'checked' : '' }} />
                         <span class="notif-check-custom">
                             <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
                                 <polyline points="20 6 9 17 4 12" />
@@ -101,7 +101,7 @@
 
                     <label class="notif-check-item">
                         <input type="checkbox" name="notify_followers" class="notif-checkbox"
-                            {{ old('notify_followers', auth()->user()->notificationPreferences->notify_followers ?? true) ? 'checked' : '' }} />
+                            {{ old('notify_followers', auth()->user()?->notificationPreferences?->notify_followers ?? true) ? 'checked' : '' }} />
                         <span class="notif-check-custom">
                             <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
                                 <polyline points="20 6 9 17 4 12" />
@@ -112,7 +112,7 @@
 
                     <label class="notif-check-item">
                         <input type="checkbox" name="notify_mentions" class="notif-checkbox"
-                            {{ old('notify_mentions', auth()->user()->notificationPreferences->notify_mentions ?? true) ? 'checked' : '' }} />
+                            {{ old('notify_mentions', auth()->user()?->notificationPreferences?->notify_mentions ?? true) ? 'checked' : '' }} />
                         <span class="notif-check-custom">
                             <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
                                 <polyline points="20 6 9 17 4 12" />
@@ -123,7 +123,7 @@
 
                     <label class="notif-check-item notif-check-item--with-desc">
                         <input type="checkbox" name="weekly_summary" class="notif-checkbox"
-                            {{ old('weekly_summary', auth()->user()->notificationPreferences->weekly_summary ?? true) ? 'checked' : '' }} />
+                            {{ old('weekly_summary', auth()->user()?->notificationPreferences?->weekly_summary ?? true) ? 'checked' : '' }} />
                         <span class="notif-check-custom">
                             <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
                                 <polyline points="20 6 9 17 4 12" />

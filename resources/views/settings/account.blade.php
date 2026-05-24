@@ -70,7 +70,7 @@
                     <label class="form-label" for="inputPhone">Número de teléfono</label>
                     <span class="form-hint">Opcional · Usado para verificación en dos pasos</span>
                     <div class="input-phone-group">
-                        @php $currentPhoneCode = old('phone_code', Auth()->user()->profile->phone_code ?? '+57') @endphp
+                        @php $currentPhoneCode = old('phone_code', Auth()->user()?->profile?->phone_code ?? '+57') @endphp
 
                         <select class="form-input phone-prefix {{ $errors->has('phone_code') ? 'input-error' : '' }}" id="inputPhonePrefix" name="phone_code">
                             <option value="+57" {{ $currentPhoneCode == '+57' ? 'selected' : '' }}>🇨🇴 +57</option>
@@ -87,7 +87,7 @@
                             class="form-input phone-number {{ $errors->has('phone_number') ? 'input-error' : '' }}"
                             id="inputPhone"
                             name="phone_number"
-                            value="{{ old('phone_number', Auth()->user()->profile->phone_number ?? '') }}"
+                            value="{{ old('phone_number', Auth()->user()?->profile?->phone_number ?? '') }}"
                             placeholder="Número de teléfono" />
                     </div>
                     @error('phone_code')
@@ -108,7 +108,7 @@
                         name="country">
                         <option value="">Selecciona un país</option>
                         @foreach($countries as $c)
-                            <option value="{{ $c['name'] }}" {{ old('country', Auth()->user()->profile->country ?? '') === $c['name'] ? 'selected' : '' }}>
+                            <option value="{{ $c['name'] }}" {{ old('country', Auth()->user()?->profile?->country ?? '') === $c['name'] ? 'selected' : '' }}>
                                 {{ $c['name'] }}
                             </option>
                         @endforeach
@@ -128,7 +128,7 @@
                         name="city">
                         <option value="">Selecciona una ciudad</option>
                         @foreach($cities as $city)
-                            <option value="{{ $city }}" {{ old('city', Auth()->user()->profile->city ?? '') === $city ? 'selected' : '' }}>
+                            <option value="{{ $city }}" {{ old('city', Auth()->user()?->profile?->city ?? '') === $city ? 'selected' : '' }}>
                                 {{ $city }}
                             </option>
                         @endforeach
@@ -142,7 +142,7 @@
                 <div class="form-group">
                     <label class="form-label" for="inputLanguage">Idioma</label>
                     <select class="form-input {{ $errors->has('language') ? 'input-error' : '' }}" id="inputLanguage" name="language">
-                        @php $currentLanguage = old('language', Auth()->user()->profile->language ?? 'es') @endphp
+                        @php $currentLanguage = old('language', Auth()->user()?->profile?->language ?? 'es') @endphp
                         <option value="es" {{ $currentLanguage == 'es' ? 'selected' : '' }}>Español</option>
                         <option value="en" {{ $currentLanguage == 'en' ? 'selected' : '' }}>English</option>
                         <option value="pt" {{ $currentLanguage == 'pt' ? 'selected' : '' }}>Português</option>

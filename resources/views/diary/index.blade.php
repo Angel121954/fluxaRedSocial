@@ -83,8 +83,8 @@
                 <span
                     id="diary-countdown-timer"
                     class="diary-countdown__time"
-                    data-closes-at="{{ $diary->closes_at->timestamp }}">
-                    {{ gmdate('H:i:s', max(0, $diary->closes_at->diffInSeconds(now()))) }}
+                    data-closes-at="{{ $diary->closes_at?->timestamp ?? '' }}">
+                    {{ gmdate('H:i:s', max(0, $diary->closes_at?->diffInSeconds(now()) ?? 0)) }}
                 </span>
                 <span id="diary-countdown-closed" class="diary-countdown__closed" style="display:none">
                     Diario cerrado — Nos vemos mañana con una nueva pregunta.
@@ -104,8 +104,8 @@
             @auth
             <div id="diary-reply-box" class="diary-reply-box">
                 <img
-                    src="{{ Auth::user()->avatar_url }}"
-                    alt="{{ $profile->name }}"
+                    src="{{ Auth::user()?->avatar_url ?? '/img/default-avatar.png' }}"
+                    alt="{{ $profile?->name ?? 'Usuario' }}"
                     class="diary-reply-box__avatar" />
                 <div class="diary-reply-box__inner">
                     <textarea
@@ -196,20 +196,20 @@
 
         @forelse($responses as $response)
         <div class="diary-response-card" data-response-id="{{ $response->id }}">
-            <a href="{{ route('profile.show', $response->user->username) }}" class="diary-response-card__avatar-link">
+            <a href="{{ route('profile.show', $response->user?->username ?? '#') }}" class="diary-response-card__avatar-link">
                 <img
-                    src="{{ $response->user->avatar_url }}"
-                    alt="{{ $response->user->name }}"
+                    src="{{ $response->user?->avatar_url ?? '/img/default-avatar.png' }}"
+                    alt="{{ $response->user?->name ?? 'Usuario' }}"
                     class="diary-response-card__avatar" />
             </a>
 
             <div class="diary-response-card__body">
                 <div class="diary-response-card__meta">
                     <div class="diary-response-card__author-row">
-                        <a href="{{ route('profile.show', $response->user->username) }}" class="diary-response-card__name">
-                            {{ $response->user->name }}
+                        <a href="{{ route('profile.show', $response->user?->username ?? '#') }}" class="diary-response-card__name">
+                            {{ $response->user?->name ?? 'Usuario' }}
                         </a>
-                        @if($response->user->is_verified)
+                        @if($response->user?->is_verified)
                         <span class="diary-response-card__verified" title="Verificado">
                             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                                 <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
@@ -220,8 +220,8 @@
                         <span class="diary-response-card__dot">·</span>
                         <time
                             class="diary-response-card__time"
-                            data-live-time="{{ $response->created_at->timestamp }}"
-                            datetime="{{ $response->created_at->toISOString() }}">{{ $response->created_at->diffForHumans() }}</time>
+                            data-live-time="{{ $response->created_at?->timestamp ?? '' }}"
+                            datetime="{{ $response->created_at?->toISOString() ?? '' }}">{{ $response->created_at?->diffForHumans() ?? '' }}</time>
                     </div>
                 </div>
 

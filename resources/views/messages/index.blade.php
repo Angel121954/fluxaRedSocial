@@ -146,7 +146,7 @@
                     @endif
                     <div class="msgs-bubble-wrap{{ $isMine ? ' mine' : ' theirs' }}">
                         @if(!$isMine)
-                        <img src="{{ $message->sender->avatar_url }}"
+                        <img src="{{ $message->sender?->avatar_url ?? '/img/default-avatar.png' }}"
                             alt=""
                             class="msgs-bubble-avatar"
                             onerror="this.src='/img/default-avatar.png'">

@@ -20,7 +20,7 @@
         {{-- ══ BOTÓN AÑADIR ══════════════════════════════════════════ --}}
         <div class="we-add-wrapper">
             <button type="button" class="we-btn-add" id="btnOpenModal"
-                {{ $experiences->count() >= $limits['max_work_experiences'] ? 'disabled' : '' }}>
+                {{ $experiences->count() >= ($limits['max_work_experiences'] ?? 0) ? 'disabled' : '' }}>
                 <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4" />
                 </svg>
@@ -28,8 +28,8 @@
             </button>
 
             {{-- Contador de uso --}}
-            <span class="we-limit-badge {{ $experiences->count() >= $limits['max_work_experiences'] ? 'we-limit-badge--full' : '' }}">
-                {{ $experiences->count() }} / {{ $limits['max_work_experiences'] }}
+            <span class="we-limit-badge {{ $experiences->count() >= ($limits['max_work_experiences'] ?? 0) ? 'we-limit-badge--full' : '' }}">
+                {{ $experiences->count() }} / {{ $limits['max_work_experiences'] ?? 0 }}
             </span>
         </div>
 
@@ -43,9 +43,9 @@
                         <p class="we-card__position">{{ $exp->position }}</p>
                         <p class="we-card__meta">
                             @if($exp->location){{ $exp->location }} &bull; @endif
-                            {{ $exp->started_at->translatedFormat('M Y') }}
+                            {{ $exp->started_at?->translatedFormat('M Y') ?? '' }}
                             &bull;
-                            {{ $exp->current ? 'Actualidad' : $exp->ended_at->translatedFormat('M Y') }}
+                            {{ $exp->current ? 'Actualidad' : ($exp->ended_at?->translatedFormat('M Y') ?? '') }}
                             @if($exp->current)
                             <span class="we-badge-inline">Actual</span>
                             @endif
@@ -58,7 +58,7 @@
                             data-company="{{ $exp->company }}"
                             data-position="{{ $exp->position }}"
                             data-location="{{ $exp->location ?? '' }}"
-                            data-started="{{ $exp->started_at->format('Y-m-d') }}"
+                            data-started="{{ $exp->started_at?->format('Y-m-d') ?? '' }}"
                             data-ended="{{ $exp->ended_at ? $exp->ended_at->format('Y-m-d') : '' }}"
                             data-current="{{ $exp->current ? '1' : '0' }}"
                             data-description="{{ $exp->description ?? '' }}"

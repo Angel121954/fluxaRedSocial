@@ -2,11 +2,11 @@
 
 @php
 $user = $project->user;
-$timeAgo = $project->created_at->diffForHumans();
-$isLiked = $project->likes->isNotEmpty();
-$isBookmarked = $project->bookmarks->isNotEmpty();
-$skillCounts = $project->skillEndorsements->groupBy('skill_type')->map->count()->toArray();
-$userEndorsement = $project->skillEndorsements->where('user_id', auth()->id())->first()?->skill_type;
+$timeAgo = $project->created_at?->diffForHumans() ?? '';
+$isLiked = $project->likes?->isNotEmpty() ?? false;
+$isBookmarked = $project->bookmarks?->isNotEmpty() ?? false;
+$skillCounts = $project->skillEndorsements?->groupBy('skill_type')?->map->count()->toArray() ?? [];
+$userEndorsement = $project->skillEndorsements?->where('user_id', auth()->id())->first()?->skill_type;
 $totalEndorsements = array_sum($skillCounts);
 
 $skills = [
@@ -22,17 +22,17 @@ $userSkillColor = $userEndorsement ? ($skills[$userEndorsement]['color'] ?? '#6B
 
 <div class="post-card" data-project-id="{{ $project->id }}">
     <div class="post-header">
-        <a href="/profile/{{ $user->username ?? '/profile' }}">
+        <a href="/profile/{{ $user?->username ?? '/profile' }}">
             <img
-                src="{{ $user->avatar_url }}"
-                alt="{{ $user->username }}"
+                src="{{ $user?->avatar_url ?? '/img/default-avatar.png' }}"
+                alt="{{ $user?->username ?? 'Usuario' }}"
                 class="post-avatar"
                 loading="lazy" />
         </a>
         <div class="post-meta">
             <div class="post-author-row">
-                <span class="post-author">{{ $user->name }}</span>
-                @if($user->email_verified_at)
+                <span class="post-author">{{ $user?->name ?? 'Usuario eliminado' }}</span>
+                @if($user?->email_verified_at)
                 <div class="verify-badge">
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
@@ -41,9 +41,9 @@ $userSkillColor = $userEndorsement ? ($skills[$userEndorsement]['color'] ?? '#6B
                 @endif
             </div>
             <div style="display: flex; align-items: center; gap: 0.375rem">
-                <span class="post-handle">{{ '@' . $user->username }}</span>
+                <span class="post-handle">{{ $user ? '@' . $user->username : '' }}</span>
                 <span style="color: var(--ink-200)">·</span>
-                <span class="post-time" data-live-time="{{ $project->created_at->timestamp }}">{{ $timeAgo }}</span>
+                <span class="post-time" data-live-time="{{ $project->created_at?->timestamp ?? '' }}">{{ $timeAgo }}</span>
             </div>
         </div>
         <div class="drop-wrap">
@@ -84,11 +84,11 @@ $userSkillColor = $userEndorsement ? ($skills[$userEndorsement]['color'] ?? '#6B
     <h3 class="project-title">{{ $project->title }}</h3>
     <p class="post-content">{{ $project->content }}</p>
 
-    @if($project->media->count() > 0)
+    @if($project->media?->count() > 0)
     <x-project-media :media="$project->media" />
     @endif
 
-    @if($project->technologies->count() > 0)
+    @if($project->technologies?->count() > 0)
     <div class="post-tags">
         @foreach($project->technologies as $tech)
         <span class="post-tag">{{ $tech->name }}</span>

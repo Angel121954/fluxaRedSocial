@@ -20,7 +20,7 @@
         {{-- ══ BOTÓN AÑADIR ══════════════════════════════════════════ --}}
         <div class="we-add-wrapper">
             <button type="button" class="we-btn-add" id="btnOpenModal"
-                {{ $educations->count() >= $limits['max_educations'] ? 'disabled' : '' }}>
+                {{ $educations->count() >= ($limits['max_educations'] ?? 0) ? 'disabled' : '' }}>
                 <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4" />
                 </svg>
@@ -28,8 +28,8 @@
             </button>
 
             {{-- Contador de uso --}}
-            <span class="we-limit-badge {{ $educations->count() >= $limits['max_educations'] ? 'we-limit-badge--full' : '' }}">
-                {{ $educations->count() }} / {{ $limits['max_educations'] }}
+            <span class="we-limit-badge {{ $educations->count() >= ($limits['max_educations'] ?? 0) ? 'we-limit-badge--full' : '' }}">
+                {{ $educations->count() }} / {{ $limits['max_educations'] ?? 0 }}
             </span>
         </div>
 
