@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Messages;
 
+use App\Events\UserBlocked;
 use App\Http\Controllers\Controller;
 use App\Models\Conversation;
 use App\Models\Message;
@@ -26,11 +27,16 @@ class MessageController extends Controller
         $activeConversation = null;
         $otherUser = null;
         $conversationId = $request->query('conv') ? (int) $request->query('conv') : null;
+        $hasBlockedOther = false;
+        $isBlockedByOther = false;
 
         if ($conversationId) {
             $activeConversation = Conversation::find($conversationId);
             if ($activeConversation && ($activeConversation->user_a_id === $user->id || $activeConversation->user_b_id === $user->id)) {
                 $otherUser = $activeConversation->otherUser($user);
+
+                $hasBlockedOther = $this->messageService->hasBlocked($user->id, $otherUser->id);
+                $isBlockedByOther = $this->messageService->isBlockedBy($user->id, $otherUser->id);
 
                 $this->messageService->markConversationAsRead($activeConversation, $user->id);
 
@@ -45,7 +51,7 @@ class MessageController extends Controller
 
         $conversations = $this->messageService->getUserConversations($user->id, $conversationId);
 
-        return view('messages.index', compact('conversations', 'activeConversation', 'otherUser', 'profile', 'activeMessages'));
+        return view('messages.index', compact('conversations', 'activeConversation', 'otherUser', 'profile', 'activeMessages', 'hasBlockedOther', 'isBlockedByOther'));
     }
 
     public function unreadCount(): JsonResponse
@@ -115,9 +121,12 @@ class MessageController extends Controller
         $activeMessages = $conversation->messages()->with('sender')->oldest()->get();
         $otherUser = $conversation->otherUser($user);
 
+        $hasBlockedOther = $this->messageService->hasBlocked($user->id, $otherUser->id);
+        $isBlockedByOther = $this->messageService->isBlockedBy($user->id, $otherUser->id);
+
         $conversations = $this->messageService->getUserConversations($user->id);
 
-        return view('messages.index', compact('activeConversation', 'otherUser', 'conversations', 'profile', 'activeMessages'));
+        return view('messages.index', compact('activeConversation', 'otherUser', 'conversations', 'profile', 'activeMessages', 'hasBlockedOther', 'isBlockedByOther'));
     }
 
     public function store(Request $request, Conversation $conversation): JsonResponse
@@ -247,5 +256,30 @@ class MessageController extends Controller
         }
 
         return redirect()->route('messages.index', ['conv' => $conversation->id]);
+    }
+
+    public function blockUser(User $user): JsonResponse
+    {
+        $currentUser = auth()->user();
+
+        if ($user->id === $currentUser->id) {
+            return response()->json(['error' => 'No puedes bloquearte a ti mismo.'], 422);
+        }
+
+        $isBlocked = $this->messageService->hasBlocked($currentUser->id, $user->id);
+
+        if ($isBlocked) {
+            $this->messageService->unblockUser($currentUser->id, $user->id);
+
+            broadcast(new UserBlocked($currentUser->id, $user->id, false));
+
+            return response()->json(['blocked' => false, 'message' => 'Usuario desbloqueado.']);
+        }
+
+        $this->messageService->blockUser($currentUser->id, $user->id);
+
+        broadcast(new UserBlocked($currentUser->id, $user->id, true));
+
+        return response()->json(['blocked' => true, 'message' => 'Usuario bloqueado.']);
     }
 }

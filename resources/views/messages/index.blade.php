@@ -99,6 +99,18 @@
                             <span class="msgs-chat-header-sub">&#64;{{ $otherUser->username }}</span>
                         </div>
                     </div>
+                    <button class="msgs-header-action{{ $hasBlockedOther ? ' is-blocked' : '' }}" id="msgsBlockBtn"
+                        data-user-id="{{ $otherUser->id }}"
+                        data-blocked="{{ $hasBlockedOther ? 'true' : 'false' }}"
+                        data-accepts-messages="{{ ($otherUser->profile->accept_messages ?? true) ? 'true' : 'false' }}"
+                        aria-label="{{ $hasBlockedOther ? 'Desbloquear usuario' : 'Bloquear usuario' }}">
+                        <svg class="msgs-block-icon" width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="display: {{ $hasBlockedOther ? 'none' : 'block' }}">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+                        </svg>
+                        <svg class="msgs-unblock-icon" width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="display: {{ $hasBlockedOther ? 'block' : 'none' }}">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </button>
                     <button class="msgs-back-btn" id="msgsBackBtn" aria-label="Volver">
                         <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
@@ -171,23 +183,29 @@
                         data-user-id="{{ auth()->id() }}"
                         data-user-name="{{ auth()->user()->name }}"
                         data-user-avatar="{{ auth()->user()->avatar_url }}"
-                        style="display: {{ ($otherUser->profile->accept_messages ?? true) ? '' : 'none' }}"></textarea>
+                        style="display: {{ (($otherUser->profile->accept_messages ?? true) && !$isBlockedByOther) ? '' : 'none' }}"></textarea>
                     <button class="msgs-send-btn"
                         id="msgsSendBtn"
                         data-conv-id="{{ $activeConversation->id }}"
                         data-recipient="{{ $otherUser->username }}"
                         aria-label="Enviar mensaje"
-                        style="display: {{ ($otherUser->profile->accept_messages ?? true) ? '' : 'none' }}">
+                        style="display: {{ (($otherUser->profile->accept_messages ?? true) && !$isBlockedByOther) ? '' : 'none' }}">
                         <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
                         </svg>
                     </button>
-                    <div id="msgsInputDisabled" class="msgs-input msgs-input--disabled" style="display: {{ ($otherUser->profile->accept_messages ?? true) ? 'none' : 'flex' }}; align-items: center; gap: 0.5rem; padding: 0.625rem 0.875rem;">
+                    <div id="msgsInputDisabled" class="msgs-input msgs-input--disabled" style="display: {{ (($otherUser->profile->accept_messages ?? true) && !$isBlockedByOther) ? 'none' : 'flex' }}; align-items: center; gap: 0.5rem; padding: 0.625rem 0.875rem;">
                         <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636a9 9 0 010 12.728M5.636 5.636a9 9 0 0112.728 0M12 2v4m0 12v4m-7.07-15.07l2.829 2.828m8.485 8.485l2.828 2.828M2 12h4m12 0h4" />
                         </svg>
-                        <span id="msgsDisabledText">{{ $otherUser->name }} no acepta mensajes directos</span>
+                        <span id="msgsDisabledText">
+                            @if($isBlockedByOther)
+                            No puedes envíar mensajes a esté usuario. {{ $otherUser->name ?? '' }} te ha bloqueado
+                            @else
+                            {{ $otherUser->name }} no acepta mensajes directos
+                            @endif
+                        </span>
                     </div>
                 </div>
 

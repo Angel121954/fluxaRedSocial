@@ -516,6 +516,15 @@
     color: var(--accent);
 }
 
+.msgs-header-action.is-blocked {
+    color: var(--accent);
+}
+
+.msgs-header-action.is-blocked:hover {
+    background: rgba(239, 68, 68, 0.08);
+    color: #ef4444;
+}
+
 /* ── Lista de burbujas ── */
 
 .msgs-bubble-list {

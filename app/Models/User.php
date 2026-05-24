@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -189,6 +190,23 @@ class User extends Authenticatable
     public function getIsVerifiedAttribute(): bool
     {
         return $this->email_verified_at !== null;
+    }
+
+    public function blockedUsers(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'user_blocks', 'blocker_id', 'blocked_id')
+            ->withTimestamps();
+    }
+
+    public function blockedBy(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'user_blocks', 'blocked_id', 'blocker_id')
+            ->withTimestamps();
+    }
+
+    public function hasBlock(User $user): bool
+    {
+        return $this->blockedUsers()->where('blocked_id', $user->id)->exists();
     }
 
     public function hasBadge(string $slug): bool

@@ -120,6 +120,35 @@ function initNotificationsRealtime(userId) {
             window.updateBadges();
         }
     })
+    .listen('.user.blocked', function(data) {
+        var input = document.getElementById('msgsInput');
+        var sendBtn = document.getElementById('msgsSendBtn');
+        var disabled = document.getElementById('msgsInputDisabled');
+        var disabledText = document.getElementById('msgsDisabledText');
+        var blockBtn = document.getElementById('msgsBlockBtn');
+
+        if (!blockBtn || blockBtn.dataset.userId != data.blocker_id) return;
+
+        if (data.blocked) {
+            if (input) input.style.display = 'none';
+            if (sendBtn) sendBtn.style.display = 'none';
+            if (disabled) disabled.style.display = 'flex';
+            var blockerName = document.querySelector('.msgs-chat-header-name')?.textContent || 'Este usuario';
+            if (disabledText) disabledText.textContent = 'No puedes envíar mensajes a esté usuario. ' + blockerName + ' te ha bloqueado';
+        } else {
+            var acceptsMessages = blockBtn.dataset.acceptsMessages !== 'false';
+            if (acceptsMessages) {
+                if (input) input.style.display = '';
+                if (sendBtn) sendBtn.style.display = '';
+                if (disabled) disabled.style.display = 'none';
+            }
+        }
+
+        if (window.showToast) {
+            window.showToast(data.blocked ? 'Has sido bloqueado por este usuario' : 'Has sido desbloqueado por este usuario');
+        }
+    })
+
     .listen('.message.sent', function(data) {
         var convList = document.getElementById('msgsConvList');
         var currentConvId = new URLSearchParams(window.location.search).get('conv');

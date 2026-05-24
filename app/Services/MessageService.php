@@ -8,6 +8,7 @@ use App\Models\Conversation;
 use App\Models\Message;
 use App\Models\Profile;
 use App\Models\User;
+use App\Models\UserBlock;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
@@ -35,9 +36,42 @@ class MessageService
 
     public function canSendMessage(int $senderId, int $recipientId): bool
     {
+        if ($this->isBlockedBy($senderId, $recipientId)) {
+            return false;
+        }
+
         $recipientProfile = Profile::where('user_id', $recipientId)->first();
 
         return $recipientProfile && $recipientProfile->accept_messages;
+    }
+
+    public function isBlockedBy(int $userId, int $otherUserId): bool
+    {
+        return UserBlock::where('blocker_id', $otherUserId)
+            ->where('blocked_id', $userId)
+            ->exists();
+    }
+
+    public function hasBlocked(int $blockerId, int $blockedId): bool
+    {
+        return UserBlock::where('blocker_id', $blockerId)
+            ->where('blocked_id', $blockedId)
+            ->exists();
+    }
+
+    public function blockUser(int $blockerId, int $blockedId): void
+    {
+        UserBlock::firstOrCreate([
+            'blocker_id' => $blockerId,
+            'blocked_id' => $blockedId,
+        ]);
+    }
+
+    public function unblockUser(int $blockerId, int $blockedId): void
+    {
+        UserBlock::where('blocker_id', $blockerId)
+            ->where('blocked_id', $blockedId)
+            ->delete();
     }
 
     public function sendMessage(Conversation $conversation, int $senderId, string $body): Message
