@@ -185,8 +185,14 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
     Route::post('/diary/{response}/bookmark', [DiaryController::class, 'bookmark'])
         ->name('diary.response.bookmark');
 
+    Route::get('/diary/{response}/comments', [DiaryController::class, 'comments'])
+        ->name('diary.response.comments');
+
     Route::post('/diary/{response}/comments', [DiaryController::class, 'comment'])
         ->name('diary.response.comment');
+
+    Route::post('/diary/comments/{comment}/like', [DiaryController::class, 'commentLike'])
+        ->name('diary.response.comment.like');
 
     Route::delete('/diary/{response}', [DiaryController::class, 'destroy'])
         ->name('diary.response.destroy');

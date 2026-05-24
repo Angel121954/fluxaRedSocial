@@ -17,6 +17,7 @@ class StoreDiaryComment extends FormRequest
     {
         return [
             'content' => 'required|string|max:500',
+            'parent_id' => 'nullable|exists:diary_response_comments,id',
         ];
     }
 }

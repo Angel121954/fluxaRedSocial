@@ -11,8 +11,10 @@ use App\Models\Diary;
 use App\Models\DiaryResponse;
 use App\Models\DiaryResponseBookmark;
 use App\Models\DiaryResponseComment;
+use App\Models\DiaryResponseCommentLike;
 use App\Models\DiaryResponseLike;
 use App\Models\Profile;
+use App\Notifications\CreatesNotifications;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -37,8 +39,8 @@ class DiaryController extends Controller
         $responses = DiaryResponse::where('diary_id', $diary->id)
             ->with('user')
             ->withCount(['likes', 'comments'])
-            ->when($sort === 'top', fn($q) => $q->orderByDesc('likes_count'))
-            ->when($sort !== 'top', fn($q) => $q->latest())
+            ->when($sort === 'top', fn ($q) => $q->orderByDesc('likes_count'))
+            ->when($sort !== 'top', fn ($q) => $q->latest())
             ->paginate(10);
 
         $recentResponders = DiaryResponse::where('diary_id', $diary->id)
@@ -48,7 +50,13 @@ class DiaryController extends Controller
             ->get()
             ->pluck('user');
 
-        return view('diary.index', compact('diary', 'responses', 'recentResponders', 'profile'));
+        $userHasResponded = Auth::check()
+            ? DiaryResponse::where('diary_id', $diary->id)
+                ->where('user_id', Auth::id())
+                ->exists()
+            : false;
+
+        return view('diary.index', compact('diary', 'responses', 'recentResponders', 'profile', 'userHasResponded'));
     }
 
     public function store(StoreDiaryResponse $request): JsonResponse
@@ -81,8 +89,10 @@ class DiaryController extends Controller
 
     public function like(DiaryResponse $response): JsonResponse
     {
+        $userId = Auth::id();
+
         $like = DiaryResponseLike::where('diary_response_id', $response->id)
-            ->where('user_id', Auth::id())
+            ->where('user_id', $userId)
             ->first();
 
         if ($like) {
@@ -91,9 +101,17 @@ class DiaryController extends Controller
         } else {
             DiaryResponseLike::create([
                 'diary_response_id' => $response->id,
-                'user_id' => Auth::id(),
+                'user_id' => $userId,
             ]);
             $response->increment('likes_count');
+
+            if ($response->user_id !== $userId) {
+                CreatesNotifications::notifyDiaryResponseLike(
+                    $response->user_id,
+                    $userId,
+                    Auth::user()->name,
+                );
+            }
         }
 
         return response()->json([
@@ -124,22 +142,76 @@ class DiaryController extends Controller
 
     public function comment(StoreDiaryComment $request, DiaryResponse $response): JsonResponse
     {
+        $userId = $request->user()->id;
+
         $comment = DiaryResponseComment::create([
             'diary_response_id' => $response->id,
-            'user_id' => $request->user()->id,
+            'user_id' => $userId,
+            'parent_id' => $request->parent_id,
             'content' => $request->content,
         ]);
 
         $response->increment('comments_count');
 
         $comment->load('user');
+        $comment->user->append('avatar_url');
 
-        $html = view('diary.partials._comment', ['comment' => $comment])->render();
+        if ($response->user_id !== $userId) {
+            CreatesNotifications::notifyDiaryResponseComment(
+                $response->user_id,
+                $userId,
+                $request->user()->name,
+            );
+        }
 
         return response()->json([
-            'html' => $html,
+            'comment' => $comment,
             'comments_count' => $response->fresh()->comments_count,
         ]);
+    }
+
+    public function comments(DiaryResponse $response): JsonResponse
+    {
+        $comments = $response->comments()
+            ->whereNull('parent_id')
+            ->with(['user', 'children.user', 'children.likes', 'likes'])
+            ->latest()
+            ->get();
+
+        $userId = auth()->id();
+
+        $comments->each(function ($comment) use ($userId) {
+            $comment->user?->append('avatar_url');
+            $comment->is_liked = $comment->likes->contains('user_id', $userId);
+            $comment->children->each(function ($child) use ($userId) {
+                $child->user?->append('avatar_url');
+                $child->is_liked = $child->likes->contains('user_id', $userId);
+            });
+        });
+
+        return response()->json(['comments' => $comments]);
+    }
+
+    public function commentLike(DiaryResponseComment $comment): JsonResponse
+    {
+        $userId = Auth::id();
+
+        $existing = DiaryResponseCommentLike::where('user_id', $userId)
+            ->where('diary_response_comment_id', $comment->id)
+            ->first();
+
+        if ($existing) {
+            $existing->delete();
+
+            return response()->json(['liked' => false]);
+        }
+
+        DiaryResponseCommentLike::create([
+            'user_id' => $userId,
+            'diary_response_comment_id' => $comment->id,
+        ]);
+
+        return response()->json(['liked' => true]);
     }
 
     public function destroy(DiaryResponse $response): JsonResponse
@@ -159,8 +231,8 @@ class DiaryController extends Controller
         $responses = DiaryResponse::where('diary_id', $diary->id)
             ->with('user')
             ->withCount(['likes', 'comments'])
-            ->when($sort === 'top', fn($q) => $q->orderByDesc('likes_count'))
-            ->when($sort !== 'top', fn($q) => $q->latest())
+            ->when($sort === 'top', fn ($q) => $q->orderByDesc('likes_count'))
+            ->when($sort !== 'top', fn ($q) => $q->latest())
             ->paginate(10);
 
         $html = '';

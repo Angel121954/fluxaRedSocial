@@ -166,6 +166,7 @@ export default defineConfig({
 
                 // Diario JS
                 "resources/js/diary/index.js",
+                "resources/js/diary/commentModal.js",
 
                 // Admin Diario JS
                 "resources/js/admin/diary/modal.js",

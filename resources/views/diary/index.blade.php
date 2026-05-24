@@ -111,16 +111,17 @@
                     <textarea
                         id="diary-reply-input"
                         class="diary-reply-box__input"
-                        placeholder="Escribe tu respuesta..."
+                        placeholder="{{ $userHasResponded ? 'Ya respondiste — elimínala para volver a publicar' : 'Escribe tu respuesta...' }}"
                         maxlength="500"
-                        rows="1"></textarea>
+                        rows="1"
+                        {{ $userHasResponded ? 'disabled' : '' }}></textarea>
                 </div>
                 <button
                     id="diary-reply-btn"
                     class="diary-reply-box__btn"
                     data-diary-id="{{ $diary->id }}"
                     data-url="{{ route('diary.reply', $diary) }}"
-                    disabled>
+                    {{ $userHasResponded ? 'disabled' : '' }}>
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                         <line x1="22" y1="2" x2="11" y2="13" />
                         <polygon points="22 2 15 22 11 13 2 9 22 2" />
@@ -344,8 +345,16 @@
 </div>{{-- /.diary-page --}}
 @endif
 
+<x-modal-comments />
+
 @endsection
 
 @push('scripts')
 @vite('resources/js/diary/index.js')
+@vite('resources/js/diary/commentModal.js')
+@endpush
+
+@push('styles')
+@vite('resources/css/shared/modal.css')
+@vite('resources/css/core/explore.css')
 @endpush
