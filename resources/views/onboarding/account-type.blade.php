@@ -34,7 +34,7 @@
                     </label>
                 </div>
 
-                <div class="atype-item">
+                <!-- <div class="atype-item">
                     <input type="radio" name="account_type" value="company" id="atype_company">
                     <label for="atype_company">
                         <div class="atype-icon">
@@ -52,7 +52,7 @@
                         </div>
                         <div class="atype-check"></div>
                     </label>
-                </div>
+                </div> -->
             </div>
 
             <button type="submit" class="btn" id="btnContinue" disabled>Continuar →</button>
@@ -86,15 +86,15 @@
 
 @push('scripts')
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-    var radios = document.querySelectorAll('input[name="account_type"]');
-    var btn = document.getElementById('btnContinue');
-    radios.forEach(function (r) {
-        r.addEventListener('change', function () {
-            btn.disabled = false;
+    document.addEventListener('DOMContentLoaded', function() {
+        var radios = document.querySelectorAll('input[name="account_type"]');
+        var btn = document.getElementById('btnContinue');
+        radios.forEach(function(r) {
+            r.addEventListener('change', function() {
+                btn.disabled = false;
+            });
         });
     });
-});
 </script>
 @endpush
 @endsection
