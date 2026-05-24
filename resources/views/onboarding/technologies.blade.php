@@ -26,12 +26,13 @@
             </svg>
             <input type="text" placeholder="Buscar tecnología..." id="techSearch">
         </div>
+        <p class="tech-search-hint">Busca cualquier tecnología, incluso las que no están en la lista</p>
 
         <form action="{{ route('onboarding.saveTechnologies') }}" method="POST">
             @csrf
             <div class="tech-grid" id="techGrid">
                 @forelse($technologies as $tech)
-                <div class="tech-item" data-name="{{ strtolower($tech->name) }}">
+                <div class="tech-item {{ in_array($tech->slug, $featuredSlugs) ? 'featured' : '' }}" data-name="{{ strtolower($tech->name) }}">
                     <input type="checkbox" name="technologies[]" value="{{ $tech->id }}" id="tech_{{ $tech->id }}">
                     <label for="tech_{{ $tech->id }}">
                         <div class="check">

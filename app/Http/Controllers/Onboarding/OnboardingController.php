@@ -32,7 +32,17 @@ class OnboardingController extends Controller
     {
         $technologies = Technology::orderBy('name')->get();
 
-        return view('onboarding.technologies', compact('technologies'));
+        $featuredSlugs = [
+            'javascript', 'typescript', 'python', 'php', 'java', 'go', 'rust',
+            'react', 'nextjs', 'vuejs', 'angularjs', 'svelte', 'tailwindcss',
+            'nodejs', 'laravel', 'django', 'spring',
+            'reactnative', 'flutter', 'swift', 'kotlin',
+            'mysql', 'postgresql', 'mongodb', 'redis', 'firebase',
+            'amazonwebservices', 'docker', 'kubernetes', 'git', 'linux',
+            'figma', 'graphql', 'tensorflow',
+        ];
+
+        return view('onboarding.technologies', compact('technologies', 'featuredSlugs'));
     }
 
     public function saveTechnologies(Request $request)

@@ -11,7 +11,19 @@ export function initTechFilter() {
 }
 
 function filterTech(query) {
+    const q = query.toLowerCase().trim();
+
     document.querySelectorAll('#techGrid .tech-item').forEach(item => {
-        item.style.display = item.dataset.name.includes(query.toLowerCase()) ? '' : 'none';
+        const name = item.dataset.name;
+        const isFeatured = item.classList.contains('featured');
+        const matches = name.includes(q);
+
+        if (!q) {
+            // Sin búsqueda: solo mostrar featured
+            item.style.display = isFeatured ? '' : 'none';
+        } else {
+            // Con búsqueda: mostrar los que coincidan
+            item.style.display = matches ? '' : 'none';
+        }
     });
 }

@@ -148,6 +148,13 @@ h1 {
 }
 
 /* ─── Tech grid ──────────────────────────────────── */
+.tech-search-hint {
+    font-size: 0.75rem;
+    color: var(--ink-400);
+    margin: 0.5rem 0 1rem;
+    text-align: center;
+}
+
 .tech-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -166,6 +173,10 @@ h1 {
 
 .tech-item {
     position: relative;
+}
+
+.tech-item:not(.featured) {
+    display: none;
 }
 
 .tech-item input[type="checkbox"] {
