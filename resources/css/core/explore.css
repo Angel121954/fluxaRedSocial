@@ -994,6 +994,22 @@ body {
     height: 15px;
 }
 
+.comment-delete-btn {
+    margin-left: auto;
+    opacity: 0;
+    transition: opacity 0.15s, color 0.15s;
+    color: var(--ink-300);
+}
+
+.comment-item:hover .comment-delete-btn,
+.comment-item .comment-delete-btn:focus-visible {
+    opacity: 1;
+}
+
+.comment-delete-btn:hover {
+    color: #ef4444;
+}
+
 /* Comment input */
 .comments-modal .modal-footer {
     display: block;

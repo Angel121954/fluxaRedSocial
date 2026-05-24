@@ -194,6 +194,9 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
     Route::post('/diary/comments/{comment}/like', [DiaryController::class, 'commentLike'])
         ->name('diary.response.comment.like');
 
+    Route::delete('/diary/comments/{comment}', [DiaryController::class, 'commentDestroy'])
+        ->name('diary.response.comment.destroy');
+
     Route::delete('/diary/{response}', [DiaryController::class, 'destroy'])
         ->name('diary.response.destroy');
 

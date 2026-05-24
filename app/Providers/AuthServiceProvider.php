@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Comment;
 use App\Models\Conversation;
+use App\Models\DiaryResponseComment;
 use App\Models\Education;
 use App\Models\Message;
 use App\Models\Notification;
@@ -12,6 +13,7 @@ use App\Models\Profile;
 use App\Models\WorkExperience;
 use App\Policies\CommentPolicy;
 use App\Policies\ConversationPolicy;
+use App\Policies\DiaryResponseCommentPolicy;
 use App\Policies\EducationPolicy;
 use App\Policies\MessagePolicy;
 use App\Policies\NotificationPolicy;
@@ -24,6 +26,7 @@ class AuthServiceProvider extends ServiceProvider
 {
     protected $policies = [
         Comment::class => CommentPolicy::class,
+        DiaryResponseComment::class => DiaryResponseCommentPolicy::class,
         Project::class => ProjectPolicy::class,
         Profile::class => ProfilePolicy::class,
         Message::class => MessagePolicy::class,

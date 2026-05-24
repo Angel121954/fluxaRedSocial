@@ -166,7 +166,7 @@ class DiaryController extends Controller
 
         return response()->json([
             'comment' => $comment,
-            'comments_count' => $response->fresh()->comments_count,
+            'comments_count' => $response->loadCount('comments')->comments_count,
         ]);
     }
 
@@ -212,6 +212,23 @@ class DiaryController extends Controller
         ]);
 
         return response()->json(['liked' => true]);
+    }
+
+    public function commentDestroy(DiaryResponseComment $comment): JsonResponse
+    {
+        $this->authorize('delete', $comment);
+
+        $response = $comment->response;
+        $commentsToDelete = 1 + $comment->children()->count();
+
+        $comment->delete();
+
+        $response->decrement('comments_count', $commentsToDelete);
+
+        return response()->json([
+            'success' => true,
+            'comments_count' => $response->loadCount('comments')->comments_count,
+        ]);
     }
 
     public function destroy(DiaryResponse $response): JsonResponse

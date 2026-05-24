@@ -1,5 +1,9 @@
 // commentRenderer.js - Renderizado de comentarios en el modal del Diario
 
+function getCurrentUserId() {
+    return document.body.dataset.userId || null;
+}
+
 function initializeLikeButtons(container) {
     if (!container) return;
     container.querySelectorAll('.like-comment-btn').forEach(button => {
@@ -81,6 +85,16 @@ export function renderComments(comments, container) {
                     <span class="comment-author">${comment.user.name}</span>
                     <span style="color:var(--ink-200);">·</span>
                     <span class="comment-time" data-timestamp="${timestamp}">${comment.created_at_human}</span>
+                    ${String(comment.user_id) === getCurrentUserId() ? `
+                    <button class="comment-action comment-delete-btn" data-comment-id="${comment.id}" aria-label="Eliminar comentario">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="3 6 5 6 21 6" />
+                            <path d="M19 6l-1 14H6L5 6" />
+                            <path d="M10 11v6M14 11v6" />
+                            <path d="M9 6V4h6v2" />
+                        </svg>
+                    </button>
+                    ` : ''}
                 </div>
                 <p class="comment-text">${comment.content}</p>
         <div class="comment-actions">
@@ -109,6 +123,16 @@ export function renderComments(comments, container) {
                                         <span class="comment-author">${reply.user.name}</span>
                                         <span style="color:var(--ink-200);">·</span>
                                         <span class="comment-time" data-timestamp="${replyTimestamp}">${reply.created_at_human}</span>
+                                        ${String(reply.user_id) === getCurrentUserId() ? `
+                                        <button class="comment-action comment-delete-btn" data-comment-id="${reply.id}" aria-label="Eliminar comentario">
+                                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <polyline points="3 6 5 6 21 6" />
+                                                <path d="M19 6l-1 14H6L5 6" />
+                                                <path d="M10 11v6M14 11v6" />
+                                                <path d="M9 6V4h6v2" />
+                                            </svg>
+                                        </button>
+                                        ` : ''}
                                     </div>
                                     <p class="comment-text">${reply.content}</p>
                                 </div>
@@ -130,6 +154,7 @@ export function addComment(comment, container) {
     // Evitar duplicados
     if (container.querySelector(`[data-comment-id="${comment.id}"]`)) return;
 
+    const isOwner = String(comment.user_id) === getCurrentUserId();
     const commentHTML = `
         <div class="comment-item" data-comment-id="${comment.id}">
             <img src="${comment.user.avatar_url}" alt="${comment.user.name}" class="comment-avatar">
@@ -138,6 +163,16 @@ export function addComment(comment, container) {
                     <span class="comment-author">${comment.user.name}</span>
                     <span style="color:var(--ink-200);">·</span>
                     <span class="comment-time">Justo ahora</span>
+                    ${isOwner ? `
+                    <button class="comment-action comment-delete-btn" data-comment-id="${comment.id}" aria-label="Eliminar comentario">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="3 6 5 6 21 6" />
+                            <path d="M19 6l-1 14H6L5 6" />
+                            <path d="M10 11v6M14 11v6" />
+                            <path d="M9 6V4h6v2" />
+                        </svg>
+                    </button>
+                    ` : ''}
                 </div>
                 <p class="comment-text">${comment.content}</p>
                 <div class="comment-actions">
@@ -184,6 +219,7 @@ export function addReply(parentId, reply, container) {
         parentComment.querySelector('.comment-body').appendChild(repliesDiv);
     }
 
+    const isOwner = String(reply.user_id) === getCurrentUserId();
     const replyHTML = `
         <div class="comment-item reply" data-comment-id="${reply.id}">
             <img src="${reply.user.avatar_url}" alt="${reply.user.name}" class="comment-avatar">
@@ -192,6 +228,16 @@ export function addReply(parentId, reply, container) {
                     <span class="comment-author">${reply.user.name}</span>
                     <span style="color:var(--ink-200);">·</span>
                     <span class="comment-time">Justo ahora</span>
+                    ${isOwner ? `
+                    <button class="comment-action comment-delete-btn" data-comment-id="${reply.id}" aria-label="Eliminar comentario">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="3 6 5 6 21 6" />
+                            <path d="M19 6l-1 14H6L5 6" />
+                            <path d="M10 11v6M14 11v6" />
+                            <path d="M9 6V4h6v2" />
+                        </svg>
+                    </button>
+                    ` : ''}
                 </div>
                 <p class="comment-text">${reply.content}</p>
             </div>

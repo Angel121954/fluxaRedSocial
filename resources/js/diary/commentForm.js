@@ -72,13 +72,14 @@ export function initCommentForm({ onSubmit, getCurrentResponseId }) {
 
             resetCommentForm();
 
-            // Actualizar contador en la tarjeta
-            const commentBtn = document.querySelector(`.diary-comment-btn[data-response-id="${responseId}"]`);
-            if (commentBtn) {
-                const countSpan = commentBtn.querySelector('span');
-                if (countSpan) {
-                    const currentCount = parseInt(countSpan.textContent.replace(/\D/g, '')) || 0;
-                    countSpan.textContent = currentCount + 1;
+            // Actualizar contador en la tarjeta con el valor real del backend
+            if (data.comments_count != null) {
+                const commentBtn = document.querySelector(`.diary-comment-btn[data-response-id="${responseId}"]`);
+                if (commentBtn) {
+                    const countSpan = commentBtn.querySelector('span');
+                    if (countSpan) {
+                        countSpan.textContent = data.comments_count;
+                    }
                 }
             }
         } catch (error) {

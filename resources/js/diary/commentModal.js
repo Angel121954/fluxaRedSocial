@@ -60,6 +60,12 @@ function initCommentModal() {
             const likeBtn = e.target.closest('.like-comment-btn');
             if (likeBtn) {
                 toggleCommentLike(likeBtn.dataset.commentId, likeBtn);
+                return;
+            }
+
+            const deleteBtn = e.target.closest('.comment-delete-btn');
+            if (deleteBtn) {
+                deleteComment(deleteBtn.dataset.commentId, deleteBtn);
             }
         });
     }
@@ -181,6 +187,56 @@ async function toggleCommentLike(commentId, button) {
         console.error('Error al dar like:', error.message);
     } finally {
         button.disabled = false;
+    }
+}
+
+async function deleteComment(commentId, button) {
+    if (!commentId || commentId === 'undefined') return;
+
+    const savedResponseId = currentResponseId;
+    closeCommentsModal();
+
+    const { isConfirmed } = await Swal.fire({
+        title: '¿Eliminar comentario?',
+        text: 'Esta acción no se puede deshacer.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#ef4444',
+        cancelButtonColor: '#6b7280',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar',
+    });
+
+    if (!isConfirmed) return;
+
+    try {
+        const res = await fetch(`/diary/comments/${commentId}`, {
+            method: 'DELETE',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content,
+                'Accept': 'application/json',
+            },
+            credentials: 'same-origin',
+        });
+
+        if (!res.ok) throw new Error('Error al eliminar comentario');
+
+        const data = await res.json();
+        if (!data.success) throw new Error('Error al eliminar comentario');
+
+        // Actualizar contador en la tarjeta de respuesta
+        if (savedResponseId && data.comments_count != null) {
+            const commentBtn = document.querySelector(`.diary-comment-btn[data-response-id="${savedResponseId}"]`);
+            if (commentBtn) {
+                const countSpan = commentBtn.querySelector('span');
+                if (countSpan) {
+                    countSpan.textContent = data.comments_count;
+                }
+            }
+        }
+    } catch (error) {
+        console.error('Error al eliminar comentario:', error);
+        Swal.fire('Error', 'No se pudo eliminar el comentario. Intenta de nuevo.', 'error');
     }
 }
 
