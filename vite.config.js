@@ -185,6 +185,7 @@ export default defineConfig({
                 "resources/js/admin/companies/table.js",
                 "resources/js/admin/suggestions/delete.js",
                 "resources/js/admin/suggestions/table.js",
+                "resources/js/admin/suggestions/detailModal.js",
             ],
             refresh: true,
         }),

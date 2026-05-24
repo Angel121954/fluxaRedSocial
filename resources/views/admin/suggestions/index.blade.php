@@ -128,6 +128,26 @@
 
                             <div class="adm-dropdown" id="dropdown-{{ $suggestion->id }}" role="menu" aria-label="Opciones">
 
+                                <button type="button"
+                                    class="adm-dropdown-item btn-view-suggestion"
+                                    role="menuitem"
+                                    data-id="{{ $suggestion->id }}"
+                                    data-status="{{ $suggestion->status }}"
+                                    data-user-name="{{ $suggestion->user->name }}"
+                                    data-user-handle="{{ '@' . $suggestion->user->username }}"
+                                    data-user-avatar="{{ $suggestion->user->avatar_url }}"
+                                    data-description="{{ $suggestion->description }}"
+                                    data-image="{{ $suggestion->image_url ?? '' }}"
+                                    data-date="{{ $suggestion->created_at->translatedFormat('d M Y \\a \\l\\a\\s H:i') }}">
+                                    <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                    </svg>
+                                    Ver detalle
+                                </button>
+
+                                <div class="adm-dropdown-divider" role="separator"></div>
+
                                 <form method="POST" action="{{ route('admin.suggestions.approve', $suggestion) }}">
                                     @csrf
                                     @method('PATCH')
@@ -176,6 +196,8 @@
     </div>
 </div>
 
+<x-modal-suggestion-detail />
+
 @endsection
 
 @push('scripts')
@@ -185,4 +207,5 @@
 @vite('resources/js/admin/shared/dropdown.js')
 @vite('resources/js/admin/suggestions/delete.js')
 @vite('resources/js/admin/suggestions/table.js')
+@vite('resources/js/admin/suggestions/detailModal.js')
 @endpush
