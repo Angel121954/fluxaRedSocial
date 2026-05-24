@@ -133,6 +133,14 @@ class DiaryController extends Controller
                 'diary_response_id' => $response->id,
                 'user_id' => Auth::id(),
             ]);
+
+            if ($response->user_id !== Auth::id()) {
+                CreatesNotifications::notifyDiaryResponseBookmark(
+                    $response->user_id,
+                    Auth::id(),
+                    Auth::user()->name,
+                );
+            }
         }
 
         return response()->json([

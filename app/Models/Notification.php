@@ -37,6 +37,7 @@ class Notification extends Model
     const TYPE_PROJECT = 'project';
     const TYPE_ENDORSEMENT = 'endorsement';
     const TYPE_BADGE = 'badge';
+    const TYPE_BOOKMARK = 'bookmark';
 
     public function getTypeLabelAttribute(): string
     {
@@ -47,6 +48,7 @@ class Notification extends Model
             'comment' => 'Comentario',
             'mention' => 'Mención',
             'project' => 'Proyecto',
+            'bookmark' => 'Bookmark',
             'endorsement' => 'Recomendación',
             default => 'Notificación',
         };

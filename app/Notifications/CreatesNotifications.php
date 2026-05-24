@@ -182,4 +182,18 @@ trait CreatesNotifications
             referenceType: 'diary'
         );
     }
+
+    public static function notifyDiaryResponseBookmark(int $responseOwnerId, int $bookmarkerId, string $bookmarkerName): Notification
+    {
+        return self::createNotification(
+            userId: $responseOwnerId,
+            type: Notification::TYPE_BOOKMARK,
+            title: 'Guardaron tu respuesta',
+            body: 'guardó tu respuesta del diario en favoritos',
+            link: '/diary',
+            fromUserId: $bookmarkerId,
+            referenceId: null,
+            referenceType: 'diary'
+        );
+    }
 }
