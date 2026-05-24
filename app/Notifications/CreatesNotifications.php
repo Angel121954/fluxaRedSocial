@@ -4,8 +4,8 @@ namespace App\Notifications;
 
 use App\Events\NotificationCreated;
 use App\Models\Notification;
-use App\Models\User;
 use App\Models\SkillEndorsement;
+use App\Models\User;
 use Illuminate\Support\Facades\Event;
 
 trait CreatesNotifications
@@ -62,7 +62,7 @@ trait CreatesNotifications
             type: Notification::TYPE_FOLLOW,
             title: 'Nuevo seguidor',
             body: 'comenzó a seguirte',
-            link: $followerUsername ? "/profile/{$followerUsername}" : "#",
+            link: $followerUsername ? "/profile/{$followerUsername}" : '#',
             fromUserId: $followerId,
             referenceId: $followerId,
             referenceType: 'user'
@@ -152,6 +152,34 @@ trait CreatesNotifications
             fromUserId: $likerId,
             referenceId: $commentId,
             referenceType: 'comment'
+        );
+    }
+
+    public static function notifyDiaryResponseComment(int $responseOwnerId, int $commenterId, string $commenterName): Notification
+    {
+        return self::createNotification(
+            userId: $responseOwnerId,
+            type: Notification::TYPE_COMMENT,
+            title: 'Nuevo comentario',
+            body: 'comentó en tu respuesta del diario',
+            link: '/diary',
+            fromUserId: $commenterId,
+            referenceId: null,
+            referenceType: 'diary'
+        );
+    }
+
+    public static function notifyDiaryResponseLike(int $responseOwnerId, int $likerId, string $likerName): Notification
+    {
+        return self::createNotification(
+            userId: $responseOwnerId,
+            type: Notification::TYPE_LIKE,
+            title: 'Like en tu respuesta',
+            body: 'dio like a tu respuesta del diario',
+            link: '/diary',
+            fromUserId: $likerId,
+            referenceId: null,
+            referenceType: 'diary'
         );
     }
 }
