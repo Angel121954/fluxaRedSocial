@@ -37,8 +37,6 @@
         });
     }
 
-    if (document.querySelector('[data-live-time]')) {
-        updateAll();
-        setInterval(updateAll, 1000);
-    }
+    updateAll();
+    setInterval(updateAll, 1000);
 })();

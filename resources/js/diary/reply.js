@@ -20,6 +20,14 @@ export function initDiaryReply() {
         input.style.height = `${input.scrollHeight}px`;
     });
 
+    // ── Enter para publicar ──────────────────────────────────────────
+    input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            if (!btn.disabled) btn.click();
+        }
+    });
+
     // ── Publicar respuesta ────────────────────────────────────────────
     btn.addEventListener('click', async () => {
         const content = input.value.trim();
@@ -53,16 +61,24 @@ export function initDiaryReply() {
             input.value = '';
             input.style.height = 'auto';
 
-            // Insertar la nueva respuesta al inicio de la lista
+            // Si el usuario ya tenía una respuesta, reemplazarla; si no, insertar al inicio
             if (list && data.html) {
-                const empty = list.querySelector('.diary-empty');
-                if (empty) empty.remove();
+                const existing = list.querySelector(`.diary-response-card[data-response-id="${data.response.id}"]`);
+                if (existing) {
+                    existing.outerHTML = data.html;
+                } else {
+                    const empty = list.querySelector('.diary-empty');
+                    if (empty) empty.remove();
 
-                list.insertAdjacentHTML('afterbegin', data.html);
+                    list.insertAdjacentHTML('afterbegin', data.html);
+                }
             }
 
             // Actualizar contador de respondentes
             _updateRespondentCount(data.responses_count);
+
+            // Bloquear input — cada usuario solo puede responder una vez
+            _lockReplyBox();
 
         } catch (err) {
             console.error('Error publicando respuesta del Diario:', err);
@@ -123,6 +139,28 @@ export function initLoadMore() {
             loadMoreBtn.textContent = 'Cargar más respuestas';
         }
     });
+}
+
+// ── Bloquear/desbloquear input ───────────────────────────────────────
+function _lockReplyBox() {
+    const input = document.getElementById('diary-reply-input');
+    const btn   = document.getElementById('diary-reply-btn');
+    if (input) {
+        input.disabled = true;
+        input.placeholder = 'Ya respondiste — elimínala para volver a publicar';
+    }
+    if (btn) btn.disabled = true;
+}
+
+export function unlockReplyBox() {
+    const input = document.getElementById('diary-reply-input');
+    const btn   = document.getElementById('diary-reply-btn');
+    if (input) {
+        input.disabled = false;
+        input.placeholder = 'Escribe tu respuesta...';
+        // Re-evaluar si el botón debe habilitarse según contenido
+        btn.disabled = input.value.trim().length === 0;
+    }
 }
 
 // ── Helpers internos ──────────────────────────────────────────────────
