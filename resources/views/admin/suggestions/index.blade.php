@@ -146,6 +146,7 @@
                                     Ver detalle
                                 </button>
 
+                                @unless($suggestion->status === 'approved')
                                 <div class="adm-dropdown-divider" role="separator"></div>
 
                                 <form method="POST" action="{{ route('admin.suggestions.approve', $suggestion) }}">
@@ -158,6 +159,7 @@
                                         Aprobar
                                     </button>
                                 </form>
+                                @endunless
 
                                 <form method="POST" action="{{ route('admin.suggestions.markRead', $suggestion) }}">
                                     @csrf
