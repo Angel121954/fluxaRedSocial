@@ -242,14 +242,14 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
     Route::get('/privacy-policy', [PrivacyPolicyController::class, 'index'])
         ->name('privacy.policy');
 
-        Route::get('/contact', [ContactController::class, 'index'])
-            ->name('contact.index');
+    Route::get('/contact', [ContactController::class, 'index'])
+        ->name('contact.index');
 
-        Route::post('/contact', [ContactController::class, 'store'])
-            ->name('contact.store');
+    Route::post('/contact', [ContactController::class, 'store'])
+        ->name('contact.store');
 
-        Route::post('/report-problem', [ProblemReportController::class, 'store'])
-            ->name('report-problem.store');
+    Route::post('/report-problem', [ProblemReportController::class, 'store'])
+        ->name('report-problem.store');
 
     /*
     |--------------------------------------------------------------------------

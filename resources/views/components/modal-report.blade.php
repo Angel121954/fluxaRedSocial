@@ -18,8 +18,8 @@
         <div class="modal-body">
             <p class="modal-report-desc" id="reportModalDesc" style="font-size:0.875rem;color:var(--ink-500);margin-bottom:1rem;">¿Por qué quieres reportar este proyecto?</p>
             <form id="reportForm">
-                <textarea 
-                    class="modal-report-textarea" 
+                <textarea
+                    class="modal-report-textarea"
                     id="reportReason"
                     placeholder="Explica el motivo del reporte (mínimo 10 caracteres)"
                     rows="4"

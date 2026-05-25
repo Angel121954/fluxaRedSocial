@@ -2,28 +2,28 @@
 
 @php
 /**
- * Solo se mapean los tipos de iconos que NO usan 'original' en Devicon.
- * El slug viene directamente de $tech->slug en la DB (ya es el slug correcto de Devicon).
- */
+* Solo se mapean los tipos de iconos que NO usan 'original' en Devicon.
+* El slug viene directamente de $tech->slug en la DB (ya es el slug correcto de Devicon).
+*/
 $deviconTypeOverrides = [
-    'amazonwebservices' => 'plain-wordmark',
-    'angularjs' => 'plain',
-    'django' => 'plain',
-    'tailwindcss' => 'original',
-    'kubernetes' => 'plain',
-    'graphql' => 'plain',
-    'firebase' => 'plain',
-    'express' => 'original-wordmark',
+'amazonwebservices' => 'plain-wordmark',
+'angularjs' => 'plain',
+'django' => 'plain',
+'tailwindcss' => 'original',
+'kubernetes' => 'plain',
+'graphql' => 'plain',
+'firebase' => 'plain',
+'express' => 'original-wordmark',
 ];
 @endphp
 
 <div class="stack-grid">
     @forelse($technologies as $tech)
     @php
-        $iconSlug = (string) $tech->slug;
-        $iconType = $deviconTypeOverrides[$iconSlug] ?? 'original';
-        $iconUrl = "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/{$iconSlug}/{$iconSlug}-{$iconType}.svg";
-        $initials = strtoupper(substr((string) $tech->name, 0, 2));
+    $iconSlug = (string) $tech->slug;
+    $iconType = $deviconTypeOverrides[$iconSlug] ?? 'original';
+    $iconUrl = "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/{$iconSlug}/{$iconSlug}-{$iconType}.svg";
+    $initials = strtoupper(substr((string) $tech->name, 0, 2));
     @endphp
     <a href="{{ $tech->website_url ?? '#' }}"
         target="{{ $tech->website_url ? '_blank' : '_self' }}"
@@ -42,14 +42,14 @@ $deviconTypeOverrides = [
         </div>
     </a>
     @empty
-        @if($isOwner)
-        <div class="stack-empty">
-            <p>Sin tecnologías agregadas aún.</p>
-            <button class="stack-add-btn" onclick="window.openStackModal()">Agregar tecnologías</button>
-        </div>
-        @else
-        <p class="stack-empty">Este usuario aún no ha agregado tecnologías.</p>
-        @endif
+    @if($isOwner)
+    <div class="stack-empty">
+        <p>Sin tecnologías agregadas aún.</p>
+        <button class="stack-add-btn" onclick="window.openStackModal()">Agregar tecnologías</button>
+    </div>
+    @else
+    <p class="stack-empty">Este usuario aún no ha agregado tecnologías.</p>
+    @endif
     @endforelse
 </div>
 

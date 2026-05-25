@@ -108,9 +108,9 @@
                         name="country">
                         <option value="">Selecciona un país</option>
                         @foreach($countries as $c)
-                            <option value="{{ $c['name'] }}" {{ old('country', Auth()->user()?->profile?->country ?? '') === $c['name'] ? 'selected' : '' }}>
-                                {{ $c['name'] }}
-                            </option>
+                        <option value="{{ $c['name'] }}" {{ old('country', Auth()->user()?->profile?->country ?? '') === $c['name'] ? 'selected' : '' }}>
+                            {{ $c['name'] }}
+                        </option>
                         @endforeach
                     </select>
                     @error('country')
@@ -128,9 +128,9 @@
                         name="city">
                         <option value="">Selecciona una ciudad</option>
                         @foreach($cities as $city)
-                            <option value="{{ $city }}" {{ old('city', Auth()->user()?->profile?->city ?? '') === $city ? 'selected' : '' }}>
-                                {{ $city }}
-                            </option>
+                        <option value="{{ $city }}" {{ old('city', Auth()->user()?->profile?->city ?? '') === $city ? 'selected' : '' }}>
+                            {{ $city }}
+                        </option>
                         @endforeach
                     </select>
                     @error('city')

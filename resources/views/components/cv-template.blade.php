@@ -1,15 +1,15 @@
 {{-- resources/views/components/cv-template.blade.php --}}
 @props([
-    'profile',
-    'user',
-    'technologies' => collect([]), 
-    'projects' => collect([]), 
-    'workExperiences' => collect([]), 
-    'educations' => collect([]),
-    'avatarBase64' => null,
-    'logoBase64' => null,
-    'qrBase64' => null,
-    'cvSettings' => []
+'profile',
+'user',
+'technologies' => collect([]),
+'projects' => collect([]),
+'workExperiences' => collect([]),
+'educations' => collect([]),
+'avatarBase64' => null,
+'logoBase64' => null,
+'qrBase64' => null,
+'cvSettings' => []
 ])
 
 @php
@@ -24,10 +24,10 @@ $srcAvatar = $avatarBase64 ?? ($profile->avatar ? str_replace('type=normal', 'ty
 $srcLogo = $logoBase64 ?? 'data:image/png;base64,'.base64_encode(file_get_contents(public_path('img/logoFluxa.png')));
 $srcQr = $qrBase64;
 $paleta = [
-    'fondo' => '#f8fafc', 'tarjeta' => '#ffffff', 'primario' => '#14b8a6',
-    'primarioOscuro' => '#0d9488', 'secundario' => '#f0fdfa', 'borde' => '#e2e8f0',
-    'texto' => '#0f172a', 'textoSuave' => '#64748b', 'barraLateral' => '#f8fafc',
-    'azul' => '#0ea5e9', 'linkedin' => '#0077b5', 'twitter' => '#1da1f2',
+'fondo' => '#f8fafc', 'tarjeta' => '#ffffff', 'primario' => '#14b8a6',
+'primarioOscuro' => '#0d9488', 'secundario' => '#f0fdfa', 'borde' => '#e2e8f0',
+'texto' => '#0f172a', 'textoSuave' => '#64748b', 'barraLateral' => '#f8fafc',
+'azul' => '#0ea5e9', 'linkedin' => '#0077b5', 'twitter' => '#1da1f2',
 ];
 @endphp
 
@@ -135,7 +135,7 @@ $paleta = [
                                     @endif
                                 </div>
                                 @endforeach
-</div>
+                            </div>
                         </div>
                         @endif
 
@@ -267,142 +267,142 @@ $paleta = [
                         @foreach($cvSettings['section_order'] as $section)
                         @switch($section)
                         @case('experience')
-                            @if(($cvSettings['show_experience'] ?? true) && isset($workExperiences) && $workExperiences->isNotEmpty())
-                            <div>
-                                <h2 style="margin:0 0 14px;font-size:14px;font-weight:800;color:{{ $paleta['texto'] }};border-bottom:2px solid {{ $paleta['borde'] }};padding-bottom:7px;">Experiencia Laboral</h2>
-                                <div style="display:flex;flex-direction:column;gap:14px;">
-                                    @foreach($workExperiences->take(5) as $experiencia)
-                                    @php
-                                    $fechaInicio = \Carbon\Carbon::parse($experiencia->started_at)->translatedFormat('M Y');
-                                    $fechaFin = $experiencia->current
-                                    ? 'Presente'
-                                    : ($experiencia->ended_at
-                                    ? \Carbon\Carbon::parse($experiencia->ended_at)->translatedFormat('M Y')
-                                    : 'Presente');
-                                    @endphp
-                                    <div style="display:flex;gap:12px;align-items:flex-start;{{ !$loop->last ? 'padding-bottom:14px;border-bottom:1px solid '.$paleta['borde'].';' : '' }}">
-                                        <div style="width:38px;height:38px;flex-shrink:0;border-radius:9px;background:{{ $paleta['secundario'] }};border:1px solid rgba(20,184,166,.35);display:flex;align-items:center;justify-content:center;">
-                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="{{ $paleta['primario'] }}" stroke-width="1.8">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                                            </svg>
-                                        </div>
-                                        <div style="flex:1;min-width:0;">
-                                            <div style="display:flex;align-items:center;gap:8px;margin-bottom:2px;flex-wrap:wrap;">
-                                                <h3 style="margin:0;font-size:13px;font-weight:700;color:{{ $paleta['texto'] }};">{{ $experiencia->position }}</h3>
-                                                @if($experiencia->current)
-                                                <span style="font-size:9px;font-weight:600;color:{{ $paleta['primarioOscuro'] }};background:{{ $paleta['secundario'] }};border:1px solid rgba(20,184,166,.35);padding:2px 8px;border-radius:20px;white-space:nowrap;">Actual</span>
-                                                @endif
-                                            </div>
-                                            <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
-                                                <span style="font-size:12px;font-weight:600;color:{{ $paleta['primario'] }};">{{ $experiencia->company }}</span>
-                                                @if(!empty($experiencia->location))
-                                                <span style="font-size:11px;color:{{ $paleta['textoSuave'] }};">· {{ $experiencia->location }}</span>
-                                                @endif
-                                            </div>
-                                            <div style="display:flex;align-items:center;gap:5px;margin-bottom:5px;">
-                                                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="{{ $paleta['textoSuave'] }}" stroke-width="2" style="flex-shrink:0;">
-                                                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-                                                    <line x1="16" y1="2" x2="16" y2="6" />
-                                                    <line x1="8" y1="2" x2="8" y2="6" />
-                                                    <line x1="3" y1="10" x2="21" y2="10" />
-                                                </svg>
-                                                <span style="font-size:10px;color:{{ $paleta['textoSuave'] }};">{{ $fechaInicio }} — {{ $fechaFin }}</span>
-                                            </div>
-                                            @if(!empty($experiencia->description))
-                                            <p style="margin:0;font-size:11px;color:{{ $paleta['textoSuave'] }};line-height:1.6;">{{ $experiencia->description }}</p>
+                        @if(($cvSettings['show_experience'] ?? true) && isset($workExperiences) && $workExperiences->isNotEmpty())
+                        <div>
+                            <h2 style="margin:0 0 14px;font-size:14px;font-weight:800;color:{{ $paleta['texto'] }};border-bottom:2px solid {{ $paleta['borde'] }};padding-bottom:7px;">Experiencia Laboral</h2>
+                            <div style="display:flex;flex-direction:column;gap:14px;">
+                                @foreach($workExperiences->take(5) as $experiencia)
+                                @php
+                                $fechaInicio = \Carbon\Carbon::parse($experiencia->started_at)->translatedFormat('M Y');
+                                $fechaFin = $experiencia->current
+                                ? 'Presente'
+                                : ($experiencia->ended_at
+                                ? \Carbon\Carbon::parse($experiencia->ended_at)->translatedFormat('M Y')
+                                : 'Presente');
+                                @endphp
+                                <div style="display:flex;gap:12px;align-items:flex-start;{{ !$loop->last ? 'padding-bottom:14px;border-bottom:1px solid '.$paleta['borde'].';' : '' }}">
+                                    <div style="width:38px;height:38px;flex-shrink:0;border-radius:9px;background:{{ $paleta['secundario'] }};border:1px solid rgba(20,184,166,.35);display:flex;align-items:center;justify-content:center;">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="{{ $paleta['primario'] }}" stroke-width="1.8">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                                        </svg>
+                                    </div>
+                                    <div style="flex:1;min-width:0;">
+                                        <div style="display:flex;align-items:center;gap:8px;margin-bottom:2px;flex-wrap:wrap;">
+                                            <h3 style="margin:0;font-size:13px;font-weight:700;color:{{ $paleta['texto'] }};">{{ $experiencia->position }}</h3>
+                                            @if($experiencia->current)
+                                            <span style="font-size:9px;font-weight:600;color:{{ $paleta['primarioOscuro'] }};background:{{ $paleta['secundario'] }};border:1px solid rgba(20,184,166,.35);padding:2px 8px;border-radius:20px;white-space:nowrap;">Actual</span>
                                             @endif
                                         </div>
+                                        <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
+                                            <span style="font-size:12px;font-weight:600;color:{{ $paleta['primario'] }};">{{ $experiencia->company }}</span>
+                                            @if(!empty($experiencia->location))
+                                            <span style="font-size:11px;color:{{ $paleta['textoSuave'] }};">· {{ $experiencia->location }}</span>
+                                            @endif
+                                        </div>
+                                        <div style="display:flex;align-items:center;gap:5px;margin-bottom:5px;">
+                                            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="{{ $paleta['textoSuave'] }}" stroke-width="2" style="flex-shrink:0;">
+                                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                                                <line x1="16" y1="2" x2="16" y2="6" />
+                                                <line x1="8" y1="2" x2="8" y2="6" />
+                                                <line x1="3" y1="10" x2="21" y2="10" />
+                                            </svg>
+                                            <span style="font-size:10px;color:{{ $paleta['textoSuave'] }};">{{ $fechaInicio }} — {{ $fechaFin }}</span>
+                                        </div>
+                                        @if(!empty($experiencia->description))
+                                        <p style="margin:0;font-size:11px;color:{{ $paleta['textoSuave'] }};line-height:1.6;">{{ $experiencia->description }}</p>
+                                        @endif
                                     </div>
-                                    @endforeach
                                 </div>
+                                @endforeach
                             </div>
-                            @endif
-                            @break
+                        </div>
+                        @endif
+                        @break
 
                         @case('education')
-                            @if(($cvSettings['show_education'] ?? true) && isset($educations) && $educations->isNotEmpty())
-                            <div>
-                                <h2 style="margin:0 0 14px;font-size:14px;font-weight:800;color:{{ $paleta['texto'] }};border-bottom:2px solid {{ $paleta['borde'] }};padding-bottom:7px;">Educación</h2>
-                                <div style="display:flex;flex-direction:column;gap:14px;">
-                                    @foreach($educations->take(5) as $educacion)
-                                    <div style="display:flex;gap:12px;align-items:flex-start;{{ !$loop->last ? 'padding-bottom:14px;border-bottom:1px solid '.$paleta['borde'].';' : '' }}">
-                                        <div style="width:38px;height:38px;flex-shrink:0;border-radius:9px;background:{{ $paleta['secundario'] }};border:1px solid rgba(20,184,166,.35);display:flex;align-items:center;justify-content:center;">
-                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="{{ $paleta['primario'] }}" stroke-width="1.8">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 14l9-5-9-5-9 5 9 5z" />
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 14l6.16-3.422A12.083 12.083 0 0121 13.5c0 3.314-4.03 6-9 6s-9-2.686-9-6c0-.538.09-1.06.254-1.558L12 14z" />
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 14v7" />
-                                            </svg>
+                        @if(($cvSettings['show_education'] ?? true) && isset($educations) && $educations->isNotEmpty())
+                        <div>
+                            <h2 style="margin:0 0 14px;font-size:14px;font-weight:800;color:{{ $paleta['texto'] }};border-bottom:2px solid {{ $paleta['borde'] }};padding-bottom:7px;">Educación</h2>
+                            <div style="display:flex;flex-direction:column;gap:14px;">
+                                @foreach($educations->take(5) as $educacion)
+                                <div style="display:flex;gap:12px;align-items:flex-start;{{ !$loop->last ? 'padding-bottom:14px;border-bottom:1px solid '.$paleta['borde'].';' : '' }}">
+                                    <div style="width:38px;height:38px;flex-shrink:0;border-radius:9px;background:{{ $paleta['secundario'] }};border:1px solid rgba(20,184,166,.35);display:flex;align-items:center;justify-content:center;">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="{{ $paleta['primario'] }}" stroke-width="1.8">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 14l9-5-9-5-9 5 9 5z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 14l6.16-3.422A12.083 12.083 0 0121 13.5c0 3.314-4.03 6-9 6s-9-2.686-9-6c0-.538.09-1.06.254-1.558L12 14z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 14v7" />
+                                        </svg>
+                                    </div>
+                                    <div style="flex:1;min-width:0;">
+                                        <div style="display:flex;align-items:center;gap:8px;margin-bottom:2px;flex-wrap:wrap;">
+                                            <h3 style="margin:0;font-size:13px;font-weight:700;color:{{ $paleta['texto'] }};">{{ $educacion->degree }}</h3>
+                                            @if($educacion->current)
+                                            <span style="font-size:9px;font-weight:600;color:{{ $paleta['primarioOscuro'] }};background:{{ $paleta['secundario'] }};border:1px solid rgba(20,184,166,.35);padding:2px 8px;border-radius:20px;white-space:nowrap;">En curso</span>
+                                            @endif
                                         </div>
-                                        <div style="flex:1;min-width:0;">
-                                            <div style="display:flex;align-items:center;gap:8px;margin-bottom:2px;flex-wrap:wrap;">
-                                                <h3 style="margin:0;font-size:13px;font-weight:700;color:{{ $paleta['texto'] }};">{{ $educacion->degree }}</h3>
+                                        <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;flex-wrap:wrap;">
+                                            <span style="font-size:12px;font-weight:600;color:{{ $paleta['primario'] }};">{{ $educacion->institution }}</span>
+                                            @if(!empty($educacion->field))
+                                            <span style="font-size:11px;color:{{ $paleta['textoSuave'] }};">· {{ $educacion->field }}</span>
+                                            @endif
+                                        </div>
+                                        <div style="display:flex;align-items:center;gap:5px;">
+                                            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="{{ $paleta['textoSuave'] }}" stroke-width="2" style="flex-shrink:0;">
+                                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                                                <line x1="16" y1="2" x2="16" y2="6" />
+                                                <line x1="8" y1="2" x2="8" y2="6" />
+                                                <line x1="3" y1="10" x2="21" y2="10" />
+                                            </svg>
+                                            <span style="font-size:10px;color:{{ $paleta['textoSuave'] }};">
                                                 @if($educacion->current)
-                                                <span style="font-size:9px;font-weight:600;color:{{ $paleta['primarioOscuro'] }};background:{{ $paleta['secundario'] }};border:1px solid rgba(20,184,166,.35);padding:2px 8px;border-radius:20px;white-space:nowrap;">En curso</span>
+                                                En curso
+                                                @elseif(!empty($educacion->graduated_year))
+                                                Graduado en {{ $educacion->graduated_year }}
+                                                @else
+                                                Año no especificado
                                                 @endif
-                                            </div>
-                                            <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;flex-wrap:wrap;">
-                                                <span style="font-size:12px;font-weight:600;color:{{ $paleta['primario'] }};">{{ $educacion->institution }}</span>
-                                                @if(!empty($educacion->field))
-                                                <span style="font-size:11px;color:{{ $paleta['textoSuave'] }};">· {{ $educacion->field }}</span>
-                                                @endif
-                                            </div>
-                                            <div style="display:flex;align-items:center;gap:5px;">
-                                                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="{{ $paleta['textoSuave'] }}" stroke-width="2" style="flex-shrink:0;">
-                                                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-                                                    <line x1="16" y1="2" x2="16" y2="6" />
-                                                    <line x1="8" y1="2" x2="8" y2="6" />
-                                                    <line x1="3" y1="10" x2="21" y2="10" />
-                                                </svg>
-                                                <span style="font-size:10px;color:{{ $paleta['textoSuave'] }};">
-                                                    @if($educacion->current)
-                                                    En curso
-                                                    @elseif(!empty($educacion->graduated_year))
-                                                    Graduado en {{ $educacion->graduated_year }}
-                                                    @else
-                                                    Año no especificado
-                                                    @endif
-                                                </span>
-                                            </div>
+                                            </span>
                                         </div>
                                     </div>
-                                    @endforeach
                                 </div>
+                                @endforeach
                             </div>
-                            @endif
-                            @break
+                        </div>
+                        @endif
+                        @break
 
                         @case('projects')
-                            @if(($cvSettings['show_projects'] ?? true) && $projects->isNotEmpty())
-                            <div>
-                                <h2 style="margin:0 0 12px;font-size:14px;font-weight:800;color:{{ $paleta['texto'] }};border-bottom:2px solid {{ $paleta['borde'] }};padding-bottom:7px;">Proyectos</h2>
-                                <div style="display:flex;flex-direction:column;gap:13px;">
-                                    @foreach($projects->take(3) as $proyecto)
-                                    <div style="display:flex;gap:12px;align-items:flex-start;">
-                                        <div style="width:44px;height:44px;flex-shrink:0;border-radius:10px;background:linear-gradient(135deg,{{ $paleta['primarioOscuro'] }},{{ $paleta['primario'] }});display:flex;align-items:center;justify-content:center;">
-                                            <span style="font-size:17px;font-weight:800;color:#ffffff;line-height:1;">{{ strtoupper(substr((string)$proyecto->title, 0, 1)) }}</span>
-                                        </div>
-                                        <div style="flex:1;min-width:0;">
-                                            <div style="display:flex;align-items:center;gap:8px;margin-bottom:3px;">
-                                                <h3 style="margin:0;font-size:13px;font-weight:700;color:{{ $paleta['texto'] }};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ $proyecto->title }}</h3>
-                                                <span style="flex-shrink:0;font-size:9px;font-weight:600;color:{{ $paleta['primarioOscuro'] }};background:{{ $paleta['secundario'] }};border:1px solid rgba(20,184,166,.35);padding:2px 8px;border-radius:20px;white-space:nowrap;">DÍA {{ $proyecto->days_active }}</span>
-                                            </div>
-                                            @if(!empty($proyecto->content))
-                                            <p style="margin:0 0 5px;font-size:11px;color:{{ $paleta['textoSuave'] }};line-height:1.5;">{{ $proyecto->content }}</p>
-                                            @endif
-                                            @if($proyecto->technologies->isNotEmpty())
-                                            <div style="display:flex;flex-wrap:wrap;gap:2px;">
-                                                @foreach($proyecto->technologies as $techProyecto)
-                                                <span style="font-size:10px;color:{{ $paleta['textoSuave'] }};">{{ $techProyecto->name }}{{ !$loop->last ? ' ·' : '' }}</span>
-                                                @endforeach
-                                            </div>
-                                            @endif
-                                        </div>
+                        @if(($cvSettings['show_projects'] ?? true) && $projects->isNotEmpty())
+                        <div>
+                            <h2 style="margin:0 0 12px;font-size:14px;font-weight:800;color:{{ $paleta['texto'] }};border-bottom:2px solid {{ $paleta['borde'] }};padding-bottom:7px;">Proyectos</h2>
+                            <div style="display:flex;flex-direction:column;gap:13px;">
+                                @foreach($projects->take(3) as $proyecto)
+                                <div style="display:flex;gap:12px;align-items:flex-start;">
+                                    <div style="width:44px;height:44px;flex-shrink:0;border-radius:10px;background:linear-gradient(135deg,{{ $paleta['primarioOscuro'] }},{{ $paleta['primario'] }});display:flex;align-items:center;justify-content:center;">
+                                        <span style="font-size:17px;font-weight:800;color:#ffffff;line-height:1;">{{ strtoupper(substr((string)$proyecto->title, 0, 1)) }}</span>
                                     </div>
-                                    @endforeach
+                                    <div style="flex:1;min-width:0;">
+                                        <div style="display:flex;align-items:center;gap:8px;margin-bottom:3px;">
+                                            <h3 style="margin:0;font-size:13px;font-weight:700;color:{{ $paleta['texto'] }};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ $proyecto->title }}</h3>
+                                            <span style="flex-shrink:0;font-size:9px;font-weight:600;color:{{ $paleta['primarioOscuro'] }};background:{{ $paleta['secundario'] }};border:1px solid rgba(20,184,166,.35);padding:2px 8px;border-radius:20px;white-space:nowrap;">DÍA {{ $proyecto->days_active }}</span>
+                                        </div>
+                                        @if(!empty($proyecto->content))
+                                        <p style="margin:0 0 5px;font-size:11px;color:{{ $paleta['textoSuave'] }};line-height:1.5;">{{ $proyecto->content }}</p>
+                                        @endif
+                                        @if($proyecto->technologies->isNotEmpty())
+                                        <div style="display:flex;flex-wrap:wrap;gap:2px;">
+                                            @foreach($proyecto->technologies as $techProyecto)
+                                            <span style="font-size:10px;color:{{ $paleta['textoSuave'] }};">{{ $techProyecto->name }}{{ !$loop->last ? ' ·' : '' }}</span>
+                                            @endforeach
+                                        </div>
+                                        @endif
+                                    </div>
                                 </div>
+                                @endforeach
                             </div>
-                            @endif
-                            @break
+                        </div>
+                        @endif
+                        @break
                         @endswitch
                         @endforeach
 

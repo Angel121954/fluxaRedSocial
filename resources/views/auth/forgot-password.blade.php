@@ -96,9 +96,9 @@
                     <p class="resend-text">
                         ¿No llegó?
                         <a href="#"
-                           id="resend-link"
-                           data-route="{{ route('password.email') }}"
-                           data-csrf="{{ csrf_token() }}">Reenviar correo</a>
+                            id="resend-link"
+                            data-route="{{ route('password.email') }}"
+                            data-csrf="{{ csrf_token() }}">Reenviar correo</a>
                     </p>
                 </div>
 
