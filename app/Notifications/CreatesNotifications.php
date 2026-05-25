@@ -196,4 +196,18 @@ trait CreatesNotifications
             referenceType: 'diary'
         );
     }
+
+    public static function notifySuggestionApproved(int $recipientId, int $adminId, string $adminName, int $suggestionId): Notification
+    {
+        return self::createNotification(
+            userId: $recipientId,
+            type: Notification::TYPE_SUGGESTION,
+            title: 'Sugerencia aprobada',
+            body: 'Fluxa aprobó tu sugerencia. ¡Pronto la implementaremos!',
+            link: route('suggestions.create'),
+            fromUserId: $adminId,
+            referenceId: $suggestionId,
+            referenceType: 'suggestion'
+        );
+    }
 }

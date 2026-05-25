@@ -5,11 +5,14 @@ namespace App\Http\Controllers\Suggestions;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreSuggestionRequest;
 use App\Models\Suggestion;
+use App\Notifications\CreatesNotifications;
 use App\Services\CloudinaryService;
 use Illuminate\View\View;
 
 class SuggestionController extends Controller
 {
+    use CreatesNotifications;
+
     protected CloudinaryService $cloudinaryService;
 
     public function __construct(CloudinaryService $cloudinaryService)
@@ -100,6 +103,13 @@ class SuggestionController extends Controller
     public function approve(Suggestion $suggestion)
     {
         $suggestion->update(['status' => 'approved']);
+
+        $this->notifySuggestionApproved(
+            recipientId: $suggestion->user_id,
+            adminId: auth()->id(),
+            adminName: auth()->user()->name,
+            suggestionId: $suggestion->id,
+        );
 
         return redirect()->route('admin.suggestions.index')->with('success', 'Sugerencia aprobada');
     }
