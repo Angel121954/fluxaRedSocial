@@ -107,7 +107,6 @@ class SuggestionController extends Controller
         $this->notifySuggestionApproved(
             recipientId: $suggestion->user_id,
             adminId: auth()->id(),
-            adminName: auth()->user()->name,
             suggestionId: $suggestion->id,
         );
 

@@ -197,7 +197,7 @@ trait CreatesNotifications
         );
     }
 
-    public static function notifySuggestionApproved(int $recipientId, int $adminId, string $adminName, int $suggestionId): Notification
+    public static function notifySuggestionApproved(int $recipientId, int $adminId, int $suggestionId): Notification
     {
         return self::createNotification(
             userId: $recipientId,
@@ -205,7 +205,7 @@ trait CreatesNotifications
             title: 'Sugerencia aprobada',
             body: 'Fluxa aprobó tu sugerencia. ¡Pronto la implementaremos!',
             link: route('suggestions.create'),
-            fromUserId: $adminId,
+            fromUserId: null,
             referenceId: $suggestionId,
             referenceType: 'suggestion'
         );
