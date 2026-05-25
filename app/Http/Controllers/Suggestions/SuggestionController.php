@@ -113,10 +113,4 @@ class SuggestionController extends Controller
         return redirect()->route('admin.suggestions.index')->with('success', 'Sugerencia aprobada');
     }
 
-    public function markRead(Suggestion $suggestion)
-    {
-        $suggestion->update(['status' => 'reviewing']);
-
-        return redirect()->route('admin.suggestions.index')->with('success', 'Sugerencia marcada como leída');
-    }
 }

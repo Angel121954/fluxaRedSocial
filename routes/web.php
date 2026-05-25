@@ -400,10 +400,6 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
             ->name('admin.suggestions.approve')
             ->middleware('admin');
 
-        Route::patch('admin/suggestions/{suggestion}/markRead', [SuggestionController::class, 'markRead'])
-            ->name('admin.suggestions.markRead')
-            ->middleware('admin');
-
         Route::delete('admin/suggestions/{suggestion}', [SuggestionController::class, 'destroy'])
             ->name('admin.suggestions.destroy')
             ->middleware('admin');
