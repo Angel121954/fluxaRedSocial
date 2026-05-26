@@ -246,7 +246,7 @@ body {
     font-size: 0.9375rem;
     color: var(--ink-500);
     line-height: 1.65;
-    max-width: 500px;
+    max-width: 700px;
 }
 
 .profile-url {
