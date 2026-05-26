@@ -73,6 +73,7 @@ export default defineConfig({
                 // Onboarding
                 "resources/css/onboarding/account-type.css",
                 "resources/css/onboarding/role.css",
+                "resources/css/onboarding/bio.css",
                 "resources/css/onboarding/technologies.css",
                 "resources/css/onboarding/suggestions.css",
 

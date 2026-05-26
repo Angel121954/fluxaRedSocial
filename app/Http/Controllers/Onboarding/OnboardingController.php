@@ -68,6 +68,30 @@ class OnboardingController extends Controller
         }
         $user->update(['role' => $request->role]);
 
+        return redirect()->route('onboarding.bio');
+    }
+
+    public function bio()
+    {
+        return view('onboarding.bio');
+    }
+
+    public function saveBio(Request $request)
+    {
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+        if (! $user) {
+            return redirect()->route('login');
+        }
+
+        $request->validate([
+            'bio' => 'nullable|string|max:400',
+        ]);
+
+        if ($request->filled('bio')) {
+            $user->profile()->update(['bio' => strip_tags($request->bio)]);
+        }
+
         return redirect()->route('onboarding.suggestions');
     }
 

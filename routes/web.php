@@ -89,6 +89,12 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
     Route::post('/onboarding/role', [OnboardingController::class, 'saveRole'])
         ->name('onboarding.saveRole');
 
+    Route::get('/onboarding/bio', [OnboardingController::class, 'bio'])
+        ->name('onboarding.bio');
+
+    Route::post('/onboarding/bio', [OnboardingController::class, 'saveBio'])
+        ->name('onboarding.saveBio');
+
     Route::get('/onboarding/suggestions', [OnboardingController::class, 'suggestions'])
         ->name('onboarding.suggestions');
 

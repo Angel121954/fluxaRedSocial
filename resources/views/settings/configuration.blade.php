@@ -28,9 +28,9 @@
 
             <x-form-group name="bio" label="Biografía" hint="Cuéntanos sobre ti en pocas palabras">
                 <textarea name="bio" class="form-input" id="input-bio"
-                    maxlength="160"
+                    maxlength="400"
                     placeholder="Full stack developer...">{{ Auth()->user()?->profile?->bio ?? '' }}</textarea>
-                <div class="char-count" id="charCount">0/160</div>
+                <div class="char-count" id="charCount">0/400</div>
             </x-form-group>
 
             <x-form-group name="website_url" label="Sitio web">

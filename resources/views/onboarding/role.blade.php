@@ -12,12 +12,13 @@
 
         <div class="progress-bar">
             <span class="done"></span>
+            <span class="done"></span>
             <span class="active"></span>
             <span></span>
         </div>
 
         <h1>¿Cuál es tu rol?</h1>
-        <p class="subtitle">Paso 2 de 3 · Personalizaremos tu feed según tu especialidad</p>
+        <p class="subtitle">Paso 2 de 4 · Personalizaremos tu feed según tu especialidad</p>
 
         <form action="{{ route('onboarding.saveRole') }}" method="POST">
             @csrf
