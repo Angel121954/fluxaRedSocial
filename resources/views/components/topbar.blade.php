@@ -16,32 +16,16 @@
 
             <nav class="nav-links" aria-label="Links principales">
                 @if(Auth::user()->role !== 'guest')
-                <div class="nav-dropdown">
-                    <button class="nav-dropdown-trigger {{ request()->routeIs('feed*') || request()->routeIs('explore*') ? 'active' : '' }}"
-                        id="feedDropdownBtn"
-                        aria-haspopup="true"
-                        aria-expanded="false"
-                        onclick="toggleFeedDropdown(event)">
-                        Descubrir
-                        <svg class="nav-dropdown-chevron" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                        </svg>
-                    </button>
-                    <div class="nav-dropdown-menu" id="feedDropdownMenu" role="menu" aria-labelledby="feedDropdownBtn">
-                        <a href="{{ route('feed.index') }}"
-                            class="nav-dropdown-item {{ request()->routeIs('feed*') ? 'active' : '' }}"
-                            @if(request()->routeIs('feed*')) aria-current="page" @endif
-                            role="menuitem">
-                            Feed
-                        </a>
-                        <a href="{{ route('explore.index') }}"
-                            class="nav-dropdown-item {{ request()->routeIs('explore*') ? 'active' : '' }}"
-                            @if(request()->routeIs('explore*')) aria-current="page" @endif
-                            role="menuitem">
-                            Explorar
-                        </a>
-                    </div>
-                </div>
+                <a href="{{ route('feed.index') }}"
+                    class="nav-link {{ request()->routeIs('feed*') ? 'active' : '' }}"
+                    @if(request()->routeIs('feed*')) aria-current="page" @endif>
+                    Feed
+                </a>
+                <a href="{{ route('explore.index') }}"
+                    class="nav-link {{ request()->routeIs('explore*') ? 'active' : '' }}"
+                    @if(request()->routeIs('explore*')) aria-current="page" @endif>
+                    Explorar
+                </a>
                 <a href="{{ route('diary.index') }}"
                     class="nav-link {{ request()->routeIs('diary*') ? 'active' : '' }}"
                     @if(request()->routeIs('diary*')) aria-current="page" @endif>

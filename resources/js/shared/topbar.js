@@ -135,15 +135,6 @@ document.addEventListener('click', function (e) {
         ddMenu.classList.remove('active');
     }
 
-    // Cerrar dropdown Feed si se clickea fuera
-    const feedBtn = document.getElementById('feedDropdownBtn');
-    const feedMenu = document.getElementById('feedDropdownMenu');
-    if (feedBtn && feedMenu && feedMenu.classList.contains('active') &&
-        !feedBtn.contains(e.target) && !feedMenu.contains(e.target)) {
-        feedBtn.setAttribute('aria-expanded', 'false');
-        feedMenu.classList.remove('active');
-    }
-
     // Cerrar dropdown Ayuda si se clickea fuera
     const helpBtn = document.getElementById('helpDropdownBtn');
     const helpMenu = document.getElementById('helpDropdownMenu');
@@ -173,9 +164,6 @@ function toggleDropdown(e, btnId, menuId) {
     menu.classList.toggle('active', now);
 }
 
-function toggleFeedDropdown(e) {
-    toggleDropdown(e, 'feedDropdownBtn', 'feedDropdownMenu');
-}
 
 function toggleJobsDropdown(e) {
     toggleDropdown(e, 'jobsDropdownBtn', 'jobsDropdownMenu');
@@ -254,6 +242,5 @@ document.addEventListener('keydown', function (e) {
 
 window.toggleMobileMenu = toggleMobileMenu;
 window.closeMobileMenuAndOpen = closeMobileMenuAndOpen;
-window.toggleFeedDropdown = toggleFeedDropdown;
 window.toggleJobsDropdown = toggleJobsDropdown;
 window.toggleHelpDropdown = toggleHelpDropdown;
