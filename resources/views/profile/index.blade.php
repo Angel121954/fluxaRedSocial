@@ -180,10 +180,10 @@
                         <div class="stat">
                             <span class="stat-n">{{ $projectsCount ?? $projects->count() }}</span><span class="stat-l">Proyectos</span>
                         </div>
-                        <div class="stat">
+                        <div class="stat stat-clickable" onclick="openFollowersModal({{ $user->id }}, 'following')" title="Ver usuarios que sigue">
                             <span class="stat-n">{{ $user->follows_count }}</span><span class="stat-l">Siguiendo</span>
                         </div>
-                        <div class="stat">
+                        <div class="stat stat-clickable" onclick="openFollowersModal({{ $user->id }}, 'followers')" title="Ver seguidores">
                             <span class="stat-n">{{ $user->followers_count }}</span><span class="stat-l">Seguidores</span>
                         </div>
                     </div>
@@ -453,6 +453,7 @@
     <input type="file" id="fileIn" accept="image/*" style="display: none" />
     <x-modal-comments />
     <x-modal-report />
+    <x-followers-modal />
 </body>
 @endsection
 
@@ -462,10 +463,12 @@
 @vite('resources/css/profile/profile.css')
 @vite('resources/css/profile/modalImage.css')
 @vite('resources/css/profile/badges.css')
+@vite('resources/css/profile/followersModal.css')
 @endpush
 
 @push('scripts')
 @vite('resources/js/profile/index.js')
 @vite('resources/js/profile/stackModal.js')
 @vite('resources/js/profile/badgesModal.js')
+@vite('resources/js/profile/followersModal.js')
 @endpush

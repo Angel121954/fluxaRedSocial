@@ -466,9 +466,12 @@ body {
     display: flex;
     flex-direction: column;
     gap: 0.125rem;
-    cursor: pointer;
     position: relative;
     transition: none;
+}
+
+.stat-clickable {
+    cursor: pointer;
 }
 
 .stat+.stat {

@@ -1,0 +1,220 @@
+.followers-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(11, 15, 26, 0.45);
+    z-index: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+}
+
+.followers-backdrop.is-open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.followers-modal {
+    background: var(--surface);
+    border-radius: 12px;
+    width: 100%;
+    max-width: 420px;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.12), 0 1px 4px rgba(0,0,0,0.06);
+    transform: translateY(20px) scale(0.97);
+    transition: transform 0.3s cubic-bezier(0.22,1,0.36,1), opacity 0.25s ease;
+    opacity: 0;
+}
+
+.followers-backdrop.is-open .followers-modal {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+}
+
+.followers-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.25rem 1.5rem 1rem;
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+}
+
+.followers-header-text {
+    flex: 1;
+}
+
+.followers-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--ink-900);
+    line-height: 1.4;
+}
+
+.followers-subtitle {
+    font-size: 0.75rem;
+    color: var(--ink-400);
+    margin-top: 0.125rem;
+}
+
+.followers-close {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    border: none;
+    background: transparent;
+    color: var(--ink-400);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background 0.15s, color 0.15s;
+}
+
+.followers-close:hover {
+    background: var(--bg);
+    color: var(--ink-700);
+}
+
+.followers-close svg {
+    width: 18px;
+    height: 18px;
+}
+
+.followers-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0.5rem 0;
+    scrollbar-width: thin;
+    scrollbar-color: var(--ink-100) transparent;
+}
+
+.followers-body::-webkit-scrollbar {
+    width: 3px;
+}
+
+.followers-body::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.followers-body::-webkit-scrollbar-thumb {
+    background: var(--ink-100);
+    border-radius: 99px;
+}
+
+.followers-loading {
+    padding: 1rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.followers-skeleton {
+    height: 52px;
+    border-radius: 8px;
+    background: var(--bg);
+    animation: followers-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes followers-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.followers-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.followers-user {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 1.5rem;
+    text-decoration: none;
+    transition: background 0.15s;
+}
+
+.followers-user:hover {
+    background: var(--bg);
+}
+
+.followers-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--ink-100);
+    border: 1px solid var(--border);
+}
+
+.followers-avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.followers-avatar-letter {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--ink-400);
+}
+
+.followers-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.followers-name {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--ink-900);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.followers-handle {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--ink-400);
+    margin-top: 1px;
+}
+
+.followers-empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1.5rem;
+}
+
+.followers-empty p {
+    font-size: 0.875rem;
+    color: var(--ink-400);
+    text-align: center;
+}
+
+@media (max-width: 640px) {
+    .followers-backdrop {
+        padding: 0;
+        align-items: flex-end;
+    }
+
+    .followers-modal {
+        max-width: 100%;
+        max-height: 80vh;
+        border-radius: 12px 12px 0 0;
+    }
+}

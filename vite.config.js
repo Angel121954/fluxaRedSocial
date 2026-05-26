@@ -50,6 +50,7 @@ export default defineConfig({
                 "resources/css/profile/cv.css",
                 "resources/css/profile/modalImage.css",
                 "resources/css/profile/badges.css",
+                "resources/css/profile/followersModal.css",
                 "resources/css/profile/notificationsProfile.css",
 
                 // Settings
@@ -112,6 +113,7 @@ export default defineConfig({
                 "resources/js/profile/shareProfile.js",
                 "resources/js/profile/stackModal.js",
                 "resources/js/profile/badgesModal.js",
+                "resources/js/profile/followersModal.js",
                 "resources/js/profile/tabs.js",
 
                 // Shared JS
