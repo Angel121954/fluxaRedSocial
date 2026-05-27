@@ -10,6 +10,7 @@ export function initDiaryInteractions() {
     _initBookmarks();
     _initMenus();
     _initDelete();
+    _initReport();
 }
 
 // ── Likes (optimistic UI) ─────────────────────────────────────────────
@@ -218,6 +219,19 @@ function _initDelete() {
 
         } catch (err) {
             console.error('Error al eliminar respuesta:', err);
+        }
+    });
+}
+
+// ── Reportar respuesta ────────────────────────────────────────────────
+function _initReport() {
+    document.addEventListener('click', function (e) {
+        var btn = e.target.closest('[data-diary-report]');
+        if (!btn) return;
+
+        var responseId = btn.getAttribute('data-diary-report');
+        if (responseId && typeof window.openDiaryReportModal === 'function') {
+            window.openDiaryReportModal(responseId);
         }
     });
 }

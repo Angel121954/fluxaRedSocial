@@ -805,3 +805,189 @@
         gap: 0.5rem;
     }
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   Diary Report Modal
+   ════════════════════════════════════════════════════════════════════ */
+
+.diary-report-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(11, 15, 26, 0.45);
+    z-index: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+}
+
+.diary-report-backdrop.is-open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.diary-report-modal {
+    background: var(--surface);
+    border-radius: 12px;
+    width: 100%;
+    max-width: 440px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.12), 0 1px 4px rgba(0,0,0,0.06);
+    transform: translateY(20px) scale(0.97);
+    transition: transform 0.3s cubic-bezier(0.22,1,0.36,1), opacity 0.25s ease;
+    opacity: 0;
+}
+
+.diary-report-backdrop.is-open .diary-report-modal {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+}
+
+.diary-report-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.25rem 1.5rem 1rem;
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+}
+
+.diary-report-header-text {
+    flex: 1;
+}
+
+.diary-report-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--ink-900);
+    line-height: 1.4;
+}
+
+.diary-report-subtitle {
+    font-size: 0.75rem;
+    color: var(--ink-400);
+    margin-top: 0.125rem;
+}
+
+.diary-report-close {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    border: none;
+    background: transparent;
+    color: var(--ink-400);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background 0.15s, color 0.15s;
+}
+
+.diary-report-close:hover {
+    background: var(--bg);
+    color: var(--ink-700);
+}
+
+.diary-report-close svg {
+    width: 18px;
+    height: 18px;
+}
+
+.diary-report-body {
+    padding: 1rem 1.5rem;
+}
+
+.diary-report-textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    color: var(--ink-900);
+    background: var(--ink-50);
+    outline: none;
+    resize: vertical;
+    min-height: 100px;
+    transition: border-color 0.15s, box-shadow 0.15s, background 0.15s;
+}
+
+.diary-report-textarea::placeholder {
+    color: var(--ink-300);
+}
+
+.diary-report-textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-ring);
+    background: var(--surface);
+}
+
+.diary-report-error {
+    font-size: 0.75rem;
+    color: #ef4444;
+    margin-top: 0.5rem;
+}
+
+.diary-report-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.625rem;
+    padding: 1rem 1.5rem 1.25rem;
+    border-top: 1px solid var(--border);
+    flex-shrink: 0;
+}
+
+.diary-report-btn {
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    transition: background 0.15s, border-color 0.15s, opacity 0.15s;
+}
+
+.diary-report-btn--cancel {
+    background: var(--surface);
+    color: var(--ink-500);
+}
+
+.diary-report-btn--cancel:hover {
+    background: var(--bg);
+}
+
+.diary-report-btn--submit {
+    background: #ef4444;
+    color: #fff;
+    border-color: #ef4444;
+}
+
+.diary-report-btn--submit:hover {
+    background: #dc2626;
+    border-color: #dc2626;
+}
+
+.diary-report-btn--submit:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+@media (max-width: 640px) {
+    .diary-report-backdrop {
+        padding: 0;
+        align-items: flex-end;
+    }
+
+    .diary-report-modal {
+        max-width: 100%;
+        border-radius: 12px 12px 0 0;
+    }
+}

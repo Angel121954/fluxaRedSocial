@@ -6,8 +6,10 @@ namespace App\Http\Controllers\Diary;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreDiaryComment;
+use App\Http\Requests\StoreDiaryReportRequest;
 use App\Http\Requests\StoreDiaryResponse;
 use App\Models\Diary;
+use App\Models\DiaryReport;
 use App\Models\DiaryResponse;
 use App\Models\DiaryResponseBookmark;
 use App\Models\DiaryResponseComment;
@@ -236,6 +238,29 @@ class DiaryController extends Controller
         return response()->json([
             'success' => true,
             'comments_count' => $response->loadCount('comments')->comments_count,
+        ]);
+    }
+
+    public function report(StoreDiaryReportRequest $request, DiaryResponse $response): JsonResponse
+    {
+        $repeated = DiaryReport::where('user_id', Auth::id())
+            ->where('diary_response_id', $response->id)
+            ->exists();
+
+        if ($repeated) {
+            return response()->json([
+                'message' => 'Ya reportaste esta respuesta. Lo estaremos revisando.',
+            ]);
+        }
+
+        DiaryReport::create([
+            'user_id' => Auth::id(),
+            'diary_response_id' => $response->id,
+            'reason' => $request->reason,
+        ]);
+
+        return response()->json([
+            'message' => 'Reporte enviado. Gracias por ayudar a mantener la comunidad segura.',
         ]);
     }
 

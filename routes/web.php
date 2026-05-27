@@ -203,6 +203,9 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
     Route::delete('/diary/comments/{comment}', [DiaryController::class, 'commentDestroy'])
         ->name('diary.response.comment.destroy');
 
+    Route::post('/diary/{response}/report', [DiaryController::class, 'report'])
+        ->name('diary.response.report');
+
     Route::delete('/diary/{response}', [DiaryController::class, 'destroy'])
         ->name('diary.response.destroy');
 
