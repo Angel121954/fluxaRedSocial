@@ -161,10 +161,10 @@
       </p>
 
       <ul class="about-list">
-        <li>✔ Perfiles verificados</li>
-        <li>✔ Normas claras de comunidad</li>
-        <li>✔ Protección de datos</li>
-        <li>✔ Moderación responsable</li>
+        <li>- Perfiles verificados</li>
+        <li>- Normas claras de comunidad</li>
+        <li>- Protección de datos</li>
+        <li>- Moderación responsable</li>
       </ul>
 
       <a href="{{ route('about-fluxa') }}" class="about-link"> Conocer más → </a>

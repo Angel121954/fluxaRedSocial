@@ -114,14 +114,7 @@
     border-radius: var(--r-lg);
     text-decoration: none;
     color: inherit;
-    transition: all 0.15s ease;
     position: relative;
-}
-
-.notif-card:hover {
-    border-color: var(--border-strong);
-    box-shadow: var(--shadow-sm);
-    transform: translateY(-1px);
 }
 
 .notif-card.unread {
