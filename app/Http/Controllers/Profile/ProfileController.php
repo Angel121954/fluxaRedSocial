@@ -30,6 +30,7 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
         $user->loadCount(['followers', 'follows']);
+        $user->load('profile');
         $profile = $user->profile;
         $isOwner = true;
 
@@ -42,17 +43,9 @@ class ProfileController extends Controller
                 'bookmarks' => fn ($q) => $q->where('user_id', $user->id),
                 'skillEndorsements',
             ])
-            ->withCount(['media', 'likes'])
+            ->withCount(['media', 'likes', 'comments'])
             ->latest()
             ->get();
-
-        $projects->each(function ($project) use ($user) {
-            $project->precomputed_is_liked = $project->likes->isNotEmpty();
-            $project->precomputed_is_bookmarked = $project->bookmarks->isNotEmpty();
-            $project->precomputed_user_endorsement = $project->skillEndorsements
-                ->where('user_id', $user->id)
-                ->first()?->skill_type;
-        });
 
         $technologies = $user->technologies()->orderBy('name')->get();
         $allTechnologies = Technology::orderBy('name')->get();
@@ -61,9 +54,24 @@ class ProfileController extends Controller
         $educations = $user->educations()->orderBy('graduated_year', 'desc')->get();
 
         $favoriteProjects = $user->bookmarkedProjects()
-            ->with(['user', 'media', 'technologies'])
             ->latest()
             ->get();
+
+        $projectsById = $projects->keyBy('id');
+
+        $favoriteProjects->each(function ($project) use ($projectsById) {
+            if ($existing = $projectsById->get($project->id)) {
+                $project->setRelation('user', $existing->user);
+                $project->setRelation('media', $existing->media);
+                $project->setRelation('technologies', $existing->technologies);
+            }
+        });
+
+        $needsLoad = $favoriteProjects->reject(fn ($p) => $projectsById->has($p->id));
+
+        if ($needsLoad->isNotEmpty()) {
+            $needsLoad->load(['user', 'media', 'technologies']);
+        }
 
         $badges = $user->badges()->get();
         $allBadges = Badge::orderBy('order')->get();
@@ -106,18 +114,10 @@ class ProfileController extends Controller
                 'bookmarks' => fn ($q) => $q->where('user_id', auth()->id()),
                 'skillEndorsements',
             ])
-            ->withCount(['media', 'likes'])
+            ->withCount(['media', 'likes', 'comments'])
             ->where('privacy', 'public')
             ->latest()
             ->get();
-
-        $projects->each(function ($project) use ($user) {
-            $project->precomputed_is_liked = $project->likes->isNotEmpty();
-            $project->precomputed_is_bookmarked = $project->bookmarks->isNotEmpty();
-            $project->precomputed_user_endorsement = $project->skillEndorsements
-                ->where('user_id', $user->id)
-                ->first()?->skill_type;
-        });
 
         if (Auth::check()) {
             if (! $isOwner) {
@@ -138,9 +138,24 @@ class ProfileController extends Controller
         $favoriteProjects = collect();
         if ($isOwner || $profile->show_favorites) {
             $favoriteProjects = $user->bookmarkedProjects()
-                ->with(['user', 'media', 'technologies'])
                 ->latest()
                 ->get();
+
+            $projectsById = $projects->keyBy('id');
+
+            $favoriteProjects->each(function ($project) use ($projectsById) {
+                if ($existing = $projectsById->get($project->id)) {
+                    $project->setRelation('user', $existing->user);
+                    $project->setRelation('media', $existing->media);
+                    $project->setRelation('technologies', $existing->technologies);
+                }
+            });
+
+            $needsLoad = $favoriteProjects->reject(fn ($p) => $projectsById->has($p->id));
+
+            if ($needsLoad->isNotEmpty()) {
+                $needsLoad->load(['user', 'media', 'technologies']);
+            }
         }
 
         $badges = $user->badges()->get();
