@@ -42,7 +42,7 @@
                     @php
                     $isActive = isset($activeConversation) && $activeConversation->id === $conv->id;
                     $otherChat = $conv->otherChat;
-                    $lastMsg = $conv->messages->last();
+                    $lastMsg = $conv->latestMessage;
                     @endphp
                     <a href="{{ route('messages.index', ['conv' => $conv->id]) }}" class="msgs-conv-item{{ $isActive ? ' active' : '' }}" role="listitem">
                         <div class="msgs-conv-avatar-wrap">
@@ -62,8 +62,8 @@
                                     @endif
                                     {{ $lastMsg ? Str::limit($lastMsg->body, 40) : '' }}
                                 </span>
-                                @if($conv->unread())
-                                <span class="msgs-unread-badge">{{ $conv->unreadCount() }}</span>
+                                @if($conv->unread_count > 0)
+                                <span class="msgs-unread-badge">{{ $conv->unread_count }}</span>
                                 @endif
                             </div>
                         </div>

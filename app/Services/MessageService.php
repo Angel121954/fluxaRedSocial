@@ -9,6 +9,7 @@ use App\Models\Message;
 use App\Models\Profile;
 use App\Models\User;
 use App\Models\UserBlock;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
@@ -100,7 +101,7 @@ class MessageService
         try {
             broadcast(new NewMessage($message, $conversationId, $recipientId))->toOthers();
         } catch (\Exception $e) {
-            Log::error('Broadcast failed: ' . $e->getMessage());
+            Log::error('Broadcast failed: '.$e->getMessage());
         }
     }
 
@@ -161,37 +162,35 @@ class MessageService
             ->toArray();
     }
 
-    public function getUserConversations(int $userId, ?int $activeConversationId = null): \Illuminate\Support\Collection
+    public function getUserConversations(int $userId, ?int $activeConversationId = null): Collection
     {
-        $conversations = Conversation::with(['userA', 'userB'])
+        $currentUser = User::find($userId);
+
+        $conversations = Conversation::with(['userA', 'userB', 'latestMessage'])
             ->withCount(['messages as unread_count' => function ($q) use ($userId) {
                 $q->where('sender_id', '!=', $userId)
-                  ->whereNull('read_at');
+                    ->whereNull('read_at');
             }])
             ->where(function ($q) use ($userId) {
                 $q->where('user_a_id', $userId)->orWhere('user_b_id', $userId);
             })
-            ->get()
-            ->sortByDesc(function ($c) {
-                $lastMsg = Message::where('conversation_id', $c->id)
-                    ->orderByDesc('created_at')
-                    ->first();
+            ->orderByDesc(Message::select('created_at')
+                ->whereColumn('conversation_id', 'conversations.id')
+                ->latest()
+                ->take(1))
+            ->get();
 
-                return $lastMsg?->created_at;
-            });
-
-        $userIds = $conversations->map(function ($conv) use ($userId) {
-            $other = $conv->otherUser(User::find($userId));
+        $userIds = $conversations->map(function ($conv) use ($currentUser) {
+            $other = $conv->otherUser($currentUser);
 
             return $other?->id;
         })->filter()->unique()->values()->toArray();
-        $userIds[] = $userId;
+        $userIds[] = $currentUser->id;
 
         $profiles = Profile::whereIn('user_id', $userIds)->get()->keyBy('user_id');
         $usersWithProfiles = User::whereIn('id', $userIds)->get()->keyBy('id');
 
-        $conversations->each(function ($conv) use ($userId, $profiles, $usersWithProfiles) {
-            $currentUser = User::find($userId);
+        $conversations->each(function ($conv) use ($currentUser, $profiles, $usersWithProfiles) {
             $otherUser = $conv->otherUser($currentUser);
             if ($otherUser && isset($usersWithProfiles[$otherUser->id])) {
                 $other = $usersWithProfiles[$otherUser->id];
