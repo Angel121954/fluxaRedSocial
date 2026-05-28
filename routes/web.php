@@ -21,6 +21,7 @@ use App\Http\Controllers\Profile\PrivacyController;
 use App\Http\Controllers\Profile\ProfileController;
 use App\Http\Controllers\Profile\SecurityController;
 use App\Http\Controllers\Profile\WorkExperienceController;
+use App\Http\Controllers\Profile\GitHubController;
 use App\Http\Controllers\Projects\ProjectController;
 use App\Http\Controllers\Projects\CommentController;
 use App\Http\Controllers\Projects\CommentLikeController;
@@ -52,6 +53,16 @@ Route::get('/guest-login', [GuestController::class, 'loginAsGuest'])
 Route::post('/guest/destroy', [GuestController::class, 'destroyGuest'])
     ->name('guest.destroy')
     ->middleware('auth');
+
+/*
+|--------------------------------------------------------------------------
+| Conexión GitHub para importar proyectos (antes que /auth/{provider})
+|--------------------------------------------------------------------------
+*/
+Route::middleware('auth')->group(function () {
+    Route::get('/auth/github/connect', [GitHubController::class, 'redirectToGitHub'])
+        ->name('github.connect');
+});
 
 /*
 |--------------------------------------------------------------------------
@@ -295,6 +306,18 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
 
         Route::post('/profile/technologies', [ProfileController::class, 'updateTechnologies'])
             ->name('profile.technologies.update');
+
+        /*
+        |--------------------------------------------------------------------------
+        | GitHub API (protected)
+        |--------------------------------------------------------------------------
+        */
+        Route::get('/api/github/repos', [GitHubController::class, 'listRepos'])
+            ->name('github.repos.list');
+        Route::post('/api/github/repos/import', [GitHubController::class, 'importRepo'])
+            ->name('github.repos.import');
+        Route::post('/api/github/disconnect', [GitHubController::class, 'disconnect'])
+            ->name('github.disconnect');
 
         /*
         |--------------------------------------------------------------------------

@@ -1,0 +1,141 @@
+.github-import-card {
+    max-width: 600px;
+}
+
+.github-import-status {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 32px 16px;
+    color: var(--ink-600);
+}
+
+.github-spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: gh-spin 0.6s linear infinite;
+}
+
+@keyframes gh-spin {
+    to { transform: rotate(360deg); }
+}
+
+.github-import-error {
+    padding: 16px;
+    color: #dc2626;
+    text-align: center;
+}
+
+.github-import-empty,
+.github-import-no-token {
+    padding: 32px 16px;
+    text-align: center;
+    color: var(--ink-500);
+}
+
+.github-import-no-token .btn-primary {
+    display: inline-block;
+    margin-top: 16px;
+    padding: 10px 24px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: var(--r-md);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.github-repo-list {
+    max-height: 420px;
+    overflow-y: auto;
+}
+
+.github-repo-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+}
+
+.github-repo-item:last-child {
+    border-bottom: none;
+}
+
+.github-repo-item:hover {
+    background: var(--bg-subtle);
+    margin: 0 -16px;
+    padding: 12px 16px;
+    border-radius: var(--r-sm);
+}
+
+.github-repo-icon {
+    flex-shrink: 0;
+    color: var(--ink-400);
+}
+
+.github-repo-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.github-repo-name {
+    display: block;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--ink-800);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.github-repo-desc {
+    display: block;
+    font-size: 12px;
+    color: var(--ink-500);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-top: 2px;
+}
+
+.github-repo-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.github-repo-lang {
+    font-size: 11px;
+    color: var(--ink-400);
+    padding: 2px 8px;
+    background: var(--bg-subtle);
+    border-radius: var(--r-xs);
+}
+
+.github-import-btn {
+    padding: 6px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    background: transparent;
+    border-radius: var(--r-sm);
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+}
+
+.github-import-btn:hover {
+    background: var(--accent);
+    color: #fff;
+}
+
+.github-import-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}

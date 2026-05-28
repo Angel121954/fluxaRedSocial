@@ -35,6 +35,9 @@ class User extends Authenticatable
         'banned_at',
         'banned_by',
         'ban_reason',
+        'github_token',
+        'github_refresh_token',
+        'github_token_expires_at',
     ];
 
     protected $hidden = [
@@ -47,6 +50,7 @@ class User extends Authenticatable
         'banned_at' => 'datetime',
         'password' => 'hashed',
         'onboarding_completed' => 'boolean',
+        'github_token_expires_at' => 'datetime',
     ];
 
     public function banner(): BelongsTo

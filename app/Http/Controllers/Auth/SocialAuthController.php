@@ -26,6 +26,32 @@ class SocialAuthController extends Controller
         return Socialite::driver($provider)->redirect();
     }
 
+    protected function handleGithubImport(string $provider)
+    {
+        try {
+            $socialUser = Socialite::driver($provider)->user();
+
+            $user = Auth::user();
+            $user->update([
+                'github_token' => $socialUser->token,
+                'github_refresh_token' => $socialUser->refreshToken,
+                'github_token_expires_at' => $socialUser->expiresIn
+                    ? now()->addSeconds($socialUser->expiresIn)
+                    : null,
+            ]);
+
+            return redirect()->route('profile.index', ['github_import' => '1']);
+        } catch (\Exception $e) {
+            Log::error('Error al conectar GitHub para importar', [
+                'user_id' => Auth::id(),
+                'error' => $e->getMessage(),
+            ]);
+
+            return redirect()->route('profile.index')
+                ->with('error', 'No se pudo conectar con GitHub. Intenta de nuevo.');
+        }
+    }
+
     protected function resolveAvatar(string $provider, $socialUser): string
     {
         $avatar = $socialUser->getAvatar();
@@ -77,6 +103,10 @@ class SocialAuthController extends Controller
     {
         if (!in_array($provider, $this->allowedProviders)) {
             abort(404);
+        }
+
+        if (Auth::check() && $provider === 'github' && session('github_import_redirect')) {
+            return $this->handleGithubImport($provider);
         }
 
         try {
