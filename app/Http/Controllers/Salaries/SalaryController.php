@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Salaries;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreSalaryReportRequest;
 use App\Models\SalaryReport;
 use App\Models\Technology;

@@ -25,7 +25,7 @@ use App\Http\Controllers\Profile\GitHubController;
 use App\Http\Controllers\Projects\ProjectController;
 use App\Http\Controllers\Projects\CommentController;
 use App\Http\Controllers\Projects\CommentLikeController;
-use App\Http\Controllers\SalaryController;
+use App\Http\Controllers\Salaries\SalaryController;
 use App\Http\Controllers\Suggestions\SuggestionController;
 use App\Http\Controllers\Messages\MessageController;
 use App\Http\Controllers\Technology\TechnologyController;
