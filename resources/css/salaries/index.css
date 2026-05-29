@@ -265,10 +265,25 @@
     border-radius: 999px;
 }
 
-.badge-junior { background: rgba(99, 102, 241, 0.1); color: #4f46e5; }
-.badge-mid { background: rgba(245, 158, 11, 0.1); color: #d97706; }
-.badge-senior { background: rgba(18, 179, 182, 0.1); color: var(--accent-dark); }
-.badge-lead { background: rgba(239, 68, 68, 0.1); color: #dc2626; }
+.badge-junior {
+    background: rgba(99, 102, 241, 0.1);
+    color: #4f46e5;
+}
+
+.badge-mid {
+    background: rgba(245, 158, 11, 0.1);
+    color: #d97706;
+}
+
+.badge-senior {
+    background: rgba(18, 179, 182, 0.1);
+    color: var(--accent-dark);
+}
+
+.badge-lead {
+    background: rgba(239, 68, 68, 0.1);
+    color: #dc2626;
+}
 
 .salary-report-amount {
     font-size: 1.125rem;

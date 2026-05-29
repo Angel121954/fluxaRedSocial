@@ -1294,7 +1294,7 @@ body {
     background: var(--accent-dim);
 }
 
-.stack-modal-item input[type="checkbox"]:checked + label {
+.stack-modal-item input[type="checkbox"]:checked+label {
     border-color: var(--accent);
     background: var(--accent-dim);
 }
@@ -1311,7 +1311,7 @@ body {
     transition: all 0.15s;
 }
 
-.stack-modal-item input[type="checkbox"]:checked + label .stack-modal-check {
+.stack-modal-item input[type="checkbox"]:checked+label .stack-modal-check {
     background: var(--accent);
     border-color: var(--accent);
 }
@@ -1323,7 +1323,7 @@ body {
     transition: opacity 0.15s;
 }
 
-.stack-modal-item input[type="checkbox"]:checked + label .stack-modal-check svg {
+.stack-modal-item input[type="checkbox"]:checked+label .stack-modal-check svg {
     opacity: 1;
 }
 
