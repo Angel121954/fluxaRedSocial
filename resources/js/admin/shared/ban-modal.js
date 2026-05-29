@@ -85,6 +85,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     window.closeAllModals = function () {
         window.closeBadgeModal?.();
+        window.closeEarlyBadgeModal?.();
         window.closeBanModal?.();
     };
 });

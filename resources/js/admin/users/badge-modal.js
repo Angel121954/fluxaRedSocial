@@ -1,50 +1,38 @@
 /**
- * admin/users/badge-modal.js — Modal de otorgar insignia Beta Tester
+ * admin/users/badge-modal.js — Modal de otorgar insignias (Beta Tester, Early Adopter, etc.)
+ *
+ * Soporta múltiples modales en la misma página. Cada modal se inicializa
+ * llamando a initBadgeModal({ ... }) con los IDs de sus elementos.
  */
 
-document.addEventListener('DOMContentLoaded', function () {
-    const badgeBackdrop = document.getElementById('badgeModalBackdrop');
-    const badgeSearch = document.getElementById('badgeUserSearch');
-    const badgeList = document.getElementById('badgeUserList');
-    const submitBadge = document.getElementById('submitBadge');
-    const submitBadgeText = document.getElementById('submitBadgeText');
-    const badgeCheckboxes = badgeList?.querySelectorAll('.adm-badge-checkbox:not(:disabled)');
+function initBadgeModal(config) {
+    const backdrop = document.getElementById(config.backdropId);
+    const search = document.getElementById(config.searchId);
+    const list = document.getElementById(config.listId);
+    const submit = document.getElementById(config.submitId);
+    const submitText = document.getElementById(config.submitTextId);
+    const openBtn = document.getElementById(config.openBtnId);
+    const closeBtn = document.getElementById(config.closeBtnId);
+    const cancelBtn = document.getElementById(config.cancelBtnId);
 
-    if (!badgeBackdrop) return;
+    if (!backdrop || !list) return;
 
-    function updateBadgeCount() {
-        if (!badgeCheckboxes || !submitBadge || !submitBadgeText) return;
-        const checked = Array.from(badgeCheckboxes).filter(cb => cb.checked);
+    const checkboxes = list.querySelectorAll('.adm-badge-checkbox:not(:disabled)');
+
+    function updateCount() {
+        if (!submit || !submitText) return;
+        const checked = Array.from(checkboxes).filter(cb => cb.checked);
         const count = checked.length;
-        submitBadge.disabled = count === 0;
-        submitBadgeText.textContent = count > 0
+        submit.disabled = count === 0;
+        submitText.textContent = count > 0
             ? `Otorgar insignia a ${count} usuario${count !== 1 ? 's' : ''}`
             : 'Otorgar insignia';
     }
 
-    badgeCheckboxes?.forEach(cb => cb.addEventListener('change', updateBadgeCount));
+    checkboxes.forEach(cb => cb.addEventListener('change', updateCount));
 
-    document.getElementById('openBadgeModal')?.addEventListener('click', function () {
-        window.closeAllModals?.();
-
-        badgeCheckboxes?.forEach(cb => { cb.checked = false; });
-        updateBadgeCount();
-
-        if (badgeSearch) {
-            badgeSearch.value = '';
-            filterBadgeItems('');
-        }
-        badgeBackdrop?.classList.add('is-open');
-        badgeSearch?.focus();
-    });
-
-    badgeSearch?.addEventListener('input', function () {
-        filterBadgeItems(this.value.toLowerCase().trim());
-    });
-
-    function filterBadgeItems(query) {
-        if (!badgeList) return;
-        Array.from(badgeList.children).forEach(item => {
+    function filterItems(query) {
+        Array.from(list.children).forEach(item => {
             const name = item.dataset.name || '';
             const handle = item.dataset.handle || '';
             const match = !query || name.includes(query) || handle.includes(query);
@@ -52,15 +40,63 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    window.closeBadgeModal = function () {
-        badgeBackdrop?.classList.remove('is-open');
-        if (badgeSearch) badgeSearch.value = '';
-        filterBadgeItems('');
-    };
+    function openModal() {
+        window.closeAllModals?.();
+        checkboxes.forEach(cb => { cb.checked = false; });
+        updateCount();
+        if (search) {
+            search.value = '';
+            filterItems('');
+        }
+        backdrop.classList.add('is-open');
+        search?.focus();
+    }
 
-    document.getElementById('closeBadgeModal')?.addEventListener('click', closeBadgeModal);
-    document.getElementById('cancelBadgeModal')?.addEventListener('click', closeBadgeModal);
-    badgeBackdrop?.addEventListener('click', function (e) {
-        if (e.target === badgeBackdrop) closeBadgeModal();
+    function closeModal() {
+        backdrop.classList.remove('is-open');
+        if (search) search.value = '';
+        filterItems('');
+    }
+
+    // Exponer globalmente para que closeAllModals (ban-modal.js) pueda llamarlo
+    window[config.closeGlobalFn] = closeModal;
+
+    openBtn?.addEventListener('click', openModal);
+    closeBtn?.addEventListener('click', closeModal);
+    cancelBtn?.addEventListener('click', closeModal);
+    backdrop?.addEventListener('click', function (e) {
+        if (e.target === backdrop) closeModal();
+    });
+
+    search?.addEventListener('input', function () {
+        filterItems(this.value.toLowerCase().trim());
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    // Modal Beta Tester
+    initBadgeModal({
+        backdropId: 'badgeModalBackdrop',
+        searchId: 'badgeUserSearch',
+        listId: 'badgeUserList',
+        submitId: 'submitBadge',
+        submitTextId: 'submitBadgeText',
+        openBtnId: 'openBadgeModal',
+        closeBtnId: 'closeBadgeModal',
+        cancelBtnId: 'cancelBadgeModal',
+        closeGlobalFn: 'closeBadgeModal',
+    });
+
+    // Modal Early Adopter
+    initBadgeModal({
+        backdropId: 'earlyBadgeModalBackdrop',
+        searchId: 'earlyBadgeUserSearch',
+        listId: 'earlyBadgeUserList',
+        submitId: 'earlySubmitBadge',
+        submitTextId: 'earlySubmitBadgeText',
+        openBtnId: 'openEarlyBadgeModal',
+        closeBtnId: 'closeEarlyBadgeModal',
+        cancelBtnId: 'cancelEarlyBadgeModal',
+        closeGlobalFn: 'closeEarlyBadgeModal',
     });
 });

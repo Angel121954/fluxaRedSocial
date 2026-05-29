@@ -622,6 +622,12 @@ table.dataTable thead .sorting::after {
     border: 1px solid var(--accent-ring);
 }
 
+.adm-badge-pill--early {
+    background: linear-gradient(135deg, rgba(245, 158, 11, .15), rgba(217, 119, 6, .1));
+    color: #b45309;
+    border: 1px solid rgba(245, 158, 11, .35);
+}
+
 /* ─── Check icons ────────────────────────────────────────────── */
 .adm-check {
     display: inline-flex;

@@ -33,6 +33,19 @@
             Otorgar insignia Beta
         </button>
 
+        {{-- Otorgar insignia Early Adopter --}}
+        <button
+            type="button"
+            class="adm-btn adm-btn--accent"
+            id="openEarlyBadgeModal"
+            aria-haspopup="dialog">
+            <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+            Otorgar insignia Early
+        </button>
+
         {{-- Exportar --}}
         <!-- <button type="button" class="adm-btn adm-btn--secondary" id="exportCsv" title="Exportar como CSV">
             <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -165,6 +178,15 @@
                                         d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
                                 Beta
+                            </span>
+                            @endif
+                            @if($user->hasBadge('early-adopter'))
+                            <span class="adm-badge-pill adm-badge-pill--early" title="Early Adopter">
+                                <svg width="10" height="10" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                                        d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                </svg>
+                                Early
                             </span>
                             @endif
                         </div>
@@ -345,6 +367,7 @@
         {{-- Body --}}
         <form method="POST" action="{{ route('admin.users.grantBadge') }}" id="badgeForm">
             @csrf
+            <input type="hidden" name="badge_slug" value="beta-tester">
             <div class="modal-body">
 
                 {{-- Búsqueda --}}
@@ -478,6 +501,94 @@
         </div>
     </div>
 </div>
+
+{{-- ════════════════════════════════════════════════════════════
+     MODAL — Otorgar insignia Early Adopter
+════════════════════════════════════════════════════════ --}}
+<div class="modal-backdrop" id="earlyBadgeModalBackdrop" role="dialog" aria-modal="true" aria-labelledby="earlyBadgeModalTitle">
+    <div class="modal-card" id="earlyBadgeModal">
+
+        {{-- Header --}}
+        <div class="modal-header">
+            <div class="modal-header-icon modal-header-icon--accent">
+                <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+            </div>
+            <div>
+                <div class="modal-title" id="earlyBadgeModalTitle">Otorgar insignia Early Adopter</div>
+                <div class="modal-subtitle">Selecciona el usuario al que deseas otorgar la insignia.</div>
+            </div>
+            <button type="button" class="modal-close" id="closeEarlyBadgeModal" aria-label="Cerrar modal">
+                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+
+        {{-- Body --}}
+        <form method="POST" action="{{ route('admin.users.grantBadge') }}" id="earlyBadgeForm">
+            @csrf
+            <input type="hidden" name="badge_slug" value="early-adopter">
+            <div class="modal-body">
+
+                {{-- Búsqueda --}}
+                <div class="adm-field">
+                    <label class="adm-label" for="earlyBadgeUserSearch">Buscar usuario</label>
+                    <div class="adm-search-wrap adm-search-wrap--full">
+                        <svg class="adm-search-icon" width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                        <input
+                            type="search"
+                            id="earlyBadgeUserSearch"
+                            class="adm-search"
+                            placeholder="Filtrar por nombre o @usuario..."
+                            autocomplete="off"
+                            aria-label="Buscar usuario para la insignia">
+                    </div>
+                </div>
+
+                {{-- Lista de usuarios con checkbox --}}
+                <div class="adm-badge-list" id="earlyBadgeUserList">
+                    @foreach($users as $user)
+                    <label class="adm-badge-item {{ $user->hasBadge('early-adopter') ? 'adm-badge-item--disabled' : '' }}"
+                        data-name="{{ strtolower($user->name) }}"
+                        data-handle="{{ strtolower($user->username) }}">
+                        <input type="checkbox" name="user_ids[]" value="{{ $user->id }}"
+                            class="adm-badge-checkbox"
+                            {{ $user->hasBadge('early-adopter') ? 'disabled checked' : '' }}>
+                        <img src="{{ $user->avatar_url }}" alt="" class="adm-badge-avatar" loading="lazy">
+                        <div class="adm-badge-user">
+                            <span class="adm-badge-username">{{ $user->name }}</span>
+                            <span class="adm-badge-userhandle">{{ '@' . $user->username }}</span>
+                        </div>
+                        @if($user->hasBadge('early-adopter'))
+                        <span class="adm-badge-pill adm-badge-pill--early">Ya tiene</span>
+                        @endif
+                    </label>
+                    @endforeach
+                </div>
+                <p class="adm-field-hint">Los usuarios que ya tienen la insignia aparecen marcados y no pueden seleccionarse.</p>
+
+            </div>
+
+            {{-- Footer --}}
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="cancelEarlyBadgeModal">Cancelar</button>
+                <button type="submit" class="btn btn-primary" id="earlySubmitBadge" disabled>
+                    <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    <span id="earlySubmitBadgeText">Otorgar insignia</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
 
 @endsection
 

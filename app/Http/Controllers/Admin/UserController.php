@@ -72,14 +72,10 @@ class UserController extends Controller
         $request->validate([
             'user_ids' => 'required|array|min:1',
             'user_ids.*' => 'required|exists:users,id',
+            'badge_slug' => 'required|string|exists:badges,slug',
         ]);
 
-        $badge = Badge::where('slug', 'beta-tester')->first();
-
-        if (! $badge) {
-            return redirect()->route('admin.users.index')
-                ->with('error', 'La insignia Beta Tester no existe.');
-        }
+        $badge = Badge::where('slug', $request->badge_slug)->firstOrFail();
 
         $pivotData = collect($request->user_ids)->mapWithKeys(
             fn (string $id) => [$id => ['earned_at' => now()]]
