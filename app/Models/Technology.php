@@ -9,7 +9,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Technology extends Model
 {
-    protected $fillable = ['name', 'slug', 'icon'];
+    protected $fillable = ['name', 'slug', 'icon', 'category', 'website_url'];
+
+    protected $casts = [
+        'category' => 'string',
+    ];
 
     private const ICON_OVERIDES = [
         'express' => 'devicon-express-original',

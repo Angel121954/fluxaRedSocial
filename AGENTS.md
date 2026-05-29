@@ -266,7 +266,7 @@ routes/
 | Conversation | belongsToMany Users, hasMany Messages |
 | Message | belongsTo Conversation, User |
 | Comment | belongsTo Project, User; hasMany CommentLikes |
-| Technology | belongsToMany Projects, Users (onboarding) |
+| Technology | `category` (`language`, `framework`, `library`, `database`, `tool`, `platform`). belongsToMany Projects, Users (onboarding) |
 | SkillEndorsement | belongsTo User (endorser), Project |
 
 ### Grupos de middleware (web.php)

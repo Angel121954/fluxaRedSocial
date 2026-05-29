@@ -31,26 +31,45 @@
 
         <form action="{{ route('onboarding.saveTechnologies') }}" method="POST">
             @csrf
-            <div class="tech-grid" id="techGrid">
-                @forelse($technologies as $tech)
-                <div class="tech-item {{ in_array($tech->slug, $featuredSlugs) ? 'featured' : 'hidden' }}" data-name="{{ strtolower($tech->name) }}">
-                    <input type="checkbox" name="technologies[]" value="{{ $tech->id }}" id="tech_{{ $tech->id }}">
-                    <label for="tech_{{ $tech->id }}">
-                        <div class="check">
-                            <svg viewBox="0 0 10 10" fill="none">
-                                <path d="M2 5l2.5 2.5L8 3" stroke="#fff" stroke-width="1.5" stroke-linecap="round" />
-                            </svg>
+
+            @php
+            $categoryLabels = [
+                'framework' => 'Frameworks',
+                'language' => 'Lenguajes',
+                'library' => 'Librerías',
+                'database' => 'Bases de datos',
+                'tool' => 'Herramientas',
+                'platform' => 'Plataformas',
+            ];
+            $grouped = $technologies->groupBy(fn($t) => $t->category ?? 'other');
+            $categoryOrder = ['framework', 'language', 'library', 'database', 'tool', 'platform', 'other'];
+            $featuredSlugs = ['laravel', 'react', 'vue', 'nextjs', 'typescript', 'python', 'tailwindcss', 'nodejs'];
+            @endphp
+
+            @foreach($categoryOrder as $cat)
+                @php $items = $grouped->get($cat); @endphp
+                @if($items && $items->isNotEmpty())
+                <div class="onboarding-category">
+                    <h3 class="onboarding-category-title">{{ $categoryLabels[$cat] ?? 'Otros' }}</h3>
+                    <div class="tech-grid" data-category="{{ $cat }}">
+                        @foreach($items as $tech)
+                        <div class="tech-item {{ in_array($tech->slug, $featuredSlugs) ? 'featured' : '' }}" data-name="{{ strtolower($tech->name) }}">
+                            <input type="checkbox" name="technologies[]" value="{{ $tech->id }}" id="tech_{{ $tech->id }}">
+                            <label for="tech_{{ $tech->id }}">
+                                <div class="check">
+                                    <svg viewBox="0 0 10 10" fill="none">
+                                        <path d="M2 5l2.5 2.5L8 3" stroke="#fff" stroke-width="1.5" stroke-linecap="round" />
+                                    </svg>
+                                </div>
+                                <i class="{{ $tech->deviconClass() }} colored"></i>
+                                {{ $tech->name }}
+                            </label>
                         </div>
-                        <i class="{{ $tech->deviconClass() }} colored"></i>
-                        {{ $tech->name }}
-                    </label>
+                        @endforeach
+                    </div>
                 </div>
-                @empty
-                <p style="color: var(--muted); font-size: 13px; grid-column: 1/-1; text-align: center;">
-                    No se encontraron tecnologías.
-                </p>
-                @endforelse
-            </div>
+                @endif
+            @endforeach
 
             <button type="submit" class="btn">Continuar →</button>
         </form>

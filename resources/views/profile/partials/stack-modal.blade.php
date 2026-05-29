@@ -21,22 +21,45 @@
                 <input type="text" placeholder="Buscar tecnología..." id="stackModalSearch">
             </div>
 
+            @php
+            $categoryLabels = [
+                'language' => 'Lenguajes',
+                'framework' => 'Frameworks',
+                'library' => 'Librerías',
+                'database' => 'Bases de datos',
+                'tool' => 'Herramientas',
+                'platform' => 'Plataformas',
+            ];
+            $grouped = $allTechnologies->groupBy(fn($t) => $t->category ?? 'other');
+            $categoryOrder = ['language', 'framework', 'library', 'database', 'tool', 'platform', 'other'];
+            @endphp
+
             <div class="stack-modal-grid" id="stackModalGrid">
-                @forelse($allTechnologies as $tech)
-                <div class="stack-modal-item" data-name="{{ strtolower($tech->name) }}">
-                    <input type="checkbox" name="technologies[]" value="{{ $tech->id }}"
-                        id="st_{{ $tech->id }}"
-                        {{ $userTechnologies->contains($tech->id) ? 'checked' : '' }}>
-                    <label for="st_{{ $tech->id }}">
-                        <div class="stack-modal-check">
-                            <svg viewBox="0 0 10 10" fill="none">
-                                <path d="M2 5l2.5 2.5L8 3" stroke="#fff" stroke-width="1.5" stroke-linecap="round" />
-                            </svg>
+                @forelse($categoryOrder as $cat)
+                    @php $items = $grouped->get($cat); @endphp
+                    @if($items && $items->isNotEmpty())
+                    <div class="stack-modal-category" data-category="{{ $cat }}">
+                        <h4 class="stack-modal-category-title">{{ $categoryLabels[$cat] ?? 'Otros' }}</h4>
+                        <div class="stack-modal-category-items">
+                            @foreach($items as $tech)
+                            <div class="stack-modal-item" data-name="{{ strtolower($tech->name) }}">
+                                <input type="checkbox" name="technologies[]" value="{{ $tech->id }}"
+                                    id="st_{{ $tech->id }}"
+                                    {{ $userTechnologies->contains($tech->id) ? 'checked' : '' }}>
+                                <label for="st_{{ $tech->id }}">
+                                    <div class="stack-modal-check">
+                                        <svg viewBox="0 0 10 10" fill="none">
+                                            <path d="M2 5l2.5 2.5L8 3" stroke="#fff" stroke-width="1.5" stroke-linecap="round" />
+                                        </svg>
+                                    </div>
+                                    <i class="{{ $tech->deviconClass() }} colored"></i>
+                                    {{ $tech->name }}
+                                </label>
+                            </div>
+                            @endforeach
                         </div>
-                        <i class="{{ $tech->deviconClass() }} colored"></i>
-                        {{ $tech->name }}
-                    </label>
-                </div>
+                    </div>
+                    @endif
                 @empty
                 <p class="stack-modal-empty">No se encontraron tecnologías.</p>
                 @endforelse

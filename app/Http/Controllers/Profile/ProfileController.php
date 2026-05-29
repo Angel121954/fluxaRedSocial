@@ -47,8 +47,8 @@ class ProfileController extends Controller
             ->latest()
             ->get();
 
-        $technologies = $user->technologies()->orderBy('name')->get();
-        $allTechnologies = Technology::orderBy('name')->get();
+        $technologies = $user->technologies()->orderBy('category')->orderBy('name')->get();
+        $allTechnologies = Technology::orderBy('category')->orderBy('name')->get();
         $userTechnologies = $technologies;
         $workExperiences = $user->workExperiences()->orderBy('started_at', 'desc')->get();
         $educations = $user->educations()->orderBy('graduated_year', 'desc')->get();
@@ -129,8 +129,8 @@ class ProfileController extends Controller
             }
         }
 
-        $technologies = $user->technologies()->orderBy('name')->get();
-        $allTechnologies = Technology::orderBy('name')->get();
+        $technologies = $user->technologies()->orderBy('category')->orderBy('name')->get();
+        $allTechnologies = Technology::orderBy('category')->orderBy('name')->get();
         $userTechnologies = $technologies;
         $workExperiences = $user->workExperiences()->orderBy('started_at', 'desc')->get();
         $educations = $user->educations()->orderBy('graduated_year', 'desc')->get();

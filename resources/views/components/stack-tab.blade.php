@@ -1,47 +1,69 @@
 @props(['technologies', 'isOwner' => false])
 
 @php
-/**
-* Solo se mapean los tipos de iconos que NO usan 'original' en Devicon.
-* El slug viene directamente de $tech->slug en la DB (ya es el slug correcto de Devicon).
-*/
 $deviconTypeOverrides = [
-'amazonwebservices' => 'plain-wordmark',
-'angularjs' => 'plain',
-'django' => 'plain',
-'tailwindcss' => 'original',
-'kubernetes' => 'plain',
-'graphql' => 'plain',
-'firebase' => 'plain',
-'express' => 'original-wordmark',
+    'amazonwebservices' => 'plain-wordmark',
+    'angularjs' => 'plain',
+    'django' => 'plain',
+    'tailwindcss' => 'original',
+    'kubernetes' => 'plain',
+    'graphql' => 'plain',
+    'firebase' => 'plain',
+    'express' => 'original-wordmark',
 ];
+
+$categoryLabels = [
+    'language' => 'Lenguajes',
+    'framework' => 'Frameworks',
+    'library' => 'Librerías',
+    'database' => 'Bases de datos',
+    'tool' => 'Herramientas',
+    'platform' => 'Plataformas',
+];
+
+$grouped = $technologies->groupBy(function ($tech) {
+    return $tech->category ?? 'other';
+});
+
+$categoryOrder = ['language', 'framework', 'library', 'database', 'tool', 'platform', 'other'];
 @endphp
 
-<div class="stack-grid">
-    @forelse($technologies as $tech)
-    @php
-    $iconSlug = (string) $tech->slug;
-    $iconType = $deviconTypeOverrides[$iconSlug] ?? 'original';
-    $iconUrl = "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/{$iconSlug}/{$iconSlug}-{$iconType}.svg";
-    $initials = strtoupper(substr((string) $tech->name, 0, 2));
-    @endphp
-    <a href="{{ $tech->website_url ?? '#' }}"
-        target="{{ $tech->website_url ? '_blank' : '_self' }}"
-        rel="noopener noreferrer"
-        class="stack-card-link">
-        <div class="stack-card">
-            <div class="stack-icon-wrap">
-                <img
-                    src="{{ $iconUrl }}"
-                    alt="{{ $tech->name }}"
-                    class="stack-icon-img"
-                    onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
-                <span class="stack-icon-fallback">{{ $initials }}</span>
-            </div>
-            <span class="stack-name">{{ $tech->name }}</span>
+@foreach($categoryOrder as $cat)
+    @php $items = $grouped->get($cat); @endphp
+    @if($items && $items->isNotEmpty())
+    <div class="stack-category">
+        <h3 class="stack-category-title">{{ $categoryLabels[$cat] ?? 'Otros' }}</h3>
+        <div class="stack-grid">
+            @foreach($items as $tech)
+            @php
+            $iconSlug = (string) $tech->slug;
+            $iconType = $deviconTypeOverrides[$iconSlug] ?? 'original';
+            $iconUrl = "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/{$iconSlug}/{$iconSlug}-{$iconType}.svg";
+            $initials = strtoupper(substr((string) $tech->name, 0, 2));
+            @endphp
+            <a href="{{ $tech->website_url ?? '#' }}"
+                target="{{ $tech->website_url ? '_blank' : '_self' }}"
+                rel="noopener noreferrer"
+                class="stack-card-link">
+                <div class="stack-card">
+                    <div class="stack-icon-wrap">
+                        <img
+                            src="{{ $iconUrl }}"
+                            alt="{{ $tech->name }}"
+                            class="stack-icon-img"
+                            onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+                        <span class="stack-icon-fallback">{{ $initials }}</span>
+                    </div>
+                    <span class="stack-name">{{ $tech->name }}</span>
+                </div>
+            </a>
+            @endforeach
         </div>
-    </a>
-    @empty
+    </div>
+    @endif
+@endforeach
+
+@if($technologies->isEmpty())
     @if($isOwner)
     <div class="stack-empty">
         <p>Sin tecnologías agregadas aún.</p>
@@ -50,8 +72,7 @@ $deviconTypeOverrides = [
     @else
     <p class="stack-empty">Este usuario aún no ha agregado tecnologías.</p>
     @endif
-    @endforelse
-</div>
+@endif
 
 @if($technologies->isNotEmpty() && $isOwner)
 <div class="stack-footer">
