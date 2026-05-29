@@ -244,11 +244,50 @@
 
     {{-- Panel: Progreso --}}
     <div class="content" data-panel="progress">
-        @forelse ($projects as $project)
-        <x-project-card :project="$project" />
+        @php $typeLabels = [
+            'project' => 'Proyecto',
+            'work' => 'Experiencia',
+            'education' => 'Educación',
+            'badge' => 'Insignia',
+        ]; @endphp
+
+        <div class="activity-feed">
+        @forelse ($timeline as $entry)
+        @php $type = $entry['type']; $data = $entry['data']; @endphp
+        <div class="act-card">
+            <div class="act-head">
+                <span class="act-tag">{{ $typeLabels[$type] }}</span>
+                <span class="act-time">{{ $entry['date']->diffForHumans() }}</span>
+            </div>
+
+            @switch($type)
+                @case('project')
+                    <strong class="act-title">{{ $data->title }}</strong>
+                    @if($data->content)
+                    <p class="act-desc">{{ Str::limit($data->content, 120) }}</p>
+                    @endif
+                    @break
+
+                @case('work')
+                    <strong class="act-title">{{ $data->position }}</strong>
+                    <span class="act-sub">{{ $data->company }}</span>
+                    @break
+
+                @case('education')
+                    <strong class="act-title">{{ $data->degree ?: 'Estudios' }}</strong>
+                    <span class="act-sub">{{ $data->institution }}</span>
+                    @break
+
+                @case('badge')
+                    <strong class="act-title">{{ $data->name }}</strong>
+                    <span class="act-sub">{{ $data->description }}</span>
+                    @break
+            @endswitch
+        </div>
         @empty
-        <p class="empty-state">Este usuario aún no tiene proyectos.</p>
+        <p class="empty-state">Este usuario aún no tiene actividad registrada.</p>
         @endforelse
+        </div>
     </div>
 
     {{-- Panel: Proyectos --}}

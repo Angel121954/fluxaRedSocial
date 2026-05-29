@@ -75,6 +75,7 @@ class ProfileController extends Controller
 
         $badges = $user->badges()->get();
         $allBadges = Badge::orderBy('order')->get();
+        $timeline = $this->profileService->getTimeline($projects, $workExperiences, $educations, $badges);
 
         return view('profile.index', compact(
             'user',
@@ -89,6 +90,7 @@ class ProfileController extends Controller
             'favoriteProjects',
             'badges',
             'allBadges',
+            'timeline',
         ));
     }
 
@@ -160,6 +162,7 @@ class ProfileController extends Controller
 
         $badges = $user->badges()->get();
         $allBadges = Badge::orderBy('order')->get();
+        $timeline = $this->profileService->getTimeline($projects, $workExperiences, $educations, $badges);
 
         return view('profile.index', compact(
             'user',
@@ -176,7 +179,8 @@ class ProfileController extends Controller
             'favoriteProjects',
             'badges',
             'allBadges',
-            'conversation'
+            'conversation',
+            'timeline',
         ));
     }
 
