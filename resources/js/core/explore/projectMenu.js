@@ -104,6 +104,32 @@ function handleProjectAction(action, projectId, dropItem, closeMenu) {
             }
             break;
 
+        case 'delete':
+            const card = dropItem.closest('.post-card');
+            const title = card?.querySelector('.project-title')?.textContent?.trim() ?? 'este proyecto';
+            closeMenu?.();
+
+            if (typeof Swal !== 'undefined') {
+                Swal.fire({
+                    title: '¿Eliminar proyecto?',
+                    text: 'Se eliminará "' + title + '" permanentemente.',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#dc2626',
+                    cancelButtonColor: '#6b7280',
+                    confirmButtonText: 'Sí, eliminar',
+                    cancelButtonText: 'Cancelar',
+                }).then(function (result) {
+                    if (!result.isConfirmed) return;
+                    deleteProject(projectId, card);
+                });
+            } else {
+                if (confirm('¿Eliminar "' + title + '" permanentemente?')) {
+                    deleteProject(projectId, card);
+                }
+            }
+            break;
+
         case 'report':
             closeMenu?.();
             const reportForm = document.getElementById('reportForm');
@@ -125,6 +151,39 @@ function handleProjectAction(action, projectId, dropItem, closeMenu) {
             }
             break;
     }
+}
+
+// ── Eliminar proyecto ──────────────────────────────────────────────────────
+function deleteProject(projectId, card) {
+    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content ?? '';
+
+    fetch('/projects/' + projectId, {
+        method: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': csrfToken,
+            'Accept': 'application/json',
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: '_method=DELETE',
+    })
+        .then(function (res) {
+            if (!res.ok) throw new Error();
+            return res.json();
+        })
+        .then(function (data) {
+            showToast(data.message || 'Proyecto eliminado', 'success');
+            card.style.transition = 'opacity 0.3s, transform 0.3s';
+            card.style.opacity = '0';
+            card.style.transform = 'translateX(20px)';
+            setTimeout(function () { card.remove(); }, 300);
+        })
+        .catch(function () {
+            if (typeof Swal !== 'undefined') {
+                Swal.fire('Error', 'No se pudo eliminar el proyecto.', 'error');
+            } else {
+                alert('No se pudo eliminar el proyecto.');
+            }
+        });
 }
 
 // ── Cerrar modales genéricos ──────────────────────────────────────────────

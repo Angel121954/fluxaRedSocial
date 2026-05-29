@@ -114,6 +114,10 @@ class ProjectController extends Controller
 
         $this->projectService->delete($project);
 
+        if (request()->wantsJson()) {
+            return response()->json(['success' => true, 'message' => 'Proyecto eliminado.']);
+        }
+
         return redirect()->route('projects.index')
             ->with('success', 'Proyecto eliminado.');
     }
