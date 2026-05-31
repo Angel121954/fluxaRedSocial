@@ -38,6 +38,10 @@ class Technology extends Model
         'dotnetcore' => 'plain',
         'dotnetmaui' => 'plain',
         'less' => 'plain-wordmark',
+        'objectivec' => 'plain',
+        'jest' => 'plain',
+        'rails' => 'plain',
+        'codeigniter' => 'plain',
     ];
 
     public function deviconClass(): string

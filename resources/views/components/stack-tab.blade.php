@@ -1,17 +1,6 @@
 @props(['technologies', 'isOwner' => false])
 
 @php
-$deviconTypeOverrides = [
-    'amazonwebservices' => 'plain-wordmark',
-    'angularjs' => 'plain',
-    'django' => 'plain',
-    'tailwindcss' => 'original',
-    'kubernetes' => 'plain',
-    'graphql' => 'plain',
-    'firebase' => 'plain',
-    'express' => 'original-wordmark',
-];
-
 $categoryLabels = [
     'language' => 'Lenguajes',
     'framework' => 'Frameworks',
@@ -36,10 +25,8 @@ $categoryOrder = ['language', 'framework', 'library', 'database', 'tool', 'platf
         <div class="stack-grid">
             @foreach($items as $tech)
             @php
-            $iconSlug = (string) $tech->slug;
-            $iconType = $deviconTypeOverrides[$iconSlug] ?? 'original';
-            $iconUrl = "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/{$iconSlug}/{$iconSlug}-{$iconType}.svg";
-            $initials = strtoupper(substr((string) $tech->name, 0, 2));
+            $iconUrl = $tech->iconUrl();
+            $initials = $tech->initials();
             @endphp
             <a href="{{ $tech->website_url ?? '#' }}"
                 target="{{ $tech->website_url ? '_blank' : '_self' }}"
