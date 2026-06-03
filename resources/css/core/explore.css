@@ -1421,13 +1421,11 @@ body {
 
 .btn-load-more:hover {
     background: var(--accent-dark);
-    transform: translateY(-1px);
 }
 
 .btn-load-more:disabled {
     opacity: 0.6;
     cursor: not-allowed;
-    transform: none;
 }
 
 .load-more-status {

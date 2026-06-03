@@ -762,7 +762,6 @@
 .msgs-send-btn:hover {
     background: var(--accent-dark);
     box-shadow: 0 3px 12px rgba(18, 179, 182, 0.32);
-    transform: translateY(-1px);
 }
 
 .msgs-send-btn:active {

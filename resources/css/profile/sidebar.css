@@ -178,7 +178,6 @@
 .btn-avatar-action:hover {
     background: #f4f5f7;
     border-color: #d1d5db;
-    transform: translateY(-1px);
 }
 
 .btn-avatar-action.danger {

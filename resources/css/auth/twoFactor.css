@@ -209,13 +209,11 @@ body {
 .btn-primary:hover:not(:disabled) {
     background: var(--accent-dark);
     box-shadow: 0 4px 12px rgba(18, 179, 182, 0.3);
-    transform: translateY(-1px);
 }
 
 .btn-primary:disabled {
     opacity: 0.5;
     cursor: not-allowed;
-    transform: none;
 }
 
 .btn-primary.loading .btn-text {
