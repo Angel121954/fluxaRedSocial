@@ -27,7 +27,7 @@
     <title>@yield('title', 'Fluxa')</title>
     <link rel="icon" type="image/png" href="{{ asset('img/logo.png') }}">
     <link rel="preconnect" href="https://fonts.bunny.net">
-    @vite(['resources/css/app.css', 'resources/css/variables.css', 'resources/css/profile/shared.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/css/variables.css', 'resources/css/shared/bottom-nav.css', 'resources/css/profile/shared.css', 'resources/js/app.js'])
     @auth
     @vite('resources/js/shared/index.js')
     @endauth
@@ -40,6 +40,12 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <x-toast />
+
+    @auth
+    <x-bottom-nav
+        :unread-notifications="$unreadNotifications ?? 0"
+        :unread-messages="$unreadMessages ?? 0" />
+    @endauth
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {

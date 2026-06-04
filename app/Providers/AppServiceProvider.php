@@ -32,6 +32,7 @@ class AppServiceProvider extends ServiceProvider
 
         View::composer('components.cv-template', CvTemplateComposer::class);
         View::composer('components.topbar', TopbarComposer::class);
+        View::composer('components.bottom-nav', TopbarComposer::class);
 
         View::composer([
             'profile.index',

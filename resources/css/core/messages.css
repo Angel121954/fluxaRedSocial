@@ -1083,7 +1083,7 @@
     }
 
     .msgs-layout {
-        height: calc(100vh - 130px);
+        height: calc(100vh - 190px);
         border-radius: var(--r-lg);
         position: relative;
         overflow: hidden;

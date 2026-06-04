@@ -1,0 +1,95 @@
+/* ─────────────────────────────────────────────────
+   bottom-nav.css  —  Navegación inferior móvil
+   Depende de: variables.css
+   Solo visible en ≤ 768px (misma regla que topbar)
+───────────────────────────────────────────────── */
+
+.bottom-nav {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 190;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding: 0.375rem 0.5rem calc(0.375rem + env(safe-area-inset-bottom, 0px));
+    backdrop-filter: blur(16px) saturate(200%);
+    -webkit-backdrop-filter: blur(16px) saturate(200%);
+    justify-content: space-around;
+    align-items: flex-start;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.bottom-nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: 0.375rem 0.625rem;
+    text-decoration: none;
+    color: var(--ink-400);
+    border-radius: var(--r-md);
+    transition: color 0.15s;
+    position: relative;
+    min-width: 48px;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.bottom-nav-item:hover {
+    color: var(--ink-600);
+}
+
+.bottom-nav-item.active {
+    color: var(--accent);
+}
+
+.bottom-nav-label {
+    font-size: 0.625rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+}
+
+.bottom-nav-item svg {
+    display: block;
+    flex-shrink: 0;
+}
+
+/* ── Badge de notificaciones no leídas ──────── */
+
+.bottom-nav-badge {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 16px;
+    height: 16px;
+    padding: 0 4px;
+    background: var(--accent);
+    color: white;
+    font-size: 0.5625rem;
+    font-weight: 700;
+    line-height: 1;
+    border-radius: 8px;
+    pointer-events: none;
+    border: 1.5px solid var(--surface);
+}
+
+/* ══════════════════════════════════════════════
+   RESPONSIVE — MÓVIL (≤ 768px)
+   Misma regla que el menú móvil de topbar.css
+══════════════════════════════════════════════ */
+
+@media (max-width: 768px) {
+    .bottom-nav {
+        display: flex;
+    }
+
+    body {
+        padding-bottom: 60px;
+    }
+}

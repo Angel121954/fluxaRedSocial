@@ -35,6 +35,7 @@ export default defineConfig({
 
                 // Shared
                 "resources/css/shared/topbar.css",
+                "resources/css/shared/bottom-nav.css",
                 "resources/css/shared/modal.css",
 
                 // Core
