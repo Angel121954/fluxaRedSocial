@@ -14,6 +14,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('cloudinary:clean-orphans')->weeklyOn(0, '03:00');
         $schedule->command('notifications:weekly-summary')->weeklyOn(0, '08:00');
         $schedule->command('diary:clean')->everyMinute();
+        $schedule->command('notifications:prune')->monthly();
         $schedule->command('badges:scan')->weekly();
     }
 
