@@ -145,14 +145,15 @@ body {
     background: none;
     border: none;
     color: rgba(255, 255, 255, 0.88);
-    width: 22px;
-    height: 22px;
+    width: 44px;
+    height: 44px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     padding: 0;
     transition: color 0.15s;
+    border-radius: 50%;
 }
 
 .av-btn:hover {
@@ -335,13 +336,13 @@ body {
 }
 
 .btn-follow.is-following:hover {
-    border-color: #e53e3e;
-    color: #e53e3e;
+    border-color: var(--danger);
+    color: var(--danger);
 }
 
 .btn-icon {
-    width: 34px;
-    height: 34px;
+    width: 44px;
+    height: 44px;
     background: var(--surface);
     border: 1.5px solid var(--border-strong);
     border-radius: var(--r-md);
@@ -434,15 +435,17 @@ body {
 }
 
 .drop-item.danger {
-    color: #e53e3e;
+    color: var(--danger);
+    fill: var(--danger);
 }
 
 .drop-item.danger svg {
-    color: #e53e3e;
+    color: var(--danger);
+    fill: var(--danger);
 }
 
 .drop-item.danger:hover {
-    background: #fff5f5;
+    background: var(--danger-bg);
 }
 
 .drop-sep {
@@ -689,8 +692,8 @@ body {
 }
 
 .card-menu {
-    width: 28px;
-    height: 28px;
+    width: 44px;
+    height: 44px;
     background: none;
     border: none;
     border-radius: var(--r-sm);
@@ -932,23 +935,24 @@ body {
 /* Toast */
 .share-toast {
     position: fixed;
-    bottom: 1.5rem;
+    bottom: 2rem;
     left: 50%;
-    transform: translateX(-50%) translateY(1rem);
-    background: #0f172a;
-    color: #f8fafc;
-    padding: 0.6rem 1.2rem;
-    border-radius: 9999px;
+    transform: translateX(-50%);
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.625rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--r-lg);
+    background: var(--ink-900);
+    color: var(--surface);
     font-size: 0.875rem;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
-    opacity: 0;
-    transition:
-        opacity 0.3s ease,
-        transform 0.3s ease;
+    font-weight: 500;
+    box-shadow: var(--shadow-md);
     z-index: 9999;
+    opacity: 0;
+    transition: opacity 0.25s;
+    pointer-events: none;
+    white-space: nowrap;
 }
 
 .share-toast.hidden {
@@ -961,8 +965,12 @@ body {
 }
 
 .share-toast svg {
-    stroke: #2dd4bf;
+    width: 18px;
+    height: 18px;
     flex-shrink: 0;
+    stroke: var(--accent);
+    stroke-width: 2;
+    fill: none;
 }
 
 /* ── Stack grid ─────────────────────────────────────── */
@@ -1113,8 +1121,8 @@ body {
 .stack-modal-backdrop {
     position: fixed;
     inset: 0;
-    background: rgba(11, 15, 26, 0.45);
-    z-index: 500;
+    background: var(--overlay);
+    z-index: 999;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1457,6 +1465,275 @@ body {
     .name-row {
         justify-content: center;
     }
+}
+
+@media (max-width: 480px) {
+    .profile-inner {
+        padding: 1.5rem 1rem 0;
+    }
+
+    .profile-row {
+        gap: 1rem;
+    }
+
+    .avatar-wrap {
+        width: 72px;
+        height: 72px;
+    }
+
+    .profile-name {
+        font-size: 1.25rem;
+    }
+
+    .handle {
+        font-size: 0.8125rem;
+    }
+
+    .bio {
+        font-size: 0.875rem;
+    }
+
+    .profile-url {
+        font-size: 0.75rem;
+    }
+
+    .profile-card {
+        padding: 1.25rem;
+    }
+
+    .av-main {
+        width: 80px;
+        height: 80px;
+    }
+
+    .av-initials {
+        font-size: 1.75rem;
+    }
+
+    .stat {
+        padding: 0.5rem 0.75rem;
+    }
+
+    .stat-n {
+        font-size: 1rem;
+    }
+
+    .stat-l {
+        font-size: 0.6875rem;
+    }
+
+    .stat-value {
+        font-size: 1.125rem;
+    }
+
+    .card-head {
+        gap: 0.5rem;
+    }
+
+    .btn-follow,
+    .btn-message {
+        height: 40px;
+        font-size: 0.8125rem;
+    }
+
+    .btn-follow {
+        padding: 0.4375rem 0.875rem;
+    }
+
+    .btn-message {
+        padding: 0.4375rem 0.75rem;
+    }
+
+    .btn-icon svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    /* Tabs */
+    .tab {
+        font-size: 0.8125rem;
+        padding: 0.75rem 0;
+        margin-right: 1rem;
+    }
+
+    .tab-count {
+        font-size: 0.625rem;
+    }
+
+    /* Content */
+    .content {
+        padding: 1.25rem 1rem;
+    }
+
+    /* Filter pills */
+    .filter-row {
+        gap: 0.375rem;
+        margin-bottom: 1rem;
+    }
+
+    .f-pill {
+        padding: 0.25rem 0.625rem;
+        font-size: 0.75rem;
+    }
+
+    .f-pill svg {
+        width: 11px;
+        height: 11px;
+    }
+
+    /* Project card */
+    .p-card {
+        padding: 1rem;
+    }
+
+    .card-title {
+        font-size: 0.9375rem;
+    }
+
+    .card-desc {
+        font-size: 0.8125rem;
+    }
+
+    .badge-day {
+        font-size: 0.625rem;
+        padding: 0.15rem 0.4375rem;
+    }
+
+    .badge-streak {
+        font-size: 0.625rem;
+        padding: 0.15rem 0.375rem;
+    }
+
+    .card-menu svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    /* Dropdown */
+    .drop-menu {
+        right: -0.5rem;
+        min-width: 170px;
+    }
+
+    /* Stack modal */
+    .stack-modal {
+        max-height: 90vh;
+    }
+}
+
+@media (max-width: 380px) {
+    .profile-inner {
+        padding: 1rem 0.75rem 0;
+    }
+
+    .avatar-wrap {
+        width: 64px;
+        height: 64px;
+    }
+
+    .profile-name {
+        font-size: 1.125rem;
+    }
+
+    .meta-top {
+        gap: 0.75rem;
+    }
+
+    .meta-actions {
+        flex-wrap: wrap;
+        gap: 0.375rem;
+    }
+
+    .stats-row {
+        margin-top: 1.25rem;
+    }
+
+    .stat {
+        padding: 0.375rem 0.5rem;
+    }
+
+    .content {
+        padding: 1rem 0.75rem;
+    }
+
+    .p-card {
+        padding: 0.875rem;
+    }
+
+    .card-title {
+        font-size: 0.875rem;
+    }
+
+    .tab {
+        font-size: 0.75rem;
+        padding: 0.625rem 0;
+        margin-right: 0.75rem;
+    }
+
+    .f-pill {
+        padding: 0.2rem 0.5rem;
+        font-size: 0.6875rem;
+    }
+}
+
+/* ── Dark mode ── */
+.dark .profile-card,
+.dark .profile-section {
+    background: #1a1d27;
+    border-color: #2a2e3a;
+}
+
+.dark .profile-card h2,
+.dark .profile-card h3 {
+    color: #e1e4ea;
+}
+
+.dark .bio {
+    color: #a0a5b5;
+}
+
+.dark .stat {
+    color: #a0a5b5;
+}
+
+.dark .stat-value {
+    color: #e1e4ea;
+}
+
+.dark .tabs-bar {
+    border-bottom-color: #2a2e3a;
+}
+
+.dark .tab {
+    color: #6b7280;
+}
+
+.dark .tab.active {
+    color: var(--accent);
+}
+
+.dark .tab:hover {
+    color: #e1e4ea;
+}
+
+.dark .btn-icon {
+    background: #1a1d27;
+    border-color: #2a2e3a;
+    color: #6b7280;
+}
+
+.dark .btn-icon:hover {
+    border-color: #4a4e5a;
+    color: #e1e4ea;
+}
+
+.dark .card-menu {
+    color: #4a4e5a;
+}
+
+.dark .card-menu:hover {
+    background: #242836;
+    color: #e1e4ea;
 }
 
 /* ── Stack icon con fallback de iniciales ── */

@@ -25,9 +25,12 @@
     border: none;
     cursor: pointer;
     font-family: inherit;
-    padding: 0.25rem 0.5rem;
+    padding: 0.375rem 0.625rem;
     border-radius: var(--r-sm);
     transition: background 0.15s;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
 }
 
 .badges-view-all:hover {
@@ -124,7 +127,7 @@
 .badges-modal-backdrop {
     position: fixed;
     inset: 0;
-    background: rgba(11, 15, 26, 0.45);
+    background: var(--overlay);
     z-index: 500;
     display: flex;
     align-items: center;
@@ -188,8 +191,8 @@
 }
 
 .badges-modal-close {
-    width: 32px;
-    height: 32px;
+    width: 44px;
+    height: 44px;
     flex-shrink: 0;
     background: transparent;
     border: none;
@@ -294,4 +297,173 @@
     .badges-grid {
         justify-content: center;
     }
+}
+
+@media (max-width: 480px) {
+    .badges-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .badges-grid {
+        gap: 0.5rem;
+    }
+
+    .badge-card {
+        padding: 0.375rem 0.625rem;
+        gap: 0.375rem;
+    }
+
+    .badge-icon {
+        width: 28px;
+        height: 28px;
+        border-radius: 6px;
+    }
+
+    .badge-icon svg {
+        width: 14px;
+        height: 14px;
+    }
+
+    .badge-name {
+        font-size: 0.75rem;
+    }
+
+    .badges-empty {
+        font-size: 0.8125rem;
+        padding: 1rem 0;
+    }
+
+    /* Modal full-width on mobile */
+    .badges-modal-backdrop {
+        padding: 0;
+        align-items: flex-end;
+    }
+
+    .badges-modal {
+        max-width: 100%;
+        max-height: 88vh;
+        border-radius: 16px 16px 0 0;
+        transform: translateY(40px);
+    }
+
+    .badges-modal-backdrop.is-open .badges-modal {
+        transform: translateY(0);
+    }
+
+    .badges-modal-header {
+        padding: 1.25rem 1.25rem 1rem;
+    }
+
+    .badges-modal-title {
+        font-size: 1rem;
+    }
+
+    .badges-modal-body {
+        padding: 1rem 1.25rem;
+    }
+
+    .badges-modal-category-title {
+        font-size: 0.875rem;
+    }
+
+    .badges-modal-item {
+        padding: 0.625rem 0.875rem;
+    }
+}
+
+@media (max-width: 380px) {
+    .badge-card {
+        padding: 0.25rem 0.5rem;
+    }
+
+    .badge-icon {
+        width: 24px;
+        height: 24px;
+    }
+
+    .badge-icon svg {
+        width: 12px;
+        height: 12px;
+    }
+
+    .badge-name {
+        font-size: 0.6875rem;
+    }
+
+    .badges-modal-header {
+        padding: 1rem;
+    }
+
+    .badges-modal-body {
+        padding: 0.75rem 1rem;
+    }
+}
+
+/* ── Dark mode ── */
+.dark .badges-title {
+    color: #e1e4ea;
+}
+
+.dark .badge-card {
+    background: #1a1d27;
+    border-color: #2a2e3a;
+}
+
+.dark .badge-card:hover {
+    border-color: #4a4e5a;
+}
+
+.dark .badge-name {
+    color: #a0a5b5;
+}
+
+.dark .badges-empty {
+    color: #6b7280;
+}
+
+.dark .badges-modal {
+    background: #1a1d27;
+}
+
+.dark .badges-modal-header {
+    border-bottom-color: #2a2e3a;
+}
+
+.dark .badges-modal-title {
+    color: #e1e4ea;
+}
+
+.dark .badges-modal-subtitle {
+    color: #6b7280;
+}
+
+.dark .badges-modal-close {
+    color: #6b7280;
+}
+
+.dark .badges-modal-close:hover {
+    background: #242836;
+    color: #e1e4ea;
+}
+
+.dark .badges-modal-category-title {
+    color: #a0a5b5;
+}
+
+.dark .badges-modal-item {
+    border-color: #2a2e3a;
+}
+
+.dark .badges-modal-item:hover {
+    background: #242836;
+}
+
+.dark .badges-modal-item-name {
+    color: #e1e4ea;
+}
+
+.dark .badges-modal-item-desc {
+    color: #6b7280;
 }

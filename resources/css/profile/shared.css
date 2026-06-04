@@ -62,8 +62,8 @@ body {
 
 .section-divider {
     border: none;
-    border-top: 1px solid #f0f0f4;
-    margin: 1.75rem 0;
+    border-top: 1px solid var(--border);
+    margin: 1.5rem 0;
 }
 
 /* ─── Formulario: grupos y campos ─────────────────────────── */
@@ -93,38 +93,14 @@ body {
 }
 
 .form-error {
-    display: block;
-    font-size: 0.8rem;
-    color: #dc2626;
-    margin-top: 0.3rem;
-}
-
-.form-input {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    border: 1.5px solid var(--border-strong);
-    border-radius: var(--r-md);
-    font-size: 0.9375rem;
-    font-weight: 500;
-    color: var(--ink-700);
-    background: var(--surface);
-    font-family: inherit;
-    transition: all 0.15s;
-}
-
-.form-input::placeholder {
-    color: var(--ink-300);
-}
-
-.form-input:focus {
-    outline: none;
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px var(--accent-dim);
+    font-size: 0.75rem;
+    color: var(--danger);
+    margin-top: 0.25rem;
 }
 
 .form-input.input-error {
-    border-color: #dc2626 !important;
-    background: #fff8f8;
+    border-color: var(--danger);
+    background: var(--danger-bg);
 }
 
 /* ─── Select dropdown (unificado de account + configuration) ─ */
@@ -315,8 +291,8 @@ select.form-input {
     position: absolute;
     top: -42px;
     right: 0;
-    width: 32px;
-    height: 32px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.15);
@@ -406,8 +382,13 @@ select.form-input {
         font-size: 1.125rem;
     }
 
+    .page-subtitle {
+        font-size: 0.8125rem;
+    }
+
     .form-input {
         padding: 0.75rem;
+        font-size: 1rem;
     }
 
     .form-section-title {
@@ -418,6 +399,27 @@ select.form-input {
     .form-section-title h2 {
         font-size: 0.9375rem;
     }
+
+    .btn-save,
+    .btn-cancel,
+    .btn-submit {
+        font-size: 0.875rem;
+        padding: 0.75rem 1rem;
+    }
+}
+
+@media (max-width: 380px) {
+    .main-content {
+        padding: 0.75rem;
+    }
+
+    .page-title {
+        font-size: 1rem;
+    }
+
+    .form-group {
+        margin-bottom: 1rem;
+    }
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -425,9 +427,10 @@ select.form-input {
 ══════════════════════════════════════════════════════════ */
 .toast {
     position: fixed;
-    bottom: 1.5rem;
-    right: 1.5rem;
-    background: #12b3b6;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--accent);
     color: #fff;
     padding: 0.75rem 1.25rem;
     border-radius: 0.5rem;
@@ -435,4 +438,64 @@ select.form-input {
     font-weight: 500;
     z-index: 9999;
     display: none;
+}
+
+/* ── Dark mode ── */
+.dark .edit-layout {
+    background: #13151d;
+}
+
+.dark .edit-card {
+    background: #1a1d27;
+    border-color: #2a2e3a;
+}
+
+.dark .edit-card__title {
+    color: #e1e4ea;
+}
+
+.dark .edit-card__desc {
+    color: #a0a5b5;
+}
+
+.dark .form-label {
+    color: #a0a5b5;
+}
+
+.dark .form-input,
+.dark .form-select,
+.dark .form-textarea {
+    background: #13151d;
+    border-color: #2a2e3a;
+    color: #e1e4ea;
+}
+
+.dark .form-input:focus,
+.dark .form-select:focus,
+.dark .form-textarea:focus {
+    border-color: var(--accent);
+}
+
+.dark .form-input::placeholder,
+.dark .form-textarea::placeholder {
+    color: #4a4e5a;
+}
+
+.dark .btn-secondary {
+    background: #1a1d27;
+    border-color: #2a2e3a;
+    color: #a0a5b5;
+}
+
+.dark .btn-secondary:hover {
+    border-color: #4a4e5a;
+    color: #e1e4ea;
+}
+
+.dark .divider {
+    border-color: #2a2e3a;
+}
+
+.dark .helper-text {
+    color: #6b7280;
 }

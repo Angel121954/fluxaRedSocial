@@ -99,8 +99,8 @@ body {
 
 .input-field {
     width: 100%;
-    height: 40px;
-    padding: 0 2.5rem 0 2.5rem;
+    height: 44px;
+    padding: 0 2.75rem 0 2.75rem;
     border: 1px solid var(--border);
     border-radius: var(--r-input);
     font-size: 0.875rem;
@@ -245,7 +245,7 @@ body {
 ═══════════════════════════════════════════════════ */
 .btn {
     width: 100%;
-    height: 40px;
+    height: 44px;
     padding: 0 1rem;
     border-radius: var(--r-btn);
     font-size: 0.875rem;
@@ -342,7 +342,72 @@ body {
 }
 
 /* ═══════════════════════════════════════════════════
-   RESPONSIVE
+   DARK MODE
+═══════════════════════════════════════════════════ */
+.dark body {
+    background: #0f1117;
+    color: #e1e4ea;
+}
+
+.dark .form-card {
+    background: #1a1d27;
+    border-color: #2a2e3a;
+}
+
+.dark .input-field {
+    background: #12141d;
+    border-color: #2a2e3a;
+    color: #e1e4ea;
+}
+
+.dark .input-field::placeholder {
+    color: #4a4e5a;
+}
+
+.dark .input-field:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(18, 179, 182, 0.15);
+}
+
+.dark .input-label {
+    color: #a0a5b5;
+}
+
+.dark .btn-secondary {
+    background: #1a1d27;
+    border-color: #2a2e3a;
+    color: #e1e4ea;
+}
+
+.dark .btn-secondary:hover {
+    background: #242836;
+}
+
+.dark .divider::before,
+.dark .divider::after {
+    background: #2a2e3a;
+}
+
+/* ═══════════════════════════════════════════════════
+   RESPONSIVE — TABLET (≤ 768px)
+═══════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+    .form-card {
+        padding: 1.5rem;
+    }
+
+    .logo-img {
+        height: 60px;
+    }
+
+    h2 {
+        font-size: 1.25rem !important;
+        margin-bottom: 1rem !important;
+    }
+}
+
+/* ═══════════════════════════════════════════════════
+   RESPONSIVE — MÓVIL (≤ 480px)
 ═══════════════════════════════════════════════════ */
 @media (max-width: 480px) {
     .form-card {
@@ -351,6 +416,11 @@ body {
     }
 
     .logo-img {
-        height: 56px;
+        height: 48px;
+    }
+
+    .input-field {
+        height: 44px;
+        font-size: 16px;
     }
 }

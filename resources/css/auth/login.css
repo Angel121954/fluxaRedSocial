@@ -3,35 +3,37 @@
    ═══════════════════════════════════════════════════ */
 
 :root {
-    --accent:         #12b3b6;
-    --accent-dark:    #0d8e91;
-    --accent-ring:    rgba(18, 179, 182, 0.16);
+    --accent: #12b3b6;
+    --accent-dark: #0d8e91;
+    --accent-ring: rgba(18, 179, 182, 0.16);
 
-    --ink-900:        #0b0f1a;
-    --ink-600:        #374151;
-    --ink-400:        #718096;
-    --ink-200:        #cbd5e0;
-    --ink-100:        #edf0f7;
-    --ink-50:         #f7f8fa;
+    --ink-900: #0b0f1a;
+    --ink-600: #374151;
+    --ink-400: #718096;
+    --ink-200: #cbd5e0;
+    --ink-100: #edf0f7;
+    --ink-50: #f7f8fa;
 
-    --surface:        #ffffff;
-    --bg:             #f4f5f7;
+    --surface: #ffffff;
+    --bg: #f4f5f7;
 
-    --border:         #e2e6ed;
-    --border-focus:   #12b3b6;
+    --border: #e2e6ed;
+    --border-focus: #12b3b6;
 
-    --error:          #dc2626;
-    --error-soft:     #fef2f2;
-    --success:        #16a34a;
+    --error: #dc2626;
+    --error-soft: #fef2f2;
+    --success: #16a34a;
 
-    --shadow-card:    0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.06);
+    --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.06), 0 4px 16px rgba(0, 0, 0, 0.06);
 
-    --r-input:        8px;
-    --r-btn:          8px;
-    --r-card:         16px;
+    --r-input: 8px;
+    --r-btn: 8px;
+    --r-card: 16px;
 }
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
@@ -86,8 +88,8 @@ body {
 
 .input-field {
     width: 100%;
-    height: 40px;
-    padding: 0 2.5rem 0 2.5rem;
+    height: 44px;
+    padding: 0 2.75rem 0 2.75rem;
     border: 1px solid var(--border);
     border-radius: var(--r-input);
     font-size: 0.875rem;
@@ -170,7 +172,7 @@ body {
 ═══════════════════════════════════════════════════ */
 .btn {
     width: 100%;
-    height: 40px;
+    height: 44px;
     padding: 0 1rem;
     border-radius: var(--r-btn);
     font-size: 0.875rem;
@@ -205,8 +207,13 @@ body {
     cursor: not-allowed;
 }
 
-.btn-primary.loading .btn-text { opacity: 0; }
-.btn-primary.loading .loader   { display: block; }
+.btn-primary.loading .btn-text {
+    opacity: 0;
+}
+
+.btn-primary.loading .loader {
+    display: block;
+}
 
 /* Secondary (Google style) */
 .btn-secondary {
@@ -266,7 +273,7 @@ body {
     display: none;
     width: 15px;
     height: 15px;
-    border: 1.5px solid rgba(255,255,255,0.35);
+    border: 1.5px solid rgba(255, 255, 255, 0.35);
     border-radius: 50%;
     border-top-color: #fff;
     animation: spin 0.7s linear infinite;
@@ -274,7 +281,9 @@ body {
 }
 
 @keyframes spin {
-    to { transform: rotate(360deg); }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 /* ═══════════════════════════════════════════════════
@@ -328,7 +337,7 @@ body {
     border-radius: 10px;
     border: 1px solid var(--border);
     border-left: 3px solid var(--success);
-    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
     display: flex;
     align-items: center;
     gap: 0.625rem;
@@ -349,6 +358,79 @@ body {
 /* ═══════════════════════════════════════════════════
    RESPONSIVE
 ═══════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════
+   DARK MODE
+═══════════════════════════════════════════════════ */
+.dark body {
+    background: #0f1117;
+    color: #e1e4ea;
+}
+
+.dark .form-card {
+    background: #1a1d27;
+    border-color: #2a2e3a;
+}
+
+.dark .input-field {
+    background: #12141d;
+    border-color: #2a2e3a;
+    color: #e1e4ea;
+}
+
+.dark .input-field::placeholder {
+    color: #4a4e5a;
+}
+
+.dark .input-field:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(18, 179, 182, 0.15);
+}
+
+.dark .input-label {
+    color: #a0a5b5;
+}
+
+.dark .btn-secondary {
+    background: #1a1d27;
+    border-color: #2a2e3a;
+    color: #e1e4ea;
+}
+
+.dark .btn-secondary:hover {
+    background: #242836;
+}
+
+.dark .divider::before,
+.dark .divider::after {
+    background: #2a2e3a;
+}
+
+.dark .notification {
+    background: #1a1d27;
+    border-color: #2a2e3a;
+}
+
+/* ═══════════════════════════════════════════════════
+   RESPONSIVE — TABLET (≤ 768px)
+═══════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+    .form-card {
+        padding: 1.5rem;
+    }
+
+    .logo-img {
+        height: 60px;
+    }
+
+    h2 {
+        font-size: 1.25rem !important;
+        margin-bottom: 1rem !important;
+    }
+}
+
+/* ═══════════════════════════════════════════════════
+   RESPONSIVE — MÓVIL (≤ 480px)
+═══════════════════════════════════════════════════ */
 @media (max-width: 480px) {
     .form-card {
         padding: 1.25rem;
@@ -356,6 +438,15 @@ body {
     }
 
     .logo-img {
-        height: 56px;
+        height: 48px;
+    }
+
+    h2 {
+        font-size: 1.125rem !important;
+    }
+
+    .input-field {
+        height: 44px;
+        font-size: 16px;
     }
 }
