@@ -2,7 +2,6 @@
 
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Schedule;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,8 +17,3 @@ use Illuminate\Support\Facades\Schedule;
 Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote');
-
-Schedule::command('users:delete-pending')->daily();
-Schedule::command('users:delete-expired')->daily();
-Schedule::command('cloudinary:clean-orphans')->weeklyOn(0, '03:00');
-Schedule::command('notifications:weekly-summary')->weeklyOn(0, '08:00');
