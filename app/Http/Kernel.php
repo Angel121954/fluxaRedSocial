@@ -7,7 +7,6 @@ use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\CheckAdmin;
 use App\Http\Middleware\CheckOnboarding;
 use App\Http\Middleware\CheckUserActive;
-use App\Http\Middleware\CleanExpiredGuests;
 use App\Http\Middleware\EncryptCookies;
 use App\Http\Middleware\PreventBackHistory;
 use App\Http\Middleware\PreventRequestsDuringMaintenance;
@@ -53,7 +52,6 @@ class Kernel extends HttpKernel
             VerifyCsrfToken::class,
             SubstituteBindings::class,
             CheckUserActive::class,
-            CleanExpiredGuests::class,
             AddSecurityHeaders::class,
         ],
 
@@ -77,7 +75,6 @@ class Kernel extends HttpKernel
         'prevent-back-history' => PreventBackHistory::class,
         'onboarding' => CheckOnboarding::class,
         'restrict.guest' => RestrictGuest::class,
-        'clean.guests' => CleanExpiredGuests::class,
         'admin' => CheckAdmin::class,
     ];
 }
