@@ -24,11 +24,17 @@ function getScrollbarWidth() {
     return scrollbarWidth;
 }
 
+function shouldReserveScrollbarSpace() {
+    return window.innerWidth > 768 && getScrollbarWidth() > 0;
+}
+
 export function lockBodyScroll() {
     openCount++;
     if (openCount === 1) {
         document.body.style.overflow = 'hidden';
-        document.body.style.paddingRight = getScrollbarWidth() + 'px';
+        if (shouldReserveScrollbarSpace()) {
+            document.body.style.paddingRight = getScrollbarWidth() + 'px';
+        }
     }
 }
 
