@@ -11,6 +11,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('users:delete-pending')->daily();
         $schedule->command('users:delete-expired')->daily();
+        $schedule->command('users:clean-guests')->daily();
         $schedule->command('cloudinary:clean-orphans')->weeklyOn(0, '03:00');
         $schedule->command('notifications:weekly-summary')->weeklyOn(0, '08:00');
         $schedule->command('diary:clean')->everyMinute();
