@@ -980,14 +980,4 @@
     cursor: not-allowed;
 }
 
-@media (max-width: 640px) {
-    .diary-report-backdrop {
-        padding: 0;
-        align-items: flex-end;
-    }
 
-    .diary-report-modal {
-        max-width: 100%;
-        border-radius: 12px 12px 0 0;
-    }
-}

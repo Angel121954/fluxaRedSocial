@@ -206,15 +206,4 @@
     text-align: center;
 }
 
-@media (max-width: 640px) {
-    .followers-backdrop {
-        padding: 0;
-        align-items: flex-end;
-    }
 
-    .followers-modal {
-        max-width: 100%;
-        max-height: 80vh;
-        border-radius: 12px 12px 0 0;
-    }
-}
