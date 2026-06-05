@@ -341,33 +341,32 @@ body {
 }
 
 .btn-icon {
-    width: 44px;
-    height: 44px;
-    background: var(--surface);
-    border: 1.5px solid var(--border-strong);
-    border-radius: var(--r-md);
+    width: 32px;
+    height: 32px;
+    background: transparent;
+    border: none;
+    border-radius: var(--r-sm);
     display: flex;
     align-items: center;
     justify-content: center;
     color: var(--ink-400);
     cursor: pointer;
-    transition: all 0.15s;
+    transition: background 0.15s, color 0.15s;
 }
 
 .btn-icon:hover {
-    border-color: var(--accent);
-    color: var(--accent);
+    background: var(--ink-100);
+    color: var(--ink-700);
 }
 
 .btn-icon.is-open {
-    border-color: var(--accent);
-    color: var(--accent);
     background: var(--accent-dim);
+    color: var(--accent);
 }
 
 .btn-icon svg {
-    width: 16px;
-    height: 16px;
+    width: 14px;
+    height: 14px;
 }
 
 /* ─────────────────────────────────────────────────
@@ -1544,11 +1543,6 @@ body {
         padding: 0.4375rem 0.75rem;
     }
 
-    .btn-icon svg {
-        width: 18px;
-        height: 18px;
-    }
-
     /* Tabs */
     .tab {
         font-size: 0.8125rem;
@@ -1723,7 +1717,7 @@ body {
 }
 
 .dark .btn-icon:hover {
-    border-color: #4a4e5a;
+    background: rgba(255, 255, 255, 0.06);
     color: #e1e4ea;
 }
 

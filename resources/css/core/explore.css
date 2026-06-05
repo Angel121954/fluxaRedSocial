@@ -701,16 +701,16 @@ body {
 }
 
 .post-menu-btn {
-    width: 44px;
-    height: 44px;
-    border-radius: 25%;
+    width: 32px;
+    height: 32px;
+    border-radius: var(--r-sm);
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     transition: background 0.15s;
     background: transparent;
-    border: 1px solid transparent;
+    border: none;
     color: var(--ink-400);
 }
 
@@ -719,8 +719,8 @@ body {
 }
 
 .post-menu-btn svg {
-    width: 16px;
-    height: 16px;
+    width: 14px;
+    height: 14px;
 }
 
 /* ─────────────────────────────────────────────────
