@@ -98,6 +98,29 @@ body {
     margin-top: 0.25rem;
 }
 
+/* ─── Form input base ─────────────────────────────────────── */
+.form-input {
+    width: 100%;
+    padding: 0.65rem 0.875rem;
+    border: 1.5px solid var(--border-strong);
+    border-radius: var(--r-md);
+    font-family: inherit;
+    font-size: 0.875rem;
+    color: var(--ink-900);
+    background: var(--surface);
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.form-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-ring);
+}
+
+.form-input::placeholder {
+    color: var(--ink-300);
+}
+
 .form-input.input-error {
     border-color: var(--danger);
     background: var(--danger-bg);
@@ -289,26 +312,26 @@ select.form-input {
 
 .modal-x {
     position: absolute;
-    top: -42px;
+    top: -38px;
     right: 0;
-    width: 44px;
-    height: 44px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    color: white;
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     transition:
         background 0.15s,
-        transform 0.2s;
+        color 0.15s;
 }
 
 .modal-x:hover {
-    background: rgba(255, 255, 255, 0.18);
-    transform: rotate(90deg);
+    background: rgba(255, 255, 255, 0.12);
+    color: white;
 }
 
 .modal-x svg {
