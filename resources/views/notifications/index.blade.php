@@ -33,9 +33,29 @@
     </div>
 
     <div class="notif-container" id="notificationList">
-      <div class="loading-box">
-        <div class="spinner"></div>
-        <p>Cargando...</p>
+      <div class="notif-skeleton">
+        <div class="notif-skeleton-avatar"></div>
+        <div class="notif-skeleton-body">
+          <div class="notif-skeleton-line notif-skeleton-line--lg"></div>
+          <div class="notif-skeleton-line notif-skeleton-line--sm"></div>
+        </div>
+        <div class="notif-skeleton-time"></div>
+      </div>
+      <div class="notif-skeleton">
+        <div class="notif-skeleton-avatar"></div>
+        <div class="notif-skeleton-body">
+          <div class="notif-skeleton-line notif-skeleton-line--lg"></div>
+          <div class="notif-skeleton-line notif-skeleton-line--sm"></div>
+        </div>
+        <div class="notif-skeleton-time"></div>
+      </div>
+      <div class="notif-skeleton">
+        <div class="notif-skeleton-avatar"></div>
+        <div class="notif-skeleton-body">
+          <div class="notif-skeleton-line notif-skeleton-line--lg"></div>
+          <div class="notif-skeleton-line notif-skeleton-line--sm"></div>
+        </div>
+        <div class="notif-skeleton-time"></div>
       </div>
     </div>
   </div>

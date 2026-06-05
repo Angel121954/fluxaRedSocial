@@ -288,23 +288,61 @@
     max-width: 280px;
 }
 
-.loading-box .spinner {
-    width: 28px;
-    height: 28px;
-    border: 3px solid var(--ink-100);
-    border-top-color: var(--accent);
+/* ── Skeleton screen ──────────────────────────────── */
+.notif-skeleton {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.875rem 1rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+}
+
+.notif-skeleton-avatar {
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
-    margin-bottom: 1rem;
-    animation: spin 0.8s linear infinite;
+    background: var(--ink-100);
+    flex-shrink: 0;
 }
 
-@keyframes spin {
-    to { transform: rotate(360deg); }
+.notif-skeleton-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding-top: 0.375rem;
 }
 
-.loading-box p {
-    font-size: 0.875rem;
-    color: var(--ink-400);
+.notif-skeleton-line {
+    height: 10px;
+    border-radius: 5px;
+    background: var(--ink-100);
+    animation: notif-shimmer 1.5s ease-in-out infinite;
+}
+
+.notif-skeleton-line--lg {
+    width: 85%;
+}
+
+.notif-skeleton-line--sm {
+    width: 45%;
+}
+
+.notif-skeleton-time {
+    width: 48px;
+    height: 10px;
+    border-radius: 5px;
+    background: var(--ink-100);
+    flex-shrink: 0;
+    margin-top: 0.5rem;
+    animation: notif-shimmer 1.5s ease-in-out infinite;
+}
+
+@keyframes notif-shimmer {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
 }
 
 .error-box p {
@@ -533,8 +571,4 @@
         max-width: 240px;
     }
 
-    .loading-box .spinner {
-        width: 24px;
-        height: 24px;
-    }
 }

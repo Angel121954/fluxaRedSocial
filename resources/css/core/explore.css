@@ -151,6 +151,109 @@ body {
     border-color: var(--accent-ring);
 }
 
+/* ── Skeleton card ──────────────────────────────── */
+.post-card-skeleton {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r-xl);
+    padding: 1.375rem;
+    margin-bottom: 1.125rem;
+}
+
+.post-card-skeleton .sk-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin-bottom: 0.875rem;
+}
+
+.post-card-skeleton .sk-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--ink-100);
+    flex-shrink: 0;
+}
+
+.post-card-skeleton .sk-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+    padding-top: 0.25rem;
+}
+
+.post-card-skeleton .sk-line {
+    height: 10px;
+    border-radius: 5px;
+    background: var(--ink-100);
+    animation: sk-shimmer 1.5s ease-in-out infinite;
+}
+
+.post-card-skeleton .sk-line--lg { width: 85%; }
+.post-card-skeleton .sk-line--md { width: 60%; }
+.post-card-skeleton .sk-line--sm { width: 40%; }
+.post-card-skeleton .sk-line--xs { width: 25%; }
+
+.post-card-skeleton .sk-menu {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--r-sm);
+    background: var(--ink-100);
+    flex-shrink: 0;
+    animation: sk-shimmer 1.5s ease-in-out infinite;
+}
+
+.post-card-skeleton .sk-title {
+    height: 14px;
+    border-radius: 6px;
+    background: var(--ink-100);
+    width: 55%;
+    margin-bottom: 0.625rem;
+    animation: sk-shimmer 1.5s ease-in-out infinite;
+}
+
+.post-card-skeleton .sk-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+    margin-bottom: 0.75rem;
+}
+
+.post-card-skeleton .sk-tags {
+    display: flex;
+    gap: 0.375rem;
+    margin-bottom: 0.875rem;
+}
+
+.post-card-skeleton .sk-tag {
+    height: 22px;
+    width: 52px;
+    border-radius: var(--r-sm);
+    background: var(--ink-100);
+    animation: sk-shimmer 1.5s ease-in-out infinite;
+}
+
+.post-card-skeleton .sk-actions {
+    display: flex;
+    gap: 1.375rem;
+    padding-top: 0.875rem;
+    border-top: 1px solid var(--border);
+}
+
+.post-card-skeleton .sk-action {
+    height: 18px;
+    width: 48px;
+    border-radius: 4px;
+    background: var(--ink-100);
+    animation: sk-shimmer 1.5s ease-in-out infinite;
+}
+
+@keyframes sk-shimmer {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+}
+
 /* Post card */
 .post-card {
     background: var(--surface);

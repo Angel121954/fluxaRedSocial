@@ -222,7 +222,9 @@ function loadNotifications() {
     var list = document.getElementById('notificationList');
     if (!list) return;
     
-    list.innerHTML = '<div class="loading-box"><div class="spinner"></div><p>Cargando...</p></div>';
+    list.innerHTML = Array(4).fill(
+      '<div class="notif-skeleton"><div class="notif-skeleton-avatar"></div><div class="notif-skeleton-body"><div class="notif-skeleton-line notif-skeleton-line--lg"></div><div class="notif-skeleton-line notif-skeleton-line--sm"></div></div><div class="notif-skeleton-time"></div></div>'
+    ).join('');
     
     var url = new URL('/notifications/list', window.location.origin);
     url.searchParams.set('filter', currentFilter);
