@@ -47,6 +47,12 @@
     }
 }
 
+/* ─── Bio textarea ────────────────────────────────────────── */
+#input-bio {
+    min-height: 120px;
+    max-height: 120px;
+}
+
 /* ─── Contador de caracteres ─────────────────────────────── */
 .char-count {
     font-size: .75rem;
