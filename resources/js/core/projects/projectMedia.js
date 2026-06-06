@@ -21,11 +21,12 @@
 
     /* ── Recopilar imágenes del grid ──────────────────────── */
     function collectImages(grid) {
-        return Array.from(grid.querySelectorAll('.pm-item[data-lightbox]'))
-            .map((btn, i) => ({
-                url: btn.dataset.lightbox,
-                alt: btn.querySelector('img')?.alt || `Imagen ${i + 1}`,
-            }));
+        const urls = JSON.parse(grid.dataset.all || '[]');
+        const buttons = grid.querySelectorAll('.pm-item[data-lightbox]');
+        return urls.map((url, i) => ({
+            url,
+            alt: buttons[i]?.querySelector('img')?.alt || `Imagen ${i + 1}`,
+        }));
     }
 
     /* ── Abrir ────────────────────────────────────────────── */
