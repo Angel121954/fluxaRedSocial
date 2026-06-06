@@ -1,0 +1,23 @@
+#!/bin/bash
+set -e
+
+BRANCH=$(git rev-parse --abbrev-ref HEAD)
+
+if [ "$BRANCH" = "master" ]; then
+    echo "Ya estas en master. Haz el merge manualmente."
+    exit 1
+fi
+
+echo "→ checkout master"
+git checkout master
+
+echo "→ merge $BRANCH"
+git merge "$BRANCH"
+
+echo "→ push origin master"
+git push origin master
+
+echo "→ checkout $BRANCH"
+git checkout "$BRANCH"
+
+echo "✓ Listo. $BRANCH mergeado a master y pusheado."
