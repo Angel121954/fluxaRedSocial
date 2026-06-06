@@ -2,38 +2,42 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\Admin\CompanyController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\DiaryController as AdminDiaryController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Auth\GuestController;
 use App\Http\Controllers\Auth\SocialAuthController;
+use App\Http\Controllers\Diary\DiaryController;
 use App\Http\Controllers\Explore\ExploreController;
 use App\Http\Controllers\Feed\FeedController;
 use App\Http\Controllers\Follows\FollowController;
+use App\Http\Controllers\Jobs\JobController;
+use App\Http\Controllers\Messages\MessageController;
 use App\Http\Controllers\Notifications\NotificationController;
 use App\Http\Controllers\Onboarding\OnboardingController;
 use App\Http\Controllers\Pages\AboutFluxaController;
-use App\Http\Controllers\Pages\TermsController;
+use App\Http\Controllers\Pages\ContactController;
 use App\Http\Controllers\Pages\PrivacyPolicyController;
 use App\Http\Controllers\Pages\ProblemReportController;
-use App\Http\Controllers\Pages\ContactController;
+use App\Http\Controllers\Pages\TermsController;
 use App\Http\Controllers\Profile\AccountController;
 use App\Http\Controllers\Profile\ConfigurationController;
 use App\Http\Controllers\Profile\CVSettingsController;
 use App\Http\Controllers\Profile\EducationController;
+use App\Http\Controllers\Profile\GitHubController;
 use App\Http\Controllers\Profile\NotificationPreferenceController;
 use App\Http\Controllers\Profile\PrivacyController;
 use App\Http\Controllers\Profile\ProfileController;
 use App\Http\Controllers\Profile\SecurityController;
+use App\Http\Controllers\Profile\UserController;
 use App\Http\Controllers\Profile\WorkExperienceController;
-use App\Http\Controllers\Profile\GitHubController;
-use App\Http\Controllers\Projects\ProjectController;
 use App\Http\Controllers\Projects\CommentController;
 use App\Http\Controllers\Projects\CommentLikeController;
+use App\Http\Controllers\Projects\ProjectController;
 use App\Http\Controllers\Salaries\SalaryController;
 use App\Http\Controllers\Suggestions\SuggestionController;
-use App\Http\Controllers\Messages\MessageController;
 use App\Http\Controllers\Technology\TechnologyController;
-use App\Http\Controllers\Profile\UserController;
-use App\Http\Controllers\Jobs\JobController;
-use App\Http\Controllers\Diary\DiaryController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -139,35 +143,35 @@ Route::get('/cv/download/{username?}', [ProfileController::class, 'downloadCV'])
 */
 Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(function () {
 
-    Route::get('/admin/dashboard', App\Http\Controllers\Admin\DashboardController::class)
+    Route::get('/admin/dashboard', DashboardController::class)
         ->name('admin.dashboard')
         ->middleware('admin');
 
-    Route::get('/admin/users', [App\Http\Controllers\Admin\UserController::class, 'index'])
+    Route::get('/admin/users', [AdminUserController::class, 'index'])
         ->name('admin.users.index')
         ->middleware('admin');
 
-    Route::patch('/admin/users/{user}/ban', [App\Http\Controllers\Admin\UserController::class, 'ban'])
+    Route::patch('/admin/users/{user}/ban', [AdminUserController::class, 'ban'])
         ->name('admin.users.ban')
         ->middleware('admin');
 
-    Route::patch('/admin/users/{user}/unban', [App\Http\Controllers\Admin\UserController::class, 'unban'])
+    Route::patch('/admin/users/{user}/unban', [AdminUserController::class, 'unban'])
         ->name('admin.users.unban')
         ->middleware('admin');
 
-    Route::post('/admin/users/grant-badge', [App\Http\Controllers\Admin\UserController::class, 'grantBadge'])
+    Route::post('/admin/users/grant-badge', [AdminUserController::class, 'grantBadge'])
         ->name('admin.users.grantBadge')
         ->middleware('admin');
 
-    Route::get('/admin/companies', [App\Http\Controllers\Admin\CompanyController::class, 'index'])
+    Route::get('/admin/companies', [CompanyController::class, 'index'])
         ->name('admin.companies.index')
         ->middleware('admin');
 
-    Route::patch('/admin/companies/{user}/ban', [App\Http\Controllers\Admin\CompanyController::class, 'ban'])
+    Route::patch('/admin/companies/{user}/ban', [CompanyController::class, 'ban'])
         ->name('admin.companies.ban')
         ->middleware('admin');
 
-    Route::patch('/admin/companies/{user}/unban', [App\Http\Controllers\Admin\CompanyController::class, 'unban'])
+    Route::patch('/admin/companies/{user}/unban', [CompanyController::class, 'unban'])
         ->name('admin.companies.unban')
         ->middleware('admin');
 
@@ -176,19 +180,19 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
     | Diario
     |--------------------------------------------------------------------------
     */
-    Route::get('/admin/diary', [DiaryController::class, 'adminIndex'])
+    Route::get('/admin/diary', [AdminDiaryController::class, 'adminIndex'])
         ->name('admin.diary.index')
         ->middleware('admin');
 
-    Route::post('/admin/diary', [DiaryController::class, 'adminStore'])
+    Route::post('/admin/diary', [AdminDiaryController::class, 'adminStore'])
         ->name('admin.diary.store')
         ->middleware('admin');
 
-    Route::patch('/admin/diary/{diary}/close', [DiaryController::class, 'close'])
+    Route::patch('/admin/diary/{diary}/close', [AdminDiaryController::class, 'close'])
         ->name('admin.diary.close')
         ->middleware('admin');
 
-    Route::patch('/admin/diary/{diary}', [DiaryController::class, 'update'])
+    Route::patch('/admin/diary/{diary}', [AdminDiaryController::class, 'update'])
         ->name('admin.diary.update')
         ->middleware('admin');
 
@@ -405,7 +409,6 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
         Route::post('/jobs', [JobController::class, 'store'])
             ->name('jobs.store');
 
-
         /*
         |--------------------------------------------------------------------------
         | Sugerencias
@@ -468,10 +471,10 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
         |--------------------------------------------------------------------------
         */
         Route::resource('work-experiences', WorkExperienceController::class);
-        Route::get('/settings/cv', [CvSettingsController::class, 'edit'])->name('cv.edit');
-        Route::put('/settings/cv', [CvSettingsController::class, 'update'])->name('cv.update');
-        Route::get('/settings/cv/restore', [CvSettingsController::class, 'restore'])->name('cv.restore');
-        Route::get('/settings/cv/download', [CvSettingsController::class, 'download'])->name('cv.download');
+        Route::get('/settings/cv', [CVSettingsController::class, 'edit'])->name('cv.edit');
+        Route::put('/settings/cv', [CVSettingsController::class, 'update'])->name('cv.update');
+        Route::get('/settings/cv/restore', [CVSettingsController::class, 'restore'])->name('cv.restore');
+        Route::get('/settings/cv/download', [CVSettingsController::class, 'download'])->name('cv.download');
         Route::resource('projects', ProjectController::class);
         Route::resource('educations', EducationController::class);
 
@@ -511,4 +514,4 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
     });
 });
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';

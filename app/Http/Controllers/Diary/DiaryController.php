@@ -8,7 +8,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Diary\StoreDiaryCommentRequest;
 use App\Http\Requests\Diary\StoreDiaryReportRequest;
 use App\Http\Requests\Diary\StoreDiaryResponseRequest;
-use App\Http\Requests\Diary\UpdateDiaryRequest;
 use App\Models\Diary;
 use App\Models\DiaryReport;
 use App\Models\DiaryResponse;
@@ -19,7 +18,6 @@ use App\Models\DiaryResponseLike;
 use App\Models\Profile;
 use App\Notifications\CreatesNotifications;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -295,46 +293,5 @@ class DiaryController extends Controller
             'html' => $html,
             'next_page_url' => $responses->nextPageUrl(),
         ]);
-    }
-
-    public function adminIndex(): View
-    {
-        $diaries = Diary::withCount('responses')->latest()->get();
-
-        return view('admin.diary.index', compact('diaries'));
-    }
-
-    public function update(UpdateDiaryRequest $request, Diary $diary): RedirectResponse
-    {
-        if ($diary->responses()->exists()) {
-            return redirect()->route('admin.diary.index')
-                ->with('error', 'No puedes editar la pregunta porque el diario ya tiene respuestas.');
-        }
-
-        $diary->update($request->validated());
-
-        return redirect()->route('admin.diary.index')
-            ->with('success', 'Diario actualizado correctamente.');
-    }
-
-    public function close(Diary $diary): RedirectResponse
-    {
-        $diary->update(['status' => 'closed']);
-
-        return redirect()->route('admin.diary.index')
-            ->with('success', 'Diario cerrado correctamente.');
-    }
-
-    public function adminStore(UpdateDiaryRequest $request): RedirectResponse
-    {
-        if (Diary::where('status', 'active')->exists()) {
-            return redirect()->route('admin.diary.index')
-                ->with('error', 'Ya hay un diario activo. Ciérralo antes de crear otro.');
-        }
-
-        Diary::create($request->validated());
-
-        return redirect()->route('admin.diary.index')
-            ->with('success', 'Diario creado correctamente.');
     }
 }
