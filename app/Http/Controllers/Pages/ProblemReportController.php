@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Pages;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreProblemReportRequest;
+use App\Http\Requests\Pages\StoreProblemReportRequest;
 use App\Models\ProblemReport;
 use Illuminate\Http\JsonResponse;
 

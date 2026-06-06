@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Profile;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UpdateNotificationPreferenceRequest;
+use App\Http\Requests\Notification\UpdateNotificationPreferenceRequest;
 
 class NotificationPreferenceController extends Controller
 {

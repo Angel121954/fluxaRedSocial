@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Profile;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UpdateConfigurationRequest;
+use App\Http\Requests\Profile\UpdateConfigurationRequest;
 use App\Services\BadgeService;
 
 class ConfigurationController extends Controller

@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\Jobs;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreJobOfferRequest;
+use App\Http\Requests\Job\BookmarkJobRequest;
+use App\Http\Requests\Job\StoreJobOfferRequest;
 use App\Models\Job;
 use App\Models\Profile;
 use Illuminate\Http\Request;
@@ -81,10 +82,8 @@ class JobController extends Controller
         return view('jobs.show', compact('job', 'profile'));
     }
 
-    public function bookmark(Request $request)
+    public function bookmark(BookmarkJobRequest $request)
     {
-        $request->validate(['job_id' => 'required|exists:jobs,id']);
-
         $exists = DB::table('job_bookmarks')
             ->where('user_id', Auth::id())
             ->where('job_id', $request->job_id)

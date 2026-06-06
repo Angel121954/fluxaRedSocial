@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Salaries;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreSalaryReportRequest;
+use App\Http\Requests\Salary\StoreSalaryReportRequest;
 use App\Models\SalaryReport;
 use App\Models\Technology;
 use App\Services\LocationService;

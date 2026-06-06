@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Suggestions;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreSuggestionRequest;
+use App\Http\Requests\Suggestion\StoreSuggestionRequest;
 use App\Models\Suggestion;
 use App\Notifications\CreatesNotifications;
 use App\Services\CloudinaryService;

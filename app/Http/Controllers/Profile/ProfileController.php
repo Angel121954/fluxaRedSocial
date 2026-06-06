@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Profile;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UpdateAvatarRequest;
-use App\Http\Requests\UpdateTechnologiesRequest;
+use App\Http\Requests\Profile\UpdateAvatarRequest;
+use App\Http\Requests\Profile\UpdateTechnologiesRequest;
 use App\Models\Badge;
 use App\Models\Conversation;
 use App\Models\Profile;

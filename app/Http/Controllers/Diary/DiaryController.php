@@ -5,9 +5,10 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Diary;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreDiaryComment;
-use App\Http\Requests\StoreDiaryReportRequest;
-use App\Http\Requests\StoreDiaryResponse;
+use App\Http\Requests\Diary\StoreDiaryCommentRequest;
+use App\Http\Requests\Diary\StoreDiaryReportRequest;
+use App\Http\Requests\Diary\StoreDiaryResponseRequest;
+use App\Http\Requests\Diary\UpdateDiaryRequest;
 use App\Models\Diary;
 use App\Models\DiaryReport;
 use App\Models\DiaryResponse;
@@ -61,7 +62,7 @@ class DiaryController extends Controller
         return view('diary.index', compact('diary', 'responses', 'recentResponders', 'profile', 'userHasResponded'));
     }
 
-    public function store(StoreDiaryResponse $request): JsonResponse
+    public function store(StoreDiaryResponseRequest $request): JsonResponse
     {
         $diary = Diary::active()->firstOrFail();
 
@@ -150,7 +151,7 @@ class DiaryController extends Controller
         ]);
     }
 
-    public function comment(StoreDiaryComment $request, DiaryResponse $response): JsonResponse
+    public function comment(StoreDiaryCommentRequest $request, DiaryResponse $response): JsonResponse
     {
         $userId = $request->user()->id;
 
@@ -303,19 +304,14 @@ class DiaryController extends Controller
         return view('admin.diary.index', compact('diaries'));
     }
 
-    public function update(Request $request, Diary $diary): RedirectResponse
+    public function update(UpdateDiaryRequest $request, Diary $diary): RedirectResponse
     {
         if ($diary->responses()->exists()) {
             return redirect()->route('admin.diary.index')
                 ->with('error', 'No puedes editar la pregunta porque el diario ya tiene respuestas.');
         }
 
-        $validated = $request->validate([
-            'question' => 'required|string|max:500',
-            'emoji' => 'nullable|string|max:10',
-        ]);
-
-        $diary->update($validated);
+        $diary->update($request->validated());
 
         return redirect()->route('admin.diary.index')
             ->with('success', 'Diario actualizado correctamente.');
@@ -329,19 +325,14 @@ class DiaryController extends Controller
             ->with('success', 'Diario cerrado correctamente.');
     }
 
-    public function adminStore(Request $request): RedirectResponse
+    public function adminStore(UpdateDiaryRequest $request): RedirectResponse
     {
         if (Diary::where('status', 'active')->exists()) {
             return redirect()->route('admin.diary.index')
                 ->with('error', 'Ya hay un diario activo. Ciérralo antes de crear otro.');
         }
 
-        $validated = $request->validate([
-            'question' => 'required|string|max:500',
-            'emoji' => 'nullable|string|max:10',
-        ]);
-
-        Diary::create($validated);
+        Diary::create($request->validated());
 
         return redirect()->route('admin.diary.index')
             ->with('success', 'Diario creado correctamente.');

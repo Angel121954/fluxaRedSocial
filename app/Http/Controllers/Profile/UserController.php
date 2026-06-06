@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Profile;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreUserReportRequest;
+use App\Http\Requests\Report\StoreUserReportRequest;
 use App\Models\User;
 use App\Models\UserReport;
 use App\Services\MessageService;

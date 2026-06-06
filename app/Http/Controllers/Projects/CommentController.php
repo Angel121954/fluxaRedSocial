@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Projects;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreCommentRequest;
+use App\Http\Requests\Project\StoreCommentRequest;
 use App\Models\Project;
 use App\Models\Comment;
 use App\Notifications\CreatesNotifications;

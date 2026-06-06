@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Messages;
 
 use App\Events\UserBlocked;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Message\SetViewingConversationRequest;
+use App\Http\Requests\Message\StoreMessageRequest;
+use App\Http\Requests\Message\StoreNewConversationRequest;
 use App\Models\Conversation;
 use App\Models\Message;
 use App\Models\Profile;
@@ -62,12 +65,8 @@ class MessageController extends Controller
         return response()->json(['count' => $count]);
     }
 
-    public function setViewing(Request $request): JsonResponse
+    public function setViewing(SetViewingConversationRequest $request): JsonResponse
     {
-        $request->validate([
-            'conversation_id' => 'required|integer|exists:conversations,id',
-        ]);
-
         $userId = auth()->id();
         $convId = (int) $request->conversation_id;
 
@@ -129,13 +128,9 @@ class MessageController extends Controller
         return view('messages.index', compact('activeConversation', 'otherUser', 'conversations', 'profile', 'activeMessages', 'hasBlockedOther', 'isBlockedByOther'));
     }
 
-    public function store(Request $request, Conversation $conversation): JsonResponse
+    public function store(StoreMessageRequest $request, Conversation $conversation): JsonResponse
     {
         $user = auth()->user();
-
-        $request->validate([
-            'body' => 'required|string|max:2000',
-        ]);
 
         $recipientId = $conversation->user_a_id === $user->id
             ? $conversation->user_b_id
@@ -167,13 +162,8 @@ class MessageController extends Controller
         ]);
     }
 
-    public function storeNewConversation(Request $request): JsonResponse
+    public function storeNewConversation(StoreNewConversationRequest $request): JsonResponse
     {
-        $request->validate([
-            'user_id' => 'required|integer|exists:users,id',
-            'body' => 'required|string|max:2000',
-        ]);
-
         $otherUserId = (int) $request->user_id;
         $userId = auth()->id();
 
