@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\GrantBadgeRequest;
 use App\Models\Badge;
 use App\Models\Notification;
 use App\Models\User;
@@ -67,14 +68,8 @@ class UserController extends Controller
             ->with('success', 'Usuario desbaneado correctamente.');
     }
 
-    public function grantBadge(Request $request): RedirectResponse
+    public function grantBadge(GrantBadgeRequest $request): RedirectResponse
     {
-        $request->validate([
-            'user_ids' => 'required|array|min:1',
-            'user_ids.*' => 'required|exists:users,id',
-            'badge_slug' => 'required|string|exists:badges,slug',
-        ]);
-
         $badge = Badge::where('slug', $request->badge_slug)->firstOrFail();
 
         $pivotData = collect($request->user_ids)->mapWithKeys(

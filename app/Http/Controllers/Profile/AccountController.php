@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Profile;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UpdateAccountRequest;
+use App\Http\Requests\Profile\UpdateAccountRequest;
 use Illuminate\Support\Facades\Auth;
 
 class AccountController extends Controller

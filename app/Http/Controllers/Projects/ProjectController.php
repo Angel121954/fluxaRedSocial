@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Projects;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreEndorsementRequest;
-use App\Http\Requests\StoreProjectReportRequest;
-use App\Http\Requests\StoreProjectRequest;
-use App\Http\Requests\UpdateProjectRequest;
+use App\Http\Requests\Project\StoreEndorsementRequest;
+use App\Http\Requests\Project\StoreProjectReportRequest;
+use App\Http\Requests\Project\StoreProjectRequest;
+use App\Http\Requests\Project\UpdateProjectRequest;
 use App\Models\Profile;
 use App\Models\Project;
 use App\Models\ProjectReport;

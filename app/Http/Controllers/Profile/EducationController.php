@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Profile;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreEducationRequest;
-use App\Http\Requests\UpdateEducationRequest;
+use App\Http\Requests\Profile\StoreEducationRequest;
+use App\Http\Requests\Profile\UpdateEducationRequest;
 use App\Models\Education;
 use Illuminate\Support\Facades\Auth;
 

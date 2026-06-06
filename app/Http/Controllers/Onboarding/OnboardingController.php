@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Onboarding;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Onboarding\StoreAccountTypeRequest;
+use App\Http\Requests\Onboarding\StoreBioRequest;
 use App\Models\Technology;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -15,12 +17,8 @@ class OnboardingController extends Controller
         return view('onboarding.account-type');
     }
 
-    public function saveAccountType(Request $request)
+    public function saveAccountType(StoreAccountTypeRequest $request)
     {
-        $request->validate([
-            'account_type' => 'required|in:developer,company',
-        ]);
-
         /** @var \App\Models\User $user */
         $user = Auth::user();
         $user->update(['account_type' => $request->account_type]);
@@ -76,17 +74,13 @@ class OnboardingController extends Controller
         return view('onboarding.bio');
     }
 
-    public function saveBio(Request $request)
+    public function saveBio(StoreBioRequest $request)
     {
         /** @var \App\Models\User $user */
         $user = Auth::user();
         if (! $user) {
             return redirect()->route('login');
         }
-
-        $request->validate([
-            'bio' => 'nullable|string|max:400',
-        ]);
 
         if ($request->filled('bio')) {
             $user->profile()->update(['bio' => strip_tags($request->bio)]);

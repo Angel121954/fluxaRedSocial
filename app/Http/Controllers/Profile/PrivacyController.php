@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Profile;
 
 use App\Events\PrivacyUpdated;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UpdatePrivacyRequest;
+use App\Http\Requests\Profile\UpdatePrivacyRequest;
 use App\Models\Conversation;
 
 class PrivacyController extends Controller

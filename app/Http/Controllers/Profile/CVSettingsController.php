@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Profile;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UpdateCVSettingsRequest;
+use App\Http\Requests\Profile\UpdateCVSettingsRequest;
 use App\Services\CVService;
 use Illuminate\Support\Facades\Auth;
 

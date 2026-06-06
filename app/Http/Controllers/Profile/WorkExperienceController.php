@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Profile;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreWorkExperienceRequest;
-use App\Http\Requests\UpdateWorkExperienceRequest;
+use App\Http\Requests\Profile\StoreWorkExperienceRequest;
+use App\Http\Requests\Profile\UpdateWorkExperienceRequest;
 use App\Models\WorkExperience;
 use Illuminate\Support\Facades\Auth;
 
