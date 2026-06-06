@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 // app/Http/Middleware/RestrictGuest.php
 
 namespace App\Http\Middleware;
