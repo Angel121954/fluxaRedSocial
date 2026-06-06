@@ -1,0 +1,205 @@
+/* ─────────────────────────────────────────────────
+   PROFILE BAND
+   Avatar, meta, name, bio, URL, verified badge
+   Depende de: variables.css
+───────────────────────────────────────────────── */
+
+.profile-band {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+}
+
+.profile-inner {
+    max-width: 1160px;
+    margin: 0 auto;
+    padding: 2.25rem 1.5rem 0;
+}
+
+.profile-row {
+    display: flex;
+    gap: 1.75rem;
+    align-items: flex-start;
+}
+
+.empty-state {
+    color: var(--ink-400);
+    font-size: 0.875rem;
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 2rem 0;
+}
+
+.avatar-wrap {
+    position: relative;
+    flex-shrink: 0;
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid var(--border-strong);
+    cursor: pointer;
+    box-shadow: var(--shadow-xs);
+}
+
+.avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.avatar-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 30px;
+    background: linear-gradient(to top,
+            rgba(11, 15, 26, 0.72) 0%,
+            transparent 100%);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.875rem;
+    opacity: 0;
+    transform: translateY(4px);
+    transition:
+        opacity 0.22s ease,
+        transform 0.22s ease;
+    z-index: 10;
+}
+
+.avatar-wrap:hover .avatar-overlay,
+.avatar-wrap.active .avatar-overlay {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.av-btn {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.88);
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+    transition: color 0.15s;
+    border-radius: 50%;
+}
+
+.av-btn:hover {
+    color: white;
+}
+
+.av-btn svg {
+    width: 14px;
+    height: 14px;
+    stroke-width: 2.5;
+}
+
+.verify-pip {
+    position: absolute;
+    bottom: 4px;
+    right: 4px;
+    width: 20px;
+    height: 20px;
+    background: var(--accent);
+    border-radius: 50%;
+    border: 2px solid white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 12;
+    pointer-events: none;
+}
+
+.verify-pip svg {
+    width: 9px;
+    height: 9px;
+    color: white;
+    stroke-width: 3;
+}
+
+.profile-meta {
+    flex: 1;
+    min-width: 0;
+}
+
+.meta-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1.5rem;
+}
+
+.meta-left {
+    min-width: 0;
+}
+
+.name-row {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    margin-bottom: 0.25rem;
+}
+
+.profile-name {
+    font-size: 1.5rem;
+    font-weight: 750;
+    color: var(--ink-900);
+    letter-spacing: -0.035em;
+    line-height: 1.2;
+}
+
+.badge-pro {
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--accent);
+    border: 1.5px solid var(--accent-ring);
+    background: var(--accent-dim);
+    padding: 0.2rem 0.5rem;
+    border-radius: var(--r-xs);
+    flex-shrink: 0;
+}
+
+.handle {
+    font-size: 0.875rem;
+    color: var(--ink-400);
+    font-weight: 500;
+    margin-bottom: 0.75rem;
+    letter-spacing: -0.005em;
+}
+
+.bio {
+    font-size: 0.9375rem;
+    color: var(--ink-500);
+    line-height: 1.65;
+    max-width: 700px;
+}
+
+.profile-url {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--accent);
+    text-decoration: none;
+    transition: color 0.15s;
+}
+
+.profile-url:hover {
+    color: var(--accent-dark);
+}
+
+.profile-url svg {
+    width: 12px;
+    height: 12px;
+}

@@ -1,0 +1,444 @@
+/* ─────────────────────────────────────────────────
+   STACK
+   Technology stack grid, stack modal, icon fallback
+   Depende de: variables.css
+───────────────────────────────────────────────── */
+
+.stack-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 0.75rem;
+    padding: 1rem 0;
+}
+
+.stack-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    padding: 1.25rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    cursor: default;
+}
+
+.stack-card:hover {
+    border-color: var(--border-strong);
+    box-shadow: var(--shadow-card);
+}
+
+.stack-icon {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.stack-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--ink-700);
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.stack-empty {
+    color: var(--ink-400);
+    font-size: 0.875rem;
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 2rem 0;
+}
+
+.stack-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.stack-card-link:hover .stack-card {
+    border-color: var(--accent);
+    box-shadow: var(--shadow-hover);
+}
+
+.stack-footer {
+    display: flex;
+    justify-content: center;
+    padding: 0.5rem 0 1.5rem;
+    border-top: 1px solid var(--border);
+    margin-top: 0.5rem;
+}
+
+.stack-add-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--accent);
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: var(--r-md);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.2s;
+}
+
+.stack-add-link:hover {
+    background: color-mix(in srgb, var(--accent) 10%, transparent);
+}
+
+.stack-add-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--accent);
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-decoration: none;
+    margin-top: 0.75rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--accent);
+    border-radius: var(--r-md);
+    background: transparent;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.2s;
+}
+
+.stack-add-btn:hover {
+    background: color-mix(in srgb, var(--accent) 10%, transparent);
+}
+
+.stack-empty p {
+    margin-bottom: 0.25rem;
+}
+
+.stack-category {
+    margin-bottom: 1.75rem;
+}
+
+.stack-category:last-child {
+    margin-bottom: 0;
+}
+
+.stack-category-title {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--ink-500);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.375rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.stack-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: var(--overlay);
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+}
+
+.stack-modal-backdrop.is-open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.stack-modal {
+    background: var(--surface);
+    border-radius: 12px;
+    width: 100%;
+    max-width: 580px;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow:
+        0 4px 24px rgba(0, 0, 0, 0.12),
+        0 1px 4px rgba(0, 0, 0, 0.06);
+    transform: translateY(20px) scale(0.97);
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.25s ease;
+    opacity: 0;
+}
+
+.stack-modal-backdrop.is-open .stack-modal {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+}
+
+.stack-modal-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.5rem 1.5rem 1.25rem;
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+}
+
+.stack-modal-header-text {
+    flex: 1;
+}
+
+.stack-modal-title {
+    font-size: 1.0625rem;
+    font-weight: 700;
+    color: var(--ink-900);
+    letter-spacing: -0.025em;
+}
+
+.stack-modal-subtitle {
+    font-size: 0.8125rem;
+    color: var(--ink-400);
+    margin-top: 0.2rem;
+}
+
+.stack-modal-close {
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+    background: transparent;
+    border: none;
+    border-radius: 50%;
+    color: var(--ink-400);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s, color 0.15s;
+}
+
+.stack-modal-close:hover {
+    background: var(--ink-100);
+    color: var(--ink-700);
+}
+
+.stack-modal-close svg {
+    width: 14px;
+    height: 14px;
+}
+
+.stack-modal-body {
+    padding: 1.25rem 1.5rem;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.stack-modal-search {
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+.stack-modal-search svg {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+    height: 18px;
+    color: var(--ink-400);
+    pointer-events: none;
+}
+
+.stack-modal-search input {
+    width: 100%;
+    padding: 0.625rem 0.75rem 0.625rem 2.25rem;
+    border: 1px solid var(--border);
+    border-radius: var(--r-md);
+    font-size: 0.875rem;
+    font-family: inherit;
+    background: var(--surface);
+    color: var(--ink-900);
+    transition: border-color 0.15s;
+    box-sizing: border-box;
+}
+
+.stack-modal-search input:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+.stack-modal-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.stack-modal-category-title {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--ink-500);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.25rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.stack-modal-category-items {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 0.5rem;
+}
+
+.stack-modal-item {
+    position: relative;
+}
+
+.stack-modal-item input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.stack-modal-item label {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 0.625rem 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: var(--r-md);
+    cursor: pointer;
+    font-size: 0.8125rem;
+    color: var(--ink-700);
+    font-weight: 500;
+    transition: border-color 0.15s, background 0.15s;
+}
+
+.stack-modal-item label:hover {
+    border-color: var(--accent);
+    background: var(--accent-dim);
+}
+
+.stack-modal-item input[type="checkbox"]:checked+label {
+    border-color: var(--accent);
+    background: var(--accent-dim);
+}
+
+.stack-modal-check {
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+    border: 2px solid var(--border-strong);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.15s;
+}
+
+.stack-modal-item input[type="checkbox"]:checked+label .stack-modal-check {
+    background: var(--accent);
+    border-color: var(--accent);
+}
+
+.stack-modal-check svg {
+    width: 10px;
+    height: 10px;
+    opacity: 0;
+    transition: opacity 0.15s;
+}
+
+.stack-modal-item input[type="checkbox"]:checked+label .stack-modal-check svg {
+    opacity: 1;
+}
+
+.stack-modal-item label i {
+    font-size: 20px;
+}
+
+.stack-modal-empty {
+    color: var(--ink-400);
+    font-size: 0.875rem;
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 2rem 0;
+}
+
+.stack-modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    padding: 1.25rem 1.5rem;
+    border-top: 1px solid var(--border);
+    flex-shrink: 0;
+}
+
+.stack-modal-btn-cancel {
+    padding: 0.5rem 1.25rem;
+    border-radius: var(--r-md);
+    border: 1px solid var(--border-strong);
+    background: var(--surface);
+    color: var(--ink-600);
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s;
+    font-family: inherit;
+}
+
+.stack-modal-btn-cancel:hover {
+    background: var(--ink-100);
+}
+
+.stack-modal-btn-save {
+    padding: 0.5rem 1.25rem;
+    border-radius: var(--r-md);
+    border: none;
+    background: var(--accent);
+    color: #fff;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.15s;
+    font-family: inherit;
+}
+
+.stack-modal-btn-save:hover {
+    opacity: 0.9;
+}
+
+.stack-modal-btn-save:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.stack-icon-wrap {
+    position: relative;
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+}
+
+.stack-icon-img {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+    display: block;
+}
+
+.stack-icon-fallback {
+    display: none;
+    position: absolute;
+    inset: 0;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--accent, #0d8e91);
+    background: var(--surface-raised, #f0fdfa);
+    border-radius: 6px;
+    text-align: center;
+}

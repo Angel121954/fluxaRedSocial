@@ -66,26 +66,26 @@
 .followers-close {
     width: 32px;
     height: 32px;
-    border-radius: 8px;
-    border: none;
+    flex-shrink: 0;
     background: transparent;
+    border: none;
+    border-radius: 50%;
     color: var(--ink-400);
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-shrink: 0;
     transition: background 0.15s, color 0.15s;
 }
 
 .followers-close:hover {
-    background: var(--bg);
+    background: var(--ink-100);
     color: var(--ink-700);
 }
 
 .followers-close svg {
-    width: 18px;
-    height: 18px;
+    width: 14px;
+    height: 14px;
 }
 
 .followers-body {
