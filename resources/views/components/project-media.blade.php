@@ -20,34 +20,40 @@ $cloud = config('cloudinary.cloud_name');
 
 $cdn = function(string $publicId, string $preset = 'fill') use ($cloud): string {
 $t = match($preset) {
-'wide' => 'c_limit,q_auto:best,f_auto,w_900', // ← c_limit, sin h forzado
+'wide' => 'c_limit,q_auto:best,f_auto,w_900',
 'tall' => 'c_fill,g_auto,q_auto:good,f_auto,w_600,h_700',
 default => 'c_fill,g_auto,q_auto:good,f_auto,w_600,h_600',
 };
 return "https://res.cloudinary.com/{$cloud}/image/upload/{$t}/{$publicId}";
 };
+
+$fullUrl = fn($item) => $item->public_id
+    ? "https://res.cloudinary.com/{$cloud}/image/upload/q_auto:best,f_auto/{$item->public_id}"
+    : $item->media_url;
+
+$allUrls = $items->map($fullUrl)->values();
 @endphp
 
 @if($total > 0)
 <div
     class="pm-grid pm-layout--{{ $layout }}"
     data-total="{{ $total }}"
+    data-all='{{ $allUrls->toJson() }}'
     aria-label="Imágenes del proyecto ({{ $total }})">
-    @foreach($items->take(4) as $idx => $item)
+    @foreach($items as $realIdx => $item)
+    @if($realIdx > 3) @break @endif
     @php
-    $preset = ($layout === 'single') ? 'wide' : (($layout === 'trio' && $idx === 0) ? 'tall' : 'fill');
-    $isLast = ($idx === 3 && $extra > 0);
+    $visibleIdx = $realIdx;
+    $preset = ($layout === 'single') ? 'wide' : (($layout === 'trio' && $visibleIdx === 0) ? 'tall' : 'fill');
+    $isLast = ($visibleIdx === 3 && $extra > 0);
     $srcUrl = $item->public_id ? $cdn($item->public_id, $preset) : $item->media_url;
-    $fullUrl = $item->public_id
-    ? "https://res.cloudinary.com/{$cloud}/image/upload/q_auto:best,f_auto/{$item->public_id}"
-    : $item->media_url;
     @endphp
 
     <button
-        class="pm-item pm-item--{{ $idx + 1 }}{{ $isLast ? ' pm-item--more' : '' }}"
-        data-lightbox="{{ $fullUrl }}"
-        data-index="{{ $idx }}"
-        aria-label="Ver imagen {{ $idx + 1 }}"
+        class="pm-item pm-item--{{ $visibleIdx + 1 }}{{ $isLast ? ' pm-item--more' : '' }}"
+        data-lightbox="{{ $fullUrl($item) }}"
+        data-index="{{ $realIdx }}"
+        aria-label="Ver imagen {{ $visibleIdx + 1 }}"
         type="button">
         @if($item->type === 'video')
         <video class="pm-media" src="{{ $item->media_url }}"
@@ -61,8 +67,8 @@ return "https://res.cloudinary.com/{$cloud}/image/upload/{$t}/{$publicId}";
         <img
             class="pm-media"
             src="{{ $srcUrl }}"
-            alt="Media {{ $idx + 1 }}"
-            loading="{{ $idx === 0 ? 'eager' : 'lazy' }}"
+            alt="Media {{ $visibleIdx + 1 }}"
+            loading="{{ $visibleIdx === 0 ? 'eager' : 'lazy' }}"
             decoding="async" />
         @endif
 
