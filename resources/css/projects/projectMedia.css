@@ -221,28 +221,27 @@
     position: fixed;
     top: 1.125rem;
     right: 1.125rem;
-    width: 44px;
-    height: 44px;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1.5px solid rgba(255, 255, 255, 0.15);
+    width: 36px;
+    height: 36px;
+    background: rgba(0, 0, 0, 0.35);
+    border: none;
     border-radius: 50%;
     color: #fff;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background 0.15s, transform 0.15s;
+    transition: opacity 0.15s;
     z-index: 9001;
 }
 
 .pm-lb-close:hover {
-    background: rgba(255, 255, 255, 0.22);
-    transform: scale(1.08);
+    opacity: 0.7;
 }
 
 .pm-lb-close svg {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
 }
 
 /* Navegación anterior / siguiente */
@@ -250,17 +249,17 @@
     position: fixed;
     top: 50%;
     transform: translateY(-50%);
-    width: 48px;
-    height: 48px;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1.5px solid rgba(255, 255, 255, 0.15);
+    width: 36px;
+    height: 36px;
+    background: rgba(0, 0, 0, 0.35);
+    border: none;
     border-radius: 50%;
     color: #fff;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background 0.15s, transform 0.2s;
+    transition: opacity 0.15s;
     z-index: 9001;
 }
 
@@ -273,19 +272,18 @@
 }
 
 .pm-lb-nav:hover {
-    background: rgba(255, 255, 255, 0.22);
-    transform: translateY(-50%) scale(1.08);
+    opacity: 0.7;
 }
 
 .pm-lb-nav:disabled {
-    opacity: 0.25;
+    opacity: 0.2;
     cursor: default;
     pointer-events: none;
 }
 
 .pm-lb-nav svg {
-    width: 22px;
-    height: 22px;
+    width: 18px;
+    height: 18px;
 }
 
 /* Contador "2 / 5" */
@@ -324,10 +322,5 @@
 
     .pm-lb-next {
         right: 0.5rem;
-    }
-
-    .pm-lb-nav {
-        width: 40px;
-        height: 40px;
     }
 }
