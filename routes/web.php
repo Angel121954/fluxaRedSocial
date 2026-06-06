@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Http\Controllers\Auth\GuestController;
 use App\Http\Controllers\Auth\SocialAuthController;
 use App\Http\Controllers\Explore\ExploreController;
