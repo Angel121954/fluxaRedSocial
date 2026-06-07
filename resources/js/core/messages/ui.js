@@ -211,13 +211,7 @@ export function initToolbarActions() {
     imageInput.hidden = true;
     imageInput.id = 'msgsImageInput';
 
-    const fileInput = document.createElement('input');
-    fileInput.type = 'file';
-    fileInput.hidden = true;
-    fileInput.id = 'msgsAttachInput';
-
     inputBar.appendChild(imageInput);
-    inputBar.appendChild(fileInput);
 
     function uploadFile(file, mediaType) {
         const sendBtn = document.getElementById('msgsSendBtn');
@@ -311,13 +305,6 @@ export function initToolbarActions() {
         input.selectionStart = input.selectionEnd = start + 8;
         input.focus();
         input.dispatchEvent(new Event('input', { bubbles: true }));
-    });
-
-    fileInput.addEventListener('change', () => {
-        const file = fileInput.files?.[0];
-        if (!file) return;
-        uploadFile(file, 'file');
-        fileInput.value = '';
     });
 
     /* GIF button is handled by giphy.js */
