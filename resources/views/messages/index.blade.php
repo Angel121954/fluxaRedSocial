@@ -81,7 +81,7 @@
                                     <span class="msgs-conv-preview-you">Tú: </span>
                                     @endif
                                     @if($lastMsg && $lastMsg->isMedia() && !$lastMsg->body)
-                                    {{ $lastMsg->isImage() ? 'Imagen' : 'Enlace' }}
+                                    @if($lastMsg->isGif())GIF @elseif($lastMsg->isImage())Imagen @else Archivo @endif
                                     @else
                                     {{ $lastMsg ? Str::limit($lastMsg->body, 38) : '' }}
                                     @endif
@@ -234,8 +234,8 @@
                             onerror="this.src='/img/default-avatar.png'">
                         @endif
                         <div class="msgs-bubble{{ $isMine ? ' msgs-bubble-mine' : ' msgs-bubble-theirs' }}{{ $message->isMedia() ? ' msgs-bubble--media' : '' }}">
-                            @if($message->isMedia() && $message->isImage())
-                            <div class="msgs-media-img-wrap">
+                            @if($message->isMedia() && ($message->isImage() || $message->isGif()))
+                            <div class="msgs-media-img-wrap{{ $message->isGif() ? ' msgs-media-gif-wrap' : '' }}">
                                 <img src="{{ $message->media_url }}" alt="{{ $message->media_name ?? 'Imagen' }}" class="msgs-media-img" loading="lazy">
                             </div>
                             @elseif($message->isMedia() && $message->isFile())
