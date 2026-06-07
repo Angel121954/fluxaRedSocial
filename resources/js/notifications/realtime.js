@@ -166,7 +166,7 @@ function initNotificationsRealtime(userId) {
                 return;
             }
 
-            var previewText = data.body ?? (data.media_type === 'image' ? '📷 Imagen' : '📎 Archivo');
+            var previewText = data.body ?? (data.media_type === 'image' ? '📷 Imagen' : data.media_type === 'gif' ? 'GIF' : '📎 Archivo');
             if (isFromMe) previewText = 'Tú: ' + previewText;
             if (previewText.length > 40) {
                 previewText = previewText.substring(0, 40) + '...';
