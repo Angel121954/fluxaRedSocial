@@ -1,6 +1,5 @@
-import { initUI, initConversationSearch, initMobileNavigation, initModal } from './ui.js';
-import { attachSendHandler } from './sender.js';
-import { startTimeUpdates } from './sender.js';
+import { initUI, initConversationSearch, initMobileNavigation, initModal, initConversationTabs, initMoreDropdown, initToolbarActions } from './ui.js';
+import { attachSendHandler, startTimeUpdates } from './sender.js';
 import { initRealtime } from './realtimeHandler.js';
 import { initTypingBroadcast } from './typingHandler.js';
 import { initBlockHandler } from './blockHandler.js';
@@ -29,19 +28,50 @@ document.addEventListener('DOMContentLoaded', () => {
     const uiHelpers = initUI({ input, sendBtn, bubbleList, convList, sidebarSearch, layout, backBtn });
     attachSendHandler(input, sendBtn, bubbleList, uiHelpers.syncSendBtn);
     initConversationSearch(sidebarSearch, convList);
+    initConversationTabs(convList);
     initMobileNavigation(convList, layout, backBtn, bubbleList);
     initModal({ modalOverlay, modalClose, modalSearch, modalResults });
+    initMoreDropdown();
+    initToolbarActions();
     startTimeUpdates();
     initTypingBroadcast(sendBtn?.dataset.convId, input);
     initRealtime(bubbleList?.dataset.convId, bubbleList, currentUser);
     initBlockHandler();
-    
-    if (window.updateBadges) {
-        window.updateBadges();
+
+    if (window.updateBadges) window.updateBadges();
+
+    if (input?.disabled && sendBtn) sendBtn.disabled = true;
+
+    /* ─── Image preview modal ─── */
+    const imgModal = document.getElementById('msgsImgModal');
+    const imgModalImg = document.getElementById('msgsImgModalImg');
+    const imgModalClose = document.getElementById('msgsImgModalClose');
+
+    function openImgPreview(src) {
+        if (!imgModal || !imgModalImg) return;
+        imgModalImg.src = src;
+        imgModal.classList.add('show');
+        window.lockBodyScroll?.();
     }
 
-    // Ensure input is disabled if recipient doesn't accept messages (server-side rendering)
-    if (input && input.disabled) {
-        if (sendBtn) sendBtn.disabled = true;
+    function closeImgPreview() {
+        if (!imgModal) return;
+        imgModal.classList.remove('show');
+        window.unlockBodyScroll?.();
     }
+
+    document.querySelector('#msgsBubbleList')?.addEventListener('click', (e) => {
+        const img = e.target.closest('.msgs-media-img');
+        if (img) openImgPreview(img.src);
+    });
+
+    imgModalClose?.addEventListener('click', closeImgPreview);
+
+    imgModal?.addEventListener('click', (e) => {
+        if (e.target === imgModal) closeImgPreview();
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && imgModal?.classList.contains('show')) closeImgPreview();
+    });
 });

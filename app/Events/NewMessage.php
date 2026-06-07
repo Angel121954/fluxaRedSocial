@@ -37,7 +37,7 @@ class NewMessage implements ShouldBroadcast
 
     public function broadcastWith(): array
     {
-        return [
+        $data = [
             'id' => $this->message->id,
             'body' => $this->message->body,
             'sender_id' => $this->message->sender_id,
@@ -49,5 +49,13 @@ class NewMessage implements ShouldBroadcast
                 'avatar_url' => $this->message->sender->avatar_url,
             ],
         ];
+
+        if ($this->message->isMedia()) {
+            $data['media_type'] = $this->message->media_type;
+            $data['media_url'] = $this->message->media_url;
+            $data['media_name'] = $this->message->media_name;
+        }
+
+        return $data;
     }
 }

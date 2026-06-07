@@ -1,4 +1,4 @@
-import { appendReceivedBubble, showNotAcceptingMessages } from './messageRenderer.js';
+import { appendReceivedBubble, appendReceivedMediaBubble, showNotAcceptingMessages } from './messageRenderer.js';
 import { scrollToBottom } from './messageUtils.js';
 import { showTypingIndicatorBelowLastMessage, removeTypingIndicator } from './typingHandler.js';
 
@@ -27,13 +27,17 @@ export function initRealtime(convId, bubbleList, currentUser) {
 
     channel.listen('.message.sent', (msg) => {
         if (msg.sender_id !== currentUserId) {
-            appendReceivedBubble(msg, bubbleList);
+            if (msg.media_type && msg.media_url) {
+                appendReceivedMediaBubble(msg, bubbleList);
+            } else {
+                appendReceivedBubble(msg, bubbleList);
+            }
             removeTypingIndicator();
             scrollToBottom(bubbleList, true);
-            
+
             fetch(`/messages/message/${msg.id}/read`, {
                 method: 'PATCH',
-                headers: { 
+                headers: {
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content,
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
@@ -51,6 +55,8 @@ export function initRealtime(convId, bubbleList, currentUser) {
     channel.listen('.privacy.updated', (data) => {
         const input = document.getElementById('msgsInput');
         const sendBtn = document.getElementById('msgsSendBtn');
+        const shareBtn = document.getElementById('msgsShareProjectBtn');
+        const toolbar = document.querySelector('.msgs-toolbar');
         const disabled = document.getElementById('msgsInputDisabled');
         const disabledText = document.getElementById('msgsDisabledText');
         if (!input || !sendBtn || !disabled) return;
@@ -58,11 +64,15 @@ export function initRealtime(convId, bubbleList, currentUser) {
         if (data.accept_messages === false) {
             input.style.display = 'none';
             sendBtn.style.display = 'none';
+            if (shareBtn) shareBtn.style.display = 'none';
+            if (toolbar) toolbar.style.display = 'none';
             disabled.style.display = 'flex';
             if (disabledText) disabledText.textContent = `${data.user_name} no acepta mensajes directos`;
         } else if (data.accept_messages === true) {
             input.style.display = '';
             sendBtn.style.display = '';
+            if (shareBtn) shareBtn.style.display = '';
+            if (toolbar) toolbar.style.display = '';
             disabled.style.display = 'none';
         }
     });

@@ -59,7 +59,7 @@ export function showTypingIndicatorBelowLastMessage(userName, avatarUrl) {
 
     const indicator = document.createElement('div');
     indicator.id = 'typingIndicator';
-    indicator.className = 'msgs-typing-indicator msgs-typing-below';
+    indicator.className = 'msgs-typing-indicator';
     indicator.style.display = 'flex';
 
     indicator.innerHTML = `
@@ -69,8 +69,8 @@ export function showTypingIndicatorBelowLastMessage(userName, avatarUrl) {
             <span></span>
             <span></span>
             <span></span>
+            <span class="msgs-typing-text">${escapeHtml(userName)} está escribiendo...</span>
         </div>
-        <span class="msgs-typing-text">${escapeHtml(userName)} está escribiendo...</span>
     `;
 
     lastBubble.after(indicator);

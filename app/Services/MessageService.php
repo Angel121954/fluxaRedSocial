@@ -11,12 +11,17 @@ use App\Models\Message;
 use App\Models\Profile;
 use App\Models\User;
 use App\Models\UserBlock;
+use App\Services\CloudinaryService;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
 class MessageService
 {
+    public function __construct(
+        protected CloudinaryService $cloudinary,
+    ) {}
     public function findOrCreateConversation(int $userId, int $otherUserId): Conversation
     {
         $conversation = Conversation::where(function ($query) use ($userId, $otherUserId) {
@@ -75,6 +80,25 @@ class MessageService
         UserBlock::where('blocker_id', $blockerId)
             ->where('blocked_id', $blockedId)
             ->delete();
+    }
+
+    public function sendMediaMessage(Conversation $conversation, int $senderId, UploadedFile $file, string $mediaType, ?string $body = null): Message
+    {
+        $result = $this->cloudinary->uploadMessageMedia($file, $mediaType);
+
+        $message = $conversation->messages()->create([
+            'sender_id' => $senderId,
+            'body' => $body,
+            'media_type' => $mediaType,
+            'media_url' => $result['secure_url'],
+            'media_name' => $file->getClientOriginalName(),
+            'media_size' => $file->getSize(),
+            'public_id' => $result['public_id'],
+        ]);
+
+        $message->load('sender');
+
+        return $message;
     }
 
     public function sendMessage(Conversation $conversation, int $senderId, string $body): Message

@@ -1,4 +1,7 @@
 import { scrollToBottom, autosizeInput } from './messageUtils.js';
+import { searchUsers, sendMediaMessage } from './messageService.js';
+import { renderModalResults, createOwnMediaBubble, ensureDateSeparator } from './messageRenderer.js';
+import { updateConvPreview } from './sender.js';
 
 export function initUI({ input, sendBtn, bubbleList, convList, sidebarSearch, layout, backBtn }) {
     scrollToBottom(bubbleList);
@@ -50,10 +53,11 @@ export function initMobileNavigation(convList, layout, backBtn, bubbleList) {
             layout.classList.remove('chat-active');
         });
     }
-
 }
 
 export function initModal({ modalOverlay, modalClose, modalSearch, modalResults }) {
+    let searchTimeout = null;
+
     function openModal() {
         if (!modalOverlay) return;
         modalOverlay.classList.add('active');
@@ -80,42 +84,245 @@ export function initModal({ modalOverlay, modalClose, modalSearch, modalResults 
     });
 
     document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closeModal();
+        if (e.key === 'Escape' && modalOverlay?.classList.contains('active')) closeModal();
     });
 
-    let searchTimeout = null;
+    if (modalSearch && modalResults) {
+        modalSearch.addEventListener('input', () => {
+            clearTimeout(searchTimeout);
+            const query = modalSearch.value.trim();
 
-    modalSearch?.addEventListener('input', () => {
-        clearTimeout(searchTimeout);
-        const query = modalSearch.value.trim();
-
-        if (query.length < 2) {
-            if (modalResults) {
+            if (!query) {
                 modalResults.innerHTML = '<p class="msgs-modal-hint">Empieza a escribir para buscar usuarios.</p>';
+                return;
             }
-            return;
-        }
 
-        if (modalResults) {
             modalResults.innerHTML = '<p class="msgs-modal-hint">Buscando...</p>';
-        }
 
-        searchTimeout = setTimeout(() => {
-            searchModalUsers(query, modalResults);
-        }, 320);
+            searchTimeout = setTimeout(async () => {
+                try {
+                    const users = await searchUsers(query);
+                    renderModalResults(users, modalResults);
+                } catch {
+                    modalResults.innerHTML = '<p class="msgs-modal-hint">Error al buscar usuarios.</p>';
+                }
+            }, 300);
+        });
+    }
+}
+
+/**
+ * Tabs de filtro: Todos / No leídos / Grupos
+ */
+export function initConversationTabs(convList) {
+    const tabs = document.querySelectorAll('.msgs-tab');
+    if (!tabs.length || !convList) return;
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            // Actualizar estado de tabs
+            tabs.forEach(t => {
+                t.classList.remove('active');
+                t.setAttribute('aria-selected', 'false');
+            });
+            tab.classList.add('active');
+            tab.setAttribute('aria-selected', 'true');
+
+            const type = tab.dataset.tab;
+            const items = convList.querySelectorAll('.msgs-conv-item');
+
+            items.forEach(item => {
+                if (type === 'all') {
+                    item.classList.remove('tab-hidden');
+                } else if (type === 'unread') {
+                    const hasUnread = item.dataset.unread === 'true';
+                    item.classList.toggle('tab-hidden', !hasUnread);
+                } else if (type === 'groups') {
+                    const isGroup = item.dataset.type === 'group';
+                    item.classList.toggle('tab-hidden', !isGroup);
+                }
+            });
+        });
     });
 }
 
-async function searchModalUsers(query, modalResults) {
-    try {
-        const { searchUsers } = await import('./messageService.js');
-        const { renderModalResults } = await import('./messageRenderer.js');
-        const users = await searchUsers(query);
-        renderModalResults(users, modalResults);
-    } catch (err) {
-        console.error('[Fluxa Messages] Search error:', err);
-        if (modalResults) {
-            modalResults.innerHTML = '<p class="msgs-modal-hint">No se pudo realizar la búsqueda.</p>';
+/**
+ * Dropdown "más opciones" del header
+ */
+export function initMoreDropdown() {
+    const moreBtn = document.getElementById('msgsMoreBtn');
+    const dropdown = document.getElementById('msgsMoreDropdown');
+    if (!moreBtn || !dropdown) return;
+
+    moreBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isOpen = dropdown.classList.contains('open');
+        dropdown.classList.toggle('open', !isOpen);
+        dropdown.setAttribute('aria-hidden', isOpen ? 'true' : 'false');
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!dropdown.contains(e.target) && e.target !== moreBtn) {
+            dropdown.classList.remove('open');
+            dropdown.setAttribute('aria-hidden', 'true');
         }
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            dropdown.classList.remove('open');
+            dropdown.setAttribute('aria-hidden', 'true');
+        }
+    });
+}
+
+export function initToolbarActions() {
+    const showComingSoon = (label) => {
+        if (window.showToast) {
+            window.showToast(`${label} próximamente`, 'info');
+        }
+    };
+
+    document.getElementById('msgsCallBtn')?.addEventListener('click', () => showComingSoon('Llamadas de voz'));
+    document.getElementById('msgsVideoBtn')?.addEventListener('click', () => showComingSoon('Videollamadas'));
+    document.getElementById('msgsChatSearchBtn')?.addEventListener('click', () => showComingSoon('Buscar en la conversación'));
+    document.getElementById('msgsEmojiBtn')?.addEventListener('click', () => showComingSoon('Selector de emoji'));
+    document.getElementById('msgsCodeBtn')?.addEventListener('click', () => {
+        const input = document.getElementById('msgsInput');
+        if (!input) return;
+        const snippet = '```\n\n```';
+        const start = input.selectionStart;
+        const end = input.selectionEnd;
+        input.value = input.value.slice(0, start) + snippet + input.value.slice(end);
+        input.selectionStart = input.selectionEnd = start + 4;
+        input.focus();
+        input.dispatchEvent(new Event('input'));
+    });
+    document.getElementById('msgsShareProjectBtn')?.addEventListener('click', () => showComingSoon('Compartir proyecto'));
+    document.getElementById('msgsClearBtn')?.addEventListener('click', () => showComingSoon('Limpiar conversación'));
+
+    /* ─── Input ocultos para upload ─── */
+    const inputBar = document.getElementById('msgsInputBar');
+    if (!inputBar) return;
+
+    const imageInput = document.createElement('input');
+    imageInput.type = 'file';
+    imageInput.accept = 'image/jpeg,image/png,image/gif,image/webp';
+    imageInput.hidden = true;
+    imageInput.id = 'msgsImageInput';
+
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.hidden = true;
+    fileInput.id = 'msgsAttachInput';
+
+    inputBar.appendChild(imageInput);
+    inputBar.appendChild(fileInput);
+
+    function uploadFile(file, mediaType) {
+        const sendBtn = document.getElementById('msgsSendBtn');
+        const convId = sendBtn?.dataset.convId;
+        if (!convId) {
+            if (window.showToast) window.showToast('Selecciona una conversación primero', 'error');
+            return;
+        }
+
+        const input = document.getElementById('msgsInput');
+        const body = input?.value.trim() || '';
+
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('media_type', mediaType);
+        if (body) formData.append('body', body);
+
+        const bubbleList = document.getElementById('msgsBubbleList');
+
+        const previewText = mediaType === 'image' ? 'Tú: 📷 Imagen' : 'Tú: 📎 ' + file.name;
+        updateConvPreview(convId, previewText);
+
+        const now = new Date();
+        const dateKey = now.toLocaleDateString('en-CA', { timeZone: 'America/Bogota' });
+        const tempBubble = createOwnMediaBubble(
+            { id: null, media_type: mediaType, media_url: URL.createObjectURL(file), media_name: file.name, media_size: file.size },
+            body,
+            now.toISOString(),
+            'sending'
+        );
+        if (bubbleList) {
+            ensureDateSeparator(bubbleList, dateKey);
+            bubbleList.appendChild(tempBubble);
+            scrollToBottom(bubbleList, true);
+            if (input) {
+                input.value = '';
+                autosizeInput(input);
+                input.dispatchEvent(new Event('input'));
+            }
+        }
+
+        sendMediaMessage(formData, convId)
+            .then((data) => {
+                tempBubble.dataset.msgId = data.id ?? '';
+                const time = tempBubble.querySelector('.msgs-bubble-time');
+                if (time) time.classList.remove('sending');
+
+                if (data.media_url) {
+                    const img = tempBubble.querySelector('.msgs-media-img');
+                    if (img) {
+                        URL.revokeObjectURL(img.src);
+                        img.src = data.media_url;
+                    }
+                }
+            })
+            .catch((err) => {
+                console.error('[Fluxa Messages]', err);
+                const time = tempBubble.querySelector('.msgs-bubble-time');
+                if (time) {
+                    time.textContent = 'Error al enviar';
+                    time.classList.remove('sending');
+                }
+                tempBubble.classList.add('msgs-bubble-failed');
+
+                if (window.showToast) {
+                    window.showToast('Error al enviar el archivo', 'error');
+                }
+            });
     }
+
+    /* ─── Image upload ─── */
+    document.getElementById('msgsImageBtn')?.addEventListener('click', () => {
+        imageInput.click();
+    });
+
+    imageInput.addEventListener('change', () => {
+        const file = imageInput.files?.[0];
+        if (!file) return;
+        uploadFile(file, 'image');
+        imageInput.value = '';
+    });
+
+    /* ─── Attach / autocomplete https:// ─── */
+    document.getElementById('msgsAttachBtn')?.addEventListener('click', () => {
+        const input = document.getElementById('msgsInput');
+        if (!input) return;
+        const start = input.selectionStart;
+        const end = input.selectionEnd;
+        const text = input.value;
+        input.value = text.slice(0, start) + 'https://' + text.slice(end);
+        input.selectionStart = input.selectionEnd = start + 8;
+        input.focus();
+        input.dispatchEvent(new Event('input', { bubbles: true }));
+    });
+
+    fileInput.addEventListener('change', () => {
+        const file = fileInput.files?.[0];
+        if (!file) return;
+        uploadFile(file, 'file');
+        fileInput.value = '';
+    });
+
+    document.getElementById('msgsGifBtn')?.addEventListener('click', () => {
+        if (window.showToast) {
+            window.showToast('GIFs próximamente', 'info');
+        }
+    });
 }

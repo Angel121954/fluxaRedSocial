@@ -73,6 +73,27 @@ class CloudinaryService
         ]);
     }
 
+    public function uploadMessageMedia(UploadedFile $file, string $type): array
+    {
+        $mime = $file->getMimeType();
+        $isImage = $type === 'image' || str_starts_with($mime, 'image/');
+
+        $options = [
+            'resource_type' => $isImage ? 'image' : 'auto',
+            'use_filename' => true,
+            'unique_filename' => true,
+        ];
+
+        if ($isImage) {
+            $options['transformation'] = [
+                'quality' => 'auto',
+                'fetch_format' => 'auto',
+            ];
+        }
+
+        return $this->upload($file, 'fluxa/messages', null, $options);
+    }
+
     public function getImageUrl(string $publicId): string
     {
         return $this->cloudinary->image($publicId)->toUrl();

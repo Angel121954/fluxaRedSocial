@@ -22,3 +22,11 @@ export function autosizeInput(input) {
     input.style.height = 'auto';
     input.style.height = Math.min(input.scrollHeight, 140) + 'px';
 }
+
+export function formatFileSize(bytes) {
+    if (!bytes || bytes === 0) return '';
+    const units = ['B', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(1024));
+    const size = (bytes / Math.pow(1024, i)).toFixed(i > 0 ? 1 : 0);
+    return size + ' ' + units[i];
+}

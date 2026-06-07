@@ -1,14 +1,61 @@
+function setBlockButtonState(btn, blocked) {
+    btn.dataset.blocked = blocked ? 'true' : 'false';
+    btn.classList.toggle('is-blocked', blocked);
+    btn.setAttribute('aria-label', blocked ? 'Desbloquear usuario' : 'Bloquear usuario');
+
+    const svg = btn.querySelector('svg');
+    if (svg) {
+        svg.innerHTML = blocked
+            ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />'
+            : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />';
+    }
+
+    btn.childNodes.forEach(node => {
+        if (node.nodeType === 3 && node.textContent.trim()) {
+            node.textContent = blocked ? 'Desbloquear usuario' : 'Bloquear usuario';
+        }
+    });
+}
+
+function updateInputState(blocked, userName) {
+    const input = document.getElementById('msgsInput');
+    const sendBtn = document.getElementById('msgsSendBtn');
+    const shareBtn = document.getElementById('msgsShareProjectBtn');
+    const toolbar = document.querySelector('.msgs-toolbar');
+    const disabled = document.getElementById('msgsInputDisabled');
+    const disabledText = document.getElementById('msgsDisabledText');
+    if (!disabled) return;
+
+    if (blocked) {
+        if (input) input.style.display = 'none';
+        if (sendBtn) sendBtn.style.display = 'none';
+        if (shareBtn) shareBtn.style.display = 'none';
+        if (toolbar) toolbar.style.display = 'none';
+        disabled.style.display = 'flex';
+        if (disabledText) {
+            disabledText.textContent = `No puedes enviar mensajes a este usuario. ${userName} te ha bloqueado.`;
+        }
+    } else {
+        if (input) input.style.display = '';
+        if (sendBtn) sendBtn.style.display = '';
+        if (shareBtn) shareBtn.style.display = '';
+        if (toolbar) toolbar.style.display = '';
+        disabled.style.display = 'none';
+    }
+}
+
 export function initBlockHandler() {
     const blockBtn = document.getElementById('msgsBlockBtn');
     if (!blockBtn) return;
 
-    const blockIcon = blockBtn.querySelector('.msgs-block-icon');
-    const unblockIcon = blockBtn.querySelector('.msgs-unblock-icon');
+    const userId = blockBtn.dataset.userId;
+    const userName = document.querySelector('.msgs-chat-header-name')?.textContent?.trim() ?? 'Usuario';
+    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content ?? '';
 
     blockBtn.addEventListener('click', async () => {
-        const userId = blockBtn.dataset.userId;
-        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content ?? '';
+        const wasBlocked = blockBtn.dataset.blocked === 'true';
 
+        setBlockButtonState(blockBtn, !wasBlocked);
         blockBtn.disabled = true;
 
         try {
@@ -24,22 +71,20 @@ export function initBlockHandler() {
 
             if (!res.ok) {
                 const err = await res.json();
-                throw new Error(err.error || 'Error al bloquear usuario');
+                throw new Error(err.error || 'Error al cambiar estado de bloqueo');
             }
 
             const data = await res.json();
 
-            blockBtn.dataset.blocked = data.blocked ? 'true' : 'false';
-            blockBtn.classList.toggle('is-blocked', data.blocked);
-            blockBtn.setAttribute('aria-label', data.blocked ? 'Desbloquear usuario' : 'Bloquear usuario');
-
-            if (blockIcon) blockIcon.style.display = data.blocked ? 'none' : 'block';
-            if (unblockIcon) unblockIcon.style.display = data.blocked ? 'block' : 'none';
+            setBlockButtonState(blockBtn, data.blocked);
+            updateInputState(data.blocked, userName);
 
             if (window.showToast) {
                 window.showToast(data.message);
             }
         } catch (err) {
+            setBlockButtonState(blockBtn, wasBlocked);
+
             if (window.showToast) {
                 window.showToast(err.message, 'error');
             }
