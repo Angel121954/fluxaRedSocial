@@ -320,9 +320,5 @@ export function initToolbarActions() {
         fileInput.value = '';
     });
 
-    document.getElementById('msgsGifBtn')?.addEventListener('click', () => {
-        if (window.showToast) {
-            window.showToast('GIFs próximamente', 'info');
-        }
-    });
+    /* GIF button is handled by giphy.js */
 }

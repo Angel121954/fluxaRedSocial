@@ -81,7 +81,7 @@
                                     <span class="msgs-conv-preview-you">Tú: </span>
                                     @endif
                                     @if($lastMsg && $lastMsg->isMedia() && !$lastMsg->body)
-                                    {{ $lastMsg->isImage() ? 'Imagen' : '📎 ' . $lastMsg->media_name }}
+                                    {{ $lastMsg->isImage() ? 'Imagen' : 'Enlace' }}
                                     @else
                                     {{ $lastMsg ? Str::limit($lastMsg->body, 38) : '' }}
                                     @endif
@@ -429,6 +429,7 @@
 @push('styles')
 @vite('resources/css/shared/modal.css')
 @vite('resources/css/core/messages.css')
+@vite('resources/css/core/messages/giphy.css')
 @endpush
 
 @push('scripts')

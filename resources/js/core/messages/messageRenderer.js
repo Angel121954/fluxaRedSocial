@@ -218,9 +218,10 @@ export function createOwnMediaBubble(mediaData, text, dateStr, status) {
     const bubble = document.createElement('div');
     bubble.className = 'msgs-bubble msgs-bubble-mine msgs-bubble--media';
 
-    if (mediaData.media_type === 'image') {
+    if (mediaData.media_type === 'image' || mediaData.media_type === 'gif') {
         const imgWrap = document.createElement('div');
         imgWrap.className = 'msgs-media-img-wrap';
+        if (mediaData.media_type === 'gif') imgWrap.classList.add('msgs-media-gif-wrap');
         const img = document.createElement('img');
         img.className = 'msgs-media-img';
         img.src = mediaData.media_url;
@@ -301,9 +302,10 @@ export function appendReceivedMediaBubble(msg, bubbleList) {
     const bubble = document.createElement('div');
     bubble.className = 'msgs-bubble msgs-bubble-theirs msgs-bubble--media';
 
-    if (msg.media_type === 'image') {
+    if (msg.media_type === 'image' || msg.media_type === 'gif') {
         const imgWrap = document.createElement('div');
         imgWrap.className = 'msgs-media-img-wrap';
+        if (msg.media_type === 'gif') imgWrap.classList.add('msgs-media-gif-wrap');
         const img = document.createElement('img');
         img.className = 'msgs-media-img';
         img.src = msg.media_url;

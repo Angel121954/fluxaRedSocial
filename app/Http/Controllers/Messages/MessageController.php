@@ -165,6 +165,49 @@ class MessageController extends Controller
         ]);
     }
 
+    public function storeGif(StoreMediaMessageRequest $request, Conversation $conversation): JsonResponse
+    {
+        $user = auth()->user();
+
+        $this->authorize('view', $conversation);
+
+        $recipientId = $conversation->user_a_id === $user->id
+            ? $conversation->user_b_id
+            : $conversation->user_a_id;
+
+        if (! $this->messageService->canSendMessage($user->id, $recipientId)) {
+            return response()->json([
+                'error' => 'Este usuario no acepta mensajes directos',
+                'recipient_accepts_messages' => false,
+            ], 403);
+        }
+
+        $message = $this->messageService->sendGifMessage(
+            $conversation,
+            $user->id,
+            $request->string('gif_url')->toString(),
+            $request->string('body')->toString() ?: null,
+        );
+
+        $this->messageService->autoReadIfViewing($message, $conversation->id, $recipientId);
+
+        $this->messageService->broadcastNewMessage($message, $conversation->id, $recipientId);
+
+        return response()->json([
+            'id' => $message->id,
+            'body' => $message->body,
+            'media_type' => $message->media_type,
+            'media_url' => $message->media_url,
+            'sender' => [
+                'id' => $message->sender->id,
+                'name' => $message->sender->name,
+                'avatar_url' => $message->sender->avatar_url,
+            ],
+            'created_at' => $message->created_at->timezone('America/Bogota')->toIso8601String(),
+            'recipient_accepts_messages' => true,
+        ]);
+    }
+
     public function storeMedia(StoreMediaMessageRequest $request, Conversation $conversation): JsonResponse
     {
         $user = auth()->user();

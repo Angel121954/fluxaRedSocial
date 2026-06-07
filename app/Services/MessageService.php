@@ -82,6 +82,25 @@ class MessageService
             ->delete();
     }
 
+    public function sendGifMessage(Conversation $conversation, int $senderId, string $gifUrl, ?string $body = null): Message
+    {
+        $result = $this->cloudinary->uploadFromUrl($gifUrl, 'fluxa/messages');
+
+        $message = $conversation->messages()->create([
+            'sender_id' => $senderId,
+            'body' => $body,
+            'media_type' => 'gif',
+            'media_url' => $result['secure_url'],
+            'media_name' => 'GIPHY.gif',
+            'media_size' => $result['bytes'] ?? 0,
+            'public_id' => $result['public_id'],
+        ]);
+
+        $message->load('sender');
+
+        return $message;
+    }
+
     public function sendMediaMessage(Conversation $conversation, int $senderId, UploadedFile $file, string $mediaType, ?string $body = null): Message
     {
         $result = $this->cloudinary->uploadMessageMedia($file, $mediaType);

@@ -1,4 +1,5 @@
 import { initUI, initConversationSearch, initMobileNavigation, initModal, initConversationTabs, initMoreDropdown, initToolbarActions } from './ui.js';
+import { initGiphyPicker } from './giphy.js';
 import { attachSendHandler, startTimeUpdates } from './sender.js';
 import { initRealtime } from './realtimeHandler.js';
 import { initTypingBroadcast } from './typingHandler.js';
@@ -33,6 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initModal({ modalOverlay, modalClose, modalSearch, modalResults });
     initMoreDropdown();
     initToolbarActions();
+    initGiphyPicker();
     startTimeUpdates();
     initTypingBroadcast(sendBtn?.dataset.convId, input);
     initRealtime(bubbleList?.dataset.convId, bubbleList, currentUser);

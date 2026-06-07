@@ -54,4 +54,8 @@ return [
         'client_secret' => env('FACEBOOK_CLIENT_SECRET'),
         'redirect' => env('FACEBOOK_REDIRECT_URI'),
     ],
+
+    'giphy' => [
+        'api_key' => env('GIPHY_API_KEY'),
+    ],
 ];

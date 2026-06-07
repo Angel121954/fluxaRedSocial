@@ -73,6 +73,31 @@ class CloudinaryService
         ]);
     }
 
+    public function uploadFromUrl(string $url, string $folder, ?string $publicId = null, array $options = []): array
+    {
+        $uploadOptions = array_merge([
+            'folder' => $folder,
+            'resource_type' => 'image',
+        ], $options);
+
+        if ($publicId) {
+            $uploadOptions['public_id'] = $publicId;
+            $uploadOptions['overwrite'] = true;
+        }
+
+        $result = $this->cloudinary->uploadApi()->upload($url, $uploadOptions);
+        $resultArray = $result->getArrayCopy();
+
+        Log::info('Archivo subido a Cloudinary desde URL', [
+            'public_id' => $resultArray['public_id'],
+            'folder' => $folder,
+            'format' => $resultArray['format'] ?? null,
+            'bytes' => $resultArray['bytes'] ?? null,
+        ]);
+
+        return $resultArray;
+    }
+
     public function uploadMessageMedia(UploadedFile $file, string $type): array
     {
         $mime = $file->getMimeType();

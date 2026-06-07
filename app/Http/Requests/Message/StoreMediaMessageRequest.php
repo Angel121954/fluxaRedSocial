@@ -21,11 +21,13 @@ class StoreMediaMessageRequest extends FormRequest
         $mediaType = $this->input('media_type', 'file');
 
         $rules = [
-            'media_type' => 'required|string|in:image,file',
+            'media_type' => 'required|string|in:image,file,gif',
             'body' => 'nullable|string|max:2000',
         ];
 
-        if ($mediaType === 'image') {
+        if ($mediaType === 'gif') {
+            $rules['gif_url'] = ['required', 'url'];
+        } elseif ($mediaType === 'image') {
             $rules['file'] = [
                 'required',
                 'file',
@@ -49,6 +51,8 @@ class StoreMediaMessageRequest extends FormRequest
             'file.required' => 'Debes seleccionar un archivo.',
             'file.mimes' => 'La imagen debe ser JPG, PNG, GIF o WebP.',
             'file.max' => 'El archivo no puede superar los :max kilobytes.',
+            'gif_url.required' => 'La URL del GIF es requerida.',
+            'gif_url.url' => 'La URL del GIF no es válida.',
             'media_type.required' => 'El tipo de medio es requerido.',
             'media_type.in' => 'El tipo de medio no es válido.',
             'body.max' => 'El mensaje no puede exceder 2000 caracteres.',

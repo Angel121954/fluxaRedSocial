@@ -41,6 +41,7 @@ export default defineConfig({
                 // Core
                 "resources/css/core/explore.css",
                 "resources/css/core/messages.css",
+                "resources/css/core/messages/giphy.css",
 
                 // Notifications
                 "resources/css/notifications.css",
@@ -153,6 +154,7 @@ export default defineConfig({
                 "resources/js/core/messages/sender.js",
                 "resources/js/core/messages/typingHandler.js",
                 "resources/js/core/messages/ui.js",
+                "resources/js/core/messages/giphy.js",
 
                 // Core Notifications JS
                 "resources/js/notifications/index.js",
