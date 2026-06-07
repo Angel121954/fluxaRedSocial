@@ -8,6 +8,9 @@ if [ "$BRANCH" = "master" ]; then
     exit 1
 fi
 
+echo "→ push origin rama_angel"
+git push origin "$BRANCH"
+
 echo "→ checkout master"
 git checkout master
 
@@ -16,6 +19,9 @@ git merge "$BRANCH"
 
 echo "→ push origin master"
 git push origin master
+
+echo "→ push origin $BRANCH"
+git push origin "$BRANCH"
 
 echo "→ checkout $BRANCH"
 git checkout "$BRANCH"
