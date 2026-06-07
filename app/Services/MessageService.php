@@ -84,7 +84,7 @@ class MessageService
 
     public function sendGifMessage(Conversation $conversation, int $senderId, string $gifUrl, ?string $body = null): Message
     {
-        $result = $this->cloudinary->uploadFromUrl($gifUrl, 'fluxa/messages');
+        $result = $this->cloudinary->uploadFromUrl($gifUrl, 'fluxa/messages/gifs');
 
         $message = $conversation->messages()->create([
             'sender_id' => $senderId,

@@ -116,7 +116,7 @@ class CloudinaryService
             ];
         }
 
-        return $this->upload($file, 'fluxa/messages', null, $options);
+        return $this->upload($file, 'fluxa/messages/images', null, $options);
     }
 
     public function getImageUrl(string $publicId): string
