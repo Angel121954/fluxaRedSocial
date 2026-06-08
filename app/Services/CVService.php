@@ -14,18 +14,6 @@ use Spatie\Browsershot\Browsershot;
 
 class CVService
 {
-    private const ICON_EXCEPTIONS = [
-        'amazonwebservices' => 'plain-wordmark',
-        'angularjs' => 'plain',
-        'django' => 'plain',
-        'tailwindcss' => 'original',
-        'kubernetes' => 'plain',
-        'graphql' => 'plain',
-        'firebase' => 'plain',
-        'express' => 'original-wordmark',
-        'axios' => 'plain',
-    ];
-
     private const DEFAULT_CV_SETTINGS = [
         'template' => 'classic',
         'show_photo' => true,
@@ -173,9 +161,7 @@ class CVService
     {
         return $user->technologies()->orderBy('name')->get()
             ->map(function ($tech) {
-                $slug = (string) $tech->slug;
-                $tipo = self::ICON_EXCEPTIONS[$slug] ?? 'original';
-                $url = "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/{$slug}/{$slug}-{$tipo}.svg";
+                $url = $tech->iconUrl();
 
                 try {
                     $tech->iconoB64 = 'data:image/svg+xml;base64,' . base64_encode(file_get_contents($url));
