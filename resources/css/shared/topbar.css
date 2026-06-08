@@ -649,7 +649,7 @@
     /* ── Navbar ─────────────────────────────── */
 
     .navbar-inner {
-        height: 52px;
+        height: 48px;
         padding: 0 1rem;
         gap: 0.75rem;
     }
@@ -659,7 +659,7 @@
     }
 
     .nav-logo {
-        height: 60px;
+        height: 40px;
     }
 
     /* Ocultar links y búsqueda en desktop */
@@ -685,7 +685,7 @@
     .mobile-menu {
         display: block;
         position: fixed;
-        top: 52px;
+        top: 48px;
         left: 0;
         right: 0;
         bottom: 0;
@@ -853,11 +853,10 @@
     }
 
     .nav-logo {
-        height: 48px;
+        height: 36px;
     }
 
     .mobile-menu {
-        top: 52px;
-        /* mismo que el navbar */
+        top: 48px;
     }
 }
