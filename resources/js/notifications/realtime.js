@@ -138,7 +138,7 @@ function initNotificationsRealtime(userId) {
                 if (toolbar) toolbar.style.display = 'none';
                 if (disabled) disabled.style.display = 'flex';
                 var blockerName = document.querySelector('.msgs-chat-header-name')?.textContent || 'Este usuario';
-                if (disabledText) disabledText.textContent = 'No puedes envíar mensajes a esté usuario. ' + blockerName + ' te ha bloqueado';
+                if (disabledText) disabledText.textContent = 'No puedes enviar mensajes a este usuario. ' + blockerName + ' te ha bloqueado';
             } else {
                 var acceptsMessages = blockBtn.dataset.acceptsMessages !== 'false';
                 if (acceptsMessages) {

@@ -321,12 +321,12 @@
                             <button class="msgs-toolbar-btn msgs-toolbar-btn--label" id="msgsGifBtn" aria-label="GIF" title="GIF">
                                 <span>GIF</span>
                             </button>
-                            <button class="msgs-toolbar-btn" id="msgsCodeBtn" aria-label="Enviar código" title="Código">
+                            <!-- <button class="msgs-toolbar-btn" id="msgsCodeBtn" aria-label="Enviar código" title="Código">
                                 <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
                                 </svg>
-                            </button>
+                            </button> -->
                         </div>
 
                         <div class="msgs-input-actions">
@@ -357,6 +357,8 @@
                                 <span id="msgsDisabledText">
                                     @if($isBlockedByOther)
                                     No puedes enviar mensajes a este usuario. {{ $otherUser->name ?? '' }} te ha bloqueado.
+                                    @elseif($hasBlockedOther)
+                                    Has bloqueado a {{ $otherUser->name }}.
                                     @else
                                     {{ $otherUser->name }} no acepta mensajes directos.
                                     @endif

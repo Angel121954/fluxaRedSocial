@@ -17,33 +17,6 @@ function setBlockButtonState(btn, blocked) {
     });
 }
 
-function updateInputState(blocked, userName) {
-    const input = document.getElementById('msgsInput');
-    const sendBtn = document.getElementById('msgsSendBtn');
-    const shareBtn = document.getElementById('msgsShareProjectBtn');
-    const toolbar = document.querySelector('.msgs-toolbar');
-    const disabled = document.getElementById('msgsInputDisabled');
-    const disabledText = document.getElementById('msgsDisabledText');
-    if (!disabled) return;
-
-    if (blocked) {
-        if (input) input.style.display = 'none';
-        if (sendBtn) sendBtn.style.display = 'none';
-        if (shareBtn) shareBtn.style.display = 'none';
-        if (toolbar) toolbar.style.display = 'none';
-        disabled.style.display = 'flex';
-        if (disabledText) {
-            disabledText.textContent = `No puedes enviar mensajes a este usuario. ${userName} te ha bloqueado.`;
-        }
-    } else {
-        if (input) input.style.display = '';
-        if (sendBtn) sendBtn.style.display = '';
-        if (shareBtn) shareBtn.style.display = '';
-        if (toolbar) toolbar.style.display = '';
-        disabled.style.display = 'none';
-    }
-}
-
 export function initBlockHandler() {
     const blockBtn = document.getElementById('msgsBlockBtn');
     if (!blockBtn) return;
@@ -77,7 +50,6 @@ export function initBlockHandler() {
             const data = await res.json();
 
             setBlockButtonState(blockBtn, data.blocked);
-            updateInputState(data.blocked, userName);
 
             if (window.showToast) {
                 window.showToast(data.message);
