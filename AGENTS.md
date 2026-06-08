@@ -54,6 +54,56 @@ La solución más simple que funciona es la mejor. No agregar capas de indirecci
 | Fuente principal | Figtree (Tailwind sans) |
 | Fuente monospace | JetBrains Mono (--mono) |
 
+### Paquetes (Composer)
+
+| Paquete | Propósito |
+|---------|-----------|
+| Laravel Framework | Framework base |
+| Laravel Fortify | Autenticación (login, registro, 2FA) |
+| Laravel Socialite | OAuth social (GitHub, Google, etc.) |
+| Laravel Reverb | WebSockets en tiempo real |
+| Laravel Sanctum | API tokens |
+| Laravel Telescope | Debug y observabilidad (dev) |
+| Laravel Sail | Entorno Docker (dev) |
+| Laravel Pint | Linting PHP (dev) |
+| Livewire | Componentes reactivos del lado del servidor |
+| Spatie Browsershot | Generación de PDF con Puppeteer |
+| Cloudinary Laravel | Subida y transformación de imágenes |
+| Endroid QR Code | Generación de códigos QR |
+| Pest PHP | Testing (dev) |
+| Guzzle | Cliente HTTP |
+| Faker PHP | Generación de datos falsos (dev) |
+| PHPUnit | Testing base (dev) |
+| Laravel Tinker | REPL interactivo (dev) |
+
+### Paquetes JS (NPM)
+
+| Paquete | Propósito |
+|---------|-----------|
+| Vite | Build tool y dev server |
+| Tailwind CSS | Framework CSS utilitario |
+| Axios | Cliente HTTP para el frontend |
+| Laravel Echo | Cliente WebSocket (Reverb/Pusher) |
+| Pusher JS | Protocolo WebSocket |
+| Chart.js | Gráficos interactivos (admin) |
+| Ziggy | Generación de rutas Laravel en JS |
+| Puppeteer | Headless Chrome (para PDF con Browsershot) |
+| Lodash | Utilidades JS |
+
+### Librerías CDN
+
+| Librería | Propósito |
+|----------|-----------|
+| SweetAlert2 | Alertas y modales personalizados |
+| Devicon | Íconos de tecnologías de programación |
+
+### APIs externas
+
+| API | Propósito |
+|-----|-----------|
+| Cloudinary | Almacenamiento, transformación y entrega de imágenes |
+| GIPHY | Búsqueda e inserción de GIFs en mensajería |
+
 ## Convenciones de código
 
 ### PHP / Laravel
