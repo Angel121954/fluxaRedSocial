@@ -1,17 +1,9 @@
-@props(['badges' => collect(), 'allBadges' => collect()])
-
-@php
-$categories = [
-'proyectos' => 'Proyectos',
-'comunidad' => 'Comunidad',
-'social' => 'Social',
-'transparencia' => 'Transparencia salarial',
-'perfil' => 'Perfil',
-'especial' => 'Especiales',
-];
-
-$tierLabels = [1 => 'Bronce', 2 => 'Plata', 3 => 'Oro'];
-@endphp
+@props([
+    'badges' => collect(),
+    'allBadges' => collect(),
+    'badgeCategories' => [],
+    'tierLabels' => [],
+])
 
 <div class="badges-modal-backdrop" id="badgesModal">
     <div class="badges-modal">
@@ -28,7 +20,7 @@ $tierLabels = [1 => 'Bronce', 2 => 'Plata', 3 => 'Oro'];
         </div>
 
         <div class="badges-modal-body">
-            @foreach($categories as $catKey => $catLabel)
+            @foreach($badgeCategories as $catKey => $catLabel)
             @php
             $catBadges = $allBadges->where('category', $catKey);
             if ($catBadges->isEmpty()) continue;

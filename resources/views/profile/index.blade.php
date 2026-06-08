@@ -281,14 +281,23 @@
 
     {{-- Panel: Stack --}}
     <div class="content" data-panel="stack" style="display:none">
-        <x-stack-tab :technologies="$technologies" :isOwner="$isOwner" />
+        <x-stack-tab
+            :technologies="$technologies"
+            :isOwner="$isOwner"
+            :groupedTechnologies="$groupedTechnologies"
+            :categoryLabels="$categoryLabels"
+            :categoryOrder="$categoryOrder" />
     </div>
 
     {{-- Panel: Logros --}}
     <div class="content" data-panel="badges" style="display:none">
         <x-badge-grid :badges="$badges ?? collect()" :all-badges="$allBadges ?? collect()" :is-owner="$isOwner" />
         @if($isOwner)
-        <x-badges-modal :badges="$badges ?? collect()" :all-badges="$allBadges ?? collect()" />
+        <x-badges-modal
+            :badges="$badges ?? collect()"
+            :all-badges="$allBadges ?? collect()"
+            :badgeCategories="$badgeCategories"
+            :tierLabels="$tierLabels" />
         @endif
     </div>
 

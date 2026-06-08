@@ -76,6 +76,21 @@ class ProfileService
 
         $timeline = $this->getTimeline($projects, $workExperiences, $educations, $badges);
 
+        $groupedTechnologies = $technologies->groupBy(fn ($tech) => $tech->category ?? 'other');
+        $categoryLabels = Technology::categoryLabels();
+        $categoryOrder = Technology::categoryOrder();
+
+        $badgeCategories = [
+            'proyectos' => 'Proyectos',
+            'comunidad' => 'Comunidad',
+            'social' => 'Social',
+            'transparencia' => 'Transparencia salarial',
+            'perfil' => 'Perfil',
+            'especial' => 'Especiales',
+        ];
+
+        $tierLabels = [1 => 'Bronce', 2 => 'Plata', 3 => 'Oro'];
+
         return compact(
             'projects',
             'technologies',
@@ -86,6 +101,11 @@ class ProfileService
             'badges',
             'allBadges',
             'timeline',
+            'groupedTechnologies',
+            'categoryLabels',
+            'categoryOrder',
+            'badgeCategories',
+            'tierLabels',
         ) + ['userTechnologies' => $technologies];
     }
 

@@ -1,15 +1,13 @@
-@props(['technologies', 'isOwner' => false])
-
-@php
-$categoryLabels = App\Models\Technology::categoryLabels();
-$grouped = $technologies->groupBy(function ($tech) {
-    return $tech->category ?? 'other';
-});
-$categoryOrder = App\Models\Technology::categoryOrder();
-@endphp
+@props([
+    'technologies',
+    'isOwner' => false,
+    'groupedTechnologies' => [],
+    'categoryLabels' => [],
+    'categoryOrder' => [],
+])
 
 @foreach($categoryOrder as $cat)
-    @php $items = $grouped->get($cat); @endphp
+    @php $items = $groupedTechnologies->get($cat); @endphp
     @if($items && $items->isNotEmpty())
     <div class="stack-category">
         <h3 class="stack-category-title">{{ $categoryLabels[$cat] ?? 'Otros' }}</h3>
