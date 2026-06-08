@@ -31,6 +31,34 @@ export function initUI({ input, sendBtn, bubbleList, convList, sidebarSearch, la
 export function initConversationSearch(sidebarSearch, convList) {
     if (!sidebarSearch) return;
 
+    let emptyMsg = null;
+
+    function updateSearchEmptyState() {
+        if (!convList) return;
+        const visible = convList.querySelectorAll('.msgs-conv-item[style*="display: none"]');
+        const total = convList.querySelectorAll('.msgs-conv-item');
+        const hasQuery = sidebarSearch.value.trim().length > 0;
+
+        if (hasQuery && total.length > 0 && visible.length === total.length) {
+            if (!emptyMsg) {
+                emptyMsg = document.createElement('div');
+                emptyMsg.className = 'msgs-empty-sidebar';
+                emptyMsg.style.padding = '2rem 1rem';
+                emptyMsg.innerHTML = `
+                    <p style="font-size:0.875rem;color:var(--ink-400);font-weight:500;text-align:center;">
+                        No se encontraron conversaciones con "<strong>${escapeHtml(sidebarSearch.value.trim())}</strong>"
+                    </p>
+                `;
+                convList.appendChild(emptyMsg);
+            }
+        } else {
+            if (emptyMsg) {
+                emptyMsg.remove();
+                emptyMsg = null;
+            }
+        }
+    }
+
     sidebarSearch.addEventListener('input', () => {
         const query = sidebarSearch.value.trim().toLowerCase();
         const items = convList?.querySelectorAll('.msgs-conv-item') ?? [];
@@ -40,19 +68,47 @@ export function initConversationSearch(sidebarSearch, convList) {
             const preview = item.querySelector('.msgs-conv-preview')?.textContent?.toLowerCase() ?? '';
             item.style.display = (name.includes(query) || preview.includes(query)) ? '' : 'none';
         });
+
+        updateSearchEmptyState();
     });
 }
 
+function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.appendChild(document.createTextNode(String(str ?? '')));
+    return div.innerHTML;
+}
+
 export function initMobileNavigation(convList, layout, backBtn, bubbleList) {
-    if (bubbleList && layout) {
+    const isMobile = () => window.innerWidth <= 768;
+
+    if (bubbleList && layout && isMobile()) {
         layout.classList.add('chat-active');
     }
 
     if (backBtn && layout) {
         backBtn.addEventListener('click', () => {
             layout.classList.remove('chat-active');
+            // Limpiar ?conv= de la URL sin recargar
+            if (window.history.replaceState) {
+                const url = new URL(window.location);
+                url.searchParams.delete('conv');
+                window.history.replaceState({}, '', url);
+            }
         });
     }
+
+    // Al cambiar tamaño de ventana, sincronizar estado mobile
+    let resizeTimer = null;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+            const mobile = isMobile();
+            if (!mobile && bubbleList) {
+                layout?.classList.add('chat-active');
+            }
+        }, 150);
+    });
 }
 
 export function initModal({ modalOverlay, modalClose, modalSearch, modalResults }) {

@@ -6,7 +6,7 @@
 
 <div class="msgs-page">
     <div class="msgs-wrapper">
-<div class="msgs-layout" id="msgsLayout">
+        <div class="msgs-layout" id="msgsLayout">
 
             <!-- ══════════════════════════════════════
                  PANEL IZQUIERDO — Lista de chats
@@ -298,68 +298,70 @@
 
                     @php($canInteract = ($otherUser->profile->accept_messages ?? true) && !$isBlockedByOther)
 
-                    <div class="msgs-toolbar" style="display: {{ $canInteract ? '' : 'none' }}">
-                        <button class="msgs-toolbar-btn" id="msgsEmojiBtn" aria-label="Emoji" title="Emoji">
-                            <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                        </button>
-                        <button class="msgs-toolbar-btn" id="msgsAttachBtn" aria-label="Insertar enlace" title="Insertar enlace">
-                            <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
-                            </svg>
-                        </button>
-                        <button class="msgs-toolbar-btn" id="msgsImageBtn" aria-label="Enviar imagen" title="Imagen">
-                            <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                            </svg>
-                        </button>
-                        <button class="msgs-toolbar-btn msgs-toolbar-btn--label" id="msgsGifBtn" aria-label="GIF" title="GIF">
-                            <span>GIF</span>
-                        </button>
-                        <button class="msgs-toolbar-btn" id="msgsCodeBtn" aria-label="Enviar código" title="Código">
-                            <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-                            </svg>
-                        </button>
-                    </div>
+                    <div class="msgs-toolbar-father">
+                        <div class="msgs-toolbar" style="display: {{ $canInteract ? '' : 'none' }}">
+                            <button class="msgs-toolbar-btn" id="msgsEmojiBtn" aria-label="Emoji" title="Emoji">
+                                <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </button>
+                            <button class="msgs-toolbar-btn" id="msgsAttachBtn" aria-label="Insertar enlace" title="Insertar enlace">
+                                <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13" />
+                                </svg>
+                            </button>
+                            <button class="msgs-toolbar-btn" id="msgsImageBtn" aria-label="Enviar imagen" title="Imagen">
+                                <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                            </button>
+                            <button class="msgs-toolbar-btn msgs-toolbar-btn--label" id="msgsGifBtn" aria-label="GIF" title="GIF">
+                                <span>GIF</span>
+                            </button>
+                            <button class="msgs-toolbar-btn" id="msgsCodeBtn" aria-label="Enviar código" title="Código">
+                                <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                                </svg>
+                            </button>
+                        </div>
 
-                    <div class="msgs-input-actions">
-                        <button class="msgs-share-project-btn" id="msgsShareProjectBtn"
-                            style="display: {{ $canInteract ? '' : 'none' }}"
-                            data-conv-id="{{ $activeConversation->id }}">
-                            <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
-                            </svg>
-                            Compartir proyecto
-                        </button>
-                        <button class="msgs-send-btn" id="msgsSendBtn"
-                            style="display: {{ $canInteract ? '' : 'none' }}"
-                            data-conv-id="{{ $activeConversation->id }}"
-                            data-recipient="{{ $otherUser->username }}"
-                            aria-label="Enviar mensaje">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M3.478 2.405a.75.75 0 00-.926.94l2.432 7.905H13.5a.75.75 0 010 1.5H4.984l-2.432 7.905a.75.75 0 00.926.94 60.519 60.519 0 0018.445-8.986.75.75 0 000-1.218A60.517 60.517 0 003.478 2.405z" />
-                            </svg>
-                        </button>
-                        <div id="msgsInputDisabled" class="msgs-input msgs-input--disabled"
-                            style="display:{{ $canInteract ? 'none' : 'flex' }}">
-                            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M18.364 5.636a9 9 0 010 12.728M5.636 5.636a9 9 0 0112.728 0" />
-                            </svg>
-                            <span id="msgsDisabledText">
-                                @if($isBlockedByOther)
-                                No puedes enviar mensajes a este usuario. {{ $otherUser->name ?? '' }} te ha bloqueado.
-                                @else
-                                {{ $otherUser->name }} no acepta mensajes directos.
-                                @endif
-                            </span>
+                        <div class="msgs-input-actions">
+                            <button class="msgs-share-project-btn" id="msgsShareProjectBtn"
+                                style="display: {{ $canInteract ? '' : 'none' }}"
+                                data-conv-id="{{ $activeConversation->id }}">
+                                <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+                                </svg>
+                                Compartir proyecto
+                            </button>
+                            <button class="msgs-send-btn" id="msgsSendBtn"
+                                style="display: {{ $canInteract ? '' : 'none' }}"
+                                data-conv-id="{{ $activeConversation->id }}"
+                                data-recipient="{{ $otherUser->username }}"
+                                aria-label="Enviar mensaje">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M3.478 2.405a.75.75 0 00-.926.94l2.432 7.905H13.5a.75.75 0 010 1.5H4.984l-2.432 7.905a.75.75 0 00.926.94 60.519 60.519 0 0018.445-8.986.75.75 0 000-1.218A60.517 60.517 0 003.478 2.405z" />
+                                </svg>
+                            </button>
+                            <div id="msgsInputDisabled" class="msgs-input msgs-input--disabled"
+                                style="display:{{ $canInteract ? 'none' : 'flex' }}">
+                                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M18.364 5.636a9 9 0 010 12.728M5.636 5.636a9 9 0 0112.728 0" />
+                                </svg>
+                                <span id="msgsDisabledText">
+                                    @if($isBlockedByOther)
+                                    No puedes enviar mensajes a este usuario. {{ $otherUser->name ?? '' }} te ha bloqueado.
+                                    @else
+                                    {{ $otherUser->name }} no acepta mensajes directos.
+                                    @endif
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
