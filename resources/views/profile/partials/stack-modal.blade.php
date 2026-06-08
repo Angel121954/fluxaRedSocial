@@ -22,16 +22,9 @@
             </div>
 
             @php
-            $categoryLabels = [
-                'language' => 'Lenguajes',
-                'framework' => 'Frameworks',
-                'library' => 'Librerías',
-                'database' => 'Bases de datos',
-                'tool' => 'Herramientas',
-                'platform' => 'Plataformas',
-            ];
+            $categoryLabels = App\Models\Technology::categoryLabels();
             $grouped = $allTechnologies->groupBy(fn($t) => $t->category ?? 'other');
-            $categoryOrder = ['language', 'framework', 'library', 'database', 'tool', 'platform', 'other'];
+            $categoryOrder = App\Models\Technology::categoryOrder();
             @endphp
 
             <div class="stack-modal-grid" id="stackModalGrid">

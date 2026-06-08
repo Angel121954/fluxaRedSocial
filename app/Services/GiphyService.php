@@ -54,6 +54,8 @@ class GiphyService
             return [];
         }
 
+        //// se obtiene la respuesta de la API externa con un arreglo
+        //// asignando los valores
         $response = Http::get("{$this->baseUrl}/trending", [
             'api_key' => $this->apiKey,
             'limit' => self::LIMIT,

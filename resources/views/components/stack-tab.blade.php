@@ -1,20 +1,11 @@
 @props(['technologies', 'isOwner' => false])
 
 @php
-$categoryLabels = [
-    'language' => 'Lenguajes',
-    'framework' => 'Frameworks',
-    'library' => 'Librerías',
-    'database' => 'Bases de datos',
-    'tool' => 'Herramientas',
-    'platform' => 'Plataformas',
-];
-
+$categoryLabels = App\Models\Technology::categoryLabels();
 $grouped = $technologies->groupBy(function ($tech) {
     return $tech->category ?? 'other';
 });
-
-$categoryOrder = ['language', 'framework', 'library', 'database', 'tool', 'platform', 'other'];
+$categoryOrder = App\Models\Technology::categoryOrder();
 @endphp
 
 @foreach($categoryOrder as $cat)

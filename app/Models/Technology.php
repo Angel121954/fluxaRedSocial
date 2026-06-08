@@ -45,6 +45,23 @@ class Technology extends Model
         'axios' => 'plain',
     ];
 
+    public static function categoryLabels(): array
+    {
+        return [
+            'language' => 'Lenguajes',
+            'framework' => 'Frameworks',
+            'library' => 'Librerías',
+            'database' => 'Bases de datos',
+            'tool' => 'Herramientas',
+            'platform' => 'Plataformas',
+        ];
+    }
+
+    public static function categoryOrder(): array
+    {
+        return ['language', 'framework', 'library', 'database', 'tool', 'platform', 'other'];
+    }
+
     public function deviconClass(): string
     {
         return self::ICON_OVERIDES[$this->slug] ?? 'devicon-'.$this->slug.'-plain';

@@ -33,16 +33,9 @@
             @csrf
 
             @php
-            $categoryLabels = [
-                'framework' => 'Frameworks',
-                'language' => 'Lenguajes',
-                'library' => 'Librerías',
-                'database' => 'Bases de datos',
-                'tool' => 'Herramientas',
-                'platform' => 'Plataformas',
-            ];
+            $categoryLabels = App\Models\Technology::categoryLabels();
             $grouped = $technologies->groupBy(fn($t) => $t->category ?? 'other');
-            $categoryOrder = ['framework', 'language', 'library', 'database', 'tool', 'platform', 'other'];
+            $categoryOrder = App\Models\Technology::categoryOrder();
             $featuredSlugs = ['laravel', 'react', 'vue', 'nextjs', 'typescript', 'python', 'tailwindcss', 'nodejs'];
             @endphp
 
