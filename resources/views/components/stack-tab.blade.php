@@ -5,7 +5,6 @@ $categoryLabels = [
     'language' => 'Lenguajes',
     'framework' => 'Frameworks',
     'library' => 'Librerías',
-    'package' => 'Paquetes',
     'database' => 'Bases de datos',
     'tool' => 'Herramientas',
     'platform' => 'Plataformas',
@@ -15,7 +14,7 @@ $grouped = $technologies->groupBy(function ($tech) {
     return $tech->category ?? 'other';
 });
 
-$categoryOrder = ['language', 'framework', 'library', 'package', 'database', 'tool', 'platform', 'other'];
+$categoryOrder = ['language', 'framework', 'library', 'database', 'tool', 'platform', 'other'];
 @endphp
 
 @foreach($categoryOrder as $cat)

@@ -180,31 +180,6 @@ class TechnologySeeder extends Seeder
             ['name' => 'Algolia',      'slug' => 'algolia',                                  'category' => 'platform', 'website_url' => 'https://www.algolia.com'],
             ['name' => 'Twilio',       'slug' => 'twilio',                                   'category' => 'platform', 'website_url' => 'https://www.twilio.com'],
             ['name' => 'WordPress',    'slug' => 'wordpress',                                'category' => 'platform', 'website_url' => 'https://wordpress.org'],
-
-            // ═══════════════════════════════════════════════
-            // PAQUETES
-            // ═══════════════════════════════════════════════
-            ['name' => 'Laravel Fortify',  'slug' => 'laravel-fortify',   'icon' => null,      'category' => 'package', 'website_url' => 'https://laravel.com/docs/fortify'],
-            ['name' => 'Laravel Socialite', 'slug' => 'laravel-socialite', 'icon' => null,     'category' => 'package', 'website_url' => 'https://laravel.com/docs/socialite'],
-            ['name' => 'Laravel Reverb',   'slug' => 'laravel-reverb',    'icon' => null,      'category' => 'package', 'website_url' => 'https://reverb.laravel.com'],
-            ['name' => 'Laravel Sanctum',  'slug' => 'laravel-sanctum',   'icon' => null,      'category' => 'package', 'website_url' => 'https://laravel.com/docs/sanctum'],
-            ['name' => 'Laravel Telescope', 'slug' => 'laravel-telescope', 'icon' => null,     'category' => 'package', 'website_url' => 'https://laravel.com/docs/telescope'],
-            ['name' => 'Laravel Sail',     'slug' => 'laravel-sail',      'icon' => null,      'category' => 'package', 'website_url' => 'https://laravel.com/docs/sail'],
-            ['name' => 'Laravel Pint',     'slug' => 'laravel-pint',      'icon' => null,      'category' => 'package', 'website_url' => 'https://laravel.com/docs/pint'],
-            ['name' => 'Spatie Browsershot', 'slug' => 'spatie-browsershot', 'icon' => null,   'category' => 'package', 'website_url' => 'https://github.com/spatie/browsershot'],
-            ['name' => 'Cloudinary',       'slug' => 'cloudinary',        'icon' => 'cloudinary.png', 'category' => 'package', 'website_url' => 'https://cloudinary.com'],
-            ['name' => 'Endroid QR Code',  'slug' => 'endroid-qr-code',   'icon' => null,      'category' => 'package', 'website_url' => 'https://github.com/endroid/qr-code'],
-            ['name' => 'Pest PHP',         'slug' => 'pest-php',          'icon' => null,      'category' => 'package', 'website_url' => 'https://pestphp.com'],
-            ['name' => 'Guzzle',           'slug' => 'guzzle',            'icon' => null,      'category' => 'package', 'website_url' => 'https://docs.guzzlephp.org'],
-            ['name' => 'Faker',            'slug' => 'faker-php',         'icon' => null,      'category' => 'package', 'website_url' => 'https://fakerphp.org'],
-            ['name' => 'PHPUnit',          'slug' => 'phpunit',           'icon' => null,      'category' => 'package', 'website_url' => 'https://phpunit.de'],
-            ['name' => 'Laravel Tinker',   'slug' => 'laravel-tinker',    'icon' => null,      'category' => 'package', 'website_url' => 'https://github.com/laravel/tinker'],
-            ['name' => 'Axios',            'slug' => 'axios',             'icon' => 'axios.png',     'category' => 'package', 'website_url' => 'https://axios-http.com'],
-            ['name' => 'Laravel Echo',     'slug' => 'laravel-echo',      'icon' => null,      'category' => 'package', 'website_url' => 'https://laravel.com/docs/broadcasting'],
-            ['name' => 'Pusher',           'slug' => 'pusher',            'icon' => 'pusher.png',    'category' => 'package', 'website_url' => 'https://pusher.com'],
-            ['name' => 'Ziggy',            'slug' => 'ziggy',             'icon' => null,      'category' => 'package', 'website_url' => 'https://github.com/tighten/ziggy'],
-            ['name' => 'Lodash',           'slug' => 'lodash',            'icon' => 'lodash.png',    'category' => 'package', 'website_url' => 'https://lodash.com'],
-            ['name' => 'SweetAlert2',      'slug' => 'sweetalert2',       'icon' => null,      'category' => 'package', 'website_url' => 'https://sweetalert2.github.io'],
         ];
 
         foreach ($technologies as $tech) {
