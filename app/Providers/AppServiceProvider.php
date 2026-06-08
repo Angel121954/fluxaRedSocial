@@ -7,6 +7,7 @@ namespace App\Providers;
 use App\View\Composers\CvTemplateComposer;
 use App\View\Composers\ProfileComposer;
 use App\View\Composers\TopbarComposer;
+use App\View\Composers\TopTechnologiesComposer;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -37,6 +38,11 @@ class AppServiceProvider extends ServiceProvider
         View::composer('components.bottom-nav', TopbarComposer::class);
 
         View::composer([
+            'explore.index',
+            'feed.index',
+        ], TopTechnologiesComposer::class);
+
+        View::composer([
             'profile.index',
             'profile.edit',
             'profile.educations',
@@ -56,6 +62,14 @@ class AppServiceProvider extends ServiceProvider
             'public.privacy-policy',
             'public.terms',
             'messages.index',
+            'explore.index',
+            'feed.index',
+            'diary.index',
+            'jobs.index',
+            'jobs.show',
+            'jobs.saved',
+            'jobs.create',
+            'salaries.index',
         ], ProfileComposer::class);
     }
 }

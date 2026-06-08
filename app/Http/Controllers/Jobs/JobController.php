@@ -8,7 +8,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Job\BookmarkJobRequest;
 use App\Http\Requests\Job\StoreJobOfferRequest;
 use App\Models\Job;
-use App\Models\Profile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -70,17 +69,14 @@ class JobController extends Controller
             ]);
         }
 
-        $profile = Auth::user()->role !== 'guest' ? Profile::where('user_id', Auth::id())->first() : null;
-
-        return view('jobs.index', compact('jobs', 'profile'));
+        return view('jobs.index', compact('jobs'));
     }
 
     public function show($id)
     {
         $job = Job::with('skills')->findOrFail($id);
-        $profile = Auth::user()->role !== 'guest' ? Profile::where('user_id', Auth::id())->first() : null;
 
-        return view('jobs.show', compact('job', 'profile'));
+        return view('jobs.show', compact('job'));
     }
 
     public function bookmark(BookmarkJobRequest $request)
@@ -96,9 +92,8 @@ class JobController extends Controller
     public function saved()
     {
         $jobs = Auth::user()->bookmarkedJobs()->paginate(20);
-        $profile = Profile::where('user_id', Auth::id())->first();
 
-        return view('jobs.saved', compact('jobs', 'profile'));
+        return view('jobs.saved', compact('jobs'));
     }
 
     public function store(StoreJobOfferRequest $request)
@@ -147,8 +142,6 @@ class JobController extends Controller
 
     public function create()
     {
-        $profile = Profile::where('user_id', Auth::id())->first();
-
-        return view('jobs.create', compact('profile'));
+        return view('jobs.create');
     }
 }

@@ -12,7 +12,6 @@ use App\Http\Requests\Message\StoreMessageRequest;
 use App\Http\Requests\Message\StoreNewConversationRequest;
 use App\Models\Conversation;
 use App\Models\Message;
-use App\Models\Profile;
 use App\Models\User;
 use App\Services\MessageService;
 use Illuminate\Http\JsonResponse;
@@ -28,8 +27,6 @@ class MessageController extends Controller
     public function index(Request $request): View
     {
         $user = auth()->user();
-        $user->load('profile');
-        $profile = $user->profile;
         $activeConversation = null;
         $otherUser = null;
         $conversationId = $request->query('conv') ? (int) $request->query('conv') : null;
@@ -57,7 +54,7 @@ class MessageController extends Controller
 
         $conversations = $this->messageService->getUserConversations($user->id, $conversationId);
 
-        return view('messages.index', compact('conversations', 'activeConversation', 'otherUser', 'profile', 'activeMessages', 'hasBlockedOther', 'isBlockedByOther'));
+        return view('messages.index', compact('conversations', 'activeConversation', 'otherUser', 'activeMessages', 'hasBlockedOther', 'isBlockedByOther'));
     }
 
     public function unreadCount(): JsonResponse
@@ -113,7 +110,6 @@ class MessageController extends Controller
     public function show(Conversation $conversation): View
     {
         $user = auth()->user();
-        $profile = Profile::where('user_id', $user->id)->first();
 
         $this->authorize('view', $conversation);
 
@@ -128,7 +124,7 @@ class MessageController extends Controller
 
         $conversations = $this->messageService->getUserConversations($user->id);
 
-        return view('messages.index', compact('activeConversation', 'otherUser', 'conversations', 'profile', 'activeMessages', 'hasBlockedOther', 'isBlockedByOther'));
+        return view('messages.index', compact('activeConversation', 'otherUser', 'conversations', 'activeMessages', 'hasBlockedOther', 'isBlockedByOther'));
     }
 
     public function store(StoreMessageRequest $request, Conversation $conversation): JsonResponse

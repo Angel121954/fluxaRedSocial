@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Feed;
 
 use App\Http\Controllers\Controller;
-use App\Models\Profile;
 use App\Models\Project;
-use App\Models\Technology;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,14 +13,9 @@ class FeedController extends Controller
 {
     public function index()
     {
-        $profile = Profile::where('user_id', Auth::id())->first();
-        $projects = $this->getFollowingProjects();
-        $topTechnologies = Technology::withCount('projects')
-            ->orderByDesc('projects_count')
-            ->limit(15)
-            ->get();
-
-        return view('feed.index', compact('profile', 'projects', 'topTechnologies'));
+        return view('feed.index', [
+            'projects' => $this->getFollowingProjects(),
+        ]);
     }
 
     public function paginate()

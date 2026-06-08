@@ -9,10 +9,8 @@ use App\Http\Requests\Project\StoreEndorsementRequest;
 use App\Http\Requests\Project\StoreProjectReportRequest;
 use App\Http\Requests\Project\StoreProjectRequest;
 use App\Http\Requests\Project\UpdateProjectRequest;
-use App\Models\Profile;
 use App\Models\Project;
 use App\Models\ProjectReport;
-use App\Models\Technology;
 use App\Services\ProjectService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
@@ -65,16 +63,10 @@ class ProjectController extends Controller
             'bookmarks',
             'skillEndorsements',
         ]);
-        $profile = Profile::where('user_id', Auth::id())->first();
 
         $projects = new Collection([$project]);
 
-        $topTechnologies = Technology::withCount('projects')
-            ->orderByDesc('projects_count')
-            ->take(15)
-            ->get();
-
-        return view('explore.index', compact('project', 'profile', 'projects', 'topTechnologies'));
+        return view('explore.index', compact('project', 'projects'));
     }
 
     public function edit(Project $project)

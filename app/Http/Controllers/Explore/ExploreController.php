@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Explore;
 
 use App\Http\Controllers\Controller;
-use App\Models\Profile;
 use App\Models\Project;
 use App\Models\Technology;
 use Illuminate\Http\Request;
@@ -15,46 +14,31 @@ class ExploreController extends Controller
 {
     public function index()
     {
-        $userId = Auth::id();
-        $projects = $this->getProjects('trending');
-
         return view('explore.index', [
-            'profile' => $this->getProfile($userId),
-            'projects' => $projects,
-            'topTechnologies' => $this->getTopTechnologies(),
+            'projects' => $this->getProjects('trending'),
         ]);
     }
 
     public function trending()
     {
-        $userId = Auth::id();
         $projects = $this->getProjects('trending');
 
         if (request()->ajax()) {
             return view('components.project-list', compact('projects'))->render();
         }
 
-        return view('explore.index', [
-            'profile' => $this->getProfile($userId),
-            'projects' => $projects,
-            'topTechnologies' => $this->getTopTechnologies(),
-        ]);
+        return view('explore.index', compact('projects'));
     }
 
     public function recent()
     {
-        $userId = Auth::id();
         $projects = $this->getProjects('recent');
 
         if (request()->ajax()) {
             return view('components.project-list', compact('projects'))->render();
         }
 
-        return view('explore.index', [
-            'profile' => $this->getProfile($userId),
-            'projects' => $projects,
-            'topTechnologies' => $this->getTopTechnologies(),
-        ]);
+        return view('explore.index', compact('projects'));
     }
 
     public function topic(string $slug)
@@ -79,12 +63,7 @@ class ExploreController extends Controller
 
         $this->precomputeStates($projects, $userId);
 
-        return view('explore.index', [
-            'profile' => $this->getProfile($userId),
-            'projects' => $projects,
-            'topTechnologies' => $this->getTopTechnologies(),
-            'technology' => $technology,
-        ]);
+        return view('explore.index', compact('projects', 'technology'));
     }
 
     public function search(Request $request)
@@ -113,24 +92,7 @@ class ExploreController extends Controller
             return view('components.project-list', compact('projects'))->render();
         }
 
-        return view('explore.index', [
-            'profile' => $this->getProfile($userId),
-            'projects' => $projects,
-            'topTechnologies' => $this->getTopTechnologies(),
-        ]);
-    }
-
-    private function getProfile(int $userId): ?Profile
-    {
-        return Profile::where('user_id', $userId)->first();
-    }
-
-    private function getTopTechnologies()
-    {
-        return Technology::withCount('projects')
-            ->orderByDesc('projects_count')
-            ->limit(15)
-            ->get();
+        return view('explore.index', compact('projects'));
     }
 
     private function precomputeStates($projects, int $userId): void

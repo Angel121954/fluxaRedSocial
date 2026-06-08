@@ -15,7 +15,6 @@ use App\Models\DiaryResponseBookmark;
 use App\Models\DiaryResponseComment;
 use App\Models\DiaryResponseCommentLike;
 use App\Models\DiaryResponseLike;
-use App\Models\Profile;
 use App\Notifications\CreatesNotifications;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -30,9 +29,7 @@ class DiaryController extends Controller
         $diary = Diary::active()->withCount('responses')->first();
 
         if (! $diary) {
-            return view('diary.index', [
-                'profile' => $this->getProfile(),
-            ])->with('noDiary', true);
+            return view('diary.index')->with('noDiary', true);
         }
 
         $sort = request('sort', 'top');
@@ -50,9 +47,7 @@ class DiaryController extends Controller
                 ->where('user_id', Auth::id())
                 ->exists();
 
-        return view('diary.index', compact('diary', 'responses', 'recentResponders', 'userHasResponded') + [
-            'profile' => $this->getProfile(),
-        ]);
+        return view('diary.index', compact('diary', 'responses', 'recentResponders', 'userHasResponded'));
     }
 
     public function store(StoreDiaryResponseRequest $request): JsonResponse
@@ -282,11 +277,6 @@ class DiaryController extends Controller
             'html' => $html,
             'next_page_url' => $responses->nextPageUrl(),
         ]);
-    }
-
-    private function getProfile(): ?Profile
-    {
-        return Profile::where('user_id', Auth::id())->first();
     }
 
     private function getResponsesQuery(int $diaryId, string $sort = 'top')
