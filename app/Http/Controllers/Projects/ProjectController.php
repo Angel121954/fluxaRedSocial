@@ -12,10 +12,8 @@ use App\Http\Requests\Project\UpdateProjectRequest;
 use App\Models\Profile;
 use App\Models\Project;
 use App\Models\ProjectReport;
-use App\Models\SkillEndorsement;
 use App\Models\Technology;
 use App\Services\ProjectService;
-use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 
@@ -58,7 +56,7 @@ class ProjectController extends Controller
     public function show(Project $project)
     {
         $this->authorize('view', $project);
-        
+
         $project->load([
             'user.profile',
             'media',
@@ -127,14 +125,14 @@ class ProjectController extends Controller
     public function like(Project $project)
     {
         $result = $this->projectService->toggleLike($project, Auth::id());
-        
+
         return response()->json($result);
     }
 
     public function bookmark(Project $project)
     {
         $result = $this->projectService->toggleBookmark($project, Auth::id());
-        
+
         return response()->json($result);
     }
 
@@ -169,7 +167,7 @@ class ProjectController extends Controller
                 Auth::id(),
                 $request->skill_type
             );
-            
+
             return response()->json($result);
         } catch (\Exception $e) {
             return response()->json([

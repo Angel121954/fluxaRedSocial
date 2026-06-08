@@ -7,8 +7,6 @@ namespace App\Http\Controllers\Pages;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Pages\StoreContactRequest;
 use App\Models\Contact;
-use App\Models\Profile;
-use Illuminate\Support\Facades\Auth;
 
 class ContactController extends Controller
 {
