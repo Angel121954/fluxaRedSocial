@@ -1916,3 +1916,53 @@
         color: rgba(255, 255, 255, 0.9);
     }
 }
+
+/* ══════════════════════════════════════════════
+   EMOJI PICKER
+══════════════════════════════════════════════ */
+
+.emoji-picker {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 0;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--r-md);
+    box-shadow: var(--shadow-md);
+    padding: 6px;
+    display: none;
+    z-index: 100;
+    max-height: 250px;
+    overflow-y: auto;
+}
+
+.emoji-picker.active {
+    display: block;
+}
+
+.emoji-grid {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 1px;
+    width: 264px;
+}
+
+.emoji-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    font-size: 1.2rem;
+    border: none;
+    background: transparent;
+    border-radius: var(--r-xs);
+    cursor: pointer;
+    transition: background 0.15s ease;
+    padding: 0;
+    line-height: 1;
+}
+
+.emoji-item:hover {
+    background: var(--bg-subtle);
+}

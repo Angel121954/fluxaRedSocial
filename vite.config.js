@@ -155,6 +155,7 @@ export default defineConfig({
                 "resources/js/core/messages/typingHandler.js",
                 "resources/js/core/messages/ui.js",
                 "resources/js/core/messages/giphy.js",
+                "resources/js/core/messages/emojiPicker.js",
 
                 // Core Notifications JS
                 "resources/js/notifications/index.js",

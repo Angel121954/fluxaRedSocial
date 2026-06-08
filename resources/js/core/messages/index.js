@@ -4,6 +4,7 @@ import { attachSendHandler, startTimeUpdates } from './sender.js';
 import { initRealtime } from './realtimeHandler.js';
 import { initTypingBroadcast } from './typingHandler.js';
 import { initBlockHandler } from './blockHandler.js';
+import { initEmojiPicker } from './emojiPicker.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     const layout = document.querySelector('.msgs-layout');
@@ -39,6 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initTypingBroadcast(sendBtn?.dataset.convId, input);
     initRealtime(bubbleList?.dataset.convId, bubbleList, currentUser);
     initBlockHandler();
+    initEmojiPicker();
 
     if (window.updateBadges) window.updateBadges();
 

@@ -242,7 +242,6 @@ export function initToolbarActions() {
     document.getElementById('msgsCallBtn')?.addEventListener('click', () => showComingSoon('Llamadas de voz'));
     document.getElementById('msgsVideoBtn')?.addEventListener('click', () => showComingSoon('Videollamadas'));
     document.getElementById('msgsChatSearchBtn')?.addEventListener('click', () => showComingSoon('Buscar en la conversación'));
-    document.getElementById('msgsEmojiBtn')?.addEventListener('click', () => showComingSoon('Selector de emoji'));
     document.getElementById('msgsCodeBtn')?.addEventListener('click', () => {
         const input = document.getElementById('msgsInput');
         if (!input) return;
