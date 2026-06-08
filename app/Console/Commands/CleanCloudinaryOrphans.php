@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Console\Commands;
 
+use App\Models\Message;
 use App\Models\ProjectMedia;
 use App\Models\Suggestion;
 use App\Models\User;
@@ -33,6 +34,7 @@ class CleanCloudinaryOrphans extends Command
 
         $totalDeleted += $this->cleanAvatars($dryRun);
         $totalDeleted += $this->cleanProjectMedia($dryRun);
+        $totalDeleted += $this->cleanMessages($dryRun);
         $totalDeleted += $this->cleanSuggestions($dryRun);
 
         $this->newLine();
@@ -123,6 +125,42 @@ class CleanCloudinaryOrphans extends Command
         }
 
         $this->info("  Projects: {$deleted} huérfanos" . ($dryRun ? ' (simulado)' : ' eliminados'));
+
+        return $deleted;
+    }
+
+    protected function cleanMessages(bool $dryRun): int
+    {
+        $this->info('── Messages ──');
+        $resources = $this->listResources('fluxa/messages');
+
+        if (empty($resources)) {
+            $this->warn('No hay recursos en fluxa/messages.');
+
+            return 0;
+        }
+
+        $dbPublicIds = Message::query()
+            ->whereNotNull('public_id')
+            ->pluck('public_id')
+            ->map(fn(string $id) => trim($id))
+            ->flip();
+
+        $deleted = 0;
+
+        foreach ($resources as $resource) {
+            $publicId = $resource['public_id'];
+
+            if (!isset($dbPublicIds[$publicId])) {
+                $this->line("  [{$publicId}] no existe en messages");
+                if (!$dryRun) {
+                    $this->destroy($publicId, $resource['resource_type'] ?? 'image');
+                }
+                $deleted++;
+            }
+        }
+
+        $this->info("  Messages: {$deleted} huérfanos" . ($dryRun ? ' (simulado)' : ' eliminados'));
 
         return $deleted;
     }
