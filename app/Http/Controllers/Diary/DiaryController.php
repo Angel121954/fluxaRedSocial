@@ -27,22 +27,16 @@ class DiaryController extends Controller
 {
     public function index(): View
     {
-        $profile = Profile::where('user_id', Auth::id())->first();
         $diary = Diary::active()->withCount('responses')->first();
 
         if (! $diary) {
-            return view('diary.index', compact('profile'))
-                ->with('noDiary', true);
+            return view('diary.index', [
+                'profile' => $this->getProfile(),
+            ])->with('noDiary', true);
         }
 
         $sort = request('sort', 'top');
-
-        $responses = DiaryResponse::where('diary_id', $diary->id)
-            ->with('user')
-            ->withCount(['likes', 'comments'])
-            ->when($sort === 'top', fn ($q) => $q->orderByDesc('likes_count'))
-            ->when($sort !== 'top', fn ($q) => $q->latest())
-            ->paginate(10);
+        $responses = $this->getResponsesQuery($diary->id, $sort)->paginate(10);
 
         $recentResponders = DiaryResponse::where('diary_id', $diary->id)
             ->with('user')
@@ -52,12 +46,13 @@ class DiaryController extends Controller
             ->pluck('user');
 
         $userHasResponded = Auth::check()
-            ? DiaryResponse::where('diary_id', $diary->id)
+            && DiaryResponse::where('diary_id', $diary->id)
                 ->where('user_id', Auth::id())
-                ->exists()
-            : false;
+                ->exists();
 
-        return view('diary.index', compact('diary', 'responses', 'recentResponders', 'profile', 'userHasResponded'));
+        return view('diary.index', compact('diary', 'responses', 'recentResponders', 'userHasResponded') + [
+            'profile' => $this->getProfile(),
+        ]);
     }
 
     public function store(StoreDiaryResponseRequest $request): JsonResponse
@@ -276,13 +271,7 @@ class DiaryController extends Controller
     {
         $diary = Diary::active()->firstOrFail();
         $sort = $request->sort ?? 'top';
-
-        $responses = DiaryResponse::where('diary_id', $diary->id)
-            ->with('user')
-            ->withCount(['likes', 'comments'])
-            ->when($sort === 'top', fn ($q) => $q->orderByDesc('likes_count'))
-            ->when($sort !== 'top', fn ($q) => $q->latest())
-            ->paginate(10);
+        $responses = $this->getResponsesQuery($diary->id, $sort)->paginate(10);
 
         $html = '';
         foreach ($responses as $response) {
@@ -293,5 +282,19 @@ class DiaryController extends Controller
             'html' => $html,
             'next_page_url' => $responses->nextPageUrl(),
         ]);
+    }
+
+    private function getProfile(): ?Profile
+    {
+        return Profile::where('user_id', Auth::id())->first();
+    }
+
+    private function getResponsesQuery(int $diaryId, string $sort = 'top')
+    {
+        return DiaryResponse::where('diary_id', $diaryId)
+            ->with('user')
+            ->withCount(['likes', 'comments'])
+            ->when($sort === 'top', fn ($q) => $q->orderByDesc('likes_count'))
+            ->when($sort !== 'top', fn ($q) => $q->latest());
     }
 }

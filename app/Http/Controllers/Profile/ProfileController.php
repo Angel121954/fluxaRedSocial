@@ -7,10 +7,8 @@ namespace App\Http\Controllers\Profile;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Profile\UpdateAvatarRequest;
 use App\Http\Requests\Profile\UpdateTechnologiesRequest;
-use App\Models\Badge;
 use App\Models\Conversation;
 use App\Models\Profile;
-use App\Models\Technology;
 use App\Models\User;
 use App\Services\BadgeService;
 use App\Services\CVService;
@@ -34,71 +32,19 @@ class ProfileController extends Controller
         $user->loadCount(['followers', 'follows']);
         $user->load('profile');
         $profile = $user->profile;
-        $isOwner = true;
 
-        $projects = $user->projects()
-            ->with([
-                'user',
-                'media',
-                'technologies',
-                'likes' => fn ($q) => $q->where('user_id', $user->id),
-                'bookmarks' => fn ($q) => $q->where('user_id', $user->id),
-                'skillEndorsements',
-            ])
-            ->withCount(['media', 'likes', 'comments'])
-            ->latest()
-            ->get();
+        $data = $this->profileService->loadProfileData($user, $user, true);
 
-        $technologies = $user->technologies()->orderBy('category')->orderBy('name')->get();
-        $allTechnologies = Technology::orderBy('category')->orderBy('name')->get();
-        $userTechnologies = $technologies;
-        $workExperiences = $user->workExperiences()->orderBy('started_at', 'desc')->get();
-        $educations = $user->educations()->orderBy('graduated_year', 'desc')->get();
-
-        $favoriteProjects = $user->bookmarkedProjects()
-            ->latest()
-            ->get();
-
-        $projectsById = $projects->keyBy('id');
-
-        $favoriteProjects->each(function ($project) use ($projectsById) {
-            if ($existing = $projectsById->get($project->id)) {
-                $project->setRelation('user', $existing->user);
-                $project->setRelation('media', $existing->media);
-                $project->setRelation('technologies', $existing->technologies);
-            }
-        });
-
-        $needsLoad = $favoriteProjects->reject(fn ($p) => $projectsById->has($p->id));
-
-        if ($needsLoad->isNotEmpty()) {
-            $needsLoad->load(['user', 'media', 'technologies']);
-        }
-
-        $badges = $user->badges()->get();
-        $allBadges = Badge::orderBy('order')->get();
-        $timeline = $this->profileService->getTimeline($projects, $workExperiences, $educations, $badges);
-
-        return view('profile.index', compact(
-            'user',
-            'profile',
-            'projects',
-            'isOwner',
-            'technologies',
-            'allTechnologies',
-            'userTechnologies',
-            'workExperiences',
-            'educations',
-            'favoriteProjects',
-            'badges',
-            'allBadges',
-            'timeline',
-        ));
+        return view('profile.index', [
+            'user' => $user,
+            'profile' => $profile,
+            'isOwner' => true,
+            ...$data,
+        ]);
     }
 
     public function show(string $username)
     {
-        $conversation = null;
         $user = User::where('username', $username)->with('profile')->firstOrFail();
         $profile = $user->profile;
 
@@ -109,81 +55,27 @@ class ProfileController extends Controller
         $isFollowing = Auth::check() && Auth::user()->follows()->where('followed_id', $user->id)->exists();
         $isFollowedBy = Auth::check() && $user->follows()->where('followed_id', Auth::id())->exists();
 
-        $projects = $user->projects()
-            ->with([
-                'user',
-                'media',
-                'technologies',
-                'likes' => fn ($q) => $q->where('user_id', auth()->id()),
-                'bookmarks' => fn ($q) => $q->where('user_id', auth()->id()),
-                'skillEndorsements',
-            ])
-            ->withCount(['media', 'likes', 'comments'])
-            ->where('privacy', 'public')
-            ->latest()
-            ->get();
+        $showFavorites = $isOwner || $profile->show_favorites;
+        $data = $this->profileService->loadProfileData($user, Auth::user(), $showFavorites);
 
-        if (Auth::check()) {
-            if (! $isOwner) {
-                $conversation = Conversation::where(function ($q) use ($user) {
-                    $q->where('user_a_id', auth()->id())->where('user_b_id', $user->id);
-                })->orWhere(function ($q) use ($user) {
-                    $q->where('user_a_id', $user->id)->where('user_b_id', auth()->id());
-                })->first();
-            }
+        $conversation = null;
+        if (Auth::check() && ! $isOwner) {
+            $conversation = Conversation::where(function ($q) use ($user) {
+                $q->where('user_a_id', auth()->id())->where('user_b_id', $user->id);
+            })->orWhere(function ($q) use ($user) {
+                $q->where('user_a_id', $user->id)->where('user_b_id', auth()->id());
+            })->first();
         }
 
-        $technologies = $user->technologies()->orderBy('category')->orderBy('name')->get();
-        $allTechnologies = Technology::orderBy('category')->orderBy('name')->get();
-        $userTechnologies = $technologies;
-        $workExperiences = $user->workExperiences()->orderBy('started_at', 'desc')->get();
-        $educations = $user->educations()->orderBy('graduated_year', 'desc')->get();
-
-        $favoriteProjects = collect();
-        if ($isOwner || $profile->show_favorites) {
-            $favoriteProjects = $user->bookmarkedProjects()
-                ->latest()
-                ->get();
-
-            $projectsById = $projects->keyBy('id');
-
-            $favoriteProjects->each(function ($project) use ($projectsById) {
-                if ($existing = $projectsById->get($project->id)) {
-                    $project->setRelation('user', $existing->user);
-                    $project->setRelation('media', $existing->media);
-                    $project->setRelation('technologies', $existing->technologies);
-                }
-            });
-
-            $needsLoad = $favoriteProjects->reject(fn ($p) => $projectsById->has($p->id));
-
-            if ($needsLoad->isNotEmpty()) {
-                $needsLoad->load(['user', 'media', 'technologies']);
-            }
-        }
-
-        $badges = $user->badges()->get();
-        $allBadges = Badge::orderBy('order')->get();
-        $timeline = $this->profileService->getTimeline($projects, $workExperiences, $educations, $badges);
-
-        return view('profile.index', compact(
-            'user',
-            'profile',
-            'projects',
-            'isOwner',
-            'isFollowing',
-            'isFollowedBy',
-            'technologies',
-            'allTechnologies',
-            'userTechnologies',
-            'workExperiences',
-            'educations',
-            'favoriteProjects',
-            'badges',
-            'allBadges',
-            'conversation',
-            'timeline',
-        ));
+        return view('profile.index', [
+            'user' => $user,
+            'profile' => $profile,
+            'isOwner' => $isOwner,
+            'isFollowing' => $isFollowing,
+            'isFollowedBy' => $isFollowedBy,
+            'conversation' => $conversation,
+            ...$data,
+        ]);
     }
 
     public function previewInterno()

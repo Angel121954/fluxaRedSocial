@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Models\Badge;
 use App\Models\Profile;
+use App\Models\Technology;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
@@ -17,6 +20,73 @@ class ProfileService
     public function __construct(CloudinaryService $cloudinaryService)
     {
         $this->cloudinaryService = $cloudinaryService;
+    }
+
+    public function loadProfileData(User $user, ?User $viewer = null, bool $showFavorites = true): array
+    {
+        $viewerId = $viewer?->id;
+        $isOwner = $viewerId === $user->id;
+
+        $projects = $user->projects()
+            ->with([
+                'user',
+                'media',
+                'technologies',
+                'likes' => fn ($q) => $q->where('user_id', $viewerId),
+                'bookmarks' => fn ($q) => $q->where('user_id', $viewerId),
+                'skillEndorsements',
+            ])
+            ->withCount(['media', 'likes', 'comments']);
+
+        if (! $isOwner) {
+            $projects->where('privacy', 'public');
+        }
+
+        $projects = $projects->latest()->get();
+
+        $technologies = $user->technologies()->orderBy('category')->orderBy('name')->get();
+        $allTechnologies = Technology::orderBy('category')->orderBy('name')->get();
+
+        $workExperiences = $user->workExperiences()->orderBy('started_at', 'desc')->get();
+        $educations = $user->educations()->orderBy('graduated_year', 'desc')->get();
+
+        $favoriteProjects = collect();
+        if ($showFavorites) {
+            $favoriteProjects = $user->bookmarkedProjects()->latest()->get();
+
+            $projectsById = $projects->keyBy('id');
+
+            $favoriteProjects->each(function ($project) use ($projectsById) {
+                if ($existing = $projectsById->get($project->id)) {
+                    $project->setRelation('user', $existing->user);
+                    $project->setRelation('media', $existing->media);
+                    $project->setRelation('technologies', $existing->technologies);
+                }
+            });
+
+            $needsLoad = $favoriteProjects->reject(fn ($p) => $projectsById->has($p->id));
+
+            if ($needsLoad->isNotEmpty()) {
+                $needsLoad->load(['user', 'media', 'technologies']);
+            }
+        }
+
+        $badges = $user->badges()->get();
+        $allBadges = Badge::orderBy('order')->get();
+
+        $timeline = $this->getTimeline($projects, $workExperiences, $educations, $badges);
+
+        return compact(
+            'projects',
+            'technologies',
+            'allTechnologies',
+            'workExperiences',
+            'educations',
+            'favoriteProjects',
+            'badges',
+            'allBadges',
+            'timeline',
+        ) + ['userTechnologies' => $technologies];
     }
 
     public function updateAvatar(int $userId, UploadedFile $file): string
