@@ -209,31 +209,11 @@
     <div class="tabs-bar">
         <div class="tabs-inner">
             <div class="tab active" data-tab="progress">Progreso</div>
-            <div class="tab" data-tab="projects">
-                Proyectos
-                @if($projects->count() > 0)
-                <span class="tab-count">{{ $projects->count() ?? 0 }}</span>
-                @endif
-            </div>
-            <div class="tab" data-tab="stack">
-                Stack
-                @if($technologies->count() > 0)
-                <span class="tab-count">{{ $technologies->count() }}</span>
-                @endif
-            </div>
-            <div class="tab" data-tab="badges">
-                Logros
-                @if(isset($badges) && $badges->count() > 0)
-                <span class="tab-count">{{ $badges->count() }}</span>
-                @endif
-            </div>
+            <div class="tab" data-tab="projects">Proyectos</div>
+            <div class="tab" data-tab="stack">Stack</div>
+            <div class="tab" data-tab="badges">Logros</div>
             @if($isOwner || $profile->show_favorites)
-            <div class="tab" data-tab="favorites">
-                Favoritos
-                @if(isset($favoriteProjects) && $favoriteProjects->count() > 0)
-                <span class="tab-count">{{ $favoriteProjects->count() }}</span>
-                @endif
-            </div>
+            <div class="tab" data-tab="favorites">Favoritos</div>
             @endif
         </div>
     </div>

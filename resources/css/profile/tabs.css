@@ -44,17 +44,4 @@
     border-bottom-color: var(--accent);
 }
 
-.tab-count {
-    font-size: 0.6875rem;
-    font-weight: 700;
-    background: var(--ink-100);
-    color: var(--ink-500);
-    padding: 0.125rem 0.4rem;
-    border-radius: 4px;
-    font-variant-numeric: tabular-nums;
-}
 
-.tab.active .tab-count {
-    background: var(--accent-dim);
-    color: var(--accent);
-}
