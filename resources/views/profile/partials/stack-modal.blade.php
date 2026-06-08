@@ -26,12 +26,13 @@
                 'language' => 'Lenguajes',
                 'framework' => 'Frameworks',
                 'library' => 'Librerías',
+                'package' => 'Paquetes',
                 'database' => 'Bases de datos',
                 'tool' => 'Herramientas',
                 'platform' => 'Plataformas',
             ];
             $grouped = $allTechnologies->groupBy(fn($t) => $t->category ?? 'other');
-            $categoryOrder = ['language', 'framework', 'library', 'database', 'tool', 'platform', 'other'];
+            $categoryOrder = ['language', 'framework', 'library', 'package', 'database', 'tool', 'platform', 'other'];
             @endphp
 
             <div class="stack-modal-grid" id="stackModalGrid">

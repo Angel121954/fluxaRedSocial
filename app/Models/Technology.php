@@ -42,6 +42,7 @@ class Technology extends Model
         'jest' => 'plain',
         'rails' => 'plain',
         'codeigniter' => 'plain',
+        'axios' => 'plain',
     ];
 
     public function deviconClass(): string

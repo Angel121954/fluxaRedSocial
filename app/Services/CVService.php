@@ -23,6 +23,7 @@ class CVService
         'graphql' => 'plain',
         'firebase' => 'plain',
         'express' => 'original-wordmark',
+        'axios' => 'plain',
     ];
 
     private const DEFAULT_CV_SETTINGS = [
