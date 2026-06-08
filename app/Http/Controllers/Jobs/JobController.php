@@ -11,7 +11,6 @@ use App\Models\Job;
 use App\Models\Profile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class JobController extends Controller
 {
@@ -86,28 +85,12 @@ class JobController extends Controller
 
     public function bookmark(BookmarkJobRequest $request)
     {
-        $exists = DB::table('job_bookmarks')
-            ->where('user_id', Auth::id())
-            ->where('job_id', $request->job_id)
-            ->exists();
+        $job = Job::findOrFail($request->job_id);
+        $result = Auth::user()->bookmarkedJobs()->toggle($job->id);
 
-        if ($exists) {
-            DB::table('job_bookmarks')
-                ->where('user_id', Auth::id())
-                ->where('job_id', $request->job_id)
-                ->delete();
-            $saved = false;
-        } else {
-            DB::table('job_bookmarks')->insert([
-                'user_id' => Auth::id(),
-                'job_id' => $request->job_id,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
-            $saved = true;
-        }
-
-        return response()->json(['saved' => $saved]);
+        return response()->json([
+            'saved' => ! empty($result['attached']),
+        ]);
     }
 
     public function saved()
