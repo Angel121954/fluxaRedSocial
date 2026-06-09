@@ -27,7 +27,7 @@
     <title>@yield('title', 'Fluxa')</title>
     <link rel="icon" type="image/png" href="{{ asset('img/logo.png') }}">
     <link rel="preconnect" href="https://fonts.bunny.net">
-    @vite(['resources/css/app.css', 'resources/css/variables.css', 'resources/css/shared/bottom-nav.css', 'resources/css/profile/shared.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/css/variables.css', 'resources/css/shared/bottom-nav.css', 'resources/css/shared/toast.css', 'resources/css/profile/shared.css', 'resources/js/app.js'])
     @auth
     @vite('resources/js/shared/index.js')
     @endauth
