@@ -35,7 +35,6 @@ class Profile extends Model
     ];
 
     protected $casts = [
-        'email_verified_at' => 'datetime',
         'cv_settings' => 'array',
         'accept_messages' => 'boolean',
         'show_email' => 'boolean',
