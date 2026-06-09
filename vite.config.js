@@ -40,7 +40,12 @@ export default defineConfig({
 
                 // Core
                 "resources/css/core/explore.css",
-                "resources/css/core/messages.css",
+                "resources/css/core/messages/layout.css",
+                "resources/css/core/messages/chat.css",
+                "resources/css/core/messages/modal.css",
+                "resources/css/core/messages/media.css",
+                "resources/css/core/messages/emoji-picker.css",
+                "resources/css/core/messages/responsive.css",
                 "resources/css/core/messages/giphy.css",
 
                 // Notifications
