@@ -15,7 +15,7 @@ class ProjectPolicy
         if ($project->privacy === 'public') {
             return true;
         }
-        if ($project->privacy === 'followers' && $user->follows->contains($project->user_id)) {
+        if ($project->privacy === 'followers' && $user->follows()->where('followed_id', $project->user_id)->exists()) {
             return true;
         }
         return $user->id === $project->user_id;
