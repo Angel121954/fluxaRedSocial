@@ -129,125 +129,32 @@ class MessageController extends Controller
 
     public function store(StoreMessageRequest $request, Conversation $conversation): JsonResponse
     {
-        $user = auth()->user();
-
-        $recipientId = $conversation->user_a_id === $user->id
-            ? $conversation->user_b_id
-            : $conversation->user_a_id;
-
-        if (! $this->messageService->canSendMessage($user->id, $recipientId)) {
-            return response()->json([
-                'error' => 'Este usuario no acepta mensajes directos',
-                'recipient_accepts_messages' => false,
-            ], 403);
-        }
-
-        $message = $this->messageService->sendMessage($conversation, $user->id, $request->body);
-
-        $this->messageService->autoReadIfViewing($message, $conversation->id, $recipientId);
-
-        $this->messageService->broadcastNewMessage($message, $conversation->id, $recipientId);
-
-        return response()->json([
-            'id' => $message->id,
-            'body' => $message->body,
-            'sender' => [
-                'id' => $message->sender->id,
-                'name' => $message->sender->name,
-                'avatar_url' => $message->sender->avatar_url,
-            ],
-            'created_at' => $message->created_at->timezone('America/Bogota')->toIso8601String(),
-            'recipient_accepts_messages' => true,
-        ]);
+        return $this->sendAndRespond($request, $conversation, false,
+            fn ($conv, $userId, $req) => $this->messageService->sendMessage($conv, $userId, $req->body)
+        );
     }
 
     public function storeGif(StoreMediaMessageRequest $request, Conversation $conversation): JsonResponse
     {
-        $user = auth()->user();
-
-        $this->authorize('view', $conversation);
-
-        $recipientId = $conversation->user_a_id === $user->id
-            ? $conversation->user_b_id
-            : $conversation->user_a_id;
-
-        if (! $this->messageService->canSendMessage($user->id, $recipientId)) {
-            return response()->json([
-                'error' => 'Este usuario no acepta mensajes directos',
-                'recipient_accepts_messages' => false,
-            ], 403);
-        }
-
-        $message = $this->messageService->sendGifMessage(
-            $conversation,
-            $user->id,
-            $request->string('gif_url')->toString(),
-            $request->string('body')->toString() ?: null,
+        return $this->sendAndRespond($request, $conversation, true,
+            fn ($conv, $userId, $req) => $this->messageService->sendGifMessage(
+                $conv, $userId,
+                $req->string('gif_url')->toString(),
+                $req->string('body')->toString() ?: null,
+            )
         );
-
-        $this->messageService->autoReadIfViewing($message, $conversation->id, $recipientId);
-
-        $this->messageService->broadcastNewMessage($message, $conversation->id, $recipientId);
-
-        return response()->json([
-            'id' => $message->id,
-            'body' => $message->body,
-            'media_type' => $message->media_type,
-            'media_url' => $message->media_url,
-            'sender' => [
-                'id' => $message->sender->id,
-                'name' => $message->sender->name,
-                'avatar_url' => $message->sender->avatar_url,
-            ],
-            'created_at' => $message->created_at->timezone('America/Bogota')->toIso8601String(),
-            'recipient_accepts_messages' => true,
-        ]);
     }
 
     public function storeMedia(StoreMediaMessageRequest $request, Conversation $conversation): JsonResponse
     {
-        $user = auth()->user();
-
-        $this->authorize('view', $conversation);
-
-        $recipientId = $conversation->user_a_id === $user->id
-            ? $conversation->user_b_id
-            : $conversation->user_a_id;
-
-        if (! $this->messageService->canSendMessage($user->id, $recipientId)) {
-            return response()->json([
-                'error' => 'Este usuario no acepta mensajes directos',
-                'recipient_accepts_messages' => false,
-            ], 403);
-        }
-
-        $message = $this->messageService->sendMediaMessage(
-            $conversation,
-            $user->id,
-            $request->file('file'),
-            $request->string('media_type')->toString(),
-            $request->string('body')->toString() ?: null,
+        return $this->sendAndRespond($request, $conversation, true,
+            fn ($conv, $userId, $req) => $this->messageService->sendMediaMessage(
+                $conv, $userId,
+                $req->file('file'),
+                $req->string('media_type')->toString(),
+                $req->string('body')->toString() ?: null,
+            )
         );
-
-        $this->messageService->autoReadIfViewing($message, $conversation->id, $recipientId);
-
-        $this->messageService->broadcastNewMessage($message, $conversation->id, $recipientId);
-
-        return response()->json([
-            'id' => $message->id,
-            'body' => $message->body,
-            'media_type' => $message->media_type,
-            'media_url' => $message->media_url,
-            'media_name' => $message->media_name,
-            'media_size' => $message->media_size,
-            'sender' => [
-                'id' => $message->sender->id,
-                'name' => $message->sender->name,
-                'avatar_url' => $message->sender->avatar_url,
-            ],
-            'created_at' => $message->created_at->timezone('America/Bogota')->toIso8601String(),
-            'recipient_accepts_messages' => true,
-        ]);
     }
 
     public function storeNewConversation(StoreNewConversationRequest $request): JsonResponse
@@ -359,5 +266,71 @@ class MessageController extends Controller
         broadcast(new UserBlocked($currentUser->id, $user->id, true));
 
         return response()->json(['blocked' => true, 'message' => 'Usuario bloqueado.']);
+    }
+
+    private function sendAndRespond(
+        Request $request,
+        Conversation $conversation,
+        bool $authorize,
+        callable $createMessage,
+    ): JsonResponse {
+        $user = $request->user();
+
+        if ($authorize) {
+            $this->authorize('view', $conversation);
+        }
+
+        $recipientId = $this->getRecipientId($conversation, $user);
+
+        if (! $this->messageService->canSendMessage($user->id, $recipientId)) {
+            return response()->json([
+                'error' => 'Este usuario no acepta mensajes directos',
+                'recipient_accepts_messages' => false,
+            ], 403);
+        }
+
+        $message = $createMessage($conversation, $user->id, $request);
+
+        $this->messageService->autoReadIfViewing($message, $conversation->id, $recipientId);
+        $this->messageService->broadcastNewMessage($message, $conversation->id, $recipientId);
+
+        return $this->messageResponse($message);
+    }
+
+    private function getRecipientId(Conversation $conversation, User $user): int
+    {
+        return $conversation->user_a_id === $user->id
+            ? $conversation->user_b_id
+            : $conversation->user_a_id;
+    }
+
+    private function messageResponse(Message $message): JsonResponse
+    {
+        $response = [
+            'id' => $message->id,
+            'body' => $message->body,
+            'sender' => [
+                'id' => $message->sender->id,
+                'name' => $message->sender->name,
+                'avatar_url' => $message->sender->avatar_url,
+            ],
+            'created_at' => $message->created_at->timezone('America/Bogota')->toIso8601String(),
+            'recipient_accepts_messages' => true,
+        ];
+
+        if ($message->media_type !== null) {
+            $response['media_type'] = $message->media_type;
+        }
+        if ($message->media_url !== null) {
+            $response['media_url'] = $message->media_url;
+        }
+        if ($message->media_name !== null) {
+            $response['media_name'] = $message->media_name;
+        }
+        if ($message->media_size !== null) {
+            $response['media_size'] = $message->media_size;
+        }
+
+        return response()->json($response);
     }
 }
