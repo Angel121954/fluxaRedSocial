@@ -1,0 +1,9 @@
+/* ══════════════════════════════════════════════════════
+   Admin Dashboard — Fluxa
+   Tokens globales heredados de variables.css
+══════════════════════════════════════════════════════ */
+:root {
+    --sidebar-w: 228px;
+    --sidebar-collapsed-w: 60px;
+    --topbar-h: 56px;
+}

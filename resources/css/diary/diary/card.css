@@ -1,0 +1,225 @@
+/* ══════════════════════════════════════════════════════════════════
+   TARJETA PRINCIPAL
+══════════════════════════════════════════════════════════════════ */
+.diary-card {
+    background: var(--diary-card-bg);
+    border: 1px solid var(--diary-card-border);
+    border-radius: var(--r-xl);
+    padding: 2rem 2rem 1.625rem;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 1.5rem;
+    align-items: center;
+    margin-bottom: 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+/* ── Badge "Diario de hoy · #N" ─────────────────────────────────── */
+.diary-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3125rem;
+    background: var(--diary-violet-dim);
+    border: 1px solid var(--diary-violet-ring);
+    color: var(--diary-violet);
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.25rem 0.6875rem;
+    border-radius: 999px;
+    margin-bottom: 0.875rem;
+    letter-spacing: -0.01em;
+    width: fit-content;
+}
+
+.diary-badge__dot {
+    opacity: 0.5;
+}
+
+/* ── Pregunta ────────────────────────────────────────────────────── */
+.diary-question {
+    font-size: 1.625rem;
+    font-weight: 780;
+    color: var(--ink-900, #0b0f1a);
+    letter-spacing: -0.03em;
+    line-height: 1.25;
+    margin-bottom: 0.75rem;
+}
+
+.diary-question__emoji {
+    font-style: normal;
+    margin-left: 0.25rem;
+}
+
+/* ── Countdown ───────────────────────────────────────────────────── */
+.diary-countdown {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3125rem;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--diary-violet);
+    margin-bottom: 1.25rem;
+}
+
+.diary-countdown svg {
+    flex-shrink: 0;
+    opacity: 0.8;
+}
+
+.diary-countdown__time {
+    font-weight: 650;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.01em;
+}
+
+.diary-countdown__closed {
+    font-weight: 600;
+    color: var(--ink-500, #4a5568);
+}
+
+.diary-countdown--closed {
+    opacity: 0.7;
+}
+
+/* ── Caja de respuesta ───────────────────────────────────────────── */
+.diary-reply-box {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    background: var(--surface, #fff);
+    border: 1px solid rgba(124, 110, 224, 0.2);
+    border-radius: var(--r-lg, 14px);
+    padding: 0.5rem 0.5rem 0.5rem 0.625rem;
+    margin-bottom: 1rem;
+}
+
+.diary-reply-box--guest {
+    cursor: pointer;
+    text-decoration: none;
+    transition: border-color 0.15s ease;
+}
+
+.diary-reply-box--guest:hover {
+    border-color: var(--diary-violet);
+}
+
+.diary-reply-box__avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.diary-reply-box__inner {
+    flex: 1;
+    min-width: 0;
+}
+
+.diary-reply-box__input {
+    width: 100%;
+    border: none;
+    background: transparent;
+    outline: none;
+    font-size: 0.875rem;
+    color: var(--ink-700, #1c2333);
+    font-family: inherit;
+    resize: none;
+    line-height: 1.5;
+    min-height: 22px;
+}
+
+.diary-reply-box__input::placeholder {
+    color: var(--ink-300, #a0aabe);
+}
+
+.diary-reply-box__placeholder {
+    flex: 1;
+    font-size: 0.875rem;
+    color: var(--ink-300, #a0aabe);
+}
+
+.diary-reply-box__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.5rem 0.875rem;
+    border-radius: var(--r-md, 10px);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: #fff;
+    background: var(--diary-violet);
+    border: none;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    font-family: inherit;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.diary-reply-box__btn:hover:not(:disabled) {
+    background: var(--diary-violet-dark);
+}
+
+.diary-reply-box__btn:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+}
+
+.diary-reply-box__btn svg {
+    flex-shrink: 0;
+}
+
+/* ── Mensaje de diario cerrado ────────────────────────────────────── */
+.diary-reply-closed {
+    display: none;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.875rem 1rem;
+    border-radius: var(--r-lg, 14px);
+    background: var(--diary-violet-dim);
+    border: 1px solid var(--diary-violet-ring);
+    color: var(--ink-600, #374151);
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+}
+
+.diary-reply-closed svg {
+    flex-shrink: 0;
+    color: var(--diary-violet);
+    opacity: 0.7;
+}
+
+/* ── Respondentes ────────────────────────────────────────────────── */
+.diary-respondents {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.diary-respondents__avatars {
+    display: flex;
+}
+
+.diary-respondents__avatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--diary-card-bg);
+    margin-right: -6px;
+}
+
+.diary-respondents__avatar:last-child {
+    margin-right: 0;
+}
+
+.diary-respondents__count {
+    font-size: 0.8125rem;
+    color: var(--ink-500, #4a5568);
+    font-weight: 500;
+    margin-left: 8px;
+}

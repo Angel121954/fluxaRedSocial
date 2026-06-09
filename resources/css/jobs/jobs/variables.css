@@ -1,0 +1,13 @@
+/* ── Variables ─────────────────────────────────────────────────── */
+:root {
+    --jobs-teal:        #12b3b6;
+    --jobs-teal-dark:   #0a8a8c;
+    --jobs-teal-light:  #e6f9f9;
+    --jobs-teal-text:   #0a7a7c;
+    --jobs-tag-bg:      #f0fbfb;
+    --jobs-tag-border:  #b2e8e8;
+    --jobs-tag-text:    #0a7a7c;
+    --jobs-radius-card: 14px;
+    --jobs-radius-btn:  8px;
+    --jobs-radius-pill: 20px;
+}

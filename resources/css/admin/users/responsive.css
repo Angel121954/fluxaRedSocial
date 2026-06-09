@@ -1,0 +1,49 @@
+/* ─── Responsive ─────────────────────────────────────────────── */
+@media (max-width: 1100px) {
+    .adm-quick-stats {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .adm-quick-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .adm-header-actions {
+        flex-wrap: wrap;
+    }
+
+    .adm-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .adm-search-wrap {
+        max-width: 100%;
+    }
+
+    .adm-filters {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .adm-user-name {
+        max-width: 110px;
+    }
+
+    .adm-email {
+        display: none;
+    }
+}
+
+@media (max-width: 520px) {
+    .adm-quick-stats {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .adm-actions-btn {
+        width: 36px;
+        height: 36px;
+    }
+}

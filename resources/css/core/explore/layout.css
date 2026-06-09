@@ -1,0 +1,94 @@
+/* ─────────────────────────────────────────────────
+   LAYOUT: Feed + Sidebar
+───────────────────────────────────────────────── */
+.feed-layout {
+    max-width: 1160px;
+    margin: 0 auto;
+    padding: 1.75rem 1.5rem;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 260px;
+    gap: 1.75rem;
+    align-items: start;
+}
+
+/* ─────────────────────────────────────────────────
+   FEED COLUMN
+───────────────────────────────────────────────── */
+.feed-main {
+    min-width: 0;
+}
+
+/* Feed tabs */
+.feed-tabs {
+    display: flex;
+    gap: 0.4375rem;
+    margin-bottom: 1.375rem;
+    padding-bottom: 0.875rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.feed-tab {
+    padding: 0.4375rem 1rem;
+    border: 1.5px solid transparent;
+    border-radius: var(--r-md);
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--ink-400);
+    background: none;
+    cursor: pointer;
+    transition: all 0.15s;
+    letter-spacing: -0.01em;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.feed-tab svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+.feed-tab:hover {
+    color: var(--ink-700);
+    background: var(--ink-100);
+}
+
+/* Topic filter header */
+.topic-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    background: var(--accent-dim);
+    border-radius: var(--r-md);
+    font-size: 0.875rem;
+}
+
+.topic-label {
+    color: var(--ink-400);
+}
+
+.topic-current {
+    color: var(--accent);
+    font-weight: 600;
+}
+
+.topic-clear {
+    margin-left: auto;
+    color: var(--ink-400);
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.15s;
+}
+
+.topic-clear:hover {
+    color: var(--ink-700);
+}
+
+.feed-tab.active {
+    color: var(--accent);
+    background: var(--accent-dim);
+    border-color: var(--accent-ring);
+}

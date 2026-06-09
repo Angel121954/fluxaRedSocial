@@ -1,0 +1,212 @@
+/* ── Lista de burbujas ── */
+
+.msgs-bubble-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3125rem;
+    scrollbar-width: thin;
+    scrollbar-color: var(--ink-200) transparent;
+}
+
+.msgs-bubble-list::-webkit-scrollbar {
+    width: 3px;
+}
+
+.msgs-bubble-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.msgs-bubble-list::-webkit-scrollbar-thumb {
+    background: var(--ink-200);
+    border-radius: 4px;
+}
+
+.msgs-bubble-wrap {
+    display: flex;
+    align-items: flex-end;
+    gap: 0.5rem;
+    position: relative;
+}
+
+.msgs-bubble-wrap.mine {
+    flex-direction: row-reverse;
+}
+
+.msgs-bubble-wrap.theirs {
+    flex-direction: row;
+}
+
+.msgs-react-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 1px solid var(--border-strong);
+    background: var(--surface);
+    color: var(--ink-400);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.15s, color 0.15s;
+    box-shadow: var(--shadow-xs);
+    z-index: 2;
+}
+
+.msgs-bubble-wrap.mine .msgs-react-btn {
+    left: -34px;
+}
+
+.msgs-bubble-wrap.theirs .msgs-react-btn {
+    right: -34px;
+}
+
+.msgs-bubble-wrap:hover .msgs-react-btn {
+    opacity: 1;
+}
+
+.msgs-react-btn:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+}
+
+.msgs-bubble-avatar {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+    margin-bottom: 2px;
+}
+
+.msgs-bubble {
+    max-width: 66%;
+    padding: 0.5rem 0.875rem 0.1875rem;
+    border-radius: var(--r-lg);
+    font-size: 0.875rem;
+    line-height: 1.55;
+    word-break: break-word;
+    position: relative;
+}
+
+.msgs-bubble-mine {
+    background: var(--accent);
+    color: #fff;
+    border-bottom-right-radius: var(--r-xs);
+    box-shadow: 0 2px 8px rgba(18, 179, 182, 0.2);
+}
+
+.msgs-bubble-theirs {
+    background: var(--surface);
+    color: var(--ink-700);
+    border: 1px solid var(--border-strong);
+    box-shadow: var(--shadow-xs);
+    border-bottom-left-radius: var(--r-xs);
+}
+
+.msgs-bubble-time {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 0.6875rem;
+    margin-top: 2px;
+    opacity: 0.75;
+    justify-content: flex-end;
+}
+
+.msgs-bubble-mine .msgs-bubble-time {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.msgs-bubble-theirs .msgs-bubble-time {
+    color: var(--ink-400);
+}
+
+.msgs-bubble-failed .msgs-bubble {
+    opacity: 0.6;
+}
+
+.msgs-bubble-failed .msgs-bubble-time {
+    color: var(--danger);
+}
+
+.msgs-not-accepting {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    justify-content: center;
+    padding: 0.75rem;
+    margin: 0.5rem 0;
+    background: var(--danger-bg);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    border-radius: var(--r-md);
+    font-size: 0.8125rem;
+    color: var(--danger);
+    font-weight: 500;
+}
+
+.msgs-not-accepting svg {
+    flex-shrink: 0;
+}
+
+/* ── Reacciones ── */
+
+.msgs-bubble-reactions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3px;
+    margin-top: 4px;
+}
+
+.msgs-reaction-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    padding: 2px 7px;
+    background: var(--surface);
+    border: 1.5px solid var(--border-strong);
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    color: var(--ink-700);
+    transition: border-color 0.15s, background 0.15s;
+    box-shadow: var(--shadow-xs);
+}
+
+.msgs-reaction-chip:hover,
+.msgs-reaction-chip.mine {
+    border-color: var(--accent);
+    background: var(--accent-dim);
+}
+
+.msgs-reaction-chip .msgs-reaction-count {
+    color: var(--ink-500);
+    font-size: 0.6875rem;
+}
+
+/* ── Separador de fecha ── */
+
+.msgs-date-separator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 1rem 0 0.75rem;
+}
+
+.msgs-date-separator span {
+    background: var(--ink-100);
+    color: var(--ink-500);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    text-transform: uppercase;
+}

@@ -1,0 +1,189 @@
+/* ── Búsqueda ────────────────────────────────── */
+
+.nav-search-wrap {
+    position: relative;
+    flex: 1;
+    min-width: 0;
+    max-width: 420px;
+}
+
+.nav-search-icon {
+    position: absolute;
+    left: 0.875rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 15px;
+    height: 15px;
+    color: var(--ink-300);
+    pointer-events: none;
+}
+
+.nav-search {
+    width: 100%;
+    padding: 0.5rem 1rem 0.5rem 2.375rem;
+    border: 1.5px solid var(--border-strong);
+    border-radius: var(--r-lg);
+    font-size: 0.875rem;
+    font-weight: 500;
+    background: var(--surface);
+    color: var(--ink-700);
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    font-family: inherit;
+}
+
+.nav-search::placeholder {
+    color: var(--ink-300);
+}
+
+.nav-search:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-dim);
+}
+
+/* ── Lado derecho ───────────────────────────── */
+
+.navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-shrink: 0;
+}
+
+/* Contenedor del form de guest en desktop */
+.nav-guest-form {
+    display: inline;
+}
+
+/* ── Botón de ayuda "?" ─────────────────────── */
+
+.nav-help-dropdown {
+    position: relative;
+}
+
+.nav-help-btn {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-subtle, #f1f3f7);
+    border: none;
+    border-radius: 50%;
+    color: var(--ink-400, #718096);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    font-family: inherit;
+}
+
+.nav-help-btn:hover {
+    background: var(--bg, #e8ecf2);
+    color: var(--ink-600, #374151);
+}
+
+.nav-help-btn svg {
+    display: block;
+}
+
+/* ── Botón "Nuevo proyecto" ──────────────────── */
+
+.btn-new {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.4375rem 1rem;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: var(--r-md);
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s, box-shadow 0.15s;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+    text-decoration: none;
+    font-family: inherit;
+}
+
+.btn-new:hover {
+    background: var(--accent-dark);
+    box-shadow: 0 2px 10px rgba(18, 179, 182, 0.28);
+}
+
+.btn-new svg {
+    flex-shrink: 0;
+}
+
+/* Variante de peligro (guest: "Salir") */
+.btn-new.danger {
+    background: #ef4444;
+}
+
+.btn-new.danger:hover {
+    background: #dc2626;
+    box-shadow: 0 2px 10px rgba(239, 68, 68, 0.28);
+}
+
+/* ── Avatar ──────────────────────────────────── */
+
+.nav-user-av {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1.5px solid var(--border-strong);
+    object-fit: cover;
+    cursor: pointer;
+    display: block;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.nav-user-av:hover {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-dim);
+}
+
+/* ── Botón hamburguesa ───────────────────────── */
+
+.mobile-menu-btn {
+    display: none;
+    /* visible sólo en móvil (ver @media) */
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--ink-600);
+    border-radius: var(--r-md);
+    transition: background 0.15s, color 0.15s;
+    flex-shrink: 0;
+}
+
+.mobile-menu-btn:hover {
+    background: var(--ink-100);
+    color: var(--ink-900);
+}
+
+/* Intercambio hamburguesa ↔ X */
+.mobile-menu-btn .icon-hamburger {
+    display: block;
+}
+
+.mobile-menu-btn .icon-close {
+    display: none;
+}
+
+.mobile-menu-btn.active {
+    background: var(--ink-100);
+    color: var(--accent);
+}
+
+.mobile-menu-btn.active .icon-hamburger {
+    display: none;
+}
+
+.mobile-menu-btn.active .icon-close {
+    display: block;
+}

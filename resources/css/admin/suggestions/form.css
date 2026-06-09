@@ -1,0 +1,178 @@
+/* ─── Form ─────────────────────────────────────────────────────── */
+.adm-form {
+    padding: 24px;
+}
+
+.adm-form-group {
+    margin-bottom: 20px;
+}
+
+.adm-label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink-700);
+    margin-bottom: 6px;
+}
+
+.adm-textarea,
+.adm-input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--r-lg);
+    background: var(--bg);
+    font-size: 14px;
+    color: var(--ink-700);
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.adm-textarea:focus,
+.adm-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-ring);
+    background: var(--surface);
+}
+
+.adm-textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.adm-error {
+    display: block;
+    font-size: 12px;
+    color: #dc2626;
+    margin-top: 4px;
+}
+
+.adm-hint {
+    display: block;
+    font-size: 11.5px;
+    color: var(--ink-300);
+    margin-top: 4px;
+}
+
+.adm-upload-wrap {
+    position: relative;
+}
+
+.adm-upload-zone {
+    border: 1.5px dashed var(--border-strong);
+    border-radius: var(--r-lg);
+    padding: 1.5rem 1rem;
+    text-align: center;
+    cursor: pointer;
+    background: var(--bg);
+    transition: border-color 0.15s, background 0.15s, box-shadow 0.15s;
+}
+
+.adm-upload-zone:hover,
+.adm-upload-zone.drag-over {
+    border-color: var(--accent);
+    background: var(--accent-dim);
+    box-shadow: 0 0 0 3px var(--accent-ring);
+}
+
+.adm-upload-zone.drag-over {
+    border-style: solid;
+}
+
+.adm-upload-icon {
+    color: var(--ink-300);
+    margin-bottom: 0.5rem;
+    transition: color 0.15s;
+}
+
+.adm-upload-zone:hover .adm-upload-icon,
+.adm-upload-zone.drag-over .adm-upload-icon {
+    color: var(--accent);
+}
+
+.adm-upload-text {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink-600);
+}
+
+.adm-upload-link {
+    color: var(--accent);
+    font-weight: 600;
+}
+
+.adm-upload-sub {
+    font-size: 11.5px;
+    color: var(--ink-300);
+    margin-top: 0.25rem;
+}
+
+.adm-upload-input {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+}
+
+.adm-upload-preview {
+    margin-top: 12px;
+    display: none;
+}
+
+.adm-upload-preview.show {
+    display: block;
+}
+
+.adm-upload-preview img {
+    max-width: 200px;
+    max-height: 150px;
+    border-radius: var(--r-md);
+    border: 1px solid var(--border);
+    object-fit: cover;
+}
+
+.adm-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    margin-top: 24px;
+}
+
+.adm-btn-secondary {
+    padding: 10px 18px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink-600);
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--r-md);
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+}
+
+.adm-btn-secondary:hover {
+    background: var(--bg);
+    border-color: var(--ink-300);
+}
+
+.adm-btn-primary {
+    padding: 10px 18px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+    background: var(--accent);
+    border: 1px solid var(--accent);
+    border-radius: var(--r-md);
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+}
+
+.adm-btn-primary:hover {
+    background: var(--accent-dark);
+    border-color: var(--accent-dark);
+}

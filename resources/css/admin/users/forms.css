@@ -1,0 +1,181 @@
+/* ─── Campos de formulario ───────────────────────────────────── */
+.adm-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.adm-label {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--ink-700);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.adm-label-required {
+    color: #dc2626;
+    font-weight: 700;
+}
+
+.adm-label-optional {
+    font-size: 11px;
+    color: var(--ink-300);
+    font-weight: 400;
+}
+
+.adm-field-hint {
+    font-size: 11.5px;
+    color: var(--ink-400);
+    margin: 0;
+}
+
+.adm-textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--r-md);
+    background: var(--bg);
+    font-size: 13px;
+    color: var(--ink-700);
+    font-family: inherit;
+    resize: vertical;
+    outline: none;
+    transition: border-color .15s, box-shadow .15s;
+    min-height: 80px;
+}
+
+.adm-textarea::placeholder {
+    color: var(--ink-300);
+}
+
+.adm-textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-ring);
+    background: var(--surface);
+}
+
+/* ─── Badge checkbox list ────────────────────────────────────── */
+.adm-badge-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    max-height: 280px;
+    overflow-y: auto;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--r-lg);
+    padding: 6px;
+}
+
+.adm-badge-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    border-radius: var(--r-md);
+    cursor: pointer;
+    transition: background .1s;
+}
+
+.adm-badge-item:hover {
+    background: var(--ink-50);
+}
+
+.adm-badge-item--disabled {
+    opacity: .55;
+    cursor: not-allowed;
+}
+
+.adm-badge-item--disabled:hover {
+    background: transparent;
+}
+
+.adm-badge-checkbox {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--accent);
+    flex-shrink: 0;
+    cursor: pointer;
+}
+
+.adm-badge-item--disabled .adm-badge-checkbox {
+    cursor: not-allowed;
+}
+
+.adm-badge-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.adm-badge-user {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    flex: 1;
+}
+
+.adm-badge-username {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink-800);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.adm-badge-userhandle {
+    font-size: 11px;
+    color: var(--ink-400);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ─── Ban user info ──────────────────────────────────────────── */
+.adm-ban-user-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 13px;
+    background: var(--bg);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--r-md);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink-700);
+}
+
+.adm-ban-user-info svg {
+    color: var(--ink-400);
+    flex-shrink: 0;
+}
+
+/* ─── Alert ──────────────────────────────────────────────────── */
+.adm-alert {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    padding: 11px 13px;
+    border-radius: var(--r-md);
+    font-size: 12.5px;
+    line-height: 1.5;
+}
+
+.adm-alert svg {
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
+.adm-alert--warning {
+    background: #fffbeb;
+    border: 1px solid rgba(245, 158, 11, .25);
+    color: #92400e;
+}
+
+.adm-alert--warning svg {
+    color: #f59e0b;
+}

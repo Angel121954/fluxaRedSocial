@@ -1,0 +1,429 @@
+/* ─── Table wrapper ──────────────────────────────────────────── */
+.adm-table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* ─── Table ──────────────────────────────────────────────────── */
+.adm-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.adm-table colgroup col {}
+
+/* Header */
+.adm-th {
+    padding: 11px 16px;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: var(--ink-400);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    text-align: left;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+}
+
+.adm-th--center {
+    text-align: center;
+}
+
+.adm-th--right {
+    text-align: right;
+}
+
+.adm-th--desc {
+    width: 35%;
+}
+
+/* Rows */
+.adm-tr {
+    border-bottom: 1px solid var(--border);
+    transition: background 0.12s;
+}
+
+.adm-tr:last-child {
+    border-bottom: none;
+}
+
+.adm-tr:hover {
+    background: var(--accent-dim);
+}
+
+.adm-td {
+    padding: 14px 16px;
+    font-size: 13.5px;
+    color: var(--ink-600);
+    vertical-align: middle;
+}
+
+.adm-td--center {
+    text-align: center;
+}
+
+.adm-td--right {
+    text-align: right;
+}
+
+.adm-td--desc {}
+
+/* ─── Status badges ──────────────────────────────────────────── */
+.adm-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 99px;
+    white-space: nowrap;
+}
+
+.adm-badge-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+/* Pending — amber */
+.adm-badge--pending {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.adm-badge--pending .adm-badge-dot {
+    background: #f59e0b;
+}
+
+/* Approved — green */
+.adm-badge--approved {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.adm-badge--approved .adm-badge-dot {
+    background: #10b981;
+}
+
+/* Reviewing — accent teal */
+.adm-badge--reviewing {
+    background: var(--accent-dim);
+    color: var(--accent-dark);
+}
+
+.adm-badge--reviewing .adm-badge-dot {
+    background: var(--accent);
+}
+
+/* Rejected — red */
+.adm-badge--rejected {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.adm-badge--rejected .adm-badge-dot {
+    background: #ef4444;
+}
+
+/* ─── User cell ──────────────────────────────────────────────── */
+.adm-user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.adm-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--accent-dim);
+    flex-shrink: 0;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.adm-avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.adm-avatar-initials {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--accent-dark);
+    letter-spacing: 0.02em;
+}
+
+.adm-user-info {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.adm-user-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink-700);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.adm-user-handle {
+    font-size: 11.5px;
+    color: var(--ink-300);
+}
+
+/* ─── Description ────────────────────────────────────────────── */
+.adm-desc {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    color: var(--ink-600);
+    line-height: 1.5;
+}
+
+/* ─── Thumbnail ──────────────────────────────────────────────── */
+.adm-thumb-wrap {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.adm-thumb {
+    width: 56px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: var(--r-sm);
+    border: 1px solid var(--border);
+}
+
+.adm-empty-cell {
+    color: var(--ink-200);
+    font-size: 14px;
+}
+
+/* ─── Likes ──────────────────────────────────────────────────── */
+.adm-likes {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.adm-heart {
+    color: var(--ink-200);
+}
+
+.adm-heart--filled {
+    color: #f43f5e;
+}
+
+.adm-likes-count {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink-400);
+}
+
+.adm-likes-count--active {
+    color: #f43f5e;
+}
+
+/* ─── Date ───────────────────────────────────────────────────── */
+.adm-date {
+    font-size: 13px;
+    color: var(--ink-400);
+    white-space: nowrap;
+}
+
+/* ─── Actions dropdown ───────────────────────────────────────── */
+.adm-actions-wrap {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.adm-actions-btn {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--r-md);
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--ink-400);
+    cursor: pointer;
+    transition: background 0.12s, border-color 0.12s, color 0.12s;
+}
+
+.adm-actions-btn:hover {
+    background: var(--bg);
+    border-color: var(--border-strong);
+    color: var(--ink-700);
+}
+
+.adm-dropdown {
+    position: fixed;
+    min-width: 176px;
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--r-xl);
+    box-shadow: var(--shadow-lg);
+    padding: 5px;
+    z-index: 300;
+    opacity: 0;
+    transform: translateY(-5px) scale(0.96);
+    pointer-events: none;
+    transition:
+        opacity 0.18s ease,
+        transform 0.18s ease;
+    transform-origin: top right;
+}
+
+.adm-dropdown.open {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+}
+
+.adm-dropdown-item {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 8px 10px;
+    font-size: 13px;
+    color: var(--ink-600);
+    border-radius: var(--r-md);
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    text-align: left;
+    transition: background 0.12s, color 0.12s;
+}
+
+.adm-dropdown-item:hover {
+    background: var(--bg);
+    color: var(--ink-900);
+}
+
+.adm-dropdown-item--danger {
+    color: #dc2626;
+}
+
+.adm-dropdown-item--danger:hover {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.adm-dropdown-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 4px 0;
+}
+
+/* ─── Empty state ────────────────────────────────────────────── */
+.adm-empty {
+    padding: 48px 24px;
+    text-align: center;
+}
+
+.adm-empty-state {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    color: var(--ink-300);
+}
+
+.adm-empty-state p {
+    font-size: 14px;
+    color: var(--ink-400);
+}
+
+/* ─── Pagination ─────────────────────────────────────────────── */
+.adm-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 16px 20px;
+    border-top: 1px solid var(--border);
+}
+
+.adm-page-btn {
+    min-width: 32px;
+    height: 32px;
+    padding: 0 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--r-md);
+    border: 1px solid var(--border-strong);
+    background: var(--surface);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink-600);
+    cursor: pointer;
+    transition: background 0.12s, border-color 0.12s, color 0.12s;
+}
+
+.adm-page-btn:hover:not(.adm-page-btn--disabled):not(.adm-page-btn--active) {
+    background: var(--bg);
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.adm-page-btn--active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+    cursor: default;
+    font-weight: 600;
+}
+
+.adm-page-btn--disabled {
+    opacity: 0.35;
+    cursor: default;
+    pointer-events: none;
+}
+
+/* ─── Responsive ─────────────────────────────────────────────── */
+@media (max-width: 768px) {
+    .adm-wrap {
+        padding: 20px 16px 48px;
+    }
+
+    .adm-toolbar {
+        gap: 8px;
+    }
+
+    .adm-search-wrap {
+        max-width: 100%;
+        flex: 1 1 100%;
+    }
+
+    .adm-filters {
+        width: 100%;
+    }
+
+    .adm-select {
+        font-size: 12px;
+        padding-right: 26px;
+    }
+
+    .adm-th,
+    .adm-td {
+        padding: 10px 12px;
+    }
+}

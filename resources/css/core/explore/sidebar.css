@@ -1,0 +1,172 @@
+/* ─────────────────────────────────────────────────
+   SIDEBAR
+ ───────────────────────────────────────────────── */
+.sidebar {
+    position: sticky;
+    top: 70px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+/* Widget base */
+.widget {
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    padding: 0 0 1.375rem 0;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 1.375rem;
+}
+
+.widget-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.875rem;
+}
+
+.widget-title {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    color: var(--ink-300);
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+}
+
+.widget-link {
+    font-size: 0.6875rem;
+    font-weight: 500;
+    color: var(--ink-300);
+    text-decoration: none;
+    transition: color 0.15s;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    padding: 0;
+}
+
+.widget-link:hover {
+    color: var(--accent);
+}
+
+/* People widget */
+.person-item {
+    display: flex;
+    gap: 0.625rem;
+    padding: 0.625rem 0;
+    align-items: flex-start;
+    border-bottom: 1px solid var(--border);
+}
+
+.person-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.person-item:first-child {
+    padding-top: 0;
+}
+
+.person-av-wrap {
+    position: relative;
+    flex-shrink: 0;
+}
+
+.person-av {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1.5px solid var(--border-strong);
+}
+
+.person-verify {
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    width: 14px;
+    height: 14px;
+    background: var(--accent);
+    border-radius: 50%;
+    border: 2px solid white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.person-verify svg {
+    width: 7px;
+    height: 7px;
+    color: white;
+    stroke-width: 3;
+}
+
+.person-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.person-name {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--ink-900);
+    letter-spacing: -0.015em;
+    margin-bottom: 0.0625rem;
+}
+
+.person-bio {
+    font-size: 0.75rem;
+    color: var(--ink-400);
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.btn-follow-mini {
+    padding: 0.3125rem 0.75rem;
+    background: var(--accent);
+    color: white;
+    border: none;
+    border-radius: var(--r-sm);
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s;
+    flex-shrink: 0;
+    letter-spacing: -0.005em;
+}
+
+.btn-follow-mini:hover {
+    background: var(--accent-dark);
+}
+
+/* Topics widget */
+.topics-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+}
+
+.topic-pill {
+    padding: 0.25rem 0.625rem;
+    background: transparent;
+    border: 1px solid var(--border-strong);
+    color: var(--ink-400);
+    border-radius: var(--r-md);
+    font-size: 0.75rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+    letter-spacing: -0.005em;
+    text-decoration: none;
+}
+
+.topic-pill:hover {
+    background: var(--accent-dim);
+    border-color: var(--accent-ring);
+    color: var(--accent);
+}

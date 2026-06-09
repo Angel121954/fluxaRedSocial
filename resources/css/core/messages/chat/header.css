@@ -1,0 +1,224 @@
+/* ─────────────────────────────────────────────────────────────
+   messages/chat.css  —  Panel de chat, burbujas, input, typing
+   Depende de: variables.css, shared.css
+───────────────────────────────────────────────────────────── */
+
+.msgs-chat {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    background: var(--bg);
+    position: relative;
+}
+
+/* ── Cabecera del chat ── */
+
+.msgs-chat-header {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 0.75rem 1.125rem;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+    position: relative;
+}
+
+.msgs-back-btn {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--ink-500);
+    border-radius: var(--r-md);
+    transition: background 0.15s, color 0.15s;
+    flex-shrink: 0;
+    order: -1;
+}
+
+.msgs-back-btn:hover {
+    background: var(--ink-100);
+    color: var(--ink-900);
+}
+
+.msgs-chat-header-user {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex: 1;
+    min-width: 0;
+}
+
+.msgs-chat-header-avatar-link {
+    flex-shrink: 0;
+    display: block;
+    border-radius: 50%;
+}
+
+.msgs-chat-header-avatar-wrap {
+    position: relative;
+    width: 40px;
+    height: 40px;
+}
+
+.msgs-chat-header-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1.5px solid var(--border);
+    display: block;
+}
+
+.msgs-chat-header-avatar-link:hover .msgs-chat-header-avatar {
+    border-color: var(--accent);
+}
+
+.msgs-header-online-dot {
+    position: absolute;
+    bottom: 1px;
+    right: 1px;
+    width: 10px;
+    height: 10px;
+    background: #22c55e;
+    border: 2px solid var(--surface);
+    border-radius: 50%;
+}
+
+.msgs-chat-header-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.msgs-chat-header-name {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--ink-900);
+    letter-spacing: -0.015em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: color 0.15s;
+}
+
+.msgs-chat-header-name:hover {
+    color: var(--accent);
+}
+
+.msgs-verified {
+    flex-shrink: 0;
+}
+
+.msgs-chat-header-sub {
+    font-size: 0.75rem;
+    color: var(--ink-400);
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.msgs-online-label {
+    color: #22c55e;
+    font-weight: 600;
+}
+
+.msgs-online-sep {
+    color: var(--ink-300);
+}
+
+/* ── Acciones del header ── */
+
+.msgs-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    flex-shrink: 0;
+    position: relative;
+}
+
+.msgs-header-action {
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--ink-400);
+    border-radius: var(--r-md);
+    flex-shrink: 0;
+    transition: background 0.15s, color 0.15s;
+    position: relative;
+}
+
+.msgs-header-action:hover {
+    background: var(--ink-100);
+    color: var(--accent);
+}
+
+.msgs-more-dropdown {
+    position: absolute;
+    top: calc(100% + 6px);
+    right: 0;
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--r-lg);
+    box-shadow: var(--shadow-md);
+    min-width: 190px;
+    z-index: 100;
+    overflow: hidden;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-6px) scale(0.97);
+    transition: opacity 0.18s ease, visibility 0.18s ease, transform 0.18s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.msgs-more-dropdown.open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+}
+
+.msgs-more-item {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 0.625rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--ink-700);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    text-align: left;
+    transition: background 0.12s;
+}
+
+.msgs-more-item:hover {
+    background: var(--bg);
+}
+
+.msgs-more-item--danger {
+    color: var(--danger);
+}
+
+.msgs-more-item--danger:hover {
+    background: var(--danger-bg);
+}

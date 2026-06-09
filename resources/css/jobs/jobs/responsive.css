@@ -1,0 +1,38 @@
+/* ══════════════════════════════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════════════════════════════ */
+@media (max-width: 900px) {
+    .jobs-layout {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 640px) {
+    .jobs-page {
+        padding: 1.25rem .875rem 2rem;
+    }
+
+    .jobs-search-row {
+        grid-template-columns: 1fr;
+    }
+
+    .jobs-cta-banner {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .jobs-results-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: .5rem;
+    }
+
+    .job-card__title-row {
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .job-card__actions {
+        align-self: flex-end;
+    }
+}

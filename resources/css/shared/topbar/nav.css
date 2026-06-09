@@ -1,0 +1,79 @@
+/* ─────────────────────────────────────────────────
+   topbar.css  —  Navbar + menú móvil de Fluxa
+   Depende de: variables.css
+───────────────────────────────────────────────── */
+
+/* ══════════════════════════════════════════════
+   NAVBAR BASE
+══════════════════════════════════════════════ */
+
+.navbar {
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(16px) saturate(200%);
+    -webkit-backdrop-filter: blur(16px) saturate(200%);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 200;
+}
+
+.navbar-inner {
+    max-width: 1160px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    height: 54px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+}
+
+/* ── Lado izquierdo ─────────────────────────── */
+
+.navbar-left {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex: 1;
+    min-width: 0;
+    /* permite que flex-children puedan encoger */
+}
+
+.nav-logo {
+    height: 70px;
+    width: auto;
+    cursor: pointer;
+    display: block;
+    flex-shrink: 0;
+}
+
+/* ── Links de navegación ────────────────────── */
+
+.nav-links {
+    display: flex;
+    gap: 2px;
+    flex-shrink: 0;
+}
+
+.nav-link {
+    padding: 0.4375rem 0.8125rem;
+    border-radius: var(--r-sm);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--ink-500);
+    text-decoration: none;
+    transition: color 0.15s, background 0.15s;
+    letter-spacing: -0.005em;
+    position: relative;
+    white-space: nowrap;
+}
+
+.nav-link:hover {
+    color: var(--ink-900);
+    background: var(--ink-100);
+}
+
+.nav-link.active {
+    color: var(--accent);
+    font-weight: 600;
+}

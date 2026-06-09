@@ -1,0 +1,10 @@
+/* ── Variables locales ───────────────────────────────────────────── */
+:root {
+    --diary-violet:        #7c6ee0;
+    --diary-violet-dark:   #6357c0;
+    --diary-violet-light:  #ede9fb;
+    --diary-violet-dim:    rgba(124, 110, 224, 0.08);
+    --diary-violet-ring:   rgba(124, 110, 224, 0.20);
+    --diary-card-bg:       #f3f0fd;
+    --diary-card-border:   rgba(124, 110, 224, 0.14);
+}
