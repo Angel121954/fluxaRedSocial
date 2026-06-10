@@ -29,7 +29,7 @@ class ProfileService
         $isOwner = $viewerId === $user->id;
 
         $projects = $user->projects()
-            ->select('id', 'user_id', 'title', 'slug', 'description', 'privacy', 'is_today', 'streak', 'created_at', 'updated_at')
+            ->select('id', 'user_id', 'title', 'content', 'privacy', 'created_at', 'updated_at')
             ->with([
                 'user:id,username,email',
                 'media',
@@ -54,10 +54,10 @@ class ProfileService
         );
 
         $workExperiences = $user->workExperiences()
-            ->select('id', 'user_id', 'company', 'position', 'description', 'started_at', 'finished_at', 'created_at')
+            ->select('id', 'user_id', 'company', 'position', 'description', 'started_at', 'ended_at', 'created_at')
             ->orderBy('started_at', 'desc')->get();
         $educations = $user->educations()
-            ->select('id', 'user_id', 'institution', 'title', 'description', 'graduated_year', 'created_at')
+            ->select('id', 'user_id', 'institution', 'degree', 'field', 'graduated_year', 'created_at')
             ->orderBy('graduated_year', 'desc')->get();
 
         $favoriteProjects = collect();
