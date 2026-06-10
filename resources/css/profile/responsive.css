@@ -27,6 +27,8 @@
     .btn-icon {
         width: 44px;
         height: 44px;
+        background: var(--bg-subtle);
+        border: 1px solid var(--border-strong);
     }
 
     .drop-menu {
