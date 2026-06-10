@@ -90,19 +90,19 @@
     display: block;
     border-radius: var(--r-lg) var(--r-lg) 0 0;
     overflow: hidden;
-    max-height: 320px;
+    max-height: 220px;
     background: var(--bg-subtle);
     position: relative;
     line-height: 0;
 }
 
 .msgs-media-gif-wrap {
-    max-width: 180px;
-    max-height: 180px;
+    max-width: 160px;
+    max-height: 160px;
 }
 
 .msgs-media-gif-wrap .msgs-media-img {
-    max-height: 180px;
+    max-height: 160px;
 }
 
 .msgs-media-gif-wrap::after {
@@ -124,7 +124,7 @@
 .msgs-media-img {
     width: 100%;
     height: auto;
-    max-height: 320px;
+    max-height: 220px;
     object-fit: cover;
     display: block;
     cursor: pointer;

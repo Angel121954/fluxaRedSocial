@@ -111,7 +111,9 @@ class CloudinaryService
 
         if ($isImage) {
             $options['transformation'] = [
-                'quality' => 'auto',
+                'width' => 800,
+                'crop' => 'limit',
+                'quality' => 'auto:best',
                 'fetch_format' => 'auto',
             ];
         }
