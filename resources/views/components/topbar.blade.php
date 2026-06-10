@@ -83,6 +83,7 @@
                 @endif
             </nav>
 
+            @if(Auth::user()->role != 'guest')
             <div class="nav-search-wrap">
                 <svg class="nav-search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -96,6 +97,7 @@
                     aria-label="Buscar en Fluxa">
                 <div id="searchResults" class="search-results" role="listbox" aria-live="polite"></div>
             </div>
+            @endif
         </div>
 
         {{-- ── Derecha: acciones + avatar + hamburguesa ── --}}
@@ -151,10 +153,10 @@
                     </button>
                 </div>
             </div>
-            @endif
             <a href="{{ route('profile.index') }}" aria-label="Ver mi perfil">
                 <img src="{{ Auth::user()->avatar_url }}" alt="Tu perfil" class="nav-user-av" />
             </a>
+            @endif
 
             <button
                 class="mobile-menu-btn"

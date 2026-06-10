@@ -126,6 +126,7 @@
           </div>
         </div> -->
 
+    @if(Auth::user()->role != 'guest')
     <!-- Temas populares -->
     <div class="widget">
       <div class="widget-header">
@@ -143,6 +144,7 @@
         @endforeach
       </div>
     </div>
+    @endif
 
     <!-- Sobre Fluxa -->
     <div class="about-fluxa-card">
