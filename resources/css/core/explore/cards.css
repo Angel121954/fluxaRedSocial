@@ -405,6 +405,13 @@
 
 .like-btn.liked svg {
     fill: #EF4444;
+    animation: like-bounce 0.3s ease-out;
+}
+
+@keyframes like-bounce {
+    0% { transform: scale(1); }
+    40% { transform: scale(1.2); }
+    100% { transform: scale(1); }
 }
 
 .like-btn svg {
