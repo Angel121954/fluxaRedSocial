@@ -68,10 +68,6 @@
     white-space: nowrap;
 }
 
-.nav-link:hover {
-    color: var(--accent);
-}
-
 .nav-link.active {
     color: var(--accent);
     font-weight: 600;
