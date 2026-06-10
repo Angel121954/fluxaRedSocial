@@ -143,11 +143,11 @@ class GitHubService
 
     public function disconnect(User $user): void
     {
-        $user->update([
+        $user->forceFill([
             'github_token' => null,
             'github_refresh_token' => null,
             'github_token_expires_at' => null,
-        ]);
+        ])->save();
 
         try {
             Http::withToken($user->github_token)

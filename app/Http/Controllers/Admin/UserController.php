@@ -39,12 +39,12 @@ class UserController extends Controller
 
     public function ban(Request $request, User $user): RedirectResponse
     {
-        $user->update([
+        $user->forceFill([
             'status' => 'banned',
             'banned_at' => now(),
             'banned_by' => $request->user()->id,
             'ban_reason' => $request->input('reason'),
-        ]);
+        ])->save();
 
         broadcast(new UserBanned(
             userId: $user->id,
@@ -57,12 +57,12 @@ class UserController extends Controller
 
     public function unban(Request $request, User $user): RedirectResponse
     {
-        $user->update([
+        $user->forceFill([
             'status' => 'activo',
             'banned_at' => null,
             'banned_by' => null,
             'ban_reason' => null,
-        ]);
+        ])->save();
 
         return redirect()->route('admin.users.index')
             ->with('success', 'Usuario desbaneado correctamente.');

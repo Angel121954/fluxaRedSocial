@@ -34,13 +34,13 @@ class SocialAuthController extends Controller
             $socialUser = Socialite::driver($provider)->user();
 
             $user = Auth::user();
-            $user->update([
+            $user->forceFill([
                 'github_token' => $socialUser->token,
                 'github_refresh_token' => $socialUser->refreshToken,
                 'github_token_expires_at' => $socialUser->expiresIn
                     ? now()->addSeconds($socialUser->expiresIn)
                     : null,
-            ]);
+            ])->save();
 
             return redirect()->route('profile.index', ['github_import' => '1']);
         } catch (\Exception $e) {
@@ -148,16 +148,17 @@ class SocialAuthController extends Controller
                     }
 
                     $user = User::create([
-                        'name'              => $socialUser->getName() ?? $socialUser->getNickname(),
-                        'username'          => $username,
-                        'email'             => $socialUser->getEmail(),
-                        'email_verified_at' => now(),
-                        'password'          => bcrypt(Str::random(16)),
-                        'provider'          => $provider,
-                        'provider_id'       => $socialUser->getId(),
-                        'status'            => 'activo',
-                        'role'              => 'user',
+                        'name'        => $socialUser->getName() ?? $socialUser->getNickname(),
+                        'username'    => $username,
+                        'email'       => $socialUser->getEmail(),
+                        'password'    => bcrypt(Str::random(16)),
+                        'provider'    => $provider,
+                        'provider_id' => $socialUser->getId(),
+                        'status'      => 'activo',
+                        'role'        => 'user',
                     ]);
+
+                    $user->forceFill(['email_verified_at' => now()])->save();
 
                     $avatar = $this->uploadAvatarToCloudinary($avatarOriginal, $user->id);
 
@@ -202,10 +203,10 @@ class SocialAuthController extends Controller
             );
 
             if ($user->status === 'pending_deletion') {
-                $user->update([
+                $user->forceFill([
                     'status' => 'activo',
                     'delete_at' => null,
-                ]);
+                ])->save();
             }
 
             if ($user->status === 'inactivo') {

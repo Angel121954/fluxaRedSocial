@@ -26,10 +26,10 @@ class AccountController extends Controller
         $validated = $request->validated();
 
         if ($validated['email'] !== $user->email) {
-            $user->update([
+            $user->forceFill([
                 'email' => $validated['email'],
                 'email_verified_at' => null,
-            ]);
+            ])->save();
         }
 
         $user->profile->update([
@@ -62,10 +62,10 @@ class AccountController extends Controller
     {
         $user = Auth::user();
         /** @var \App\Models\User $user */
-        $user->update([
+        $user->forceFill([
             'status' => 'pending_deletion',
-            'delete_at' => now()->addDays(30), // // se eliminará en 30 días
-        ]);
+            'delete_at' => now()->addDays(30),
+        ])->save();
 
         Auth::logout();
         request()->session()->invalidate();

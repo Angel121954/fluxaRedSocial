@@ -28,18 +28,7 @@ class User extends Authenticatable
         'provider_id',
         'onboarding_completed',
         'account_type',
-        'two_factor_secret',
-        'two_factor_recovery_codes',
-        'two_factor_confirmed_at',
-        'deleted_at',
-        'delete_at',
-        'email_verified_at',
-        'banned_at',
-        'banned_by',
         'ban_reason',
-        'github_token',
-        'github_refresh_token',
-        'github_token_expires_at',
     ];
 
     protected $hidden = [
