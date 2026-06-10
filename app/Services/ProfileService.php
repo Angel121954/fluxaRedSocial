@@ -47,7 +47,6 @@ class ProfileService
         $projects = $projects->latest()->get();
 
         $technologies = $user->technologies()
-            ->select('technologies.id', 'technologies.name', 'technologies.slug', 'technologies.category', 'technologies.icon')
             ->orderBy('category')->orderBy('name')->get();
         $allTechnologies = Cache::remember('all_technologies', 3600, fn() =>
             Technology::select('id', 'name', 'slug', 'category', 'icon')
@@ -63,9 +62,7 @@ class ProfileService
 
         $favoriteProjects = collect();
         if ($showFavorites) {
-            $favoriteProjects = $user->bookmarkedProjects()
-                ->select('projects.id', 'projects.user_id', 'projects.title', 'projects.slug', 'projects.created_at')
-                ->latest()->get();
+            $favoriteProjects = $user->bookmarkedProjects()->latest()->get();
 
             $projectsById = $projects->keyBy('id');
 
