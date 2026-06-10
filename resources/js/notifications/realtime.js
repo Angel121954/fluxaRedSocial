@@ -189,7 +189,7 @@ function initNotificationsRealtime(userId) {
                     time.dataset.timestamp = Date.now();
                 }
                 if (!isFromMe && (!currentConvId || parseInt(currentConvId) !== data.conversation_id)) {
-                    const badge = item.querySelector('.msgs-unread-badge');
+                    let badge = item.querySelector('.msgs-unread-badge');
                     if (badge) {
                         const currentCount = parseInt(badge.textContent) || 0;
                         badge.textContent = currentCount + 1;
