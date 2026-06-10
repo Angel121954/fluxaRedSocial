@@ -1,5 +1,7 @@
 // commentRenderer.js - Renderizado de comentarios en el modal del Diario
 
+import { escapeHtml } from '../shared/escapeHtml.js';
+
 function getCurrentUserId() {
     return document.body.dataset.userId || null;
 }
@@ -79,10 +81,10 @@ export function renderComments(comments, container) {
         const timestamp = comment.created_at ? new Date(comment.created_at).getTime() : '';
         return `
         <div class="comment-item" data-comment-id="${comment.id}">
-            <img src="${comment.user.avatar_url}" alt="${comment.user.name}" class="comment-avatar">
+            <img src="${escapeHtml(comment.user.avatar_url)}" alt="${escapeHtml(comment.user.name)}" class="comment-avatar">
             <div class="comment-body">
                 <div class="comment-header">
-                    <span class="comment-author">${comment.user.name}</span>
+                    <span class="comment-author">${escapeHtml(comment.user.name)}</span>
                     <span style="color:var(--ink-200);">·</span>
                     <span class="comment-time" data-timestamp="${timestamp}">${comment.created_at_human}</span>
                     ${String(comment.user_id) === getCurrentUserId() ? `
@@ -96,7 +98,7 @@ export function renderComments(comments, container) {
                     </button>
                     ` : ''}
                 </div>
-                <p class="comment-text">${comment.content}</p>
+                <p class="comment-text">${escapeHtml(comment.content)}</p>
         <div class="comment-actions">
             <button class="comment-action like-comment-btn ${comment.is_liked ? 'liked' : ''}" data-comment-id="${comment.id}">
                 <svg stroke="currentColor" viewBox="0 0 24 24">
@@ -117,10 +119,10 @@ export function renderComments(comments, container) {
                             const replyTimestamp = reply.created_at ? new Date(reply.created_at).getTime() : '';
                             return `
                             <div class="comment-item reply" data-comment-id="${reply.id}">
-                                <img src="${reply.user.avatar_url}" alt="${reply.user.name}" class="comment-avatar">
+                                <img src="${escapeHtml(reply.user.avatar_url)}" alt="${escapeHtml(reply.user.name)}" class="comment-avatar">
                                 <div class="comment-body">
                                     <div class="comment-header">
-                                        <span class="comment-author">${reply.user.name}</span>
+                                        <span class="comment-author">${escapeHtml(reply.user.name)}</span>
                                         <span style="color:var(--ink-200);">·</span>
                                         <span class="comment-time" data-timestamp="${replyTimestamp}">${reply.created_at_human}</span>
                                         ${String(reply.user_id) === getCurrentUserId() ? `
@@ -134,7 +136,7 @@ export function renderComments(comments, container) {
                                         </button>
                                         ` : ''}
                                     </div>
-                                    <p class="comment-text">${reply.content}</p>
+                                    <p class="comment-text">${escapeHtml(reply.content)}</p>
                                 </div>
                             </div>
                         `}).join('')}
@@ -157,10 +159,10 @@ export function addComment(comment, container) {
     const isOwner = String(comment.user_id) === getCurrentUserId();
     const commentHTML = `
         <div class="comment-item" data-comment-id="${comment.id}">
-            <img src="${comment.user.avatar_url}" alt="${comment.user.name}" class="comment-avatar">
+            <img src="${escapeHtml(comment.user.avatar_url)}" alt="${escapeHtml(comment.user.name)}" class="comment-avatar">
             <div class="comment-body">
                 <div class="comment-header">
-                    <span class="comment-author">${comment.user.name}</span>
+                    <span class="comment-author">${escapeHtml(comment.user.name)}</span>
                     <span style="color:var(--ink-200);">·</span>
                     <span class="comment-time">Justo ahora</span>
                     ${isOwner ? `
@@ -174,7 +176,7 @@ export function addComment(comment, container) {
                     </button>
                     ` : ''}
                 </div>
-                <p class="comment-text">${comment.content}</p>
+                <p class="comment-text">${escapeHtml(comment.content)}</p>
                 <div class="comment-actions">
                     <button class="comment-action like-comment-btn" data-comment-id="${comment.id}">
                         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -222,10 +224,10 @@ export function addReply(parentId, reply, container) {
     const isOwner = String(reply.user_id) === getCurrentUserId();
     const replyHTML = `
         <div class="comment-item reply" data-comment-id="${reply.id}">
-            <img src="${reply.user.avatar_url}" alt="${reply.user.name}" class="comment-avatar">
+            <img src="${escapeHtml(reply.user.avatar_url)}" alt="${escapeHtml(reply.user.name)}" class="comment-avatar">
             <div class="comment-body">
                 <div class="comment-header">
-                    <span class="comment-author">${reply.user.name}</span>
+                    <span class="comment-author">${escapeHtml(reply.user.name)}</span>
                     <span style="color:var(--ink-200);">·</span>
                     <span class="comment-time">Justo ahora</span>
                     ${isOwner ? `
@@ -239,7 +241,7 @@ export function addReply(parentId, reply, container) {
                     </button>
                     ` : ''}
                 </div>
-                <p class="comment-text">${reply.content}</p>
+                <p class="comment-text">${escapeHtml(reply.content)}</p>
             </div>
         </div>
     `;

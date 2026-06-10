@@ -1,6 +1,11 @@
 (function () {
     'use strict';
 
+    function escapeHtml(str) {
+        var map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+        return String(str ?? '').replace(/[&<>"']/g, function(c) { return map[c]; });
+    }
+
     /* ─── Modal ──────────────────────────────────── */
     var backdrop = document.getElementById('salaryModal');
     var closeBtn = document.getElementById('salaryModalClose');
@@ -116,23 +121,23 @@
             if (json.data && json.data.length) {
                 json.data.forEach(function (r) {
                     var techHtml = (r.technologies || []).map(function (t) {
-                        return '<span class="salary-report-tag">' + t + '</span>';
+                        return '<span class="salary-report-tag">' + escapeHtml(t) + '</span>';
                     }).join('');
                     container.innerHTML +=
                         '<div class="salary-report-item">' +
                             '<div class="salary-report-top">' +
-                                '<span class="salary-report-seniority badge-' + r.seniority + '">' + r.seniority.charAt(0).toUpperCase() + r.seniority.slice(1) + '</span>' +
+                                '<span class="salary-report-seniority badge-' + r.seniority + '">' + escapeHtml(r.seniority.charAt(0).toUpperCase() + r.seniority.slice(1)) + '</span>' +
                                 '<span class="salary-report-amount">$' + Number(r.salary_usd).toLocaleString('en-US') + '</span>' +
                             '</div>' +
                             '<div class="salary-report-meta">' +
-                                '<span>' + r.country + (r.city ? ' · ' + r.city : '') + '</span>' +
+                                '<span>' + escapeHtml(r.country) + (r.city ? ' · ' + escapeHtml(r.city) : '') + '</span>' +
                                 '<span> · </span>' +
-                                '<span>' + r.experience_years + ' años</span>' +
+                                '<span>' + escapeHtml(r.experience_years) + ' años</span>' +
                                 '<span> · </span>' +
-                                '<span>' + r.modality.charAt(0).toUpperCase() + r.modality.slice(1) + '</span>' +
+                                '<span>' + escapeHtml(r.modality.charAt(0).toUpperCase() + r.modality.slice(1)) + '</span>' +
                             '</div>' +
                             '<div class="salary-report-techs">' + techHtml + '</div>' +
-                            '<span class="salary-report-date">' + (r.created_at || '') + '</span>' +
+                            '<span class="salary-report-date">' + escapeHtml(r.created_at || '') + '</span>' +
                         '</div>';
                 });
             } else {

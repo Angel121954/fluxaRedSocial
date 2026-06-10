@@ -1,6 +1,11 @@
 (function () {
     'use strict';
 
+    function escapeHtml(str) {
+        var map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+        return String(str ?? '').replace(/[&<>"']/g, function(c) { return map[c]; });
+    }
+
     var backdrop = document.getElementById('followersModal');
     var closeBtn = document.getElementById('followersModalClose');
     var bodyEl = document.getElementById('followersModalBody');
@@ -95,15 +100,15 @@
 
         users.forEach(function (u) {
             var avatar = u.avatar_url
-                ? '<img src="' + u.avatar_url + '" alt="' + u.name + '" class="followers-avatar-img" />'
-                : '<span class="followers-avatar-letter">' + u.name.charAt(0).toUpperCase() + '</span>';
+                ? '<img src="' + escapeHtml(u.avatar_url) + '" alt="' + escapeHtml(u.name) + '" class="followers-avatar-img" />'
+                : '<span class="followers-avatar-letter">' + escapeHtml(u.name.charAt(0).toUpperCase()) + '</span>';
 
             html +=
-                '<a href="/profile/' + u.username + '" class="followers-user">' +
+                '<a href="/profile/' + escapeHtml(u.username) + '" class="followers-user">' +
                 '<div class="followers-avatar">' + avatar + '</div>' +
                 '<div class="followers-info">' +
-                '<span class="followers-name">' + u.name + '</span>' +
-                '<span class="followers-handle">@' + u.username + '</span>' +
+                '<span class="followers-name">' + escapeHtml(u.name) + '</span>' +
+                '<span class="followers-handle">@' + escapeHtml(u.username) + '</span>' +
                 '</div>' +
                 '</a>';
         });

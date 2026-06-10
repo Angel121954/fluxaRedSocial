@@ -1,4 +1,4 @@
-import { scrollToBottom, autosizeInput } from './messageUtils.js';
+import { scrollToBottom, autosizeInput, escapeHtml } from './messageUtils.js';
 import { createOwnBubble, updateBubbleStatus, ensureDateSeparator, showNotAcceptingMessages } from './messageRenderer.js';
 import { sendMessage } from './messageService.js';
 import { removeTypingIndicator } from './typingHandler.js';
@@ -154,17 +154,17 @@ export async function handleSendMessage({ input, sendBtn, bubbleList, syncSendBt
             item.setAttribute('role', 'listitem');
             item.innerHTML =
                 '<div class="msgs-conv-avatar-wrap">' +
-                '<img src="' + (currentUser.avatar_url || '/img/default-avatar.png') + '" ' +
-                'alt="' + currentUser.name + '" class="msgs-conv-avatar" ' +
+                '<img src="' + escapeHtml(currentUser.avatar_url || '/img/default-avatar.png') + '" ' +
+                'alt="' + escapeHtml(currentUser.name) + '" class="msgs-conv-avatar" ' +
                 'onerror="this.src=\'/img/default-avatar.png\'">' +
                 '</div>' +
                 '<div class="msgs-conv-info">' +
                 '<div class="msgs-conv-row-top">' +
-                '<span class="msgs-conv-name">' + currentUser.name + '</span>' +
+                '<span class="msgs-conv-name">' + escapeHtml(currentUser.name) + '</span>' +
                 '<span class="msgs-conv-time" data-timestamp="' + Date.now() + '">Ahora</span>' +
                 '</div>' +
                 '<div class="msgs-conv-row-bottom">' +
-                '<span class="msgs-conv-preview">Tú: ' + (body.length > 40 ? body.substring(0, 40) + '...' : body) + '</span>' +
+                '<span class="msgs-conv-preview">Tú: ' + escapeHtml(body.length > 40 ? body.substring(0, 40) + '...' : body) + '</span>' +
                 '</div>' +
                 '</div>';
             const firstItem = convList.querySelector('.msgs-conv-item');

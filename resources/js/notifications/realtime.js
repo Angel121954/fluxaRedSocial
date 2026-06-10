@@ -2,6 +2,11 @@
  * notifications/realtime.js - Conexiones WebSocket para notificaciones y mensajes
  */
 
+function escapeHtml(str) {
+    var map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+    return String(str ?? '').replace(/[&<>"']/g, function(c) { return map[c]; });
+}
+
 function renderConversationItem(data, messageData) {
     var convList = document.getElementById('msgsConvList');
     var emptySidebar = convList ? convList.querySelector('.msgs-empty-sidebar') : null;
@@ -45,17 +50,17 @@ function renderConversationItem(data, messageData) {
         item.setAttribute('role', 'listitem');
         item.innerHTML =
             '<div class="msgs-conv-avatar-wrap">' +
-            '<img src="' + (data.other_user.avatar_url || '/img/default-avatar.png') + '" ' +
-            'alt="' + data.other_user.name + '" class="msgs-conv-avatar" ' +
+            '<img src="' + escapeHtml(data.other_user.avatar_url || '/img/default-avatar.png') + '" ' +
+            'alt="' + escapeHtml(data.other_user.name) + '" class="msgs-conv-avatar" ' +
             'onerror="this.src=\'/img/default-avatar.png\'">' +
             '</div>' +
             '<div class="msgs-conv-info">' +
             '<div class="msgs-conv-row-top">' +
-            '<span class="msgs-conv-name">' + data.other_user.name + '</span>' +
+            '<span class="msgs-conv-name">' + escapeHtml(data.other_user.name) + '</span>' +
             '<span class="msgs-conv-time" data-timestamp="' + Date.now() + '">Ahora</span>' +
             '</div>' +
             '<div class="msgs-conv-row-bottom">' +
-            '<span class="msgs-conv-preview">' + previewText + '</span>' +
+            '<span class="msgs-conv-preview">' + escapeHtml(previewText) + '</span>' +
             (hasUnread ? '<span class="msgs-unread-badge">1</span>' : '') +
             '</div>' +
             '</div>';
@@ -205,17 +210,17 @@ function initNotificationsRealtime(userId) {
                 item.dataset.timestamp = Date.now();
                 item.innerHTML =
                     '<div class="msgs-conv-avatar-wrap">' +
-                    '<img src="' + (data.sender?.avatar_url || '/img/default-avatar.png') + '" ' +
-                    'alt="' + (data.sender?.name || 'Usuario') + '" class="msgs-conv-avatar" ' +
+                    '<img src="' + escapeHtml(data.sender?.avatar_url || '/img/default-avatar.png') + '" ' +
+                    'alt="' + escapeHtml(data.sender?.name || 'Usuario') + '" class="msgs-conv-avatar" ' +
                     'onerror="this.src=\'/img/default-avatar.png\'">' +
                     '</div>' +
                     '<div class="msgs-conv-info">' +
                     '<div class="msgs-conv-row-top">' +
-                    '<span class="msgs-conv-name">' + (data.sender?.name || 'Usuario') + '</span>' +
+                    '<span class="msgs-conv-name">' + escapeHtml(data.sender?.name || 'Usuario') + '</span>' +
                     '<span class="msgs-conv-time" data-timestamp="' + Date.now() + '">Ahora</span>' +
                     '</div>' +
                     '<div class="msgs-conv-row-bottom">' +
-                    '<span class="msgs-conv-preview">' + previewText + '</span>' +
+                    '<span class="msgs-conv-preview">' + escapeHtml(previewText) + '</span>' +
                     '<span class="msgs-unread-badge">1</span>' +
                     '</div>' +
                     '</div>';

@@ -2,6 +2,11 @@
  * notifications/index.js - Carga y renderizado de notificaciones
  */
 
+function escapeHtml(str) {
+    var map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+    return String(str ?? '').replace(/[&<>"']/g, function(c) { return map[c]; });
+}
+
 var currentFilter = 'all';
 
 function getIconForType(type) {
@@ -23,7 +28,7 @@ function renderNotificationToast(data) {
     
     var icon = getIconForType(data.type);
     var msg = data.body || 'Nueva notificación';
-    if (data.from_user) msg = '<strong>' + data.from_user.name + '</strong> ' + msg;
+    if (data.from_user) msg = '<strong>' + escapeHtml(data.from_user.name) + '</strong> ' + escapeHtml(msg);
     
     new ToastManager().create({
         type: 'info',
@@ -62,9 +67,9 @@ function renderNotificationCard(n) {
     contentLink.href = n.link || '#';
     contentLink.className = 'notif-content';
     contentLink.innerHTML = 
-        (n.from_user?.avatar_url ? '<img src="' + n.from_user.avatar_url + '" alt="" class="notif-avatar">' : '<div class="notif-icon">' + icon + '</div>') +
-        '<div class="notif-body"><div class="notif-text">' + (n.from_user ? '<strong>' + n.from_user.name + '</strong> ' : '') + n.body + '</div>' +
-        '<div class="notif-meta">@' + (n.from_user?.username || 'sistema') + ' · ' + time + '</div></div>' +
+        (n.from_user?.avatar_url ? '<img src="' + escapeHtml(n.from_user.avatar_url) + '" alt="" class="notif-avatar">' : '<div class="notif-icon">' + icon + '</div>') +
+        '<div class="notif-body"><div class="notif-text">' + (n.from_user ? '<strong>' + escapeHtml(n.from_user.name) + '</strong> ' : '') + escapeHtml(n.body) + '</div>' +
+        '<div class="notif-meta">@' + escapeHtml(n.from_user?.username || 'sistema') + ' · ' + time + '</div></div>' +
         '<div class="notif-time" data-timestamp="' + timestamp + '">' + time + (!n.is_read ? '<span class="unread-dot"></span>' : '') + '</div>';
     
     var deleteBtn = document.createElement('button');

@@ -1,3 +1,5 @@
+import { escapeHtml } from './escapeHtml.js';
+
 class ToastManager {
     constructor() {
         this.toasts = [];
@@ -86,7 +88,7 @@ class ToastManager {
         `;
 
         toast.innerHTML = `
-            <div class="toast-content" style="flex: 1;">${options.message}</div>
+            <div class="toast-content" style="flex: 1;">${escapeHtml(options.message)}</div>
             ${options.dismissible ? `
             <button class="toast-close" style="
                 flex-shrink: 0;
