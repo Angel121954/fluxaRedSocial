@@ -61,7 +61,7 @@
     border-radius: var(--r-md);
     background: var(--bg);
     color: var(--ink-900);
-    font-size: 0.8125rem;
+    font-size: var(--text-sm);
     outline: none;
     transition: border-color 0.15s;
 }
@@ -172,7 +172,7 @@
     justify-content: center;
     padding: 2rem;
     color: var(--ink-400);
-    font-size: 0.875rem;
+    font-size: var(--text-base);
 }
 
 .giphy-footer {
@@ -182,6 +182,6 @@
 }
 
 .giphy-attribution {
-    font-size: 0.6875rem;
+    font-size: var(--text-xs);
     color: var(--ink-400);
 }

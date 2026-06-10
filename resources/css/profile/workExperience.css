@@ -22,7 +22,7 @@
     color: #fff;
     border: none;
     border-radius: var(--r-lg);
-    font-size: 0.9375rem;
+    font-size: var(--text-md);
     font-weight: 600;
     cursor: pointer;
     font-family: inherit;
@@ -46,7 +46,7 @@
 .we-limit-badge {
     display: inline-flex;
     align-items: center;
-    font-size: 0.75rem;
+    font-size: var(--text-xs);
     font-weight: 600;
     color: var(--ink-400);
     background: var(--bg-subtle, var(--surface));
@@ -73,7 +73,7 @@
     background: var(--danger-bg);
     border: 1px solid var(--danger-border);
     color: var(--danger);
-    font-size: 0.8125rem;
+    font-size: var(--text-sm);
     margin-bottom: 1rem;
 }
 
@@ -129,7 +129,7 @@
 }
 
 .we-card__company {
-    font-size: 1rem;
+    font-size: var(--text-md);
     font-weight: 700;
     color: var(--ink-900);
     letter-spacing: -0.02em;
@@ -137,14 +137,14 @@
 }
 
 .we-card__position {
-    font-size: 0.875rem;
+    font-size: var(--text-base);
     font-weight: 500;
     color: var(--ink-600);
     margin-bottom: 0.3rem;
 }
 
 .we-card__meta {
-    font-size: 0.8375rem;
+    font-size: var(--text-sm);
     color: var(--ink-400);
     display: flex;
     align-items: center;
@@ -156,7 +156,7 @@
 .we-badge-inline {
     display: inline-flex;
     align-items: center;
-    font-size: 0.68rem;
+    font-size: var(--text-xs);
     font-weight: 700;
     letter-spacing: 0.04em;
     text-transform: uppercase;
@@ -220,7 +220,7 @@
 }
 
 .we-card__desc {
-    font-size: 0.875rem;
+    font-size: var(--text-base);
     color: var(--ink-500);
     line-height: 1.65;
 }
@@ -241,14 +241,14 @@
 }
 
 .we-empty__title {
-    font-size: 0.9375rem;
+    font-size: var(--text-base);
     font-weight: 600;
     color: var(--ink-400);
     margin-bottom: 0.375rem;
 }
 
 .we-empty__sub {
-    font-size: 0.875rem;
+    font-size: var(--text-base);
     color: var(--ink-300);
 }
 
@@ -325,7 +325,7 @@
 }
 
 .we-modal__title {
-    font-size: 1rem;
+    font-size: var(--text-md);
     font-weight: 700;
     color: var(--ink-900);
     letter-spacing: -0.025em;
@@ -333,7 +333,7 @@
 }
 
 .we-modal__subtitle {
-    font-size: 0.8125rem;
+    font-size: var(--text-sm);
     color: var(--ink-400);
 }
 
@@ -376,7 +376,7 @@
 }
 
 .char-count {
-    font-size: 0.75rem;
+    font-size: var(--text-xs);
     color: var(--ink-300);
     text-align: right;
     margin-top: 0.25rem;
@@ -442,7 +442,7 @@
 }
 
 .we-toggle__label {
-    font-size: 0.875rem;
+    font-size: var(--text-base);
     font-weight: 500;
     color: var(--ink-600);
 }
@@ -472,19 +472,19 @@
     }
 
     .we-card__title {
-        font-size: 0.9375rem;
+        font-size: var(--text-md);
     }
 
     .we-card__subtitle {
-        font-size: 0.8125rem;
+        font-size: var(--text-sm);
     }
 
     .we-card__meta {
-        font-size: 0.75rem;
+        font-size: var(--text-xs);
     }
 
     .we-card__desc {
-        font-size: 0.8125rem;
+        font-size: var(--text-sm);
     }
 
     .we-card__header {
@@ -493,13 +493,13 @@
     }
 
     .we-add-btn {
-        font-size: 0.8125rem;
+        font-size: var(--text-sm);
         padding: 0.5rem 0.75rem;
     }
 
     .we-empty {
         padding: 1.5rem 1rem;
-        font-size: 0.8125rem;
+        font-size: var(--text-sm);
     }
 
     .we-modal__header {
@@ -511,25 +511,25 @@
     }
 
     .we-modal__title {
-        font-size: 1rem;
+        font-size: var(--text-md);
     }
 
     .we-modal__subtitle {
-        font-size: 0.8125rem;
+        font-size: var(--text-sm);
     }
 
     .we-label {
-        font-size: 0.8125rem;
+        font-size: var(--text-sm);
     }
 
     .we-input,
     .we-textarea {
-        font-size: 1rem;
+        font-size: var(--text-md);
         padding: 0.75rem;
     }
 
     .we-limit-msg {
-        font-size: 0.75rem;
+        font-size: var(--text-xs);
         padding: 0.625rem 0.75rem;
     }
 }

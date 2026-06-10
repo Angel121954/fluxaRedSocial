@@ -58,7 +58,7 @@
 .nav-link {
     padding: 0.4375rem 0.8125rem;
     border-radius: var(--r-sm);
-    font-size: 0.875rem;
+    font-size: var(--text-base);
     font-weight: 500;
     color: var(--ink-500);
     text-decoration: none;

@@ -23,7 +23,7 @@
     padding: 0.5rem 1rem 0.5rem 2.375rem;
     border: 1.5px solid var(--border-strong);
     border-radius: var(--r-lg);
-    font-size: 0.875rem;
+    font-size: var(--text-base);
     font-weight: 500;
     background: var(--surface);
     color: var(--ink-700);
@@ -96,7 +96,7 @@
     color: white;
     border: none;
     border-radius: var(--r-md);
-    font-size: 0.875rem;
+    font-size: var(--text-base);
     font-weight: 600;
     cursor: pointer;
     transition: background 0.15s, box-shadow 0.15s;

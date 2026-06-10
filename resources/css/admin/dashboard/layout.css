@@ -71,7 +71,7 @@
 }
 
 .sb-group-label {
-    font-size: 10px;
+    font-size: var(--text-xs);
     font-weight: 700;
     letter-spacing: .07em;
     text-transform: uppercase;
@@ -86,7 +86,7 @@
     gap: 9px;
     padding: 7px 10px;
     border-radius: var(--r-md);
-    font-size: 13px;
+    font-size: var(--text-sm);
     font-weight: 500;
     color: var(--ink-500);
     cursor: pointer;
@@ -159,7 +159,7 @@
 
     .sidebar.collapsed .sb-group-label::after {
         content: '···';
-        font-size: 12px;
+        font-size: var(--text-xs);
         line-height: 24px;
         letter-spacing: 2px;
         color: var(--ink-300);
@@ -178,7 +178,7 @@
         width: 18px;
         height: 18px;
         flex-shrink: 0;
-        font-size: 14px;
+        font-size: var(--text-base);
         line-height: 1;
         color: var(--ink-400);
     }
@@ -227,7 +227,7 @@
 }
 
 .page-title {
-    font-size: 20px;
+    font-size: var(--text-lg);
     font-weight: 800;
     color: var(--ink-900);
     letter-spacing: -.03em;
@@ -235,7 +235,7 @@
 }
 
 .page-sub {
-    font-size: 13px;
+    font-size: var(--text-sm);
     color: var(--ink-400);
     margin-top: 4px;
 }
@@ -248,7 +248,7 @@
     height: 34px;
     border: 1.5px solid var(--border-strong);
     border-radius: var(--r-md);
-    font-size: 12.5px;
+    font-size: var(--text-sm);
     font-weight: 600;
     color: var(--ink-600);
     background: var(--surface);

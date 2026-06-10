@@ -5,7 +5,7 @@
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    font-size: 0.8125rem;
+    font-size: var(--text-sm);
     color: var(--ink-400, #6b7280);
     text-decoration: none;
     margin-bottom: 1rem;
@@ -58,7 +58,7 @@
 }
 
 .job-detail__logo-placeholder {
-    font-size: 1.375rem;
+    font-size: var(--text-xl);
     font-weight: 700;
     color: var(--jobs-teal);
     text-transform: uppercase;
@@ -70,7 +70,7 @@
 }
 
 .job-detail__title {
-    font-size: 1.25rem;
+    font-size: var(--text-lg);
     font-weight: 700;
     color: var(--ink-900, #111827);
     line-height: 1.3;
@@ -78,7 +78,7 @@
 }
 
 .job-detail__company {
-    font-size: 0.9375rem;
+    font-size: var(--text-sm);
     color: var(--ink-500, #6b7280);
     margin: 0 0 8px;
 }
@@ -88,7 +88,7 @@
     align-items: center;
     flex-wrap: wrap;
     gap: 6px;
-    font-size: 0.8125rem;
+    font-size: var(--text-sm);
     color: var(--ink-400, #6b7280);
 }
 
@@ -102,14 +102,14 @@
 }
 
 .job-detail__body h2 {
-    font-size: 1rem;
+    font-size: var(--text-md);
     font-weight: 600;
     color: var(--ink-900, #111827);
     margin: 0 0 .5rem;
 }
 
 .job-detail__body p {
-    font-size: 0.875rem;
+    font-size: var(--text-base);
     color: var(--ink-500, #6b7280);
     line-height: 1.7;
     margin: 0;
@@ -121,7 +121,7 @@
 }
 
 .job-detail__skills h2 {
-    font-size: 1rem;
+    font-size: var(--text-md);
     font-weight: 600;
     color: var(--ink-900, #111827);
     margin: 0 0 .5rem;
@@ -143,7 +143,7 @@
     height: auto;
     padding: 8px 16px;
     border-radius: var(--jobs-radius-btn);
-    font-size: 0.8125rem;
+    font-size: var(--text-sm);
     font-weight: 500;
     color: var(--ink-500, #6b7280);
     background: #ffffff;

@@ -24,7 +24,7 @@
     padding: 0 14px;
     height: 35px;
     border-radius: var(--r-md);
-    font-size: 13px;
+    font-size: var(--text-sm);
     font-weight: 600;
     border: 1.5px solid transparent;
     cursor: pointer;
@@ -106,13 +106,13 @@
 }
 
 .adm-qs-label {
-    font-size: 11.5px;
+    font-size: var(--text-xs);
     color: var(--ink-400);
     font-weight: 500;
 }
 
 .adm-qs-value {
-    font-size: 22px;
+    font-size: var(--text-lg);
     font-weight: 800;
     color: var(--ink-900);
     letter-spacing: -.03em;

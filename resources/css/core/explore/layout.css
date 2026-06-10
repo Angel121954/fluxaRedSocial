@@ -31,7 +31,7 @@
     padding: 0.4375rem 1rem;
     border: 1.5px solid transparent;
     border-radius: var(--r-md);
-    font-size: 0.875rem;
+    font-size: var(--text-base);
     font-weight: 600;
     color: var(--ink-400);
     background: none;
@@ -63,7 +63,7 @@
     margin-bottom: 1rem;
     background: var(--accent-dim);
     border-radius: var(--r-md);
-    font-size: 0.875rem;
+    font-size: var(--text-base);
 }
 
 .topic-label {
@@ -79,7 +79,7 @@
     margin-left: auto;
     color: var(--ink-400);
     text-decoration: none;
-    font-size: 1rem;
+    font-size: var(--text-md);
     transition: color 0.15s;
 }
 

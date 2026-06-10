@@ -24,7 +24,7 @@
     color: #7c3aed;
     border: 1px solid #c4b5fd;
     border-radius: 999px;
-    font-size: 12px;
+    font-size: var(--text-xs);
     font-weight: 600;
     letter-spacing: .04em;
     text-transform: uppercase;
@@ -45,14 +45,14 @@
 }
 
 .privacy-hero-sub {
-    font-size: 16px;
+    font-size: var(--text-md);
     color: var(--c-text-soft, #6b7280);
     margin: 0 0 12px;
     line-height: 1.6;
 }
 
 .privacy-date {
-    font-size: 13px;
+    font-size: var(--text-sm);
     color: #9ca3af;
     margin: 0;
 }
@@ -70,7 +70,7 @@
 }
 
 .privacy-summary-label {
-    font-size: 11px;
+    font-size: var(--text-xs);
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: .08em;
@@ -104,7 +104,7 @@
     border: 1px solid #e5e7eb;
     border-radius: 12px;
     padding: 16px;
-    font-size: 14px;
+    font-size: var(--text-base);
     color: #374151;
     line-height: 1.5;
 }
@@ -183,7 +183,7 @@
 
     .privacy-nav-list li a {
         padding: 6px 8px;
-        font-size: 12px;
+        font-size: var(--text-xs);
         word-break: break-word;
     }
 }
@@ -199,7 +199,7 @@
 }
 
 .privacy-nav-title {
-    font-size: 11px;
+    font-size: var(--text-xs);
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: .08em;
@@ -218,7 +218,7 @@
 
 .privacy-nav-list li a {
     display: block;
-    font-size: 13px;
+    font-size: var(--text-sm);
     color: #4b5563;
     text-decoration: none;
     padding: 7px 10px;
@@ -253,7 +253,7 @@
 }
 
 .privacy-number {
-    font-size: 12px;
+    font-size: var(--text-xs);
     font-weight: 700;
     color: #7c3aed;
     background: #ede9fe;
@@ -264,14 +264,14 @@
 }
 
 .privacy-section h2 {
-    font-size: 20px;
+    font-size: var(--text-lg);
     font-weight: 700;
     color: #111827;
     margin: 0;
 }
 
 .privacy-section p {
-    font-size: 15px;
+    font-size: var(--text-base);
     color: #374151;
     line-height: 1.75;
     margin: 0 0 14px;
@@ -298,7 +298,7 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 14px;
+    font-size: var(--text-base);
     font-weight: 700;
     color: #374151;
     margin: 0 0 12px;
@@ -320,7 +320,7 @@
 }
 
 .privacy-list li {
-    font-size: 15px;
+    font-size: var(--text-base);
     color: #374151;
     line-height: 1.6;
     padding-left: 22px;
@@ -348,7 +348,7 @@
     border-left: 3px solid #7c3aed;
     border-radius: 0 10px 10px 0;
     padding: 14px 16px;
-    font-size: 14px;
+    font-size: var(--text-base);
     color: #5b21b6;
     line-height: 1.6;
     margin-top: 16px;
@@ -381,7 +381,7 @@
 .privacy-table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 14px;
+    font-size: var(--text-base);
 }
 
 .privacy-table thead tr {
@@ -391,7 +391,7 @@
 .privacy-table th {
     text-align: left;
     padding: 12px 16px;
-    font-size: 12px;
+    font-size: var(--text-xs);
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: .05em;
@@ -405,7 +405,7 @@
 }
 
 .privacy-table code {
-    font-size: 13px;
+    font-size: var(--text-sm);
     background: #f3f4f6;
     border-radius: 4px;
     padding: 2px 6px;
@@ -448,13 +448,13 @@
 }
 
 .privacy-right-card strong {
-    font-size: 14px;
+    font-size: var(--text-base);
     font-weight: 700;
     color: #111827;
 }
 
 .privacy-right-card p {
-    font-size: 13px;
+    font-size: var(--text-sm);
     color: #6b7280;
     margin: 0;
     line-height: 1.4;
@@ -483,7 +483,7 @@
 }
 
 .privacy-contact-label {
-    font-size: 12px;
+    font-size: var(--text-xs);
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: .05em;

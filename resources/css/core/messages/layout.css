@@ -53,7 +53,7 @@
     color: #fff;
     border: none;
     border-radius: var(--r-md);
-    font-size: 0.8125rem;
+    font-size: var(--text-sm);
     font-weight: 600;
     cursor: pointer;
     white-space: nowrap;
@@ -91,7 +91,7 @@
     padding: 0.5rem 0.625rem 0.5rem 1.875rem;
     border: 1.5px solid var(--border-strong);
     border-radius: var(--r-md);
-    font-size: 0.8125rem;
+    font-size: var(--text-sm);
     font-weight: 500;
     background: var(--surface);
     color: var(--ink-700);
@@ -125,7 +125,7 @@
 .msgs-tab {
     flex: 1;
     padding: 0.375rem 0.5rem;
-    font-size: 0.8125rem;
+    font-size: var(--text-sm);
     font-weight: 500;
     color: var(--ink-400);
     background: none;
@@ -164,7 +164,7 @@
     background: var(--accent);
     color: #fff;
     border-radius: 20px;
-    font-size: 0.625rem;
+    font-size: var(--text-xs);
     font-weight: 700;
     letter-spacing: 0;
 }
@@ -289,7 +289,7 @@
 }
 
 .msgs-conv-name {
-    font-size: 0.875rem;
+    font-size: var(--text-base);
     font-weight: 600;
     color: var(--ink-900);
     white-space: nowrap;
@@ -299,7 +299,7 @@
 }
 
 .msgs-conv-time {
-    font-size: 0.6875rem;
+    font-size: var(--text-xs);
     color: var(--ink-300);
     white-space: nowrap;
     flex-shrink: 0;
@@ -311,7 +311,7 @@
 }
 
 .msgs-conv-role {
-    font-size: 0.75rem;
+    font-size: var(--text-xs);
     color: var(--ink-400);
     font-weight: 400;
     white-space: nowrap;
@@ -329,7 +329,7 @@
 }
 
 .msgs-conv-preview {
-    font-size: 0.8125rem;
+    font-size: var(--text-sm);
     color: var(--ink-400);
     white-space: nowrap;
     overflow: hidden;
@@ -352,7 +352,7 @@
     background: var(--accent);
     color: #fff;
     border-radius: 20px;
-    font-size: 0.6875rem;
+    font-size: var(--text-xs);
     font-weight: 700;
     flex-shrink: 0;
     animation: badge-pop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) both;
@@ -388,7 +388,7 @@
 }
 
 .msgs-empty-sidebar p {
-    font-size: 0.875rem;
+    font-size: var(--text-base);
     font-weight: 500;
     color: var(--ink-400);
 }
@@ -400,7 +400,7 @@
     color: var(--accent);
     border: 1.5px solid rgba(18, 179, 182, 0.3);
     border-radius: var(--r-md);
-    font-size: 0.8125rem;
+    font-size: var(--text-sm);
     font-weight: 600;
     cursor: pointer;
     font-family: inherit;

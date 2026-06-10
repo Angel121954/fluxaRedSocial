@@ -30,7 +30,7 @@
     padding: 0 8px;
     border: 1.5px solid var(--border-strong) !important;
     border-radius: var(--r-md);
-    font-size: 12.5px;
+    font-size: var(--text-sm);
     font-weight: 600;
     color: var(--ink-600) !important;
     background: var(--surface) !important;
@@ -64,7 +64,7 @@
 .adm-dt-info {
     padding: 12px 18px;
     border-top: 1px solid var(--border);
-    font-size: 12px;
+    font-size: var(--text-xs);
     color: var(--ink-400);
     display: flex;
     align-items: center;
@@ -77,7 +77,7 @@
 .adm-table {
     width: 100% !important;
     border-collapse: collapse;
-    font-size: 13px;
+    font-size: var(--text-sm);
     color: var(--ink-700);
 }
 
@@ -88,7 +88,7 @@
 .adm-th {
     padding: 10px 16px;
     text-align: left;
-    font-size: 10.5px;
+    font-size: var(--text-xs);
     font-weight: 700;
     letter-spacing: .05em;
     text-transform: uppercase;
@@ -114,7 +114,7 @@ table.dataTable thead .sorting::after,
 table.dataTable thead .sorting_asc::after,
 table.dataTable thead .sorting_desc::after {
     opacity: .5;
-    font-size: 10px;
+    font-size: var(--text-xs);
 }
 
 table.dataTable thead .sorting_asc::after {
@@ -199,7 +199,7 @@ table.dataTable thead .sorting::after {
 .adm-avatar--initials {
     background: linear-gradient(135deg, var(--accent), var(--accent-dark));
     color: #fff;
-    font-size: 12px;
+    font-size: var(--text-xs);
     font-weight: 700;
     display: flex;
     align-items: center;
@@ -225,7 +225,7 @@ table.dataTable thead .sorting::after {
 }
 
 .adm-user-name {
-    font-size: 13px;
+    font-size: var(--text-sm);
     font-weight: 600;
     color: var(--ink-700);
     white-space: nowrap;
@@ -235,30 +235,30 @@ table.dataTable thead .sorting::after {
 }
 
 .adm-user-handle {
-    font-size: 11.5px;
+    font-size: var(--text-xs);
     color: var(--ink-400);
 }
 
 /* ─── Celdas especiales ──────────────────────────────────────── */
 .adm-email {
-    font-size: 12.5px;
+    font-size: var(--text-sm);
     color: var(--ink-500);
     white-space: nowrap;
 }
 
 .adm-count {
-    font-size: 13px;
+    font-size: var(--text-sm);
     font-weight: 700;
     color: var(--ink-700);
 }
 
 .adm-date {
-    font-size: 12px;
+    font-size: var(--text-xs);
     color: var(--ink-500);
     white-space: nowrap;
 }
 
 .adm-empty-cell {
     color: var(--ink-300);
-    font-size: 13px;
+    font-size: var(--text-sm);
 }

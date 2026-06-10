@@ -9,7 +9,7 @@
 }
 
 .diary-responses-title {
-    font-size: 1rem;
+    font-size: var(--text-md);
     font-weight: 700;
     color: var(--ink-900, #0b0f1a);
     letter-spacing: -0.02em;
@@ -24,7 +24,7 @@
     display: inline-flex;
     align-items: center;
     gap: 0.3125rem;
-    font-size: 0.8125rem;
+    font-size: var(--text-sm);
     font-weight: 600;
     color: var(--ink-500, #4a5568);
     background: none;
@@ -75,7 +75,7 @@
 .diary-sort-option {
     display: block;
     padding: 0.4375rem 0.75rem;
-    font-size: 0.8125rem;
+    font-size: var(--text-sm);
     font-weight: 500;
     color: var(--ink-600, #374151);
     text-decoration: none;
@@ -147,7 +147,7 @@
 }
 
 .diary-response-card__name {
-    font-size: 0.8125rem;
+    font-size: var(--text-sm);
     font-weight: 650;
     color: var(--ink-900, #0b0f1a);
     text-decoration: none;
@@ -172,16 +172,16 @@
 
 .diary-response-card__dot {
     color: var(--ink-300, #a0aabe);
-    font-size: 0.75rem;
+    font-size: var(--text-xs);
 }
 
 .diary-response-card__time {
-    font-size: 0.75rem;
+    font-size: var(--text-xs);
     color: var(--ink-400, #718096);
 }
 
 .diary-response-card__text {
-    font-size: 0.875rem;
+    font-size: var(--text-base);
     color: var(--ink-600, #374151);
     line-height: 1.5;
     margin: 0.25rem 0 0.375rem;
@@ -201,7 +201,7 @@
     gap: 0.25rem;
     padding: 0.25rem 0.4375rem;
     border-radius: var(--r-xs, 6px);
-    font-size: 0.75rem;
+    font-size: var(--text-xs);
     font-weight: 550;
     color: var(--ink-400, #718096);
     background: none;
@@ -312,7 +312,7 @@
     width: 100%;
     padding: 0.375rem 0.625rem;
     border-radius: var(--r-xs, 6px);
-    font-size: 0.75rem;
+    font-size: var(--text-xs);
     font-weight: 500;
     color: var(--ink-600, #374151);
     background: none;

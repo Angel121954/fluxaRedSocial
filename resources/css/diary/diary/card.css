@@ -23,7 +23,7 @@
     background: var(--diary-violet-dim);
     border: 1px solid var(--diary-violet-ring);
     color: var(--diary-violet);
-    font-size: 0.75rem;
+    font-size: var(--text-xs);
     font-weight: 600;
     padding: 0.25rem 0.6875rem;
     border-radius: 999px;
@@ -38,7 +38,7 @@
 
 /* ── Pregunta ────────────────────────────────────────────────────── */
 .diary-question {
-    font-size: 1.625rem;
+    font-size: var(--text-xl);
     font-weight: 780;
     color: var(--ink-900, #0b0f1a);
     letter-spacing: -0.03em;
@@ -56,7 +56,7 @@
     display: inline-flex;
     align-items: center;
     gap: 0.3125rem;
-    font-size: 0.8125rem;
+    font-size: var(--text-sm);
     font-weight: 500;
     color: var(--diary-violet);
     margin-bottom: 1.25rem;
@@ -122,7 +122,7 @@
     border: none;
     background: transparent;
     outline: none;
-    font-size: 0.875rem;
+    font-size: var(--text-base);
     color: var(--ink-700, #1c2333);
     font-family: inherit;
     resize: none;
@@ -136,7 +136,7 @@
 
 .diary-reply-box__placeholder {
     flex: 1;
-    font-size: 0.875rem;
+    font-size: var(--text-base);
     color: var(--ink-300, #a0aabe);
 }
 
@@ -146,7 +146,7 @@
     gap: 0.375rem;
     padding: 0.5rem 0.875rem;
     border-radius: var(--r-md, 10px);
-    font-size: 0.8125rem;
+    font-size: var(--text-sm);
     font-weight: 600;
     color: #fff;
     background: var(--diary-violet);
@@ -181,7 +181,7 @@
     background: var(--diary-violet-dim);
     border: 1px solid var(--diary-violet-ring);
     color: var(--ink-600, #374151);
-    font-size: 0.875rem;
+    font-size: var(--text-base);
     font-weight: 500;
     line-height: 1.5;
     margin-bottom: 1rem;
@@ -218,7 +218,7 @@
 }
 
 .diary-respondents__count {
-    font-size: 0.8125rem;
+    font-size: var(--text-sm);
     color: var(--ink-500, #4a5568);
     font-weight: 500;
     margin-left: 8px;

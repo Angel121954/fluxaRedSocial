@@ -114,19 +114,19 @@
     }
 
     .profile-name {
-        font-size: 1.25rem;
+        font-size: var(--text-lg);
     }
 
     .handle {
-        font-size: 0.8125rem;
+        font-size: var(--text-sm);
     }
 
     .bio {
-        font-size: 0.875rem;
+        font-size: var(--text-base);
     }
 
     .profile-url {
-        font-size: 0.75rem;
+        font-size: var(--text-xs);
     }
 
     .profile-card {
@@ -139,7 +139,7 @@
     }
 
     .av-initials {
-        font-size: 1.75rem;
+        font-size: var(--text-2xl);
     }
 
     .stat {
@@ -147,15 +147,15 @@
     }
 
     .stat-n {
-        font-size: 1rem;
+        font-size: var(--text-md);
     }
 
     .stat-l {
-        font-size: 0.6875rem;
+        font-size: var(--text-xs);
     }
 
     .stat-value {
-        font-size: 1.125rem;
+        font-size: var(--text-lg);
     }
 
     .card-head {
@@ -165,7 +165,7 @@
     .btn-follow,
     .btn-message {
         height: 40px;
-        font-size: 0.8125rem;
+        font-size: var(--text-sm);
     }
 
     .btn-follow {
@@ -177,7 +177,7 @@
     }
 
     .tab {
-        font-size: 0.8125rem;
+        font-size: var(--text-sm);
         padding: 0.75rem 0;
         margin-right: 1rem;
     }
@@ -193,7 +193,7 @@
 
     .f-pill {
         padding: 0.25rem 0.625rem;
-        font-size: 0.75rem;
+        font-size: var(--text-xs);
     }
 
     .f-pill svg {
@@ -206,20 +206,20 @@
     }
 
     .card-title {
-        font-size: 0.9375rem;
+        font-size: var(--text-md);
     }
 
     .card-desc {
-        font-size: 0.8125rem;
+        font-size: var(--text-sm);
     }
 
     .badge-day {
-        font-size: 0.625rem;
+        font-size: var(--text-xs);
         padding: 0.15rem 0.4375rem;
     }
 
     .badge-streak {
-        font-size: 0.625rem;
+        font-size: var(--text-xs);
         padding: 0.15rem 0.375rem;
     }
 
@@ -249,7 +249,7 @@
     }
 
     .profile-name {
-        font-size: 1.125rem;
+        font-size: var(--text-lg);
     }
 
     .meta-top {
@@ -278,17 +278,17 @@
     }
 
     .card-title {
-        font-size: 0.875rem;
+        font-size: var(--text-base);
     }
 
     .tab {
-        font-size: 0.75rem;
+        font-size: var(--text-xs);
         padding: 0.625rem 0;
         margin-right: 0.75rem;
     }
 
     .f-pill {
         padding: 0.2rem 0.5rem;
-        font-size: 0.6875rem;
+        font-size: var(--text-xs);
     }
 }

@@ -6,7 +6,7 @@
 
 /* ─── Títulos de sección ──────────────────────────────────── */
 .section-title {
-    font-size: 1rem;
+    font-size: var(--text-md);
     font-weight: 700;
     color: var(--ink-900);
     margin: 0 0 0.35rem 0;
@@ -17,7 +17,7 @@
 }
 
 .section-description {
-    font-size: 0.85rem;
+    font-size: var(--text-sm);
     color: var(--ink-400);
     margin: 0 0 1.25rem 0;
     line-height: 1.55;
@@ -57,7 +57,7 @@
     gap: 0.3rem;
     padding: 0.3rem 0.65rem;
     border-radius: 999px;
-    font-size: 0.72rem;
+    font-size: var(--text-xs);
     font-weight: 600;
     white-space: nowrap;
 }
@@ -67,7 +67,7 @@
     background-color: #e6faf9;
     color: #0d9b9e;
     border: 1px solid #b2ebea;
-    font-size: 0.72rem;
+    font-size: var(--text-xs);
     font-weight: 600;
     padding: 0.28rem 0.65rem;
     border-radius: 999px;
@@ -81,7 +81,7 @@
     padding: 0.5rem 0.875rem;
     border: 1.5px solid var(--border-strong);
     border-radius: var(--r-md);
-    font-size: 0.8125rem;
+    font-size: var(--text-sm);
     font-weight: 600;
     color: var(--ink-600);
     background: var(--surface);
@@ -128,13 +128,13 @@ select.form-input {
 }
 
 .toggle-label {
-    font-size: 0.875rem;
+    font-size: var(--text-base);
     font-weight: 600;
     color: var(--ink-900);
 }
 
 .toggle-hint {
-    font-size: 0.775rem;
+    font-size: var(--text-sm);
     color: var(--ink-300);
 }
 
@@ -209,14 +209,14 @@ select.form-input {
 }
 
 .modal-box h3 {
-    font-size: 1rem;
+    font-size: var(--text-md);
     font-weight: 700;
     color: var(--ink-900);
     margin: 0;
 }
 
 .modal-box p {
-    font-size: 0.83rem;
+    font-size: var(--text-sm);
     color: var(--ink-400);
     margin: 0;
     line-height: 1.5;
@@ -245,13 +245,13 @@ select.form-input {
     background: #f0fdfd;
     border: 1px solid #b2ebea;
     border-radius: 8px;
-    font-size: 0.78rem;
+    font-size: var(--text-sm);
     color: var(--ink-400);
 }
 
 .modal-secret code {
     font-family: monospace;
-    font-size: 0.82rem;
+    font-size: var(--text-sm);
     font-weight: 600;
     color: #0d9b9e;
     letter-spacing: 0.04em;
@@ -260,14 +260,14 @@ select.form-input {
 
 #codeInput2FA {
     text-align: center;
-    font-size: 1.25rem;
+    font-size: var(--text-lg);
     font-weight: 700;
     letter-spacing: 0.25em;
     padding: 0.65rem;
 }
 
 .modal-error {
-    font-size: 0.78rem;
+    font-size: var(--text-sm);
     color: #dc2626;
     display: none;
 }
@@ -321,13 +321,13 @@ select.form-input {
 }
 
 .logout-device {
-    font-size: 0.875rem;
+    font-size: var(--text-base);
     font-weight: 600;
     color: var(--ink-900);
 }
 
 .logout-meta {
-    font-size: 0.775rem;
+    font-size: var(--text-sm);
     color: var(--ink-300);
     white-space: nowrap;
     overflow: hidden;
@@ -344,7 +344,7 @@ select.form-input {
     border: 1.5px solid #fecaca;
     border-radius: 8px;
     font-family: inherit;
-    font-size: 0.82rem;
+    font-size: var(--text-sm);
     font-weight: 600;
     color: #dc2626;
     cursor: pointer;
@@ -395,13 +395,13 @@ select.form-input {
 }
 
 .danger-label {
-    font-size: 0.875rem;
+    font-size: var(--text-base);
     font-weight: 600;
     color: var(--ink-900);
 }
 
 .danger-desc {
-    font-size: 0.78rem;
+    font-size: var(--text-sm);
     color: var(--ink-300);
     line-height: 1.45;
 }
@@ -410,7 +410,7 @@ select.form-input {
     flex-shrink: 0;
     padding: 0.5rem 1.1rem;
     border-radius: 8px;
-    font-size: 0.82rem;
+    font-size: var(--text-sm);
     font-weight: 600;
     cursor: pointer;
     transition: all 0.15s ease;

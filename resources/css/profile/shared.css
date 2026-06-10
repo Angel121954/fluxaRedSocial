@@ -16,7 +16,7 @@ body {
     color: var(--ink-700);
     min-height: 100vh;
     -webkit-font-smoothing: antialiased;
-    font-size: 15px;
+    font-size: var(--text-base);
     line-height: 1.5;
 }
 
@@ -41,7 +41,7 @@ body {
 }
 
 .page-title {
-    font-size: 1.5rem;
+    font-size: var(--text-xl);
     font-weight: 750;
     color: var(--ink-900);
     letter-spacing: -0.035em;
@@ -49,7 +49,7 @@ body {
 }
 
 .page-subtitle {
-    font-size: 0.9375rem;
+    font-size: var(--text-base);
     color: var(--ink-400);
     margin-bottom: 2rem;
     line-height: 1.6;
@@ -73,7 +73,7 @@ body {
 
 .form-label {
     display: block;
-    font-size: 0.875rem;
+    font-size: var(--text-base);
     font-weight: 600;
     color: var(--ink-700);
     margin-bottom: 0.5rem;
@@ -82,7 +82,7 @@ body {
 
 .form-hint {
     display: block;
-    font-size: 0.8125rem;
+    font-size: var(--text-sm);
     color: var(--ink-400);
     margin-bottom: 0.625rem;
 }
@@ -93,7 +93,7 @@ body {
 }
 
 .form-error {
-    font-size: 0.75rem;
+    font-size: var(--text-xs);
     color: var(--danger);
     margin-top: 0.25rem;
 }
@@ -105,7 +105,7 @@ body {
     border: 1.5px solid var(--border-strong);
     border-radius: var(--r-md);
     font-family: inherit;
-    font-size: 0.875rem;
+    font-size: var(--text-base);
     color: var(--ink-900);
     background: var(--surface);
     outline: none;
@@ -166,7 +166,7 @@ select.form-input {
     padding: 0.5rem 0.875rem;
     border: 1.5px solid var(--border-strong);
     border-radius: var(--r-md);
-    font-size: 0.8125rem;
+    font-size: var(--text-sm);
     font-weight: 600;
     color: var(--ink-600);
     background: var(--surface);
@@ -203,7 +203,7 @@ select.form-input {
     padding: 0.5rem 1.25rem;
     border: 1.5px solid var(--border-strong);
     border-radius: var(--r-md);
-    font-size: 0.875rem;
+    font-size: var(--text-base);
     font-weight: 600;
     color: var(--ink-600);
     background: var(--surface);
@@ -231,7 +231,7 @@ select.form-input {
     color: white;
     border: none;
     border-radius: var(--r-md);
-    font-size: 0.875rem;
+    font-size: var(--text-base);
     font-weight: 600;
     cursor: pointer;
     transition:
@@ -362,11 +362,11 @@ select.form-input {
     }
 
     .page-title {
-        font-size: 1.25rem;
+        font-size: var(--text-lg);
     }
 
     .page-subtitle {
-        font-size: 0.875rem;
+        font-size: var(--text-base);
         margin-bottom: 1.5rem;
     }
 
@@ -387,11 +387,11 @@ select.form-input {
     }
 
     .form-label {
-        font-size: 0.8125rem;
+        font-size: var(--text-sm);
     }
 
     .form-input {
-        font-size: 1rem;
+        font-size: var(--text-md);
         padding: 0.875rem 1rem;
     }
 }
@@ -402,16 +402,16 @@ select.form-input {
     }
 
     .page-title {
-        font-size: 1.125rem;
+        font-size: var(--text-lg);
     }
 
     .page-subtitle {
-        font-size: 0.8125rem;
+        font-size: var(--text-sm);
     }
 
     .form-input {
         padding: 0.75rem;
-        font-size: 1rem;
+        font-size: var(--text-md);
     }
 
     .form-section-title {
@@ -420,13 +420,13 @@ select.form-input {
     }
 
     .form-section-title h2 {
-        font-size: 0.9375rem;
+        font-size: var(--text-md);
     }
 
     .btn-save,
     .btn-cancel,
     .btn-submit {
-        font-size: 0.875rem;
+        font-size: var(--text-base);
         padding: 0.75rem 1rem;
     }
 }
@@ -437,7 +437,7 @@ select.form-input {
     }
 
     .page-title {
-        font-size: 1rem;
+        font-size: var(--text-md);
     }
 
     .form-group {
@@ -457,7 +457,7 @@ select.form-input {
     color: #fff;
     padding: 0.75rem 1.25rem;
     border-radius: 0.5rem;
-    font-size: 0.9rem;
+    font-size: var(--text-base);
     font-weight: 500;
     z-index: 9999;
     display: none;

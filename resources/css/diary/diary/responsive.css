@@ -12,7 +12,7 @@
     }
 
     .diary-question {
-        font-size: 1.25rem;
+        font-size: var(--text-lg);
     }
 
     .diary-response-card {

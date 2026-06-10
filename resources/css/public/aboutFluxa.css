@@ -53,7 +53,7 @@ body {
     font-family: var(--font-sans);
     background: var(--bg-primary);
     color: var(--ink-700);
-    font-size: 15px;
+    font-size: var(--text-base);
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
 }
@@ -87,7 +87,7 @@ body {
     padding: 0.375rem 0.875rem;
     background: var(--accent-dim);
     border-radius: var(--r-lg);
-    font-size: 0.8125rem;
+    font-size: var(--text-sm);
     font-weight: 600;
     color: var(--accent-dark);
     margin-bottom: 1.25rem;
@@ -99,7 +99,7 @@ body {
 }
 
 .hero-title {
-    font-size: 2.75rem;
+    font-size: var(--text-2xl);
     font-weight: 700;
     color: var(--ink-900);
     letter-spacing: -0.035em;
@@ -112,7 +112,7 @@ body {
 }
 
 .hero-subtitle {
-    font-size: 1.125rem;
+    font-size: var(--text-md);
     color: var(--ink-500);
     line-height: 1.65;
 }
@@ -198,7 +198,7 @@ body {
 }
 
 .intro-text h2 {
-    font-size: 1.625rem;
+    font-size: var(--text-xl);
     font-weight: 700;
     color: var(--ink-900);
     letter-spacing: -0.025em;
@@ -206,7 +206,7 @@ body {
 }
 
 .intro-label {
-    font-size: 0.8125rem;
+    font-size: var(--text-sm);
     font-weight: 600;
     color: var(--accent-dark);
     text-transform: uppercase;
@@ -215,7 +215,7 @@ body {
 }
 
 .intro-text p {
-    font-size: 0.9375rem;
+    font-size: var(--text-base);
     color: var(--ink-600);
     line-height: 1.75;
     margin-bottom: 1rem;
@@ -250,7 +250,7 @@ body {
 
 .values-label {
     display: inline-block;
-    font-size: 0.75rem;
+    font-size: var(--text-xs);
     font-weight: 600;
     color: var(--accent-dark);
     text-transform: uppercase;
@@ -259,7 +259,7 @@ body {
 }
 
 .values-header h2 {
-    font-size: 2rem;
+    font-size: var(--text-2xl);
     font-weight: 700;
     color: var(--ink-900);
     letter-spacing: -0.03em;
@@ -309,14 +309,14 @@ body {
 }
 
 .value-card h3 {
-    font-size: 1.0625rem;
+    font-size: var(--text-md);
     font-weight: 600;
     color: var(--ink-800);
     margin-bottom: 0.5rem;
 }
 
 .value-card p {
-    font-size: 0.8125rem;
+    font-size: var(--text-sm);
     color: var(--ink-500);
     line-height: 1.5;
 }
@@ -367,7 +367,7 @@ body {
 
 .mission-content .mission-label {
     display: inline-block;
-    font-size: 0.75rem;
+    font-size: var(--text-xs);
     font-weight: 600;
     color: var(--accent-dark);
     text-transform: uppercase;
@@ -376,14 +376,14 @@ body {
 }
 
 .mission-content h3 {
-    font-size: 1.5rem;
+    font-size: var(--text-xl);
     font-weight: 700;
     color: var(--ink-900);
     margin-bottom: 0.75rem;
 }
 
 .mission-content p {
-    font-size: 0.9375rem;
+    font-size: var(--text-base);
     color: var(--ink-600);
     line-height: 1.7;
 }
@@ -416,11 +416,11 @@ body {
     }
 
     .hero-title {
-        font-size: 2rem;
+        font-size: var(--text-2xl);
     }
 
     .hero-subtitle {
-        font-size: 1rem;
+        font-size: var(--text-md);
     }
 
     .hero-visual {

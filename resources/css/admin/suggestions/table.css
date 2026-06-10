@@ -16,7 +16,7 @@
 /* Header */
 .adm-th {
     padding: 11px 16px;
-    font-size: 11.5px;
+    font-size: var(--text-xs);
     font-weight: 600;
     color: var(--ink-400);
     text-transform: uppercase;
@@ -55,7 +55,7 @@
 
 .adm-td {
     padding: 14px 16px;
-    font-size: 13.5px;
+    font-size: var(--text-base);
     color: var(--ink-600);
     vertical-align: middle;
 }
@@ -75,7 +75,7 @@
     display: inline-flex;
     align-items: center;
     gap: 5px;
-    font-size: 12px;
+    font-size: var(--text-xs);
     font-weight: 600;
     padding: 4px 10px;
     border-radius: 99px;
@@ -155,7 +155,7 @@
 }
 
 .adm-avatar-initials {
-    font-size: 12px;
+    font-size: var(--text-xs);
     font-weight: 700;
     color: var(--accent-dark);
     letter-spacing: 0.02em;
@@ -168,7 +168,7 @@
 }
 
 .adm-user-name {
-    font-size: 13px;
+    font-size: var(--text-sm);
     font-weight: 600;
     color: var(--ink-700);
     white-space: nowrap;
@@ -177,7 +177,7 @@
 }
 
 .adm-user-handle {
-    font-size: 11.5px;
+    font-size: var(--text-xs);
     color: var(--ink-300);
 }
 
@@ -208,7 +208,7 @@
 
 .adm-empty-cell {
     color: var(--ink-200);
-    font-size: 14px;
+    font-size: var(--text-base);
 }
 
 /* ─── Likes ──────────────────────────────────────────────────── */
@@ -228,7 +228,7 @@
 }
 
 .adm-likes-count {
-    font-size: 13px;
+    font-size: var(--text-sm);
     font-weight: 500;
     color: var(--ink-400);
 }
@@ -239,7 +239,7 @@
 
 /* ─── Date ───────────────────────────────────────────────────── */
 .adm-date {
-    font-size: 13px;
+    font-size: var(--text-sm);
     color: var(--ink-400);
     white-space: nowrap;
 }
@@ -302,7 +302,7 @@
     align-items: center;
     gap: 9px;
     padding: 8px 10px;
-    font-size: 13px;
+    font-size: var(--text-sm);
     color: var(--ink-600);
     border-radius: var(--r-md);
     border: none;
@@ -347,7 +347,7 @@
 }
 
 .adm-empty-state p {
-    font-size: 14px;
+    font-size: var(--text-base);
     color: var(--ink-400);
 }
 
@@ -371,7 +371,7 @@
     border-radius: var(--r-md);
     border: 1px solid var(--border-strong);
     background: var(--surface);
-    font-size: 13px;
+    font-size: var(--text-sm);
     font-weight: 500;
     color: var(--ink-600);
     cursor: pointer;
@@ -418,7 +418,7 @@
     }
 
     .adm-select {
-        font-size: 12px;
+        font-size: var(--text-xs);
         padding-right: 26px;
     }
 

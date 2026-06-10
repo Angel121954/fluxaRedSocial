@@ -23,7 +23,7 @@
 
 .empty-state {
     color: var(--ink-400);
-    font-size: 0.875rem;
+    font-size: var(--text-base);
     grid-column: 1 / -1;
     text-align: center;
     padding: 2rem 0;
@@ -149,7 +149,7 @@
 }
 
 .profile-name {
-    font-size: 1.5rem;
+    font-size: var(--text-xl);
     font-weight: 750;
     color: var(--ink-900);
     letter-spacing: -0.035em;
@@ -157,7 +157,7 @@
 }
 
 .badge-pro {
-    font-size: 0.625rem;
+    font-size: var(--text-xs);
     font-weight: 700;
     letter-spacing: 0.07em;
     text-transform: uppercase;
@@ -170,7 +170,7 @@
 }
 
 .handle {
-    font-size: 0.875rem;
+    font-size: var(--text-sm);
     color: var(--ink-400);
     font-weight: 500;
     margin-bottom: 0.75rem;
@@ -178,7 +178,7 @@
 }
 
 .bio {
-    font-size: 0.9375rem;
+    font-size: var(--text-base);
     color: var(--ink-500);
     line-height: 1.65;
     max-width: 700px;
@@ -188,7 +188,7 @@
     display: inline-flex;
     align-items: center;
     gap: 0.3rem;
-    font-size: 0.8125rem;
+    font-size: var(--text-sm);
     font-weight: 500;
     color: var(--accent);
     text-decoration: none;

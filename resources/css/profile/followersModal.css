@@ -51,14 +51,14 @@
 }
 
 .followers-title {
-    font-size: 1rem;
+    font-size: var(--text-md);
     font-weight: 600;
     color: var(--ink-900);
     line-height: 1.4;
 }
 
 .followers-subtitle {
-    font-size: 0.75rem;
+    font-size: var(--text-xs);
     color: var(--ink-400);
     margin-top: 0.125rem;
 }
@@ -166,7 +166,7 @@
 }
 
 .followers-avatar-letter {
-    font-size: 0.875rem;
+    font-size: var(--text-base);
     font-weight: 700;
     color: var(--ink-400);
 }
@@ -178,7 +178,7 @@
 
 .followers-name {
     display: block;
-    font-size: 0.875rem;
+    font-size: var(--text-base);
     font-weight: 600;
     color: var(--ink-900);
     white-space: nowrap;
@@ -188,7 +188,7 @@
 
 .followers-handle {
     display: block;
-    font-size: 0.75rem;
+    font-size: var(--text-xs);
     color: var(--ink-400);
     margin-top: 1px;
 }
@@ -201,7 +201,7 @@
 }
 
 .followers-empty p {
-    font-size: 0.875rem;
+    font-size: var(--text-base);
     color: var(--ink-400);
     text-align: center;
 }

@@ -20,7 +20,7 @@
 }
 
 .adm-title {
-    font-size: 22px;
+    font-size: var(--text-xl);
     font-weight: 700;
     color: var(--ink-900);
     letter-spacing: -0.3px;
@@ -29,7 +29,7 @@
 }
 
 .adm-subtitle {
-    font-size: 13.5px;
+    font-size: var(--text-base);
     color: var(--ink-400);
     margin: 0;
 }
@@ -77,7 +77,7 @@
     border: 1px solid var(--border-strong);
     border-radius: var(--r-lg);
     background: var(--bg);
-    font-size: 13px;
+    font-size: var(--text-sm);
     color: var(--ink-700);
     outline: none;
     transition: border-color 0.15s, box-shadow 0.15s;
@@ -113,7 +113,7 @@
     border: 1px solid var(--border-strong);
     border-radius: var(--r-lg);
     background: var(--surface);
-    font-size: 13px;
+    font-size: var(--text-sm);
     color: var(--ink-600);
     appearance: none;
     -webkit-appearance: none;

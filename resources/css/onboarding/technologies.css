@@ -102,7 +102,7 @@ body {
 }
 
 h1 {
-    font-size: 1.25rem;
+    font-size: var(--text-lg);
     font-weight: 700;
     color: var(--ink-900);
     line-height: 1.35;
@@ -111,7 +111,7 @@ h1 {
 }
 
 .subtitle {
-    font-size: 0.875rem;
+    font-size: var(--text-base);
     color: var(--ink-400);
     margin-bottom: 16px;
     line-height: 1.5;
@@ -140,7 +140,7 @@ h1 {
     padding: 0 10px 0 32px;
     border: 1px solid var(--border);
     border-radius: var(--r);
-    font-size: 0.8125rem;
+    font-size: var(--text-sm);
     font-family: inherit;
     color: var(--ink-900);
     background: var(--ink-50);
@@ -160,7 +160,7 @@ h1 {
 
 /* ─── Tech grid ──────────────────────────────────── */
 .tech-search-hint {
-    font-size: 0.75rem;
+    font-size: var(--text-xs);
     color: var(--ink-400);
     margin: 0.5rem 0 1rem;
     text-align: center;
@@ -215,7 +215,7 @@ h1 {
     border: 1px solid var(--border);
     border-radius: var(--r);
     cursor: pointer;
-    font-size: 0.6875rem;
+    font-size: var(--text-xs);
     font-weight: 500;
     color: var(--ink-500);
     background: var(--ink-50);
@@ -270,7 +270,7 @@ h1 {
     background: var(--accent);
     color: #fff;
     font-family: inherit;
-    font-size: 0.875rem;
+    font-size: var(--text-base);
     font-weight: 600;
     border: 1px solid var(--accent);
     border-radius: var(--r);
@@ -293,7 +293,7 @@ h1 {
 .skip {
     text-align: center;
     margin-top: 10px;
-    font-size: 0.8125rem;
+    font-size: var(--text-sm);
     color: var(--ink-400);
 }
 
@@ -327,7 +327,7 @@ h1 {
 }
 
 .tagline {
-    font-size: 1rem;
+    font-size: var(--text-md);
     font-weight: 600;
     color: var(--ink-700);
     text-align: center;
@@ -351,7 +351,7 @@ h1 {
     border: 1px solid var(--border);
     border-radius: 99px;
     padding: 5px 12px;
-    font-size: 0.75rem;
+    font-size: var(--text-xs);
     font-weight: 500;
     color: var(--ink-500);
 }
@@ -387,7 +387,7 @@ h1 {
 }
 
 .onboarding-category-title {
-    font-size: 0.8125rem;
+    font-size: var(--text-sm);
     font-weight: 600;
     color: var(--ink-500);
     text-transform: uppercase;

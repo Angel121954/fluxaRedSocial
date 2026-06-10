@@ -51,7 +51,7 @@
         max-width: 100%;
         width: 100%;
         padding: 12px 14px;
-        font-size: 13px;
+        font-size: var(--text-sm);
         gap: 10px;
         box-sizing: border-box;
     }

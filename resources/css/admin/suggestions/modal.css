@@ -9,7 +9,7 @@
 
 .sdm-label {
     display: block;
-    font-size: 0.75rem;
+    font-size: var(--text-xs);
     font-weight: 600;
     color: var(--ink-400);
     text-transform: uppercase;
@@ -18,12 +18,12 @@
 }
 
 .sdm-value {
-    font-size: 0.875rem;
+    font-size: var(--text-base);
     color: var(--ink-700);
 }
 
 .sdm-badge {
-    font-size: 0.75rem;
+    font-size: var(--text-xs);
 }
 
 .sdm-user {
@@ -48,18 +48,18 @@
 }
 
 .sdm-user-name {
-    font-size: 0.875rem;
+    font-size: var(--text-base);
     font-weight: 600;
     color: var(--ink-700);
 }
 
 .sdm-user-handle {
-    font-size: 0.75rem;
+    font-size: var(--text-xs);
     color: var(--ink-400);
 }
 
 .sdm-description {
-    font-size: 0.875rem;
+    font-size: var(--text-base);
     color: var(--ink-600);
     line-height: 1.6;
     margin: 0;

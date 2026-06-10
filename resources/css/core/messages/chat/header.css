@@ -98,7 +98,7 @@
 }
 
 .msgs-chat-header-name {
-    font-size: 0.9375rem;
+    font-size: var(--text-md);
     font-weight: 600;
     color: var(--ink-900);
     letter-spacing: -0.015em;
@@ -121,7 +121,7 @@
 }
 
 .msgs-chat-header-sub {
-    font-size: 0.75rem;
+    font-size: var(--text-xs);
     color: var(--ink-400);
     display: flex;
     align-items: center;
@@ -200,7 +200,7 @@
     align-items: center;
     gap: 0.625rem;
     padding: 0.625rem 1rem;
-    font-size: 0.875rem;
+    font-size: var(--text-base);
     font-weight: 500;
     color: var(--ink-700);
     background: none;

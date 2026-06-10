@@ -44,7 +44,7 @@
     border: none;
     background: transparent;
     outline: none;
-    font-size: 0.8125rem;
+    font-size: var(--text-sm);
     color: var(--ink-900, #111827);
     width: 100%;
     font-family: inherit;
@@ -60,7 +60,7 @@
     border: 1px solid var(--border-100, #e5e7eb);
     border-radius: var(--jobs-radius-btn);
     padding: 8px 10px;
-    font-size: 0.8125rem;
+    font-size: var(--text-sm);
     color: var(--ink-600, #374151);
     cursor: pointer;
     outline: none;
@@ -81,7 +81,7 @@
 
 .jobs-select--sm {
     padding: 5px 28px 5px 8px;
-    font-size: 0.75rem;
+    font-size: var(--text-xs);
 }
 
 /* Botón buscar */
@@ -91,7 +91,7 @@
     border: none;
     border-radius: var(--jobs-radius-btn);
     padding: 9px 18px;
-    font-size: 0.875rem;
+    font-size: var(--text-base);
     font-weight: 600;
     cursor: pointer;
     white-space: nowrap;
@@ -113,7 +113,7 @@
 }
 
 .jobs-filter-label {
-    font-size: 0.75rem;
+    font-size: var(--text-xs);
     color: var(--ink-300, #9ca3af);
     margin-right: 2px;
     white-space: nowrap;
@@ -126,7 +126,7 @@
     border: 1px solid var(--border-100, #e5e7eb);
     border-radius: var(--jobs-radius-pill);
     padding: 4px 12px;
-    font-size: 0.75rem;
+    font-size: var(--text-xs);
     color: var(--ink-500, #6b7280);
     background: #ffffff;
     cursor: pointer;
@@ -171,7 +171,7 @@
     display: flex;
     align-items: center;
     gap: 6px;
-    font-size: 0.875rem;
+    font-size: var(--text-base);
     font-weight: 600;
     color: var(--ink-900, #111827);
 }
@@ -188,7 +188,7 @@
     color: var(--jobs-teal-text);
     border-radius: var(--jobs-radius-pill);
     padding: 2px 9px;
-    font-size: 0.6875rem;
+    font-size: var(--text-xs);
     font-weight: 600;
 }
 
@@ -199,7 +199,7 @@
 }
 
 .jobs-sort-label {
-    font-size: 0.75rem;
+    font-size: var(--text-xs);
     color: var(--ink-400, #6b7280);
     white-space: nowrap;
 }

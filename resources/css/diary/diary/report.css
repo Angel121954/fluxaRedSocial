@@ -54,14 +54,14 @@
 }
 
 .diary-report-title {
-    font-size: 1rem;
+    font-size: var(--text-md);
     font-weight: 600;
     color: var(--ink-900);
     line-height: 1.4;
 }
 
 .diary-report-subtitle {
-    font-size: 0.75rem;
+    font-size: var(--text-xs);
     color: var(--ink-400);
     margin-top: 0.125rem;
 }
@@ -101,7 +101,7 @@
     border: 1px solid var(--border);
     border-radius: 8px;
     font-family: inherit;
-    font-size: 0.8125rem;
+    font-size: var(--text-sm);
     line-height: 1.5;
     color: var(--ink-900);
     background: var(--ink-50);
@@ -122,7 +122,7 @@
 }
 
 .diary-report-error {
-    font-size: 0.75rem;
+    font-size: var(--text-xs);
     color: #ef4444;
     margin-top: 0.5rem;
 }
@@ -139,7 +139,7 @@
 .diary-report-btn {
     padding: 0.5rem 1rem;
     border-radius: 8px;
-    font-size: 0.8125rem;
+    font-size: var(--text-sm);
     font-weight: 600;
     font-family: inherit;
     cursor: pointer;

@@ -31,13 +31,13 @@
 }
 
 .diary-empty__label {
-    font-size: 0.9375rem;
+    font-size: var(--text-base);
     font-weight: 600;
     color: var(--ink-500, #4a5568);
 }
 
 .diary-empty__sublabel {
-    font-size: 0.8125rem;
+    font-size: var(--text-sm);
     color: var(--ink-400, #718096);
 }
 
@@ -66,14 +66,14 @@
 }
 
 .diary-empty-state__label {
-    font-size: 1.125rem;
+    font-size: var(--text-lg);
     font-weight: 700;
     color: var(--ink-700);
     letter-spacing: -0.02em;
 }
 
 .diary-empty-state__sublabel {
-    font-size: 0.875rem;
+    font-size: var(--text-base);
     color: var(--ink-400);
 }
 
@@ -87,7 +87,7 @@
 .diary-load-more-btn {
     padding: 0.5625rem 1.25rem;
     border-radius: var(--r-md, 10px);
-    font-size: 0.875rem;
+    font-size: var(--text-base);
     font-weight: 600;
     color: var(--ink-600, #374151);
     background: var(--surface, #fff);

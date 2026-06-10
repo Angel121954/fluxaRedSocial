@@ -99,7 +99,7 @@
 }
 
 .pm-more-n {
-    font-size: 1.5rem;
+    font-size: var(--text-xl);
     font-weight: 700;
     color: #fff;
     letter-spacing: -0.02em;
@@ -292,7 +292,7 @@
     bottom: 1.25rem;
     left: 50%;
     transform: translateX(-50%);
-    font-size: 0.8125rem;
+    font-size: var(--text-sm);
     font-weight: 600;
     color: rgba(255, 255, 255, 0.65);
     letter-spacing: 0.04em;

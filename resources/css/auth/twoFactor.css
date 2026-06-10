@@ -100,7 +100,7 @@ body {
    TÍTULOS
 ═══════════════════════════════════════════════════ */
 .card-title {
-    font-size: 1.5rem;
+    font-size: var(--text-xl);
     font-weight: 700;
     color: var(--text-primary);
     margin-bottom: 0.5rem;
@@ -108,7 +108,7 @@ body {
 }
 
 .card-subtitle {
-    font-size: 0.9rem;
+    font-size: var(--text-base);
     color: var(--text-tertiary);
     line-height: 1.55;
     margin-bottom: 2rem;
@@ -123,7 +123,7 @@ body {
 
 .input-label {
     display: block;
-    font-size: 0.875rem;
+    font-size: var(--text-base);
     font-weight: 600;
     color: var(--text-primary);
     margin-bottom: 0.5rem;
@@ -134,10 +134,9 @@ body {
     padding: 0.875rem 1rem;
     border: 1.5px solid var(--border-strong);
     border-radius: 10px;
-    font-size: 1.5rem;
+    font-size: var(--text-xl);
     font-weight: 700;
     color: var(--text-primary);
-    background: var(--surface);
     font-family: "JetBrains Mono", monospace;
     letter-spacing: 0.35em;
     text-align: center;
@@ -148,7 +147,7 @@ body {
     color: var(--border-strong);
     letter-spacing: 0.25em;
     font-weight: 400;
-    font-size: 1.2rem;
+    font-size: var(--text-lg);
 }
 
 .input-otp:focus {
@@ -173,7 +172,7 @@ body {
     align-items: center;
     gap: 0.375rem;
     margin-top: 0.5rem;
-    font-size: 0.8125rem;
+    font-size: var(--text-sm);
     color: var(--error);
     font-weight: 500;
 }
@@ -185,7 +184,7 @@ body {
     width: 100%;
     padding: 0.75rem 1.25rem;
     border-radius: 10px;
-    font-size: 0.9375rem;
+    font-size: var(--text-base);
     font-weight: 600;
     font-family: inherit;
     cursor: pointer;
@@ -258,7 +257,7 @@ body {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    font-size: 0.85rem;
+    font-size: var(--text-base);
     color: var(--text-tertiary);
     font-weight: 500;
     cursor: pointer;
@@ -294,7 +293,7 @@ body {
     padding: 0.75rem 1rem;
     border: 1.5px solid var(--border-strong);
     border-radius: 10px;
-    font-size: 0.9rem;
+    font-size: var(--text-base);
     font-weight: 500;
     color: var(--text-primary);
     background: var(--surface);
@@ -329,7 +328,7 @@ body {
     align-items: center;
     justify-content: center;
     gap: 0.375rem;
-    font-size: 0.875rem;
+    font-size: var(--text-base);
     color: var(--text-tertiary);
     text-decoration: none;
     font-weight: 500;
@@ -349,10 +348,10 @@ body {
     }
 
     .card-title {
-        font-size: 1.3rem;
+        font-size: var(--text-lg);
     }
 
     .input-otp {
-        font-size: 1.25rem;
+        font-size: var(--text-lg);
     }
 }

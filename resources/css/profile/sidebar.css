@@ -39,7 +39,7 @@
     display: block;
     padding: 0.6rem 0.875rem;
     border-radius: 8px;
-    font-size: 0.875rem;
+    font-size: var(--text-base);
     font-weight: 500;
     color: var(--ink-400);
     text-decoration: none;
@@ -73,7 +73,7 @@
 }
 
 .avatar-title {
-    font-size: 0.8rem;
+    font-size: var(--text-sm);
     font-weight: 700;
     color: var(--ink-900);
     text-transform: uppercase;
@@ -167,7 +167,7 @@
     padding: 0.55rem 1rem;
     border-radius: 8px;
     font-family: inherit;
-    font-size: 0.82rem;
+    font-size: var(--text-sm);
     font-weight: 600;
     cursor: pointer;
     transition: all 0.15s ease;
@@ -215,7 +215,7 @@
 
     .sidebar-item {
         padding: 0.5rem 0.75rem;
-        font-size: 0.8125rem;
+        font-size: var(--text-sm);
         background: var(--ink-100);
         border-radius: 6px;
     }
@@ -242,7 +242,7 @@
 
     .sidebar-item {
         padding: 0.5rem 0.75rem;
-        font-size: 0.8125rem;
+        font-size: var(--text-sm);
     }
 }
 

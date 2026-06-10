@@ -35,7 +35,7 @@
     border: 1px solid var(--border-strong);
     border-radius: var(--r-lg);
     background: var(--bg);
-    font-size: 13px;
+    font-size: var(--text-sm);
     color: var(--ink-700);
     outline: none;
     font-family: inherit;
@@ -76,7 +76,7 @@
     border: 1px solid var(--border-strong);
     border-radius: var(--r-lg);
     background: var(--bg);
-    font-size: 13px;
+    font-size: var(--text-sm);
     color: var(--ink-600);
     font-weight: 500;
     outline: none;
@@ -91,7 +91,7 @@
     height: auto;
     padding: 8px 11px;
     border-radius: var(--r-md);
-    font-size: 13px;
+    font-size: var(--text-sm);
     line-height: 1.6;
     background: var(--surface);
 }

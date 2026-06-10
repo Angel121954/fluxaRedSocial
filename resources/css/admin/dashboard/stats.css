@@ -66,7 +66,7 @@
 }
 
 .stat-label {
-    font-size: 11.5px;
+    font-size: var(--text-xs);
     color: var(--ink-400);
     font-weight: 500;
     margin-bottom: 3px;
@@ -76,7 +76,7 @@
 }
 
 .stat-value {
-    font-size: 21px;
+    font-size: var(--text-lg);
     font-weight: 800;
     color: var(--ink-900);
     letter-spacing: -.03em;
@@ -88,7 +88,7 @@
     align-items: center;
     gap: 3px;
     margin-top: 5px;
-    font-size: 11.5px;
+    font-size: var(--text-xs);
     font-weight: 600;
 }
 
@@ -106,7 +106,7 @@
 }
 
 .stat-vs {
-    font-size: 10.5px;
+    font-size: var(--text-xs);
     color: var(--ink-300);
     margin-top: 2px;
 }

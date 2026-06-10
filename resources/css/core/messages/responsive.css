@@ -15,7 +15,7 @@
     }
 
     .msgs-conv-name {
-        font-size: 0.8125rem;
+        font-size: var(--text-sm);
     }
 }
 
@@ -86,7 +86,7 @@
 
     .msgs-search {
         padding: 0.5rem 0.625rem 0.5rem 2rem;
-        font-size: 0.8125rem;
+        font-size: var(--text-sm);
     }
 
     .msgs-conv-avatar {
@@ -95,7 +95,7 @@
     }
 
     .msgs-conv-preview {
-        font-size: 0.75rem;
+        font-size: var(--text-xs);
     }
 
     .msgs-tabs {
@@ -125,11 +125,11 @@
     }
 
     .msgs-chat-header-name {
-        font-size: 0.875rem;
+        font-size: var(--text-base);
     }
 
     .msgs-chat-header-sub {
-        font-size: 0.6875rem;
+        font-size: var(--text-xs);
     }
 
     .msgs-bubble {
@@ -196,7 +196,7 @@
     }
 
     .msgs-chat-header-name {
-        font-size: 0.8125rem;
+        font-size: var(--text-sm);
     }
 
     .msgs-input-actions {
