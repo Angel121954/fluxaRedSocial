@@ -24,6 +24,22 @@
         justify-content: center;
     }
 
+    .btn-icon {
+        width: 44px;
+        height: 44px;
+    }
+
+    .drop-menu {
+        right: auto;
+        left: 50%;
+        transform: translateX(-50%) translateY(-5px) scale(0.96);
+        transform-origin: top center;
+    }
+
+    .drop-menu.open {
+        transform: translateX(-50%) translateY(0) scale(1);
+    }
+
     .bio {
         max-width: 100%;
     }
