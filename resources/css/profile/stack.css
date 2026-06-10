@@ -141,7 +141,7 @@
 .stack-modal-backdrop {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, .4);
+    background: var(--overlay);
     z-index: 999;
     display: flex;
     align-items: center;
