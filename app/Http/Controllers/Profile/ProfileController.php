@@ -29,8 +29,7 @@ class ProfileController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $user->loadCount(['followers', 'follows']);
-        $user->load('profile');
+        $user->loadCount(['followers', 'follows'])->load('profile');
         $profile = $user->profile;
 
         $data = $this->profileService->loadProfileData($user, $user, true);
@@ -45,7 +44,10 @@ class ProfileController extends Controller
 
     public function show(string $username)
     {
-        $user = User::where('username', $username)->with('profile')->firstOrFail();
+        $user = User::where('username', $username)
+            ->select('id', 'username', 'email', 'name', 'role')
+            ->with('profile')
+            ->firstOrFail();
         $profile = $user->profile;
 
         $this->authorize('view', $profile);

@@ -11,6 +11,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
 class ProfileService
@@ -28,8 +29,9 @@ class ProfileService
         $isOwner = $viewerId === $user->id;
 
         $projects = $user->projects()
+            ->select('id', 'user_id', 'title', 'slug', 'description', 'privacy', 'is_today', 'streak', 'created_at', 'updated_at')
             ->with([
-                'user',
+                'user:id,username,email',
                 'media',
                 'technologies',
                 'likes' => fn ($q) => $q->where('user_id', $viewerId),
@@ -44,15 +46,26 @@ class ProfileService
 
         $projects = $projects->latest()->get();
 
-        $technologies = $user->technologies()->orderBy('category')->orderBy('name')->get();
-        $allTechnologies = Technology::orderBy('category')->orderBy('name')->get();
+        $technologies = $user->technologies()
+            ->select('technologies.id', 'technologies.name', 'technologies.slug', 'technologies.category', 'technologies.icon')
+            ->orderBy('category')->orderBy('name')->get();
+        $allTechnologies = Cache::remember('all_technologies', 3600, fn() =>
+            Technology::select('id', 'name', 'slug', 'category', 'icon')
+                ->orderBy('category')->orderBy('name')->get()
+        );
 
-        $workExperiences = $user->workExperiences()->orderBy('started_at', 'desc')->get();
-        $educations = $user->educations()->orderBy('graduated_year', 'desc')->get();
+        $workExperiences = $user->workExperiences()
+            ->select('id', 'user_id', 'company', 'position', 'description', 'started_at', 'finished_at', 'created_at')
+            ->orderBy('started_at', 'desc')->get();
+        $educations = $user->educations()
+            ->select('id', 'user_id', 'institution', 'title', 'description', 'graduated_year', 'created_at')
+            ->orderBy('graduated_year', 'desc')->get();
 
         $favoriteProjects = collect();
         if ($showFavorites) {
-            $favoriteProjects = $user->bookmarkedProjects()->latest()->get();
+            $favoriteProjects = $user->bookmarkedProjects()
+                ->select('projects.id', 'projects.user_id', 'projects.title', 'projects.slug', 'projects.created_at')
+                ->latest()->get();
 
             $projectsById = $projects->keyBy('id');
 
@@ -72,7 +85,10 @@ class ProfileService
         }
 
         $badges = $user->badges()->get();
-        $allBadges = Badge::orderBy('order')->get();
+        $allBadges = Cache::remember('all_badges', 3600, fn() =>
+            Badge::select('id', 'name', 'slug', 'description', 'icon', 'category', 'tier', 'order')
+                ->orderBy('order')->get()
+        );
 
         $timeline = $this->getTimeline($projects, $workExperiences, $educations, $badges);
 

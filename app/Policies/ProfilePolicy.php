@@ -16,7 +16,7 @@ class ProfilePolicy
             return true;
         }
         if ($profile->visibility === 'followers') {
-            return $user->follows->contains($profile->user_id);
+            return $user->follows()->where('followed_id', $profile->user_id)->exists();
         }
         return $user->id === $profile->user_id;
     }

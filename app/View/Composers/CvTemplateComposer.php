@@ -24,8 +24,8 @@ class CvTemplateComposer
             .urlencode('https://'.$urlPerfil)
             .'&color=0d9488&bgcolor=ffffff&margin=6';
 
-        $cantidadSeguidores = $user->followers()->count();
-        $cantidadSiguiendo = $user->follows()->count();
+        $cantidadSeguidores = $user->followers_count ?? $user->followers()->count();
+        $cantidadSiguiendo = $user->follows_count ?? $user->follows()->count();
         $diasActivo = (int) ($profile->days_active ?? 0);
 
         $rolProfesional = isset($data['technologies']) && $data['technologies']->isNotEmpty()
