@@ -51,7 +51,7 @@ class Conversation extends Model
         return null;
     }
 
-    public function otherUserId(int $userId): ?User
+    public function otherUserById(int $userId): ?User
     {
         if ($this->user_a_id === $userId) {
             return $this->userB;

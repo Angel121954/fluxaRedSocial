@@ -37,7 +37,7 @@ class ConversationCreated implements ShouldBroadcast
 
     public function broadcastWith(): array
     {
-        $otherUser = $this->conversation->otherUserId($this->otherUserId);
+        $otherUser = $this->conversation->otherUserById($this->otherUserId);
 
         Log::info('ConversationCreated broadcastWith', [
             'conversation_id' => $this->conversation->id,
