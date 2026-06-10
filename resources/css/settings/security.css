@@ -5,16 +5,15 @@
 
    LIMPIADO: Se eliminaron .edit-layout, .main-content,
    .page-title, .page-subtitle, .config-section,
-   .section-divider, .btn-cancel, .btn-submit — ya están
-   definidos en shared.css.
+   .section-divider, .btn-cancel, .btn-submit, y las
+   ilustraciones decorativas (.sec-card__illus) — ya están
+   definidos en shared.css o no eran funcionales.
 ═══════════════════════════════════════════════════════════ */
 
 /* ─── Security Cards ──────────────────────────────────────── */
 .sec-card {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 2rem;
     background: var(--surface);
     border: 1px solid #e8eaef;
     border-radius: 14px;
@@ -119,152 +118,6 @@
     border-color: var(--accent);
     color: var(--accent-dark) !important;
     background: #f0fdfd;
-}
-
-/* ─── Ilustraciones ───────────────────────────────────────── */
-.sec-card__illus {
-    flex-shrink: 0;
-    width: 190px;
-    height: 130px;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.illus-phone {
-    width: 66px;
-    height: 108px;
-    background: var(--ink-900);
-    border-radius: 14px;
-    padding: 7px 5px;
-    position: relative;
-    z-index: 2;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.16);
-}
-.illus-phone__screen {
-    background: #e8f9f9;
-    border-radius: 9px;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-}
-.illus-phone__shield {
-    position: relative;
-    color: var(--accent);
-    width: 30px;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.illus-phone__shield svg { width: 30px; height: 30px; }
-.illus-phone__check {
-    position: absolute;
-    color: #fff;
-    font-size: var(--text-xs);
-    font-weight: 700;
-}
-.illus-phone__dots {
-    display: flex;
-    gap: 4px;
-}
-.illus-phone__dots span {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--accent);
-    opacity: 0.35;
-}
-.illus-phone__dots span:nth-child(3) { opacity: 1; }
-
-.illus-shield-big {
-    position: absolute;
-    right: 8px;
-    bottom: 8px;
-    width: 56px;
-    height: 56px;
-    background: #e8f9f9;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--accent);
-    box-shadow: 0 3px 12px rgba(18, 179, 182, 0.18);
-    z-index: 1;
-}
-.illus-shield-big svg { width: 30px; height: 30px; }
-.illus-shield-big > span {
-    position: absolute;
-    color: #fff;
-    font-size: var(--text-sm);
-    font-weight: 700;
-}
-
-.illus-laptop { position: relative; z-index: 2; }
-.illus-laptop__screen {
-    width: 118px;
-    height: 76px;
-    background: #dff4f4;
-    border-radius: 8px 8px 0 0;
-    border: 3px solid #b8d4da;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    overflow: hidden;
-}
-.illus-laptop__base {
-    width: 138px;
-    height: 7px;
-    background: #b8d4da;
-    border-radius: 0 0 5px 5px;
-}
-.illus-map-dot {
-    width: 13px;
-    height: 13px;
-    background: #ef4444;
-    border-radius: 50% 50% 50% 0;
-    transform: rotate(-45deg);
-    flex-shrink: 0;
-}
-.illus-map-arrow {
-    position: absolute;
-    right: 9px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 24px;
-    height: 24px;
-    color: var(--accent);
-}
-.illus-phone-sm {
-    position: absolute;
-    right: 10px;
-    bottom: 12px;
-    width: 42px;
-    height: 60px;
-    background: var(--ink-900);
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.16);
-    z-index: 3;
-}
-.illus-check-circle {
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    background: var(--accent);
-    color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: var(--text-xs);
-    font-weight: 700;
 }
 
 /* ─── Modal: Cambiar contraseña ───────────────────────────── */
@@ -519,6 +372,5 @@
 /* ─── Responsive ──────────────────────────────────────────── */
 @media (max-width: 768px) {
     .sec-card { flex-direction: column; }
-    .sec-card__illus { display: none; }
     .pwd-modal { border-radius: 14px; }
 }

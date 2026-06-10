@@ -37,27 +37,7 @@
                         </a>
                     </div>
                 </div>
-                <div class="sec-card__illus" aria-hidden="true">
-                    <div class="illus-phone">
-                        <div class="illus-phone__screen">
-                            <div class="illus-phone__shield">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                                </svg>
-                                <span class="illus-phone__check">✓</span>
-                            </div>
-                            <div class="illus-phone__dots">
-                                <span></span><span></span><span></span><span></span><span></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="illus-shield-big">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                        </svg>
-                        <span>✓</span>
-                    </div>
-                </div>
+
             </div>
         </section>
 
@@ -86,22 +66,7 @@
                         </button>
                     </div>
                 </div>
-                <div class="sec-card__illus" aria-hidden="true">
-                    <div class="illus-laptop">
-                        <div class="illus-laptop__screen">
-                            <div class="illus-map-dot"></div>
-                            <svg class="illus-map-arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <circle cx="12" cy="12" r="10" />
-                                <polyline points="12 8 16 12 12 16" />
-                                <line x1="8" y1="12" x2="16" y2="12" />
-                            </svg>
-                        </div>
-                        <div class="illus-laptop__base"></div>
-                    </div>
-                    <div class="illus-phone-sm">
-                        <div class="illus-check-circle">✓</div>
-                    </div>
-                </div>
+
             </div>
         </section>
 
