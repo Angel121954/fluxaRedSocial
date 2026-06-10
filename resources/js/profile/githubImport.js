@@ -16,7 +16,7 @@
   const CONNECT_URL = DATA.connectUrl || '/auth/github/connect';
 
   function escapeHtml(str) {
-    var map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+    const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
     return String(str ?? '').replace(/[&<>"']/g, function(c) { return map[c]; });
   }
 

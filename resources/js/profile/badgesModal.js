@@ -1,8 +1,8 @@
 (function () {
     'use strict';
 
-    var backdrop = document.getElementById('badgesModal');
-    var closeBtn = document.getElementById('badgesModalClose');
+    const backdrop = document.getElementById('badgesModal');
+    const closeBtn = document.getElementById('badgesModalClose');
 
     if (!backdrop) return;
 

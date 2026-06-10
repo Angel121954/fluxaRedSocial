@@ -2,16 +2,16 @@
     'use strict';
 
     function escapeHtml(str) {
-        var map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+        const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
         return String(str ?? '').replace(/[&<>"']/g, function(c) { return map[c]; });
     }
 
     /* ─── Modal ──────────────────────────────────── */
-    var backdrop = document.getElementById('salaryModal');
-    var closeBtn = document.getElementById('salaryModalClose');
-    var cancelBtn = document.getElementById('salaryModalCancel');
-    var submitBtn = document.getElementById('salaryModalSubmit');
-    var form = document.getElementById('salaryForm');
+    const backdrop = document.getElementById('salaryModal');
+    const closeBtn = document.getElementById('salaryModalClose');
+    const cancelBtn = document.getElementById('salaryModalCancel');
+    const submitBtn = document.getElementById('salaryModalSubmit');
+    const form = document.getElementById('salaryForm');
 
     function openModal() {
         if (!backdrop) return;
@@ -42,8 +42,8 @@
 
     /* ─── Submit ──────────────────────────────────── */
     function serializeForm(formEl) {
-        var data = {};
-        var fd = new FormData(formEl);
+        const data = {};
+        const fd = new FormData(formEl);
         fd.forEach(function (value, key) {
             if (key === 'technologies[]') {
                 if (!data.technologies) data.technologies = [];
@@ -57,8 +57,8 @@
 
     if (submitBtn && form) {
         submitBtn.addEventListener('click', function () {
-            var data = serializeForm(form);
-            var csrf = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+            const data = serializeForm(form);
+            const csrf = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
 
             submitBtn.disabled = true;
             submitBtn.textContent = 'Enviando...';
@@ -96,31 +96,31 @@
     }
 
     /* ─── Filters ─────────────────────────────────── */
-    var filterCountry = document.getElementById('filterCountry');
-    var filterSeniority = document.getElementById('filterSeniority');
-    var filterModality = document.getElementById('filterModality');
-    var filterTechnology = document.getElementById('filterTechnology');
+    const filterCountry = document.getElementById('filterCountry');
+    const filterSeniority = document.getElementById('filterSeniority');
+    const filterModality = document.getElementById('filterModality');
+    const filterTechnology = document.getElementById('filterTechnology');
 
     function applyFilters() {
-        var params = new URLSearchParams();
+        const params = new URLSearchParams();
         if (filterCountry && filterCountry.value) params.set('country', filterCountry.value);
         if (filterSeniority && filterSeniority.value) params.set('seniority', filterSeniority.value);
         if (filterModality && filterModality.value) params.set('modality', filterModality.value);
         if (filterTechnology && filterTechnology.value) params.set('technology_id', filterTechnology.value);
 
-        var url = '/salaries/data?' + params.toString();
+        const url = '/salaries/data?' + params.toString();
 
         fetch(url, {
             headers: { 'Accept': 'application/json' },
         })
         .then(function (res) { return res.json(); })
         .then(function (json) {
-            var container = document.getElementById('salaryReportsList');
+            const container = document.getElementById('salaryReportsList');
             if (!container) return;
             container.innerHTML = '';
             if (json.data && json.data.length) {
                 json.data.forEach(function (r) {
-                    var techHtml = (r.technologies || []).map(function (t) {
+                    const techHtml = (r.technologies || []).map(function (t) {
                         return '<span class="salary-report-tag">' + escapeHtml(t) + '</span>';
                     }).join('');
                     container.innerHTML +=

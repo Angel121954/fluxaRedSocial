@@ -1,16 +1,16 @@
 (function () {
     'use strict';
 
-    var backdrop = document.getElementById('diaryReportModal');
-    var closeBtn = document.getElementById('diaryReportClose');
-    var cancelBtn = document.getElementById('diaryReportCancel');
-    var form = document.getElementById('diaryReportForm');
-    var reasonInput = document.getElementById('diaryReportReason');
-    var submitBtn = document.getElementById('diaryReportSubmit');
+    const backdrop = document.getElementById('diaryReportModal');
+    const closeBtn = document.getElementById('diaryReportClose');
+    const cancelBtn = document.getElementById('diaryReportCancel');
+    const form = document.getElementById('diaryReportForm');
+    const reasonInput = document.getElementById('diaryReportReason');
+    const submitBtn = document.getElementById('diaryReportSubmit');
 
     if (!backdrop) return;
 
-    var currentResponseId = null;
+    let currentResponseId = null;
 
     function openModal(responseId) {
         currentResponseId = responseId;
@@ -28,17 +28,17 @@
     }
 
     function showError(msg) {
-        var existing = backdrop.querySelector('.diary-report-error');
+        const existing = backdrop.querySelector('.diary-report-error');
         if (existing) existing.remove();
 
-        var el = document.createElement('p');
+        const el = document.createElement('p');
         el.className = 'diary-report-error';
         el.textContent = msg;
         reasonInput.parentNode.insertBefore(el, reasonInput.nextSibling);
     }
 
     function clearError() {
-        var el = backdrop.querySelector('.diary-report-error');
+        const el = backdrop.querySelector('.diary-report-error');
         if (el) el.remove();
     }
 
@@ -46,15 +46,15 @@
         e.preventDefault();
         clearError();
 
-        var reason = reasonInput.value.trim();
+        const reason = reasonInput.value.trim();
 
         if (reason.length < 10) {
             showError('El motivo debe tener al menos 10 caracteres.');
             return;
         }
 
-        var csrf = document.querySelector('meta[name="csrf-token"]')?.content;
-        var url = '/diary/' + currentResponseId + '/report';
+        const csrf = document.querySelector('meta[name="csrf-token"]')?.content;
+        const url = '/diary/' + currentResponseId + '/report';
 
         submitBtn.disabled = true;
         submitBtn.textContent = 'Enviando...';

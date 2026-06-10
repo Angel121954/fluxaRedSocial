@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const mobileInput = document.getElementById('mobileSearch');
     if (mobileInput) {
-        var mobileTimeout;
+        let mobileTimeout;
         mobileInput.addEventListener('input', function () {
             clearTimeout(mobileTimeout);
             const q = this.value.trim();

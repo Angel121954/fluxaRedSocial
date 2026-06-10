@@ -3,14 +3,14 @@
  */
 
 function escapeHtml(str) {
-    var map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+    const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
     return String(str ?? '').replace(/[&<>"']/g, function(c) { return map[c]; });
 }
 
-var currentFilter = 'all';
+let currentFilter = 'all';
 
 function getIconForType(type) {
-    var icons = {
+    const icons = {
         message: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>',
         follow: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><path d="M20 8v6m-3-3h6"/></svg>',
         like: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67 10.94 4.61a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>',
@@ -26,8 +26,8 @@ function getIconForType(type) {
 function renderNotificationToast(data) {
     if (!window.ToastManager) return;
     
-    var icon = getIconForType(data.type);
-    var msg = data.body || 'Nueva notificación';
+    const icon = getIconForType(data.type);
+    let msg = data.body || 'Nueva notificación';
     if (data.from_user) msg = '<strong>' + escapeHtml(data.from_user.name) + '</strong> ' + escapeHtml(msg);
     
     new ToastManager().create({
@@ -45,25 +45,25 @@ function getTimestamp(dateStr) {
 }
 
 function formatTimeAgo(timestamp) {
-    var now = Date.now(), diff = Math.floor((now - timestamp) / 1000);
+    const now = Date.now(), diff = Math.floor((now - timestamp) / 1000);
     if (diff < 1) return 'Ahora';
     if (diff < 60) return 'Hace ' + diff + 's';
     if (diff < 3600) return 'Hace ' + Math.floor(diff / 60) + 'm';
     if (diff < 86400) return 'Hace ' + Math.floor(diff / 3600) + 'h';
-    var days = Math.floor(diff / 86400);
+    const days = Math.floor(diff / 86400);
     return days === 1 ? 'Ayer' : 'Hace ' + days + 'd';
 }
 
 function renderNotificationCard(n) {
-    var timestamp = getTimestamp(n.created_at);
-    var time = formatTimeAgo(timestamp);
-    var icon = getIconForType(n.type);
+    const timestamp = getTimestamp(n.created_at);
+    const time = formatTimeAgo(timestamp);
+    const icon = getIconForType(n.type);
     
-    var card = document.createElement('div');
+    const card = document.createElement('div');
     card.className = 'notif-card ' + (n.is_read ? '' : 'unread');
     card.dataset.id = n.id;
     
-    var contentLink = document.createElement('a');
+    const contentLink = document.createElement('a');
     contentLink.href = n.link || '#';
     contentLink.className = 'notif-content';
     contentLink.innerHTML = 
@@ -72,7 +72,7 @@ function renderNotificationCard(n) {
         '<div class="notif-meta">@' + escapeHtml(n.from_user?.username || 'sistema') + ' · ' + time + '</div></div>' +
         '<div class="notif-time" data-timestamp="' + timestamp + '">' + time + (!n.is_read ? '<span class="unread-dot"></span>' : '') + '</div>';
     
-    var deleteBtn = document.createElement('button');
+    const deleteBtn = document.createElement('button');
     deleteBtn.className = 'notif-delete';
     deleteBtn.title = 'Eliminar';
     deleteBtn.innerHTML = '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>';
@@ -86,8 +86,8 @@ function renderNotificationCard(n) {
         
         card.classList.add('deleting');
         
-        var countEl = document.getElementById('notificationCount');
-        var currentCount = countEl ? parseInt(countEl.textContent) || 0 : 0;
+        const countEl = document.getElementById('notificationCount');
+        const currentCount = countEl ? parseInt(countEl.textContent) || 0 : 0;
         
         fetch('/notifications/' + n.id, {
             method: 'DELETE',
@@ -105,7 +105,7 @@ function renderNotificationCard(n) {
                 updateEmptyState();
                 
                 if (countEl && currentCount > 0) {
-                    var newCount = currentCount - 1;
+                    const newCount = currentCount - 1;
                     countEl.textContent = newCount > 0 ? newCount + ' sin leer' : 'Estás al día';
                 }
             }, 300);
@@ -124,7 +124,7 @@ function renderNotificationCard(n) {
         contentLink.addEventListener('click', function(e) {
             e.preventDefault();
             
-            var id = card.dataset.id;
+            const id = card.dataset.id;
             if (id) {
                 fetch('/notifications/' + id + '/read', {
                     method: 'PATCH',
@@ -141,14 +141,14 @@ function renderNotificationCard(n) {
                     }
                 });
                 card.classList.remove('unread');
-                var dot = card.querySelector('.unread-dot');
+                const dot = card.querySelector('.unread-dot');
                 if (dot) dot.remove();
                 
-                var countEl = document.getElementById('notificationCount');
+                const countEl = document.getElementById('notificationCount');
                 if (countEl) {
-                    var current = parseInt(countEl.textContent) || 0;
+                    const current = parseInt(countEl.textContent) || 0;
                     if (current > 0) {
-                        var newCount = current - 1;
+                        const newCount = current - 1;
                         countEl.textContent = newCount > 0 ? newCount + ' sin leer' : 'Estás al día';
                     }
                 }
@@ -162,30 +162,30 @@ function renderNotificationCard(n) {
 }
 
 function updateEmptyState() {
-    var list = document.getElementById('notificationList');
+    const list = document.getElementById('notificationList');
     if (!list) return;
     
-    var cards = list.querySelectorAll('.notif-card');
+    const cards = list.querySelectorAll('.notif-card');
     if (cards.length === 0) {
         list.innerHTML = '<div class="empty-box"><div class="empty-icon"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div><h3 class="empty-title">Todo al día</h3><p class="empty-text">No tienes notificaciones pendientes. ¡Sigue así!</p></div>';
     }
 }
 
-var notificationTimeInterval = null;
+let notificationTimeInterval = null;
 
 function updateNotificationTimes() {
-    var list = document.getElementById('notificationList');
+    const list = document.getElementById('notificationList');
     if (!list) return;
     
-    var times = list.querySelectorAll('.notif-time[data-timestamp]');
-    var now = Date.now();
+    const times = list.querySelectorAll('.notif-time[data-timestamp]');
+    const now = Date.now();
     
     times.forEach(function(el) {
-        var timestamp = parseInt(el.dataset.timestamp);
+        const timestamp = parseInt(el.dataset.timestamp);
         if (!timestamp) return;
         
-        var diff = Math.floor((now - timestamp) / 1000);
-        var text;
+        const diff = Math.floor((now - timestamp) / 1000);
+        let text;
         if (diff < 1) {
             text = 'Ahora';
         } else if (diff < 60) {
@@ -195,17 +195,17 @@ function updateNotificationTimes() {
         } else if (diff < 86400) {
             text = 'Hace ' + Math.floor(diff / 3600) + 'h';
         } else {
-            var days = Math.floor(diff / 86400);
+            const days = Math.floor(diff / 86400);
             text = days === 1 ? 'Ayer' : 'Hace ' + days + 'd';
         }
         
         el.textContent = text;
         
-        var card = el.closest('.notif-card');
+        const card = el.closest('.notif-card');
         if (card) {
-            var meta = card.querySelector('.notif-meta');
+            const meta = card.querySelector('.notif-meta');
             if (meta) {
-                var idx = meta.textContent.lastIndexOf('·');
+                const idx = meta.textContent.lastIndexOf('·');
                 if (idx !== -1) {
                     meta.textContent = meta.textContent.substring(0, idx) + '· ' + text;
                 }
@@ -215,7 +215,7 @@ function updateNotificationTimes() {
 }
 
 function startNotificationTimeUpdates() {
-    var list = document.getElementById('notificationList');
+    const list = document.getElementById('notificationList');
     if (!list) return;
     
     if (notificationTimeInterval) clearInterval(notificationTimeInterval);
@@ -224,14 +224,14 @@ function startNotificationTimeUpdates() {
 }
 
 function loadNotifications() {
-    var list = document.getElementById('notificationList');
+    const list = document.getElementById('notificationList');
     if (!list) return;
     
     list.innerHTML = Array(4).fill(
       '<div class="notif-skeleton"><div class="notif-skeleton-avatar"></div><div class="notif-skeleton-body"><div class="notif-skeleton-line notif-skeleton-line--lg"></div><div class="notif-skeleton-line notif-skeleton-line--sm"></div></div><div class="notif-skeleton-time"></div></div>'
     ).join('');
     
-    var url = new URL('/notifications/list', window.location.origin);
+    const url = new URL('/notifications/list', window.location.origin);
     url.searchParams.set('filter', currentFilter);
     
     fetch(url, { 
@@ -240,7 +240,7 @@ function loadNotifications() {
     })
     .then(function(r) { return r.json(); })
     .then(function(data) {
-        var countEl = document.getElementById('notificationCount');
+        const countEl = document.getElementById('notificationCount');
         if (countEl) {
             countEl.textContent = data.unread_count > 0 ? data.unread_count + ' sin leer' : 'Estás al día';
         }
@@ -272,7 +272,7 @@ function initNotificationsList() {
     
     loadNotifications();
     
-    var filterChips = document.querySelectorAll('.filter-chip');
+    const filterChips = document.querySelectorAll('.filter-chip');
     filterChips.forEach(function(chip) {
         chip.onclick = function() {
             filterChips.forEach(function(c) { c.classList.remove('active'); });
@@ -281,7 +281,7 @@ function initNotificationsList() {
         };
     });
     
-    var markAllBtn = document.getElementById('markAllRead');
+    const markAllBtn = document.getElementById('markAllRead');
     if (markAllBtn) {
         markAllBtn.onclick = function() {
             markAllBtn.disabled = true;

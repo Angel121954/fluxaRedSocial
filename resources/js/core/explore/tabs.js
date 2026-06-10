@@ -8,7 +8,7 @@ export function initTabs(onTabChange = null) {
 
     if (!tabs.length || !publicationsContainer) return;
 
-    var skeletonHTML = Array(3).fill(
+    const skeletonHTML = Array(3).fill(
         '<div class="post-card-skeleton"><div class="sk-header"><div class="sk-avatar"></div><div class="sk-body"><div class="sk-line sk-line--lg"></div><div class="sk-line sk-line--sm"></div></div><div class="sk-menu"></div></div><div class="sk-title"></div><div class="sk-content"><div class="sk-line sk-line--lg"></div><div class="sk-line sk-line--md"></div></div><div class="sk-tags"><div class="sk-tag"></div><div class="sk-tag"></div><div class="sk-tag"></div></div><div class="sk-actions"><div class="sk-action"></div><div class="sk-action"></div><div class="sk-action"></div></div></div>'
     ).join('');
 

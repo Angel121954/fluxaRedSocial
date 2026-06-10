@@ -173,7 +173,7 @@ export async function handleSendMessage({ input, sendBtn, bubbleList, syncSendBt
             } else {
                 convList.appendChild(item);
             }
-            var emptySidebar = convList.querySelector('.msgs-empty-sidebar');
+            const emptySidebar = convList.querySelector('.msgs-empty-sidebar');
             if (emptySidebar) emptySidebar.remove();
         }
     }

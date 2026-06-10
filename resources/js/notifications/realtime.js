@@ -3,28 +3,28 @@
  */
 
 function escapeHtml(str) {
-    var map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+    const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
     return String(str ?? '').replace(/[&<>"']/g, function(c) { return map[c]; });
 }
 
 function renderConversationItem(data, messageData) {
-    var convList = document.getElementById('msgsConvList');
-    var emptySidebar = convList ? convList.querySelector('.msgs-empty-sidebar') : null;
+    const convList = document.getElementById('msgsConvList');
+    const emptySidebar = convList ? convList.querySelector('.msgs-empty-sidebar') : null;
     if (emptySidebar) {
         emptySidebar.remove();
     }
 
     if (!convList) return;
 
-    var existingItem = convList.querySelector('a[href*="conv=' + data.id + '"]');
+    const existingItem = convList.querySelector('a[href*="conv=' + data.id + '"]');
     if (existingItem) {
         convList.prepend(existingItem);
         if (emptySidebar) emptySidebar.remove();
     } else {
-        var currentUserId = parseInt(document.body.dataset.userId || '0');
-        var isFromMe = messageData && messageData.sender_id === currentUserId;
-        var previewText = '';
-        var hasUnread = false;
+        const currentUserId = parseInt(document.body.dataset.userId || '0');
+        const isFromMe = messageData && messageData.sender_id === currentUserId;
+        let previewText = '';
+        let hasUnread = false;
 
         if (messageData) {
             previewText = isFromMe ? 'Tú: ' + messageData.body : messageData.body;
@@ -32,9 +32,9 @@ function renderConversationItem(data, messageData) {
                 previewText = previewText.substring(0, 40) + '...';
             }
             if (!isFromMe) {
-                var badge = item.querySelector('.msgs-unread-badge');
+                const badge = item.querySelector('.msgs-unread-badge');
                 if (badge) {
-                    var currentCount = parseInt(badge.textContent) || 0;
+                    const currentCount = parseInt(badge.textContent) || 0;
                     badge.textContent = currentCount + 1;
                 } else {
                     hasUnread = true;
@@ -44,7 +44,7 @@ function renderConversationItem(data, messageData) {
             previewText = 'Nueva conversación';
         }
 
-        var item = document.createElement('a');
+        const item = document.createElement('a');
         item.href = '/messages?conv=' + data.id;
         item.className = 'msgs-conv-item';
         item.setAttribute('role', 'listitem');
@@ -65,7 +65,7 @@ function renderConversationItem(data, messageData) {
             '</div>' +
             '</div>';
 
-        var firstItem = convList.querySelector('.msgs-conv-item');
+        const firstItem = convList.querySelector('.msgs-conv-item');
         if (firstItem) {
             convList.insertBefore(item, firstItem);
         } else {
@@ -74,8 +74,8 @@ function renderConversationItem(data, messageData) {
     }
 
     if (messageData && typeof window.appendReceivedBubble === 'function') {
-        var bubbleList = document.getElementById('msgsBubbleList');
-        var currentConvId = new URLSearchParams(window.location.search).get('conv');
+        const bubbleList = document.getElementById('msgsBubbleList');
+        const currentConvId = new URLSearchParams(window.location.search).get('conv');
         if (currentConvId && parseInt(currentConvId) === data.id && bubbleList) {
             window.appendReceivedBubble(messageData, bubbleList);
             if (typeof window.scrollToBottom === 'function') {
@@ -126,13 +126,13 @@ function initNotificationsRealtime(userId) {
             }
         })
         .listen('.user.blocked', function (data) {
-            var input = document.getElementById('msgsInput');
-            var sendBtn = document.getElementById('msgsSendBtn');
-            var shareBtn = document.getElementById('msgsShareProjectBtn');
-            var toolbar = document.querySelector('.msgs-toolbar');
-            var disabled = document.getElementById('msgsInputDisabled');
-            var disabledText = document.getElementById('msgsDisabledText');
-            var blockBtn = document.getElementById('msgsBlockBtn');
+            const input = document.getElementById('msgsInput');
+            const sendBtn = document.getElementById('msgsSendBtn');
+            const shareBtn = document.getElementById('msgsShareProjectBtn');
+            const toolbar = document.querySelector('.msgs-toolbar');
+            const disabled = document.getElementById('msgsInputDisabled');
+            const disabledText = document.getElementById('msgsDisabledText');
+            const blockBtn = document.getElementById('msgsBlockBtn');
 
             if (!blockBtn || blockBtn.dataset.userId != data.blocker_id) return;
 
@@ -142,10 +142,10 @@ function initNotificationsRealtime(userId) {
                 if (shareBtn) shareBtn.style.display = 'none';
                 if (toolbar) toolbar.style.display = 'none';
                 if (disabled) disabled.style.display = 'flex';
-                var blockerName = document.querySelector('.msgs-chat-header-name')?.textContent || 'Este usuario';
+                const blockerName = document.querySelector('.msgs-chat-header-name')?.textContent || 'Este usuario';
                 if (disabledText) disabledText.textContent = 'No puedes enviar mensajes a este usuario. ' + blockerName + ' te ha bloqueado';
             } else {
-                var acceptsMessages = blockBtn.dataset.acceptsMessages !== 'false';
+                const acceptsMessages = blockBtn.dataset.acceptsMessages !== 'false';
                 if (acceptsMessages) {
                     if (input) input.style.display = '';
                     if (sendBtn) sendBtn.style.display = '';
@@ -161,49 +161,49 @@ function initNotificationsRealtime(userId) {
         })
 
         .listen('.message.sent', function (data) {
-            var convList = document.getElementById('msgsConvList');
-            var currentConvId = new URLSearchParams(window.location.search).get('conv');
-            var currentUserId = parseInt(document.body.dataset.userId || '0');
-            var isFromMe = data.sender_id === currentUserId;
+            const convList = document.getElementById('msgsConvList');
+            const currentConvId = new URLSearchParams(window.location.search).get('conv');
+            const currentUserId = parseInt(document.body.dataset.userId || '0');
+            const isFromMe = data.sender_id === currentUserId;
 
             if (!convList) {
                 if (window.updateBadges) window.updateBadges();
                 return;
             }
 
-            var previewText = data.body ?? (data.media_type === 'image' ? '📷 Imagen' : data.media_type === 'gif' ? 'GIF' : '📎 Archivo');
+            let previewText = data.body ?? (data.media_type === 'image' ? '📷 Imagen' : data.media_type === 'gif' ? 'GIF' : '📎 Archivo');
             if (isFromMe) previewText = 'Tú: ' + previewText;
             if (previewText.length > 40) {
                 previewText = previewText.substring(0, 40) + '...';
             }
 
-            var item = convList.querySelector('a[href*="conv=' + data.conversation_id + '"]');
+            const item = convList.querySelector('a[href*="conv=' + data.conversation_id + '"]');
             if (item) {
-                var preview = item.querySelector('.msgs-conv-preview');
+                const preview = item.querySelector('.msgs-conv-preview');
                 if (preview) {
                     preview.textContent = previewText;
                 }
-                var time = item.querySelector('.msgs-conv-time');
+                const time = item.querySelector('.msgs-conv-time');
                 if (time) {
                     time.textContent = 'Ahora';
                     time.dataset.timestamp = Date.now();
                 }
                 if (!isFromMe && (!currentConvId || parseInt(currentConvId) !== data.conversation_id)) {
-                    var badge = item.querySelector('.msgs-unread-badge');
+                    const badge = item.querySelector('.msgs-unread-badge');
                     if (badge) {
-                        var currentCount = parseInt(badge.textContent) || 0;
+                        const currentCount = parseInt(badge.textContent) || 0;
                         badge.textContent = currentCount + 1;
                     } else {
                         badge = document.createElement('span');
                         badge.className = 'msgs-unread-badge';
                         badge.textContent = '1';
-                        var rowBottom = item.querySelector('.msgs-conv-row-bottom');
+                        const rowBottom = item.querySelector('.msgs-conv-row-bottom');
                         if (rowBottom) rowBottom.appendChild(badge);
                     }
                 }
                 convList.prepend(item);
             } else if (!isFromMe) {
-                var item = document.createElement('a');
+                const item = document.createElement('a');
                 item.href = '/messages?conv=' + data.conversation_id;
                 item.className = 'msgs-conv-item';
                 item.setAttribute('role', 'listitem');

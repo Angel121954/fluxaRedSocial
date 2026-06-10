@@ -27,18 +27,18 @@
 
     function filterItems(query) {
         if (!grid) return;
-        var items = grid.querySelectorAll('.stack-modal-item');
-        var q = query.toLowerCase();
+        const items = grid.querySelectorAll('.stack-modal-item');
+        const q = query.toLowerCase();
         items.forEach(function (item) {
-            var name = item.getAttribute('data-name') || '';
+            const name = item.getAttribute('data-name') || '';
             item.style.display = name.includes(q) ? '' : 'none';
         });
     }
 
     function saveTechnologies() {
         if (!grid) return;
-        var checked = grid.querySelectorAll('input[type="checkbox"]:checked');
-        var ids = Array.from(checked).map(function (cb) {
+        const checked = grid.querySelectorAll('input[type="checkbox"]:checked');
+        const ids = Array.from(checked).map(function (cb) {
             return cb.value;
         });
 

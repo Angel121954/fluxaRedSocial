@@ -2,29 +2,29 @@
     'use strict';
 
     function escapeHtml(str) {
-        var map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+        const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
         return String(str ?? '').replace(/[&<>"']/g, function(c) { return map[c]; });
     }
 
-    var backdrop = document.getElementById('followersModal');
-    var closeBtn = document.getElementById('followersModalClose');
-    var bodyEl = document.getElementById('followersModalBody');
-    var titleEl = document.getElementById('followersModalTitle');
-    var subtitleEl = document.getElementById('followersModalSubtitle');
+    const backdrop = document.getElementById('followersModal');
+    const closeBtn = document.getElementById('followersModalClose');
+    const bodyEl = document.getElementById('followersModalBody');
+    const titleEl = document.getElementById('followersModalTitle');
+    const subtitleEl = document.getElementById('followersModalSubtitle');
 
     if (!backdrop) return;
 
-    var currentUserId = null;
+    let currentUserId = null;
 
     function openModal(userId, type) {
         currentUserId = userId;
 
-        var labels = {
+        const labels = {
             followers: { title: 'Seguidores', subtitle: 'Personas que siguen a este usuario' },
             following: { title: 'Siguiendo', subtitle: 'Personas a las que sigue este usuario' },
         };
 
-        var label = labels[type] || labels.followers;
+        const label = labels[type] || labels.followers;
         titleEl.textContent = label.title;
         subtitleEl.textContent = label.subtitle;
 
@@ -58,7 +58,7 @@
     }
 
     function showEmpty(type) {
-        var msg = type === 'followers'
+        const msg = type === 'followers'
             ? 'Este usuario aún no tiene seguidores.'
             : 'Este usuario aún no sigue a nadie.';
         bodyEl.innerHTML =
@@ -68,8 +68,8 @@
     }
 
     function fetchUsers(userId, type) {
-        var url = '/users/' + userId + '/' + type;
-        var csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
+        const url = '/users/' + userId + '/' + type;
+        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
 
         fetch(url, {
             headers: {
@@ -83,7 +83,7 @@
                 return res.json();
             })
             .then(function (data) {
-                var users = data[type];
+                const users = data[type];
                 if (!users || users.length === 0) {
                     showEmpty(type);
                     return;
@@ -96,10 +96,10 @@
     }
 
     function renderUsers(users) {
-        var html = '<div class="followers-list">';
+        let html = '<div class="followers-list">';
 
         users.forEach(function (u) {
-            var avatar = u.avatar_url
+            const avatar = u.avatar_url
                 ? '<img src="' + escapeHtml(u.avatar_url) + '" alt="' + escapeHtml(u.name) + '" class="followers-avatar-img" />'
                 : '<span class="followers-avatar-letter">' + escapeHtml(u.name.charAt(0).toUpperCase()) + '</span>';
 

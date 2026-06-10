@@ -3,10 +3,10 @@
  */
 
 function updateBadges() {
-    var currentConvId = null;
-    var convLink = document.querySelector('.msgs-conv-item.active');
+    let currentConvId = null;
+    const convLink = document.querySelector('.msgs-conv-item.active');
     if (convLink) {
-        var match = convLink.href.match(/conv=(\d+)/);
+        const match = convLink.href.match(/conv=(\d+)/);
         if (match) currentConvId = match[1];
     }
 
@@ -25,13 +25,13 @@ function updateBadges() {
         fetchJson('/messages/unread/count?exclude_conv=' + (currentConvId || '')),
     ])
         .then(function (results) {
-            var notifData = results[0];
-            var msgData = results[1];
+            const notifData = results[0];
+            const msgData = results[1];
 
-            var notifBadge = document.getElementById('navNotificationsBadge');
-            var msgBadge = document.getElementById('navMessagesBadge');
-            var mobileNotifBadge = document.querySelector('.mobile-menu-link[href*="notifications"] .mobile-badge');
-            var mobileMsgBadge = document.querySelector('.mobile-menu-link[href*="messages"] .mobile-badge');
+            const notifBadge = document.getElementById('navNotificationsBadge');
+            const msgBadge = document.getElementById('navMessagesBadge');
+            const mobileNotifBadge = document.querySelector('.mobile-menu-link[href*="notifications"] .mobile-badge');
+            const mobileMsgBadge = document.querySelector('.mobile-menu-link[href*="messages"] .mobile-badge');
 
             if (notifBadge) {
                 if (notifData.count > 0) {

@@ -226,10 +226,10 @@ function _initDelete() {
 // ── Reportar respuesta ────────────────────────────────────────────────
 function _initReport() {
     document.addEventListener('click', function (e) {
-        var btn = e.target.closest('[data-diary-report]');
+        const btn = e.target.closest('[data-diary-report]');
         if (!btn) return;
 
-        var responseId = btn.getAttribute('data-diary-report');
+        const responseId = btn.getAttribute('data-diary-report');
         if (responseId && typeof window.openDiaryReportModal === 'function') {
             window.openDiaryReportModal(responseId);
         }
