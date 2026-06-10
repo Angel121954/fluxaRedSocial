@@ -213,5 +213,6 @@
 @vite('resources/css/projects/newProject.css')
 @endpush
 @push('scripts')
+@vite('resources/js/core/projects/newProject.js')
 @vite('resources/js/projects/modalComment.js')
 @endpush

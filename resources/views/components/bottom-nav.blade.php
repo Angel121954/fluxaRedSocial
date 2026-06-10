@@ -1,6 +1,6 @@
 @props([
-    'unreadNotifications' => 0,
-    'unreadMessages' => 0,
+'unreadNotifications' => 0,
+'unreadMessages' => 0,
 ])
 
 <nav class="bottom-nav" role="navigation" aria-label="Navegación móvil">
@@ -61,4 +61,14 @@
         </svg>
         <span class="bottom-nav-label">Perfil</span>
     </a>
+
 </nav>
+
+{{-- ── FAB: Nuevo proyecto (mobile) ── --}}
+@if(Auth::user()->role !== 'guest')
+<button class="bottom-fab" onclick="abrirModal()" aria-label="Crear nuevo proyecto" title="Nuevo proyecto">
+    <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4" />
+    </svg>
+</button>
+@endif

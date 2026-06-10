@@ -84,12 +84,60 @@
    Misma regla que el menú móvil de topbar.css
 ══════════════════════════════════════════════ */
 
+/* ── FAB: Nuevo proyecto ───────────────────── */
+
+.bottom-fab {
+    display: none;
+    position: fixed;
+    bottom: calc(64px + env(safe-area-inset-bottom, 0px));
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 191;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: white;
+    border: none;
+    box-shadow: 0 4px 16px rgba(18, 179, 182, 0.4),
+        0 2px 8px rgba(0, 0, 0, 0.12);
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    transition: box-shadow 0.2s ease, background 0.15s;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.bottom-fab:hover {
+    box-shadow: 0 6px 24px rgba(18, 179, 182, 0.5),
+        0 3px 12px rgba(0, 0, 0, 0.15);
+    background: var(--accent-dark);
+}
+
+.bottom-fab:active {
+    transform: translateX(-50%) scale(0.94);
+}
+
+.bottom-fab svg {
+    width: 24px;
+    height: 24px;
+    stroke-width: 2.5;
+}
+
 @media (max-width: 768px) {
     .bottom-nav {
         display: flex;
     }
 
+    .bottom-fab {
+        display: flex;
+    }
+
+    .hide-mobile {
+        display: none !important;
+    }
+
     body {
-        padding-bottom: calc(52px + env(safe-area-inset-bottom, 0px));
+        padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px));
     }
 }

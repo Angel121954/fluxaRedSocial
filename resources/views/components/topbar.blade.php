@@ -114,7 +114,7 @@
                 <span>Publicar oferta</span>
             </button>
             @else
-            <button onclick="abrirModal()" class="btn-new" aria-label="Crear nuevo proyecto">
+            <button onclick="abrirModal()" class="btn-new hide-mobile" aria-label="Crear nuevo proyecto">
                 <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
                         d="M12 4v16m8-8H4" />
@@ -287,7 +287,7 @@
         <div class="mobile-menu-divider"></div>
 
         <button
-            class="mobile-menu-link mobile-menu-action"
+            class="mobile-menu-link mobile-menu-action hide-mobile"
             onclick="closeMobileMenuAndOpen()">
             <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
