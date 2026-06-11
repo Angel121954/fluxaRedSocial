@@ -118,10 +118,10 @@
     border: 1px solid #fecaca;
 }
 
-.session-message.success {
-    background: #f0fdf4;
-    color: var(--success-color);
-    border: 1px solid #bbf7d0;
+.session-message.info {
+    background: var(--accent-dim);
+    color: var(--accent-dark);
+    border: 1px solid var(--accent-ring);
 }
 
 /* ---------- Grupos de input -------------------------------- */
