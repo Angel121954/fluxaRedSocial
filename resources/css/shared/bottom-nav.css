@@ -124,7 +124,7 @@
     stroke-width: 2.5;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 800px) {
     .bottom-nav {
         display: flex;
     }
