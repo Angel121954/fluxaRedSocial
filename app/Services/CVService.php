@@ -41,8 +41,6 @@ class CVService
 
         $followersCount = $user->followers()->count();
         $followingCount = $user->follows()->count();
-        $daysActive = (int) ($profile->days_active ?? 0);
-
         $technologies = $this->loadTechnologyIcons($user);
 
         $projects = ($cvSettings['show_projects'] ?? true)
@@ -61,15 +59,20 @@ class CVService
         );
         $qrBase64 = $this->generateQrCode('https://' . $urlPerfil);
 
-        $rolProfesional = $technologies->isNotEmpty()
-            ? $technologies->first()->name . ' Developer'
-            : 'Software Developer';
+        $rolProfesional = match ($user->role) {
+            'frontend' => 'Frontend Developer',
+            'backend' => 'Backend Developer',
+            'fullstack' => 'Fullstack Developer',
+            'devops' => 'DevOps Engineer',
+            'mobile' => 'Mobile Developer',
+            'data' => 'Data & ML Engineer',
+            default => 'Software Developer',
+        };
 
         $estadisticas = [
             ['valor' => $projects->count(), 'etiqueta' => 'Proyectos'],
             ['valor' => $followingCount, 'etiqueta' => 'Siguiendo'],
             ['valor' => $followersCount, 'etiqueta' => 'Seguidores'],
-            ['valor' => $daysActive, 'etiqueta' => 'Días activo'],
         ];
 
         $srcAvatar = $avatarBase64 ?? ($profile->avatar ? str_replace('type=normal', 'type=large', $profile->avatar) : '');
@@ -89,7 +92,6 @@ class CVService
             'urlQrExterno' => $urlQrExterno,
             'cantidadSeguidores' => $followersCount,
             'cantidadSiguiendo' => $followingCount,
-            'diasActivo' => $daysActive,
             'rolProfesional' => $rolProfesional,
             'estadisticas' => $estadisticas,
             'srcAvatar' => $srcAvatar,
