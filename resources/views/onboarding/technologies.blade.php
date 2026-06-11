@@ -7,7 +7,7 @@
     <div class="left">
 
         <a href="#" class="logo">
-            <img src="{{ asset('img/logoFluxa.png') }}" alt="Fluxa">
+            <img src="{{ asset('img/logo.png') }}" alt="Fluxa">
         </a>
 
         <div class="progress-bar">

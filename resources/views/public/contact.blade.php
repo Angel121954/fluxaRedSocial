@@ -14,7 +14,7 @@
         <div class="contact-info">
 
             <a href="{{ route('explore.index') }}" class="contact-brand" aria-label="Volver a inicio">
-                <img src="{{ asset('img/logoFluxa.png') }}" alt="Fluxa" class="contact-logo" />
+                <img src="{{ asset('img/logo.png') }}" alt="Fluxa" class="contact-logo" />
             </a>
 
             <h1 class="contact-title">Contáctanos</h1>

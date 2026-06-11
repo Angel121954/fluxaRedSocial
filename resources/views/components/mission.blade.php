@@ -3,7 +3,7 @@
 ══════════════════════════════════════════ -->
 <section class="mission">
     <div class="mission-card">
-        <img src="{{ asset('img/logoFluxa.png') }}" alt="Fluxa" class="mission-icon" />
+        <img src="{{ asset('img/logo.png') }}" alt="Fluxa" class="mission-icon" />
 
         <div class="mission-content">
             <h3>Nuestra misión</h3>

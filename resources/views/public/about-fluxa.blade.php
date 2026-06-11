@@ -10,7 +10,7 @@
     <div class="hero-container">
         <div class="hero-content">
             <span class="hero-badge">
-                <img src="{{ asset('img/logoFluxa.png') }}" alt="Fluxa" />
+                <img src="{{ asset('img/logo.png') }}" alt="Fluxa" />
                 Sobre Fluxa
             </span>
             <h1 class="hero-title">Construyendo en <span class="hero-title-accent">comunidad</span></h1>

@@ -12,7 +12,7 @@
     <!-- ══ SIDEBAR ══════════════════════════════════════ -->
     <aside class="sidebar" id="sidebar">
         <div class="sb-brand">
-            <img class="sb-logo" src="{{ asset('img/logoFluxa.png') }}" alt="Fluxa">
+            <img class="sb-logo" src="{{ asset('img/logo.png') }}" alt="Fluxa">
             <button class="sb-toggle" id="sidebarClose" title="Colapsar" aria-label="Cerrar menú">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M15 18l-6-6 6-6" />

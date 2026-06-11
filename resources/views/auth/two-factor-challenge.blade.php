@@ -7,7 +7,7 @@
 
         {{-- Logo --}}
         <a href="{{ route('login') }}" style="text-align:center">
-            <img src="{{ asset('img/logoFluxa.png') }}" alt="Fluxa" class="logo-img" />
+            <img src="{{ asset('img/logo.png') }}" alt="Fluxa" class="logo-img" />
         </a>
 
         {{-- Card principal --}}

@@ -150,7 +150,7 @@
     <div class="about-fluxa-card">
       <div class="about-header">
         <img
-          src="{{ asset('img/logoFluxa.png') }}"
+          src="{{ asset('img/logo.png') }}"
           alt="Fluxa Logo"
           class="about-logo" />
         <h4>Sobre Fluxa</h4>

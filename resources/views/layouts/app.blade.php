@@ -13,7 +13,7 @@
     <meta property="og:description" content="Plataforma para desarrolladores que quieren compartir su progreso, aprender juntos y crecer como comunidad.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ request()->url() }}">
-    <meta property="og:image" content="{{ asset('img/logo.png') }}">
+    <meta property="og:image" content="{{ asset('img/favicon.png') }}">
     <meta property="og:image:width" content="1536">
     <meta property="og:image:height" content="1024">
     <meta property="og:site_name" content="Fluxa">
@@ -22,10 +22,10 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="@yield('title', 'Fluxa')">
     <meta name="twitter:description" content="Plataforma para desarrolladores que quieren compartir su progreso, aprender juntos y crecer como comunidad.">
-    <meta name="twitter:image" content="{{ asset('img/logo.png') }}">
+    <meta name="twitter:image" content="{{ asset('img/favicon.png') }}">
 
     <title>@yield('title', 'Fluxa')</title>
-    <link rel="icon" type="image/png" href="{{ asset('img/logo.png') }}">
+    <link rel="icon" type="image/png" href="{{ asset('img/favicon.png') }}">
     <link rel="preconnect" href="https://fonts.bunny.net">
     @vite(['resources/css/app.css', 'resources/css/variables.css', 'resources/css/shared/bottom-nav.css', 'resources/css/shared/toast.css', 'resources/css/profile/shared.css', 'resources/js/app.js'])
     @auth

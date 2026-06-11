@@ -45,7 +45,7 @@ class CvTemplateComposer
 
         $srcLogo = isset($data['logoBase64']) && $data['logoBase64']
             ? $data['logoBase64']
-            : asset('img/logoFluxa.png');
+            : asset('img/logo.png');
 
         $srcQr = isset($data['qrBase64']) && $data['qrBase64']
             ? $data['qrBase64']

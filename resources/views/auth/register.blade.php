@@ -20,7 +20,7 @@
     <div class="w-full max-w-md">
         <!-- Header -->
         <div class="mb-5">
-            <img src="{{ asset('img/logoFluxa.png') }}" alt="Fluxa" class="logo-img" />
+            <img src="{{ asset('img/logo.png') }}" alt="Fluxa" class="logo-img" />
             <p
                 style="
             color: var(--text-secondary);

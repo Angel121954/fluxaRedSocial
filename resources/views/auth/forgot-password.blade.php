@@ -4,7 +4,7 @@
 <!-- TOP NAV -->
 <nav class="topbar">
     <a href="{{ route('login') }}" class="logo">
-        <img src="{{ asset('img/logoFluxa.png') }}" alt="Logo Fluxa" />
+        <img src="{{ asset('img/logo.png') }}" alt="Logo Fluxa" />
     </a>
 </nav>
 

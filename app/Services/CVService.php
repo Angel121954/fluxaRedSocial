@@ -55,7 +55,7 @@ class CVService
         $educations = $user->educations()->orderBy('graduated_year', 'desc')->get();
         $avatarBase64 = $this->urlToBase64($profile->avatar);
         $logoBase64 = 'data:image/png;base64,' . base64_encode(
-            file_get_contents(public_path('img/logoFluxa.png'))
+            file_get_contents(public_path('img/logo.png'))
         );
         $qrBase64 = $this->generateQrCode('https://' . $urlPerfil);
 
