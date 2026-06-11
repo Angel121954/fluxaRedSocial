@@ -32,9 +32,12 @@ export function initFollowUpdates() {
             const isFollowing = btnFollow.classList.contains('is-following');
             if (isFollowing) return;
 
-            btnFollow.textContent = data.following
-                ? 'Seguir también'
-                : 'Seguir';
+            const btnFollowText = document.getElementById('btnFollowText');
+            if (btnFollowText) {
+                btnFollowText.textContent = data.following
+                    ? 'Seguir también'
+                    : 'Seguir';
+            }
         }
     });
 }

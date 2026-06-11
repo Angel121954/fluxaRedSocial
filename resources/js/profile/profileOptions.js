@@ -19,6 +19,8 @@ if (btnFollow) {
             ? 'Seguir también'
             : 'Seguir';
 
+    const btnFollowText = document.getElementById('btnFollowText');
+
     btnFollow.addEventListener('click', async () => {
         const userId = btnFollow.dataset.userId;
         const wasFollowing = btnFollow.classList.contains('is-following');
@@ -26,7 +28,7 @@ if (btnFollow) {
         // Optimistic UI
         const nowFollowing = !wasFollowing;
         btnFollow.classList.toggle('is-following', nowFollowing);
-        btnFollow.textContent = getLabel(nowFollowing);
+        if (btnFollowText) btnFollowText.textContent = getLabel(nowFollowing);
 
         try {
             const res = await fetch(`/users/${userId}/follow`, {
@@ -48,7 +50,7 @@ if (btnFollow) {
             const following = data.following;
             isFollowedBy = data.is_followed_by;
             btnFollow.classList.toggle('is-following', following);
-            btnFollow.textContent = getLabel(following);
+            if (btnFollowText) btnFollowText.textContent = getLabel(following);
 
             const followersEl = document.querySelector('.stat:last-child .stat-n');
             if (followersEl && data.followers_count !== undefined) {
@@ -58,7 +60,7 @@ if (btnFollow) {
             console.error('[Follow]', err);
             // Revertir
             btnFollow.classList.toggle('is-following', wasFollowing);
-            btnFollow.textContent = getLabel(wasFollowing);
+            if (btnFollowText) btnFollowText.textContent = getLabel(wasFollowing);
         }
     });
 }
