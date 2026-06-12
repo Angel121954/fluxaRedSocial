@@ -12,6 +12,8 @@
     border-radius: var(--r-lg);
     overflow: hidden;
     border: 1px solid var(--border);
+    position: relative;
+    z-index: 1;
 }
 
 .map-wrapper .leaflet-container {
