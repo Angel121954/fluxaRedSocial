@@ -250,6 +250,9 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
     Route::get('/explore/topic/{slug}', [ExploreController::class, 'topic'])
         ->name('explore.topic');
 
+    Route::get('/explore/map', [ExploreController::class, 'map'])
+        ->name('explore.map');
+
     Route::get('/salaries', [SalaryController::class, 'index'])
         ->name('salaries.index');
 

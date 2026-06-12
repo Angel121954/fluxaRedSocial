@@ -11,10 +11,11 @@
   <div class="feed-main">
     <!-- Tabs -->
     <div class="feed-tabs">
-      <a href="{{ route('explore.trending') }}" class="feed-tab {{ request()->is('explore/trending') || request()->is('explore') && !request()->get('q') ? 'active' : '' }}" data-url="{{ route('explore.trending') }}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <a href="{{ route('explore.trending') }}" class="feed-tab {{ request()->is('explore/trending') || request()->is('explore') && !request()->get('q') && !request()->is('explore/map') ? 'active' : '' }}" data-url="{{ route('explore.trending') }}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z" />
         </svg> Tendencias</a>
       <a href="{{ route('explore.recent') }}" class="feed-tab {{ request()->is('explore/recent') ? 'active' : '' }}" data-url="{{ route('explore.recent') }}">Recientes</a>
+      <a href="{{ route('explore.map') }}" class="feed-tab {{ request()->is('explore/map') ? 'active' : '' }}" data-navigate="true">Mapa</a>
     </div>
 
     @if(isset($technology))
@@ -35,96 +36,29 @@
 
     <!-- Publications Container -->
     <div id="publications-container">
-      <x-project-list :projects="$projects" />
+      @if(request()->is('explore/map'))
+        <div id="dev-map" class="map-wrapper"></div>
+      @else
+        <x-project-list :projects="$projects" />
+      @endif
     </div>
   </div>
 
   <!-- ──── SIDEBAR ──── -->
   <aside class="sidebar">
-    <!-- Personas recomendadas -->
-    <!--  <div class="widget">
-          <div class="widget-header">
-            <h3 class="widget-title">Personas recomendadas</h3>
-          </div>
-
-          <div class="person-item">
-            <div class="person-av-wrap">
-              <img
-                src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100"
-                alt="Daniel Ruiz"
-                class="person-av"
-              />
-              <div class="person-verify">
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M5 13l4 4L19 7"
-                  />
-                </svg>
-              </div>
-            </div>
-            <div class="person-info">
-              <div class="person-name">Daniel Ruiz</div>
-              <p class="person-bio">
-                Desarrollador Full Stack, apasionado de JS y React
-              </p>
-            </div>
-            <button class="btn-follow-mini">Seguir</button>
-          </div>
-
-          <div class="person-item">
-            <div class="person-av-wrap">
-              <img
-                src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100"
-                alt="Marta Castillo"
-                class="person-av"
-              />
-              <div class="person-verify">
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M5 13l4 4L19 7"
-                  />
-                </svg>
-              </div>
-            </div>
-            <div class="person-info">
-              <div class="person-name">Marta Castillo</div>
-              <p class="person-bio">
-                Diseñadora UX/UI | Amante del diseño y de Figma
-              </p>
-            </div>
-            <button class="btn-follow-mini">Seguir</button>
-          </div>
-
-          <div class="person-item">
-            <div class="person-av-wrap">
-              <img
-                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100"
-                alt="Carlos Méndez"
-                class="person-av"
-              />
-              <div class="person-verify">
-                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M5 13l4 4L19 7"
-                  />
-                </svg>
-              </div>
-            </div>
-            <div class="person-info">
-              <div class="person-name">Carlos Méndez</div>
-              <p class="person-bio">
-                Emprendedor y creador de contenido tecnológico
-              </p>
-            </div>
-            <button class="btn-follow-mini">Seguir</button>
-          </div>
-        </div> -->
+    @if(request()->is('explore/map'))
+    <!-- Widget: Devs en el mapa -->
+    <div class="widget map-sidebar-widget">
+      <div class="widget-header">
+        <h3 class="widget-title">Devs en el mapa</h3>
+      </div>
+      <div id="nearby-devs" class="nearby-devs">
+        <p class="text-sm" style="color: var(--ink-400); padding: 0.75rem 0;">
+          Cargando...
+        </p>
+      </div>
+    </div>
+    @endif
 
     @if(Auth::user()->role != 'guest')
     <!-- Temas populares -->
@@ -176,6 +110,15 @@
 
 <x-modal-comments />
 <x-modal-report />
+
+@if(request()->is('explore/map'))
+@push('scripts')
+@vite('resources/js/core/explore/map.js')
+@endpush
+@push('styles')
+@vite('resources/css/core/explore/map.css')
+@endpush
+@endif
 @endsection
 
 @push('scripts')

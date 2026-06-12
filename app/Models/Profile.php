@@ -32,6 +32,8 @@ class Profile extends Model
         'accept_messages',
         'show_email',
         'show_favorites',
+        'latitude',
+        'longitude',
     ];
 
     protected $casts = [
@@ -39,6 +41,8 @@ class Profile extends Model
         'accept_messages' => 'boolean',
         'show_email' => 'boolean',
         'show_favorites' => 'boolean',
+        'latitude' => 'decimal:7',
+        'longitude' => 'decimal:7',
     ];
 
     public function user()

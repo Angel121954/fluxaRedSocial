@@ -26,8 +26,16 @@ class ProfileController extends Controller
         protected BadgeService $badgeService,
     ) {}
 
-    public function index()
+    public function index(Request $request)
     {
+        $query = $request->query();
+        if (!empty($query)) {
+            $username = array_key_first($query);
+            if (is_string($username) && trim($username) !== '') {
+                return redirect()->route('profile.show', $username);
+            }
+        }
+
         $user = Auth::user();
         $user->loadCount(['followers', 'follows'])->load('profile');
         $profile = $user->profile;

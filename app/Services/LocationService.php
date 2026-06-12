@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Services;
 
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class LocationService
 {
@@ -38,5 +40,50 @@ class LocationService
             }
             return [];
         });
+    }
+
+    public function geocode(string $country, ?string $city = null): ?array
+    {
+        $query = $city ? "{$city}, {$country}" : $country;
+        $cacheKey = 'geocode_' . md5($query);
+
+        $cached = Cache::get($cacheKey);
+        if ($cached !== null) {
+            return $cached;
+        }
+
+        try {
+            $response = Http::withHeaders([
+                'User-Agent' => 'Fluxa/1.0 (social network for devs)',
+                'Accept-Language' => 'es',
+            ])->get('https://nominatim.openstreetmap.org/search', [
+                'q' => $query,
+                'format' => 'json',
+                'limit' => 1,
+                'addressdetails' => 0,
+            ]);
+
+            if ($response->failed() || empty($response->json())) {
+                return null;
+            }
+
+            $data = $response->json()[0];
+
+            $result = [
+                'latitude' => (float) $data['lat'],
+                'longitude' => (float) $data['lon'],
+            ];
+
+            Cache::put($cacheKey, $result, 86400 * 30);
+
+            return $result;
+        } catch (\Throwable $e) {
+            Log::warning('Error en geocoding', [
+                'query' => $query,
+                'error' => $e->getMessage(),
+            ]);
+
+            return null;
+        }
     }
 }

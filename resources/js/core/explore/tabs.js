@@ -1,5 +1,5 @@
 /**
- * Inicializa los tabs de navegación (trending, recent, following)
+ * Inicializa los tabs de navegación (trending, recent, map)
  * @param {Function} onTabChange - Callback que se ejecuta al cambiar de tab
  */
 export function initTabs(onTabChange = null) {
@@ -13,11 +13,18 @@ export function initTabs(onTabChange = null) {
     ).join('');
 
     tabs.forEach((tab) => {
-        tab.addEventListener("click", async function () {
+        tab.addEventListener("click", async function (e) {
+            const url = this.dataset.url;
+
+            // Tabs con data-navigate hacen navegación completa (Mapa)
+            if (this.dataset.navigate === "true") {
+                return; // El href del <a> maneja la navegación
+            }
+
+            e.preventDefault();
+
             tabs.forEach((t) => t.classList.remove("active"));
             this.classList.add("active");
-
-            const url = this.dataset.url;
 
             publicationsContainer.innerHTML = skeletonHTML;
 
@@ -29,20 +36,20 @@ export function initTabs(onTabChange = null) {
                     },
                     credentials: 'same-origin',
                 });
-                
+
                 if (!response.ok) {
                     window.location.href = url;
                     return;
                 }
-                
+
                 const html = await response.text();
-                
+
                 // If response is a full page, redirect
                 if (html.includes('<!DOCTYPE') || html.includes('<html')) {
                     window.location.href = url;
                     return;
                 }
-                
+
                 publicationsContainer.innerHTML = html;
 
                 if (onTabChange) onTabChange();

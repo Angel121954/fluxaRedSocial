@@ -32,13 +32,41 @@ class AccountController extends Controller
             ])->save();
         }
 
-        $user->profile->update([
+        $profileData = [
             'phone_code' => $validated['phone_code'],
             'phone_number' => $validated['phone_number'],
             'language' => $validated['language'],
             'country' => $validated['country'] ?? null,
             'city' => $validated['city'] ?? null,
-        ]);
+        ];
+
+        $countryChanged = $validated['country'] !== $user->profile->country
+            || $validated['city'] !== $user->profile->city;
+
+        if (empty($validated['country'])) {
+            $profileData['latitude'] = null;
+            $profileData['longitude'] = null;
+        } elseif ($countryChanged) {
+            $locationService = app(\App\Services\LocationService::class);
+            $coords = $locationService->geocode(
+                $validated['country'],
+                $validated['city'] ?? null,
+            );
+
+            if ($coords !== null) {
+                $profileData['latitude'] = $coords['latitude'];
+                $profileData['longitude'] = $coords['longitude'];
+            } else {
+                return redirect()->route('account.index')
+                    ->with('error', 'No se pudo determinar la ubicación en el mapa para el país/ciudad seleccionado. Los datos se guardaron sin coordenadas.')
+                    ->withInput();
+            }
+        } else {
+            $profileData['latitude'] = $user->profile->latitude;
+            $profileData['longitude'] = $user->profile->longitude;
+        }
+
+        $user->profile->update($profileData);
 
         return redirect()->route('account.index')
             ->with('success', 'Cambios guardados correctamente.');

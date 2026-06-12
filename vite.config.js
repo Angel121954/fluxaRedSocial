@@ -142,8 +142,11 @@ export default defineConfig({
                 "resources/js/shared/emailModalSend.js",
                 "resources/js/shared/reportProblem.js",
 
+                "resources/css/core/explore/map.css",
+
                 // Core Explore JS
                 "resources/js/core/explore/index.js",
+                "resources/js/core/explore/map.js",
                 "resources/js/core/explore/like.js",
                 "resources/js/core/explore/loadMore.js",
                 "resources/js/core/explore/projectMenu.js",

@@ -50,13 +50,13 @@ class ExploreController extends Controller
             'user.profile',
             'media',
             'technologies',
-            'likes' => fn ($q) => $q->where('user_id', $userId),
-            'bookmarks' => fn ($q) => $q->where('user_id', $userId),
+            'likes' => fn($q) => $q->where('user_id', $userId),
+            'bookmarks' => fn($q) => $q->where('user_id', $userId),
             'skillEndorsements',
         ])
             ->where('parent_id', null)
             ->where('privacy', 'public')
-            ->whereHas('technologies', fn ($q) => $q->where('technologies.id', $technology->id))
+            ->whereHas('technologies', fn($q) => $q->where('technologies.id', $technology->id))
             ->orderByDesc('likes_count')
             ->orderByDesc('comments_count')
             ->paginate(15);
@@ -64,6 +64,11 @@ class ExploreController extends Controller
         $this->precomputeStates($projects, $userId);
 
         return view('explore.index', compact('projects', 'technology'));
+    }
+
+    public function map()
+    {
+        return view('explore.index', ['projects' => collect()]);
     }
 
     public function search(Request $request)
@@ -75,8 +80,8 @@ class ExploreController extends Controller
             'user.profile',
             'media',
             'technologies',
-            'likes' => fn ($q) => $q->where('user_id', $userId),
-            'bookmarks' => fn ($q) => $q->where('user_id', $userId),
+            'likes' => fn($q) => $q->where('user_id', $userId),
+            'bookmarks' => fn($q) => $q->where('user_id', $userId),
             'skillEndorsements',
         ])
             ->where('parent_id', null)
@@ -113,8 +118,8 @@ class ExploreController extends Controller
             'user.profile',
             'media',
             'technologies',
-            'likes' => fn ($q) => $q->where('user_id', $userId),
-            'bookmarks' => fn ($q) => $q->where('user_id', $userId),
+            'likes' => fn($q) => $q->where('user_id', $userId),
+            'bookmarks' => fn($q) => $q->where('user_id', $userId),
             'skillEndorsements',
         ])
             ->where('parent_id', null)
