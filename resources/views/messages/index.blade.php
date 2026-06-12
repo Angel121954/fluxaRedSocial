@@ -2,7 +2,7 @@
 @section('title', 'Mensajes — Fluxa')
 
 @section('content')
-<x-topbar :profile="$profile" />
+<x-topbar />
 
 <div class="msgs-page">
     <div class="msgs-wrapper">

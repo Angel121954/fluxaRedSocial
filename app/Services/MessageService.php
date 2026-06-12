@@ -11,7 +11,6 @@ use App\Models\Message;
 use App\Models\Profile;
 use App\Models\User;
 use App\Models\UserBlock;
-use App\Services\CloudinaryService;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
@@ -22,6 +21,7 @@ class MessageService
     public function __construct(
         protected CloudinaryService $cloudinary,
     ) {}
+
     public function findOrCreateConversation(int $userId, int $otherUserId): Conversation
     {
         $conversation = Conversation::where(function ($query) use ($userId, $otherUserId) {
@@ -233,14 +233,12 @@ class MessageService
         $userIds[] = $currentUser->id;
 
         $profiles = Profile::whereIn('user_id', $userIds)->get()->keyBy('user_id');
-        $usersWithProfiles = User::whereIn('id', $userIds)->get()->keyBy('id');
 
-        $conversations->each(function ($conv) use ($currentUser, $profiles, $usersWithProfiles) {
+        $conversations->each(function ($conv) use ($currentUser, $profiles) {
             $otherUser = $conv->otherUser($currentUser);
-            if ($otherUser && isset($usersWithProfiles[$otherUser->id])) {
-                $other = $usersWithProfiles[$otherUser->id];
-                $other->setRelation('profile', $profiles[$otherUser->id] ?? null);
-                $conv->setRelation('otherChat', $other);
+            if ($otherUser && isset($profiles[$otherUser->id])) {
+                $otherUser->setRelation('profile', $profiles[$otherUser->id]);
+                $conv->setRelation('otherChat', $otherUser);
             }
         });
 

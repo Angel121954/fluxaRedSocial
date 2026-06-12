@@ -27,32 +27,32 @@ class MessageController extends Controller
     public function index(Request $request): View
     {
         $user = auth()->user();
+        $conversationId = $request->query('conv') ? (int) $request->query('conv') : null;
+
+        $conversations = $this->messageService->getUserConversations($user->id, $conversationId);
+
         $activeConversation = null;
         $otherUser = null;
-        $conversationId = $request->query('conv') ? (int) $request->query('conv') : null;
+        $activeMessages = collect();
         $hasBlockedOther = false;
         $isBlockedByOther = false;
 
         if ($conversationId) {
-            $activeConversation = Conversation::find($conversationId);
-            if ($activeConversation && ($activeConversation->user_a_id === $user->id || $activeConversation->user_b_id === $user->id)) {
-                $otherUser = $activeConversation->otherUser($user);
+            $activeConversation = $conversations->firstWhere('id', $conversationId);
+
+            if ($activeConversation) {
+                $otherUser = $activeConversation->otherChat;
+
+                $activeConversation->unread_count = 0;
 
                 $hasBlockedOther = $this->messageService->hasBlocked($user->id, $otherUser->id);
                 $isBlockedByOther = $this->messageService->isBlockedBy($user->id, $otherUser->id);
 
                 $this->messageService->markConversationAsRead($activeConversation, $user->id);
 
-                $activeMessages = $activeConversation->messages()->with('sender')->oldest()->get();
-            } else {
-                $activeMessages = collect();
-                $activeConversation = null;
+                $activeMessages = $activeConversation->messages()->with('sender.profile')->oldest()->get();
             }
-        } else {
-            $activeMessages = collect();
         }
-
-        $conversations = $this->messageService->getUserConversations($user->id, $conversationId);
 
         return view('messages.index', compact('conversations', 'activeConversation', 'otherUser', 'activeMessages', 'hasBlockedOther', 'isBlockedByOther'));
     }
@@ -115,9 +115,9 @@ class MessageController extends Controller
 
         $this->messageService->markConversationAsRead($conversation, $user->id);
 
-        $activeConversation = $conversation;
-        $activeMessages = $conversation->messages()->with('sender')->oldest()->get();
-        $otherUser = $conversation->otherUser($user);
+        $activeConversation = $conversation->load(['userA', 'userB']);
+        $activeMessages = $conversation->messages()->with('sender.profile')->oldest()->get();
+        $otherUser = $activeConversation->otherUser($user);
 
         $hasBlockedOther = $this->messageService->hasBlocked($user->id, $otherUser->id);
         $isBlockedByOther = $this->messageService->isBlockedBy($user->id, $otherUser->id);

@@ -61,7 +61,6 @@ class AppServiceProvider extends ServiceProvider
             'public.contact',
             'public.privacy-policy',
             'public.terms',
-            'messages.index',
             'explore.index',
             'feed.index',
             'diary.index',
