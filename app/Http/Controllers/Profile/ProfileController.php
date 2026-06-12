@@ -29,9 +29,10 @@ class ProfileController extends Controller
     public function index(Request $request)
     {
         $query = $request->query();
-        if (!empty($query)) {
+        if (count($query) === 1) {
             $username = array_key_first($query);
-            if (is_string($username) && trim($username) !== '') {
+            $value = $query[$username];
+            if (is_string($username) && $value === '' && trim($username) !== '') {
                 return redirect()->route('profile.show', $username);
             }
         }

@@ -60,7 +60,7 @@
         })
         .then(function () {
             closeModal();
-            window.location.href = window.location.pathname + '?tab=stack';
+            window.location.href = '/profile?tab=stack';
         })
         .catch(function () {
             if (typeof window.showToast === 'function') {
