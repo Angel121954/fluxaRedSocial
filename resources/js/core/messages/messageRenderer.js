@@ -45,6 +45,19 @@ export function ensureDateSeparator(bubbleList, messageDateStr = null) {
     return true;
 }
 
+export function createEditBtn() {
+    const btn = document.createElement('button');
+    btn.className = 'msgs-edit-btn';
+    btn.setAttribute('aria-label', 'Editar mensaje');
+    btn.setAttribute('title', 'Editar');
+    btn.innerHTML = `
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 3a2.828 2.828 0 114 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>
+        </svg>
+    `;
+    return btn;
+}
+
 export function createOwnBubble(text, status = '', dateStr = null) {
     const now = dateStr ? new Date(dateStr) : new Date();
     const time = now.toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'America/Bogota' });
@@ -56,6 +69,8 @@ export function createOwnBubble(text, status = '', dateStr = null) {
 
     const bubble = document.createElement('div');
     bubble.className = 'msgs-bubble msgs-bubble-mine';
+
+    bubble.appendChild(createEditBtn());
 
     const body = document.createElement('div');
     body.className = 'msgs-bubble-body';
@@ -85,6 +100,28 @@ export function createOwnBubble(text, status = '', dateStr = null) {
 
     wrap.appendChild(bubble);
     return wrap;
+}
+
+export function updateBubbleBody(bubbleWrap, newBody, editedAt) {
+    const bodyEl = bubbleWrap.querySelector('.msgs-bubble-body');
+    if (bodyEl) {
+        bodyEl.textContent = newBody;
+    }
+
+    const timeEl = bubbleWrap.querySelector('.msgs-bubble-time');
+    if (timeEl && editedAt) {
+        if (!timeEl.querySelector('.msgs-bubble-edited-label')) {
+            const label = document.createElement('span');
+            label.className = 'msgs-bubble-edited-label';
+            label.textContent = '· editado';
+            timeEl.appendChild(label);
+        }
+    }
+
+    const bubble = bubbleWrap.querySelector('.msgs-bubble');
+    if (bubble) {
+        bubble.classList.add('msgs-bubble-edited');
+    }
 }
 
 export function appendReceivedBubble(msg, bubbleList) {
@@ -206,6 +243,7 @@ export function showNotAcceptingMessages(bubbleList) {
 }
 
 export function createOwnMediaBubble(mediaData, text, dateStr, status) {
+    // Media bubbles cannot be edited, so no edit button
     const now = dateStr ? new Date(dateStr) : new Date();
     const time = now.toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'America/Bogota' });
     const dateKey = now.toLocaleDateString('en-CA', { timeZone: 'America/Bogota' });

@@ -10,6 +10,7 @@ use App\Http\Requests\Message\SetViewingConversationRequest;
 use App\Http\Requests\Message\StoreMediaMessageRequest;
 use App\Http\Requests\Message\StoreMessageRequest;
 use App\Http\Requests\Message\StoreNewConversationRequest;
+use App\Http\Requests\Message\UpdateMessageRequest;
 use App\Models\Conversation;
 use App\Models\Message;
 use App\Models\User;
@@ -155,6 +156,23 @@ class MessageController extends Controller
                 $req->string('body')->toString() ?: null,
             )
         );
+    }
+
+    public function update(UpdateMessageRequest $request, Message $message): JsonResponse
+    {
+        $this->authorize('update', $message);
+
+        $conversation = $message->conversation;
+        $recipientId = $this->getRecipientId($conversation, $request->user());
+
+        $message = $this->messageService->updateMessage($message, $request->body);
+        $this->messageService->broadcastMessageEdited($message, $conversation->id, $recipientId);
+
+        return response()->json([
+            'id' => $message->id,
+            'body' => $message->body,
+            'edited_at' => $message->edited_at->timezone('America/Bogota')->toIso8601String(),
+        ]);
     }
 
     public function storeNewConversation(StoreNewConversationRequest $request): JsonResponse

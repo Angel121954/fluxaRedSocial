@@ -233,7 +233,14 @@
                             alt="" class="msgs-bubble-avatar"
                             onerror="this.src='/img/default-avatar.png'">
                         @endif
-                        <div class="msgs-bubble{{ $isMine ? ' msgs-bubble-mine' : ' msgs-bubble-theirs' }}{{ $message->isMedia() ? ' msgs-bubble--media' : '' }}">
+                        <div class="msgs-bubble{{ $isMine ? ' msgs-bubble-mine' : ' msgs-bubble-theirs' }}{{ $message->isMedia() ? ' msgs-bubble--media' : '' }}{{ $message->isEdited() ? ' msgs-bubble-edited' : '' }}">
+                            @if($isMine && !$message->isMedia())
+                            <button class="msgs-edit-btn" data-msg-id="{{ $message->id }}" data-body="{{ $message->body }}" aria-label="Editar mensaje" title="Editar">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M17 3a2.828 2.828 0 114 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>
+                                </svg>
+                            </button>
+                            @endif
                             @if($message->isMedia() && ($message->isImage() || $message->isGif()))
                             <div class="msgs-media-img-wrap{{ $message->isGif() ? ' msgs-media-gif-wrap' : '' }}">
                                 <img src="{{ $message->media_url }}" alt="{{ $message->media_name ?? 'Imagen' }}" class="msgs-media-img" loading="lazy">
@@ -256,6 +263,9 @@
                             @endif
                             <span class="msgs-bubble-time">
                                 {{ $message->created_at->format('H:i') }}
+                                @if($message->isEdited())
+                                <span class="msgs-bubble-edited-label">· editado</span>
+                                @endif
                             </span>
                             <!-- Reacciones -->
                             <div class="msgs-bubble-reactions" data-msg-id="{{ $message->id }}">
@@ -425,6 +435,33 @@
             </svg>
         </button>
         <img src="" id="msgsImgModalImg" alt="Imagen" width="100" height="100" />
+    </div>
+</div>
+
+<!-- ── Modal: Editar mensaje ── -->
+<div class="modal-backdrop" id="msgsEditModal" aria-hidden="true">
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="msgsEditModalTitle">
+        <div class="modal-header">
+            <div>
+                <div class="modal-title" id="msgsEditModalTitle">Editar mensaje</div>
+            </div>
+            <button class="modal-close" id="msgsEditModalClose" aria-label="Cerrar">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+            </button>
+        </div>
+        <div class="modal-body">
+            <textarea class="modal-report-textarea" id="msgsEditTextarea" rows="4" maxlength="2000" placeholder="Escribe tu mensaje..."></textarea>
+            <div class="msgs-edit-charcount-wrap">
+                <span class="msgs-edit-charcount" id="msgsEditCharCount">0/2000</span>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" id="msgsEditCancel">Cancelar</button>
+            <button class="btn btn-primary" id="msgsEditSave">Guardar</button>
+        </div>
     </div>
 </div>
 

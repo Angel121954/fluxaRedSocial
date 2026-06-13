@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Events\ConversationCreated;
+use App\Events\MessageEdited;
 use App\Events\NewMessage;
 use App\Models\Conversation;
 use App\Models\Message;
@@ -138,6 +139,27 @@ class MessageService
 
         if ($recipientViewing) {
             $message->update(['read_at' => now()]);
+        }
+    }
+
+    public function updateMessage(Message $message, string $body): Message
+    {
+        $message->update([
+            'body' => $body,
+            'edited_at' => now(),
+        ]);
+
+        $message->load('sender');
+
+        return $message;
+    }
+
+    public function broadcastMessageEdited(Message $message, int $conversationId, int $recipientId): void
+    {
+        try {
+            broadcast(new MessageEdited($message, $conversationId, $recipientId))->toOthers();
+        } catch (\Exception $e) {
+            Log::error('Broadcast edit failed: ' . $e->getMessage());
         }
     }
 

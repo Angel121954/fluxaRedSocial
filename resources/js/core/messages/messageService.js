@@ -77,6 +77,26 @@ export async function sendMediaMessage(formData, convId) {
     return await res.json();
 }
 
+export async function updateMessage(msgId, body) {
+    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content ?? '';
+
+    const res = await fetch(`/messages/message/${msgId}`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': csrfToken,
+            'Accept': 'application/json',
+            'X-Socket-ID': window.Echo?.socketId() ?? '',
+        },
+        credentials: 'same-origin',
+        body: JSON.stringify({ body }),
+    });
+
+    if (!res.ok) throw new Error('Error al editar el mensaje');
+
+    return await res.json();
+}
+
 export async function searchUsers(query) {
     const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content ?? '';
     const res = await fetch(`/users/search?q=${encodeURIComponent(query)}`, {

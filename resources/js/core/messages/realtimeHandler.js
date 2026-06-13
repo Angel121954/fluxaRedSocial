@@ -1,4 +1,4 @@
-import { appendReceivedBubble, appendReceivedMediaBubble, showNotAcceptingMessages } from './messageRenderer.js';
+import { appendReceivedBubble, appendReceivedMediaBubble, showNotAcceptingMessages, updateBubbleBody } from './messageRenderer.js';
 import { scrollToBottom } from './messageUtils.js';
 import { showTypingIndicatorBelowLastMessage, removeTypingIndicator } from './typingHandler.js';
 
@@ -48,6 +48,13 @@ export function initRealtime(convId, bubbleList, currentUser) {
             if (window.updateBadges) {
                 window.updateBadges();
             }
+        }
+    });
+
+    channel.listen('.message.edited', (data) => {
+        const bubbleWrap = bubbleList?.querySelector(`.msgs-bubble-wrap[data-msg-id="${data.id}"]`);
+        if (bubbleWrap) {
+            updateBubbleBody(bubbleWrap, data.body, data.edited_at);
         }
     });
 

@@ -33,6 +33,11 @@ class MessagePolicy
         return $otherProfile && $otherProfile->accept_messages;
     }
 
+    public function update(User $user, Message $message): bool
+    {
+        return $user->id === $message->sender_id && ! $message->isMedia();
+    }
+
     public function delete(User $user, Message $message): bool
     {
         return $user->id === $message->user_id;

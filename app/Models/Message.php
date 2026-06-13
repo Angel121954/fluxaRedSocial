@@ -17,6 +17,7 @@ class Message extends Model
         'sender_id',
         'body',
         'read_at',
+        'edited_at',
         'media_type',
         'media_url',
         'media_name',
@@ -26,6 +27,7 @@ class Message extends Model
 
     protected $casts = [
         'read_at' => 'datetime',
+        'edited_at' => 'datetime',
         'media_size' => 'integer',
     ];
 
@@ -49,6 +51,11 @@ class Message extends Model
     public function isRead(): bool
     {
         return $this->read_at !== null;
+    }
+
+    public function isEdited(): bool
+    {
+        return $this->edited_at !== null;
     }
 
     public function isMedia(): bool

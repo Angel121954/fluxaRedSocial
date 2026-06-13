@@ -462,6 +462,7 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
         Route::post('/messages/viewing/clear', [MessageController::class, 'clearViewing'])->name('messages.clearViewing');
         Route::patch('/messages/{conversation}/read', [MessageController::class, 'markAsRead'])->name('messages.markAsRead');
         Route::patch('/messages/message/{message}/read', [MessageController::class, 'markMessageAsRead'])->name('messages.markMessageAsRead');
+        Route::patch('/messages/message/{message}', [MessageController::class, 'update'])->name('messages.update');
         Route::post('/messages/{conversation}', [MessageController::class, 'store'])->name('messages.store');
         Route::post('/messages/{conversation}/media', [MessageController::class, 'storeMedia'])->name('messages.storeMedia');
         Route::post('/messages/{conversation}/gif', [MessageController::class, 'storeGif'])->name('messages.storeGif');

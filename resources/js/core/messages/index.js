@@ -5,6 +5,8 @@ import { initRealtime } from './realtimeHandler.js';
 import { initTypingBroadcast } from './typingHandler.js';
 import { initBlockHandler } from './blockHandler.js';
 import { initEmojiPicker } from './emojiPicker.js';
+import { updateMessage } from './messageService.js';
+import { updateBubbleBody } from './messageRenderer.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     const layout = document.querySelector('.msgs-layout');
@@ -77,5 +79,83 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && imgModal?.classList.contains('show')) closeImgPreview();
+    });
+
+    /* ─── Edit message modal ─── */
+    const editModal = document.getElementById('msgsEditModal');
+    const editTextarea = document.getElementById('msgsEditTextarea');
+    const editCharCount = document.getElementById('msgsEditCharCount');
+    const editSave = document.getElementById('msgsEditSave');
+    const editCancel = document.getElementById('msgsEditCancel');
+    const editClose = document.getElementById('msgsEditModalClose');
+    let editingMsgId = null;
+
+    function openEditModal(msgId, currentBody) {
+        editingMsgId = msgId;
+        editTextarea.value = currentBody;
+        updateEditCharCount();
+        editModal.classList.add('is-open');
+        editModal.setAttribute('aria-hidden', 'false');
+        window.lockBodyScroll?.();
+        setTimeout(() => editTextarea?.focus(), 80);
+    }
+
+    function closeEditModal() {
+        editingMsgId = null;
+        editModal.classList.remove('is-open');
+        editModal.setAttribute('aria-hidden', 'true');
+        window.unlockBodyScroll?.();
+    }
+
+    function updateEditCharCount() {
+        if (!editTextarea || !editCharCount) return;
+        const len = editTextarea.value.length;
+        editCharCount.textContent = `${len}/2000`;
+    }
+
+    editTextarea?.addEventListener('input', updateEditCharCount);
+
+    bubbleList?.addEventListener('click', (e) => {
+        const editBtn = e.target.closest('.msgs-edit-btn');
+        if (editBtn) {
+            const wrap = editBtn.closest('.msgs-bubble-wrap');
+            const msgId = wrap?.dataset.msgId;
+            const bodyEl = wrap?.querySelector('.msgs-bubble-body');
+            const body = bodyEl?.textContent ?? '';
+            if (msgId) openEditModal(msgId, body);
+        }
+    });
+
+    editSave?.addEventListener('click', async () => {
+        if (!editingMsgId) return;
+        const body = editTextarea.value.trim();
+        if (!body) return;
+
+        editSave.disabled = true;
+
+        try {
+            const data = await updateMessage(editingMsgId, body);
+            const wrap = bubbleList?.querySelector(`.msgs-bubble-wrap[data-msg-id="${editingMsgId}"]`);
+            if (wrap) {
+                updateBubbleBody(wrap, data.body, data.edited_at);
+            }
+            closeEditModal();
+        } catch (err) {
+            console.error('[Fluxa Messages]', err);
+            if (window.showToast) window.showToast('Error al editar el mensaje', 'error');
+        }
+
+        editSave.disabled = false;
+    });
+
+    editCancel?.addEventListener('click', closeEditModal);
+    editClose?.addEventListener('click', closeEditModal);
+
+    editModal?.addEventListener('click', (e) => {
+        if (e.target === editModal) closeEditModal();
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && editModal?.classList.contains('is-open')) closeEditModal();
     });
 });
