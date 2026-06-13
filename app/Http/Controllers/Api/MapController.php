@@ -32,7 +32,7 @@ class MapController extends Controller
             'avatar' => $user->avatar_url,
             'latitude' => (float) $user->profile->latitude,
             'longitude' => (float) $user->profile->longitude,
-            'url' => route('profile.index', $user->username ?? $user->id),
+            'url' => route('profile.show', $user->username ?? $user->id),
         ]));
     }
 }

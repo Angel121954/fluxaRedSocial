@@ -14,6 +14,7 @@ use App\Services\BadgeService;
 use App\Services\CVService;
 use App\Services\ProfileService;
 use Exception;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -26,17 +27,8 @@ class ProfileController extends Controller
         protected BadgeService $badgeService,
     ) {}
 
-    public function index(Request $request)
+    public function index(): View
     {
-        $query = $request->query();
-        if (count($query) === 1) {
-            $username = array_key_first($query);
-            $value = $query[$username];
-            if (is_string($username) && $value === '' && trim($username) !== '') {
-                return redirect()->route('profile.show', $username);
-            }
-        }
-
         $user = Auth::user();
         $user->loadCount(['followers', 'follows'])->load('profile');
         $profile = $user->profile;
