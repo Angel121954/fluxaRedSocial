@@ -11,13 +11,13 @@ use Illuminate\Support\Facades\Log;
 class DeleteExpiredUsers extends Command
 {
     protected $signature   = 'users:delete-expired';
-    protected $description = 'Elimina usuarios con delete_at vencido y su imagen de Cloudinary';
+    protected $description = 'Elimina usuarios con deleted_at vencido y su imagen de Cloudinary';
 
     public function handle(): void
     {
         $users = User::where('status', 'pending_deletion')
-            ->whereNotNull('delete_at')
-            ->where('delete_at', '<=', now())
+            ->whereNotNull('deleted_at')
+            ->where('deleted_at', '<=', now())
             ->get();
 
         if ($users->isEmpty()) {

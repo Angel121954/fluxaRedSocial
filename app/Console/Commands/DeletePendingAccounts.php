@@ -15,7 +15,7 @@ class DeletePendingAccounts extends Command
     public function handle()
     {
         $users = User::where('status', 'pending_deletion')
-            ->where('delete_at', '<=', now())
+            ->where('deleted_at', '<=', now())
             ->get();
 
         foreach ($users as $user) {
