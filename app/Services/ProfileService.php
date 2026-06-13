@@ -31,7 +31,7 @@ class ProfileService
         $projects = $user->projects()
             ->select('id', 'user_id', 'title', 'content', 'privacy', 'created_at', 'updated_at')
             ->with([
-                'user:id,username,email',
+                'user:id,username,email,name',
                 'media',
                 'technologies',
                 'likes' => fn ($q) => $q->where('user_id', $viewerId),
