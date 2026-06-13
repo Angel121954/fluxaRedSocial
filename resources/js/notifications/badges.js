@@ -32,6 +32,8 @@ function updateBadges() {
             const msgBadge = document.getElementById('navMessagesBadge');
             const mobileNotifBadge = document.querySelector('.mobile-menu-link[href*="notifications"] .mobile-badge');
             const mobileMsgBadge = document.querySelector('.mobile-menu-link[href*="messages"] .mobile-badge');
+            const bottomNavNotifBadge = document.getElementById('bottomNavNotifBadge');
+            const bottomNavMsgBadge = document.getElementById('bottomNavMsgBadge');
 
             if (notifBadge) {
                 if (notifData.count > 0) {
@@ -65,6 +67,16 @@ function updateBadges() {
             if (mobileMsgBadge) {
                 mobileMsgBadge.textContent = msgData.count > 99 ? '99+' : msgData.count;
                 mobileMsgBadge.style.display = msgData.count > 0 ? 'inline-flex' : 'none';
+            }
+
+            if (bottomNavNotifBadge) {
+                bottomNavNotifBadge.textContent = notifData.count > 99 ? '99+' : notifData.count;
+                bottomNavNotifBadge.style.display = notifData.count > 0 ? '' : 'none';
+            }
+
+            if (bottomNavMsgBadge) {
+                bottomNavMsgBadge.textContent = msgData.count > 99 ? '99+' : msgData.count;
+                bottomNavMsgBadge.style.display = msgData.count > 0 ? '' : 'none';
             }
         })
         .catch(function (err) {
