@@ -237,7 +237,7 @@
                             @if($isMine && !$message->isMedia())
                             <button class="msgs-edit-btn" data-msg-id="{{ $message->id }}" data-body="{{ $message->body }}" aria-label="Editar mensaje" title="Editar">
                                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M17 3a2.828 2.828 0 114 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>
+                                    <path d="M17 3a2.828 2.828 0 114 4L7.5 20.5 2 22l1.5-5.5L17 3z" />
                                 </svg>
                             </button>
                             @endif
@@ -461,6 +461,43 @@
         <div class="modal-footer">
             <button class="btn btn-secondary" id="msgsEditCancel">Cancelar</button>
             <button class="btn btn-primary" id="msgsEditSave">Guardar</button>
+        </div>
+    </div>
+</div>
+
+<!-- ── Modal: Compartir proyecto ── -->
+<div class="modal-backdrop" id="msgsShareModal" aria-hidden="true">
+    <div class="modal-card modal-card--sm" role="dialog" aria-modal="true" aria-labelledby="msgsShareModalTitle">
+        <div class="modal-header">
+            <div>
+                <div class="modal-title" id="msgsShareModalTitle">Compartir proyecto</div>
+                <div class="modal-subtitle">Selecciona un proyecto para compartir en el chat</div>
+            </div>
+            <button class="modal-close" id="msgsShareModalClose" aria-label="Cerrar">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                    <line x1="18" y1="6" x2="6" y2="18" />
+                    <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="msgs-share-loading" id="msgsShareLoading">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="msgs-share-spinner">
+                    <circle cx="12" cy="12" r="10" stroke-dasharray="32" stroke-dashoffset="32" stroke-linecap="round" />
+                </svg>
+                <span>Cargando proyectos...</span>
+            </div>
+            <div class="msgs-share-empty" id="msgsShareEmpty" style="display:none">
+                <svg width="32" height="32" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+                </svg>
+                <p>No tienes proyectos aún.</p>
+            </div>
+            <div class="msgs-share-list" id="msgsShareList"></div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" id="msgsShareCancel">Cancelar</button>
+            <button class="btn btn-primary" id="msgsShareSend" disabled>Enviar</button>
         </div>
     </div>
 </div>

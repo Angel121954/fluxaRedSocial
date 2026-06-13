@@ -5,8 +5,9 @@ import { initRealtime } from './realtimeHandler.js';
 import { initTypingBroadcast } from './typingHandler.js';
 import { initBlockHandler } from './blockHandler.js';
 import { initEmojiPicker } from './emojiPicker.js';
-import { updateMessage } from './messageService.js';
-import { updateBubbleBody } from './messageRenderer.js';
+import { updateMessage, sendMessage } from './messageService.js';
+import { updateBubbleBody, createOwnBubble, ensureDateSeparator } from './messageRenderer.js';
+import { scrollToBottom } from './messageUtils.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     const layout = document.querySelector('.msgs-layout');
@@ -157,5 +158,138 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && editModal?.classList.contains('is-open')) closeEditModal();
+    });
+
+    /* ─── Share project modal ─── */
+    const shareModal = document.getElementById('msgsShareModal');
+    const shareList = document.getElementById('msgsShareList');
+    const shareLoading = document.getElementById('msgsShareLoading');
+    const shareEmpty = document.getElementById('msgsShareEmpty');
+    const shareSend = document.getElementById('msgsShareSend');
+    const shareCancel = document.getElementById('msgsShareCancel');
+    const shareClose = document.getElementById('msgsShareModalClose');
+    let selectedProjectId = null;
+    let selectedProjectTitle = null;
+
+    async function openShareModal() {
+        selectedProjectId = null;
+        selectedProjectTitle = null;
+        shareSend.disabled = true;
+        shareList.innerHTML = '';
+        shareLoading.style.display = 'flex';
+        shareEmpty.style.display = 'none';
+
+        shareModal.classList.add('is-open');
+        shareModal.setAttribute('aria-hidden', 'false');
+        window.lockBodyScroll?.();
+
+        try {
+            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content ?? '';
+            const res = await fetch('/messages/projects', {
+                headers: { 'Accept': 'application/json', 'X-CSRF-TOKEN': csrfToken },
+                credentials: 'same-origin',
+            });
+
+            if (!res.ok) throw new Error('Error al cargar proyectos');
+
+            const projects = await res.json();
+            shareLoading.style.display = 'none';
+
+            if (!projects.length) {
+                shareEmpty.style.display = 'flex';
+                return;
+            }
+
+            projects.forEach((p) => {
+                const item = document.createElement('button');
+                item.className = 'msgs-share-item';
+                item.dataset.projectId = p.id;
+                item.dataset.projectTitle = p.title;
+                item.textContent = p.title;
+                item.addEventListener('click', () => {
+                    shareList.querySelectorAll('.msgs-share-item').forEach((el) => el.classList.remove('selected'));
+                    item.classList.add('selected');
+                    selectedProjectId = p.id;
+                    selectedProjectTitle = p.title;
+                    shareSend.disabled = false;
+                });
+                shareList.appendChild(item);
+            });
+        } catch (err) {
+            console.error('[Fluxa Messages]', err);
+            shareLoading.style.display = 'none';
+            shareEmpty.style.display = 'flex';
+            shareEmpty.querySelector('p').textContent = 'Error al cargar proyectos.';
+            if (window.showToast) window.showToast('Error al cargar proyectos', 'error');
+        }
+    }
+
+    function closeShareModal() {
+        shareModal.classList.remove('is-open');
+        shareModal.setAttribute('aria-hidden', 'true');
+        window.unlockBodyScroll?.();
+    }
+
+    document.getElementById('msgsShareProjectBtn')?.addEventListener('click', openShareModal);
+
+    shareCancel?.addEventListener('click', closeShareModal);
+    shareClose?.addEventListener('click', closeShareModal);
+
+    shareModal?.addEventListener('click', (e) => {
+        if (e.target === shareModal) closeShareModal();
+    });
+
+    shareSend?.addEventListener('click', async () => {
+        if (!selectedProjectId) return;
+
+        const projectUrl = `/projects/${selectedProjectId}`;
+        const body = `Compartió un proyecto: ${selectedProjectTitle}\n${window.location.origin}${projectUrl}`;
+        const convId = sendBtn?.dataset.convId;
+        const recipient = sendBtn?.dataset.recipient;
+
+        shareSend.disabled = true;
+
+        try {
+            const data = await sendMessage(body, convId, recipient);
+            closeShareModal();
+
+            const now = new Date();
+            const dateKey = now.toLocaleDateString('en-CA', { timeZone: 'America/Bogota' });
+            const tempBubble = createOwnBubble(body, '', now.toISOString());
+            if (bubbleList) {
+                ensureDateSeparator(bubbleList, dateKey);
+                bubbleList.appendChild(tempBubble);
+                scrollToBottom(bubbleList, true);
+                tempBubble.dataset.msgId = data.id ?? '';
+            }
+
+            const convList = document.getElementById('msgsConvList');
+            if (convList && convId) {
+                const existingItem = convList.querySelector('a[href*="conv=' + convId + '"]');
+                if (existingItem) {
+                    const preview = existingItem.querySelector('.msgs-conv-preview');
+                    if (preview) {
+                        preview.textContent = 'Tú: ' + (body.length > 40 ? body.substring(0, 40) + '...' : body);
+                    }
+                    const time = existingItem.querySelector('.msgs-conv-time');
+                    if (time) {
+                        time.textContent = 'Ahora';
+                        time.dataset.timestamp = Date.now();
+                    }
+                    convList.prepend(existingItem);
+                }
+            }
+
+            if (window.updateBadges) window.updateBadges();
+        } catch (err) {
+            console.error('[Fluxa Messages]', err);
+            if (window.showToast) window.showToast('Error al enviar el proyecto', 'error');
+        }
+
+        shareSend.disabled = false;
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && shareModal?.classList.contains('is-open')) closeShareModal();
     });
 });

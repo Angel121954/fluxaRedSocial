@@ -13,6 +13,7 @@ use App\Http\Requests\Message\StoreNewConversationRequest;
 use App\Http\Requests\Message\UpdateMessageRequest;
 use App\Models\Conversation;
 use App\Models\Message;
+use App\Models\Project;
 use App\Models\User;
 use App\Services\MessageService;
 use Illuminate\Http\JsonResponse;
@@ -156,6 +157,15 @@ class MessageController extends Controller
                 $req->string('body')->toString() ?: null,
             )
         );
+    }
+
+    public function userProjects(): JsonResponse
+    {
+        $projects = Project::where('user_id', auth()->id())
+            ->orderByDesc('created_at')
+            ->get(['id', 'title']);
+
+        return response()->json($projects);
     }
 
     public function update(UpdateMessageRequest $request, Message $message): JsonResponse

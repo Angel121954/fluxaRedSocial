@@ -456,6 +456,7 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
         | Sistema de mensajería
         |--------------------------------------------------------------------------
         */
+        Route::get('/messages/projects', [MessageController::class, 'userProjects'])->name('messages.projects');
         Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
         Route::get('/messages/unread/count', [MessageController::class, 'unreadCount'])->name('messages.unreadCount');
         Route::post('/messages/viewing', [MessageController::class, 'setViewing'])->name('messages.setViewing');

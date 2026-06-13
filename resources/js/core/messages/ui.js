@@ -253,7 +253,7 @@ export function initToolbarActions() {
         input.focus();
         input.dispatchEvent(new Event('input'));
     });
-    document.getElementById('msgsShareProjectBtn')?.addEventListener('click', () => showComingSoon('Compartir proyecto'));
+    // Share project button is now handled in index.js (opens modal)
     document.getElementById('msgsClearBtn')?.addEventListener('click', () => showComingSoon('Limpiar conversación'));
 
     /* ─── Input ocultos para upload ─── */
