@@ -376,6 +376,7 @@
 @endpush
 
 @push('scripts')
+@vite('resources/js/projects/modalComment.js')
 @vite('resources/js/profile/index.js')
 @vite('resources/js/profile/stackModal.js')
 @vite('resources/js/profile/badgesModal.js')

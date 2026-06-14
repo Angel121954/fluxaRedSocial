@@ -58,6 +58,7 @@
 @endsection
 
 @push('scripts')
+@vite('resources/js/projects/modalComment.js')
 @vite('resources/js/core/explore/index.js')
 @endpush
 @push('styles')
