@@ -216,6 +216,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const cancel2FA = () => {
         closeModal();
         resetModalView();
+
+        if (toggle2FA?.checked && twoFaStatus?.textContent !== "activada") {
+            apiFetch("/user/two-factor-authentication", "DELETE").catch(() => {});
+            toggle2FA.checked = false;
+            twoFaStatus.textContent = "desactivada";
+        }
     };
 
     document.getElementById("btnCancel2FA")?.addEventListener("click", cancel2FA);
