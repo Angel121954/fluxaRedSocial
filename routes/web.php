@@ -310,6 +310,9 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
         Route::get('/users/{user}/following', [FollowController::class, 'following'])
             ->name('users.following');
 
+        Route::get('/users/{user}/projects', [ProfileController::class, 'projects'])
+            ->name('users.projects');
+
         Route::delete('/profile/avatar', [ProfileController::class, 'destroyAvatar'])
             ->name('profile.avatar.destroy');
 

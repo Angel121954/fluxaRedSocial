@@ -193,7 +193,7 @@
 
                     <!-- Stats -->
                     <div class="stats-row">
-                        <div class="stat">
+                        <div class="stat stat-clickable" onclick="openProjectsModal({{ $user->id }})" title="Ver proyectos">
                             <span class="stat-n">{{ $projectsCount ?? $projects->count() }}</span><span class="stat-l">Proyectos</span>
                         </div>
                         <div class="stat stat-clickable" onclick="openFollowersModal({{ $user->id }}, 'following')" title="Ver usuarios que sigue">
@@ -355,6 +355,7 @@
     <x-modal-comments />
     <x-modal-report />
     <x-followers-modal />
+    <x-projects-modal />
     @include('profile.partials.github-import-modal')
 </body>
 @endsection
@@ -372,6 +373,7 @@
 @vite('resources/css/profile/modalImage.css')
 @vite('resources/css/profile/badges.css')
 @vite('resources/css/profile/followersModal.css')
+@vite('resources/css/profile/projectsModal.css')
 @vite('resources/css/profile/githubImport.css')
 @endpush
 
@@ -381,5 +383,6 @@
 @vite('resources/js/profile/stackModal.js')
 @vite('resources/js/profile/badgesModal.js')
 @vite('resources/js/profile/followersModal.js')
+@vite('resources/js/profile/projectsModal.js')
 @vite('resources/js/profile/githubImport.js')
 @endpush

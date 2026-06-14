@@ -18,6 +18,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class ProfileController extends Controller
 {
@@ -79,6 +80,31 @@ class ProfileController extends Controller
             'conversation' => $conversation,
             ...$data,
         ]);
+    }
+
+    public function projects(User $user): JsonResponse
+    {
+        $isOwner = Auth::id() === $user->id;
+
+        $query = $user->projects()
+            ->select('id', 'user_id', 'title', 'content', 'privacy', 'created_at', 'updated_at')
+            ->withCount(['media', 'likes', 'comments']);
+
+        if (! $isOwner) {
+            $query->where('privacy', 'public');
+        }
+
+        $projects = $query->latest()->get()->map(fn ($p) => [
+            'id' => $p->id,
+            'title' => $p->title,
+            'content' => Str::limit($p->content, 120),
+            'media_count' => $p->media_count,
+            'likes_count' => $p->likes_count,
+            'comments_count' => $p->comments_count,
+            'created_at' => $p->created_at->diffForHumans(),
+        ]);
+
+        return response()->json(['projects' => $projects]);
     }
 
     public function previewInterno()

@@ -1,0 +1,210 @@
+.projects-backdrop {
+    position: fixed;
+    inset: 0;
+    background: var(--overlay);
+    z-index: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+}
+
+.projects-backdrop.is-open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.projects-modal {
+    background: var(--surface);
+    border-radius: 12px;
+    width: 100%;
+    max-width: 500px;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.12), 0 1px 4px rgba(0,0,0,0.06);
+    transform: translateY(20px) scale(0.97);
+    transition: transform 0.3s cubic-bezier(0.22,1,0.36,1), opacity 0.25s ease;
+    opacity: 0;
+}
+
+.projects-backdrop.is-open .projects-modal {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+}
+
+.projects-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.25rem 1.5rem 1rem;
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+}
+
+.projects-header-text {
+    flex: 1;
+}
+
+.projects-title {
+    font-size: var(--text-md);
+    font-weight: 600;
+    color: var(--ink-900);
+    line-height: 1.4;
+}
+
+.projects-subtitle {
+    font-size: var(--text-xs);
+    color: var(--ink-400);
+    margin-top: 0.125rem;
+}
+
+.projects-close {
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+    background: transparent;
+    border: none;
+    border-radius: 50%;
+    color: var(--ink-400);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s, color 0.15s;
+}
+
+.projects-close:hover {
+    background: var(--ink-100);
+    color: var(--ink-700);
+}
+
+.projects-close svg {
+    width: 14px;
+    height: 14px;
+}
+
+.projects-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0.5rem 0;
+    scrollbar-width: thin;
+    scrollbar-color: var(--ink-100) transparent;
+}
+
+.projects-body::-webkit-scrollbar {
+    width: 3px;
+}
+
+.projects-body::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.projects-body::-webkit-scrollbar-thumb {
+    background: var(--ink-100);
+    border-radius: 99px;
+}
+
+.projects-loading {
+    padding: 1rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.projects-skeleton {
+    height: 72px;
+    border-radius: 8px;
+    background: var(--bg);
+    animation: projects-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes projects-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.projects-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.projects-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 1.5rem;
+    text-decoration: none;
+    transition: background 0.15s;
+    border-bottom: 1px solid var(--border);
+}
+
+.projects-item:last-child {
+    border-bottom: none;
+}
+
+.projects-item:hover {
+    background: var(--bg);
+}
+
+.projects-item-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.projects-item-title {
+    display: block;
+    font-size: var(--text-base);
+    font-weight: 600;
+    color: var(--ink-900);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 2px;
+}
+
+.projects-item-excerpt {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-size: var(--text-sm);
+    color: var(--ink-400);
+    line-height: 1.4;
+    margin-bottom: 6px;
+}
+
+.projects-item-stats {
+    display: flex;
+    gap: 12px;
+    font-size: var(--text-xs);
+    color: var(--ink-400);
+}
+
+.projects-item-stat {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.projects-item-stat svg {
+    width: 14px;
+    height: 14px;
+}
+
+.projects-empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1.5rem;
+}
+
+.projects-empty p {
+    font-size: var(--text-base);
+    color: var(--ink-400);
+    text-align: center;
+}
