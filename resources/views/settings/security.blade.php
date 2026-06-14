@@ -249,18 +249,6 @@
     </div>
 </div>
 
-{{-- Toast: contraseña actualizada --}}
-@if(session('status') === 'password-updated')
-<div class="pwd-toast" id="pwdToast" role="status">
-    <div class="pwd-toast__icon">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-            <polyline points="20 6 9 17 4 12" />
-        </svg>
-    </div>
-    <span>¡Contraseña actualizada correctamente!</span>
-</div>
-@endif
-
 @endsection
 
 @push('styles')

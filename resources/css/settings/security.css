@@ -326,49 +326,6 @@
 .pwd-match-hint.match  { color: #059669; }
 .pwd-match-hint.no-match { color: #dc2626; }
 
-/* ─── Toast éxito ─────────────────────────────────────────── */
-.pwd-toast {
-    position: fixed;
-    bottom: 1.75rem;
-    right: 1.75rem;
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    background: var(--surface);
-    border: 1px solid #d1fae5;
-    border-left: 4px solid #059669;
-    border-radius: 10px;
-    padding: 0.875rem 1.25rem;
-    font-size: var(--text-base);
-    font-weight: 600;
-    color: #065f46;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-    z-index: 10000;
-    animation:
-        toast-in 0.3s ease both,
-        toast-out 0.4s ease 3.5s both;
-}
-.pwd-toast__icon {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    background: #d1fae5;
-    color: #059669;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-}
-
-@keyframes toast-in {
-    from { opacity: 0; transform: translateY(10px); }
-    to   { opacity: 1; transform: translateY(0); }
-}
-@keyframes toast-out {
-    from { opacity: 1; transform: translateY(0); }
-    to   { opacity: 0; transform: translateY(10px); }
-}
-
 /* ─── Responsive ──────────────────────────────────────────── */
 @media (max-width: 768px) {
     .sec-card { flex-direction: column; }
