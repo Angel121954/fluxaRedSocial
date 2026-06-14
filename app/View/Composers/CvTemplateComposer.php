@@ -28,8 +28,8 @@ class CvTemplateComposer
         $cantidadSiguiendo = $user->follows_count ?? $user->follows()->count();
         $diasActivo = (int) ($profile->days_active ?? 0);
 
-        $rolProfesional = isset($data['technologies']) && $data['technologies']->isNotEmpty()
-            ? $data['technologies']->first()->name.' Developer'
+        $rolProfesional = $user->role
+            ? ucfirst($user->role).' Developer'
             : 'Software Developer';
 
         $estadisticas = [

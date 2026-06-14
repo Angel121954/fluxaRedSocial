@@ -59,15 +59,9 @@ class CVService
         );
         $qrBase64 = $this->generateQrCode('https://' . $urlPerfil);
 
-        $rolProfesional = match ($user->role) {
-            'frontend' => 'Frontend Developer',
-            'backend' => 'Backend Developer',
-            'fullstack' => 'Fullstack Developer',
-            'devops' => 'DevOps Engineer',
-            'mobile' => 'Mobile Developer',
-            'data' => 'Data & ML Engineer',
-            default => 'Software Developer',
-        };
+        $rolProfesional = $user->role
+            ? ucfirst($user->role) . ' Developer'
+            : 'Software Developer';
 
         $estadisticas = [
             ['valor' => $projects->count(), 'etiqueta' => 'Proyectos'],
