@@ -319,6 +319,9 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
         Route::post('/profile/technologies', [ProfileController::class, 'updateTechnologies'])
             ->name('profile.technologies.update');
 
+        Route::post('/profile/technologies/{technology}/favorite', [ProfileController::class, 'toggleFavoriteTechnology'])
+            ->name('profile.technologies.favorite');
+
         /*
         |--------------------------------------------------------------------------
         | GitHub API (protected)

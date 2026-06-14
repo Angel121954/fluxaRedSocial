@@ -12,6 +12,7 @@
 }
 
 .stack-card {
+    position: relative;
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--r-lg);
@@ -24,8 +25,65 @@
 }
 
 .stack-card:hover {
-    border-color: var(--border-strong);
-    box-shadow: var(--shadow-card);
+    border-color: var(--accent);
+    box-shadow: var(--shadow-hover);
+}
+
+.stack-card-heart {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    transition: opacity 0.2s, color 0.2s, transform 0.2s;
+}
+
+.stack-card-heart svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* Non-owner: solo se renderiza en favoritas, siempre visible */
+span.stack-card-heart {
+    opacity: 1;
+    pointer-events: none;
+    color: var(--accent);
+}
+
+/* Owner: oculto por defecto, aparece al hover o si es favorita */
+button.stack-card-heart {
+    opacity: 0;
+    pointer-events: auto;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    outline: none;
+    color: var(--ink-300);
+    border-radius: 50%;
+}
+
+.stack-card:hover button.stack-card-heart {
+    opacity: 1;
+}
+
+button.stack-card-heart.is-favorite {
+    opacity: 1;
+    color: var(--accent);
+}
+
+button.stack-card-heart:hover {
+    color: var(--ink-600);
+    transform: scale(1.15);
+}
+
+button.stack-card-heart.is-favorite:hover {
+    color: #0d8e91;
 }
 
 .stack-icon {
@@ -56,12 +114,11 @@
 .stack-card-link {
     text-decoration: none;
     color: inherit;
-    display: block;
-}
-
-.stack-card-link:hover .stack-card {
-    border-color: var(--accent);
-    box-shadow: var(--shadow-hover);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex: 1;
+    min-width: 0;
 }
 
 .stack-footer {

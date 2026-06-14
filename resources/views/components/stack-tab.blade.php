@@ -4,6 +4,7 @@
     'groupedTechnologies' => [],
     'categoryLabels' => [],
     'categoryOrder' => [],
+    'favoriteTechIds' => [],
 ])
 
 @foreach($categoryOrder as $cat)
@@ -16,12 +17,30 @@
             @php
             $iconUrl = $tech->iconUrl();
             $initials = $tech->initials();
+            $isFav = in_array($tech->id, $favoriteTechIds);
             @endphp
-            <a href="{{ $tech->website_url ?? '#' }}"
-                target="{{ $tech->website_url ? '_blank' : '_self' }}"
-                rel="noopener noreferrer"
-                class="stack-card-link">
-                <div class="stack-card">
+            <div class="stack-card">
+                @if($isOwner)
+                <button type="button"
+                    class="stack-card-heart {{ $isFav ? 'is-favorite' : '' }}"
+                    data-tech-id="{{ $tech->id }}"
+                    aria-label="{{ $isFav ? 'Quitar de favoritos' : 'Agregar a favoritos' }}"
+                    title="{{ $isFav ? 'Tecnología destacada' : 'Marcar como destacada' }}">
+                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                </button>
+                @elseif($isFav)
+                <span class="stack-card-heart is-favorite" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                </span>
+                @endif
+                <a href="{{ $tech->website_url ?? '#' }}"
+                    target="{{ $tech->website_url ? '_blank' : '_self' }}"
+                    rel="noopener noreferrer"
+                    class="stack-card-link">
                     <div class="stack-icon-wrap">
                         <img
                             src="{{ $iconUrl }}"
@@ -31,8 +50,8 @@
                         <span class="stack-icon-fallback">{{ $initials }}</span>
                     </div>
                     <span class="stack-name">{{ $tech->name }}</span>
-                </div>
-            </a>
+                </a>
+            </div>
             @endforeach
         </div>
     </div>

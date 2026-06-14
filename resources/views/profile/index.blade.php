@@ -291,7 +291,8 @@
             :isOwner="$isOwner"
             :groupedTechnologies="$groupedTechnologies"
             :categoryLabels="$categoryLabels"
-            :categoryOrder="$categoryOrder" />
+            :categoryOrder="$categoryOrder"
+            :favoriteTechIds="$favoriteTechIds" />
     </div>
 
     {{-- Panel: Logros --}}
@@ -381,6 +382,7 @@
 @vite('resources/js/projects/modalComment.js')
 @vite('resources/js/profile/index.js')
 @vite('resources/js/profile/stackModal.js')
+@vite('resources/js/profile/stackFavorite.js')
 @vite('resources/js/profile/badgesModal.js')
 @vite('resources/js/profile/followersModal.js')
 @vite('resources/js/profile/projectsModal.js')

@@ -66,7 +66,31 @@ class User extends Authenticatable
 
     public function technologies()
     {
-        return $this->belongsToMany(Technology::class);
+        return $this->belongsToMany(Technology::class)->withPivot('is_favorite');
+    }
+
+    public function favoriteTechnologies()
+    {
+        return $this->belongsToMany(Technology::class)
+            ->withPivot('is_favorite')
+            ->wherePivot('is_favorite', true);
+    }
+
+    public function toggleFavoriteTechnology(int $technologyId): bool
+    {
+        $pivot = $this->technologies()->where('technology_id', $technologyId)->first();
+
+        if (! $pivot) {
+            return false;
+        }
+
+        $current = (bool) $pivot->pivot->is_favorite;
+
+        $this->technologies()->updateExistingPivot($technologyId, [
+            'is_favorite' => ! $current,
+        ]);
+
+        return ! $current;
     }
 
     public function bookmarkedProjects()

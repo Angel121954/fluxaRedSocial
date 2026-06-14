@@ -9,6 +9,7 @@ use App\Http\Requests\Profile\UpdateAvatarRequest;
 use App\Http\Requests\Profile\UpdateTechnologiesRequest;
 use App\Models\Conversation;
 use App\Models\Profile;
+use App\Models\Technology;
 use App\Models\User;
 use App\Services\BadgeService;
 use App\Services\CVService;
@@ -194,5 +195,34 @@ class ProfileController extends Controller
         $this->badgeService->scanUser($user);
 
         return response()->json(['success' => true]);
+    }
+
+    public function toggleFavoriteTechnology(Technology $technology): JsonResponse
+    {
+        $user = request()->user();
+
+        $alreadyFav = $user->technologies()
+            ->wherePivot('is_favorite', true)
+            ->where('technology_id', '!=', $technology->id)
+            ->count();
+
+        $isCurrentlyFav = $user->technologies()
+            ->wherePivot('is_favorite', true)
+            ->where('technology_id', $technology->id)
+            ->exists();
+
+        if (! $isCurrentlyFav && $alreadyFav >= 3) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Solo puedes tener hasta 3 tecnologías destacadas',
+            ], 422);
+        }
+
+        $isFavorite = $user->toggleFavoriteTechnology((int) $technology->id);
+
+        return response()->json([
+            'success' => true,
+            'is_favorite' => $isFavorite,
+        ]);
     }
 }

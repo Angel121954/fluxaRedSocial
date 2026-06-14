@@ -48,6 +48,9 @@ class ProfileService
 
         $technologies = $user->technologies()
             ->orderBy('category')->orderBy('name')->get();
+        $favoriteTechIds = $technologies->filter(fn ($t) => (bool) ($t->pivot->is_favorite ?? false))
+            ->pluck('id')
+            ->toArray();
         $allTechnologies = Cache::remember('all_technologies', 3600, fn() =>
             Technology::select('id', 'name', 'slug', 'category', 'icon')
                 ->orderBy('category')->orderBy('name')->get()
@@ -119,6 +122,7 @@ class ProfileService
             'categoryOrder',
             'badgeCategories',
             'tierLabels',
+            'favoriteTechIds',
         ) + ['userTechnologies' => $technologies];
     }
 

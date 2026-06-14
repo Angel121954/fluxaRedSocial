@@ -128,6 +128,7 @@ export default defineConfig({
                 "resources/js/profile/profileOptions.js",
                 "resources/js/profile/shareProfile.js",
                 "resources/js/profile/stackModal.js",
+                "resources/js/profile/stackFavorite.js",
                 "resources/js/profile/badgesModal.js",
                 "resources/js/profile/followersModal.js",
                 "resources/js/profile/projectsModal.js",
