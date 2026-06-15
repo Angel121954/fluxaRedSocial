@@ -23,6 +23,10 @@ export function initTabs(onTabChange = null) {
 
             e.preventDefault();
 
+            // Ocultar widget del mapa en la sidebar al salir del tab Mapa
+            const mapWidget = document.querySelector('.map-sidebar-widget');
+            if (mapWidget) mapWidget.style.display = 'none';
+
             tabs.forEach((t) => t.classList.remove("active"));
             this.classList.add("active");
 
