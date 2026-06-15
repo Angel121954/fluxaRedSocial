@@ -211,10 +211,10 @@ class ProfileController extends Controller
             ->where('technology_id', $technology->id)
             ->exists();
 
-        if (! $isCurrentlyFav && $alreadyFav >= 3) {
+        if (! $isCurrentlyFav && $alreadyFav >= 3 && $user->role != 'admin') {
             return response()->json([
                 'success' => false,
-                'message' => 'Solo puedes tener hasta 3 tecnologías destacadas',
+                'message' => 'Solo puedes tener hasta 3 tecnologías destacadas como desarrollador',
             ], 422);
         }
 
