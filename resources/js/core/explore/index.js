@@ -4,6 +4,7 @@
  */
 
 import '../../shared/scrollLock.js';
+import '../projects/projectMedia.js';
 import './topics.js';
 import './projectMenu.js';
 import { initTabs }       from './tabs.js';

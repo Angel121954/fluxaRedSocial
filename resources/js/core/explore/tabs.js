@@ -52,6 +52,8 @@ export function initTabs(onTabChange = null) {
 
                 publicationsContainer.innerHTML = html;
 
+                window.history.pushState(null, '', url);
+
                 if (onTabChange) onTabChange();
             } catch (error) {
                 window.location.href = url;
