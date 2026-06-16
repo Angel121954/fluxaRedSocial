@@ -227,14 +227,14 @@
                         <span>{{ $dateLabel }}</span>
                     </div>
                     @endif
-                    <div class="msgs-bubble-wrap{{ $isMine ? ' mine' : ' theirs' }}" data-msg-id="{{ $message->id }}">
+                    <div class="msgs-bubble-wrap{{ $isMine ? ' mine' : ' theirs' }}" data-msg-id="{{ $message->id }}" data-created-at="{{ $message->created_at->timestamp }}">
                         @if(!$isMine)
                         <img src="{{ $message->sender?->avatar_url ?? '/img/default-avatar.png' }}"
                             alt="" class="msgs-bubble-avatar"
                             onerror="this.src='/img/default-avatar.png'">
                         @endif
                         <div class="msgs-bubble{{ $isMine ? ' msgs-bubble-mine' : ' msgs-bubble-theirs' }}{{ $message->isMedia() ? ' msgs-bubble--media' : '' }}{{ $message->isEdited() ? ' msgs-bubble-edited' : '' }}">
-                            @if($isMine && !$message->isMedia())
+                            @if($isMine && !$message->isMedia() && $message->created_at->diffInMinutes(now()) < 60)
                             <button class="msgs-edit-btn" data-msg-id="{{ $message->id }}" data-body="{{ $message->body }}" aria-label="Editar mensaje" title="Editar">
                                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M17 3a2.828 2.828 0 114 4L7.5 20.5 2 22l1.5-5.5L17 3z" />

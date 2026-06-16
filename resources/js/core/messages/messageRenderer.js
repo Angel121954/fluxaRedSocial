@@ -66,6 +66,7 @@ export function createOwnBubble(text, status = '', dateStr = null) {
     const wrap = document.createElement('div');
     wrap.className = 'msgs-bubble-wrap mine';
     wrap.dataset.date = dateKey;
+    wrap.dataset.createdAt = now.getTime().toString();
 
     const bubble = document.createElement('div');
     bubble.className = 'msgs-bubble msgs-bubble-mine';

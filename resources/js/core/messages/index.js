@@ -123,6 +123,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const msgId = wrap?.dataset.msgId;
             const bodyEl = wrap?.querySelector('.msgs-bubble-body');
             const body = bodyEl?.textContent ?? '';
+
+            const createdAt = parseInt(wrap?.dataset.createdAt);
+            if (createdAt && (Date.now() - createdAt) > 3600000) {
+                if (window.showToast) window.showToast('Ya no puedes editar este mensaje (pasó más de 1 hora)', 'error');
+                return;
+            }
+
             if (msgId) openEditModal(msgId, body);
         }
     });

@@ -8,7 +8,6 @@ use App\Models\Conversation;
 use App\Models\Message;
 use App\Models\Profile;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class MessagePolicy
 {
@@ -24,18 +23,30 @@ class MessagePolicy
             return false;
         }
 
-        $otherUserId = $conversation->user_a_id === $user->id 
-            ? $conversation->user_b_id 
+        $otherUserId = $conversation->user_a_id === $user->id
+            ? $conversation->user_b_id
             : $conversation->user_a_id;
-        
+
         $otherProfile = Profile::where('user_id', $otherUserId)->first();
-        
+
         return $otherProfile && $otherProfile->accept_messages;
     }
 
     public function update(User $user, Message $message): bool
     {
-        return $user->id === $message->sender_id && ! $message->isMedia();
+        if ($user->id !== $message->sender_id) {
+            return false;
+        }
+
+        if ($message->isMedia()) {
+            return false;
+        }
+
+        if ($message->created_at->diffInMinutes(now()) >= 60) {
+            return false;
+        }
+
+        return true;
     }
 
     public function delete(User $user, Message $message): bool
