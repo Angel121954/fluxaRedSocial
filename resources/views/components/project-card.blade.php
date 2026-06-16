@@ -3,8 +3,8 @@
 @php
 $user = $project->user;
 $timeAgo = $project->created_at?->diffForHumans() ?? '';
-$isLiked = $project->likes?->isNotEmpty() ?? false;
-$isBookmarked = $project->bookmarks?->isNotEmpty() ?? false;
+$isLiked = auth()->check() ? ($project->likes?->contains('user_id', auth()->id()) ?? false) : false;
+$isBookmarked = auth()->check() ? ($project->bookmarks?->contains('user_id', auth()->id()) ?? false) : false;
 $userEndorsement = $project->skillEndorsements?->where('user_id', auth()->id())->first()?->skill_type;
 $totalEndorsements = $project->skillEndorsements?->count() ?? 0;
 
