@@ -10,6 +10,7 @@ use App\Http\Requests\Project\StoreProjectReportRequest;
 use App\Http\Requests\Project\StoreProjectRequest;
 use App\Http\Requests\Project\UpdateProjectRequest;
 use App\Models\Project;
+use App\Models\ProjectMedia;
 use App\Models\ProjectReport;
 use App\Services\ProjectService;
 use Illuminate\Support\Collection;
@@ -72,16 +73,14 @@ class ProjectController extends Controller
     public function edit(Project $project)
     {
         $this->authorize('update', $project);
-        $project->load([
-            'user.profile',
-            'media',
-            'technologies',
-            'likes',
-            'bookmarks',
-            'skillEndorsements',
-        ]);
 
-        return view('projects.edit', compact('project'));
+        if (request()->wantsJson()) {
+            $project->load(['media', 'technologies']);
+
+            return response()->json($project);
+        }
+
+        return redirect()->route('projects.show', $project);
     }
 
     public function update(UpdateProjectRequest $request, Project $project)
@@ -96,8 +95,31 @@ class ProjectController extends Controller
             $this->projectService->attachMedia($project, $files);
         }
 
+        if ($request->wantsJson()) {
+            $project->load(['media', 'technologies']);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Proyecto actualizado.',
+                'project' => $project,
+            ]);
+        }
+
         return redirect()->route('projects.show', $project)
             ->with('success', 'Proyecto actualizado.');
+    }
+
+    public function deleteMedia(Project $project, ProjectMedia $media)
+    {
+        $this->authorize('update', $project);
+
+        if ($media->project_id !== $project->id) {
+            abort(404);
+        }
+
+        $this->projectService->deleteProjectMedia($media);
+
+        return response()->json(['success' => true]);
     }
 
     public function destroy(Project $project)

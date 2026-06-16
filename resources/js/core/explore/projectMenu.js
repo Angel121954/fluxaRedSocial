@@ -104,6 +104,13 @@ function handleProjectAction(action, projectId, dropItem, closeMenu) {
             }
             break;
 
+        case 'edit':
+            closeMenu?.();
+            if (typeof window.abrirEditModal === 'function') {
+                window.abrirEditModal(projectId);
+            }
+            break;
+
         case 'delete':
             const card = dropItem.closest('.post-card');
             const title = card?.querySelector('.project-title')?.textContent?.trim() ?? 'este proyecto';

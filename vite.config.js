@@ -78,6 +78,7 @@ export default defineConfig({
 
                 // Projects
                 "resources/css/projects/newProject.css",
+                "resources/css/projects/editProject.css",
                 "resources/css/projects/projectMedia.css",
 
                 // Public
@@ -177,6 +178,7 @@ export default defineConfig({
                 // Projects JS
                 "resources/js/projects/modalComment.js",
                 "resources/js/core/projects/newProject.js",
+                "resources/js/core/projects/editProject.js",
                 "resources/js/core/projects/projectMedia.js",
 
                 // Onboarding JS

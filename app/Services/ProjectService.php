@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Models\Project;
-use App\Models\ProjectLike;
 use App\Models\ProjectBookmark;
+use App\Models\ProjectLike;
+use App\Models\ProjectMedia;
 use App\Models\SkillEndorsement;
 use App\Models\Technology;
 use App\Models\User;
@@ -201,6 +202,22 @@ class ProjectService
             'user_endorsement' => $dbUserEndorsement,
             'is_endorsed' => $isEndorsed,
         ];
+    }
+
+    public function deleteProjectMedia(ProjectMedia $media): void
+    {
+        if ($media->public_id) {
+            $resourceType = $media->type === 'video' ? 'video' : 'image';
+            $this->cloudinaryService->delete($media->public_id, $resourceType);
+        }
+
+        $media->delete();
+
+        Log::info('Media eliminada del proyecto', [
+            'media_id' => $media->id,
+            'project_id' => $media->project_id,
+            'public_id' => $media->public_id,
+        ]);
     }
 
     public function attachMedia(Project $project, array $files): void

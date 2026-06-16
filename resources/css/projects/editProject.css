@@ -1,0 +1,241 @@
+/* ═══════════════════════════════════════════════════════
+   editProject.css  —  Modal Editar Proyecto
+   Espeja los selectores ID de newProject.css para que
+   los IDs #edit-* tengan los mismos estilos.
+═══════════════════════════════════════════════════════ */
+
+/* Overlay — igual que #modal-overlay en newProject.css */
+#edit-modal-overlay {
+  display: flex;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: var(--overlay);
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .25s ease, visibility .25s ease;
+}
+
+#edit-modal-overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Card — igual que #modal-card */
+#edit-modal-card {
+  background: var(--surface);
+  border-radius: 12px;
+  width: 100%;
+  max-width: 520px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, .12), 0 1px 4px rgba(0, 0, 0, .06);
+  opacity: 0;
+  transform: translateY(20px) scale(.97);
+  transition: transform .3s cubic-bezier(.22, 1, .36, 1),
+    opacity .25s ease;
+}
+
+#edit-modal-overlay.open #edit-modal-card {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Header — igual que #modal-header */
+#edit-modal-header {
+  padding: 1.25rem 1.5rem 1rem;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-shrink: 0;
+}
+
+#edit-modal-title {
+  font-size: var(--text-md);
+  font-weight: 600;
+  color: var(--ink-900);
+  line-height: 1.4;
+}
+
+#edit-modal-subtitle {
+  font-size: var(--text-sm);
+  color: var(--ink-400);
+  margin-top: .1875rem;
+}
+
+/* Body — igual que #modal-body */
+#edit-modal-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.25rem 1.5rem;
+}
+
+/* Technologies — igual que #selected-tags */
+#edit-selected-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .375rem;
+}
+
+#edit-selected-tags:not(:empty) {
+  padding: .5rem .625rem;
+  background: var(--accent-dim);
+  border: 1px solid var(--accent-ring);
+  border-radius: var(--r-sm);
+}
+
+/* Tech tags — igual que #tech-tags */
+#edit-tech-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .375rem;
+  max-height: 90px;
+  overflow-y: auto;
+}
+
+/* Media type — igual que #media-types */
+#edit-media-types {
+  display: flex;
+  gap: .5rem;
+}
+
+/* Drop zone — igual que #drop-zone */
+#edit-drop-zone {
+  border: 1.5px dashed var(--border-strong);
+  border-radius: var(--r-md);
+  padding: 1.75rem 1rem;
+  text-align: center;
+  cursor: pointer;
+  background: var(--bg);
+  transition: border-color .15s, background .15s;
+}
+
+#edit-drop-zone:hover,
+#edit-drop-zone.over {
+  border-color: var(--accent);
+  background: var(--accent-dim);
+}
+
+#edit-drop-zone:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Media grid — igual que #media-grid */
+#edit-media-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: .5rem;
+}
+
+/* Footer — igual que #modal-footer */
+#edit-modal-footer {
+  padding: 1rem 1.5rem 1.25rem;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .75rem;
+  flex-shrink: 0;
+}
+
+/* Success state — igual que #success-state */
+#edit-success-state {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2.75rem 1rem;
+  gap: .75rem;
+  text-align: center;
+}
+
+#edit-success-state h3 {
+  font-size: var(--text-md);
+  font-weight: 600;
+  color: var(--ink-900);
+}
+
+#edit-success-state p {
+  font-size: var(--text-sm);
+  color: var(--ink-400);
+}
+
+/* Existing media grid */
+.edit-media-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: .5rem;
+  margin-top: .5rem;
+}
+
+.edit-media-grid .thumb {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  aspect-ratio: 1;
+  background: var(--bg-subtle);
+  border: 1px solid var(--border);
+}
+
+.edit-media-grid .thumb img,
+.edit-media-grid .thumb video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.edit-media-grid .thumb .rm {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0, 0, 0, .55);
+  color: #fff;
+  font-size: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .15s;
+  opacity: 0;
+}
+
+.edit-media-grid .thumb:hover .rm {
+  opacity: 1;
+}
+
+.edit-media-grid .thumb .rm:hover {
+  background: rgba(185, 28, 28, .85);
+}
+
+/* Responsive — igual que newProject.css */
+@media (max-width: 480px) {
+  #edit-media-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  #edit-modal-header,
+  #edit-modal-body,
+  #edit-modal-footer {
+    padding-left: 1.125rem;
+    padding-right: 1.125rem;
+  }
+}
+
+@media (max-width: 640px) {
+  #edit-modal-card {
+    max-height: 100vh;
+    border-radius: 0;
+  }
+}

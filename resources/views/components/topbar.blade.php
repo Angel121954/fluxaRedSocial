@@ -190,6 +190,7 @@
 {{-- Modal nuevo proyecto (solo usuarios registrados) --}}
 @if(Auth::user()->role !== 'guest')
 <x-new-project />
+<x-edit-project />
 @if(Auth::user()->account_type === 'company')
 <x-new-job-offer />
 @endif

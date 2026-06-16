@@ -503,6 +503,9 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
         Route::post('/projects/{project}/endorse', [ProjectController::class, 'endorse'])
             ->name('projects.endorse');
 
+        Route::delete('/projects/{project}/media/{media}', [ProjectController::class, 'deleteMedia'])
+            ->name('projects.media.destroy');
+
         /*
          |--------------------------------------------------------------------------
          | Comentarios
