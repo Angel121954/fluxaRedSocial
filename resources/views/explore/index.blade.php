@@ -33,41 +33,8 @@
     </div>
     @endif
 
-    <!-- Publications Container -->
-    <div id="publications-container">
-      @if(request()->is('explore/map'))
-        <div id="dev-map" class="map-wrapper"></div>
-      @else
-        <x-project-list :projects="$projects" />
-      @endif
-    </div>
-  </div>
-
-  <!-- ──── SIDEBAR ──── -->
-  <aside class="sidebar">
-    @if(request()->is('explore/map'))
-    <!-- Widget: Devs en el mapa -->
-    <div class="widget map-sidebar-widget">
-      <div class="widget-header">
-        <h3 class="widget-title">Devs en el mapa</h3>
-      </div>
-      <div id="nearby-devs" class="nearby-devs">
-        <p class="text-sm" style="color: var(--ink-400); padding: 0.75rem 0;">
-          Cargando...
-        </p>
-      </div>
-    </div>
-    @endif
-
-    @if(Auth::user()->role != 'guest')
-    <!-- Temas populares -->
-    <div class="widget">
-      <div class="widget-header">
-        <h3 class="widget-title">Temas populares</h3>
-        @if($topTechnologies->count() > 5)
-        <button class="widget-link" id="showMoreTopics">Ver más →</button>
-        @endif
-      </div>
+    @if(Auth::user()->role != 'guest' && $topTechnologies->count() > 0 && !request()->is('explore/map'))
+    <div class="topics-bar">
       <div class="topics-grid" id="topicsGrid">
         @foreach($topTechnologies->take(5) as $tech)
         <a href="{{ route('explore.topic', $tech->slug) }}" class="topic-pill">#{{ $tech->name }}</a>
@@ -75,11 +42,23 @@
         @foreach($topTechnologies->skip(5)->take(10) as $tech)
         <a href="{{ route('explore.topic', $tech->slug) }}" class="topic-pill more-topic" style="display: none">#{{ $tech->name }}</a>
         @endforeach
+        @if($topTechnologies->count() > 5)
+        <button class="topic-pill topic-pill-more" id="showMoreTopics">+{{ $topTechnologies->count() - 5 }}</button>
+        @endif
       </div>
     </div>
     @endif
 
-  </aside>
+    <!-- Publications Container -->
+    <div id="publications-container">
+      @if(request()->is('explore/map'))
+        <div id="dev-map" class="map-wrapper"></div>
+        <div id="nearby-devs" class="nearby-devs"></div>
+      @else
+        <x-project-list :projects="$projects" />
+      @endif
+    </div>
+  </div>
 </div>
 
 <x-modal-comments />

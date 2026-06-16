@@ -2,14 +2,6 @@
    RESPONSIVE
 ───────────────────────────────────────────────── */
 @media (max-width: 1024px) {
-    .feed-layout {
-        grid-template-columns: 1fr;
-    }
-
-    .sidebar {
-        display: none;
-    }
-
     .nav-search-wrap {
         display: none;
     }

@@ -9,19 +9,8 @@
       <span class="feed-tab active">Tu Feed</span>
     </div>
 
-    <div id="publications-container">
-      <x-project-list :projects="$projects" />
-    </div>
-  </div>
-
-  <aside class="sidebar">
-    <div class="widget">
-      <div class="widget-header">
-        <h3 class="widget-title">Temas populares</h3>
-        @if($topTechnologies->count() > 5)
-        <button class="widget-link" id="showMoreTopics">Ver más →</button>
-        @endif
-      </div>
+    @if($topTechnologies->count() > 0)
+    <div class="topics-bar">
       <div class="topics-grid" id="topicsGrid">
         @foreach($topTechnologies->take(5) as $tech)
         <a href="{{ route('explore.topic', $tech->slug) }}" class="topic-pill">#{{ $tech->name }}</a>
@@ -29,10 +18,17 @@
         @foreach($topTechnologies->skip(5)->take(10) as $tech)
         <a href="{{ route('explore.topic', $tech->slug) }}" class="topic-pill more-topic" style="display: none">#{{ $tech->name }}</a>
         @endforeach
+        @if($topTechnologies->count() > 5)
+        <button class="topic-pill topic-pill-more" id="showMoreTopics">+{{ $topTechnologies->count() - 5 }}</button>
+        @endif
       </div>
     </div>
+    @endif
 
-  </aside>
+    <div id="publications-container">
+      <x-project-list :projects="$projects" />
+    </div>
+  </div>
 </div>
 
 <x-modal-comments />

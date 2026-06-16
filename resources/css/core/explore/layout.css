@@ -1,21 +1,38 @@
 /* ─────────────────────────────────────────────────
-   LAYOUT: Feed + Sidebar
+   LAYOUT: Feed centrado (estilo Facebook)
 ───────────────────────────────────────────────── */
 .feed-layout {
-    max-width: 1160px;
+    max-width: 720px;
     margin: 0 auto;
     padding: 1.75rem 1.5rem;
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) 260px;
-    gap: 1.75rem;
-    align-items: start;
 }
 
-/* ─────────────────────────────────────────────────
-   FEED COLUMN
-───────────────────────────────────────────────── */
 .feed-main {
     min-width: 0;
+}
+
+.topics-bar {
+    margin-bottom: 1.25rem;
+}
+
+.topics-bar .topics-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+}
+
+.topic-pill-more {
+    background: var(--ink-100) !important;
+    border-color: transparent !important;
+    color: var(--ink-500) !important;
+    font-weight: 600 !important;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.topic-pill-more:hover {
+    background: var(--accent-dim) !important;
+    color: var(--accent) !important;
 }
 
 /* Feed tabs */
