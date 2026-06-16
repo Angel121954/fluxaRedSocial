@@ -88,8 +88,6 @@
     align-items: center;
     justify-content: center;
     background: rgba(11, 15, 26, 0.55);
-    backdrop-filter: blur(2px);
-    -webkit-backdrop-filter: blur(2px);
     pointer-events: none;
     transition: background 0.25s;
 }
