@@ -40,13 +40,6 @@ export function initLoadMore(container) {
 
                 if (nextWrapper) {
                     container.appendChild(nextWrapper);
-                    
-                    const newStatus = nextWrapper.querySelector('.load-more-status');
-                    if (newStatus) {
-                        const total = newStatus.dataset.total;
-                        const loaded = container.querySelectorAll('.post-card').length;
-                        newStatus.textContent = `Has visto ${loaded} de ${total} proyectos`;
-                    }
                 } else {
                     const emptyDiv = document.createElement('div');
                     emptyDiv.className = 'feed-empty';

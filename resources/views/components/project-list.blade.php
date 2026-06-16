@@ -20,9 +20,5 @@
         Cargar más proyectos
     </button>
 
-    <p class="load-more-status"
-        data-total="{{ $projects->total() }}">
-        Has visto {{ $projects->count() }} de {{ $projects->total() }} proyectos
-    </p>
 </div>
 @endif
