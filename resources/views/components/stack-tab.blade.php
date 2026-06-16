@@ -15,8 +15,6 @@
         <div class="stack-grid">
             @foreach($items as $tech)
             @php
-            $iconUrl = $tech->iconUrl();
-            $initials = $tech->initials();
             $isFav = in_array($tech->id, $favoriteTechIds);
             @endphp
             <div class="stack-card">
@@ -42,12 +40,7 @@
                     rel="noopener noreferrer"
                     class="stack-card-link">
                     <div class="stack-icon-wrap">
-                        <img
-                            src="{{ $iconUrl }}"
-                            alt="{{ $tech->name }}"
-                            class="stack-icon-img"
-                            onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
-                        <span class="stack-icon-fallback">{{ $initials }}</span>
+                        <i class="{{ $tech->deviconClass() }} colored stack-icon-css"></i>
                     </div>
                     <span class="stack-name">{{ $tech->name }}</span>
                 </a>

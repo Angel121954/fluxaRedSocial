@@ -107,9 +107,7 @@
                         <tr>
                             <td class="salary-tech-cell">
                                 @if($item['slug'])
-                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/{{ $item['slug'] }}/{{ $item['slug'] }}-original.svg"
-                                    alt="{{ $item['technology'] }}" class="salary-tech-icon"
-                                    onerror="this.style.display='none'">
+                                <i class="devicon-{{ $item['slug'] }}-plain colored salary-tech-icon"></i>
                                 @endif
                                 {{ $item['technology'] }}
                             </td>

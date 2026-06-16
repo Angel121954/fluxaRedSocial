@@ -477,6 +477,9 @@ button.stack-card-heart.is-favorite:hover {
     width: 32px;
     height: 32px;
     flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .stack-icon-img {
@@ -497,5 +500,11 @@ button.stack-card-heart.is-favorite:hover {
     color: var(--accent, #0d8e91);
     background: var(--surface-raised, #f0fdfa);
     border-radius: 6px;
+}
+
+.stack-icon-css {
+    font-size: 28px;
+    line-height: 1;
+}
     text-align: center;
 }
