@@ -7,6 +7,7 @@ namespace App\Jobs;
 use App\Models\User;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
+use Illuminate\Support\Facades\Cache;
 
 class UploadAvatarJob implements ShouldQueue
 {
@@ -42,5 +43,7 @@ class UploadAvatarJob implements ShouldQueue
             ['user_id' => $this->userId],
             ['avatar'  => $result['secure_url']]
         );
+
+        Cache::store('redis')->forget('cv_avatar_' . $this->userId);
     }
 }

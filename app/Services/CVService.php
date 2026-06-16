@@ -9,6 +9,7 @@ use Endroid\QrCode\QrCode;
 use Endroid\QrCode\Writer\SvgWriter;
 use Exception;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Spatie\Browsershot\Browsershot;
 
@@ -45,7 +46,7 @@ class CVService
 
         $projects = ($cvSettings['show_projects'] ?? true)
             ? $user->projects()
-            ->with(['media', 'technologies', 'likes', 'bookmarks', 'skillEndorsements'])
+            ->with(['media', 'technologies'])
             ->where('privacy', 'public')
             ->latest()
             ->get()
@@ -53,11 +54,20 @@ class CVService
 
         $workExperiences = $user->workExperiences()->orderBy('started_at', 'desc')->get();
         $educations = $user->educations()->orderBy('graduated_year', 'desc')->get();
-        $avatarBase64 = $this->urlToBase64($profile->avatar);
-        $logoBase64 = 'data:image/png;base64,' . base64_encode(
-            file_get_contents(public_path('img/logo.png'))
+
+        $avatarBase64 = Cache::store('redis')->remember('cv_avatar_' . $user->id, 3600, fn() =>
+            $this->urlToBase64($profile->avatar)
         );
-        $qrBase64 = $this->generateQrCode('https://' . $urlPerfil);
+
+        $logoBase64 = Cache::store('redis')->rememberForever('cv_logo_base64', fn() =>
+            'data:image/png;base64,' . base64_encode(
+                file_get_contents(public_path('img/logo.png'))
+            )
+        );
+
+        $qrBase64 = Cache::store('redis')->remember('cv_qr_' . $user->id, 86400, fn() =>
+            $this->generateQrCode('https://' . $urlPerfil)
+        );
 
         $rolProfesional = $user->role
             ? ucfirst($user->role) . ' Developer'
@@ -157,13 +167,15 @@ class CVService
     {
         return $user->technologies()->orderBy('name')->get()
             ->map(function ($tech) {
-                $url = $tech->iconUrl();
+                $tech->iconoB64 = Cache::store('redis')->remember('cv_tech_icon_' . $tech->id, 86400, function () use ($tech) {
+                    try {
+                        $url = $tech->iconUrl();
 
-                try {
-                    $tech->iconoB64 = 'data:image/svg+xml;base64,' . base64_encode(file_get_contents($url));
-                } catch (Exception $e) {
-                    $tech->iconoB64 = null;
-                }
+                        return 'data:image/svg+xml;base64,' . base64_encode(file_get_contents($url));
+                    } catch (Exception $e) {
+                        return null;
+                    }
+                });
 
                 return $tech;
             });

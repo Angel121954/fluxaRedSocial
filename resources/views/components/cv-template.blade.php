@@ -14,14 +14,16 @@
 
 @php
 $urlPerfil = $urlPerfil ?? (request()->getHost() . '/' . $user->username);
-$urlQrExterno = $urlQrExterno ?? null;
+$urlQrExterno = $urlQrExterno ?? ('https://api.qrserver.com/v1/create-qr-code/?size=100x100&data='
+    . urlencode('https://' . $urlPerfil)
+    . '&color=0d9488&bgcolor=ffffff&margin=6');
 $cantidadSeguidores = $cantidadSeguidores ?? 0;
 $cantidadSiguiendo = $cantidadSiguiendo ?? 0;
 $rolProfesional = $rolProfesional ?? 'Software Developer';
 $estadisticas = $estadisticas ?? [];
 $srcAvatar = $avatarBase64 ?? ($profile->avatar ? str_replace('type=normal', 'type=large', $profile->avatar) : '');
 $srcLogo = $logoBase64 ?? 'data:image/png;base64,'.base64_encode(file_get_contents(public_path('img/logo.png')));
-$srcQr = $qrBase64;
+$srcQr = $qrBase64 ?? $urlQrExterno;
 $paleta = [
 'fondo' => '#f8fafc', 'tarjeta' => '#ffffff', 'primario' => '#14b8a6',
 'primarioOscuro' => '#0d9488', 'secundario' => '#f0fdfa', 'borde' => '#e2e8f0',

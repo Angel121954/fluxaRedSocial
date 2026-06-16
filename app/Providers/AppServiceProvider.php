@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
-use App\View\Composers\CvTemplateComposer;
 use App\View\Composers\ProfileComposer;
 use App\View\Composers\TopbarComposer;
 use App\View\Composers\TopTechnologiesComposer;
@@ -33,7 +32,6 @@ class AppServiceProvider extends ServiceProvider
             URL::forceScheme('https');
         }
 
-        View::composer('components.cv-template', CvTemplateComposer::class);
         View::composer('components.topbar', TopbarComposer::class);
         View::composer('components.bottom-nav', TopbarComposer::class);
 

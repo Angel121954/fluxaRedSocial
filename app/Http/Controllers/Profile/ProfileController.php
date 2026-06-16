@@ -19,6 +19,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
 class ProfileController extends Controller
@@ -156,6 +157,7 @@ class ProfileController extends Controller
             $avatarUrl = $this->profileService->updateAvatar($user->id, $request->file('avatar'));
 
             $this->badgeService->scanUser($user);
+            Cache::store('redis')->forget('cv_avatar_' . $user->id);
 
             return response()->json(['success' => true, 'url' => $avatarUrl]);
         } catch (Exception $e) {
@@ -180,6 +182,8 @@ class ProfileController extends Controller
                     .strtolower($user->username)
                     .'&backgroundColor=12b3b6',
             ]);
+
+            Cache::store('redis')->forget('cv_avatar_' . $user->id);
 
             return response()->json(['success' => true]);
         } catch (Exception $e) {
