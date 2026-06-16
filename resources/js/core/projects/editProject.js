@@ -133,7 +133,11 @@
         if (el('edit-btn-back')) el('edit-btn-back').style.display = 'none';
         if (el('edit-btn-next')) el('edit-btn-next').style.display = '';
         if (el('edit-btn-next')) el('edit-btn-next').disabled = true;
-        if (el('edit-btn-submit')) el('edit-btn-submit').style.display = 'none';
+        if (el('edit-btn-submit')) {
+            el('edit-btn-submit').style.display = 'none';
+            el('edit-btn-submit').disabled = false;
+            el('edit-btn-submit').textContent = 'Guardar cambios';
+        }
         if (el('edit-btn-cancel')) el('edit-btn-cancel').style.display = '';
         if (el('edit-req-note')) el('edit-req-note').style.display = '';
 
