@@ -14,11 +14,6 @@
     margin-bottom: 0;
 }
 
-.msgs-bubble--media .msgs-react-btn {
-    top: auto;
-    bottom: 4px;
-}
-
 /* ── Image-only: remove teal background on mine ── */
 .msgs-bubble-mine:has(.msgs-media-img-wrap + .msgs-bubble-time) {
     background: none;

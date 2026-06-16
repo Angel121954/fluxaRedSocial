@@ -214,26 +214,6 @@
 }
 
 @media (hover: none) {
-    .msgs-react-btn {
-        opacity: 1;
-        width: 30px;
-        height: 30px;
-        background: var(--surface);
-        box-shadow: var(--shadow-xs);
-    }
-
-    .msgs-bubble-wrap.mine .msgs-react-btn {
-        left: -36px;
-    }
-
-    .msgs-bubble-wrap.theirs .msgs-react-btn {
-        right: -36px;
-    }
-
-    .msgs-react-btn:hover {
-        background: var(--surface);
-    }
-
     .msgs-toolbar-btn:hover {
         color: var(--ink-300);
         background: none;

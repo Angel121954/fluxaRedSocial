@@ -84,21 +84,6 @@ export function createOwnBubble(text, status = '', dateStr = null) {
 
     bubble.appendChild(timeSpan);
 
-    const reactions = document.createElement('div');
-    reactions.className = 'msgs-bubble-reactions';
-    bubble.appendChild(reactions);
-
-    const reactBtn = document.createElement('button');
-    reactBtn.className = 'msgs-react-btn';
-    reactBtn.setAttribute('aria-label', 'Reaccionar');
-    reactBtn.innerHTML = `
-        <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-    `;
-    bubble.appendChild(reactBtn);
-
     wrap.appendChild(bubble);
     return wrap;
 }
@@ -158,23 +143,6 @@ export function appendReceivedBubble(msg, bubbleList) {
     timeSpan.className = 'msgs-bubble-time';
     timeSpan.textContent = formatTime(msg.created_at);
     bubble.appendChild(timeSpan);
-
-    const reactions = document.createElement('div');
-    reactions.className = 'msgs-bubble-reactions';
-    reactions.dataset.msgId = msg.id ?? '';
-    bubble.appendChild(reactions);
-
-    const reactBtn = document.createElement('button');
-    reactBtn.className = 'msgs-react-btn';
-    reactBtn.dataset.msgId = msg.id ?? '';
-    reactBtn.setAttribute('aria-label', 'Reaccionar');
-    reactBtn.innerHTML = `
-        <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-    `;
-    bubble.appendChild(reactBtn);
 
     wrap.appendChild(bubble);
     bubbleList.appendChild(wrap);
@@ -298,21 +266,6 @@ export function createOwnMediaBubble(mediaData, text, dateStr, status) {
     timeSpan.textContent = time;
     bubble.appendChild(timeSpan);
 
-    const reactions = document.createElement('div');
-    reactions.className = 'msgs-bubble-reactions';
-    bubble.appendChild(reactions);
-
-    const reactBtn = document.createElement('button');
-    reactBtn.className = 'msgs-react-btn';
-    reactBtn.setAttribute('aria-label', 'Reaccionar');
-    reactBtn.innerHTML = `
-        <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-    `;
-    bubble.appendChild(reactBtn);
-
     wrap.appendChild(bubble);
     return wrap;
 }
@@ -381,23 +334,6 @@ export function appendReceivedMediaBubble(msg, bubbleList) {
     timeSpan.className = 'msgs-bubble-time';
     timeSpan.textContent = formatTime(msg.created_at);
     bubble.appendChild(timeSpan);
-
-    const reactions = document.createElement('div');
-    reactions.className = 'msgs-bubble-reactions';
-    reactions.dataset.msgId = msg.id ?? '';
-    bubble.appendChild(reactions);
-
-    const reactBtn = document.createElement('button');
-    reactBtn.className = 'msgs-react-btn';
-    reactBtn.dataset.msgId = msg.id ?? '';
-    reactBtn.setAttribute('aria-label', 'Reaccionar');
-    reactBtn.innerHTML = `
-        <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-    `;
-    bubble.appendChild(reactBtn);
 
     wrap.appendChild(bubble);
     bubbleList.appendChild(wrap);

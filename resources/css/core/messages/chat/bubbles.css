@@ -39,43 +39,6 @@
     flex-direction: row;
 }
 
-.msgs-react-btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 26px;
-    height: 26px;
-    border-radius: 50%;
-    border: 1px solid var(--border-strong);
-    background: var(--surface);
-    color: var(--ink-400);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    opacity: 0;
-    transition: opacity 0.15s, color 0.15s;
-    box-shadow: var(--shadow-xs);
-    z-index: 2;
-}
-
-.msgs-bubble-wrap.mine .msgs-react-btn {
-    left: -34px;
-}
-
-.msgs-bubble-wrap.theirs .msgs-react-btn {
-    right: -34px;
-}
-
-.msgs-bubble-wrap:hover .msgs-react-btn {
-    opacity: 1;
-}
-
-.msgs-react-btn:hover {
-    color: var(--accent);
-    border-color: var(--accent);
-}
-
 .msgs-bubble-avatar {
     width: 26px;
     height: 26px;
