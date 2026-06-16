@@ -145,6 +145,12 @@
                         role="menuitem">
                         Sugerencias
                     </a>
+                    <a href="{{ route('about-fluxa') }}"
+                        class="nav-dropdown-item {{ request()->routeIs('about-fluxa*') ? 'active' : '' }}"
+                        @if(request()->routeIs('about-fluxa*')) aria-current="page" @endif
+                        role="menuitem">
+                        Sobre Fluxa
+                    </a>
                     <button type="button"
                         class="nav-dropdown-item"
                         onclick="abrirReportProblemModal()"

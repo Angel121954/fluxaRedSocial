@@ -80,31 +80,6 @@
     </div>
     @endif
 
-    <!-- Sobre Fluxa -->
-    <div class="about-fluxa-card">
-      <div class="about-header">
-        <img
-          src="{{ asset('img/logo.png') }}"
-          alt="Fluxa Logo"
-          class="about-logo" />
-        <h4>Sobre Fluxa</h4>
-      </div>
-
-      <p class="about-description">
-        Fluxa es una red social enfocada en compartir proyectos,
-        conocimiento y crecimiento profesional de forma segura y
-        transparente.
-      </p>
-
-      <ul class="about-list">
-        <li>- Perfiles verificados</li>
-        <li>- Normas claras de comunidad</li>
-        <li>- Protección de datos</li>
-        <li>- Moderación responsable</li>
-      </ul>
-
-      <a href="{{ route('about-fluxa') }}" class="about-link"> Conocer más → </a>
-    </div>
   </aside>
 </div>
 
