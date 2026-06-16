@@ -66,7 +66,7 @@ La solución más simple que funciona es la mejor. No agregar capas de indirecci
 | Laravel Telescope | Debug y observabilidad (dev) |
 | Laravel Sail | Entorno Docker (dev) |
 | Laravel Pint | Linting PHP (dev) |
-| Livewire | Componentes reactivos del lado del servidor |
+| Livewire | Framework reactivo del lado del servidor |
 | Spatie Browsershot | Generación de PDF con Puppeteer |
 | Cloudinary Laravel | Subida y transformación de imágenes |
 | Endroid QR Code | Generación de códigos QR |

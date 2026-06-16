@@ -77,6 +77,7 @@ class TechnologySeeder extends Seeder
             ['name' => 'Yii',          'slug' => 'yii',                                      'category' => 'framework', 'website_url' => 'https://www.yiiframework.com'],
             ['name' => 'Phoenix',      'slug' => 'phoenix',                                  'category' => 'framework', 'website_url' => 'https://www.phoenixframework.org'],
             ['name' => 'Fiber',        'slug' => 'fiber',                                    'category' => 'framework', 'website_url' => 'https://gofiber.io'],
+            ['name' => 'Livewire',     'slug' => 'livewire',                                 'category' => 'framework', 'website_url' => 'https://livewire.laravel.com'],
 
             // ═══════════════════════════════════════════════
             // LIBRERÍAS
@@ -87,7 +88,6 @@ class TechnologySeeder extends Seeder
             ['name' => 'Tailwind CSS', 'slug' => 'tailwindcss',   'icon' => 'tailwindcss.png', 'category' => 'library',   'website_url' => 'https://tailwindcss.com'],
             ['name' => 'Bootstrap',    'slug' => 'bootstrap',     'icon' => 'bootstrap.png',  'category' => 'library',   'website_url' => 'https://getbootstrap.com'],
             ['name' => 'TensorFlow',   'slug' => 'tensorflow',    'icon' => 'tensorflow.png', 'category' => 'library',   'website_url' => 'https://www.tensorflow.org'],
-            ['name' => 'Livewire',     'slug' => 'livewire',                                 'category' => 'library',   'website_url' => 'https://livewire.laravel.com'],
             ['name' => 'PyTorch',      'slug' => 'pytorch',                                  'category' => 'library',   'website_url' => 'https://pytorch.org'],
             ['name' => 'jQuery',       'slug' => 'jquery',                                   'category' => 'library',   'website_url' => 'https://jquery.com'],
             ['name' => 'Alpine.js',    'slug' => 'alpinejs',                                 'category' => 'library',   'website_url' => 'https://alpinejs.dev'],
