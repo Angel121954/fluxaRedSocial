@@ -22,9 +22,14 @@
                     Feed
                 </a>
                 <a href="{{ route('explore.index') }}"
-                    class="nav-link {{ request()->routeIs('explore*') ? 'active' : '' }}"
-                    @if(request()->routeIs('explore*')) aria-current="page" @endif>
+                    class="nav-link {{ request()->routeIs('explore*') && !request()->routeIs('explore.map') ? 'active' : '' }}"
+                    @if(request()->routeIs('explore*') && !request()->routeIs('explore.map')) aria-current="page" @endif>
                     Explorar
+                </a>
+                <a href="{{ route('explore.map') }}"
+                    class="nav-link {{ request()->routeIs('explore.map') ? 'active' : '' }}"
+                    @if(request()->routeIs('explore.map')) aria-current="page" @endif>
+                    Mapa
                 </a>
                 <a href="{{ route('diary.index') }}"
                     class="nav-link {{ request()->routeIs('diary*') ? 'active' : '' }}"
@@ -221,6 +226,15 @@
                 <line x1="3" y1="10" x2="21" y2="10" />
             </svg>
             Diario
+        </a>
+
+        <a href="{{ route('explore.map') }}"
+            class="mobile-menu-link {{ request()->routeIs('explore.map') ? 'active' : '' }}"
+            @if(request()->routeIs('explore.map')) aria-current="page" @endif>
+            <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+            </svg>
+            Mapa
         </a>
 
         <!-- <a href="{{ route('jobs.index') }}"

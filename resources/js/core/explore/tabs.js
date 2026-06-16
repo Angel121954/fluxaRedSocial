@@ -1,5 +1,5 @@
 /**
- * Inicializa los tabs de navegación (trending, recent, map)
+ * Inicializa los tabs de navegación (trending, recent)
  * @param {Function} onTabChange - Callback que se ejecuta al cambiar de tab
  */
 export function initTabs(onTabChange = null) {
@@ -15,17 +15,9 @@ export function initTabs(onTabChange = null) {
     tabs.forEach((tab) => {
         tab.addEventListener("click", async function (e) {
             const url = this.dataset.url;
-
-            // Tabs con data-navigate hacen navegación completa (Mapa)
-            if (this.dataset.navigate === "true") {
-                return; // El href del <a> maneja la navegación
-            }
+            if (!url) return;
 
             e.preventDefault();
-
-            // Ocultar widget del mapa en la sidebar al salir del tab Mapa
-            const mapWidget = document.querySelector('.map-sidebar-widget');
-            if (mapWidget) mapWidget.style.display = 'none';
 
             tabs.forEach((t) => t.classList.remove("active"));
             this.classList.add("active");

@@ -1,9 +1,3 @@
-/**
- * map.js — Mapa de desarrolladores con Leaflet + MarkerCluster
- * Se activa solo cuando el tab "Mapa" está visible.
- * @vite('resources/js/core/explore/map.js')
- */
-
 import L from 'leaflet';
 import 'leaflet.markercluster';
 
@@ -105,42 +99,8 @@ document.addEventListener('DOMContentLoaded', () => {
             .join('');
     }
 
-    function destroyMap() {
-        if (map) {
-            map.remove();
-            map = null;
-            markerClusterGroup = null;
-        }
+    initMap();
 
-        const sidebar = document.getElementById('nearby-devs');
-        if (sidebar) sidebar.innerHTML = '';
-    }
-
-    // Inicializar cuando el tab de mapa se activa
-    const mapTab = document.querySelector('.feed-tab[data-tab="map"]');
-    if (mapTab) {
-        mapTab.addEventListener('click', () => {
-            // Inicializar en el siguiente frame para que el DOM del mapa esté visible
-            requestAnimationFrame(() => {
-                initMap();
-                map.invalidateSize();
-            });
-        });
-    }
-
-    // Si el mapa ya está visible al cargar (p.ej. ruta directa /explore/map)
-    if (container.offsetParent !== null) {
-        initMap();
-    }
-
-    // Destruir al cambiar a otro tab (excepto si el propio tab mapa ya está activo)
-    document.querySelectorAll('.feed-tab:not([data-tab="map"])').forEach((tab) => {
-        tab.addEventListener('click', () => {
-            destroyMap();
-        });
-    });
-
-    // Reinicializar si el contenedor cambia de visibility (pestañas de navegador)
     document.addEventListener('visibilitychange', () => {
         if (!document.hidden && map) {
             map.invalidateSize();
