@@ -195,14 +195,14 @@ $paleta = [
 
                         {{-- RESUMEN --}}
                         @if(!empty($profile->bio))
-                        <div>
+                        <div style="page-break-inside:avoid;">
                             <h2 style="margin:0 0 8px;font-size:14px;font-weight:800;color:{{ $paleta['texto'] }};border-bottom:2px solid {{ $paleta['borde'] }};padding-bottom:7px;">Resumen</h2>
                             <p style="margin:0;font-size:13px;color:{{ $paleta['textoSuave'] }};line-height:1.75;">{{ $profile->bio }}</p>
                         </div>
                         @endif
 
                         {{-- SOBRE MÍ --}}
-                        <div>
+                        <div style="page-break-inside:avoid;">
                             <h2 style="margin:0 0 10px;font-size:14px;font-weight:800;color:{{ $paleta['texto'] }};border-bottom:2px solid {{ $paleta['borde'] }};padding-bottom:7px;">Sobre mí</h2>
                             <div style="display:flex;flex-direction:column;gap:7px;">
 
@@ -267,7 +267,7 @@ $paleta = [
                                 ? \Carbon\Carbon::parse($experiencia->ended_at)->translatedFormat('M Y')
                                 : 'Presente');
                                 @endphp
-                                <div style="display:flex;gap:12px;align-items:flex-start;{{ !$loop->last ? 'padding-bottom:14px;border-bottom:1px solid '.$paleta['borde'].';' : '' }}">
+                                <div style="page-break-inside:avoid;display:flex;gap:12px;align-items:flex-start;{{ !$loop->last ? 'padding-bottom:14px;border-bottom:1px solid '.$paleta['borde'].';' : '' }}">
                                     <div style="width:38px;height:38px;flex-shrink:0;border-radius:9px;background:{{ $paleta['fondo'] }};border:1px solid {{ $paleta['borde'] }};display:flex;align-items:center;justify-content:center;">
                                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="{{ $paleta['textoSuave'] }}" stroke-width="1.8">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
@@ -312,7 +312,7 @@ $paleta = [
                             <h2 style="margin:0 0 14px;font-size:14px;font-weight:800;color:{{ $paleta['texto'] }};border-bottom:2px solid {{ $paleta['borde'] }};padding-bottom:7px;">Educación</h2>
                             <div style="display:flex;flex-direction:column;gap:14px;">
                                 @foreach($educations->take(5) as $educacion)
-                                <div style="display:flex;gap:12px;align-items:flex-start;{{ !$loop->last ? 'padding-bottom:14px;border-bottom:1px solid '.$paleta['borde'].';' : '' }}">
+                                <div style="page-break-inside:avoid;display:flex;gap:12px;align-items:flex-start;{{ !$loop->last ? 'padding-bottom:14px;border-bottom:1px solid '.$paleta['borde'].';' : '' }}">
                                     <div style="width:38px;height:38px;flex-shrink:0;border-radius:9px;background:{{ $paleta['fondo'] }};border:1px solid {{ $paleta['borde'] }};display:flex;align-items:center;justify-content:center;">
                                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="{{ $paleta['textoSuave'] }}" stroke-width="1.8">
                                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 14l9-5-9-5-9 5 9 5z" />
@@ -364,7 +364,7 @@ $paleta = [
                             <h2 style="margin:0 0 12px;font-size:14px;font-weight:800;color:{{ $paleta['texto'] }};border-bottom:2px solid {{ $paleta['borde'] }};padding-bottom:7px;">Proyectos</h2>
                             <div style="display:flex;flex-direction:column;gap:13px;">
                                 @foreach($projects->take(3) as $proyecto)
-                                <div style="display:flex;gap:12px;align-items:flex-start;">
+                                <div style="page-break-inside:avoid;display:flex;gap:12px;align-items:flex-start;">
                                     <div style="width:44px;height:44px;flex-shrink:0;border-radius:10px;background:{{ $paleta['textoSuave'] }};display:flex;align-items:center;justify-content:center;">
                                         <span style="font-size:17px;font-weight:800;color:#ffffff;line-height:1;">{{ strtoupper(substr((string)$proyecto->title, 0, 1)) }}</span>
                                     </div>
