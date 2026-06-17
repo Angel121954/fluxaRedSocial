@@ -9,12 +9,24 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 
 class GuestController extends Controller
 {
-    public function loginAsGuest()
+    public function loginAsGuest(Request $request)
     {
+        $key = 'guest-login:' . $request->ip();
+
+        if (RateLimiter::tooManyAttempts($key, 3)) {
+            $seconds = RateLimiter::availableIn($key);
+
+            return redirect()->route('login')
+                ->withErrors(['email' => "Demasiados intentos. Espera {$seconds} segundos."]);
+        }
+
+        RateLimiter::hit($key, 300);
+
         $uniqueId = uniqid();
 
         $guest = User::create([
