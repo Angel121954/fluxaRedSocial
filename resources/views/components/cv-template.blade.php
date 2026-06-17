@@ -280,8 +280,9 @@ $paleta = [
                                             <span style="font-size:9px;font-weight:500;color:{{ $paleta['textoSuave'] }};background:{{ $paleta['fondo'] }};border:1px solid {{ $paleta['borde'] }};padding:2px 8px;border-radius:20px;white-space:nowrap;">Actual</span>
                                             @endif
                                         </div>
-                                        <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;">
+                                        <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;flex-wrap:wrap;">
                                             <span style="font-size:12px;font-weight:600;color:{{ $paleta['texto'] }};">{{ $experiencia->company }}</span>
+                                            <span style="font-size:9px;font-weight:500;color:{{ $paleta['textoSuave'] }};background:{{ $paleta['fondo'] }};border:1px solid {{ $paleta['borde'] }};padding:1px 7px;border-radius:20px;white-space:nowrap;">{{ \App\Models\WorkExperience::TYPES[$experiencia->type] ?? $experiencia->type }}</span>
                                             @if(!empty($experiencia->location))
                                             <span style="font-size:11px;color:{{ $paleta['textoSuave'] }};">· {{ $experiencia->location }}</span>
                                             @endif

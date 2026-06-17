@@ -11,6 +11,7 @@ class WorkExperience extends Model
 {
     protected $fillable = [
         'user_id',
+        'type',
         'company',
         'position',
         'location',
@@ -22,8 +23,15 @@ class WorkExperience extends Model
 
     protected $casts = [
         'started_at' => 'date:Y-m-d',
-        'ended_at'   => 'date:Y-m-d',
-        'current'    => 'boolean',
+        'ended_at' => 'date:Y-m-d',
+        'current' => 'boolean',
+    ];
+
+    public const TYPES = [
+        'formal' => 'Empleo formal',
+        'freelance' => 'Freelance / Cliente',
+        'personal' => 'Proyecto personal',
+        'volunteering' => 'Voluntariado',
     ];
 
     // Relación con User

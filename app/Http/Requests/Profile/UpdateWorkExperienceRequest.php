@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Profile;
 
+use App\Models\WorkExperience;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateWorkExperienceRequest extends FormRequest
@@ -16,6 +17,7 @@ class UpdateWorkExperienceRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'type' => 'required|in:'.implode(',', array_keys(WorkExperience::TYPES)),
             'company' => 'required|string|max:100',
             'position' => 'required|string|max:100',
             'location' => 'nullable|string|max:100',

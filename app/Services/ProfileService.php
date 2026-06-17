@@ -51,13 +51,12 @@ class ProfileService
         $favoriteTechIds = $technologies->filter(fn ($t) => (bool) ($t->pivot->is_favorite ?? false))
             ->pluck('id')
             ->toArray();
-        $allTechnologies = Cache::remember('all_technologies', 3600, fn() =>
-            Technology::select('id', 'name', 'slug', 'category', 'icon')
-                ->orderBy('category')->orderBy('name')->get()
+        $allTechnologies = Cache::remember('all_technologies', 3600, fn () => Technology::select('id', 'name', 'slug', 'category', 'icon')
+            ->orderBy('category')->orderBy('name')->get()
         );
 
         $workExperiences = $user->workExperiences()
-            ->select('id', 'user_id', 'company', 'position', 'description', 'started_at', 'ended_at', 'created_at')
+            ->select('id', 'user_id', 'type', 'company', 'position', 'description', 'started_at', 'ended_at', 'created_at')
             ->orderBy('started_at', 'desc')->get();
         $educations = $user->educations()
             ->select('id', 'user_id', 'institution', 'degree', 'field', 'graduated_year', 'created_at')
@@ -85,9 +84,8 @@ class ProfileService
         }
 
         $badges = $user->badges()->get();
-        $allBadges = Cache::remember('all_badges', 3600, fn() =>
-            Badge::select('id', 'name', 'slug', 'description', 'icon', 'category', 'tier', 'order')
-                ->orderBy('order')->get()
+        $allBadges = Cache::remember('all_badges', 3600, fn () => Badge::select('id', 'name', 'slug', 'description', 'icon', 'category', 'tier', 'order')
+            ->orderBy('order')->get()
         );
 
         $timeline = $this->getTimeline($projects, $workExperiences, $educations, $badges);

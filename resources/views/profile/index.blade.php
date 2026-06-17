@@ -256,6 +256,9 @@
                 @case('work')
                 <strong class="act-title">{{ $data->position }}</strong>
                 <span class="act-sub">{{ $data->company }}</span>
+                @if(isset($data->type) && $data->type !== 'formal')
+                <span class="act-tag act-tag--sm">{{ \App\Models\WorkExperience::TYPES[$data->type] ?? $data->type }}</span>
+                @endif
                 @break
 
                 @case('education')

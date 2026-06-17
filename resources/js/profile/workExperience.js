@@ -20,6 +20,55 @@ document.addEventListener('DOMContentLoaded', () => {
     const inputEnded = document.getElementById('input-ended_at');
     const baseAction = weForm?.getAttribute('action') ?? '';
 
+    // ── Referencias a labels dinámicos ──────────────────────
+    const TYPE_LABELS = {
+        company: {
+            formal: { label: 'Empresa', placeholder: 'Ej. Google, Startup XYZ' },
+            freelance: { label: 'Cliente o proyecto', placeholder: 'Ej. Cliente de Shopify, App para restaurant' },
+            personal: { label: 'Nombre del proyecto', placeholder: 'Ej. Mi portfolio, Open source tool' },
+            volunteering: { label: 'Organización', placeholder: 'Ej. Cruz Roja, Tech for Good' },
+        },
+        position: {
+            formal: { label: 'Cargo', placeholder: 'Ej. Frontend Developer' },
+            freelance: { label: 'Rol / Servicio', placeholder: 'Ej. Desarrollo de landing page' },
+            personal: { label: 'Rol', placeholder: 'Ej. Creador, Contribuidor' },
+            volunteering: { label: 'Rol', placeholder: 'Ej. Mentor, Desarrollador voluntario' },
+        },
+    };
+
+    function updateLabels(type) {
+        const companyGroup = document.getElementById('input-company')?.closest('.form-group');
+        const positionGroup = document.getElementById('input-position')?.closest('.form-group');
+        const companyInput = document.getElementById('input-company');
+        const positionInput = document.getElementById('input-position');
+
+        const companyCfg = TYPE_LABELS.company[type] ?? TYPE_LABELS.company.formal;
+        const positionCfg = TYPE_LABELS.position[type] ?? TYPE_LABELS.position.formal;
+
+        if (companyGroup) {
+            const label = companyGroup.querySelector('.form-label');
+            if (label) label.textContent = companyCfg.label;
+        }
+        if (companyInput) companyInput.placeholder = companyCfg.placeholder;
+
+        if (positionGroup) {
+            const label = positionGroup.querySelector('.form-label');
+            if (label) label.textContent = positionCfg.label;
+        }
+        if (positionInput) positionInput.placeholder = positionCfg.placeholder;
+    }
+
+    // ── Cambio de tipo ───────────────────────────────────────
+    document.querySelectorAll('.we-type-radio').forEach(radio => {
+        radio.addEventListener('change', () => {
+            if (radio.checked) {
+                document.querySelectorAll('.we-type-option').forEach(opt => opt.classList.remove('we-type-option--selected'));
+                radio.closest('.we-type-option').classList.add('we-type-option--selected');
+                updateLabels(radio.value);
+            }
+        });
+    });
+
     // ── Abrir modal vacío (agregar) ──────────────────────────
     document.getElementById('btnOpenModal')?.addEventListener('click', () => {
         resetForm();
@@ -28,6 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (formMethod) formMethod.value = 'POST';
         if (weForm) weForm.action = baseAction;
         if (experienceId) experienceId.value = '';
+        updateLabels('formal');
         openModal();
     });
 
@@ -55,6 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.btnEdit').forEach(btn => {
         btn.addEventListener('click', () => {
             const d = btn.dataset;
+            const type = d.type ?? 'formal';
 
             const getEl = (id) => document.getElementById(id);
             getEl('input-company').value = d.company ?? '';
@@ -63,6 +114,15 @@ document.addEventListener('DOMContentLoaded', () => {
             getEl('input-started_at').value = d.started ?? '';
             getEl('input-ended_at').value = d.ended ?? '';
             getEl('input-description').value = d.description ?? '';
+
+            // Seleccionar el tipo correcto
+            const radio = document.querySelector(`.we-type-radio[value="${type}"]`);
+            if (radio) {
+                radio.checked = true;
+                document.querySelectorAll('.we-type-option').forEach(opt => opt.classList.remove('we-type-option--selected'));
+                radio.closest('.we-type-option').classList.add('we-type-option--selected');
+                updateLabels(type);
+            }
 
             if (checkCurrent) {
                 checkCurrent.checked = d.current === '1';

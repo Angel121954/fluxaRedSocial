@@ -42,6 +42,7 @@
                         <h3 class="we-card__company">{{ $exp->company }}</h3>
                         <p class="we-card__position">{{ $exp->position }}</p>
                         <p class="we-card__meta">
+                            <span class="we-type-badge we-type-badge--{{ $exp->type }}">{{ \App\Models\WorkExperience::TYPES[$exp->type] ?? $exp->type }}</span>
                             @if($exp->location){{ $exp->location }} &bull; @endif
                             {{ $exp->started_at?->translatedFormat('M Y') ?? '' }}
                             &bull;
@@ -55,6 +56,7 @@
                     <div class="we-card__actions">
                         <button type="button" class="we-icon-btn btnEdit"
                             data-id="{{ $exp->id }}"
+                            data-type="{{ $exp->type }}"
                             data-company="{{ $exp->company }}"
                             data-position="{{ $exp->position }}"
                             data-location="{{ $exp->location ?? '' }}"
@@ -145,6 +147,22 @@
                 <input type="hidden" name="experience_id" id="experienceId" value="">
 
                 <div class="we-form-grid">
+                    {{-- Selector de tipo (span completo) --}}
+                    <div class="we-form-full">
+                        <x-form-group name="type" label="Tipo de experiencia">
+                            <div class="we-type-selector">
+                                @foreach(\App\Models\WorkExperience::TYPES as $value => $label)
+                                <label class="we-type-option {{ old('type', 'formal') === $value ? 'we-type-option--selected' : '' }}">
+                                    <input type="radio" name="type" value="{{ $value }}"
+                                        {{ old('type', 'formal') === $value ? 'checked' : '' }}
+                                        class="we-type-radio">
+                                    <span class="we-type-option__label">{{ $label }}</span>
+                                </label>
+                                @endforeach
+                            </div>
+                        </x-form-group>
+                    </div>
+
                     <x-form-group name="company" label="Empresa">
                         <input name="company" type="text" class="form-input" id="input-company"
                             value="{{ old('company') }}"
