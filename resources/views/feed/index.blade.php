@@ -5,10 +5,6 @@
 
 <div class="feed-layout">
   <div class="feed-main">
-    <div class="feed-tabs">
-      <span class="feed-tab active">Tu Feed</span>
-    </div>
-
     @if($topTechnologies->count() > 0)
     <div class="topics-bar">
       <div class="topics-grid" id="topicsGrid">
