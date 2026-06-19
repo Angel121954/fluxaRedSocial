@@ -1,3 +1,7 @@
+function idempotencyKey() {
+    return crypto.randomUUID();
+}
+
 export async function sendGif(formData, convId) {
     const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content ?? '';
 
@@ -7,6 +11,7 @@ export async function sendGif(formData, convId) {
             'X-CSRF-TOKEN': csrfToken,
             'Accept': 'application/json',
             'X-Socket-ID': window.Echo?.socketId() ?? '',
+            'Idempotency-Key': idempotencyKey(),
         },
         credentials: 'same-origin',
         body: formData,
@@ -36,6 +41,7 @@ export async function sendMessage(body, convId, recipient) {
             'X-CSRF-TOKEN': csrfToken,
             'Accept': 'application/json',
             'X-Socket-ID': window.Echo?.socketId() ?? '',
+            'Idempotency-Key': idempotencyKey(),
         },
         credentials: 'same-origin',
         body: JSON.stringify({ body }),
@@ -61,6 +67,7 @@ export async function sendMediaMessage(formData, convId) {
             'X-CSRF-TOKEN': csrfToken,
             'Accept': 'application/json',
             'X-Socket-ID': window.Echo?.socketId() ?? '',
+            'Idempotency-Key': idempotencyKey(),
         },
         credentials: 'same-origin',
         body: formData,

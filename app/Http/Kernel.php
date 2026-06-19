@@ -10,6 +10,7 @@ use App\Http\Middleware\CheckAdmin;
 use App\Http\Middleware\CheckOnboarding;
 use App\Http\Middleware\CheckUserActive;
 use App\Http\Middleware\EncryptCookies;
+use App\Http\Middleware\EnsureIdempotency;
 use App\Http\Middleware\PreventBackHistory;
 use App\Http\Middleware\PreventRequestsDuringMaintenance;
 use App\Http\Middleware\RedirectIfAuthenticated;
@@ -78,5 +79,6 @@ class Kernel extends HttpKernel
         'onboarding' => CheckOnboarding::class,
         'restrict.guest' => RestrictGuest::class,
         'admin' => CheckAdmin::class,
+        'idempotent' => EnsureIdempotency::class,
     ];
 }

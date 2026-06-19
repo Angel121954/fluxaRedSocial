@@ -470,12 +470,12 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
         Route::patch('/messages/{conversation}/read', [MessageController::class, 'markAsRead'])->name('messages.markAsRead');
         Route::patch('/messages/message/{message}/read', [MessageController::class, 'markMessageAsRead'])->name('messages.markMessageAsRead');
         Route::patch('/messages/message/{message}', [MessageController::class, 'update'])->name('messages.update');
-        Route::post('/messages/{conversation}', [MessageController::class, 'store'])->name('messages.store');
-        Route::post('/messages/{conversation}/media', [MessageController::class, 'storeMedia'])->name('messages.storeMedia');
-        Route::post('/messages/{conversation}/gif', [MessageController::class, 'storeGif'])->name('messages.storeGif');
+        Route::post('/messages/{conversation}', [MessageController::class, 'store'])->name('messages.store')->middleware('idempotent');
+        Route::post('/messages/{conversation}/media', [MessageController::class, 'storeMedia'])->name('messages.storeMedia')->middleware('idempotent');
+        Route::post('/messages/{conversation}/gif', [MessageController::class, 'storeGif'])->name('messages.storeGif')->middleware('idempotent');
         Route::get('/messages/user/{username}', [MessageController::class, 'getOrCreateConversation'])->name('messages.user');
         Route::get('/messages/chat/{username}', [MessageController::class, 'redirectToConversation'])->name('messages.chat');
-        Route::post('/messages/user/{user_id}', [MessageController::class, 'storeNewConversation'])->name('messages.storeNew');
+        Route::post('/messages/user/{user_id}', [MessageController::class, 'storeNewConversation'])->name('messages.storeNew')->middleware('idempotent');
         Route::post('/messages/{user}/block', [MessageController::class, 'blockUser'])->name('messages.block');
 
         /*
