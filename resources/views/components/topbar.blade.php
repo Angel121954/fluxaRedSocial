@@ -37,34 +37,6 @@
                     Diario
                 </a>
                 @endif
-                <!-- <div class="nav-dropdown">
-                    <button class="nav-dropdown-trigger {{ request()->routeIs('salaries*') || request()->routeIs('jobs*') ? 'active' : '' }}"
-                        id="jobsDropdownBtn"
-                        aria-haspopup="true"
-                        aria-expanded="false"
-                        onclick="toggleJobsDropdown(event)">
-                        Oportunidades
-                        <svg class="nav-dropdown-chevron" width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                        </svg>
-                    </button>
-                    <div class="nav-dropdown-menu" id="jobsDropdownMenu" role="menu" aria-labelledby="jobsDropdownBtn">
-                        <a href="{{ route('salaries.index') }}"
-                            class="nav-dropdown-item {{ request()->routeIs('salaries*') ? 'active' : '' }}"
-                            @if(request()->routeIs('salaries*')) aria-current="page" @endif
-                            role="menuitem">
-                            Sueldos
-                        </a>
-                        @if(Auth::user()->role !== 'guest')
-                        <a href="{{ route('jobs.index') }}"
-                            class="nav-dropdown-item {{ request()->routeIs('jobs*') ? 'active' : '' }}"
-                            @if(request()->routeIs('jobs*')) aria-current="page" @endif
-                            role="menuitem">
-                            Bolsa de empleo
-                        </a>
-                        @endif
-                    </div>
-                </div> -->
                 @if(Auth::user()->role !== 'guest')
                 <a href="{{ route('notifications.index') }}"
                     class="nav-link {{ request()->routeIs('notifications*') ? 'active' : '' }}"
@@ -237,26 +209,6 @@
             </svg>
             Mapa
         </a>
-
-        <!-- <a href="{{ route('jobs.index') }}"
-            class="mobile-menu-link {{ request()->routeIs('jobs*') ? 'active' : '' }}"
-            @if(request()->routeIs('jobs*')) aria-current="page" @endif>
-            <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-            </svg>
-            Bolsa de empleo
-        </a>
-
-        <a href="{{ route('salaries.index') }}"
-            class="mobile-menu-link {{ request()->routeIs('salaries*') ? 'active' : '' }}"
-            @if(request()->routeIs('salaries*')) aria-current="page" @endif>
-            <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            Sueldos
-        </a> -->
 
         @if(Auth::user()->role === 'admin')
         <a href="{{ route('admin.dashboard') }}"

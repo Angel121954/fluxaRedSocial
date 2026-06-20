@@ -253,14 +253,14 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
     Route::get('/explore/map', [ExploreController::class, 'map'])
         ->name('explore.map');
 
-    Route::get('/salaries', [SalaryController::class, 'index'])
+    /* Route::get('/salaries', [SalaryController::class, 'index'])
         ->name('salaries.index');
 
     Route::get('/salaries/data', [SalaryController::class, 'data'])
         ->name('salaries.data');
 
     Route::post('/salaries', [SalaryController::class, 'store'])
-        ->name('salaries.store');
+        ->name('salaries.store'); */
 
     Route::get('/about-fluxa', [AboutFluxaController::class, 'index'])
         ->name('about-fluxa');
@@ -405,7 +405,7 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
         | Bolsa de empleo
         |--------------------------------------------------------------------------
         */
-        Route::get('/jobs', [JobController::class, 'index'])
+        /* Route::get('/jobs', [JobController::class, 'index'])
             ->name('jobs.index');
         Route::get('/jobs/saved', [JobController::class, 'saved'])
             ->name('jobs.saved');
@@ -416,7 +416,7 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
         Route::post('/jobs/bookmark', [JobController::class, 'bookmark'])
             ->name('jobs.bookmark');
         Route::post('/jobs', [JobController::class, 'store'])
-            ->name('jobs.store');
+            ->name('jobs.store'); */
 
         /*
         |--------------------------------------------------------------------------
