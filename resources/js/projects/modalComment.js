@@ -144,9 +144,23 @@ async function toggleCommentLike(commentId, button) {
         return;
     }
 
-    // Evitar múltiples clics
-    if (button.disabled) return;
-    button.disabled = true;
+    // ── Snapshot estado actual ──
+    const svg = button.querySelector('svg');
+    const svgPath = svg?.querySelector('path');
+    const wasLiked = button.classList.contains('liked');
+    const wasFilled = svgPath?.getAttribute('fill') === 'currentColor';
+    const countEl = button.querySelector('.like-count') || button.querySelector('span:not(.sr-only)');
+    const prevCount = countEl ? parseInt(countEl.textContent, 10) : null;
+
+    // ── Optimistic: toggle inmediato ──
+    button.classList.toggle('liked');
+    if (svgPath) {
+        svgPath.setAttribute('fill', wasLiked ? 'none' : 'currentColor');
+    }
+
+    if (countEl) {
+        countEl.textContent = wasLiked ? Math.max(0, prevCount - 1) : prevCount + 1;
+    }
 
     try {
         const response = await fetch(`/comments/${commentId}/like`, {
@@ -166,23 +180,25 @@ async function toggleCommentLike(commentId, button) {
         }
 
         const data = await response.json();
-        console.log('Like response:', data);
-        
-        const svgPath = button.querySelector('svg path');
-        
-        // Remover primero
-        button.classList.remove('liked');
-        if (svgPath) svgPath.setAttribute('fill', 'none');
-        
-        // Aplicar nuevo estado
-        if (data.liked) {
-            button.classList.add('liked');
-            if (svgPath) svgPath.setAttribute('fill', 'currentColor');
+
+        // ── Confirmar con datos del servidor ──
+        button.classList.toggle('liked', data.liked);
+        if (svgPath) {
+            svgPath.setAttribute('fill', data.liked ? 'currentColor' : 'none');
+        }
+        if (countEl && data.likes_count !== undefined) {
+            countEl.textContent = data.likes_count;
         }
     } catch (error) {
+        // ── Revertir al estado anterior ──
+        button.classList.toggle('liked', wasLiked);
+        if (svgPath) {
+            svgPath.setAttribute('fill', wasFilled ? 'currentColor' : 'none');
+        }
+        if (countEl && prevCount !== null) {
+            countEl.textContent = prevCount;
+        }
         console.error('Error al dar like:', error.message);
-    } finally {
-        button.disabled = false;
     }
 }
 

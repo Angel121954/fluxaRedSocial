@@ -44,10 +44,33 @@ export function initSkillEndorsement() {
 
 async function toggleEndorsement(projectId, skillType, skillBtn, panel, countEl) {
     const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
+    const endorsementBtn = panel.closest('.endorsement-wrap')?.querySelector('.endorsement-btn');
+
+    // ── Snapshot estado actual para revertir ──
+    const prevActiveBtn = panel.querySelector('.skill-btn.active');
+    const prevActiveType = prevActiveBtn?.dataset.skillType;
+    const prevEndorsementActive = endorsementBtn?.classList.contains('active');
     const prevCount = parseInt(countEl?.textContent || '0', 10);
 
+    // ── Optimistic: toggle skill button ──
     const wasActive = skillBtn.classList.contains('active');
-    const endorsementBtn = panel.closest('.endorsement-wrap')?.querySelector('.endorsement-btn');
+    skillBtn.classList.toggle('active');
+
+    if (wasActive) {
+        // Quitando endorsement: bajar contador, desactivar endorsement-btn
+        countEl.textContent = Math.max(0, prevCount - 1);
+        endorsementBtn?.classList.remove('active');
+    } else {
+        // Agregando endorsement:
+        // si había otro skill activo, desactivarlo (sin cambiar contador, ya estaba contado)
+        if (prevActiveBtn && prevActiveType !== skillType) {
+            prevActiveBtn.classList.remove('active');
+        } else if (!prevActiveBtn) {
+            // Nuevo endorsement: subir contador, activar endorsement-btn
+            countEl.textContent = prevCount + 1;
+            endorsementBtn?.classList.add('active');
+        }
+    }
 
     try {
         const res = await fetch(`/projects/${projectId}/endorse`, {
@@ -64,10 +87,10 @@ async function toggleEndorsement(projectId, skillType, skillBtn, panel, countEl)
         const data = await res.json();
 
         if (!res.ok) {
-            showToast(data.message || 'No se pudo actualizar', 'error');
-            return;
+            throw new Error(data.message || 'No se pudo actualizar');
         }
 
+        // ── Confirmar con datos del servidor ──
         panel.querySelectorAll('.skill-btn').forEach(btn => {
             btn.classList.toggle('active', btn.dataset.skillType === data.user_endorsement);
         });
@@ -83,6 +106,17 @@ async function toggleEndorsement(projectId, skillType, skillBtn, panel, countEl)
             endorsementBtn?.classList.remove('active');
         }
     } catch {
+        // ── Revertir al estado anterior ──
+        skillBtn.classList.toggle('active');
+        countEl.textContent = prevCount;
+        if (prevEndorsementActive) {
+            endorsementBtn?.classList.add('active');
+        } else {
+            endorsementBtn?.classList.remove('active');
+        }
+        if (prevActiveBtn && prevActiveType !== skillType) {
+            prevActiveBtn.classList.add('active');
+        }
         showToast('Error de conexión. Inténtalo de nuevo.', 'error');
     }
 }

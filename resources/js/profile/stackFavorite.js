@@ -15,7 +15,20 @@ import { showToast } from '../shared/toast.js';
         var techId = btn.getAttribute('data-tech-id');
         if (!techId) return;
 
-        btn.disabled = true;
+        // ── Snapshot estado actual ──
+        var wasFavorite = btn.classList.contains('is-favorite');
+        var prevAriaLabel = btn.getAttribute('aria-label');
+
+        // ── Optimistic: toggle inmediato ──
+        btn.classList.toggle('is-favorite');
+
+        if (wasFavorite) {
+            btn.setAttribute('aria-label', 'Agregar a favoritos');
+            btn.setAttribute('title', 'Marcar como destacada');
+        } else {
+            btn.setAttribute('aria-label', 'Quitar de favoritos');
+            btn.setAttribute('title', 'Tecnología destacada');
+        }
 
         fetch('/profile/technologies/' + techId + '/favorite', {
             method: 'POST',
@@ -34,21 +47,22 @@ import { showToast } from '../shared/toast.js';
             });
         })
         .then(function (data) {
+            // ── Confirmar con datos del servidor ──
+            btn.classList.toggle('is-favorite', data.is_favorite);
             if (data.is_favorite) {
-                btn.classList.add('is-favorite');
                 btn.setAttribute('aria-label', 'Quitar de favoritos');
                 btn.setAttribute('title', 'Tecnología destacada');
             } else {
-                btn.classList.remove('is-favorite');
                 btn.setAttribute('aria-label', 'Agregar a favoritos');
                 btn.setAttribute('title', 'Marcar como destacada');
             }
         })
         .catch(function (err) {
+            // ── Revertir al estado anterior ──
+            btn.classList.toggle('is-favorite', wasFavorite);
+            btn.setAttribute('aria-label', prevAriaLabel);
+            btn.setAttribute('title', wasFavorite ? 'Tecnología destacada' : 'Marcar como destacada');
             showToast(err.message || 'No se pudo alternar favorito', 'error');
-        })
-        .finally(function () {
-            btn.disabled = false;
         });
     });
 })();
