@@ -147,19 +147,7 @@
                     </div>
                     @enderror
 
-                    {{-- Password Strength --}}
-                    <div class="password-strength" id="passwordStrength" style="margin-top: 0.5rem;">
-                        <div class="strength-label" style="display:flex;justify-content:space-between;margin-bottom:0.25rem;">
-                            <span style="font-size:0.75rem;color:var(--text-secondary)">Fortaleza:</span>
-                            <span id="strengthText" style="font-size:0.75rem;color:var(--error);">Débil</span>
-                        </div>
-                        <div class="strength-bars" style="display:flex;gap:4px;">
-                            <div class="strength-bar" id="bar1" style="height:4px;flex:1;border-radius:4px;background:var(--input-border);"></div>
-                            <div class="strength-bar" id="bar2" style="height:4px;flex:1;border-radius:4px;background:var(--input-border);"></div>
-                            <div class="strength-bar" id="bar3" style="height:4px;flex:1;border-radius:4px;background:var(--input-border);"></div>
-                            <div class="strength-bar" id="bar4" style="height:4px;flex:1;border-radius:4px;background:var(--input-border);"></div>
-                        </div>
-                    </div>
+
                 </div>
 
                 {{-- Confirmar contraseña --}}
