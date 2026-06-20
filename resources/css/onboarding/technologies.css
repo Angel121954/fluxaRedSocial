@@ -195,7 +195,11 @@ h1 {
     position: relative;
 }
 
-.tech-item.hidden {
+.tech-item.limited {
+    display: none !important;
+}
+
+.tech-item.search-hidden {
     display: none !important;
 }
 
@@ -261,6 +265,28 @@ h1 {
 
 .tech-item input:checked+label::after {
     opacity: 1;
+}
+
+/* ─── Show more button ──────────────────────────── */
+.tech-show-more {
+    width: 100%;
+    padding: 0.5rem;
+    margin-top: 0.375rem;
+    background: none;
+    border: 1px dashed var(--border);
+    border-radius: var(--r);
+    color: var(--ink-400);
+    font-size: var(--text-xs);
+    font-weight: 500;
+    font-family: inherit;
+    cursor: pointer;
+    transition: color 0.15s, border-color 0.15s, background 0.15s;
+}
+
+.tech-show-more:hover {
+    color: var(--accent);
+    border-color: var(--accent-border);
+    background: var(--accent-soft);
 }
 
 /* ─── Button ─────────────────────────────────────── */

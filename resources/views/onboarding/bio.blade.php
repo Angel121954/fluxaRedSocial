@@ -13,8 +13,8 @@
         <div class="progress-bar">
             <span class="done"></span>
             <span class="done"></span>
-            <span class="done"></span>
             <span class="active"></span>
+            <span></span>
         </div>
 
         <h1>Cuéntanos sobre ti</h1>
