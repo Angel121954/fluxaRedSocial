@@ -10,7 +10,7 @@
     }
 
     .profile-inner {
-        overflow-x: hidden;
+        overflow: visible;
     }
 
     .profile-row {
@@ -58,7 +58,8 @@
         justify-content: center;
         flex-wrap: wrap;
         border-top: none;
-        padding-top: 1rem;
+        margin-top: 0.75rem;
+        padding-top: 0.75rem;
     }
 
     .stat+.stat::before {
@@ -66,7 +67,7 @@
     }
 
     .stat {
-        padding: 0.75rem 1rem;
+        padding: 0.5rem 0.875rem;
     }
 
     .card-head {
@@ -230,7 +231,13 @@
 
     .drop-menu {
         right: -0.5rem;
+        left: auto;
+        transform: translateY(-5px) scale(0.96);
         min-width: 170px;
+    }
+
+    .drop-menu.open {
+        transform: translateY(0) scale(1);
     }
 
     .stack-modal {
