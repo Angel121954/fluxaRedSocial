@@ -32,11 +32,13 @@
     .btn-icon {
         width: 44px;
         height: 44px;
+        background: transparent;
+        border: none;
     }
 
-    .meta-actions[data-is-owner="true"] .btn-icon {
-        background: var(--bg-subtle);
-        border: 1px solid var(--border-strong);
+    .btn-icon svg {
+        width: 18px;
+        height: 18px;
     }
 
     .drop-menu {
