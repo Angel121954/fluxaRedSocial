@@ -6,34 +6,23 @@
 document.addEventListener('DOMContentLoaded', () => {
     console.log('cv.js loaded');
 
-    /* ─── 1. Selección de templates ─────────────────────── */
-    const templateCards = document.querySelectorAll('.cv-template-card');
+    /* ─── 1. Selección de formatos ─────────────────────── */
+    const formatCards = document.querySelectorAll('.cv-format-card');
+    const formatRadios = document.querySelectorAll('.cv-format-radio');
+    const formatPreviews = document.querySelectorAll('.cv-preview-format');
 
-    templateCards.forEach(card => {
+    function showPreview(format) {
+        formatPreviews.forEach(el => {
+            el.style.display = el.dataset.format === format ? '' : 'none';
+        });
+    }
+
+    formatCards.forEach(card => {
         card.addEventListener('click', () => {
-            templateCards.forEach(c => c.classList.remove('cv-template-card--selected'));
-            card.classList.add('cv-template-card--selected');
-
-            const radio = card.querySelector('.cv-template-radio');
-            if (radio) updatePreviewTemplate(radio.value);
+            formatCards.forEach(c => c.classList.remove('cv-format-card--selected'));
+            card.classList.add('cv-format-card--selected');
         });
     });
-
-    function updatePreviewTemplate(template) {
-        const previewCard = document.getElementById('cvPreviewCard');
-        if (!previewCard) return;
-
-        previewCard.classList.remove('cvp--classic', 'cvp--modern', 'cvp--creative');
-        previewCard.classList.add(`cvp--${template}`);
-
-        const avatar = document.getElementById('cvpAvatar');
-        const showPhotoCheckbox = document.getElementById('show_photo');
-
-        if (avatar) {
-            const showPhoto = showPhotoCheckbox ? showPhotoCheckbox.checked : true;
-            avatar.style.display = (template === 'classic' || !showPhoto) ? 'none' : '';
-        }
-    }
 
     /* ─── 2. Checkboxes de contenido ────────────────────── */
     const checkboxes = document.querySelectorAll('.cv-checkbox');
@@ -48,9 +37,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (name === 'show_photo') {
             const avatar = document.getElementById('cvpAvatar');
-            const selectedTpl = document.querySelector('.cv-template-radio:checked')?.value;
             if (avatar) {
-                avatar.style.display = (checked && selectedTpl !== 'classic') ? '' : 'none';
+                avatar.style.display = checked ? '' : 'none';
             }
         }
 
@@ -67,7 +55,34 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    /* ─── 3. SortableJS: orden de secciones ─────────────── */
+    /* ─── 4. Botones de descarga: actualizar según formato seleccionado ── */
+    const selectedFormat = document.querySelector('.cv-format-radio:checked')?.value || 'pdf';
+    const downloadBtns = {
+        pdf: document.getElementById('downloadPdfBtn'),
+        ats: document.getElementById('downloadAtsBtn'),
+        json: document.getElementById('downloadJsonBtn'),
+    };
+
+    function highlightDownloadBtn(format) {
+        Object.values(downloadBtns).forEach(btn => {
+            if (btn) btn.classList.remove('cv-download-btn--active');
+        });
+        if (downloadBtns[format]) {
+            downloadBtns[format].classList.add('cv-download-btn--active');
+        }
+    }
+
+    highlightDownloadBtn(selectedFormat);
+    showPreview(selectedFormat);
+
+    formatRadios.forEach(radio => {
+        radio.addEventListener('change', () => {
+            highlightDownloadBtn(radio.value);
+            showPreview(radio.value);
+        });
+    });
+
+    /* ─── 5. SortableJS: orden de secciones ─────────────── */
     const sortableList = document.getElementById('cvSortable');
     const orderContainer = document.getElementById('sectionsOrderInputs');
     const previewSections = document.getElementById('cvpSections');
@@ -104,19 +119,18 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        // Sincronizar el orden en la vista previa
-        if (previewSections) {
+        // Sincronizar el orden en ambas vistas previas
+        [previewSections, document.getElementById('cvpSectionsAts')].forEach(container => {
+            if (!container) return;
             order.forEach(key => {
-                const sec = previewSections.querySelector(`[data-section="${key}"]`);
-                if (sec) previewSections.appendChild(sec);
+                const sec = container.querySelector(`[data-section="${key}"]`);
+                if (sec) container.appendChild(sec);
             });
-        }
+        });
     }
 
-    /* ─── 4. Inicializar al cargar ───────────────────────── */
+    /* ─── 6. Inicializar al cargar ───────────────────────── */
     function initPreview() {
-        const selectedTpl = document.querySelector('.cv-template-radio:checked')?.value ?? 'classic';
-        updatePreviewTemplate(selectedTpl);
         checkboxes.forEach(c => handleCheckboxChange(c));
         syncOrder(); // genera los inputs hidden con el orden inicial también
     }

@@ -16,7 +16,7 @@ class UpdateCVSettingsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'template' => 'required|string|in:classic,modern,creative',
+            'format' => 'nullable|string|in:pdf,ats,json',
             'show_photo' => 'nullable|in:on,1,0,true,false',
             'show_location' => 'nullable|in:on,1,0,true,false',
             'show_email' => 'nullable|in:on,1,0,true,false',

@@ -13,10 +13,10 @@
 ])
 
 @php
-$urlPerfil = $urlPerfil ?? (request()->getHost() . '/' . $user->username);
+$urlPerfil = $urlPerfil ?? (request()->getHost() . '/profile/' . $user->username);
 $urlQrExterno = $urlQrExterno ?? ('https://api.qrserver.com/v1/create-qr-code/?size=100x100&data='
-    . urlencode('https://' . $urlPerfil)
-    . '&color=0d9488&bgcolor=ffffff&margin=6');
+. urlencode('https://' . $urlPerfil)
+. '&color=0d9488&bgcolor=ffffff&margin=6');
 $cantidadSeguidores = $cantidadSeguidores ?? 0;
 $cantidadSiguiendo = $cantidadSiguiendo ?? 0;
 $rolProfesional = $rolProfesional ?? 'Software Developer';
@@ -32,8 +32,7 @@ $paleta = [
 ];
 @endphp
 
-{{-- Wrapper: oculto para html2pdf, visible para Browsershot --}}
-<div id="cv-template" @if(!$avatarBase64) style="position:fixed;left:-9999px;top:0;pointer-events:none;z-index:-1;" @endif>
+<div id="cv-template">
     <div style="width:860px;background:{{ $paleta['fondo'] }};font-family:'Segoe UI',system-ui,sans-serif;padding:20px;box-sizing:border-box;">
 
         {{-- ══ TARJETA PRINCIPAL ══ --}}
@@ -43,7 +42,7 @@ $paleta = [
             <div style="padding:28px 36px 24px;border-bottom:1px solid {{ $paleta['borde'] }};">
                 <div style="display:flex;align-items:center;gap:24px;">
 
-                    @if($cvSettings['show_photo'] ?? true)
+                    @if(($cvSettings['show_photo'] ?? true) && $srcAvatar)
                     <img id="cv-avatar" src="{{ $srcAvatar }}" width="90" height="90"
                         style="width:90px;height:90px;border-radius:50%;object-fit:cover;box-shadow:0 1px 3px rgba(0,0,0,.08);flex-shrink:0;" />
                     @endif
@@ -355,6 +354,15 @@ $paleta = [
                                 </div>
                                 @endforeach
                             </div>
+                        </div>
+                        @endif
+                        @break
+
+                        @case('skills')
+                        @if($technologies->isNotEmpty())
+                        <div>
+                            <h2 style="margin:0 0 8px;font-size:14px;font-weight:800;color:{{ $paleta['texto'] }};border-bottom:2px solid {{ $paleta['borde'] }};padding-bottom:7px;">Habilidades Técnicas</h2>
+                            <p style="margin:0;font-size:11px;color:{{ $paleta['textoSuave'] }};line-height:1.75;">{{ $technologies->pluck('name')->implode(', ') }}</p>
                         </div>
                         @endif
                         @break

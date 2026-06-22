@@ -8,6 +8,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Profile\UpdateCVSettingsRequest;
 use App\Services\CVService;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Throwable;
 
 class CVSettingsController extends Controller
 {
@@ -17,18 +19,39 @@ class CVSettingsController extends Controller
 
     public function edit()
     {
-        $cvSettings = auth()->user()->profile->cv_settings ?? [
-            'template' => 'classic',
+        $user = auth()->user()->loadCount([
+            'workExperiences',
+            'educations',
+            'projects',
+            'technologies',
+        ]);
+
+        $hasData = [
+            'experience' => $user->work_experiences_count > 0,
+            'projects' => $user->projects_count > 0,
+            'education' => $user->educations_count > 0,
+            'skills' => $user->technologies_count > 0,
+        ];
+
+        $availableSections = array_keys(array_filter($hasData));
+
+        $cvSettings = $user->profile->cv_settings ?? [
+            'format' => 'pdf',
             'show_photo' => true,
             'show_location' => true,
             'show_email' => true,
             'show_projects' => true,
             'show_experience' => true,
             'show_education' => true,
-            'section_order' => ['experience', 'projects', 'education', 'skills'],
+            'section_order' => $availableSections,
         ];
 
-        return view('cv.cv', compact('cvSettings'));
+        $savedOrder = $cvSettings['section_order'] ?? $availableSections;
+        $existing = array_intersect($savedOrder, $availableSections);
+        $missing = array_diff($availableSections, $existing);
+        $cvSettings['section_order'] = array_values(array_merge($existing, $missing));
+
+        return view('cv.cv', compact('cvSettings', 'hasData'));
     }
 
     public function update(UpdateCVSettingsRequest $request)
@@ -39,7 +62,7 @@ class CVSettingsController extends Controller
         $sectionOrder = $request->input('section_order', ['experience', 'projects', 'education', 'skills']);
 
         $cvSettings = [
-            'template' => $validated['template'],
+            'format' => $validated['format'] ?? 'pdf',
             'show_photo' => $request->boolean('show_photo'),
             'show_location' => $request->boolean('show_location'),
             'show_email' => $request->boolean('show_email'),
@@ -73,27 +96,86 @@ class CVSettingsController extends Controller
     public function download()
     {
         $user = Auth::user();
+        $settings = $user->profile->cv_settings;
+        $format = $settings['format'] ?? 'pdf';
+
+        try {
+            return match ($format) {
+                'ats' => $this->downloadAts($user),
+                'json' => $this->downloadJson($user),
+                default => $this->downloadPdf($user),
+            };
+        } catch (Throwable $e) {
+            Log::error('Error al descargar CV', [
+                'user_id' => $user->id,
+                'format' => $format,
+                'error' => $e->getMessage(),
+            ]);
+
+            return redirect()
+                ->route('cv.edit')
+                ->with('error', 'Ocurrió un error al generar tu CV. Intenta de nuevo.');
+        }
+    }
+
+    public function downloadFormat(string $format)
+    {
+        $user = Auth::user();
+
+        try {
+            return match ($format) {
+                'ats' => $this->downloadAts($user),
+                'json' => $this->downloadJson($user),
+                default => $this->downloadPdf($user),
+            };
+        } catch (Throwable $e) {
+            Log::error('Error al descargar CV', [
+                'user_id' => $user->id,
+                'format' => $format,
+                'error' => $e->getMessage(),
+            ]);
+
+            return redirect()
+                ->route('cv.edit')
+                ->with('error', 'Ocurrió un error al generar tu CV. Intenta de nuevo.');
+        }
+    }
+
+    protected function downloadPdf(mixed $user)
+    {
         $datos = $this->cvService->prepareCvData($user);
+        $html = $this->cvService->wrapHtml(
+            view('components.cv-template', $datos)->render()
+        );
 
-        $html = view('components.cv-template', $datos)->render();
-
-        $fullHtml = '<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <style>* { margin:0; padding:0; box-sizing:border-box; } body { background:#f8fafc; }</style>
-</head>
-<body>' . $html . '</body>
-</html>';
-
-        $filename = 'cv-' . str($user->username)->slug() . '-' . now()->format('Ymd') . '.pdf';
-
-        $pdf = $this->cvService->generatePdf($fullHtml);
+        $filename = 'cv-'.str($user->username)->slug().'-'.now()->format('Ymd').'.pdf';
+        $pdf = $this->cvService->generatePdf($html);
 
         return response($pdf, 200, [
             'Content-Type' => 'application/pdf',
-            'Content-Disposition' => 'attachment; filename="' . $filename . '"',
+            'Content-Disposition' => 'attachment; filename="'.$filename.'"',
+        ]);
+    }
+
+    protected function downloadAts(mixed $user)
+    {
+        $pdf = $this->cvService->generateAtsPdf($user);
+        $filename = 'cv-ats-'.str($user->username)->slug().'-'.now()->format('Ymd').'.pdf';
+
+        return response($pdf, 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'attachment; filename="'.$filename.'"',
+        ]);
+    }
+
+    protected function downloadJson(mixed $user)
+    {
+        $json = $this->cvService->generateJson($user);
+        $filename = 'cv-'.str($user->username)->slug().'-'.now()->format('Ymd').'.json';
+
+        return response($json, 200, [
+            'Content-Type' => 'application/json',
+            'Content-Disposition' => 'attachment; filename="'.$filename.'"',
         ]);
     }
 }

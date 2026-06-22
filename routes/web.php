@@ -136,6 +136,11 @@ Route::get('/cv/download/{username?}', [ProfileController::class, 'downloadCV'])
     ->name('cv.download.public')
     ->middleware('auth');
 
+Route::get('/cv/download/{username}/{format}', [ProfileController::class, 'downloadCV'])
+    ->name('cv.download.public.format')
+    ->middleware('auth')
+    ->where('format', 'pdf|ats|json');
+
 /*
 |--------------------------------------------------------------------------
 | Rutas protegidas (auth + onboarding)
@@ -488,6 +493,8 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
         Route::put('/settings/cv', [CVSettingsController::class, 'update'])->name('cv.update');
         Route::get('/settings/cv/restore', [CVSettingsController::class, 'restore'])->name('cv.restore');
         Route::get('/settings/cv/download', [CVSettingsController::class, 'download'])->name('cv.download');
+        Route::get('/settings/cv/download/{format}', [CVSettingsController::class, 'downloadFormat'])->name('cv.download.format')
+            ->where('format', 'pdf|ats|json');
         Route::resource('projects', ProjectController::class);
         Route::resource('educations', EducationController::class);
 
@@ -530,4 +537,4 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
     });
 });
 
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';

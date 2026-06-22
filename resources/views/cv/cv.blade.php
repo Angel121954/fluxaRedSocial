@@ -23,85 +23,75 @@
                 {{-- ──── PANEL IZQUIERDO: Configuración ──── --}}
                 <div class="cv-config">
 
-                    {{-- ── SECCIÓN: Apariencia del CV ──────────────────── --}}
+                    {{-- ── SECCIÓN: Formato de descarga ──────────────── --}}
                     <section class="cv-section">
-                        <h2 class="cv-section__title">Apariencia del CV</h2>
-                        <div class="cv-templates">
+                        <h2 class="cv-section__title">Formato de descarga</h2>
+                        <div class="cv-format-grid">
 
-                            {{-- Clásico --}}
-                            <label class="cv-template-card {{ old('template', $cvSettings['template'] ?? 'classic') === 'classic' ? 'cv-template-card--selected' : '' }}" for="tpl-classic">
-                                <input type="radio" id="tpl-classic" name="template" value="classic"
-                                    {{ old('template', $cvSettings['template'] ?? 'classic') === 'classic' ? 'checked' : '' }}
-                                    class="cv-template-radio">
-                                <div class="cv-template-card__check">
+                            <label class="cv-format-card {{ old('format', $cvSettings['format'] ?? 'pdf') === 'pdf' ? 'cv-format-card--selected' : '' }}" for="fmt-pdf">
+                                <input type="radio" id="fmt-pdf" name="format" value="pdf"
+                                    {{ old('format', $cvSettings['format'] ?? 'pdf') === 'pdf' ? 'checked' : '' }}
+                                    class="cv-format-radio">
+                                <div class="cv-format-card__check">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
                                         <polyline points="20 6 9 17 4 12" />
                                     </svg>
                                 </div>
-                                <div class="cv-template-card__preview cv-template-card__preview--classic">
-                                    <div class="tpl-line tpl-line--title"></div>
-                                    <div class="tpl-line tpl-line--sub"></div>
-                                    <div class="tpl-divider"></div>
-                                    <div class="tpl-line"></div>
-                                    <div class="tpl-line tpl-line--short"></div>
-                                    <div class="tpl-line"></div>
-                                    <div class="tpl-line tpl-line--short"></div>
+                                <div class="cv-format-card__icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                        <polyline points="14 2 14 8 20 8"/>
+                                        <line x1="16" y1="13" x2="8" y2="13"/>
+                                        <line x1="16" y1="17" x2="8" y2="17"/>
+                                        <polyline points="10 9 9 9 8 9"/>
+                                    </svg>
                                 </div>
-                                <span class="cv-template-card__name">Clásico</span>
-                                <span class="cv-template-card__sub">Sin foto</span>
+                                <span class="cv-format-card__name">PDF Visual</span>
+                                <span class="cv-format-card__sub">Diseño clásico con foto y colores</span>
                             </label>
 
-                            {{-- Moderno --}}
-                            <label class="cv-template-card {{ old('template', $cvSettings['template'] ?? 'classic') === 'modern' ? 'cv-template-card--selected' : '' }}" for="tpl-modern">
-                                <input type="radio" id="tpl-modern" name="template" value="modern"
-                                    {{ old('template', $cvSettings['template'] ?? 'classic') === 'modern' ? 'checked' : '' }}
-                                    class="cv-template-radio">
-                                <div class="cv-template-card__check">
+                            <label class="cv-format-card {{ old('format', $cvSettings['format'] ?? 'pdf') === 'ats' ? 'cv-format-card--selected' : '' }}" for="fmt-ats">
+                                <input type="radio" id="fmt-ats" name="format" value="ats"
+                                    {{ old('format', $cvSettings['format'] ?? 'pdf') === 'ats' ? 'checked' : '' }}
+                                    class="cv-format-radio">
+                                <div class="cv-format-card__check">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
                                         <polyline points="20 6 9 17 4 12" />
                                     </svg>
                                 </div>
-                                <div class="cv-template-card__preview cv-template-card__preview--modern">
-                                    <div class="tpl-modern-header">
-                                        <div class="tpl-avatar-circle"></div>
-                                        <div class="tpl-modern-info">
-                                            <div class="tpl-line tpl-line--title"></div>
-                                            <div class="tpl-line tpl-line--sub"></div>
-                                        </div>
-                                    </div>
-                                    <div class="tpl-divider"></div>
-                                    <div class="tpl-line"></div>
-                                    <div class="tpl-line tpl-line--short"></div>
-                                    <div class="tpl-line"></div>
+                                <div class="cv-format-card__icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                        <polyline points="14 2 14 8 20 8"/>
+                                        <line x1="16" y1="13" x2="8" y2="13"/>
+                                        <line x1="16" y1="17" x2="8" y2="17"/>
+                                        <polyline points="10 9 9 9 8 9"/>
+                                    </svg>
                                 </div>
-                                <span class="cv-template-card__name">Moderno</span>
-                                <span class="cv-template-card__sub">Con foto</span>
+                                <span class="cv-format-card__name">PDF ATS</span>
+                                <span class="cv-format-card__sub">Optimizado para sistemas ATS</span>
                             </label>
 
-                            {{-- Creativo --}}
-                            <label class="cv-template-card {{ old('template', $cvSettings['template'] ?? 'classic') === 'creative' ? 'cv-template-card--selected' : '' }}" for="tpl-creative">
-                                <input type="radio" id="tpl-creative" name="template" value="creative"
-                                    {{ old('template', $cvSettings['template'] ?? 'classic') === 'creative' ? 'checked' : '' }}
-                                    class="cv-template-radio">
-                                <div class="cv-template-card__check">
+                            <label class="cv-format-card {{ old('format', $cvSettings['format'] ?? 'pdf') === 'json' ? 'cv-format-card--selected' : '' }}" for="fmt-json">
+                                <input type="radio" id="fmt-json" name="format" value="json"
+                                    {{ old('format', $cvSettings['format'] ?? 'pdf') === 'json' ? 'checked' : '' }}
+                                    class="cv-format-radio">
+                                <div class="cv-format-card__check">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
                                         <polyline points="20 6 9 17 4 12" />
                                     </svg>
                                 </div>
-                                <div class="cv-template-card__preview cv-template-card__preview--creative">
-                                    <div class="tpl-creative-sidebar">
-                                        <div class="tpl-avatar-circle tpl-avatar-circle--sm"></div>
-                                        <div class="tpl-line tpl-line--white tpl-line--short"></div>
-                                        <div class="tpl-line tpl-line--white tpl-line--xs"></div>
-                                    </div>
-                                    <div class="tpl-creative-body">
-                                        <div class="tpl-line tpl-line--title"></div>
-                                        <div class="tpl-line tpl-line--short"></div>
-                                        <div class="tpl-line"></div>
-                                    </div>
+                                <div class="cv-format-card__icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                        <polyline points="14 2 14 8 20 8"/>
+                                        <line x1="16" y1="13" x2="8" y2="13"/>
+                                        <line x1="16" y1="17" x2="8" y2="17"/>
+                                        <polyline points="10 9 9 9 8 9"/>
+                                    </svg>
                                 </div>
-                                <span class="cv-template-card__name">Creativo</span>
-                                <span class="cv-template-card__sub">Visual</span>
+                                <span class="cv-format-card__name">JSON</span>
+                                <span class="cv-format-card__sub">Exportación de datos estructurados</span>
                             </label>
 
                         </div>
@@ -152,21 +142,13 @@
 
                         {{-- Contenedor donde el JS inyecta los inputs section_order[] --}}
                         <div id="sectionsOrderInputs">
-                            {{-- Fallback server-side: garantiza que siempre lleguen valores al submit --}}
-                            @php
-                            $defaultOrder = ['experience', 'projects', 'education', 'skills'];
-                            $initialOrder = $cvSettings['section_order'] ?? $defaultOrder;
-                            @endphp
-
-                            @foreach($initialOrder as $key)
+                            @foreach($cvSettings['section_order'] as $key)
                             <input type="hidden" name="section_order[]" value="{{ $key }}">
                             @endforeach
                         </div>
 
                         <ul class="cv-sortable" id="cvSortable">
                             @php
-                            $defaultOrder = ['experience', 'projects', 'education', 'skills'];
-                            $savedOrder = $cvSettings['section_order'] ?? $defaultOrder;
                             $sectionLabels = [
                             'experience' => 'Experiencia',
                             'projects' => 'Proyectos',
@@ -175,8 +157,7 @@
                             ];
                             @endphp
 
-                            @foreach($savedOrder as $sectionKey)
-                            @if(isset($sectionLabels[$sectionKey]))
+                            @foreach($cvSettings['section_order'] as $sectionKey)
                             <li class="cv-sortable__item" data-section="{{ $sectionKey }}">
                                 <span class="cv-sortable__handle" aria-hidden="true">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" viewBox="0 0 24 24">
@@ -192,7 +173,6 @@
                                     </svg>
                                 </span>
                             </li>
-                            @endif
                             @endforeach
                         </ul>
                     </section>
@@ -202,66 +182,110 @@
                 {{-- ──── PANEL DERECHO: Vista previa ──── --}}
                 <aside class="cv-preview-panel">
                     <h2 class="cv-preview-panel__title">Vista previa del CV</h2>
-                    <div class="cv-preview-card" id="cvPreviewCard">
 
-                        {{-- Header del CV --}}
-                        <div class="cvp-header">
-                            <div class="cvp-avatar" id="cvpAvatar" style="{{ ($cvSettings['show_photo'] ?? true) ? '' : 'display:none' }}">
-                                <img src="{{ $profile->avatar ?? '' }}" alt="Avatar" class="cvp-avatar__img">
+                    {{-- ── PDF Visual (diseño clásico: dos columnas) ── --}}
+                    <div class="cv-preview-card cv-preview-format cvp-visual" id="previewPdf" data-format="pdf">
+                        <div class="cvp-visual__header">
+                            <div class="cvp-visual__avatar" id="cvpAvatar" style="{{ ($cvSettings['show_photo'] ?? true) ? '' : 'display:none' }}"></div>
+                            <div class="cvp-visual__info">
+                                <div class="cvp-visual__name">{{ $profile->user->name ?? 'Tu nombre' }}</div>
+                                <div class="cvp-visual__handle">&#64;{{ $profile->user->username ?? 'username' }}</div>
+                                <div class="cvp-visual__role">{{ $profile->user->role ?? 'Software' }} Developer</div>
                             </div>
-                            <div class="cvp-info">
-                                <h3 class="cvp-name">{{ $profile->user->name ?? 'Tu nombre' }}</h3>
-                                <p class="cvp-username">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                                        <circle cx="12" cy="7" r="4" />
-                                    </svg>
-                                    {{ $profile->user->username ?? 'username' }}
-                                </p>
-                                <p class="cvp-bio">{{ Str::limit($profile->bio ?? 'Tu biografía profesional aparecerá aquí.', 120) }}</p>
+                            <div class="cvp-visual__qr"></div>
+                        </div>
+                        <div class="cvp-visual__body">
+                            <div class="cvp-visual__sidebar">
+                                <div class="cvp-visual__sb-title">Contacto</div>
+                                <div class="cvp-visual__sb-line"></div>
+                                <div class="cvp-visual__sb-line cvp-visual__sb-line--short"></div>
+                                <div class="cvp-visual__sb-divider"></div>
+                                <div class="cvp-visual__sb-title">Tecnologías</div>
+                                <div class="cvp-visual__sb-grid">
+                                    <div class="cvp-visual__sb-dot"></div>
+                                    <div class="cvp-visual__sb-dot"></div>
+                                    <div class="cvp-visual__sb-dot"></div>
+                                    <div class="cvp-visual__sb-dot"></div>
+                                </div>
+                            </div>
+                            <div class="cvp-visual__content">
+                                <div class="cvp-visual__bio-line"></div>
+                                <div class="cvp-visual__bio-line cvp-visual__bio-line--short"></div>
+                                <div class="cvp-sections" id="cvpSections">
+                                    @foreach($cvSettings['section_order'] as $sec)
+                                    <div class="cvp-section" data-section="{{ $sec }}" id="cvp{{ ucfirst($sec) }}">
+                                        <div class="cvp-section__title">{{ ['experience' => 'Experiencia Laboral', 'projects' => 'Proyectos', 'education' => 'Educación', 'skills' => 'Habilidades'][$sec] }}</div>
+                                        <div class="cvp-skeleton-group">
+                                            <div class="cvp-skeleton cvp-skeleton--sm"></div>
+                                            <div class="cvp-skeleton"></div>
+                                            <div class="cvp-skeleton cvp-skeleton--md"></div>
+                                            <div class="cvp-skeleton cvp-skeleton--sm"></div>
+                                            <div class="cvp-skeleton"></div>
+                                        </div>
+                                    </div>
+                                    @endforeach
+                                </div>
                             </div>
                         </div>
+                    </div>
 
-                        {{-- Secciones del CV (orden dinámico) --}}
-                        <div class="cvp-sections" id="cvpSections">
-
-                            <div class="cvp-section" data-section="experience" id="cvpExperience">
-                                <h4 class="cvp-section__title">Experiencia Laboral</h4>
-                                <div class="cvp-skeleton-group">
-                                    <div class="cvp-skeleton cvp-skeleton--sm"></div>
-                                    <div class="cvp-skeleton"></div>
-                                    <div class="cvp-skeleton cvp-skeleton--md"></div>
-                                    <div class="cvp-skeleton cvp-skeleton--sm"></div>
-                                    <div class="cvp-skeleton"></div>
+                    {{-- ── PDF ATS ── --}}
+                    <div class="cv-preview-card cv-preview-format" id="previewAts" data-format="ats" style="display:none">
+                        <div class="cvp-ats">
+                            <div class="cvp-ats__header">
+                                <div class="cvp-ats__name">{{ $profile->user->name ?? 'Tu nombre' }}</div>
+                                <div class="cvp-ats__meta">
+                                    {{ $profile->user->email ?? 'email@ejemplo.com' }}
+                                    @if(!empty($profile->city)) | {{ $profile->city }} @endif
                                 </div>
                             </div>
-
-                            <div class="cvp-section" data-section="projects" id="cvpProjects">
-                                <h4 class="cvp-section__title">Proyectos</h4>
-                                <div class="cvp-skeleton-group">
-                                    <div class="cvp-skeleton cvp-skeleton--sm"></div>
-                                    <div class="cvp-skeleton cvp-skeleton--lg"></div>
+                            <div class="cvp-ats__sections" id="cvpSectionsAts">
+                                @foreach($cvSettings['section_order'] as $sec)
+                                <div class="cvp-ats__section" data-section="{{ $sec }}">
+                                    <div class="cvp-ats__section-title">{{ ['experience' => 'EXPERIENCIA LABORAL', 'projects' => 'PROYECTOS', 'education' => 'EDUCACIÓN', 'skills' => 'HABILIDADES TÉCNICAS'][$sec] ?? $sec }}</div>
+                                    <div class="cvp-ats__line"></div>
+                                    <div class="cvp-ats__line cvp-ats__line--short"></div>
                                 </div>
+                                @endforeach
                             </div>
-
-                            <div class="cvp-section" data-section="education" id="cvpEducation">
-                                <h4 class="cvp-section__title">Educación</h4>
-                                <div class="cvp-skeleton-group">
-                                    <div class="cvp-skeleton cvp-skeleton--sm"></div>
-                                    <div class="cvp-skeleton cvp-skeleton--md"></div>
-                                    <div class="cvp-skeleton"></div>
-                                </div>
-                            </div>
-
-                            <div class="cvp-section" data-section="skills" id="cvpSkills" style="display:none">
-                                <h4 class="cvp-section__title">Habilidades</h4>
-                                <div class="cvp-skeleton-group">
-                                    <div class="cvp-skeleton cvp-skeleton--sm"></div>
-                                    <div class="cvp-skeleton cvp-skeleton--md"></div>
-                                </div>
-                            </div>
-
                         </div>
+                    </div>
+
+                    {{-- ── JSON ── --}}
+                    <div class="cv-preview-card cv-preview-format" id="previewJson" data-format="json" style="display:none">
+                        <pre class="cvp-json"><span class="cvp-json__key">"meta"</span>: {<span class="cvp-json__key">"generator"</span>: <span class="cvp-json__str">"Fluxa"</span>},
+<span class="cvp-json__key">"personal"</span>: {<span class="cvp-json__key">"name"</span>: <span class="cvp-json__str">"{{ $profile->user->name ?? 'Tu nombre' }}"</span>},
+<span class="cvp-json__key">"sections"</span>: [
+  { <span class="cvp-json__key">"type"</span>: <span class="cvp-json__str">"{{ $cvSettings['section_order'][0] ?? 'experience' }}"</span> }
+]</pre>
+                    </div>
+
+                    {{-- ── Botones de descarga directa ── --}}
+                    <div class="cv-download-group">
+                        <a href="{{ route('cv.download.format', 'pdf') }}" class="cv-download-btn cv-download-btn--pdf" id="downloadPdfBtn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                <polyline points="7 10 12 15 17 10"/>
+                                <line x1="12" y1="15" x2="12" y2="3"/>
+                            </svg>
+                            Descargar PDF Visual
+                        </a>
+                        <a href="{{ route('cv.download.format', 'ats') }}" class="cv-download-btn cv-download-btn--ats" id="downloadAtsBtn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                <polyline points="7 10 12 15 17 10"/>
+                                <line x1="12" y1="15" x2="12" y2="3"/>
+                            </svg>
+                            Descargar PDF ATS
+                        </a>
+                        <a href="{{ route('cv.download.format', 'json') }}" class="cv-download-btn cv-download-btn--json" id="downloadJsonBtn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                <polyline points="7 10 12 15 17 10"/>
+                                <line x1="12" y1="15" x2="12" y2="3"/>
+                            </svg>
+                            Descargar JSON
+                        </a>
                     </div>
                 </aside>
 

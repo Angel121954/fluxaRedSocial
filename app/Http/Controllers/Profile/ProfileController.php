@@ -20,7 +20,9 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
+use Throwable;
 
 class ProfileController extends Controller
 {
@@ -117,7 +119,7 @@ class ProfileController extends Controller
         return view('components.cv-template', $datos);
     }
 
-    public function downloadCV(?string $username = null)
+    public function downloadCV(?string $username = null, ?string $format = null)
     {
         if ($username) {
             $usuario = User::where('username', $username)->firstOrFail();
@@ -127,26 +129,68 @@ class ProfileController extends Controller
             $this->authorize('view', $profile);
         } else {
             $usuario = Auth::user();
+            $isOwner = true;
         }
 
-        $datos = $this->cvService->prepareCvData($usuario);
-        $contenido = view('components.cv-template', $datos)->render();
+        $settings = $usuario->profile->cv_settings;
+        $format = $format ?? ($settings['format'] ?? 'pdf');
 
-        $html = '<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <style>* { margin:0; padding:0; box-sizing:border-box; } body { background:#f8fafc; }</style>
-</head>
-<body>'.$contenido.'</body>
-</html>';
+        if ($format === 'json' && ! $isOwner) {
+            $format = 'pdf';
+        }
+
+        try {
+            return match ($format) {
+                'ats' => $this->downloadAtsCv($usuario),
+                'json' => $this->downloadJsonCv($usuario),
+                default => $this->downloadPdfCv($usuario),
+            };
+        } catch (Throwable $e) {
+            Log::error('Error al descargar CV público', [
+                'user_id' => $usuario->id,
+                'username' => $username,
+                'format' => $format,
+                'error' => $e->getMessage(),
+            ]);
+
+            return redirect()
+                ->back()
+                ->with('error', 'Ocurrió un error al generar el CV. Intenta de nuevo.');
+        }
+    }
+
+    protected function downloadPdfCv(mixed $usuario)
+    {
+        $datos = $this->cvService->prepareCvData($usuario);
+        $html = $this->cvService->wrapHtml(
+            view('components.cv-template', $datos)->render()
+        );
 
         $pdf = $this->cvService->generatePdf($html);
 
         return response($pdf, 200, [
             'Content-Type' => 'application/pdf',
             'Content-Disposition' => 'attachment; filename="CV_'.$usuario->username.'.pdf"',
+        ]);
+    }
+
+    protected function downloadAtsCv(mixed $usuario)
+    {
+        $pdf = $this->cvService->generateAtsPdf($usuario);
+
+        return response($pdf, 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'attachment; filename="CV_ATS_'.$usuario->username.'.pdf"',
+        ]);
+    }
+
+    protected function downloadJsonCv(mixed $usuario)
+    {
+        $json = $this->cvService->generateJson($usuario);
+
+        return response($json, 200, [
+            'Content-Type' => 'application/json',
+            'Content-Disposition' => 'attachment; filename="CV_'.$usuario->username.'.json"',
         ]);
     }
 
@@ -157,7 +201,7 @@ class ProfileController extends Controller
             $avatarUrl = $this->profileService->updateAvatar($user->id, $request->file('avatar'));
 
             $this->badgeService->scanUser($user);
-            Cache::store('redis')->forget('cv_avatar_' . $user->id);
+            Cache::store('redis')->forget('cv_avatar_'.$user->id);
 
             return response()->json(['success' => true, 'url' => $avatarUrl]);
         } catch (Exception $e) {
@@ -183,7 +227,7 @@ class ProfileController extends Controller
                     .'&backgroundColor=12b3b6',
             ]);
 
-            Cache::store('redis')->forget('cv_avatar_' . $user->id);
+            Cache::store('redis')->forget('cv_avatar_'.$user->id);
 
             return response()->json(['success' => true]);
         } catch (Exception $e) {
