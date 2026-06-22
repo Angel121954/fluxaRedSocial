@@ -130,15 +130,15 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
 */
 Route::get('/cv/preview-interno', [ProfileController::class, 'previewInterno'])
     ->name('cv.preview')
-    ->middleware('auth');
+    ->middleware(['auth', 'verified', 'restrict.guest']);
 
 Route::get('/cv/download/{username?}', [ProfileController::class, 'downloadCV'])
     ->name('cv.download.public')
-    ->middleware('auth');
+    ->middleware(['auth', 'verified', 'restrict.guest']);
 
 Route::get('/cv/download/{username}/{format}', [ProfileController::class, 'downloadCV'])
     ->name('cv.download.public.format')
-    ->middleware('auth')
+    ->middleware(['auth', 'verified', 'restrict.guest'])
     ->where('format', 'pdf|ats|json');
 
 /*

@@ -343,18 +343,6 @@
     @if($isOwner)
     @include('profile.partials.stack-modal')
     @endif
-    <x-cv-template
-        :profile="$profile"
-        :user="$user"
-        :technologies="$technologies"
-        :projects="$projects"
-        :work-experiences="$workExperiences"
-        :educations="collect([])"
-        :avatar-base64="null"
-        :logo-base64="null"
-        :qr-base64="null"
-        :cv-settings="$profile->cv_settings ?? ['show_photo'=>true,'show_location'=>true,'show_email'=>true,'show_projects'=>true,'show_experience'=>true,'show_education'=>true,'section_order'=>['experience','projects','education']]" />
-
     <input type="file" id="fileIn" accept="image/*" style="display: none" />
     <x-modal-comments />
     <x-modal-report />

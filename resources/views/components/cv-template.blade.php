@@ -22,7 +22,13 @@ $cantidadSiguiendo = $cantidadSiguiendo ?? 0;
 $rolProfesional = $rolProfesional ?? 'Software Developer';
 $estadisticas = $estadisticas ?? [];
 $srcAvatar = $avatarBase64 ?? ($profile->avatar ? str_replace('type=normal', 'type=large', $profile->avatar) : '');
-$srcLogo = $logoBase64 ?? 'data:image/png;base64,'.base64_encode(file_get_contents(public_path('img/logo.png')));
+$srcLogo = $logoBase64 ?? (function () {
+    try {
+        return 'data:image/png;base64,'.base64_encode(file_get_contents(public_path('img/logo.png')));
+    } catch (\Throwable) {
+        return '';
+    }
+})();
 $srcQr = $qrBase64 ?? $urlQrExterno;
 $paleta = [
 'fondo' => '#f8fafc', 'tarjeta' => '#ffffff', 'primario' => '#14b8a6',
