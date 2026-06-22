@@ -59,12 +59,6 @@ $paleta = [
                         <p style="margin:0;font-size:13px;font-weight:500;color:{{ $paleta['textoSuave'] }};">{{ $rolProfesional }}</p>
                     </div>
 
-                    <div style="text-align:center;flex-shrink:0;">
-                        <img src="{{ $srcQr }}" width="82" height="82"
-                            style="width:82px;height:82px;border-radius:10px;border:1px solid {{ $paleta['borde'] }};display:block;" />
-                        <p style="margin:5px 0 0;font-size:9px;color:{{ $paleta['textoSuave'] }};font-weight:500;max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{ $urlPerfil }}</p>
-                    </div>
-
                 </div>
             </div>
 
@@ -319,13 +313,6 @@ $paleta = [
                             <div style="display:flex;flex-direction:column;gap:14px;">
                                 @foreach($educations->take(5) as $educacion)
                                 <div style="page-break-inside:avoid;display:flex;gap:12px;align-items:flex-start;{{ !$loop->last ? 'padding-bottom:14px;border-bottom:1px solid '.$paleta['borde'].';' : '' }}">
-                                    <div style="width:38px;height:38px;flex-shrink:0;border-radius:9px;background:{{ $paleta['fondo'] }};border:1px solid {{ $paleta['borde'] }};display:flex;align-items:center;justify-content:center;">
-                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="{{ $paleta['textoSuave'] }}" stroke-width="1.8">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 14l9-5-9-5-9 5 9 5z" />
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 14l6.16-3.422A12.083 12.083 0 0121 13.5c0 3.314-4.03 6-9 6s-9-2.686-9-6c0-.538.09-1.06.254-1.558L12 14z" />
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 14v7" />
-                                        </svg>
-                                    </div>
                                     <div style="flex:1;min-width:0;">
                                         <div style="display:flex;align-items:center;gap:8px;margin-bottom:2px;flex-wrap:wrap;">
                                             <h3 style="margin:0;font-size:13px;font-weight:700;color:{{ $paleta['texto'] }};">{{ $educacion->degree }}</h3>
@@ -380,9 +367,6 @@ $paleta = [
                             <div style="display:flex;flex-direction:column;gap:13px;">
                                 @foreach($projects->take(3) as $proyecto)
                                 <div style="page-break-inside:avoid;display:flex;gap:12px;align-items:flex-start;">
-                                    <div style="width:44px;height:44px;flex-shrink:0;border-radius:10px;background:{{ $paleta['textoSuave'] }};display:flex;align-items:center;justify-content:center;">
-                                        <span style="font-size:17px;font-weight:800;color:#ffffff;line-height:1;">{{ strtoupper(substr((string)$proyecto->title, 0, 1)) }}</span>
-                                    </div>
                                     <div style="flex:1;min-width:0;">
                                         <div style="display:flex;align-items:center;gap:8px;margin-bottom:3px;">
                                             <h3 style="margin:0;font-size:13px;font-weight:700;color:{{ $paleta['texto'] }};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ $proyecto->title }}</h3>
@@ -420,23 +404,12 @@ $paleta = [
         {{-- ══ PIE DE PÁGINA ══ --}}
         <div style="margin-top:10px;background:{{ $paleta['tarjeta'] }};border-radius:12px;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 3px rgba(0,0,0,.06);">
             <div style="display:flex;align-items:center;gap:8px;">
-                <img src="{{ $srcLogo }}" width="18" height="18" style="width:18px;height:18px;border-radius:4px;object-fit:cover;" />
-                <span style="font-size:12px;font-weight:600;color:{{ $paleta['textoSuave'] }};">Fluxa</span>
+                <img src="{{ $srcLogo }}" style="width:50px;height:50px;border-radius:4px;object-fit:cover;" />
                 <span style="font-size:11px;color:{{ $paleta['texto'] }};">{{ $urlPerfil }}</span>
             </div>
 
-            <img src="{{ $srcQr }}" width="54" height="54"
-                style="width:54px;height:54px;border-radius:6px;border:1px solid {{ $paleta['borde'] }};" />
+            <img src="{{ $srcQr }}" width="100" height="100"
+                style="width:100px;height:100px;border-radius:6px;border:1px solid {{ $paleta['borde'] }};" />
         </div>
-
-        {{-- ══ LOGO FLUXA ══ --}}
-        <div style="margin-top:8px;text-align:center;padding:10px 0;">
-            <div style="display:inline-flex;align-items:center;gap:9px;">
-                <img src="{{ $srcLogo }}" width="26" height="26"
-                    style="width:26px;height:26px;border-radius:7px;object-fit:cover;" />
-                <span style="font-size:20px;font-weight:800;color:{{ $paleta['texto'] }};letter-spacing:-0.5px;">Fluxa</span>
-            </div>
-        </div>
-
     </div>
 </div>

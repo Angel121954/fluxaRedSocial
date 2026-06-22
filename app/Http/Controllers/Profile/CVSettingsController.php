@@ -160,7 +160,7 @@ class CVSettingsController extends Controller
     protected function downloadAts(mixed $user)
     {
         $pdf = $this->cvService->generateAtsPdf($user);
-        $filename = 'cv-ats-'.str($user->username)->slug().'-'.now()->format('Ymd').'.pdf';
+        $filename = 'cv-ats-'.str($user->username)->slug().'.pdf';
 
         return response($pdf, 200, [
             'Content-Type' => 'application/pdf',

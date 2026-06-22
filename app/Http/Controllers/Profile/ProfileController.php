@@ -180,7 +180,7 @@ class ProfileController extends Controller
 
         return response($pdf, 200, [
             'Content-Type' => 'application/pdf',
-            'Content-Disposition' => 'attachment; filename="CV_ATS_'.$usuario->username.'.pdf"',
+            'Content-Disposition' => 'attachment; filename="cv-ats-'.$usuario->username.'.pdf"',
         ]);
     }
 

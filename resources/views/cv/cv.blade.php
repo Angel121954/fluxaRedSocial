@@ -192,7 +192,6 @@
                                 <div class="cvp-visual__handle">&#64;{{ $profile->user->username ?? 'username' }}</div>
                                 <div class="cvp-visual__role">{{ $profile->user->role ?? 'Software' }} Developer</div>
                             </div>
-                            <div class="cvp-visual__qr"></div>
                         </div>
                         <div class="cvp-visual__body">
                             <div class="cvp-visual__sidebar">
