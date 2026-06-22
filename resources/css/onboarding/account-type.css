@@ -75,6 +75,23 @@ body {
     object-fit: contain;
 }
 
+.progress-bar {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 28px;
+}
+
+.progress-bar span {
+    width: 100%;
+    height: 4px;
+    border-radius: 4px;
+    background: var(--ink-100);
+    transition: background 0.25s, opacity 0.25s;
+}
+
+.progress-bar span.done   { background: var(--accent); opacity: 0.4; }
+.progress-bar span.active { background: var(--accent); opacity: 1; }
+
 h1 {
     font-size: var(--text-lg);
     font-weight: 700;

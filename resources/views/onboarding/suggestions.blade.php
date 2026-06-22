@@ -14,11 +14,12 @@
             <span class="done"></span>
             <span class="done"></span>
             <span class="done"></span>
+            <span class="done"></span>
             <span class="active"></span>
         </div>
 
         <h1>Desarrolladores que quizás conozcas</h1>
-        <p class="subtitle">Paso 4 de 4 · Sigue desarrolladores para construir tu feed</p>
+        <p class="subtitle">Paso 5 de 5 · Sigue desarrolladores para construir tu feed</p>
 
         <form action="{{ route('onboarding.saveSuggestions') }}" method="POST" id="suggestionsForm">
             @csrf

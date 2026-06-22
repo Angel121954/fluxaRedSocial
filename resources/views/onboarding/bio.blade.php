@@ -13,12 +13,13 @@
         <div class="progress-bar">
             <span class="done"></span>
             <span class="done"></span>
+            <span class="done"></span>
             <span class="active"></span>
             <span></span>
         </div>
 
         <h1>Cuéntanos sobre ti</h1>
-        <p class="subtitle">Paso 3 de 4 · Escribe una breve biografía para que otros desarrolladores te conozcan</p>
+        <p class="subtitle">Paso 4 de 5 · Escribe una breve biografía para que otros desarrolladores te conozcan</p>
 
         <form action="{{ route('onboarding.saveBio') }}" method="POST" id="bioForm">
             @csrf
