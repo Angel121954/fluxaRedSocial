@@ -105,7 +105,7 @@ async function toggleEndorsement(projectId, skillType, skillBtn, panel, countEl)
         } else {
             endorsementBtn?.classList.remove('active');
         }
-    } catch {
+    } catch (e) {
         // ── Revertir al estado anterior ──
         skillBtn.classList.toggle('active');
         countEl.textContent = prevCount;
@@ -117,6 +117,6 @@ async function toggleEndorsement(projectId, skillType, skillBtn, panel, countEl)
         if (prevActiveBtn && prevActiveType !== skillType) {
             prevActiveBtn.classList.add('active');
         }
-        showToast('Error de conexión. Inténtalo de nuevo.', 'error');
+        showToast(e.message || 'Error de conexión. Inténtalo de nuevo.', 'error');
     }
 }
