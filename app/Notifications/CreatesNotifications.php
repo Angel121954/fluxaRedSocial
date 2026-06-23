@@ -5,10 +5,13 @@ declare(strict_types=1);
 namespace App\Notifications;
 
 use App\Events\NotificationCreated;
+use App\Mail\NotificationMail;
 use App\Models\Notification;
+use App\Models\NotificationPreference;
 use App\Models\SkillEndorsement;
 use App\Models\User;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Mail;
 
 trait CreatesNotifications
 {
@@ -38,7 +41,57 @@ trait CreatesNotifications
             Event::dispatch(new NotificationCreated($notification));
         }
 
+        self::sendEmailForNotification($notification);
+
         return $notification;
+    }
+
+    private static function sendEmailForNotification(Notification $notification): void
+    {
+        $prefs = NotificationPreference::where('user_id', $notification->user_id)->first();
+
+        if (! $prefs || ! $prefs->email_enabled) {
+            return;
+        }
+
+        $flag = self::getPreferenceFlag($notification->type);
+
+        if ($flag && ! $prefs->$flag) {
+            return;
+        }
+
+        $user = User::find($notification->user_id);
+
+        if (! $user?->email) {
+            return;
+        }
+
+        $fromUserName = null;
+
+        if ($notification->from_user_id) {
+            $fromUser = User::find($notification->from_user_id);
+            $fromUserName = $fromUser?->name;
+        }
+
+        Mail::to($user)->queue(new NotificationMail(
+            user: $user,
+            subject: $notification->title,
+            body: $notification->body,
+            fromUserName: $fromUserName,
+            actionUrl: $notification->link,
+            actionText: 'Ver en Fluxa',
+        ));
+    }
+
+    private static function getPreferenceFlag(string $type): ?string
+    {
+        return match ($type) {
+            Notification::TYPE_FOLLOW => 'notify_followers',
+            Notification::TYPE_COMMENT => 'notify_comments',
+            Notification::TYPE_LIKE => 'notify_comments',
+            Notification::TYPE_MENTION => 'notify_mentions',
+            default => null,
+        };
     }
 
     public static function notifyNewMessage(int $recipientId, int $senderId, int $conversationId, string $senderName): Notification

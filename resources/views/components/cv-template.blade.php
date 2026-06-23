@@ -23,11 +23,11 @@ $rolProfesional = $rolProfesional ?? 'Software Developer';
 $estadisticas = $estadisticas ?? [];
 $srcAvatar = $avatarBase64 ?? ($profile->avatar ? str_replace('type=normal', 'type=large', $profile->avatar) : '');
 $srcLogo = $logoBase64 ?? (function () {
-    try {
-        return 'data:image/png;base64,'.base64_encode(file_get_contents(public_path('img/logo.png')));
-    } catch (\Throwable) {
-        return '';
-    }
+try {
+return 'data:image/png;base64,'.base64_encode(file_get_contents(public_path('img/logo.png')));
+} catch (\Throwable) {
+return '';
+}
 })();
 $srcQr = $qrBase64 ?? $urlQrExterno;
 $paleta = [
@@ -405,7 +405,7 @@ $paleta = [
         <div style="margin-top:10px;background:{{ $paleta['tarjeta'] }};border-radius:12px;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 3px rgba(0,0,0,.06);">
             <div style="display:flex;align-items:center;gap:8px;">
                 <img src="{{ $srcLogo }}" style="width:50px;height:50px;border-radius:4px;object-fit:cover;" />
-                <span style="font-size:11px;color:{{ $paleta['texto'] }};">{{ $urlPerfil }}</span>
+                <span style="font-size:11px;color:{{ $paleta['texto'] }};">CV generado desde Fluxa red social para Desarrolladores - {{ $urlPerfil }}</span>
             </div>
 
             <img src="{{ $srcQr }}" width="100" height="100"
