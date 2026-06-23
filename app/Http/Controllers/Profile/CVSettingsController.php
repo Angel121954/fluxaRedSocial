@@ -148,7 +148,7 @@ class CVSettingsController extends Controller
             view('components.cv-template', $datos)->render()
         );
 
-        $filename = 'cv-'.str($user->username)->slug().'-'.now()->format('Ymd').'.pdf';
+        $filename = 'cv-'.str($user->username)->slug().'.pdf';
         $pdf = $this->cvService->generatePdf($html);
 
         return response($pdf, 200, [
@@ -171,7 +171,7 @@ class CVSettingsController extends Controller
     protected function downloadJson(mixed $user)
     {
         $json = $this->cvService->generateJson($user);
-        $filename = 'cv-'.str($user->username)->slug().'-'.now()->format('Ymd').'.json';
+        $filename = 'cv-'.str($user->username)->slug().'.json';
 
         return response($json, 200, [
             'Content-Type' => 'application/json',

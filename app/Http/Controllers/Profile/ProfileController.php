@@ -168,9 +168,11 @@ class ProfileController extends Controller
 
         $pdf = $this->cvService->generatePdf($html);
 
+        $filename = 'cv-'.str($usuario->username)->slug().'.pdf';
+
         return response($pdf, 200, [
             'Content-Type' => 'application/pdf',
-            'Content-Disposition' => 'attachment; filename="CV_'.$usuario->username.'.pdf"',
+            'Content-Disposition' => 'attachment; filename="'.$filename.'"',
         ]);
     }
 
@@ -178,9 +180,11 @@ class ProfileController extends Controller
     {
         $pdf = $this->cvService->generateAtsPdf($usuario);
 
+        $filename = 'cv-ats-'.str($usuario->username)->slug().'.pdf';
+
         return response($pdf, 200, [
             'Content-Type' => 'application/pdf',
-            'Content-Disposition' => 'attachment; filename="cv-ats-'.$usuario->username.'.pdf"',
+            'Content-Disposition' => 'attachment; filename="'.$filename.'"',
         ]);
     }
 
@@ -188,9 +192,11 @@ class ProfileController extends Controller
     {
         $json = $this->cvService->generateJson($usuario);
 
+        $filename = 'cv-'.str($usuario->username)->slug().'.json';
+
         return response($json, 200, [
             'Content-Type' => 'application/json',
-            'Content-Disposition' => 'attachment; filename="CV_'.$usuario->username.'.json"',
+            'Content-Disposition' => 'attachment; filename="'.$filename.'"',
         ]);
     }
 
