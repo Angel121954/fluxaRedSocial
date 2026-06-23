@@ -90,6 +90,8 @@
         lockBodyScroll();
         el('edit-modal-overlay').classList.add('open');
 
+        el('edit-project-form').action = `/projects/${projectId}`;
+
         await cargarTecnologias();
         await cargarDatosProyecto(projectId);
 
@@ -525,6 +527,10 @@
 
     el('edit-modal-overlay').addEventListener('click', function (e) {
         if (e.target === this) cerrarEditModal();
+    });
+
+    el('edit-project-form').addEventListener('submit', e => {
+        e.preventDefault();
     });
 
     /* ════════════════════════════════════════════════

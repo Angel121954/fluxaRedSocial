@@ -7,7 +7,7 @@
                 <div id="edit-modal-title">Editar proyecto</div>
                 <div id="edit-modal-subtitle">Paso 1 de 2 · Información básica</div>
             </div>
-            <button class="close-btn" onclick="cerrarEditModal()" aria-label="Cerrar">
+            <button type="button" class="close-btn" onclick="cerrarEditModal()" aria-label="Cerrar">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
                     <line x1="18" y1="6" x2="6" y2="18" />
                     <line x1="6" y1="6" x2="18" y2="18" />
@@ -39,7 +39,7 @@
                 <ul id="edit-server-error-list" class="server-error-list"></ul>
             </div>
 
-            <form id="edit-project-form" method="POST" enctype="multipart/form-data">
+            <form id="edit-project-form" method="POST" enctype="multipart/form-data" action="">
                 @csrf
                 @method('PUT')
 
@@ -188,7 +188,7 @@
         {{-- Footer --}}
         <div id="edit-modal-footer">
             <div class="f-left">
-                <button id="edit-btn-back" class="btn btn-secondary" onclick="irAlAnteriorEdit()" style="display:none;">
+                <button type="button" id="edit-btn-back" class="btn btn-secondary" onclick="irAlAnteriorEdit()" style="display:none;">
                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
                         <polyline points="15 18 9 12 15 6" />
                     </svg>
@@ -197,14 +197,14 @@
                 <span id="edit-req-note" class="req-note"><span class="req">*</span> Obligatorio</span>
             </div>
             <div class="f-right">
-                <button id="edit-btn-cancel" class="btn btn-secondary" onclick="cerrarEditModal()">Cancelar</button>
-                <button id="edit-btn-next" class="btn btn-primary" onclick="irAlSiguienteEdit()" disabled>
+                <button type="button" id="edit-btn-cancel" class="btn btn-secondary" onclick="cerrarEditModal()">Cancelar</button>
+                <button type="button" id="edit-btn-next" class="btn btn-primary" onclick="irAlSiguienteEdit()" disabled>
                     Continuar
                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
                         <polyline points="9 18 15 12 9 6" />
                     </svg>
                 </button>
-                <button id="edit-btn-submit" class="btn btn-primary" onclick="guardarEditProyecto()" style="display:none;">
+                <button type="button" id="edit-btn-submit" class="btn btn-primary" onclick="guardarEditProyecto()" style="display:none;">
                     Guardar cambios
                 </button>
             </div>
