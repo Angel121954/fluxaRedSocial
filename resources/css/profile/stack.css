@@ -412,8 +412,10 @@ button.stack-card-heart.is-favorite:hover {
     opacity: 1;
 }
 
-.stack-modal-item label i {
+.stack-modal-item label i,
+.stack-modal-item label img {
     font-size: var(--text-lg);
+    vertical-align: middle;
 }
 
 .stack-modal-empty {

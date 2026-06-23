@@ -106,8 +106,8 @@
                         @forelse($stats['byTechnology'] as $item)
                         <tr>
                             <td class="salary-tech-cell">
-                                @if($item['slug'])
-                                <i class="devicon-{{ $item['slug'] }}-plain colored salary-tech-icon"></i>
+                                @if($item['icon_url'])
+                                <img src="{{ $item['icon_url'] }}" alt="{{ $item['technology'] }}" class="salary-tech-icon" loading="lazy" width="20" height="20">
                                 @endif
                                 {{ $item['technology'] }}
                             </td>

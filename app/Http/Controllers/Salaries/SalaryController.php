@@ -129,6 +129,7 @@ class SalaryController extends Controller
             return [
                 'technology' => $tech?->name ?? 'Desconocida',
                 'slug' => $tech?->slug,
+                'icon_url' => $tech?->iconUrl(),
                 'avg' => (int) $item->avg,
                 'count' => (int) $item->count,
             ];

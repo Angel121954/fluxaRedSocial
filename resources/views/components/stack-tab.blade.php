@@ -40,7 +40,7 @@
                     rel="noopener noreferrer"
                     class="stack-card-link">
                     <div class="stack-icon-wrap">
-                        <i class="{{ $tech->deviconClass() }} colored stack-icon-css"></i>
+                        <img src="{{ $tech->iconUrl() }}" alt="{{ $tech->name }}" class="stack-icon-img" loading="lazy" width="32" height="32">
                     </div>
                     <span class="stack-name">{{ $tech->name }}</span>
                 </a>

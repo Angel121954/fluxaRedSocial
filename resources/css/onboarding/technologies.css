@@ -229,9 +229,11 @@ h1 {
     position: relative;
 }
 
-.tech-item label i {
+.tech-item label i,
+.tech-item label img {
     font-size: 24px;
     line-height: 1;
+    vertical-align: middle;
 }
 
 .tech-item label:hover {

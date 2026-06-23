@@ -55,7 +55,7 @@
                                         <path d="M2 5l2.5 2.5L8 3" stroke="#fff" stroke-width="1.5" stroke-linecap="round" />
                                     </svg>
                                 </div>
-                                <i class="{{ $tech->deviconClass() }} colored"></i>
+                                <img src="{{ $tech->iconUrl() }}" alt="{{ $tech->name }}" class="" loading="lazy" width="24" height="24">
                                 {{ $tech->name }}
                             </label>
                         </div>
