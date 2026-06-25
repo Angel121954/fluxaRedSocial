@@ -1,0 +1,48 @@
+@media (max-width: 1100px) {
+    .rp-quick-stats {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 900px) {
+    .rp-tabs {
+        flex-wrap: nowrap;
+    }
+
+    .rp-tab {
+        padding: 8px 10px;
+        font-size: var(--text-xs);
+    }
+
+    .rp-tab span {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .rp-quick-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .rp-user {
+        min-width: 120px;
+    }
+
+    .rp-user-name {
+        max-width: 90px;
+    }
+
+    .rp-reason {
+        max-width: 160px;
+    }
+
+    .rp-email-link {
+        display: none;
+    }
+}
+
+@media (max-width: 520px) {
+    .rp-quick-stats {
+        grid-template-columns: 1fr 1fr;
+    }
+}

@@ -1,0 +1,93 @@
+/* ─── Quick stats ──────────────────────────────────────────── */
+.rp-quick-stats {
+    margin-bottom: 4px;
+}
+
+.rp-unread-badge {
+    display: inline-block;
+    font-size: var(--text-xs);
+    font-weight: 700;
+    background: var(--rp-amber-bg);
+    color: var(--rp-amber);
+    padding: 1px 7px;
+    border-radius: 20px;
+    margin-left: 6px;
+    vertical-align: middle;
+}
+
+/* ─── Tabs ─────────────────────────────────────────────────── */
+.rp-tabs {
+    display: flex;
+    gap: 2px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    padding: 4px;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+
+.rp-tabs::-webkit-scrollbar {
+    display: none;
+}
+
+.rp-tab {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border: none;
+    border-radius: var(--r-md);
+    background: transparent;
+    color: var(--ink-500);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    font-family: inherit;
+    transition: background .12s, color .12s;
+}
+
+.rp-tab:hover {
+    background: var(--surface);
+    color: var(--ink-700);
+}
+
+.rp-tab svg {
+    flex-shrink: 0;
+}
+
+.rp-tab--active {
+    background: var(--surface);
+    color: var(--ink-900);
+    box-shadow: var(--shadow-xs);
+}
+
+.rp-tab-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    border-radius: 20px;
+    background: var(--rp-red-bg);
+    color: var(--rp-red);
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.rp-tab-count--amber {
+    background: var(--rp-amber-bg);
+    color: var(--rp-amber);
+}
+
+/* ─── Panels ────────────────────────────────────────────────── */
+.rp-panel {
+    display: none;
+}
+
+.rp-panel--active {
+    display: block;
+}

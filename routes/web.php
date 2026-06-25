@@ -5,6 +5,7 @@ declare(strict_types=1);
 use App\Http\Controllers\Admin\CompanyController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DiaryController as AdminDiaryController;
+use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Auth\GuestController;
 use App\Http\Controllers\Auth\SocialAuthController;
@@ -178,6 +179,39 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
 
     Route::patch('/admin/companies/{user}/unban', [CompanyController::class, 'unban'])
         ->name('admin.companies.unban')
+        ->middleware('admin');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Reportes
+    |--------------------------------------------------------------------------
+    */
+    Route::get('/admin/reports', [ReportController::class, 'index'])
+        ->name('admin.reports.index')
+        ->middleware('admin');
+
+    Route::delete('/admin/reports/user/{userReport}', [ReportController::class, 'dismissUserReport'])
+        ->name('admin.reports.user.dismiss')
+        ->middleware('admin');
+
+    Route::delete('/admin/reports/project/{projectReport}', [ReportController::class, 'dismissProjectReport'])
+        ->name('admin.reports.project.dismiss')
+        ->middleware('admin');
+
+    Route::delete('/admin/reports/diary/{diaryReport}', [ReportController::class, 'dismissDiaryReport'])
+        ->name('admin.reports.diary.dismiss')
+        ->middleware('admin');
+
+    Route::delete('/admin/reports/problem/{problemReport}', [ReportController::class, 'dismissProblemReport'])
+        ->name('admin.reports.problem.dismiss')
+        ->middleware('admin');
+
+    Route::patch('/admin/reports/contact/{contact}/read', [ReportController::class, 'markContactRead'])
+        ->name('admin.reports.contact.read')
+        ->middleware('admin');
+
+    Route::patch('/admin/reports/contact/{contact}/unread', [ReportController::class, 'markContactUnread'])
+        ->name('admin.reports.contact.unread')
         ->middleware('admin');
 
     /*

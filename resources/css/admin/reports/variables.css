@@ -1,0 +1,12 @@
+:root {
+    --rp-amber: #f59e0b;
+    --rp-amber-bg: rgba(245, 158, 11, .1);
+    --rp-green: #16a34a;
+    --rp-green-bg: rgba(22, 163, 74, .1);
+    --rp-red: #dc2626;
+    --rp-red-bg: rgba(220, 38, 38, .1);
+    --rp-blue: #3b82f6;
+    --rp-blue-bg: rgba(59, 130, 246, .1);
+    --rp-purple: #8b5cf6;
+    --rp-purple-bg: rgba(139, 92, 246, .1);
+}

@@ -205,6 +205,7 @@ export default defineConfig({
                 // Admin CSS
                 "resources/css/admin/suggestions.css",
                 "resources/css/admin/users.css",
+                "resources/css/admin/reports.css",
 
                 // Admin JS
                 "resources/js/admin/index.js",
