@@ -1,0 +1,30 @@
+/* ─── Responsive ──────────────────────────────────────────────── */
+@media (max-width: 768px) {
+    .ct-tabs {
+        overflow-x: auto;
+        gap: 0;
+    }
+
+    .ct-tab {
+        flex-shrink: 0;
+        padding: 10px 12px;
+        font-size: var(--text-xs);
+    }
+
+    .ct-table-wrap {
+        margin: 0 -16px;
+        border-radius: 0;
+    }
+
+    .ct-user {
+        min-width: 120px;
+    }
+
+    .ct-comment-content {
+        max-width: 160px;
+    }
+
+    .ct-project-title {
+        max-width: 120px;
+    }
+}

@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\CompanyController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DiaryController as AdminDiaryController;
 use App\Http\Controllers\Admin\ReportController;
+use App\Http\Controllers\Admin\ContentController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Auth\GuestController;
 use App\Http\Controllers\Auth\SocialAuthController;
@@ -233,6 +234,27 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
 
     Route::patch('/admin/diary/{diary}', [AdminDiaryController::class, 'update'])
         ->name('admin.diary.update')
+        ->middleware('admin');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Contenido
+    |--------------------------------------------------------------------------
+    */
+    Route::get('/admin/content', [ContentController::class, 'index'])
+        ->name('admin.content.index')
+        ->middleware('admin');
+
+    Route::delete('/admin/content/project/{project}', [ContentController::class, 'deleteProject'])
+        ->name('admin.content.project.delete')
+        ->middleware('admin');
+
+    Route::patch('/admin/content/project/{project}/restore', [ContentController::class, 'restoreProject'])
+        ->name('admin.content.project.restore')
+        ->middleware('admin');
+
+    Route::delete('/admin/content/comment/{comment}', [ContentController::class, 'deleteComment'])
+        ->name('admin.content.comment.delete')
         ->middleware('admin');
 
     Route::get('/diary', [DiaryController::class, 'index'])

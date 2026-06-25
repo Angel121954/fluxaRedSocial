@@ -206,6 +206,7 @@ export default defineConfig({
                 "resources/css/admin/suggestions.css",
                 "resources/css/admin/users.css",
                 "resources/css/admin/reports.css",
+                "resources/css/admin/content.css",
 
                 // Admin JS
                 "resources/js/admin/index.js",
@@ -217,6 +218,7 @@ export default defineConfig({
                 "resources/js/admin/suggestions/delete.js",
                 "resources/js/admin/suggestions/table.js",
                 "resources/js/admin/suggestions/detailModal.js",
+                "resources/js/admin/content/index.js",
             ],
             refresh: true,
         }),

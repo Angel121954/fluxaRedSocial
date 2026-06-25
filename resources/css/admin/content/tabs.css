@@ -1,0 +1,57 @@
+/* ─── Tabs ────────────────────────────────────────────────────── */
+.ct-tabs {
+    display: flex;
+    gap: 0;
+    border-bottom: 2px solid var(--border);
+    margin-bottom: 20px;
+}
+
+.ct-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 10px 18px;
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--ink-500);
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    cursor: pointer;
+    transition: color .12s, border-color .12s;
+    font-family: inherit;
+    white-space: nowrap;
+}
+
+.ct-tab:hover {
+    color: var(--ink-700);
+}
+
+.ct-tab--active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+}
+
+.ct-tab-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 6px;
+    border-radius: 10px;
+    font-size: var(--text-xs);
+    font-weight: 700;
+    background: var(--accent);
+    color: #fff;
+}
+
+/* ─── Panels ──────────────────────────────────────────────────── */
+.ct-panel {
+    display: none;
+}
+
+.ct-panel--active {
+    display: block;
+}
