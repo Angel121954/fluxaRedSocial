@@ -99,8 +99,8 @@
 
 /* ── Close button ─────────────────────────────────── */
 .modal-close {
-    width: 44px;
-    height: 44px;
+    width: 32px;
+    height: 32px;
     flex-shrink: 0;
     background: transparent;
     border: none;

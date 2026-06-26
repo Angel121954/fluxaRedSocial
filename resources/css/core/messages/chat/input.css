@@ -59,8 +59,8 @@
 }
 
 .msgs-toolbar-btn {
-    width: 44px;
-    height: 44px;
+    width: 34px;
+    height: 34px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -151,4 +151,11 @@
 .msgs-send-btn:disabled {
     opacity: 0.4;
     cursor: not-allowed;
+}
+
+@media (max-width: 640px) {
+    .msgs-toolbar-btn {
+        width: 44px;
+        height: 44px;
+    }
 }

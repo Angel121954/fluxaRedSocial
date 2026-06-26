@@ -26,7 +26,7 @@
     display: grid;
     grid-template-columns: repeat(8, 1fr);
     gap: 1px;
-    width: calc(44px * 8 + 7px);
+    width: calc(32px * 8 + 7px);
     max-width: 90vw;
 }
 
@@ -34,8 +34,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 44px;
-    height: 44px;
+    width: 32px;
+    height: 32px;
     font-size: var(--text-lg);
     border: none;
     background: transparent;
@@ -48,4 +48,15 @@
 
 .emoji-item:hover {
     background: var(--bg-subtle);
+}
+
+@media (max-width: 640px) {
+    .emoji-grid {
+        width: calc(44px * 8 + 7px);
+    }
+
+    .emoji-item {
+        width: 44px;
+        height: 44px;
+    }
 }

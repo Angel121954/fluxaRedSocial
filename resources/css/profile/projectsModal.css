@@ -64,8 +64,8 @@
 }
 
 .projects-close {
-    width: 44px;
-    height: 44px;
+    width: 32px;
+    height: 32px;
     flex-shrink: 0;
     background: transparent;
     border: none;
@@ -229,6 +229,11 @@
 
     .projects-header {
         padding: 1rem 1.25rem 0.75rem;
+    }
+
+    .projects-close {
+        width: 44px;
+        height: 44px;
     }
 
     .projects-item {
