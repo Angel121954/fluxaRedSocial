@@ -9,6 +9,7 @@
 <div class="feed-layout">
   <!-- ──── FEED COLUMN ──── -->
   <div class="feed-main">
+    @unless(request()->is('explore/map'))
     <!-- Tabs -->
     <div class="feed-tabs">
       <a href="{{ route('explore.trending') }}" class="feed-tab {{ request()->is('explore/trending') || request()->is('explore') && !request()->get('q') ? 'active' : '' }}" data-url="{{ route('explore.trending') }}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -16,6 +17,7 @@
         </svg> Tendencias</a>
       <a href="{{ route('explore.recent') }}" class="feed-tab {{ request()->is('explore/recent') ? 'active' : '' }}" data-url="{{ route('explore.recent') }}">Recientes</a>
     </div>
+    @endunless
 
     @if(isset($technology))
     <div class="topic-header">
