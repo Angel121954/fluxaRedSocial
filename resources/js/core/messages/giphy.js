@@ -23,10 +23,8 @@ export function initGiphyPicker() {
 
     closeBtn?.addEventListener('click', close);
 
-    document.addEventListener('click', (e) => {
-        if (overlay.classList.contains('active') && !e.target.closest('.giphy-modal')) {
-            close();
-        }
+    overlay?.addEventListener('click', (e) => {
+        if (!e.target.closest('.giphy-modal')) close();
     });
 
     document.addEventListener('keydown', (e) => {
