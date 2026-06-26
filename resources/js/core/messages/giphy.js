@@ -23,8 +23,6 @@ export function initGiphyPicker() {
 
     closeBtn?.addEventListener('click', close);
 
-    overlay.querySelector('.giphy-modal')?.addEventListener('click', (e) => e.stopPropagation());
-
     overlay.addEventListener('click', () => {
         console.log('[GIPHY] overlay click');
         close();
