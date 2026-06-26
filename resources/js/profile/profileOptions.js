@@ -1,3 +1,5 @@
+import { showToast } from '../shared/toast.js';
+
 const metaActions = document.querySelector('.meta-actions');
 const isOwner = metaActions?.dataset.isOwner === 'true';
 const isFollowing = metaActions?.dataset.isFollowing === 'true';
@@ -22,13 +24,17 @@ if (btnFollow) {
     const btnFollowText = document.getElementById('btnFollowText');
 
     btnFollow.addEventListener('click', async () => {
+        if (btnFollow.dataset.loading) return;
+
         const userId = btnFollow.dataset.userId;
         const wasFollowing = btnFollow.classList.contains('is-following');
 
-        // Optimistic UI
         const nowFollowing = !wasFollowing;
         btnFollow.classList.toggle('is-following', nowFollowing);
         if (btnFollowText) btnFollowText.textContent = getLabel(nowFollowing);
+
+        btnFollow.dataset.loading = 'true';
+        btnFollow.disabled = true;
 
         try {
             const res = await fetch(`/users/${userId}/follow`, {
@@ -58,9 +64,12 @@ if (btnFollow) {
             }
         } catch (err) {
             console.error('[Follow]', err);
-            // Revertir
             btnFollow.classList.toggle('is-following', wasFollowing);
             if (btnFollowText) btnFollowText.textContent = getLabel(wasFollowing);
+            showToast('No se pudo realizar la acción', 'error');
+        } finally {
+            delete btnFollow.dataset.loading;
+            btnFollow.disabled = false;
         }
     });
 }

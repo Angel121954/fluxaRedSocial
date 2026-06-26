@@ -1,7 +1,8 @@
-// commentForm.js - Lógica del formulario de comentarios y respuestas
+import { showToast } from '../shared/toast.js';
 
 let commentTextarea, commentActions, btnCancelComment, btnSubmitComment;
 let replyingTo = null;
+let isSubmitting = false;
 
 export function initCommentForm({ onSubmit, getCurrentProjectId }) {
     commentTextarea = document.getElementById("commentTextarea");
@@ -12,6 +13,7 @@ export function initCommentForm({ onSubmit, getCurrentProjectId }) {
     if (!commentTextarea || !btnSubmitComment) return;
 
     commentTextarea.addEventListener("input", function () {
+        if (isSubmitting) return;
         const hasContent = this.value.trim().length > 0;
         if (commentActions) commentActions.style.display = hasContent ? "flex" : "none";
         if (btnSubmitComment) btnSubmitComment.disabled = !hasContent;
@@ -23,7 +25,7 @@ export function initCommentForm({ onSubmit, getCurrentProjectId }) {
     commentTextarea.addEventListener("keydown", (e) => {
         if (e.key === "Enter" && !e.shiftKey) {
             e.preventDefault();
-            if (btnSubmitComment && !btnSubmitComment.disabled) {
+            if (btnSubmitComment && !btnSubmitComment.disabled && !isSubmitting) {
                 btnSubmitComment.click();
             }
         }
@@ -36,11 +38,16 @@ export function initCommentForm({ onSubmit, getCurrentProjectId }) {
     }
 
     btnSubmitComment.addEventListener("click", async () => {
+        if (isSubmitting) return;
         const commentText = commentTextarea.value.trim();
         if (!commentText) return;
 
         const projectId = getCurrentProjectId();
         if (!projectId) return;
+
+        isSubmitting = true;
+        btnSubmitComment.disabled = true;
+        btnSubmitComment.textContent = 'Enviando...';
 
         try {
             const body = { content: commentText };
@@ -69,7 +76,6 @@ export function initCommentForm({ onSubmit, getCurrentProjectId }) {
             
             resetCommentForm();
 
-            // Actualizar contador en la tarjeta
             const commentBtn = document.querySelector(`.comment-btn[data-project-id="${projectId}"]`);
             if (commentBtn) {
                 const countSpan = commentBtn.querySelector('span');
@@ -80,6 +86,12 @@ export function initCommentForm({ onSubmit, getCurrentProjectId }) {
             }
         } catch (error) {
             console.error('Error:', error);
+            showToast('No se pudo enviar el comentario', 'error');
+        } finally {
+            isSubmitting = false;
+            btnSubmitComment.disabled = false;
+            btnSubmitComment.textContent = 'Comentar';
+            commentTextarea.focus();
         }
     });
 }

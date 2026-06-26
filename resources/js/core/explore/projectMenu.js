@@ -73,6 +73,9 @@ function handleProjectAction(action, projectId, dropItem, closeMenu) {
             span.textContent = isBookmarked ? 'Agregar a favoritos' : 'Quitar de favoritos';
             closeMenu?.();
 
+            dropItem.style.pointerEvents = 'none';
+            dropItem.style.opacity = '0.5';
+
             fetch(`/projects/${projectId}/bookmark`, {
                 method: 'POST',
                 headers: {
@@ -89,7 +92,14 @@ function handleProjectAction(action, projectId, dropItem, closeMenu) {
                 .then(data => {
                     span.textContent = data.is_bookmarked ? 'Quitar de favoritos' : 'Agregar a favoritos';
                 })
-                .catch(() => { span.textContent = isBookmarked ? 'Quitar de favoritos' : 'Agregar a favoritos'; });
+                .catch(() => {
+                    span.textContent = isBookmarked ? 'Quitar de favoritos' : 'Agregar a favoritos';
+                    showToast('No se pudo actualizar el favorito', 'error');
+                })
+                .finally(() => {
+                    dropItem.style.pointerEvents = '';
+                    dropItem.style.opacity = '';
+                });
             break;
         }
 

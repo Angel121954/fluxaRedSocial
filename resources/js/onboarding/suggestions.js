@@ -1,13 +1,12 @@
-/**
- * Manejo del onboarding de sugerencias
- */
+import { showToast } from '../shared/toast.js';
 
 function toggleFollow(btn, userId) {
+    if (btn.dataset.loading) return;
+
     const input = document.getElementById('follow_' + userId);
     const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
     const wasFollowing = btn.classList.contains('following');
 
-    // Optimistic UI: toggle inmediato
     const nowFollowing = !wasFollowing;
     const label = nowFollowing ? 'Siguiendo \u2713' : 'Seguir';
     btn.classList.toggle('following', nowFollowing);
@@ -16,6 +15,9 @@ function toggleFollow(btn, userId) {
         input.disabled = !nowFollowing;
         input.value = nowFollowing ? userId : '';
     }
+
+    btn.dataset.loading = 'true';
+    btn.disabled = true;
 
     fetch(`/users/${userId}/follow`, {
         method: 'POST',
@@ -40,13 +42,17 @@ function toggleFollow(btn, userId) {
         })
         .catch(err => {
             console.error('[Follow]', err);
-            // Revertir al estado anterior
             btn.classList.toggle('following', wasFollowing);
             btn.textContent = wasFollowing ? 'Siguiendo \u2713' : 'Seguir';
             if (input) {
                 input.disabled = !wasFollowing;
                 input.value = wasFollowing ? userId : '';
             }
+            showToast('No se pudo seguir al usuario', 'error');
+        })
+        .finally(() => {
+            delete btn.dataset.loading;
+            btn.disabled = false;
         });
 }
 
