@@ -405,6 +405,12 @@ h1 {
     }
 }
 
+@media (max-width: 480px) {
+    .tech-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
 /* ─── Category groups ──────────────────────────── */
 .onboarding-category {
     margin-bottom: 1.5rem;

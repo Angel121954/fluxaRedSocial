@@ -124,3 +124,9 @@
     visibility: visible;
     transform: translateX(-50%) translateY(0);
 }
+
+@media (max-width: 800px) {
+    .toast {
+        bottom: calc(1.5rem + 64px + env(safe-area-inset-bottom, 0px));
+    }
+}

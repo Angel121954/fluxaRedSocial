@@ -64,6 +64,6 @@
 /* ─── Scroll ─────────────────────────────────────────── */
 body {
     overflow-y: scroll;
-    /* siempre reserva el espacio del scrollbar */
     scrollbar-gutter: stable;
+    overscroll-behavior: contain;
 }

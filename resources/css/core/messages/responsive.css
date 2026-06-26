@@ -138,7 +138,7 @@
 
     .msgs-bubble-list {
         padding: 0.75rem;
-        padding-bottom: calc(0.75rem + 52px + env(safe-area-inset-bottom, 0px));
+        padding-bottom: calc(0.75rem + 64px + env(safe-area-inset-bottom, 0px));
     }
 
     .msgs-header-actions .msgs-header-action:not(.msgs-header-action--more) {

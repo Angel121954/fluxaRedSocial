@@ -137,8 +137,8 @@
     top: 50%;
     right: 0.75rem;
     transform: translateY(-50%);
-    width: 32px;
-    height: 32px;
+    width: 44px;
+    height: 44px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -424,6 +424,7 @@
         overflow-x: auto;
         flex-wrap: nowrap;
         -webkit-overflow-scrolling: touch;
+        overscroll-behavior: contain;
         margin-bottom: 1rem;
         scrollbar-width: none;
         gap: 0.5rem;
@@ -516,8 +517,8 @@
         top: auto;
         right: auto;
         transform: none;
-        width: 32px;
-        height: 32px;
+        width: 44px;
+        height: 44px;
         flex-shrink: 0;
         opacity: 1;
         background: transparent;

@@ -218,7 +218,8 @@
         display: flex;
         flex-direction: column;
         gap: 2px;
-        max-height: calc(100dvh - 52px);
+        max-height: calc(100dvh - 48px - 64px);
+        padding-bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
         overflow-y: auto;
     }
 

@@ -9,6 +9,7 @@
     gap: 0.3125rem;
     scrollbar-width: thin;
     scrollbar-color: var(--ink-200) transparent;
+    overscroll-behavior: contain;
 }
 
 .msgs-bubble-list::-webkit-scrollbar {

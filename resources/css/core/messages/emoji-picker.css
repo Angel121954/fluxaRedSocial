@@ -26,15 +26,16 @@
     display: grid;
     grid-template-columns: repeat(8, 1fr);
     gap: 1px;
-    width: 264px;
+    width: calc(44px * 8 + 7px);
+    max-width: 90vw;
 }
 
 .emoji-item {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 32px;
-    height: 32px;
+    width: 44px;
+    height: 44px;
     font-size: var(--text-lg);
     border: none;
     background: transparent;
