@@ -149,16 +149,9 @@
         white-space: nowrap;
     }
 
-    .btn-icon.post-menu-btn {
-        width: 36px;
-        height: 36px;
-        color: var(--ink-400);
-        background: none;
-    }
-
     .btn-icon.post-menu-btn svg {
-        width: 22px;
-        height: 22px;
+        width: 18px;
+        height: 18px;
     }
 
     .btn-icon.post-menu-btn svg path {
