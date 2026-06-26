@@ -23,11 +23,19 @@ export function initGiphyPicker() {
 
     closeBtn?.addEventListener('click', close);
 
+    let touchMoved = false;
+    document.addEventListener('touchstart', () => { touchMoved = false; }, { passive: true });
+    document.addEventListener('touchmove', () => { touchMoved = true; }, { passive: true });
+
     document.addEventListener('click', (e) => {
-        if (overlay.classList.contains('active') && !e.target.closest('.giphy-modal')) {
+        if (overlay.classList.contains('active') && !e.target.closest('.giphy-modal')) close();
+    });
+
+    document.addEventListener('touchend', (e) => {
+        if (!touchMoved && overlay.classList.contains('active') && !e.target.closest('.giphy-modal')) {
             close();
         }
-    });
+    }, { passive: true });
 
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && overlay.classList.contains('active')) close();
