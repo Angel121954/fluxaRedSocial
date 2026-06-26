@@ -296,3 +296,13 @@ h1 {
     .left  { padding: 32px 24px; border-right: none; }
     .roles { grid-template-columns: 1fr; }
 }
+
+@media (max-width: 480px) {
+    .left {
+        padding: 24px 16px;
+    }
+
+    .logo img {
+        height: 48px;
+    }
+}

@@ -316,3 +316,13 @@ h1 {
         border-right: none;
     }
 }
+
+@media (max-width: 480px) {
+    .left {
+        padding: 24px 16px;
+    }
+
+    .logo img {
+        height: 48px;
+    }
+}
