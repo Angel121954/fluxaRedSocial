@@ -23,10 +23,14 @@ export function initGiphyPicker() {
 
     closeBtn?.addEventListener('click', close);
 
-    overlay.addEventListener('click', () => {
-        console.log('[GIPHY] overlay click');
-        close();
-    });
+    const modal = overlay.querySelector('.giphy-modal');
+    if (modal) {
+        modal.addEventListener('click', (e) => e.stopPropagation());
+        modal.addEventListener('touchend', (e) => e.stopPropagation());
+    }
+
+    overlay.addEventListener('click', close);
+    overlay.addEventListener('touchend', close);
 
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && overlay.classList.contains('active')) close();
