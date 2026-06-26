@@ -169,6 +169,7 @@
 @endif
 
 {{-- ── Menú móvil ── --}}
+<div class="mobile-overlay" id="mobileOverlay" aria-hidden="true" onclick="toggleMobileMenu()"></div>
 <div class="mobile-menu" id="mobileMenu" role="dialog" aria-label="Menú de navegación" aria-hidden="true">
     <div class="mobile-menu-content">
 

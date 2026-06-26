@@ -25,8 +25,10 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         const mobileMenu = document.getElementById('mobileMenu');
+        const mobileOverlay = document.getElementById('mobileOverlay');
         if (mobileMenu?.classList.contains('active')) {
             mobileMenu.classList.remove('active');
+            mobileOverlay?.classList.remove('active');
             document.getElementById('mobileMenuBtn')?.setAttribute('aria-expanded', 'false');
         }
 

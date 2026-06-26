@@ -186,6 +186,27 @@
         display: flex;
     }
 
+    /* ── Overlay ─────────────────────────────── */
+
+    .mobile-overlay {
+        display: block;
+        position: fixed;
+        top: 48px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 192;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .mobile-overlay.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
     /* ── Menú móvil ─────────────────────────── */
 
     .mobile-menu {
@@ -194,22 +215,22 @@
         top: 48px;
         left: 0;
         right: 0;
-        bottom: 0;
         background: var(--surface);
         border-bottom: 1px solid var(--border);
         box-shadow: var(--shadow-md);
-        z-index: 150;
+        z-index: 193;
 
-        /* Animación suave */
+        transform: translateY(-100%);
         opacity: 0;
-        transform: translateY(-6px);
+        visibility: hidden;
         pointer-events: none;
-        transition: opacity 0.2s ease, transform 0.2s ease;
+        transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease;
     }
 
     .mobile-menu.active {
-        opacity: 1;
         transform: translateY(0);
+        opacity: 1;
+        visibility: visible;
         pointer-events: auto;
     }
 
@@ -219,7 +240,6 @@
         flex-direction: column;
         gap: 2px;
         max-height: calc(100dvh - 48px - 64px);
-        padding-bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
         overflow-y: auto;
     }
 

@@ -177,11 +177,15 @@ function toggleHelpDropdown(e) {
 
 function toggleMobileMenu() {
     const menu = document.getElementById('mobileMenu');
+    const overlay = document.getElementById('mobileOverlay');
     const btn = document.getElementById('mobileMenuBtn');
     const open = menu.classList.toggle('active');
+    overlay?.classList.toggle('active');
 
     btn.setAttribute('aria-expanded', open);
     menu.setAttribute('aria-hidden', !open);
+
+    document.body.style.overflow = open ? 'hidden' : '';
 
     if (open) {
         setTimeout(() => {
@@ -191,24 +195,37 @@ function toggleMobileMenu() {
     }
 }
 
-function closeMobileMenuAndOpen() {
+function closeMobileMenu() {
     const menu = document.getElementById('mobileMenu');
+    const overlay = document.getElementById('mobileOverlay');
     const btn = document.getElementById('mobileMenuBtn');
-    menu.classList.remove('active');
-    btn.setAttribute('aria-expanded', 'false');
-    menu.setAttribute('aria-hidden', 'true');
+    menu?.classList.remove('active');
+    overlay?.classList.remove('active');
+    if (btn) {
+        btn.setAttribute('aria-expanded', 'false');
+        menu?.setAttribute('aria-hidden', 'true');
+    }
+    document.body.style.overflow = '';
+}
+
+function closeMobileMenuAndOpen() {
+    closeMobileMenu();
     if (typeof abrirModal === 'function') abrirModal();
 }
 
 document.addEventListener('click', function (e) {
     const menu = document.getElementById('mobileMenu');
+    const overlay = document.getElementById('mobileOverlay');
     const btn = document.getElementById('mobileMenuBtn');
     if (menu && menu.classList.contains('active') &&
-        !menu.contains(e.target) && !btn.contains(e.target)) {
-        menu.classList.remove('active');
-        btn.setAttribute('aria-expanded', 'false');
-        menu.setAttribute('aria-hidden', 'true');
+        !menu.contains(e.target) && !btn?.contains(e.target)) {
+        closeMobileMenu();
     }
+});
+
+document.getElementById('mobileMenu')?.addEventListener('click', function (e) {
+    const link = e.target.closest('a');
+    if (link) closeMobileMenu();
 });
 
 document.addEventListener('keydown', function (e) {
@@ -216,10 +233,8 @@ document.addEventListener('keydown', function (e) {
         const menu = document.getElementById('mobileMenu');
         const btn = document.getElementById('mobileMenuBtn');
         if (menu && menu.classList.contains('active')) {
-            menu.classList.remove('active');
-            btn.setAttribute('aria-expanded', 'false');
-            menu.setAttribute('aria-hidden', 'true');
-            btn.focus();
+            closeMobileMenu();
+            btn?.focus();
             return;
         }
 
