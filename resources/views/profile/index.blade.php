@@ -3,7 +3,11 @@
 @section('content')
 <x-topbar :profile="$user->profile" />
 
-<body class="font-sans antialiased" data-user-avatar="{{ $user->avatar_url }}" data-user-name="{{ $user->name }}" data-user-handle="{{ $user->username }}">
+@section('body-attributes')
+    data-user-avatar="{{ $user->avatar_url }}"
+    data-user-name="{{ $user->name }}"
+    data-user-handle="{{ $user->username }}"
+@endsection
     <!-- ══════════════════════════════════════════
      PROFILE HEADER
 ══════════════════════════════════════════ -->
@@ -349,7 +353,6 @@
     <x-followers-modal />
     <x-projects-modal />
     @include('profile.partials.github-import-modal')
-</body>
 @endsection
 
 @push('styles')
