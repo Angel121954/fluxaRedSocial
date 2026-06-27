@@ -177,12 +177,34 @@ a:active:not(:disabled),
 
 /* ═══════════════════════════════════════════════════════════
    STICKY HOVER FIX — MÓVIL
-   En touch, el :hover se queda "pegado" tras el tap.
-   Reseteamos solo background-color que es lo más visible
-   (fondos fantasma en botones, menús, dropdowns, etc.).
+   En touch, el :hover se queda "pegado" tras el tap causando
+   "fondos fantasma". En vez de un *:hover genérico (que rompe
+   botones con color sólido como .btn-new-msg), reseteamos
+   solo en elementos que NO tienen color de fondo propio.
    ═══════════════════════════════════════════════════════════ */
 @media (hover: none) and (pointer: coarse) {
-    *:hover {
+    .post-action:hover,
+    .like-btn:hover,
+    .btn-bookmark:hover,
+    .btn-icon:hover,
+    .btn-new:hover,
+    .bottom-nav-item:hover,
+    .mobile-menu-link:hover,
+    .nav-link:hover,
+    .nav-dropdown-item:hover,
+    .topic-pill:hover,
+    .filter-chip:hover,
+    .feed-tab:hover,
+    .tab:hover,
+    .f-pill:hover,
+    .skill-btn:hover,
+    .drop-item:hover,
+    .modal-close:hover,
+    .toast-entry:hover,
+    .msgs-conv-item:hover,
+    .msgs-send-btn:hover,
+    .msgs-toolbar-btn:hover,
+    .msgs-back-btn:hover {
         background-color: transparent !important;
     }
 }
