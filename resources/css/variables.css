@@ -168,3 +168,15 @@ a:active:not(:disabled),
         display: none !important;
     }
 }
+
+/* ═══════════════════════════════════════════════════════════
+   STICKY HOVER FIX — MÓVIL
+   En touch, el :hover se queda "pegado" tras el tap.
+   Reseteamos solo background-color que es lo más visible
+   (fondos fantasma en botones, menús, dropdowns, etc.).
+   ═══════════════════════════════════════════════════════════ */
+@media (hover: none) and (pointer: coarse) {
+    *:hover {
+        background-color: transparent !important;
+    }
+}
