@@ -90,6 +90,68 @@ body {
     }
 }
 
+/* ═══════════════════════════════════════════════════════════
+   TOUCH OPTIMIZATION
+   Elimina la latencia de 300ms en móvil y mejora feedback
+   ═══════════════════════════════════════════════════════════ */
+
+button,
+a,
+input,
+select,
+textarea,
+[role="button"],
+[role="menuitem"],
+[role="tab"],
+[role="link"],
+summary,
+label,
+.post-action,
+.like-btn,
+.btn-follow,
+.btn-bookmark,
+.btn-icon,
+.btn-new,
+.bottom-nav-item,
+.bottom-fab,
+.mobile-menu-link,
+.nav-link,
+.nav-dropdown-item,
+.topic-pill,
+.filter-chip,
+.feed-tab,
+.tab,
+.f-pill,
+.skill-btn,
+.drop-item,
+.modal-close,
+.toast-entry,
+.msgs-conv-item,
+.msgs-send-btn,
+.msgs-toolbar-btn,
+.msgs-back-btn {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+
+/* ─── Active state unificado ────────────────────────── */
+button:active:not(:disabled),
+a:active:not(:disabled),
+[role="button"]:active:not(:disabled),
+.post-action:active:not(:disabled),
+.like-btn:active:not(:disabled),
+.btn-follow:active:not(:disabled),
+.btn-icon:active:not(:disabled),
+.btn-new:active:not(:disabled),
+.bottom-nav-item:active:not(:disabled),
+.topic-pill:active:not(:disabled),
+.filter-chip:active:not(:disabled),
+.feed-tab:active:not(:disabled),
+.drop-item:active:not(:disabled) {
+    transform: scale(0.97);
+    transition: transform 0.1s ease;
+}
+
 /* ─── Utilidades responsive globales ─────────────────── */
 .hide-desktop {
     display: none !important;
