@@ -237,16 +237,11 @@
 }
 
 @media (max-width: 768px) {
-    .msgs-modal-overlay {
-        padding: 1rem;
-        align-items: center;
-    }
-
     .msgs-modal {
-        max-width: 100%;
-        border-radius: 12px;
+        max-width: 90%;
+        border-radius: 16px;
         max-height: 85vh;
-        transform: translateY(20px) scale(0.97);
+        transform: translateY(30px) scale(0.95);
     }
 
     .msgs-modal-overlay.active .msgs-modal {
