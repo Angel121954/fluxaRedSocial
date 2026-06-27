@@ -5,11 +5,17 @@
 ═══════════════════════════════════════════════════════════ */
 
 :root {
-    /* ─── Acento ─────────────────────────────────────────── */
+    /* ─── Acento principal (teal) ─────────────────────────── */
     --accent: #12b3b6;
     --accent-dark: #0d8e91;
     --accent-dim: rgba(18, 179, 182, 0.07);
     --accent-ring: rgba(18, 179, 182, 0.18);
+
+    /* ─── Acento secundario (amber - warm) ────────────────── */
+    --accent-warm: #d97706;
+    --accent-warm-dark: #b45309;
+    --accent-warm-dim: rgba(217, 119, 6, 0.08);
+    --accent-warm-ring: rgba(217, 119, 6, 0.18);
 
     /* ─── Superficies ────────────────────────────────────── */
     --surface: #ffffff;

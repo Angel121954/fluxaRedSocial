@@ -160,7 +160,7 @@
 .verify-badge {
     width: 16px;
     height: 16px;
-    background: var(--accent);
+    background: var(--accent-warm);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -242,6 +242,16 @@
 .post-tag:hover {
     background: var(--accent-dim);
     color: var(--accent);
+}
+
+.post-tag--featured {
+    background: var(--accent-warm-dim);
+    color: var(--accent-warm-dark);
+}
+
+.post-tag--featured:hover {
+    background: var(--accent-warm-ring);
+    color: var(--accent-warm-dark);
 }
 
 /* Post image */

@@ -109,3 +109,18 @@
     background: var(--accent-dim);
     border-color: var(--accent-ring);
 }
+
+.feed-tab.trending {
+    color: var(--accent-warm);
+}
+
+.feed-tab.trending:hover {
+    background: var(--accent-warm-dim);
+    color: var(--accent-warm-dark);
+}
+
+.feed-tab.trending.active {
+    color: var(--accent-warm);
+    background: var(--accent-warm-dim);
+    border-color: var(--accent-warm-ring);
+}

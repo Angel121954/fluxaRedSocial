@@ -76,8 +76,8 @@
 }
 
 .badge-icon--tier-1 {
-    background: rgba(180, 130, 60, 0.12);
-    color: #8B6914;
+    background: var(--accent-warm-dim);
+    color: var(--accent-warm-dark);
 }
 
 .badge-icon--tier-2 {
@@ -86,8 +86,8 @@
 }
 
 .badge-icon--tier-3 {
-    background: rgba(245, 190, 50, 0.12);
-    color: #b8860b;
+    background: var(--accent-warm-dim);
+    color: var(--accent-warm);
 }
 
 .badge-icon--locked {
