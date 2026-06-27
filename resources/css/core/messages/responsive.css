@@ -68,7 +68,6 @@
         min-width: 100%;
         border-right: none;
         z-index: 10;
-        transition: transform 0.25s ease;
         background: #fafbfc;
     }
 

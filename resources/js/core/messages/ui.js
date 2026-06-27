@@ -109,6 +109,76 @@ export function initMobileNavigation(convList, layout, backBtn, bubbleList) {
             }
         }, 150);
     });
+
+    // ── Navegación AJAX en mobile (solo una vez) ──
+    if (convList && !convList._ajaxAttached) {
+        convList._ajaxAttached = true;
+
+        convList.addEventListener('click', async (e) => {
+            const convItem = e.target.closest('.msgs-conv-item');
+            if (!convItem || !convItem.getAttribute('href')) return;
+            if (!isMobile()) return;
+
+            const href = convItem.getAttribute('href');
+            const url = new URL(href, window.location.origin);
+            const convId = url.searchParams.get('conv');
+            if (!convId) return;
+
+            // Misma conversación: solo mostrar el chat
+            const currentConvId = document.getElementById('msgsBubbleList')?.dataset.convId;
+            if (currentConvId === convId) {
+                layout?.classList.add('chat-active');
+                return;
+            }
+
+            e.preventDefault();
+
+            // Optimistic UI: marcar activo y mostrar chat al instante
+            convList.querySelectorAll('.msgs-conv-item').forEach(item => item.classList.remove('active'));
+            convItem.classList.add('active');
+            layout?.classList.add('chat-active');
+
+            // Actualizar URL sin recargar
+            if (window.history.pushState) {
+                const newUrl = new URL(window.location);
+                newUrl.searchParams.set('conv', convId);
+                window.history.pushState({ conv: convId }, '', newUrl);
+            }
+
+            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content ?? '';
+
+            try {
+                const res = await fetch(`/messages/${convId}/load`, {
+                    headers: { 'Accept': 'application/json', 'X-CSRF-TOKEN': csrfToken },
+                    credentials: 'same-origin',
+                });
+
+                if (!res.ok) throw new Error('Error al cargar la conversación');
+
+                const data = await res.json();
+
+                const chatSection = document.getElementById('msgsChat');
+                if (chatSection && data.html) {
+                    chatSection.outerHTML = data.html;
+                }
+
+                if (window.reinitChat) window.reinitChat();
+            } catch (err) {
+                console.error('[Fluxa Messages]', err);
+                if (window.showToast) window.showToast('Error al cargar la conversación', 'error');
+            }
+        });
+    }
+
+    // Manejar botón atrás/adelante del navegador
+    window.addEventListener('popstate', () => {
+        const url = new URL(window.location);
+        if (!url.searchParams.has('conv') && layout) {
+            layout.classList.remove('chat-active');
+        } else if (url.searchParams.has('conv') && layout && isMobile()) {
+            layout.classList.add('chat-active');
+        }
+    });
 }
 
 export function initModal({ modalOverlay, modalClose, modalSearch, modalResults }) {

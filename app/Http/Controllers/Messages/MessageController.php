@@ -129,18 +129,53 @@ class MessageController extends Controller
         return view('messages.index', compact('activeConversation', 'otherUser', 'conversations', 'activeMessages', 'hasBlockedOther', 'isBlockedByOther'));
     }
 
+    public function loadConversation(Conversation $conversation): JsonResponse
+    {
+        $user = auth()->user();
+
+        $this->authorize('view', $conversation);
+
+        $this->messageService->markConversationAsRead($conversation, $user->id);
+
+        $otherUser = $conversation->otherUser($user);
+        $activeMessages = $conversation->messages()->with('sender.profile')->oldest()->get();
+
+        $hasBlockedOther = $this->messageService->hasBlocked($user->id, $otherUser->id);
+        $isBlockedByOther = $this->messageService->isBlockedBy($user->id, $otherUser->id);
+
+        $html = view('messages.partials.chat-panel', [
+            'activeConversation' => $conversation,
+            'otherUser' => $otherUser,
+            'activeMessages' => $activeMessages,
+            'hasBlockedOther' => $hasBlockedOther,
+            'isBlockedByOther' => $isBlockedByOther,
+        ])->render();
+
+        return response()->json([
+            'html' => $html,
+            'conversation_id' => $conversation->id,
+        ]);
+    }
+
     public function store(StoreMessageRequest $request, Conversation $conversation): JsonResponse
     {
-        return $this->sendAndRespond($request, $conversation, false,
-            fn ($conv, $userId, $req) => $this->messageService->sendMessage($conv, $userId, $req->body)
+        return $this->sendAndRespond(
+            $request,
+            $conversation,
+            false,
+            fn($conv, $userId, $req) => $this->messageService->sendMessage($conv, $userId, $req->body)
         );
     }
 
     public function storeGif(StoreMediaMessageRequest $request, Conversation $conversation): JsonResponse
     {
-        return $this->sendAndRespond($request, $conversation, true,
-            fn ($conv, $userId, $req) => $this->messageService->sendGifMessage(
-                $conv, $userId,
+        return $this->sendAndRespond(
+            $request,
+            $conversation,
+            true,
+            fn($conv, $userId, $req) => $this->messageService->sendGifMessage(
+                $conv,
+                $userId,
                 $req->string('gif_url')->toString(),
                 $req->string('body')->toString() ?: null,
             )
@@ -149,9 +184,13 @@ class MessageController extends Controller
 
     public function storeMedia(StoreMediaMessageRequest $request, Conversation $conversation): JsonResponse
     {
-        return $this->sendAndRespond($request, $conversation, true,
-            fn ($conv, $userId, $req) => $this->messageService->sendMediaMessage(
-                $conv, $userId,
+        return $this->sendAndRespond(
+            $request,
+            $conversation,
+            true,
+            fn($conv, $userId, $req) => $this->messageService->sendMediaMessage(
+                $conv,
+                $userId,
                 $req->file('file'),
                 $req->string('media_type')->toString(),
                 $req->string('body')->toString() ?: null,

@@ -9,14 +9,35 @@ import { updateMessage, sendMessage } from './messageService.js';
 import { updateBubbleBody, createOwnBubble, ensureDateSeparator } from './messageRenderer.js';
 import { scrollToBottom } from './messageUtils.js';
 
+function initChatFeatures() {
+    const input = document.getElementById('msgsInput');
+    const sendBtn = document.getElementById('msgsSendBtn');
+    const bubbleList = document.getElementById('msgsBubbleList');
+    const convList = document.getElementById('msgsConvList');
+    const sidebarSearch = document.getElementById('msgsSearch');
+    const layout = document.querySelector('.msgs-layout');
+    const backBtn = document.getElementById('msgsBackBtn');
+
+    const uiHelpers = initUI({ input, sendBtn, bubbleList, convList, sidebarSearch, layout, backBtn });
+    attachSendHandler(input, sendBtn, bubbleList, uiHelpers.syncSendBtn);
+    initMobileNavigation(convList, layout, backBtn, bubbleList);
+    initMoreDropdown();
+    initToolbarActions();
+    initGiphyPicker();
+    initTypingBroadcast(sendBtn?.dataset.convId, input);
+    initRealtime(bubbleList?.dataset.convId, bubbleList, window.currentUser);
+    initBlockHandler();
+    initEmojiPicker();
+
+    if (input?.disabled && sendBtn) sendBtn.disabled = true;
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     const layout = document.querySelector('.msgs-layout');
     const convList = document.getElementById('msgsConvList');
     const sidebarSearch = document.getElementById('msgsSearch');
     const input = document.getElementById('msgsInput');
-    const sendBtn = document.getElementById('msgsSendBtn');
     const bubbleList = document.getElementById('msgsBubbleList');
-    const backBtn = document.getElementById('msgsBackBtn');
     const modalOverlay = document.getElementById('msgsModalOverlay');
     const modalClose = document.getElementById('msgsModalClose');
     const modalSearch = document.getElementById('msgsModalSearch');
@@ -29,25 +50,16 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     window.currentUser = currentUser;
+    window.reinitChat = initChatFeatures;
 
-    const uiHelpers = initUI({ input, sendBtn, bubbleList, convList, sidebarSearch, layout, backBtn });
-    attachSendHandler(input, sendBtn, bubbleList, uiHelpers.syncSendBtn);
     initConversationSearch(sidebarSearch, convList);
     initConversationTabs(convList);
-    initMobileNavigation(convList, layout, backBtn, bubbleList);
     initModal({ modalOverlay, modalClose, modalSearch, modalResults });
-    initMoreDropdown();
-    initToolbarActions();
-    initGiphyPicker();
     startTimeUpdates();
-    initTypingBroadcast(sendBtn?.dataset.convId, input);
-    initRealtime(bubbleList?.dataset.convId, bubbleList, currentUser);
-    initBlockHandler();
-    initEmojiPicker();
+
+    initChatFeatures();
 
     if (window.updateBadges) window.updateBadges();
-
-    if (input?.disabled && sendBtn) sendBtn.disabled = true;
 
     /* ─── Image preview modal ─── */
     const imgModal = document.getElementById('msgsImgModal');

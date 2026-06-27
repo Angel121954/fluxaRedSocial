@@ -538,6 +538,7 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
         Route::get('/messages/chat/{username}', [MessageController::class, 'redirectToConversation'])->name('messages.chat');
         Route::post('/messages/user/{user_id}', [MessageController::class, 'storeNewConversation'])->name('messages.storeNew')->middleware('idempotent');
         Route::post('/messages/{user}/block', [MessageController::class, 'blockUser'])->name('messages.block');
+        Route::get('/messages/{conversation}/load', [MessageController::class, 'loadConversation'])->name('messages.load');
 
         /*
         |--------------------------------------------------------------------------
