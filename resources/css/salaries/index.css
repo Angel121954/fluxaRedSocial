@@ -565,7 +565,7 @@
 }
 
 /* ── Responsive ──────────────────────────────────── */
-@media (max-width: 680px) {
+@media (max-width: 640px) {
     .salary-header {
         flex-direction: column;
     }

@@ -711,7 +711,7 @@
 /* ══════════════════════════════════════════════════════════
    RESPONSIVE
 ══════════════════════════════════════════════════════════ */
-@media (max-width: 900px) {
+@media (max-width: 1024px) {
     .cv-layout {
         grid-template-columns: 1fr;
     }
@@ -725,7 +725,7 @@
     }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 640px) {
     .cv-templates {
         flex-direction: column;
     }

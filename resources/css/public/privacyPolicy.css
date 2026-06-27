@@ -84,13 +84,13 @@
     gap: 16px;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1024px) {
     .privacy-summary-grid {
         grid-template-columns: repeat(2, 1fr);
     }
 }
 
-@media (max-width: 520px) {
+@media (max-width: 480px) {
     .privacy-summary-grid {
         grid-template-columns: 1fr;
     }
@@ -168,7 +168,7 @@
     }
 }
 
-@media (max-width: 520px) {
+@media (max-width: 640px) {
     .privacy-layout {
         padding: 0 16px;
         margin: 32px auto 60px;
@@ -421,13 +421,13 @@
     margin-top: 16px;
 }
 
-@media (max-width: 700px) {
+@media (max-width: 768px) {
     .privacy-rights-grid {
         grid-template-columns: repeat(2, 1fr);
     }
 }
 
-@media (max-width: 440px) {
+@media (max-width: 480px) {
     .privacy-rights-grid {
         grid-template-columns: 1fr;
     }

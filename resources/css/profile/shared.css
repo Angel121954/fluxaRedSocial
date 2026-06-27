@@ -431,7 +431,7 @@ select.form-input {
     }
 }
 
-@media (max-width: 380px) {
+@media (max-width: 375px) {
     .main-content {
         padding: 0.75rem;
     }

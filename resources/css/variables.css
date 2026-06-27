@@ -61,9 +61,48 @@
     --overlay: rgba(11, 15, 26, 0.45);
 }
 
+/* ═══════════════════════════════════════════════════════════
+   BREAKPOINTS — Usar estos valores en todas las media queries
+   ═══════════════════════════════════════════════════════════
+   sm  = 640px   → móviles grandes / tablets pequeñas
+   md  = 768px   → tablets / landscape móvil
+   lg  = 1024px  → desktop / laptops
+   xl  = 1280px  → desktop grande
+   xs  = 480px   → móviles pequeños
+   xxs = 375px   → móviles muy pequeños (iPhone SE, excepción justificada)
+   --------------------------------------------------------
+   NO usar valores intermedios (680, 800, 900, 520, 420, etc.)
+   Si necesitas un escalón extra, usa el breakpoint estándar
+   más cercano. Si es indispensable un valor distinto,
+   documenta por qué con un comentario.
+   ═══════════════════════════════════════════════════════════ */
+
 /* ─── Scroll ─────────────────────────────────────────── */
 body {
     overflow-y: scroll;
     scrollbar-gutter: stable;
     overscroll-behavior: contain;
+}
+
+@media (max-width: 768px) {
+    body {
+        padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px));
+    }
+}
+
+/* ─── Utilidades responsive globales ─────────────────── */
+.hide-desktop {
+    display: none !important;
+}
+
+@media (max-width: 768px) {
+    .hide-mobile {
+        display: none !important;
+    }
+}
+
+@media (min-width: 769px) {
+    .hide-desktop {
+        display: none !important;
+    }
 }

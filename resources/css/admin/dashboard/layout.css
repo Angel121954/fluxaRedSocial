@@ -124,7 +124,7 @@
 }
 
 /* ── Sidebar collapsed state (desktop only) ───────── */
-@media (min-width:901px) {
+@media (min-width: 1024px) {
     .sidebar.collapsed {
         width: var(--sidebar-collapsed-w);
     }

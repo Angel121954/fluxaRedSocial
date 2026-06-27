@@ -287,7 +287,7 @@
 }
 
 /* ── Responsive ─────────────────────────────────────────── */
-@media (max-width: 900px) {
+@media (max-width: 1024px) {
     .contact-wrapper {
         grid-template-columns: 1fr;
         gap: 2.5rem;
@@ -302,7 +302,7 @@
     }
 }
 
-@media (max-width: 520px) {
+@media (max-width: 640px) {
     .contact-section {
         padding: 2rem 1rem 3rem;
     }

@@ -1,5 +1,5 @@
 /* ══ Responsive ══════════════════════════════════════ */
-@media (max-width:1200px) {
+@media (max-width:1280px) {
     .stats-row {
         grid-template-columns: repeat(3, 1fr);
     }
@@ -15,7 +15,7 @@
     }
 }
 
-@media (max-width:900px) {
+@media (max-width:768px) {
     :root {
         --sidebar-w: 228px;
     }
@@ -66,7 +66,7 @@
     }
 }
 
-@media (max-width:600px) {
+@media (max-width:640px) {
     .page-content {
         padding: 16px;
         gap: 16px;
@@ -107,7 +107,7 @@
     }
 }
 
-@media (max-width:420px) {
+@media (max-width:480px) {
     .stats-row {
         grid-template-columns: 1fr;
     }
