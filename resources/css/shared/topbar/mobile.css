@@ -177,7 +177,8 @@
     /* Ocultar acciones de desktop en navbar-right */
     .navbar-right .btn-new,
     .navbar-right .nav-user-av,
-    .navbar-right .nav-guest-form {
+    .navbar-right .nav-guest-form,
+    .navbar-right .nav-help-dropdown {
         display: none;
     }
 
