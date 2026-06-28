@@ -15,7 +15,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, TwoFactorAuthenticatable, SoftDeletes;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes, TwoFactorAuthenticatable;
 
     protected $fillable = [
         'name',
@@ -42,6 +42,7 @@ class User extends Authenticatable
         'password' => 'hashed',
         'onboarding_completed' => 'boolean',
         'github_token_expires_at' => 'datetime',
+        'github_synced_at' => 'datetime',
     ];
 
     public function banner(): BelongsTo
@@ -209,6 +210,13 @@ class User extends Authenticatable
     public function getIsVerifiedAttribute(): bool
     {
         return $this->email_verified_at !== null;
+    }
+
+    public function getIsOpenSourceAttribute(): bool
+    {
+        return $this->github_token !== null
+            && $this->github_public_repos !== null
+            && $this->github_public_repos > 0;
     }
 
     public function blockedUsers(): BelongsToMany

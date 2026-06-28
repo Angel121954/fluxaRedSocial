@@ -5,15 +5,18 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Laravel\Socialite\Facades\Socialite;
-use App\Models\User;
-use App\Models\Profile;
 use App\Models\NotificationPreference;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
+use App\Models\Profile;
+use App\Models\User;
+use Cloudinary\Cloudinary;
 use Exception;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
+use Laravel\Fortify\TwoFactorAuthenticatable;
+use Laravel\Socialite\Facades\Socialite;
 
 class SocialAuthController extends Controller
 {
@@ -21,7 +24,7 @@ class SocialAuthController extends Controller
 
     public function redirect(string $provider)
     {
-        if (!in_array($provider, $this->allowedProviders)) {
+        if (! in_array($provider, $this->allowedProviders)) {
             abort(404);
         }
 
@@ -42,8 +45,10 @@ class SocialAuthController extends Controller
                     : null,
             ])->save();
 
+            $this->syncGithubData($user);
+
             return redirect()->route('profile.index', ['github_import' => '1']);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Log::error('Error al conectar GitHub para importar', [
                 'user_id' => Auth::id(),
                 'error' => $e->getMessage(),
@@ -60,33 +65,33 @@ class SocialAuthController extends Controller
 
         return match ($provider) {
             'facebook' => preg_replace('/type=\w+/', 'type=large', $avatar),
-            'google'   => preg_replace('/=s\d+-c/', '=s400-c', $avatar),
-            default    => $avatar,
+            'google' => preg_replace('/=s\d+-c/', '=s400-c', $avatar),
+            default => $avatar,
         };
     }
-    
+
     protected function uploadAvatarToCloudinary(string $avatarUrl, string $userId): string
     {
         try {
             Log::info('Intentando subir avatar a Cloudinary', [
-                'user_id'    => $userId,
+                'user_id' => $userId,
                 'avatar_url' => $avatarUrl,
             ]);
 
-            $cloudinary = new \Cloudinary\Cloudinary(config('cloudinary.cloud_url'));
-            $result     = $cloudinary->uploadApi()->upload($avatarUrl, [
-                'folder'         => 'fluxa/avatares',
-                'public_id'      => 'user_' . $userId,
-                'overwrite'      => true,
+            $cloudinary = new Cloudinary(config('cloudinary.cloud_url'));
+            $result = $cloudinary->uploadApi()->upload($avatarUrl, [
+                'folder' => 'fluxa/avatares',
+                'public_id' => 'user_'.$userId,
+                'overwrite' => true,
                 'transformation' => [
                     [
-                        'width'        => 400,
-                        'height'       => 400,
-                        'crop'         => 'fill',
-                        'gravity'      => 'face',
-                        'quality'      => 'auto',
+                        'width' => 400,
+                        'height' => 400,
+                        'crop' => 'fill',
+                        'gravity' => 'face',
+                        'quality' => 'auto',
                         'fetch_format' => 'auto',
-                    ]
+                    ],
                 ],
             ]);
 
@@ -94,7 +99,7 @@ class SocialAuthController extends Controller
         } catch (Exception $e) {
             Log::warning('Cloudinary upload failed, using original avatar.', [
                 'user_id' => $userId,
-                'error'   => $e->getMessage(),
+                'error' => $e->getMessage(),
             ]);
 
             return $avatarUrl;
@@ -103,7 +108,7 @@ class SocialAuthController extends Controller
 
     public function callback(string $provider)
     {
-        if (!in_array($provider, $this->allowedProviders)) {
+        if (! in_array($provider, $this->allowedProviders)) {
             abort(404);
         }
 
@@ -116,7 +121,7 @@ class SocialAuthController extends Controller
 
             $socialUser = $driver->user();
 
-            if (!$socialUser->getEmail()) {
+            if (! $socialUser->getEmail()) {
                 return redirect()
                     ->route('login')
                     ->with('error', 'Tu cuenta no tiene email disponible.');
@@ -128,11 +133,11 @@ class SocialAuthController extends Controller
                 ->where('provider', $provider)
                 ->first();
 
-            if (!$user) {
+            if (! $user) {
                 $user = User::where('email', $socialUser->getEmail())->first();
             }
 
-            if (!$user) {
+            if (! $user) {
                 $user = DB::transaction(function () use ($socialUser, $provider, $avatarOriginal) {
 
                     $baseUsername = Str::slug(
@@ -140,22 +145,22 @@ class SocialAuthController extends Controller
                     );
 
                     $baseUsername = $baseUsername ?: 'user';
-                    $username     = $baseUsername;
-                    $count        = 1;
+                    $username = $baseUsername;
+                    $count = 1;
 
                     while (User::where('username', $username)->exists()) {
-                        $username = $baseUsername . $count++;
+                        $username = $baseUsername.$count++;
                     }
 
                     $user = User::create([
-                        'name'        => $socialUser->getName() ?? $socialUser->getNickname(),
-                        'username'    => $username,
-                        'email'       => $socialUser->getEmail(),
-                        'password'    => bcrypt(Str::random(16)),
-                        'provider'    => $provider,
+                        'name' => $socialUser->getName() ?? $socialUser->getNickname(),
+                        'username' => $username,
+                        'email' => $socialUser->getEmail(),
+                        'password' => bcrypt(Str::random(16)),
+                        'provider' => $provider,
                         'provider_id' => $socialUser->getId(),
-                        'status'      => 'activo',
-                        'role'        => 'user',
+                        'status' => 'activo',
+                        'role' => 'user',
                     ]);
 
                     $user->forceFill(['email_verified_at' => now()])->save();
@@ -164,20 +169,18 @@ class SocialAuthController extends Controller
 
                     Profile::create([
                         'user_id' => $user->id,
-                        'avatar'  => $avatar,
+                        'avatar' => $avatar,
                     ]);
-
-                    
 
                     return $user;
                 });
             } else {
                 $user->update([
-                    'provider'    => $provider,
+                    'provider' => $provider,
                     'provider_id' => $socialUser->getId(),
                 ]);
 
-                $currentAvatar        = $user->profile?->avatar ?? '';
+                $currentAvatar = $user->profile?->avatar ?? '';
                 $isAlreadyInCloudinary = str_contains($currentAvatar, 'cloudinary.com');
 
                 $avatar = $isAlreadyInCloudinary
@@ -186,19 +189,31 @@ class SocialAuthController extends Controller
 
                 $user->profile()->updateOrCreate(
                     ['user_id' => $user->id],
-                    ['avatar'  => $avatar]
+                    ['avatar' => $avatar]
                 );
+            }
+
+            if ($provider === 'github') {
+                $user->forceFill([
+                    'github_token' => $socialUser->token,
+                    'github_refresh_token' => $socialUser->refreshToken,
+                    'github_token_expires_at' => $socialUser->expiresIn
+                        ? now()->addSeconds($socialUser->expiresIn)
+                        : null,
+                ])->save();
+
+                $this->syncGithubData($user);
             }
 
             NotificationPreference::firstOrCreate(
                 ['user_id' => $user->id],
                 [
-                    'email_enabled'    => true,
-                    'push_enabled'     => true,
-                    'notify_comments'  => true,
+                    'email_enabled' => true,
+                    'push_enabled' => true,
+                    'notify_comments' => true,
                     'notify_followers' => true,
-                    'notify_mentions'  => true,
-                    'weekly_summary'   => false,
+                    'notify_mentions' => true,
+                    'weekly_summary' => false,
                 ]
             );
 
@@ -214,7 +229,7 @@ class SocialAuthController extends Controller
             }
 
             if ($user->two_factor_secret &&
-                in_array(\Laravel\Fortify\TwoFactorAuthenticatable::class, class_uses_recursive($user))) {
+                in_array(TwoFactorAuthenticatable::class, class_uses_recursive($user))) {
                 request()->session()->put([
                     'login.id' => $user->getKey(),
                     'login.remember' => true,
@@ -233,7 +248,35 @@ class SocialAuthController extends Controller
 
             return redirect()
                 ->route('login')
-                ->with('error', 'Error al autenticar con ' . ucfirst($provider));
+                ->with('error', 'Error al autenticar con '.ucfirst($provider));
+        }
+    }
+
+    protected function syncGithubData(User $user): void
+    {
+        if (! $user->github_token) {
+            return;
+        }
+
+        try {
+            $response = Http::withToken($user->github_token)
+                ->accept('application/vnd.github.v3+json')
+                ->get('https://api.github.com/user');
+
+            if ($response->successful()) {
+                $data = $response->json();
+
+                $user->forceFill([
+                    'github_username' => $data['login'] ?? $user->github_username,
+                    'github_public_repos' => $data['public_repos'] ?? 0,
+                    'github_synced_at' => now(),
+                ])->save();
+            }
+        } catch (Exception $e) {
+            Log::error('Error al sincronizar datos de GitHub', [
+                'user_id' => $user->id,
+                'error' => $e->getMessage(),
+            ]);
         }
     }
 }

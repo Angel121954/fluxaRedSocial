@@ -1,5 +1,5 @@
 @php $response->loadCount(['likes', 'comments']); @endphp
-<div class="diary-response-card" data-response-id="{{ $response->id }}">
+<div class="diary-response-card" data-response-id="{{ $response->id }}" data-open-source="{{ $response->user?->is_open_source ? '1' : '0' }}">
     <a href="{{ route('profile.show', $response->user?->username ?? '#') }}" class="diary-response-card__avatar-link">
         <img
             src="{{ $response->user?->avatar_url ?? '/img/default-avatar.png' }}"
@@ -14,8 +14,8 @@
                 <a href="{{ route('profile.show', $response->user?->username ?? '#') }}" class="diary-response-card__name">
                     {{ $response->user?->name ?? 'Usuario' }}
                 </a>
-                @if($response->user?->is_verified)
-                <span class="diary-response-card__verified" title="Verificado">
+                @if($response->user?->is_open_source)
+                <span class="diary-response-card__verified" title="Contribuidor Open Source">
                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                         <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
                         <polyline points="22 4 12 14.01 9 11.01"/>

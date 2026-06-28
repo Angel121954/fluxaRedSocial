@@ -88,6 +88,11 @@ export function openCommentsModal(postData) {
         `${postData.handle} · ${postData.time}`;
     document.getElementById("modalPostContent").textContent = postData.content;
 
+    const badge = document.getElementById("modalPostBadge");
+    if (badge) {
+        badge.style.display = postData.isOpenSource ? "flex" : "none";
+    }
+
     loadComments();
 
     commentsModal.classList.add("show");

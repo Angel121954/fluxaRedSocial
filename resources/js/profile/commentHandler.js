@@ -38,6 +38,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 handle: document.body.dataset.userHandle || '',
                 time: '',
                 content: content,
+                isOpenSource: projectCard.dataset.openSource === '1',
             });
         } else {
             console.error('openCommentsModal not found in window');

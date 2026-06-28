@@ -18,7 +18,7 @@ $skills = [
 $skillKeys = array_keys($skills);
 @endphp
 
-<div class="post-card" data-project-id="{{ $project->id }}">
+<div class="post-card" data-project-id="{{ $project->id }}" data-open-source="{{ $user?->is_open_source ? '1' : '0' }}">
     <div class="post-header">
         <a href="/profile/{{ $user?->username ?? '/profile' }}">
             <img
@@ -30,8 +30,8 @@ $skillKeys = array_keys($skills);
         <div class="post-meta">
             <div class="post-author-row">
                 <span class="post-author">{{ $user?->name ?? 'Usuario eliminado' }}</span>
-                @if($user?->email_verified_at)
-                <div class="verify-badge">
+                @if($user?->is_open_source)
+                <div class="verify-badge" title="Contribuidor Open Source">
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
                     </svg>

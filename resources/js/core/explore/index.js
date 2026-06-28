@@ -37,6 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
             handle:      postCard.querySelector('.post-handle')?.textContent || '',
             time:        postCard.querySelector('.post-time')?.textContent   || '',
             content:     postCard.querySelector('.post-content')?.textContent || '',
+            isOpenSource: postCard.dataset.openSource === '1',
             commentsKey: commentBtn.dataset.projectId
                 ? `project_${commentBtn.dataset.projectId}`
                 : 'post3',

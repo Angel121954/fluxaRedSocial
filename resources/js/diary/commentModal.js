@@ -90,6 +90,11 @@ export function openDiaryCommentsModal(postData) {
         `${postData.handle} · ${postData.time}`;
     document.getElementById("modalPostContent").textContent = postData.content;
 
+    const badge = document.getElementById("modalPostBadge");
+    if (badge) {
+        badge.style.display = postData.isOpenSource ? "flex" : "none";
+    }
+
     // Limpiar comentarios anteriores mientras se cargan los nuevos
     if (modalCommentsList) modalCommentsList.innerHTML = '';
 
@@ -266,6 +271,7 @@ document.addEventListener("DOMContentLoaded", () => {
             handle,
             time,
             content,
+            isOpenSource: card.dataset.openSource === '1',
         });
     });
 });
