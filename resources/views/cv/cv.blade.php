@@ -131,6 +131,30 @@
                             @endforeach
 
                         </div>
+
+                        {{-- ── Proyectos: selector ─────────────────────── --}}
+                        <div class="cv-project-picker" id="cvProjectPicker" style="{{ ($cvSettings['show_projects'] ?? true) ? '' : 'display:none' }}">
+                            <span class="cv-project-picker__label">Proyectos en el CV:</span>
+                            <span class="cv-project-picker__summary" id="cvProjectSummary">
+                                @if(!empty($selectedProjectIds))
+                                {{ count($selectedProjectIds) }}/3 seleccionados
+                                @else
+                                Los 3 más recientes
+                                @endif
+                            </span>
+                            <button type="button" class="cv-project-picker__btn" id="cvProjectPickerBtn">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                    <polyline points="9 11 12 14 22 4"/>
+                                    <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+                                </svg>
+                                Seleccionar proyectos
+                            </button>
+                        </div>
+                        <div id="selectedProjectInputs">
+                            @foreach($selectedProjectIds as $id)
+                            <input type="hidden" name="selected_project_ids[]" value="{{ $id }}">
+                            @endforeach
+                        </div>
                     </section>
 
                     <div class="section-divider"></div>
@@ -311,12 +335,16 @@
             </div>
 
         </form>
+
+        {{-- ──── MODAL: Selección de proyectos ──────────────── --}}
+        <x-modal-cv-projects :projects="$projects" :selectedProjectIds="$selectedProjectIds" />
     </main>
 </div>
 
 @endsection
 
 @push('styles')
+@vite('resources/css/shared/modal.css')
 @vite('resources/css/profile/shared.css')
 @vite('resources/css/profile/sidebar.css')
 @vite('resources/css/profile/cv.css')
@@ -325,6 +353,7 @@
 @push('scripts')
 {{-- SortableJS desde CDN --}}
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js"></script>
+@vite('resources/js/shared/scrollLock.js')
 @vite('resources/js/profile/cv.js')
 @vite('resources/js/profile/avatar.js')
 @endpush

@@ -548,6 +548,7 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
         Route::resource('work-experiences', WorkExperienceController::class);
         Route::get('/settings/cv', [CVSettingsController::class, 'edit'])->name('cv.edit');
         Route::put('/settings/cv', [CVSettingsController::class, 'update'])->name('cv.update');
+        Route::put('/settings/cv/projects', [CVSettingsController::class, 'updateProjects'])->name('cv.update.projects');
         Route::get('/settings/cv/restore', [CVSettingsController::class, 'restore'])->name('cv.restore');
         Route::get('/settings/cv/download', [CVSettingsController::class, 'download'])->name('cv.download');
         Route::get('/settings/cv/download/{format}', [CVSettingsController::class, 'downloadFormat'])->name('cv.download.format')

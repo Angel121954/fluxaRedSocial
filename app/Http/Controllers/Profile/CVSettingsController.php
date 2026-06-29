@@ -51,7 +51,14 @@ class CVSettingsController extends Controller
         $missing = array_diff($availableSections, $existing);
         $cvSettings['section_order'] = array_values(array_merge($existing, $missing));
 
-        return view('cv.cv', compact('cvSettings', 'hasData'));
+        $projects = $user->projects()
+            ->with('technologies')
+            ->latest()
+            ->get(['id', 'title', 'content']);
+
+        $selectedProjectIds = $cvSettings['selected_project_ids'] ?? [];
+
+        return view('cv.cv', compact('cvSettings', 'hasData', 'projects', 'selectedProjectIds'));
     }
 
     public function update(UpdateCVSettingsRequest $request)
@@ -61,8 +68,10 @@ class CVSettingsController extends Controller
 
         $sectionOrder = $request->input('section_order', ['experience', 'projects', 'education', 'skills']);
 
+        $existing = $profile->cv_settings ?? [];
+
         $cvSettings = [
-            'format' => $validated['format'] ?? 'pdf',
+            'format' => $validated['format'] ?? $existing['format'] ?? 'pdf',
             'show_photo' => $request->boolean('show_photo'),
             'show_location' => $request->boolean('show_location'),
             'show_email' => $request->boolean('show_email'),
@@ -72,12 +81,36 @@ class CVSettingsController extends Controller
             'section_order' => $sectionOrder,
         ];
 
+        if ($request->has('selected_project_ids')) {
+            $cvSettings['selected_project_ids'] = array_map('intval', $validated['selected_project_ids'] ?? []);
+        } elseif (isset($existing['selected_project_ids'])) {
+            $cvSettings['selected_project_ids'] = $existing['selected_project_ids'];
+        }
+
         $profile->cv_settings = $cvSettings;
         $profile->save();
 
         return redirect()
             ->back()
             ->with('success', 'Configuración del CV actualizada correctamente.');
+    }
+
+    public function updateProjects(UpdateCVSettingsRequest $request)
+    {
+        $profile = $request->user()->profile;
+        $validated = $request->validated();
+
+        $cvSettings = $profile->cv_settings ?? [];
+
+        $cvSettings['selected_project_ids'] = array_map('intval', $validated['selected_project_ids'] ?? []);
+
+        $profile->cv_settings = $cvSettings;
+        $profile->save();
+
+        return response()->json([
+            'success' => true,
+            'selected_project_ids' => $cvSettings['selected_project_ids'],
+        ]);
     }
 
     public function restore()

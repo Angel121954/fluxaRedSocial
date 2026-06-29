@@ -98,7 +98,7 @@
                 @if(($cvSettings['show_projects'] ?? true) && $projects->isNotEmpty())
                 <section style="margin-bottom:16px;">
                     <h2 style="font-size:13pt;font-weight:700;border-bottom:1px solid #ccc;padding-bottom:4px;margin:0 0 8px;color:#000;">Proyectos</h2>
-                    @foreach($projects->take(3) as $proj)
+                    @foreach($projects as $proj)
                     <div style="margin-bottom:8px;">
                         <div style="font-size:11pt;font-weight:700;color:#000;">{{ $proj->title }}</div>
                         @if(!empty($proj->content))

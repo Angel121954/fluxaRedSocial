@@ -396,7 +396,7 @@ $paleta = [
                         <div>
                             <h2 style="margin:0 0 12px;font-size:14px;font-weight:800;color:{{ $paleta['texto'] }};border-bottom:2px solid {{ $paleta['borde'] }};padding-bottom:7px;">Proyectos</h2>
                             <div style="display:flex;flex-direction:column;gap:13px;">
-                                @foreach($projects->take(3) as $proyecto)
+                                @foreach($projects as $proyecto)
                                 <div style="page-break-inside:avoid;display:flex;gap:12px;align-items:flex-start;">
                                     <div style="flex:1;min-width:0;">
                                         <div style="display:flex;align-items:center;gap:8px;margin-bottom:3px;">

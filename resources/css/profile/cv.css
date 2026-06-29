@@ -187,6 +187,170 @@
 }
 
 /* ══════════════════════════════════════════════════════════
+   PROJECT PICKER (inline trigger in settings)
+══════════════════════════════════════════════════════════ */
+.cv-project-picker {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.75rem;
+    padding: 0.625rem 0.875rem;
+    background: var(--accent-dim);
+    border: 1px solid var(--accent-ring);
+    border-radius: var(--r-md);
+}
+
+.cv-project-picker__label {
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--ink-500);
+    flex-shrink: 0;
+}
+
+.cv-project-picker__summary {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--accent-dark);
+    flex: 1;
+}
+
+.cv-project-picker__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.375rem 0.75rem;
+    background: transparent;
+    border: 1.5px solid var(--accent);
+    border-radius: var(--r-sm);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--accent-dark);
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+    font-family: inherit;
+    white-space: nowrap;
+}
+
+.cv-project-picker__btn:hover {
+    background: var(--accent);
+    color: #fff;
+}
+
+/* ══════════════════════════════════════════════════════════
+   MODAL — Project grid
+══════════════════════════════════════════════════════════ */
+.cv-modal-counter {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    margin-bottom: 1rem;
+    padding: 0.5rem 0.75rem;
+    background: var(--bg-subtle);
+    border-radius: var(--r-md);
+    font-size: var(--text-sm);
+}
+
+.cv-modal-counter__label {
+    color: var(--ink-400);
+    font-weight: 500;
+}
+
+.cv-modal-counter__value {
+    color: var(--accent-dark);
+    font-weight: 700;
+}
+
+.cv-modal-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.625rem;
+}
+
+.cv-project-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.625rem;
+    padding: 0.75rem 0.875rem;
+    border: 1.5px solid var(--ink-100);
+    border-radius: var(--r-md);
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s, box-shadow 0.15s;
+    user-select: none;
+}
+
+.cv-project-card:hover {
+    border-color: var(--accent-ring);
+    background: var(--accent-dim);
+}
+
+.cv-project-card--selected {
+    border-color: var(--accent);
+    background: var(--accent-dim);
+    box-shadow: 0 0 0 2px var(--accent-ring);
+}
+
+.cv-project-card--disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.cv-project-card__check {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 1.5px solid var(--ink-200);
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+    color: transparent;
+    transition: background 0.15s, border-color 0.15s;
+}
+
+.cv-project-card--selected .cv-project-card__check {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+}
+
+.cv-project-card__info {
+    flex: 1;
+    min-width: 0;
+}
+
+.cv-project-card__title {
+    display: block;
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--ink-800);
+    line-height: 1.3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.cv-project-card__tech {
+    display: block;
+    font-size: var(--text-xs);
+    color: var(--ink-400);
+    margin-top: 2px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.cv-modal-empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 2rem 1rem;
+    color: var(--ink-400);
+    font-size: var(--text-sm);
+}
+
+/* ══════════════════════════════════════════════════════════
    SORTABLE: ORDEN DE SECCIONES
 ══════════════════════════════════════════════════════════ */
 .cv-sortable {

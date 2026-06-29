@@ -45,13 +45,28 @@ class CvDataService
         $followingCount = $user->follows()->count();
         $technologies = $this->loadTechnologyIcons($user);
 
-        $projects = ($cvSettings['show_projects'] ?? true)
-            ? $user->projects()
-                ->with(['media', 'technologies'])
-                ->where('privacy', 'public')
-                ->latest()
-                ->get()
-            : collect();
+        $projects = collect();
+
+        if ($cvSettings['show_projects'] ?? true) {
+            $query = $user->projects()->with(['media', 'technologies']);
+
+            $selectedIds = $cvSettings['selected_project_ids'] ?? [];
+
+            if (! empty($selectedIds)) {
+                $query->whereIn('id', $selectedIds);
+            } else {
+                $query->where('privacy', 'public')->latest();
+            }
+
+            $projects = $query->get();
+
+            if (! empty($selectedIds)) {
+                $projects = collect($selectedIds)
+                    ->map(fn (int $id) => $projects->firstWhere('id', $id))
+                    ->filter()
+                    ->values();
+            }
+        }
 
         $workExperiences = $user->workExperiences()->orderBy('started_at', 'desc')->get();
         $educations = $user->educations()->orderBy('graduated_year', 'desc')->get();
