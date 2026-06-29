@@ -13,7 +13,15 @@
 ])
 
 @php
-$urlPerfil = $urlPerfil ?? (request()->getHost() . '/profile/' . $user->username);
+$urlPerfil = "";
+if (request()->getHost() == 'localhost') {
+$urlPerfil = "profile/" . $user->username;
+}
+else {
+$urlPerfil = $urlPerfil ?? (request()->getHost() === 'localhost'
+    ? 'profile/' . $user->username
+    : request()->getHost() . '/profile/' . $user->username);
+}
 $urlQrExterno = $urlQrExterno ?? ('https://api.qrserver.com/v1/create-qr-code/?size=100x100&data='
 . urlencode('https://' . $urlPerfil)
 . '&color=0d9488&bgcolor=ffffff&margin=6');
@@ -228,6 +236,16 @@ $paleta = [
                                 </div>
                                 @endif
 
+                                @if(!empty($profile->github_url))
+                                <div style="display:flex;gap:8px;align-items:center;">
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="{{ $paleta['texto'] }}" style="flex-shrink:0;">
+                                        <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z" />
+                                    </svg>
+                                    <span style="font-size:12px;color:{{ $paleta['textoSuave'] }};font-weight:600;min-width:85px;">GitHub:</span>
+                                    <span style="font-size:12px;color:{{ $paleta['textoSuave'] }};">{{ $profile->github_url }}</span>
+                                </div>
+                                @endif
+
                                 <div style="display:flex;gap:8px;align-items:center;">
                                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="{{ $paleta['textoSuave'] }}" stroke-width="2" style="flex-shrink:0;">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -353,9 +371,22 @@ $paleta = [
 
                         @case('skills')
                         @if($technologies->isNotEmpty())
+                        @php
+                        $categorias = ['language' => 'Lenguajes', 'framework' => 'Frameworks', 'library' => 'Librerías', 'database' => 'Bases de Datos', 'tool' => 'Herramientas', 'platform' => 'Plataformas'];
+                        $agrupadas = $technologies->groupBy(fn($t) => $t->category ?? 'tool');
+                        @endphp
                         <div>
-                            <h2 style="margin:0 0 8px;font-size:14px;font-weight:800;color:{{ $paleta['texto'] }};border-bottom:2px solid {{ $paleta['borde'] }};padding-bottom:7px;">Habilidades Técnicas</h2>
-                            <p style="margin:0;font-size:11px;color:{{ $paleta['textoSuave'] }};line-height:1.75;">{{ $technologies->pluck('name')->implode(', ') }}</p>
+                            <h2 style="margin:0 0 10px;font-size:14px;font-weight:800;color:{{ $paleta['texto'] }};border-bottom:2px solid {{ $paleta['borde'] }};padding-bottom:7px;">Habilidades Técnicas</h2>
+                            <div style="display:flex;flex-direction:column;gap:8px;">
+                                @foreach($categorias as $key => $label)
+                                @if($agrupadas->has($key))
+                                <div>
+                                    <span style="font-size:9px;font-weight:700;color:{{ $paleta['textoSuave'] }};text-transform:uppercase;letter-spacing:0.5px;">{{ $label }}</span>
+                                    <p style="margin:2px 0 0;font-size:11px;color:{{ $paleta['texto'] }};line-height:1.6;">{{ $agrupadas[$key]->pluck('name')->implode(', ') }}</p>
+                                </div>
+                                @endif
+                                @endforeach
+                            </div>
                         </div>
                         @endif
                         @break
@@ -372,12 +403,19 @@ $paleta = [
                                             <h3 style="margin:0;font-size:13px;font-weight:700;color:{{ $paleta['texto'] }};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ $proyecto->title }}</h3>
                                         </div>
                                         @if(!empty($proyecto->content))
-                                        <p style="margin:0 0 5px;font-size:11px;color:{{ $paleta['textoSuave'] }};line-height:1.5;">{{ $proyecto->content }}</p>
+                                        @php
+                                        $techNamesProy = $proyecto->technologies->pluck('name')->sortByDesc(fn($n) => strlen($n))->values();
+                                        $contentProy = e($proyecto->content);
+                                        foreach ($techNamesProy as $tn) {
+                                        $contentProy = preg_replace('/\b('.preg_quote($tn, '/').')\b/i', '<strong>$1</strong>', $contentProy);
+                                        }
+                                        @endphp
+                                        <p style="margin:0 0 5px;font-size:11px;color:{{ $paleta['textoSuave'] }};line-height:1.5;">{!! $contentProy !!}</p>
                                         @endif
                                         @if($proyecto->technologies->isNotEmpty())
-                                        <div style="display:flex;flex-wrap:wrap;gap:2px;">
+                                        <div style="display:flex;flex-wrap:wrap;gap:1px 8px;margin-top:4px;">
                                             @foreach($proyecto->technologies as $techProyecto)
-                                            <span style="font-size:10px;color:{{ $paleta['textoSuave'] }};">{{ $techProyecto->name }}{{ !$loop->last ? ' ·' : '' }}</span>
+                                            <span style="font-size:10px;color:{{ $paleta['textoSuave'] }};">• {{ $techProyecto->name }}</span>
                                             @endforeach
                                         </div>
                                         @endif
@@ -403,9 +441,9 @@ $paleta = [
 
         {{-- ══ PIE DE PÁGINA ══ --}}
         <div style="margin-top:10px;background:{{ $paleta['tarjeta'] }};border-radius:12px;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 3px rgba(0,0,0,.06);">
-            <div style="display:flex;align-items:center;gap:8px;">
-                <img src="{{ $srcLogo }}" style="width:50px;height:50px;border-radius:4px;object-fit:cover;" />
-                <span style="font-size:11px;color:{{ $paleta['texto'] }};">CV generado desde Fluxa red social para Desarrolladores - {{ $urlPerfil }}</span>
+            <div style="display:flex;align-items:center;gap:10px;">
+                <img src="{{ $srcLogo }}" style="width:40px;height:40px;border-radius:4px;object-fit:cover;" />
+                <span style="font-size:11px;color:{{ $paleta['textoSuave'] }};">CV generado desde Fluxa red social para Desarrolladores - {{ $urlPerfil }}</span>
             </div>
 
             <img src="{{ $srcQr }}" width="100" height="100"

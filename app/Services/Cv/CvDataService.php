@@ -34,7 +34,9 @@ class CvDataService
                 ? array_merge(self::DEFAULT_CV_SETTINGS, $profile->cv_settings)
                 : self::DEFAULT_CV_SETTINGS);
 
-        $urlPerfil = request()->getHost().'/profile/'.$user->username;
+        $urlPerfil = request()->getHost() === 'localhost'
+            ? 'profile/'.$user->username
+            : request()->getHost().'/profile/'.$user->username;
         $urlQrExterno = 'https://api.qrserver.com/v1/create-qr-code/?size=100x100&data='
             .urlencode('https://'.$urlPerfil)
             .'&color=0d9488&bgcolor=ffffff&margin=6';

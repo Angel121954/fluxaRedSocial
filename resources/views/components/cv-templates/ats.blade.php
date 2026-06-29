@@ -25,7 +25,12 @@
             @if(!empty($profile->phone_number))
                 {{ $profile->phone_code ?? '' }} {{ $profile->phone_number }} |
             @endif
-            linkedin.com/in/{{ $user->username }}
+            @php
+            $linkedin = $profile->linkedin_url ?? ('linkedin.com/in/' . $user->username);
+            $github = $profile->github_url ?? '';
+            @endphp
+            {{ $linkedin }}
+            @if(!empty($github)) | {{ $github }} @endif
         </p>
     </div>
 
@@ -97,11 +102,18 @@
                     <div style="margin-bottom:8px;">
                         <div style="font-size:11pt;font-weight:700;color:#000;">{{ $proj->title }}</div>
                         @if(!empty($proj->content))
-                        <p style="margin:2px 0;font-size:10pt;color:#333;">{{ $proj->content }}</p>
+                        @php
+                        $techNamesProj = $proj->technologies->pluck('name')->sortByDesc(fn($n) => strlen($n))->values();
+                        $contentProj = e($proj->content);
+                        foreach ($techNamesProj as $tn) {
+                            $contentProj = preg_replace('/\b('.preg_quote($tn, '/').')\b/i', '<strong>$1</strong>', $contentProj);
+                        }
+                        @endphp
+                        <p style="margin:2px 0;font-size:10pt;color:#333;">{!! $contentProj !!}</p>
                         @endif
                         @if($proj->technologies->isNotEmpty())
-                        <p style="margin:0;font-size:9pt;color:#666;">
-                            {{ $proj->technologies->pluck('name')->implode(' · ') }}
+                        <p style="margin:2px 0 0;font-size:9pt;color:#666;">
+                            @foreach($proj->technologies as $i => $tech)@if($i > 0) &nbsp;&bull;&nbsp; @endif{{ $tech->name }}@endforeach
                         </p>
                         @endif
                     </div>
@@ -112,11 +124,20 @@
 
             @case('skills')
                 @if($technologies->isNotEmpty())
+                @php
+                $categorias = ['language' => 'Lenguajes', 'framework' => 'Frameworks', 'library' => 'Librerías', 'database' => 'Bases de Datos', 'tool' => 'Herramientas', 'platform' => 'Plataformas'];
+                $agrupadas = $technologies->groupBy(fn($t) => $t->category ?? 'tool');
+                @endphp
                 <section style="margin-bottom:16px;">
                     <h2 style="font-size:13pt;font-weight:700;border-bottom:1px solid #ccc;padding-bottom:4px;margin:0 0 8px;color:#000;">Habilidades Técnicas</h2>
-                    <div style="font-size:10pt;color:#333;">
-                        {{ $technologies->pluck('name')->implode(', ') }}
+                    @foreach($categorias as $key => $label)
+                    @if($agrupadas->has($key))
+                    <div style="margin-bottom:4px;">
+                        <span style="font-size:9pt;font-weight:600;color:#000;">{{ $label }}:</span>
+                        <span style="font-size:10pt;color:#333;">{{ $agrupadas[$key]->pluck('name')->implode(', ') }}</span>
                     </div>
+                    @endif
+                    @endforeach
                 </section>
                 @endif
             @break
@@ -125,6 +146,6 @@
 
     {{-- ══ FOOTER ══ --}}
     <div style="margin-top:20px;padding-top:10px;border-top:1px solid #ddd;font-size:9pt;color:#888;text-align:center;">
-        CV generado desde Fluxa red social para Desarrolladores — {{ $urlPerfil ?? (request()->getHost() . '/profile/' . $user->username) }}
+        CV generado desde Fluxa red social para Desarrolladores — {{ $urlPerfil ?? (request()->getHost() === 'localhost' ? 'profile/' . $user->username : request()->getHost() . '/profile/' . $user->username) }}
     </div>
 </div>
