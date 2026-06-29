@@ -111,11 +111,13 @@
     border: 1px solid var(--border, rgba(0,0,0,.075));
     border-radius: var(--r-md, 10px);
     padding: 0.75rem 0.875rem;
-    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    border-left: 3px solid var(--diary-violet-dim);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease, border-left-color 0.15s ease;
 }
 
 .diary-response-card:hover {
     border-color: var(--border-strong, rgba(0,0,0,.12));
+    border-left-color: var(--diary-violet);
     box-shadow: var(--shadow-xs, 0 1px 3px rgba(0,0,0,.05));
 }
 
