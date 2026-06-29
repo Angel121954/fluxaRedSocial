@@ -180,7 +180,7 @@
             </p>
         </div>
 
-        <p class="login-footer">© {{ date('Y') }} Nexa. Todos los derechos reservados.</p>
+        <p class="login-footer">© {{ date('Y') }} Fluxa. Todos los derechos reservados.</p>
     </div>
 </div>
 
