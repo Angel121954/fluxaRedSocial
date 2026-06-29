@@ -140,22 +140,24 @@ label,
     touch-action: manipulation;
 }
 
-/* ─── Active state unificado ────────────────────────── */
-button:active:not(:disabled),
-a:active:not(:disabled),
-[role="button"]:active:not(:disabled),
-.post-action:active:not(:disabled),
-.like-btn:active:not(:disabled),
-.btn-follow:active:not(:disabled),
-.btn-icon:active:not(:disabled),
-.btn-new:active:not(:disabled),
-.bottom-nav-item:active:not(:disabled),
-.topic-pill:active:not(:disabled),
-.filter-chip:active:not(:disabled),
-.feed-tab:active:not(:disabled),
-.drop-item:active:not(:disabled) {
-    transform: scale(0.97);
-    transition: transform 0.1s ease;
+/* ─── Active state unificado (solo táctil) ────────────── */
+@media (hover: none) and (pointer: coarse) {
+    button:active:not(:disabled),
+    a:active:not(:disabled),
+    [role="button"]:active:not(:disabled),
+    .post-action:active:not(:disabled),
+    .like-btn:active:not(:disabled),
+    .btn-follow:active:not(:disabled),
+    .btn-icon:active:not(:disabled),
+    .btn-new:active:not(:disabled),
+    .bottom-nav-item:active:not(:disabled),
+    .topic-pill:active:not(:disabled),
+    .filter-chip:active:not(:disabled),
+    .feed-tab:active:not(:disabled),
+    .drop-item:active:not(:disabled) {
+        transform: scale(0.97);
+        transition: transform 0.1s ease;
+    }
 }
 
 /* ─── Utilidades responsive globales ─────────────────── */
