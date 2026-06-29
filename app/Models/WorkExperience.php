@@ -30,7 +30,6 @@ class WorkExperience extends Model
     public const TYPES = [
         'formal' => 'Empleo formal',
         'freelance' => 'Freelance / Cliente',
-        'personal' => 'Proyecto personal',
         'volunteering' => 'Voluntariado',
     ];
 

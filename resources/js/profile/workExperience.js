@@ -25,13 +25,11 @@ document.addEventListener('DOMContentLoaded', () => {
         company: {
             formal: { label: 'Empresa', placeholder: 'Ej. Google, Startup XYZ' },
             freelance: { label: 'Cliente o proyecto', placeholder: 'Ej. Cliente de Shopify, App para restaurant' },
-            personal: { label: 'Nombre del proyecto', placeholder: 'Ej. Mi portfolio, Open source tool' },
             volunteering: { label: 'Organización', placeholder: 'Ej. Cruz Roja, Tech for Good' },
         },
         position: {
             formal: { label: 'Cargo', placeholder: 'Ej. Frontend Developer' },
             freelance: { label: 'Rol / Servicio', placeholder: 'Ej. Desarrollo de landing page' },
-            personal: { label: 'Rol', placeholder: 'Ej. Creador, Contribuidor' },
             volunteering: { label: 'Rol', placeholder: 'Ej. Mentor, Desarrollador voluntario' },
         },
     };
