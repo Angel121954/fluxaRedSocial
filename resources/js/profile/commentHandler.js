@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        const content = projectCard.querySelector('.card-title, .post-title')?.textContent || '';
+        const content = projectCard.querySelector('.card-title, .post-title, .msn-card-title')?.textContent || '';
         const avatar = projectCard.querySelector('img')?.src || document.body.dataset.userAvatar || '';
         const author = projectCard.querySelector('.card-author, .post-author')?.textContent || document.body.dataset.userName || '';
 

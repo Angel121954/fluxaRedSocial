@@ -247,6 +247,39 @@
     }
 }
 
+/* ─── Projects grid responsive ────────────── */
+@media (max-width: 640px) {
+    .projects-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .msn-card-body {
+        padding: 0.875rem;
+    }
+
+    .msn-card-title {
+        font-size: var(--text-base);
+    }
+
+    .msn-card-desc {
+        font-size: var(--text-xs);
+    }
+
+    .msn-card-menu {
+        width: 36px;
+        height: 36px;
+    }
+
+    .msn-card-menu svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    .msn-action {
+        min-height: 44px;
+    }
+}
+
 /* Móviles muy pequeños (< 375px, ej: iPhone SE) */
 @media (max-width: 375px) {
     .profile-inner {

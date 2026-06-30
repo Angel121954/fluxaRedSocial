@@ -6,7 +6,7 @@ import { showToast } from '../../shared/toast.js';
 
 // ── Abrir / cerrar dropdown ────────────────────────────────────────────────
 document.addEventListener('click', (e) => {
-    const menuBtn = e.target.closest('.post-menu-btn');
+    const menuBtn = e.target.closest('.post-menu-btn, .msn-card-menu');
     const dropItem = e.target.closest('.drop-item');
 
     if (menuBtn) {
@@ -20,7 +20,7 @@ document.addEventListener('click', (e) => {
         document.querySelectorAll('.drop-menu').forEach(d => {
             if (d !== dropdown) d.classList.remove('open');
         });
-        document.querySelectorAll('.post-menu-btn').forEach(b => {
+        document.querySelectorAll('.post-menu-btn, .msn-card-menu').forEach(b => {
             if (b !== menuBtn) b.classList.remove('is-open');
         });
 
@@ -40,7 +40,7 @@ document.addEventListener('click', (e) => {
 
         handleProjectAction(action, projectId, dropItem, () => {
             dropItem.closest('.drop-menu')?.classList.remove('open');
-            document.querySelector(`.post-menu-btn[data-project-id="${projectId}"]`)
+            document.querySelector(`.post-menu-btn[data-project-id="${projectId}"], .msn-card-menu[data-project-id="${projectId}"]`)
                 ?.classList.remove('is-open');
         });
         return;
@@ -48,14 +48,14 @@ document.addEventListener('click', (e) => {
 
     // Click fuera → cerrar todos
     document.querySelectorAll('.drop-menu.open').forEach(d => d.classList.remove('open'));
-    document.querySelectorAll('.post-menu-btn.is-open').forEach(b => b.classList.remove('is-open'));
+    document.querySelectorAll('.post-menu-btn.is-open, .msn-card-menu.is-open').forEach(b => b.classList.remove('is-open'));
 });
 
 // Cerrar con Escape
 document.addEventListener('keydown', (e) => {
     if (e.key !== 'Escape') return;
     document.querySelectorAll('.drop-menu.open').forEach(d => d.classList.remove('open'));
-    document.querySelectorAll('.post-menu-btn.is-open').forEach(b => b.classList.remove('is-open'));
+    document.querySelectorAll('.post-menu-btn.is-open, .msn-card-menu.is-open').forEach(b => b.classList.remove('is-open'));
     const hadOpenModals = document.querySelectorAll('.modal-backdrop.show').length > 0;
     document.querySelectorAll('.modal-backdrop.show').forEach(m => m.classList.remove('show'));
     if (hadOpenModals) unlockBodyScroll();
@@ -122,8 +122,8 @@ function handleProjectAction(action, projectId, dropItem, closeMenu) {
             break;
 
         case 'delete':
-            const card = dropItem.closest('.post-card');
-            const title = card?.querySelector('.project-title')?.textContent?.trim() ?? 'este proyecto';
+            const card = dropItem.closest('.post-card, .msn-card');
+            const title = card?.querySelector('.project-title, .msn-card-title')?.textContent?.trim() ?? 'este proyecto';
             closeMenu?.();
 
             if (typeof Swal !== 'undefined') {

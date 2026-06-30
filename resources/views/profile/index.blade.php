@@ -282,13 +282,15 @@
         </div>
     </div>
 
-    {{-- Panel: Proyectos --}}
+    {{-- Panel: Proyectos — Grid 2 columnas --}}
     <div class="content" data-panel="projects" style="display:none">
-        @forelse ($projects as $project)
-        <x-project-card :project="$project" />
-        @empty
-        <p class="empty-state">Este usuario aún no tiene proyectos.</p>
-        @endforelse
+        <div class="projects-grid">
+            @forelse ($projects as $project)
+            <x-project-card-masonry :project="$project" />
+            @empty
+            <p class="empty-state">Este usuario aún no tiene proyectos.</p>
+            @endforelse
+        </div>
     </div>
 
     {{-- Panel: Stack --}}
