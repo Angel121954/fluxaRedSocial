@@ -1,3 +1,5 @@
+import './modal.js';
+
 document.addEventListener('DOMContentLoaded', function () {
     const modal = document.getElementById('reportProblemModal');
     if (!modal) return;
@@ -9,15 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const textarea = document.getElementById('reportProblemMessage');
     const typeSelect = document.getElementById('reportProblemType');
 
-    function closeModal() {
-        modal.classList.remove('show', 'is-open');
-        unlockBodyScroll();
-        textarea.value = '';
-        typeSelect.value = '';
-        errorBanner.style.display = 'none';
-    }
-
-    function openModal() {
+    function openReportProblem() {
         const helpMenu = document.getElementById('helpDropdownMenu');
         if (helpMenu?.classList.contains('active')) {
             helpMenu.classList.remove('active');
@@ -32,23 +26,14 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('mobileMenuBtn')?.setAttribute('aria-expanded', 'false');
         }
 
-        modal.classList.add('show');
-        lockBodyScroll();
         textarea.value = '';
         typeSelect.value = '';
         errorBanner.style.display = 'none';
+        window.openModal('reportProblemModal');
         setTimeout(() => typeSelect.focus(), 150);
     }
 
-    window.abrirReportProblemModal = openModal;
-
-    modal.addEventListener('click', function (e) {
-        if (e.target === modal) closeModal();
-    });
-
-    document.querySelectorAll('[data-close="reportProblemModal"]').forEach(el => {
-        el.addEventListener('click', closeModal);
-    });
+    window.abrirReportProblemModal = openReportProblem;
 
     form.addEventListener('submit', function (e) {
         e.preventDefault();
@@ -86,7 +71,7 @@ document.addEventListener('DOMContentLoaded', function () {
             .then(res => res.json())
             .then(data => {
                 if (data.success) {
-                    closeModal();
+                    window.closeModal('reportProblemModal');
                     window.toast?.success('Reporte enviado correctamente. ¡Gracias!');
                 } else {
                     throw new Error('Error al enviar');
@@ -100,11 +85,5 @@ document.addEventListener('DOMContentLoaded', function () {
                 submitBtn.disabled = false;
                 submitBtn.textContent = 'Enviar reporte';
             });
-    });
-
-    document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape' && modal.classList.contains('show')) {
-            closeModal();
-        }
     });
 });
