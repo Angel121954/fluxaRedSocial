@@ -39,7 +39,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const input = document.getElementById('msgsInput');
     const bubbleList = document.getElementById('msgsBubbleList');
     const modalOverlay = document.getElementById('msgsModalOverlay');
-    const modalClose = document.getElementById('msgsModalClose');
     const modalSearch = document.getElementById('msgsModalSearch');
     const modalResults = document.getElementById('msgsModalResults');
 
@@ -54,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     initConversationSearch(sidebarSearch, convList);
     initConversationTabs(convList);
-    initModal({ modalOverlay, modalClose, modalSearch, modalResults });
+    initModal({ modalOverlay, modalSearch, modalResults });
     startTimeUpdates();
 
     initChatFeatures();
@@ -62,21 +61,16 @@ document.addEventListener('DOMContentLoaded', () => {
     if (window.updateBadges) window.updateBadges();
 
     /* ─── Image preview modal ─── */
-    const imgModal = document.getElementById('msgsImgModal');
     const imgModalImg = document.getElementById('msgsImgModalImg');
-    const imgModalClose = document.getElementById('msgsImgModalClose');
 
     function openImgPreview(src) {
-        if (!imgModal || !imgModalImg) return;
+        if (!imgModalImg) return;
         imgModalImg.src = src;
-        imgModal.classList.add('show');
-        window.lockBodyScroll?.();
+        window.openModal('msgsImgModal');
     }
 
     function closeImgPreview() {
-        if (!imgModal) return;
-        imgModal.classList.remove('show');
-        window.unlockBodyScroll?.();
+        window.closeModal('msgsImgModal');
     }
 
     document.querySelector('#msgsBubbleList')?.addEventListener('click', (e) => {
@@ -84,40 +78,23 @@ document.addEventListener('DOMContentLoaded', () => {
         if (img) openImgPreview(img.src);
     });
 
-    imgModalClose?.addEventListener('click', closeImgPreview);
-
-    imgModal?.addEventListener('click', (e) => {
-        if (e.target === imgModal) closeImgPreview();
-    });
-
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && imgModal?.classList.contains('show')) closeImgPreview();
-    });
-
     /* ─── Edit message modal ─── */
-    const editModal = document.getElementById('msgsEditModal');
     const editTextarea = document.getElementById('msgsEditTextarea');
     const editCharCount = document.getElementById('msgsEditCharCount');
     const editSave = document.getElementById('msgsEditSave');
-    const editCancel = document.getElementById('msgsEditCancel');
-    const editClose = document.getElementById('msgsEditModalClose');
     let editingMsgId = null;
 
     function openEditModal(msgId, currentBody) {
         editingMsgId = msgId;
         editTextarea.value = currentBody;
         updateEditCharCount();
-        editModal.classList.add('is-open');
-        editModal.setAttribute('aria-hidden', 'false');
-        window.lockBodyScroll?.();
+        window.openModal('msgsEditModal');
         setTimeout(() => editTextarea?.focus(), 80);
     }
 
     function closeEditModal() {
         editingMsgId = null;
-        editModal.classList.remove('is-open');
-        editModal.setAttribute('aria-hidden', 'true');
-        window.unlockBodyScroll?.();
+        window.closeModal('msgsEditModal');
     }
 
     function updateEditCharCount() {
@@ -168,25 +145,11 @@ document.addEventListener('DOMContentLoaded', () => {
         editSave.disabled = false;
     });
 
-    editCancel?.addEventListener('click', closeEditModal);
-    editClose?.addEventListener('click', closeEditModal);
-
-    editModal?.addEventListener('click', (e) => {
-        if (e.target === editModal) closeEditModal();
-    });
-
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && editModal?.classList.contains('is-open')) closeEditModal();
-    });
-
     /* ─── Share project modal ─── */
-    const shareModal = document.getElementById('msgsShareModal');
     const shareList = document.getElementById('msgsShareList');
     const shareLoading = document.getElementById('msgsShareLoading');
     const shareEmpty = document.getElementById('msgsShareEmpty');
     const shareSend = document.getElementById('msgsShareSend');
-    const shareCancel = document.getElementById('msgsShareCancel');
-    const shareClose = document.getElementById('msgsShareModalClose');
     let selectedProjectId = null;
     let selectedProjectTitle = null;
 
@@ -198,9 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
         shareLoading.style.display = 'flex';
         shareEmpty.style.display = 'none';
 
-        shareModal.classList.add('is-open');
-        shareModal.setAttribute('aria-hidden', 'false');
-        window.lockBodyScroll?.();
+        window.openModal('msgsShareModal');
 
         try {
             const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content ?? '';
@@ -244,19 +205,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function closeShareModal() {
-        shareModal.classList.remove('is-open');
-        shareModal.setAttribute('aria-hidden', 'true');
-        window.unlockBodyScroll?.();
+        window.closeModal('msgsShareModal');
     }
 
     document.getElementById('msgsShareProjectBtn')?.addEventListener('click', openShareModal);
-
-    shareCancel?.addEventListener('click', closeShareModal);
-    shareClose?.addEventListener('click', closeShareModal);
-
-    shareModal?.addEventListener('click', (e) => {
-        if (e.target === shareModal) closeShareModal();
-    });
 
     shareSend?.addEventListener('click', async () => {
         if (!selectedProjectId) return;
@@ -308,7 +260,4 @@ document.addEventListener('DOMContentLoaded', () => {
         shareSend.disabled = false;
     });
 
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && shareModal?.classList.contains('is-open')) closeShareModal();
-    });
 });

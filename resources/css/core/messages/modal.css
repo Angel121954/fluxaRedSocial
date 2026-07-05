@@ -3,79 +3,6 @@
    Depende de: variables.css, shared.css
 ───────────────────────────────────────────────────────────── */
 
-.msgs-modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: var(--overlay);
-    z-index: 9999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1.5rem;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.25s ease, visibility 0.25s ease;
-    overscroll-behavior: contain;
-}
-
-.msgs-modal-overlay.active {
-    opacity: 1;
-    visibility: visible;
-    background: var(--overlay);
-}
-
-.msgs-modal {
-    background: var(--surface);
-    border-radius: 12px;
-    box-shadow: 0 4px 24px rgba(0, 0, 0, .12), 0 1px 4px rgba(0, 0, 0, .06);
-    width: 100%;
-    max-width: 460px;
-    overflow: hidden;
-    transform: translateY(20px) scale(0.97);
-    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.25s ease;
-    opacity: 0;
-}
-
-.msgs-modal-overlay.active .msgs-modal {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-}
-
-.msgs-modal-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    padding: 1.25rem 1.5rem 1rem;
-    border-bottom: 1px solid var(--border);
-}
-
-.msgs-modal-title {
-    font-size: var(--text-md);
-    font-weight: 600;
-    color: var(--ink-900);
-}
-
-.msgs-modal-close {
-    width: 32px;
-    height: 32px;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: transparent;
-    border: none;
-    border-radius: 50%;
-    cursor: pointer;
-    color: var(--ink-400);
-    transition: background 0.15s, color 0.15s;
-}
-
-.msgs-modal-close:hover {
-    background: var(--ink-100);
-    color: var(--ink-700);
-}
-
 .msgs-modal-search-wrap {
     position: relative;
     padding: 0.875rem 1.25rem;
@@ -178,6 +105,7 @@
 .msgs-modal-overlay .modal-body {
     display: flex;
     flex-direction: column;
+    padding: 0;
 }
 
 .msgs-share-loading {

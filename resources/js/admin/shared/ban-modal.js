@@ -1,7 +1,3 @@
-/**
- * admin/shared/ban-modal.js — Modal de confirmar baneo + desbaneo directo
- */
-
 document.addEventListener('DOMContentLoaded', function () {
     const banBackdrop = document.getElementById('banModalBackdrop');
     const banUserName = document.getElementById('banUserName');
@@ -12,7 +8,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (!banBackdrop) return;
 
-    /* Abrir modal de baneo */
     document.addEventListener('click', function (e) {
         const btn = e.target.closest('.btn-ban');
         if (!btn) return;
@@ -26,11 +21,10 @@ document.addEventListener('DOMContentLoaded', function () {
         window.closeAllModals?.();
 
         activeBanUserId = userId;
-        banBackdrop?.classList.add('is-open');
+        window.openModal('banModalBackdrop');
         banReason?.focus();
     });
 
-    /* Confirmar baneo */
     confirmBanBtn?.addEventListener('click', function () {
         if (!activeBanUserId) return;
 
@@ -46,7 +40,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    /* Desbaneo directo */
     document.addEventListener('click', function (e) {
         const btn = e.target.closest('.btn-unban');
         if (!btn) return;
@@ -70,14 +63,8 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    document.getElementById('closeBanModal')?.addEventListener('click', closeBanModal);
-    document.getElementById('cancelBanModal')?.addEventListener('click', closeBanModal);
-    banBackdrop?.addEventListener('click', function (e) {
-        if (e.target === banBackdrop) closeBanModal();
-    });
-
     function closeBanModal() {
-        banBackdrop?.classList.remove('is-open');
+        window.closeModal('banModalBackdrop');
         activeBanUserId = null;
     }
 

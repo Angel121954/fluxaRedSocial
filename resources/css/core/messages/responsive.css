@@ -237,21 +237,6 @@
 }
 
 @media (max-width: 768px) {
-    .msgs-modal {
-        max-width: 90%;
-        border-radius: 16px;
-        max-height: 85vh;
-        transform: translateY(30px) scale(0.95);
-    }
-
-    .msgs-modal-overlay.active .msgs-modal {
-        transform: translateY(0) scale(1);
-    }
-
-    .msgs-modal-header {
-        padding: 1rem 1.25rem 0.75rem;
-    }
-
     .msgs-modal-search-wrap {
         padding: 0.75rem 1rem;
     }

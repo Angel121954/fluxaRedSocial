@@ -143,6 +143,7 @@ export default defineConfig({
                 "resources/js/shared/securePassword.js",
                 "resources/js/shared/security.js",
                 "resources/js/shared/scrollLock.js",
+                "resources/js/shared/modal.js",
                 "resources/js/shared/emailModalSend.js",
                 "resources/js/shared/reportProblem.js",
 

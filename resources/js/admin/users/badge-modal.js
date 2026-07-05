@@ -1,10 +1,3 @@
-/**
- * admin/users/badge-modal.js — Modal de otorgar insignias (Beta Tester, Early Adopter, etc.)
- *
- * Soporta múltiples modales en la misma página. Cada modal se inicializa
- * llamando a initBadgeModal({ ... }) con los IDs de sus elementos.
- */
-
 function initBadgeModal(config) {
     const backdrop = document.getElementById(config.backdropId);
     const search = document.getElementById(config.searchId);
@@ -12,8 +5,6 @@ function initBadgeModal(config) {
     const submit = document.getElementById(config.submitId);
     const submitText = document.getElementById(config.submitTextId);
     const openBtn = document.getElementById(config.openBtnId);
-    const closeBtn = document.getElementById(config.closeBtnId);
-    const cancelBtn = document.getElementById(config.cancelBtnId);
 
     if (!backdrop || !list) return;
 
@@ -40,7 +31,7 @@ function initBadgeModal(config) {
         });
     }
 
-    function openModal() {
+    function openBadgeModal() {
         window.closeAllModals?.();
         checkboxes.forEach(cb => { cb.checked = false; });
         updateCount();
@@ -48,25 +39,19 @@ function initBadgeModal(config) {
             search.value = '';
             filterItems('');
         }
-        backdrop.classList.add('is-open');
+        window.openModal(config.backdropId);
         search?.focus();
     }
 
-    function closeModal() {
-        backdrop.classList.remove('is-open');
+    function closeBadgeModal() {
+        window.closeModal(config.backdropId);
         if (search) search.value = '';
         filterItems('');
     }
 
-    // Exponer globalmente para que closeAllModals (ban-modal.js) pueda llamarlo
-    window[config.closeGlobalFn] = closeModal;
+    window[config.closeGlobalFn] = closeBadgeModal;
 
-    openBtn?.addEventListener('click', openModal);
-    closeBtn?.addEventListener('click', closeModal);
-    cancelBtn?.addEventListener('click', closeModal);
-    backdrop?.addEventListener('click', function (e) {
-        if (e.target === backdrop) closeModal();
-    });
+    openBtn?.addEventListener('click', openBadgeModal);
 
     search?.addEventListener('input', function () {
         filterItems(this.value.toLowerCase().trim());
@@ -74,7 +59,6 @@ function initBadgeModal(config) {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-    // Modal Beta Tester
     initBadgeModal({
         backdropId: 'badgeModalBackdrop',
         searchId: 'badgeUserSearch',
@@ -82,12 +66,9 @@ document.addEventListener('DOMContentLoaded', function () {
         submitId: 'submitBadge',
         submitTextId: 'submitBadgeText',
         openBtnId: 'openBadgeModal',
-        closeBtnId: 'closeBadgeModal',
-        cancelBtnId: 'cancelBadgeModal',
         closeGlobalFn: 'closeBadgeModal',
     });
 
-    // Modal Early Adopter
     initBadgeModal({
         backdropId: 'earlyBadgeModalBackdrop',
         searchId: 'earlyBadgeUserSearch',
@@ -95,8 +76,6 @@ document.addEventListener('DOMContentLoaded', function () {
         submitId: 'earlySubmitBadge',
         submitTextId: 'earlySubmitBadgeText',
         openBtnId: 'openEarlyBadgeModal',
-        closeBtnId: 'closeEarlyBadgeModal',
-        cancelBtnId: 'cancelEarlyBadgeModal',
         closeGlobalFn: 'closeEarlyBadgeModal',
     });
 });

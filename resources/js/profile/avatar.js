@@ -143,27 +143,14 @@ import { showToast } from '../shared/toast.js';
 
     /* ── Modal ver avatar ──────────────────────────── */
     function closeAvatarModal() {
-        imgModal?.classList.remove('show');
-        unlockBodyScroll();
+        window.closeModal('imgModal');
     }
 
     if (btnView && imgModal) {
         btnView.addEventListener('click', (e) => {
             e.stopPropagation();
             avatarWrap.classList.remove('active');
-            imgModal.classList.add('show');
-            lockBodyScroll();
-        });
-
-        imgModal.addEventListener('click', (e) => {
-            if (e.target === imgModal) closeAvatarModal();
+            window.openModal('imgModal');
         });
     }
-
-    modalX?.addEventListener('click', closeAvatarModal);
-
-    // Escape: solo actúa si el modal del avatar está abierto
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && imgModal?.classList.contains('show')) closeAvatarModal();
-    });
 })();

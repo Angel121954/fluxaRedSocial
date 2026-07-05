@@ -181,37 +181,23 @@ export function initMobileNavigation(convList, layout, backBtn, bubbleList) {
     });
 }
 
-export function initModal({ modalOverlay, modalClose, modalSearch, modalResults }) {
+export function initModal({ modalOverlay, modalSearch, modalResults }) {
     let searchTimeout = null;
 
     function openModal() {
         if (!modalOverlay) return;
-        modalOverlay.classList.add('active');
-        modalOverlay.setAttribute('aria-hidden', 'false');
-        lockBodyScroll();
+        window.openModal('msgsModalOverlay');
         setTimeout(() => modalSearch?.focus(), 80);
     }
 
     function closeModal() {
-        if (!modalOverlay) return;
-        modalOverlay.classList.remove('active');
-        modalOverlay.setAttribute('aria-hidden', 'true');
-        unlockBodyScroll();
+        window.closeModal('msgsModalOverlay');
         if (modalSearch) modalSearch.value = '';
         if (modalResults) modalResults.innerHTML = '<p class="msgs-modal-hint">Empieza a escribir para buscar usuarios.</p>';
     }
 
     document.getElementById('btnNuevoMensaje')?.addEventListener('click', openModal);
     document.getElementById('btnNuevoMensajeEmpty')?.addEventListener('click', openModal);
-    modalClose?.addEventListener('click', closeModal);
-
-    modalOverlay?.addEventListener('click', (e) => {
-        if (e.target === modalOverlay) closeModal();
-    });
-
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && modalOverlay?.classList.contains('active')) closeModal();
-    });
 
     if (modalSearch && modalResults) {
         modalSearch.addEventListener('input', () => {

@@ -7,7 +7,6 @@
     }
 
     const backdrop = document.getElementById('followersModal');
-    const closeBtn = document.getElementById('followersModalClose');
     const bodyEl = document.getElementById('followersModalBody');
     const titleEl = document.getElementById('followersModalTitle');
     const subtitleEl = document.getElementById('followersModalSubtitle');
@@ -16,7 +15,7 @@
 
     let currentUserId = null;
 
-    function openModal(userId, type) {
+    function openFollowers(userId, type) {
         currentUserId = userId;
 
         const labels = {
@@ -29,15 +28,13 @@
         subtitleEl.textContent = label.subtitle;
 
         showLoading();
-        backdrop.classList.add('is-open');
-        lockBodyScroll();
+        window.openModal('followersModal');
 
         fetchUsers(userId, type);
     }
 
-    function closeModal() {
-        backdrop.classList.remove('is-open');
-        unlockBodyScroll();
+    function closeFollowers() {
+        window.closeModal('followersModal');
         bodyEl.innerHTML = '';
     }
 
@@ -117,20 +114,5 @@
         bodyEl.innerHTML = html;
     }
 
-    if (closeBtn) {
-        closeBtn.addEventListener('click', closeModal);
-    }
-
-    backdrop.addEventListener('click', function (e) {
-        if (e.target === backdrop) closeModal();
-    });
-
-    document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape' && backdrop.classList.contains('is-open')) {
-            closeModal();
-        }
-    });
-
-    window.openFollowersModal = openModal;
-
+    window.openFollowersModal = openFollowers;
 })();

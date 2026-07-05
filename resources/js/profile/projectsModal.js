@@ -6,28 +6,24 @@
         return String(str ?? '').replace(/[&<>"']/g, function (c) { return map[c]; });
     }
 
-    const backdrop = document.getElementById('projectsModal');
-    const closeBtn = document.getElementById('projectsModalClose');
     const bodyEl = document.getElementById('projectsModalBody');
     const titleEl = document.getElementById('projectsModalTitle');
     const subtitleEl = document.getElementById('projectsModalSubtitle');
 
-    if (!backdrop) return;
+    if (!bodyEl) return;
 
-    function openModal(userId) {
+    function openProjects(userId) {
         titleEl.textContent = 'Proyectos';
         subtitleEl.textContent = 'Proyectos publicados por este usuario';
 
         showLoading();
-        backdrop.classList.add('is-open');
-        lockBodyScroll();
+        window.openModal('projectsModal');
 
         fetchProjects(userId);
     }
 
-    function closeModal() {
-        backdrop.classList.remove('is-open');
-        unlockBodyScroll();
+    function closeProjects() {
+        window.closeModal('projectsModal');
         bodyEl.innerHTML = '';
     }
 
@@ -114,20 +110,5 @@
         bodyEl.innerHTML = html;
     }
 
-    if (closeBtn) {
-        closeBtn.addEventListener('click', closeModal);
-    }
-
-    backdrop.addEventListener('click', function (e) {
-        if (e.target === backdrop) closeModal();
-    });
-
-    document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape' && backdrop.classList.contains('is-open')) {
-            closeModal();
-        }
-    });
-
-    window.openProjectsModal = openModal;
-
+    window.openProjectsModal = openProjects;
 })();

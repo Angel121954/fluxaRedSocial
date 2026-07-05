@@ -235,77 +235,62 @@
 {{-- ════════════════════════════════════════════════════════
      MODAL — Confirmar baneo
 ════════════════════════════════════════════════════════ --}}
-<div class="modal-backdrop" id="banModalBackdrop" role="dialog" aria-modal="true" aria-labelledby="banModalTitle">
-    <div class="modal-card" id="banModal">
-
-        {{-- Header --}}
-        <div class="modal-header">
-            <div class="modal-header-icon modal-header-icon--danger">
-                <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
-                </svg>
-            </div>
-            <div>
-                <div class="modal-title" id="banModalTitle">Banear empresa</div>
-                <div class="modal-subtitle">Esta acción bloqueará el acceso de la empresa a la plataforma.</div>
-            </div>
-            <button type="button" class="modal-close" id="closeBanModal" aria-label="Cerrar modal">
-                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-            </button>
+<x-modal id="banModalBackdrop">
+    <x-slot:headerIcon>
+        <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+        </svg>
+    </x-slot:headerIcon>
+    <x-slot:header>
+        <div class="modal-header-text">
+            <div class="modal-title" id="banModalTitle">Banear empresa</div>
+            <div class="modal-subtitle">Esta acción bloqueará el acceso de la empresa a la plataforma.</div>
         </div>
+    </x-slot:header>
 
-        <div class="modal-body">
-
-            {{-- Info de la empresa a banear --}}
-            <div class="adm-ban-user-info" id="banUserInfo">
-                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                </svg>
-                <span id="banUserName">Empresa</span>
-            </div>
-
-            {{-- Razón del baneo --}}
-            <div class="adm-field">
-                <label class="adm-label" for="banReason">
-                    Razón del baneo
-                    <span class="adm-label-optional">(opcional)</span>
-                </label>
-                <textarea
-                    id="banReason"
-                    class="adm-textarea"
-                    placeholder="Describe brevemente el motivo del baneo..."
-                    rows="3"
-                    maxlength="500"
-                    aria-label="Razón del baneo"></textarea>
-                <p class="adm-field-hint">Esta razón quedará registrada en el historial del sistema.</p>
-            </div>
-
-            {{-- Advertencia --}}
-            <div class="adm-alert adm-alert--warning">
-                <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                </svg>
-                La empresa perderá acceso inmediatamente. Podrás revertir esta acción desde la tabla.
-            </div>
-        </div>
-
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" id="cancelBanModal">Cancelar</button>
-            <button type="button" class="btn btn-primary" style="background:#ef4444;" id="confirmBanBtn">
-                <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"
-                        d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
-                </svg>
-                Confirmar baneo
-            </button>
-        </div>
+    <div class="adm-ban-user-info" id="banUserInfo">
+        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+        </svg>
+        <span id="banUserName">Empresa</span>
     </div>
-</div>
+
+    <div class="adm-field">
+        <label class="adm-label" for="banReason">
+            Razón del baneo
+            <span class="adm-label-optional">(opcional)</span>
+        </label>
+        <textarea
+            id="banReason"
+            class="adm-textarea"
+            placeholder="Describe brevemente el motivo del baneo..."
+            rows="3"
+            maxlength="500"
+            aria-label="Razón del baneo"></textarea>
+        <p class="adm-field-hint">Esta razón quedará registrada en el historial del sistema.</p>
+    </div>
+
+    <div class="adm-alert adm-alert--warning">
+        <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+        </svg>
+        La empresa perderá acceso inmediatamente. Podrás revertir esta acción desde la tabla.
+    </div>
+
+    <x-slot:footer>
+        <button type="button" class="btn btn-secondary" data-close="banModalBackdrop">Cancelar</button>
+        <button type="button" class="btn btn-primary" style="background:#ef4444;" id="confirmBanBtn">
+            <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"
+                    d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+            </svg>
+            Confirmar baneo
+        </button>
+    </x-slot:footer>
+</x-modal>
 
 @endsection
 

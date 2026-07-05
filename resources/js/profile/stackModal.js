@@ -2,25 +2,21 @@
     'use strict';
 
     const backdrop = document.getElementById('stackModal');
-    const closeBtn = document.getElementById('stackModalClose');
-    const cancelBtn = document.getElementById('stackModalCancel');
     const saveBtn = document.getElementById('stackModalSave');
     const searchInput = document.getElementById('stackModalSearch');
     const grid = document.getElementById('stackModalGrid');
 
     if (!backdrop) return;
 
-    function openModal() {
-        backdrop.classList.add('is-open');
-        lockBodyScroll();
+    function openStack() {
+        window.openModal('stackModal');
         setTimeout(function () {
             if (searchInput) searchInput.focus();
         }, 100);
     }
 
-    function closeModal() {
-        backdrop.classList.remove('is-open');
-        unlockBodyScroll();
+    function closeStack() {
+        window.closeModal('stackModal');
         if (searchInput) searchInput.value = '';
         filterItems('');
     }
@@ -59,7 +55,7 @@
             return res.json();
         })
         .then(function () {
-            closeModal();
+            closeStack();
             window.location.href = '/profile?tab=stack';
         })
         .catch(function () {
@@ -73,20 +69,7 @@
         });
     }
 
-    // Eventos
-    if (closeBtn) closeBtn.addEventListener('click', closeModal);
-    if (cancelBtn) cancelBtn.addEventListener('click', closeModal);
     if (saveBtn) saveBtn.addEventListener('click', saveTechnologies);
-
-    backdrop.addEventListener('click', function (e) {
-        if (e.target === backdrop) closeModal();
-    });
-
-    document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape' && backdrop.classList.contains('is-open')) {
-            closeModal();
-        }
-    });
 
     if (searchInput) {
         searchInput.addEventListener('input', function () {
@@ -94,7 +77,5 @@
         });
     }
 
-    // Exponer para abrir desde cualquier lado
-    window.openStackModal = openModal;
-
+    window.openStackModal = openStack;
 })();

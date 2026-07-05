@@ -10,17 +10,29 @@ use Illuminate\View\Component;
 
 class Modal extends Component
 {
-    /**
-     * Create a new component instance.
-     */
-    public function __construct()
-    {
-        //
+    public string $id;
+    public ?string $title;
+    public ?string $subtitle;
+    public ?string $maxWidth;
+    public bool $hideHeader;
+    public bool $hideClose;
+
+    public function __construct(
+        string $id,
+        ?string $title = null,
+        ?string $subtitle = null,
+        ?string $maxWidth = null,
+        bool $hideHeader = false,
+        bool $hideClose = false,
+    ) {
+        $this->id = $id;
+        $this->title = $title;
+        $this->subtitle = $subtitle;
+        $this->maxWidth = $maxWidth;
+        $this->hideHeader = $hideHeader;
+        $this->hideClose = $hideClose;
     }
 
-    /**
-     * Get the view / contents that represent the component.
-     */
     public function render(): View|Closure|string
     {
         return view('components.modal');

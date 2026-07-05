@@ -342,252 +342,205 @@
 {{-- ════════════════════════════════════════════════════════
      MODAL — Otorgar insignia Beta Tester
 ════════════════════════════════════════════════════════ --}}
-<div class="modal-backdrop" id="badgeModalBackdrop" role="dialog" aria-modal="true" aria-labelledby="badgeModalTitle">
-    <div class="modal-card" id="badgeModal">
+<x-modal id="badgeModalBackdrop">
+    <x-slot:headerIcon>
+        <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+        </svg>
+    </x-slot:headerIcon>
+    <x-slot:header>
+        <div class="modal-header-text">
+            <div class="modal-title" id="badgeModalTitle">Otorgar insignia Beta Tester</div>
+            <div class="modal-subtitle">Selecciona el usuario al que deseas otorgar la insignia.</div>
+        </div>
+    </x-slot:header>
 
-        {{-- Header --}}
-        <div class="modal-header">
-            <div class="modal-header-icon modal-header-icon--accent">
-                <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <form method="POST" action="{{ route('admin.users.grantBadge') }}" id="badgeForm">
+        @csrf
+        <input type="hidden" name="badge_slug" value="beta-tester">
+
+        <div class="adm-field">
+            <label class="adm-label" for="badgeUserSearch">Buscar usuario</label>
+            <div class="adm-search-wrap adm-search-wrap--full">
+                <svg class="adm-search-icon" width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
+                <input
+                    type="search"
+                    id="badgeUserSearch"
+                    class="adm-search"
+                    placeholder="Filtrar por nombre o @usuario..."
+                    autocomplete="off"
+                    aria-label="Buscar usuario para la insignia">
             </div>
-            <div>
-                <div class="modal-title" id="badgeModalTitle">Otorgar insignia Beta Tester</div>
-                <div class="modal-subtitle">Selecciona el usuario al que deseas otorgar la insignia.</div>
-            </div>
-            <button type="button" class="modal-close" id="closeBadgeModal" aria-label="Cerrar modal">
-                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-            </button>
         </div>
 
-        {{-- Body --}}
-        <form method="POST" action="{{ route('admin.users.grantBadge') }}" id="badgeForm">
-            @csrf
-            <input type="hidden" name="badge_slug" value="beta-tester">
-            <div class="modal-body">
-
-                {{-- Búsqueda --}}
-                <div class="adm-field">
-                    <label class="adm-label" for="badgeUserSearch">Buscar usuario</label>
-                    <div class="adm-search-wrap adm-search-wrap--full">
-                        <svg class="adm-search-icon" width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                        </svg>
-                        <input
-                            type="search"
-                            id="badgeUserSearch"
-                            class="adm-search"
-                            placeholder="Filtrar por nombre o @usuario..."
-                            autocomplete="off"
-                            aria-label="Buscar usuario para la insignia">
-                    </div>
+        <div class="adm-badge-list" id="badgeUserList">
+            @foreach($users as $user)
+            <label class="adm-badge-item {{ $user->hasBadge('beta-tester') ? 'adm-badge-item--disabled' : '' }}"
+                data-name="{{ strtolower($user->name) }}"
+                data-handle="{{ strtolower($user->username) }}">
+                <input type="checkbox" name="user_ids[]" value="{{ $user->id }}"
+                    class="adm-badge-checkbox"
+                    {{ $user->hasBadge('beta-tester') ? 'disabled checked' : '' }}>
+                <img src="{{ $user->avatar_url }}" alt="" class="adm-badge-avatar" loading="lazy">
+                <div class="adm-badge-user">
+                    <span class="adm-badge-username">{{ $user->name }}</span>
+                    <span class="adm-badge-userhandle">{{ '@' . $user->username }}</span>
                 </div>
+                @if($user->hasBadge('beta-tester'))
+                <span class="adm-badge-pill adm-badge-pill--beta">Ya tiene</span>
+                @endif
+            </label>
+            @endforeach
+        </div>
+        <p class="adm-field-hint">Los usuarios que ya tienen la insignia aparecen marcados y no pueden seleccionarse.</p>
+    </form>
 
-                {{-- Lista de usuarios con checkbox --}}
-                <div class="adm-badge-list" id="badgeUserList">
-                    @foreach($users as $user)
-                    <label class="adm-badge-item {{ $user->hasBadge('beta-tester') ? 'adm-badge-item--disabled' : '' }}"
-                        data-name="{{ strtolower($user->name) }}"
-                        data-handle="{{ strtolower($user->username) }}">
-                        <input type="checkbox" name="user_ids[]" value="{{ $user->id }}"
-                            class="adm-badge-checkbox"
-                            {{ $user->hasBadge('beta-tester') ? 'disabled checked' : '' }}>
-                        <img src="{{ $user->avatar_url }}" alt="" class="adm-badge-avatar" loading="lazy">
-                        <div class="adm-badge-user">
-                            <span class="adm-badge-username">{{ $user->name }}</span>
-                            <span class="adm-badge-userhandle">{{ '@' . $user->username }}</span>
-                        </div>
-                        @if($user->hasBadge('beta-tester'))
-                        <span class="adm-badge-pill adm-badge-pill--beta">Ya tiene</span>
-                        @endif
-                    </label>
-                    @endforeach
-                </div>
-                <p class="adm-field-hint">Los usuarios que ya tienen la insignia aparecen marcados y no pueden seleccionarse.</p>
-
-            </div>
-
-            {{-- Footer --}}
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" id="cancelBadgeModal">Cancelar</button>
-                <button type="submit" class="btn btn-primary" id="submitBadge" disabled>
-                    <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M5 13l4 4L19 7" />
-                    </svg>
-                    <span id="submitBadgeText">Otorgar insignia</span>
-                </button>
-            </div>
-        </form>
-    </div>
-</div>
+    <x-slot:footer>
+        <button type="button" class="btn btn-secondary" data-close="badgeModalBackdrop">Cancelar</button>
+        <button type="submit" class="btn btn-primary" id="submitBadge" form="badgeForm" disabled>
+            <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M5 13l4 4L19 7" />
+            </svg>
+            <span id="submitBadgeText">Otorgar insignia</span>
+        </button>
+    </x-slot:footer>
+</x-modal>
 
 
 {{-- ════════════════════════════════════════════════════════
      MODAL — Confirmar baneo
 ════════════════════════════════════════════════════════ --}}
-<div class="modal-backdrop" id="banModalBackdrop" role="dialog" aria-modal="true" aria-labelledby="banModalTitle">
-    <div class="modal-card" id="banModal">
-
-        {{-- Header --}}
-        <div class="modal-header">
-            <div class="modal-header-icon modal-header-icon--danger">
-                <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
-                </svg>
-            </div>
-            <div>
-                <div class="modal-title" id="banModalTitle">Banear usuario</div>
-                <div class="modal-subtitle">Esta acción bloqueará el acceso del usuario a la plataforma.</div>
-            </div>
-            <button type="button" class="modal-close" id="closeBanModal" aria-label="Cerrar modal">
-                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-            </button>
+<x-modal id="banModalBackdrop">
+    <x-slot:headerIcon>
+        <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+        </svg>
+    </x-slot:headerIcon>
+    <x-slot:header>
+        <div class="modal-header-text">
+            <div class="modal-title" id="banModalTitle">Banear usuario</div>
+            <div class="modal-subtitle">Esta acción bloqueará el acceso del usuario a la plataforma.</div>
         </div>
+    </x-slot:header>
 
-        <div class="modal-body">
-
-            {{-- Info del usuario a banear --}}
-            <div class="adm-ban-user-info" id="banUserInfo">
-                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                </svg>
-                <span id="banUserName">Usuario</span>
-            </div>
-
-            {{-- Razón del baneo --}}
-            <div class="adm-field">
-                <label class="adm-label" for="banReason">
-                    Razón del baneo
-                    <span class="adm-label-optional">(opcional)</span>
-                </label>
-                <textarea
-                    id="banReason"
-                    class="adm-textarea"
-                    placeholder="Describe brevemente el motivo del baneo..."
-                    rows="3"
-                    maxlength="500"
-                    aria-label="Razón del baneo"></textarea>
-                <p class="adm-field-hint">Esta razón quedará registrada en el historial del sistema.</p>
-            </div>
-
-            {{-- Advertencia --}}
-            <div class="adm-alert adm-alert--warning">
-                <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                </svg>
-                El usuario perderá acceso inmediatamente. Podrás revertir esta acción desde la tabla.
-            </div>
-        </div>
-
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" id="cancelBanModal">Cancelar</button>
-            <button type="button" class="btn btn-primary" style="background:#ef4444;" id="confirmBanBtn">
-                <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"
-                        d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
-                </svg>
-                Confirmar baneo
-            </button>
-        </div>
+    <div class="adm-ban-user-info" id="banUserInfo">
+        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+        </svg>
+        <span id="banUserName">Usuario</span>
     </div>
-</div>
+
+    <div class="adm-field">
+        <label class="adm-label" for="banReason">
+            Razón del baneo
+            <span class="adm-label-optional">(opcional)</span>
+        </label>
+        <textarea
+            id="banReason"
+            class="adm-textarea"
+            placeholder="Describe brevemente el motivo del baneo..."
+            rows="3"
+            maxlength="500"
+            aria-label="Razón del baneo"></textarea>
+        <p class="adm-field-hint">Esta razón quedará registrada en el historial del sistema.</p>
+    </div>
+
+    <div class="adm-alert adm-alert--warning">
+        <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+        </svg>
+        El usuario perderá acceso inmediatamente. Podrás revertir esta acción desde la tabla.
+    </div>
+
+    <x-slot:footer>
+        <button type="button" class="btn btn-secondary" data-close="banModalBackdrop">Cancelar</button>
+        <button type="button" class="btn btn-primary" style="background:#ef4444;" id="confirmBanBtn">
+            <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"
+                    d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+            </svg>
+            Confirmar baneo
+        </button>
+    </x-slot:footer>
+</x-modal>
 
 {{-- ════════════════════════════════════════════════════════════
      MODAL — Otorgar insignia Early Adopter
 ════════════════════════════════════════════════════════ --}}
-<div class="modal-backdrop" id="earlyBadgeModalBackdrop" role="dialog" aria-modal="true" aria-labelledby="earlyBadgeModalTitle">
-    <div class="modal-card" id="earlyBadgeModal">
+<x-modal id="earlyBadgeModalBackdrop">
+    <x-slot:headerIcon>
+        <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M13 10V3L4 14h7v7l9-11h-7z" />
+        </svg>
+    </x-slot:headerIcon>
+    <x-slot:header>
+        <div class="modal-header-text">
+            <div class="modal-title" id="earlyBadgeModalTitle">Otorgar insignia Early Adopter</div>
+            <div class="modal-subtitle">Selecciona el usuario al que deseas otorgar la insignia.</div>
+        </div>
+    </x-slot:header>
 
-        {{-- Header --}}
-        <div class="modal-header">
-            <div class="modal-header-icon modal-header-icon--accent">
-                <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <form method="POST" action="{{ route('admin.users.grantBadge') }}" id="earlyBadgeForm">
+        @csrf
+        <input type="hidden" name="badge_slug" value="early-adopter">
+
+        <div class="adm-field">
+            <label class="adm-label" for="earlyBadgeUserSearch">Buscar usuario</label>
+            <div class="adm-search-wrap adm-search-wrap--full">
+                <svg class="adm-search-icon" width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
+                <input
+                    type="search"
+                    id="earlyBadgeUserSearch"
+                    class="adm-search"
+                    placeholder="Filtrar por nombre o @usuario..."
+                    autocomplete="off"
+                    aria-label="Buscar usuario para la insignia">
             </div>
-            <div>
-                <div class="modal-title" id="earlyBadgeModalTitle">Otorgar insignia Early Adopter</div>
-                <div class="modal-subtitle">Selecciona el usuario al que deseas otorgar la insignia.</div>
-            </div>
-            <button type="button" class="modal-close" id="closeEarlyBadgeModal" aria-label="Cerrar modal">
-                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-            </button>
         </div>
 
-        {{-- Body --}}
-        <form method="POST" action="{{ route('admin.users.grantBadge') }}" id="earlyBadgeForm">
-            @csrf
-            <input type="hidden" name="badge_slug" value="early-adopter">
-            <div class="modal-body">
-
-                {{-- Búsqueda --}}
-                <div class="adm-field">
-                    <label class="adm-label" for="earlyBadgeUserSearch">Buscar usuario</label>
-                    <div class="adm-search-wrap adm-search-wrap--full">
-                        <svg class="adm-search-icon" width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                        </svg>
-                        <input
-                            type="search"
-                            id="earlyBadgeUserSearch"
-                            class="adm-search"
-                            placeholder="Filtrar por nombre o @usuario..."
-                            autocomplete="off"
-                            aria-label="Buscar usuario para la insignia">
-                    </div>
+        <div class="adm-badge-list" id="earlyBadgeUserList">
+            @foreach($users as $user)
+            <label class="adm-badge-item {{ $user->hasBadge('early-adopter') ? 'adm-badge-item--disabled' : '' }}"
+                data-name="{{ strtolower($user->name) }}"
+                data-handle="{{ strtolower($user->username) }}">
+                <input type="checkbox" name="user_ids[]" value="{{ $user->id }}"
+                    class="adm-badge-checkbox"
+                    {{ $user->hasBadge('early-adopter') ? 'disabled checked' : '' }}>
+                <img src="{{ $user->avatar_url }}" alt="" class="adm-badge-avatar" loading="lazy">
+                <div class="adm-badge-user">
+                    <span class="adm-badge-username">{{ $user->name }}</span>
+                    <span class="adm-badge-userhandle">{{ '@' . $user->username }}</span>
                 </div>
+                @if($user->hasBadge('early-adopter'))
+                <span class="adm-badge-pill adm-badge-pill--early">Ya tiene</span>
+                @endif
+            </label>
+            @endforeach
+        </div>
+        <p class="adm-field-hint">Los usuarios que ya tienen la insignia aparecen marcados y no pueden seleccionarse.</p>
+    </form>
 
-                {{-- Lista de usuarios con checkbox --}}
-                <div class="adm-badge-list" id="earlyBadgeUserList">
-                    @foreach($users as $user)
-                    <label class="adm-badge-item {{ $user->hasBadge('early-adopter') ? 'adm-badge-item--disabled' : '' }}"
-                        data-name="{{ strtolower($user->name) }}"
-                        data-handle="{{ strtolower($user->username) }}">
-                        <input type="checkbox" name="user_ids[]" value="{{ $user->id }}"
-                            class="adm-badge-checkbox"
-                            {{ $user->hasBadge('early-adopter') ? 'disabled checked' : '' }}>
-                        <img src="{{ $user->avatar_url }}" alt="" class="adm-badge-avatar" loading="lazy">
-                        <div class="adm-badge-user">
-                            <span class="adm-badge-username">{{ $user->name }}</span>
-                            <span class="adm-badge-userhandle">{{ '@' . $user->username }}</span>
-                        </div>
-                        @if($user->hasBadge('early-adopter'))
-                        <span class="adm-badge-pill adm-badge-pill--early">Ya tiene</span>
-                        @endif
-                    </label>
-                    @endforeach
-                </div>
-                <p class="adm-field-hint">Los usuarios que ya tienen la insignia aparecen marcados y no pueden seleccionarse.</p>
-
-            </div>
-
-            {{-- Footer --}}
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" id="cancelEarlyBadgeModal">Cancelar</button>
-                <button type="submit" class="btn btn-primary" id="earlySubmitBadge" disabled>
-                    <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M5 13l4 4L19 7" />
-                    </svg>
-                    <span id="earlySubmitBadgeText">Otorgar insignia</span>
-                </button>
-            </div>
-        </form>
-    </div>
-</div>
+    <x-slot:footer>
+        <button type="button" class="btn btn-secondary" data-close="earlyBadgeModalBackdrop">Cancelar</button>
+        <button type="submit" class="btn btn-primary" id="earlySubmitBadge" form="earlyBadgeForm" disabled>
+            <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M5 13l4 4L19 7" />
+            </svg>
+            <span id="earlySubmitBadgeText">Otorgar insignia</span>
+        </button>
+    </x-slot:footer>
+</x-modal>
 
 
 @endsection

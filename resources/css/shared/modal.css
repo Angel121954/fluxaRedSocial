@@ -50,6 +50,10 @@
     transform: translateY(0) scale(1);
 }
 
+.modal-card--sm {
+    max-width: 420px;
+}
+
 /* ── Header ───────────────────────────────────────── */
 .modal-header {
     display: flex;

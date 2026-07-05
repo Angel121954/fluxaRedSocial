@@ -7,7 +7,7 @@ $profile = $profile ?? Auth::user()->profile;
 <!-- Modal imagen -->
 <div class="img-modal" id="imgModal">
     <div class="modal-wrap">
-        <button class="modal-x" id="modalX">
+        <button class="modal-x" data-close="imgModal">
             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
                     stroke-linecap="round"

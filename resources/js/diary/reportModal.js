@@ -2,8 +2,6 @@
     'use strict';
 
     const backdrop = document.getElementById('diaryReportModal');
-    const closeBtn = document.getElementById('diaryReportClose');
-    const cancelBtn = document.getElementById('diaryReportCancel');
     const form = document.getElementById('diaryReportForm');
     const reasonInput = document.getElementById('diaryReportReason');
     const submitBtn = document.getElementById('diaryReportSubmit');
@@ -12,19 +10,17 @@
 
     let currentResponseId = null;
 
-    function openModal(responseId) {
+    function openReportModal(responseId) {
         currentResponseId = responseId;
         reasonInput.value = '';
         submitBtn.disabled = false;
         submitBtn.textContent = 'Reportar';
-        backdrop.classList.add('is-open');
-        lockBodyScroll();
+        window.openModal('diaryReportModal');
         setTimeout(function () { reasonInput.focus(); }, 100);
     }
 
-    function closeModal() {
-        backdrop.classList.remove('is-open');
-        unlockBodyScroll();
+    function closeReportModal() {
+        window.closeModal('diaryReportModal');
     }
 
     function showError(msg) {
@@ -74,7 +70,7 @@
                 return res.json();
             })
             .then(function (data) {
-                closeModal();
+                closeReportModal();
                 window.toast?.success(data.message || 'Reporte enviado. Gracias por ayudar a mantener la comunidad segura.');
             })
             .catch(function () {
@@ -84,19 +80,5 @@
             });
     });
 
-    if (closeBtn) closeBtn.addEventListener('click', closeModal);
-    if (cancelBtn) cancelBtn.addEventListener('click', closeModal);
-
-    backdrop.addEventListener('click', function (e) {
-        if (e.target === backdrop) closeModal();
-    });
-
-    document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape' && backdrop.classList.contains('is-open')) {
-            closeModal();
-        }
-    });
-
-    window.openDiaryReportModal = openModal;
-
+    window.openDiaryReportModal = openReportModal;
 })();

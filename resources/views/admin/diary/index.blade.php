@@ -74,64 +74,53 @@
 </div>
 
 {{-- Modal: crear/editar pregunta del diario --}}
-<div class="modal-backdrop" id="diaryModalBackdrop" role="dialog" aria-modal="true" aria-labelledby="diaryModalTitle">
-    <div class="modal-card" id="diaryModal">
-        <div class="modal-header">
-            <div class="modal-header-text">
-                <div class="modal-title" id="diaryModalTitle">Nueva pregunta del diario</div>
-                <div class="modal-subtitle" id="diaryModalSubtitle">Crea una pregunta para que la comunidad responda.</div>
-            </div>
-            <button type="button" class="modal-close" id="closeDiaryModal" aria-label="Cerrar modal">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="18" y1="6" x2="6" y2="18" />
-                    <line x1="6" y1="6" x2="18" y2="18" />
-                </svg>
-            </button>
+<x-modal id="diaryModalBackdrop">
+    <x-slot:header>
+        <div class="modal-header-text">
+            <div class="modal-title" id="diaryModalTitle">Nueva pregunta del diario</div>
+            <div class="modal-subtitle" id="diaryModalSubtitle">Crea una pregunta para que la comunidad responda.</div>
+        </div>
+    </x-slot:header>
+
+    <form method="POST" action="{{ route('admin.diary.store') }}" class="adm-form" id="diaryForm">
+        @csrf
+        <input type="hidden" name="_method" id="diaryFormMethod" value="POST">
+        <div class="adm-form-group">
+            <label for="diary_question" class="adm-label">Pregunta</label>
+            <textarea
+                id="diary_question"
+                name="question"
+                class="adm-textarea"
+                rows="3"
+                placeholder="Escribe la pregunta del diario..."
+                required
+                maxlength="500">{{ old('question') }}</textarea>
+            @error('question')
+            <span class="adm-error">{{ $message }}</span>
+            @enderror
         </div>
 
-        <form method="POST" action="{{ route('admin.diary.store') }}" class="adm-form" id="diaryForm">
-            @csrf
-            <input type="hidden" name="_method" id="diaryFormMethod" value="POST">
-            <div class="modal-body">
-                <div class="adm-form-group">
-                    <label for="diary_question" class="adm-label">Pregunta</label>
-                    <textarea
-                        id="diary_question"
-                        name="question"
-                        class="adm-textarea"
-                        rows="3"
-                        placeholder="Escribe la pregunta del diario..."
-                        required
-                        maxlength="500">{{ old('question') }}</textarea>
-                    @error('question')
-                    <span class="adm-error">{{ $message }}</span>
-                    @enderror
-                </div>
+        <div class="adm-form-group">
+            <label for="diary_emoji" class="adm-label">Emoji (opcional)</label>
+            <input
+                type="text"
+                id="diary_emoji"
+                name="emoji"
+                class="adm-input"
+                placeholder="🔥"
+                maxlength="10"
+                value="{{ old('emoji') }}">
+            @error('emoji')
+            <span class="adm-error">{{ $message }}</span>
+            @enderror
+        </div>
+    </form>
 
-                <div class="adm-form-group">
-                    <label for="diary_emoji" class="adm-label">Emoji (opcional)</label>
-                    <input
-                        type="text"
-                        id="diary_emoji"
-                        name="emoji"
-                        class="adm-input"
-                        placeholder="🔥"
-                        maxlength="10"
-                        value="{{ old('emoji') }}">
-                    @error('emoji')
-                    <span class="adm-error">{{ $message }}</span>
-                    @enderror
-                </div>
-
-            </div>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" id="cancelDiaryModal">Cancelar</button>
-                <button type="submit" class="btn btn-primary" id="diaryModalSubmit">Crear pregunta</button>
-            </div>
-        </form>
-    </div>
-</div>
+    <x-slot:footer>
+        <button type="button" class="btn btn-secondary" data-close="diaryModalBackdrop">Cancelar</button>
+        <button type="submit" class="btn btn-primary" id="diaryModalSubmit" form="diaryForm">Crear pregunta</button>
+    </x-slot:footer>
+</x-modal>
 
 @endsection
 

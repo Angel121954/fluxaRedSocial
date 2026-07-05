@@ -1,14 +1,11 @@
-// commentModal.js - Modal de comentarios para respuestas del Diario
-
 import { renderComments, addComment, addReply, startTimeUpdates } from './commentRenderer.js';
 import { initCommentForm, setReplyingTo as setReply, resetCommentForm as resetForm } from './commentForm.js';
 
-let commentsModal, closeCommentsBtn, modalCommentsList;
+let commentsModal, modalCommentsList;
 let currentResponseId = null;
 
 function getElements() {
     commentsModal = document.getElementById("commentsModal");
-    closeCommentsBtn = document.getElementById("closeCommentsModal");
     modalCommentsList = document.getElementById("modalCommentsList");
 }
 
@@ -22,21 +19,7 @@ function getCurrentResponseId() {
 
 function initCommentModal() {
     getElements();
-    if (!commentsModal || !closeCommentsBtn) return;
-
-    closeCommentsBtn.addEventListener("click", closeCommentsModal);
-
-    document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape" && commentsModal.classList.contains("show")) {
-            closeCommentsModal();
-        }
-    });
-
-    commentsModal.addEventListener("click", (e) => {
-        if (e.target === commentsModal) {
-            closeCommentsModal();
-        }
-    });
+    if (!commentsModal) return;
 
     initCommentForm({
         onSubmit: (comment, isReply) => {
@@ -74,7 +57,6 @@ function initCommentModal() {
 export function openDiaryCommentsModal(postData) {
     getElements();
     if (!commentsModal) return;
-    lockBodyScroll();
 
     const responseId = postData.responseId;
     if (!responseId) {
@@ -95,12 +77,11 @@ export function openDiaryCommentsModal(postData) {
         badge.style.display = postData.isOpenSource ? "flex" : "none";
     }
 
-    // Limpiar comentarios anteriores mientras se cargan los nuevos
     if (modalCommentsList) modalCommentsList.innerHTML = '';
 
     loadComments();
 
-    commentsModal.classList.add("show");
+    window.openModal('commentsModal');
     startTimeUpdates(modalCommentsList);
     setTimeout(() => {
         const commentTextarea = document.getElementById("commentTextarea");
@@ -111,8 +92,7 @@ export function openDiaryCommentsModal(postData) {
 window.openDiaryCommentsModal = openDiaryCommentsModal;
 
 function closeCommentsModal() {
-    commentsModal.classList.remove("show");
-    unlockBodyScroll();
+    window.closeModal('commentsModal');
     resetForm();
     setCurrentResponseId(null);
 }
@@ -129,7 +109,6 @@ async function loadComments() {
         });
         if (!res.ok) throw new Error('Error cargando comentarios');
 
-        // Ignorar si el modal se cerró o cambió a otra respuesta
         if (getCurrentResponseId() !== responseId) return;
 
         const data = await res.json();
@@ -229,7 +208,6 @@ async function deleteComment(commentId, button) {
         const data = await res.json();
         if (!data.success) throw new Error('Error al eliminar comentario');
 
-        // Actualizar contador en la tarjeta de respuesta
         if (savedResponseId && data.comments_count != null) {
             const commentBtn = document.querySelector(`.diary-comment-btn[data-response-id="${savedResponseId}"]`);
             if (commentBtn) {
@@ -248,7 +226,6 @@ async function deleteComment(commentId, button) {
 document.addEventListener("DOMContentLoaded", () => {
     initCommentModal();
 
-    // Delegación de clics en botones de comentarios del Diario
     document.addEventListener("click", (e) => {
         const btn = e.target.closest('.diary-comment-btn');
         if (!btn) return;

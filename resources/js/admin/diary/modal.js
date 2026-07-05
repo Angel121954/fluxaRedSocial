@@ -1,9 +1,4 @@
-/**
- * admin/diary/modal.js — Modal para crear/editar pregunta del diario
- */
-
 document.addEventListener('DOMContentLoaded', function () {
-    const backdrop = document.getElementById('diaryModalBackdrop');
     const form     = document.getElementById('diaryForm');
     const question = document.getElementById('diary_question');
     const emoji    = document.getElementById('diary_emoji');
@@ -12,11 +7,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const subtitle = document.getElementById('diaryModalSubtitle');
     const submit   = document.getElementById('diaryModalSubmit');
 
-    if (!backdrop) return;
-
     let editingId = null;
 
-    /* Abrir modal para crear */
     document.getElementById('openDiaryModal')?.addEventListener('click', function () {
         editingId = null;
         form.action = this.dataset.url;
@@ -26,10 +18,10 @@ document.addEventListener('DOMContentLoaded', function () {
         submit.textContent = 'Crear pregunta';
         question.value = '';
         emoji.value = '';
-        openModal();
+        window.openModal('diaryModalBackdrop');
+        question?.focus();
     });
 
-    /* Abrir modal para editar */
     document.addEventListener('click', function (e) {
         const btn = e.target.closest('.diary-admin-card__edit-btn');
         if (!btn) return;
@@ -42,35 +34,21 @@ document.addEventListener('DOMContentLoaded', function () {
         submit.textContent = 'Guardar cambios';
         question.value = btn.dataset.question;
         emoji.value = btn.dataset.emoji;
-        openModal();
-    });
-
-    /* Cerrar */
-    document.getElementById('closeDiaryModal')?.addEventListener('click', closeModal);
-    document.getElementById('cancelDiaryModal')?.addEventListener('click', closeModal);
-    backdrop.addEventListener('click', function (e) {
-        if (e.target === backdrop) closeModal();
-    });
-
-    function openModal() {
-        window.closeAllModals?.();
-        backdrop.classList.add('is-open');
+        window.openModal('diaryModalBackdrop');
         question?.focus();
-        window.lockBodyScroll?.();
-    }
+    });
 
-    function closeModal() {
-        backdrop.classList.remove('is-open');
+    function closeDiaryModal() {
+        window.closeModal('diaryModalBackdrop');
         editingId = null;
-        window.unlockBodyScroll?.();
     }
 
-    window.closeDiaryModal = closeModal;
+    window.closeDiaryModal = closeDiaryModal;
 
     window.closeAllModals = (window.closeAllModals || function () {});
     const origCloseAll = window.closeAllModals;
     window.closeAllModals = function () {
         origCloseAll();
-        closeModal();
+        closeDiaryModal();
     };
 });

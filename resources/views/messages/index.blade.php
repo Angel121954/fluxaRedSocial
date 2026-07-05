@@ -114,35 +114,24 @@
 </div><!-- /msgs-page -->
 
 <!-- ── Modal: Nueva conversación ── -->
-<div class="msgs-modal-overlay" id="msgsModalOverlay" aria-hidden="true">
-    <div class="msgs-modal" role="dialog" aria-modal="true" aria-labelledby="msgsModalTitle">
-        <div class="msgs-modal-header">
-            <h2 class="msgs-modal-title" id="msgsModalTitle">Nueva conversación</h2>
-            <button class="msgs-modal-close" id="msgsModalClose" aria-label="Cerrar">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
-                    <line x1="18" y1="6" x2="6" y2="18" />
-                    <line x1="6" y1="6" x2="18" y2="18" />
-                </svg>
-            </button>
-        </div>
-        <div class="msgs-modal-search-wrap">
-            <svg class="msgs-modal-search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-            <input type="search" class="msgs-modal-search" id="msgsModalSearch"
-                placeholder="Buscar usuarios..." autocomplete="off" aria-label="Buscar usuario">
-        </div>
-        <div class="msgs-modal-results" id="msgsModalResults" role="listbox" aria-live="polite">
-            <p class="msgs-modal-hint">Empieza a escribir para buscar usuarios.</p>
-        </div>
+<x-modal id="msgsModalOverlay" title="Nueva conversación">
+    <div class="msgs-modal-search-wrap">
+        <svg class="msgs-modal-search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+        <input type="search" class="msgs-modal-search" id="msgsModalSearch"
+            placeholder="Buscar usuarios..." autocomplete="off" aria-label="Buscar usuario">
     </div>
-</div>
+    <div class="msgs-modal-results" id="msgsModalResults" role="listbox" aria-live="polite">
+        <p class="msgs-modal-hint">Empieza a escribir para buscar usuarios.</p>
+    </div>
+</x-modal>
 
 <!-- ── Modal para vista previa de imagen en mensajes ── -->
 <div class="img-modal" id="msgsImgModal">
     <div class="modal-wrap">
-        <button class="modal-x" id="msgsImgModalClose">
+        <button class="modal-x" data-close="msgsImgModal">
             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
             </svg>
@@ -152,68 +141,39 @@
 </div>
 
 <!-- ── Modal: Editar mensaje ── -->
-<div class="modal-backdrop" id="msgsEditModal" aria-hidden="true">
-    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="msgsEditModalTitle">
-        <div class="modal-header">
-            <div>
-                <div class="modal-title" id="msgsEditModalTitle">Editar mensaje</div>
-            </div>
-            <button class="modal-close" id="msgsEditModalClose" aria-label="Cerrar">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
-                    <line x1="18" y1="6" x2="6" y2="18" />
-                    <line x1="6" y1="6" x2="18" y2="18" />
-                </svg>
-            </button>
-        </div>
-        <div class="modal-body">
-            <textarea class="modal-report-textarea" id="msgsEditTextarea" rows="4" maxlength="2000" placeholder="Escribe tu mensaje..."></textarea>
-            <div class="msgs-edit-charcount-wrap">
-                <span class="msgs-edit-charcount" id="msgsEditCharCount">0/2000</span>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button class="btn btn-secondary" id="msgsEditCancel">Cancelar</button>
-            <button class="btn btn-primary" id="msgsEditSave">Guardar</button>
-        </div>
+<x-modal id="msgsEditModal" title="Editar mensaje">
+    <textarea class="modal-report-textarea" id="msgsEditTextarea" rows="4" maxlength="2000" placeholder="Escribe tu mensaje..."></textarea>
+    <div class="msgs-edit-charcount-wrap">
+        <span class="msgs-edit-charcount" id="msgsEditCharCount">0/2000</span>
     </div>
-</div>
+
+    <x-slot:footer>
+        <button class="btn btn-secondary" data-close="msgsEditModal">Cancelar</button>
+        <button class="btn btn-primary" id="msgsEditSave">Guardar</button>
+    </x-slot:footer>
+</x-modal>
 
 <!-- ── Modal: Compartir proyecto ── -->
-<div class="modal-backdrop" id="msgsShareModal" aria-hidden="true">
-    <div class="modal-card modal-card--sm" role="dialog" aria-modal="true" aria-labelledby="msgsShareModalTitle">
-        <div class="modal-header">
-            <div>
-                <div class="modal-title" id="msgsShareModalTitle">Compartir proyecto</div>
-                <div class="modal-subtitle">Selecciona un proyecto para compartir en el chat</div>
-            </div>
-            <button class="modal-close" id="msgsShareModalClose" aria-label="Cerrar">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
-                    <line x1="18" y1="6" x2="6" y2="18" />
-                    <line x1="6" y1="6" x2="18" y2="18" />
-                </svg>
-            </button>
-        </div>
-        <div class="modal-body">
-            <div class="msgs-share-loading" id="msgsShareLoading">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="msgs-share-spinner">
-                    <circle cx="12" cy="12" r="10" stroke-dasharray="32" stroke-dashoffset="32" stroke-linecap="round" />
-                </svg>
-                <span>Cargando proyectos...</span>
-            </div>
-            <div class="msgs-share-empty" id="msgsShareEmpty" style="display:none">
-                <svg width="32" height="32" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
-                </svg>
-                <p>No tienes proyectos aún.</p>
-            </div>
-            <div class="msgs-share-list" id="msgsShareList"></div>
-        </div>
-        <div class="modal-footer">
-            <button class="btn btn-secondary" id="msgsShareCancel">Cancelar</button>
-            <button class="btn btn-primary" id="msgsShareSend" disabled>Enviar</button>
-        </div>
+<x-modal id="msgsShareModal" title="Compartir proyecto" subtitle="Selecciona un proyecto para compartir en el chat" maxWidth="sm">
+    <div class="msgs-share-loading" id="msgsShareLoading">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="msgs-share-spinner">
+            <circle cx="12" cy="12" r="10" stroke-dasharray="32" stroke-dashoffset="32" stroke-linecap="round" />
+        </svg>
+        <span>Cargando proyectos...</span>
     </div>
-</div>
+    <div class="msgs-share-empty" id="msgsShareEmpty" style="display:none">
+        <svg width="32" height="32" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+        </svg>
+        <p>No tienes proyectos aún.</p>
+    </div>
+    <div class="msgs-share-list" id="msgsShareList"></div>
+
+    <x-slot:footer>
+        <button class="btn btn-secondary" data-close="msgsShareModal">Cancelar</button>
+        <button class="btn btn-primary" id="msgsShareSend" disabled>Enviar</button>
+    </x-slot:footer>
+</x-modal>
 
 @endsection
 

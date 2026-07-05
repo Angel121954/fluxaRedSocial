@@ -1,15 +1,11 @@
-// modalComment.js - Lógica principal del modal de comentarios
-
 import { renderComments, addComment, addReply, startTimeUpdates } from './commentRenderer.js';
 import { initCommentForm, setReplyingTo as setReply, resetCommentForm as resetForm } from './commentForm.js';
 
-// Referencias DOM
-let commentsModal, closeCommentsBtn, modalCommentsList;
+let commentsModal, modalCommentsList;
 let currentProjectId = null;
 
 function getElements() {
     commentsModal = document.getElementById("commentsModal");
-    closeCommentsBtn = document.getElementById("closeCommentsModal");
     modalCommentsList = document.getElementById("modalCommentsList");
 }
 
@@ -23,23 +19,8 @@ function getCurrentProjectId() {
 
 function initCommentModal() {
     getElements();
-    if (!commentsModal || !closeCommentsBtn) return;
+    if (!commentsModal) return;
 
-    closeCommentsBtn.addEventListener("click", closeCommentsModal);
-
-    document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape" && commentsModal.classList.contains("show")) {
-            closeCommentsModal();
-        }
-    });
-
-    commentsModal.addEventListener("click", (e) => {
-        if (e.target === commentsModal) {
-            closeCommentsModal();
-        }
-    });
-
-    // Inicializar formulario
     initCommentForm({
         onSubmit: (comment, isReply) => {
             if (isReply) {
@@ -51,7 +32,6 @@ function initCommentModal() {
         getCurrentProjectId: getCurrentProjectId
     });
 
-    // Manejar clics en botones de responder y like
     if (modalCommentsList) {
         modalCommentsList.addEventListener("click", (e) => {
             const replyBtn = e.target.closest('.reply-btn');
@@ -71,9 +51,7 @@ function initCommentModal() {
 export function openCommentsModal(postData) {
     getElements();
     if (!commentsModal) return;
-    lockBodyScroll();
 
-    
     const projectId = postData.projectId;
     if (!projectId) {
         console.error('projectId is undefined in postData');
@@ -95,7 +73,7 @@ export function openCommentsModal(postData) {
 
     loadComments();
 
-    commentsModal.classList.add("show");
+    window.openModal('commentsModal');
     startTimeUpdates(modalCommentsList);
     setTimeout(() => {
         const commentTextarea = document.getElementById("commentTextarea");
@@ -106,8 +84,7 @@ export function openCommentsModal(postData) {
 window.openCommentsModal = openCommentsModal;
 
 function closeCommentsModal() {
-    commentsModal.classList.remove("show");
-    unlockBodyScroll();
+    window.closeModal('commentsModal');
     resetForm();
     setCurrentProjectId(null);
 }
@@ -149,7 +126,6 @@ async function toggleCommentLike(commentId, button) {
         return;
     }
 
-    // ── Snapshot estado actual ──
     const svg = button.querySelector('svg');
     const svgPath = svg?.querySelector('path');
     const wasLiked = button.classList.contains('liked');
@@ -157,7 +133,6 @@ async function toggleCommentLike(commentId, button) {
     const countEl = button.querySelector('.like-count') || button.querySelector('span:not(.sr-only)');
     const prevCount = countEl ? parseInt(countEl.textContent, 10) : null;
 
-    // ── Optimistic: toggle inmediato ──
     button.classList.toggle('liked');
     if (svgPath) {
         svgPath.setAttribute('fill', wasLiked ? 'none' : 'currentColor');
@@ -186,7 +161,6 @@ async function toggleCommentLike(commentId, button) {
 
         const data = await response.json();
 
-        // ── Confirmar con datos del servidor ──
         button.classList.toggle('liked', data.liked);
         if (svgPath) {
             svgPath.setAttribute('fill', data.liked ? 'currentColor' : 'none');
@@ -195,7 +169,6 @@ async function toggleCommentLike(commentId, button) {
             countEl.textContent = data.likes_count;
         }
     } catch (error) {
-        // ── Revertir al estado anterior ──
         button.classList.toggle('liked', wasLiked);
         if (svgPath) {
             svgPath.setAttribute('fill', wasFilled ? 'currentColor' : 'none');
@@ -209,5 +182,4 @@ async function toggleCommentLike(commentId, button) {
 
 document.addEventListener("DOMContentLoaded", initCommentModal);
 
-// Exportar para uso global
 window.openCommentsModal = openCommentsModal;
