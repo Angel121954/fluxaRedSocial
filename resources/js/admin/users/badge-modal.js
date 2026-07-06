@@ -1,3 +1,5 @@
+import '../../shared/modal.js';
+
 function initBadgeModal(config) {
     const backdrop = document.getElementById(config.backdropId);
     const search = document.getElementById(config.searchId);

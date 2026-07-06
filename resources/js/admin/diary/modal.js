@@ -1,3 +1,5 @@
+import '../../shared/modal.js';
+
 document.addEventListener('DOMContentLoaded', function () {
     const form     = document.getElementById('diaryForm');
     const question = document.getElementById('diary_question');

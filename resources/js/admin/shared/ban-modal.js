@@ -1,3 +1,5 @@
+import '../../shared/modal.js';
+
 document.addEventListener('DOMContentLoaded', function () {
     const banBackdrop = document.getElementById('banModalBackdrop');
     const banUserName = document.getElementById('banUserName');
