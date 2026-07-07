@@ -15,7 +15,6 @@ import { showToast } from '../shared/toast.js';
     const fileIn     = document.getElementById('fileIn');
     const imgModal   = document.getElementById('imgModal');
     const modalImg   = document.getElementById('modalImg');
-    const modalX     = document.getElementById('modalX');
 
     if (!avatarWrap) return; // no estamos en una vista con avatar
 
@@ -139,11 +138,6 @@ import { showToast } from '../shared/toast.js';
         avatarWrap.classList.toggle('loading', loading);
         if (btnCam)    btnCam.disabled    = loading;
         if (btnDelete) btnDelete.disabled = loading;
-    }
-
-    /* ── Modal ver avatar ──────────────────────────── */
-    function closeAvatarModal() {
-        window.closeModal('imgModal');
     }
 
     if (btnView && imgModal) {

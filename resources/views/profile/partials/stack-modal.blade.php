@@ -45,7 +45,7 @@
     </div>
 
     <x-slot:footer>
-        <button class="stack-modal-btn-cancel" id="stackModalCancel">Cancelar</button>
+        <button class="stack-modal-btn-cancel" id="stackModalCancel" data-close="stackModal">Cancelar</button>
         <button class="stack-modal-btn-save" id="stackModalSave">Guardar cambios</button>
     </x-slot:footer>
 </x-modal>

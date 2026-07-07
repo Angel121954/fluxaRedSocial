@@ -215,8 +215,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const projectUrl = `/projects/${selectedProjectId}`;
         const body = `Compartió un proyecto: ${selectedProjectTitle}\n${window.location.origin}${projectUrl}`;
-        const convId = sendBtn?.dataset.convId;
-        const recipient = sendBtn?.dataset.recipient;
+        const shareSendBtn = document.getElementById('msgsSendBtn');
+        const convId = shareSendBtn?.dataset.convId;
+        const recipient = shareSendBtn?.dataset.recipient;
 
         shareSend.disabled = true;
 
