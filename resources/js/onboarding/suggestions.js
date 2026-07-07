@@ -59,6 +59,7 @@ function toggleFollow(btn, userId) {
 async function skipOnboarding(event) {
     event.preventDefault();
     
+    const href = event.currentTarget.href;
     const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content 
         || document.querySelector('input[name="_token"]')?.value;
     const form = document.getElementById('suggestionsForm');
@@ -78,7 +79,7 @@ async function skipOnboarding(event) {
         console.error('Error:', e);
     }
     
-    window.location.href = event.currentTarget.href;
+    window.location.href = href;
 }
 
 window.toggleFollow = toggleFollow;
