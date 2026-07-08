@@ -580,7 +580,7 @@
 }
 
 .dark .we-modal__close:hover {
-    background: #242836;
+    background: var(--ink-100);
     color: #e1e4ea;
 }
 

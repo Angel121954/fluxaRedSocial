@@ -69,8 +69,8 @@
 }
 
 .close-btn {
-  width: 44px;
-  height: 44px;
+  width: 32px;
+  height: 32px;
   flex-shrink: 0;
   background: transparent;
   border: none;
@@ -618,4 +618,38 @@ textarea.np-input {
     padding-left: 1.125rem;
     padding-right: 1.125rem;
   }
+}
+
+/* ── Dark mode ── */
+.dark .close-btn {
+  color: #6b7280;
+}
+
+.dark .close-btn:hover {
+  background: var(--ink-100);
+  color: #e1e4ea;
+}
+
+.dark #modal-title {
+  color: #e1e4ea;
+}
+
+.dark #modal-subtitle {
+  color: #6b7280;
+}
+
+.dark #modal-card {
+  background: #1a1d27;
+}
+
+.dark #stepper {
+  border-bottom-color: #2a2e3a;
+}
+
+.dark .step {
+  color: #6b7280;
+}
+
+.dark .step.active {
+  color: var(--accent);
 }

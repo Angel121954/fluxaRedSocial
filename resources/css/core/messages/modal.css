@@ -188,3 +188,40 @@
 .modal-card--sm {
     max-width: 420px;
 }
+
+/* ── Dark mode ── */
+.dark .msgs-modal-search {
+    background: #13151d;
+    border-color: #2a2e3a;
+    color: #e1e4ea;
+}
+
+.dark .msgs-modal-search:focus {
+    background: #1a1d27;
+    border-color: var(--accent);
+}
+
+.dark .msgs-modal-user-name {
+    color: #e1e4ea;
+}
+
+.dark .msgs-modal-user-handle {
+    color: #6b7280;
+}
+
+.dark .msgs-share-item {
+    background: #1a1d27;
+    border-color: #2a2e3a;
+    color: #a0a5b5;
+}
+
+.dark .msgs-share-item:hover {
+    border-color: var(--accent-ring);
+    background: rgba(18, 179, 182, 0.1);
+}
+
+.dark .msgs-share-item.selected {
+    border-color: var(--accent);
+    background: rgba(18, 179, 182, 0.12);
+    color: #e1e4ea;
+}

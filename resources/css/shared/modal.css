@@ -311,6 +311,26 @@
     color: var(--ink-400);
 }
 
+/* ── Dark mode ──────────────────────────────────── */
+.dark .modal-close {
+    color: #6b7280;
+}
+
+.dark .modal-close:hover {
+    background: var(--ink-100);
+    color: #e1e4ea;
+}
+
+.dark .modal-success-icon {
+    background: rgba(22, 163, 74, 0.15);
+}
+
+.dark .modal-error-banner {
+    background: rgba(220, 38, 38, 0.1);
+    border-color: rgba(220, 38, 38, 0.25);
+    color: #fca5a5;
+}
+
 /* ── Responsive ───────────────────────────────────── */
 
 @media (max-width: 640px) {

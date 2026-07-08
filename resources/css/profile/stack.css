@@ -404,3 +404,39 @@ button.stack-card-heart.is-favorite:hover {
     font-size: 28px;
     line-height: 1;
 }
+
+/* ── Dark mode ── */
+.dark .stack-modal-search input {
+    background: #13151d;
+    border-color: #2a2e3a;
+    color: #e1e4ea;
+}
+
+.dark .stack-modal-search input:focus {
+    border-color: var(--accent);
+}
+
+.dark .stack-modal-item label {
+    border-color: #2a2e3a;
+    color: #a0a5b5;
+}
+
+.dark .stack-modal-item label:hover {
+    border-color: var(--accent);
+    background: rgba(18, 179, 182, 0.1);
+}
+
+.dark .stack-modal-btn-cancel {
+    background: #1a1d27;
+    border-color: #2a2e3a;
+    color: #a0a5b5;
+}
+
+.dark .stack-modal-btn-cancel:hover {
+    background: var(--ink-100);
+}
+
+.dark .stack-modal-category-title {
+    color: #6b7280;
+    border-bottom-color: #2a2e3a;
+}

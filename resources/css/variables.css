@@ -68,6 +68,29 @@
 }
 
 /* ═══════════════════════════════════════════════════════════
+   DARK MODE — Tokens consistentes para modo oscuro
+   Cada componente puede sobrescribir estos valores según
+   necesidad (ej. .dark .badges-modal-item { ... })
+   ═══════════════════════════════════════════════════════════ */
+.dark {
+    --surface: #1a1d27;
+    --bg: #1f2230;
+    --bg-subtle: #1a1d27;
+    --ink-900: #e1e4ea;
+    --ink-700: #a0a5b5;
+    --ink-600: #a0a5b5;
+    --ink-500: #6b7280;
+    --ink-400: #6b7280;
+    --ink-300: #4a4e5a;
+    --ink-200: #2a2e3a;
+    --ink-100: #1f2230;
+    --ink-50: #1a1d27;
+    --border: rgba(255, 255, 255, 0.06);
+    --border-strong: rgba(255, 255, 255, 0.12);
+    --overlay: rgba(0, 0, 0, 0.65);
+}
+
+/* ═══════════════════════════════════════════════════════════
    BREAKPOINTS — Usar estos valores en todas las media queries
    ═══════════════════════════════════════════════════════════
    sm  = 640px   → móviles grandes / tablets pequeñas

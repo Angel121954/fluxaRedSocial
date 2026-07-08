@@ -126,3 +126,16 @@
         padding: 10px 1.25rem;
     }
 }
+
+/* ── Dark mode ── */
+.dark .followers-name {
+    color: #e1e4ea;
+}
+
+.dark .followers-handle {
+    color: #6b7280;
+}
+
+.dark .followers-empty p {
+    color: #6b7280;
+}

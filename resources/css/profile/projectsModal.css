@@ -129,3 +129,20 @@
         padding: 12px 1.25rem;
     }
 }
+
+/* ── Dark mode ── */
+.dark .projects-item-title {
+    color: #e1e4ea;
+}
+
+.dark .projects-item-excerpt {
+    color: #6b7280;
+}
+
+.dark .projects-item-stats {
+    color: #6b7280;
+}
+
+.dark .projects-empty p {
+    color: #6b7280;
+}

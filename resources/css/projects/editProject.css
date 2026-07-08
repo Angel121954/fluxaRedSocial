@@ -239,3 +239,36 @@
     border-radius: 0;
   }
 }
+
+/* ── Dark mode ── */
+.dark .close-btn {
+  color: #6b7280;
+}
+
+.dark .close-btn:hover {
+  background: var(--ink-100);
+  color: #e1e4ea;
+}
+
+.dark #edit-modal-title {
+  color: #e1e4ea;
+}
+
+.dark #edit-modal-subtitle {
+  color: #6b7280;
+}
+
+.dark #edit-modal-card {
+  background: #1a1d27;
+}
+
+.dark #edit-drop-zone {
+  background: #13151d;
+  border-color: #2a2e3a;
+}
+
+.dark #edit-drop-zone:hover,
+.dark #edit-drop-zone.over {
+  border-color: var(--accent);
+  background: rgba(18, 179, 182, 0.1);
+}

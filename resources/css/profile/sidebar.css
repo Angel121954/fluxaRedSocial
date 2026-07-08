@@ -258,7 +258,7 @@
 }
 
 .dark .sidebar-item:hover {
-    background: #242836;
+    background: var(--ink-100);
     color: #e1e4ea;
 }
 
@@ -282,7 +282,7 @@
 }
 
 .dark .btn-avatar-action:hover {
-    background: #242836;
+    background: var(--ink-100);
     border-color: #3a3e4a;
 }
 
@@ -304,7 +304,7 @@
     }
 
     .dark .sidebar-item {
-        background: #242836;
+        background: var(--ink-100);
         color: #a0a5b5;
     }
 

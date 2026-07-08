@@ -313,3 +313,37 @@
     color: var(--ink-400);
     font-size: var(--text-xs);
 }
+
+/* ── Dark mode ── */
+.dark .close-btn {
+    color: #6b7280;
+}
+
+.dark .close-btn:hover {
+    background: var(--ink-100);
+    color: #e1e4ea;
+}
+
+.dark #jobOfferCard {
+    background: #1a1d27;
+}
+
+.dark #jobOfferTitle {
+    color: #e1e4ea;
+}
+
+.dark #jobOfferSubtitle {
+    color: #6b7280;
+}
+
+.dark #jobOfferFooter .btn-secondary {
+    background: #1a1d27;
+    border: 1px solid #2a2e3a;
+    color: #a0a5b5;
+}
+
+.dark #jobOfferFooter .btn-secondary:hover {
+    background: #1f2230;
+    border-color: #4a4e5a;
+    color: #e1e4ea;
+}

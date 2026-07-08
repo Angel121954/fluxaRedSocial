@@ -225,6 +225,24 @@
     padding-top: 0.25rem;
 }
 
+/* ── Dark mode ── */
+.dark .pwd-modal__close {
+    color: #6b7280;
+}
+
+.dark .pwd-modal__close:hover {
+    background: var(--ink-100);
+    color: #e1e4ea;
+}
+
+.dark .pwd-modal__title {
+    color: #e1e4ea;
+}
+
+.dark .pwd-modal__subtitle {
+    color: #6b7280;
+}
+
 /* ─── Campos de contraseña ────────────────────────────────── */
 .pwd-field {
     display: flex;
