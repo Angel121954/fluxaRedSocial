@@ -6,7 +6,6 @@
 .projects-body {
     flex: 1;
     overflow-y: auto;
-    padding: 0.5rem 0;
     scrollbar-width: thin;
     scrollbar-color: var(--ink-100) transparent;
 }
