@@ -143,6 +143,19 @@
                             @php
                             $btnText = $isFollowing ? 'Siguiendo' : ($isFollowedBy ? 'Seguir también' : 'Seguir');
                             @endphp
+
+                            <button class="btn-follow{{ $isFollowing ? ' is-following' : '' }}" id="btnFollow" data-user-id="{{ $user->id }}">
+                                <span id="btnFollowText">{{ $btnText }}</span>
+                            </button>
+
+                            @auth
+                            @if($profile->accept_messages)
+                            <a href="{{ isset($conversation) ? route('messages.index', ['conv' => $conversation->id]) : route('messages.chat', $user->username) }}" class="btn-message">
+                                Mensaje
+                            </a>
+                            @endif
+                            @endauth
+
                             <div class="drop-wrap" data-is-owner="false">
                                 <button class="btn-icon" id="btnMore" aria-label="Más opciones">
                                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -151,24 +164,6 @@
                                 </button>
                                 <div class="drop-menu" id="dropMenu">
                                     <div id="otherOpts">
-                                        @auth
-                                        @if($profile->accept_messages)
-                                        <a href="{{ isset($conversation) ? route('messages.index', ['conv' => $conversation->id]) : route('messages.chat', $user->username) }}"
-                                            class="drop-item">
-                                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                                            </svg>
-                                            Mensaje
-                                        </a>
-                                        @endif
-                                        @endauth
-                                        <button class="drop-item{{ $isFollowing ? ' is-following' : '' }}" id="btnFollow" data-user-id="{{ $user->id }}">
-                                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM4 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 10.374 21c-2.331 0-4.512-.645-6.374-1.766Z" />
-                                            </svg>
-                                            <span id="btnFollowText">{{ $btnText }}</span>
-                                        </button>
-                                        <div class="drop-sep"></div>
                                         <button class="drop-item" onclick="compartirPerfil('{{ $user->username }}', '{{ $user->name }}')">
                                             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />

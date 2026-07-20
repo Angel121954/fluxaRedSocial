@@ -13,8 +13,6 @@ if (ownOpts) ownOpts.style.display = isOwner ? '' : 'none';
 if (otherOpts) otherOpts.style.display = isOwner ? 'none' : '';
 
 if (btnFollow) {
-    btnFollow.style.display = isOwner ? 'none' : '';
-
     const getLabel = (following) => following
         ? 'Siguiendo'
         : isFollowedBy
