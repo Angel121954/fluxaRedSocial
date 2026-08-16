@@ -1,4 +1,5 @@
 @props([
+    'projects' => collect(),
     'emptyCtaLabel' => null,
     'emptyCtaHref' => null,
 ])
