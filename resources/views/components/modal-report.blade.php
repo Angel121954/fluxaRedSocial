@@ -12,6 +12,6 @@
 
     <x-slot:footer>
         <button type="button" class="btn btn-secondary" data-close="reportModal">Cancelar</button>
-        <button type="submit" class="btn btn-primary" style="background:#ef4444;" form="reportForm">Reportar</button>
+        <button type="submit" class="btn btn-primary" style="background: var(--danger);" form="reportForm">Reportar</button>
     </x-slot:footer>
 </x-modal>

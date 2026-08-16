@@ -341,5 +341,5 @@
 
 .diary-delete-btn:hover {
     background: rgba(239, 68, 68, 0.07) !important;
-    color: #dc2626 !important;
+    color: var(--danger) !important;
 }

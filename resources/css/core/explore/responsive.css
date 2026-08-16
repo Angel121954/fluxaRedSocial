@@ -89,7 +89,7 @@
 
     .post-action.liked:hover,
     .post-action.liked:active {
-        color: #EF4444;
+        color: var(--like);
     }
 
     .post-action.active:hover,

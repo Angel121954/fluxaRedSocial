@@ -33,7 +33,7 @@
                 inputmode="numeric"
                 autocomplete="one-time-code" />
 
-            <span id="error2FA" style="font-size:0.78rem;color:#dc2626;display:none;margin-top:0.375rem;"></span>
+            <span id="error2FA" style="font-size:0.78rem;color:var(--danger);display:none;margin-top:0.375rem;"></span>
 
             {{-- Recovery codes --}}
             <div id="recoveryCodes" style="display:none;">

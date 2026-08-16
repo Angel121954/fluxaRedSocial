@@ -155,11 +155,11 @@ html.dark .theme-toggle-btn .icon-sun {
 
 /* Variante de peligro (guest: "Salir") */
 .btn-new.danger {
-    background: #ef4444;
+    background: var(--danger);
 }
 
 .btn-new.danger:hover {
-    background: #dc2626;
+    background: var(--danger);
     box-shadow: 0 2px 10px rgba(239, 68, 68, 0.28);
 }
 

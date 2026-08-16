@@ -13,7 +13,7 @@
 }
 
 .section-title--danger {
-    color: #dc2626;
+    color: var(--danger);
 }
 
 .section-description {
@@ -268,7 +268,7 @@ select.form-input {
 
 .modal-error {
     font-size: var(--text-sm);
-    color: #dc2626;
+    color: var(--danger);
     display: none;
 }
 
@@ -341,12 +341,12 @@ select.form-input {
     gap: 0.4rem;
     padding: 0.55rem 1.1rem;
     background: none;
-    border: 1.5px solid #fecaca;
+    border: 1.5px solid var(--danger-border);
     border-radius: 8px;
     font-family: inherit;
     font-size: var(--text-sm);
     font-weight: 600;
-    color: #dc2626;
+    color: var(--danger);
     cursor: pointer;
     white-space: nowrap;
     transition:
@@ -355,7 +355,7 @@ select.form-input {
 }
 
 .btn-logout:hover {
-    background: #fef2f2;
+    background: var(--danger-bg);
     border-color: #fca5a5;
 }
 
@@ -364,7 +364,7 @@ select.form-input {
     display: flex;
     flex-direction: column;
     gap: 0;
-    border: 1.5px solid #fee2e2;
+    border: 1.5px solid var(--danger-border);
     border-radius: 10px;
     overflow: hidden;
 }
@@ -380,7 +380,7 @@ select.form-input {
 }
 
 .danger-item+.danger-item {
-    border-top: 1px solid #fee2e2;
+    border-top: 1px solid var(--danger-border);
 }
 
 .danger-item:hover {
@@ -421,22 +421,22 @@ select.form-input {
 .btn-danger--outline {
     background: none;
     border: 1.5px solid #fca5a5;
-    color: #dc2626;
+    color: var(--danger);
 }
 
 .btn-danger--outline:hover {
-    background: #fef2f2;
+    background: var(--danger-bg);
 }
 
 .btn-danger--filled {
-    background: #dc2626;
-    border: 1.5px solid #dc2626;
+    background: var(--danger);
+    border: 1.5px solid var(--danger);
     color: #fff;
 }
 
 .btn-danger--filled:hover {
-    background: #b91c1c;
-    border-color: #b91c1c;
+    background: var(--danger-hover);
+    border-color: var(--danger-hover);
 }
 
 /* ─── Responsive ──────────────────────────────────────────── */

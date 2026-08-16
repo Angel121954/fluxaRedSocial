@@ -299,11 +299,11 @@
 }
 
 .like-btn.liked {
-    color: #EF4444;
+    color: var(--like);
 }
 
 .like-btn.liked svg {
-    fill: #EF4444;
+    fill: var(--like);
     animation: like-bounce 0.3s ease-out;
 }
 

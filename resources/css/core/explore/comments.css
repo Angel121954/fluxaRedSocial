@@ -200,7 +200,7 @@
 }
 
 .like-comment-btn.liked {
-    color: #e74c3c;
+    color: var(--like);
 }
 
 .like-comment-btn.liked svg path {
@@ -226,7 +226,7 @@
 }
 
 .comment-delete-btn:hover {
-    color: #ef4444;
+    color: var(--danger);
 }
 
 /* Comment input */

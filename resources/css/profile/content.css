@@ -611,11 +611,11 @@
 }
 
 .msn-action.liked {
-    color: #EF4444;
+    color: var(--like);
 }
 
 .msn-action.liked svg {
-    fill: #EF4444;
+    fill: var(--like);
 }
 
 .msn-time {

@@ -16,7 +16,7 @@
     --teal-light: rgba(18, 179, 182, 0.08);
     --teal-border: rgba(18, 179, 182, 0.35);
 
-    --text-primary: #111827;
+    --text-primary: var(--ink-900);
     --text-secondary: #6b7280;
     --text-placeholder: #9ca3af;
 
@@ -31,8 +31,8 @@
     --label-weight: 500;
     --label-color: #374151;
 
-    --error-color: #dc2626;
-    --success-color: #16a34a;
+    --error-color: var(--danger);
+    --success-color: var(--success);
 }
 
 /* ---------- Layout pantalla -------------------------------- */

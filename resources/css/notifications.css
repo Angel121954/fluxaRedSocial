@@ -81,6 +81,10 @@
     vertical-align: middle;
 }
 
+.filter-chip__icon--like {
+    stroke: var(--like);
+}
+
 .filter-chip span {
     line-height: 1;
 }

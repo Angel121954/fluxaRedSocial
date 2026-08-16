@@ -37,6 +37,8 @@
     width: 14px;
     height: 14px;
     vertical-align: middle;
+    fill: var(--like);
+    stroke: var(--like);
 }
 
 .footer-links {

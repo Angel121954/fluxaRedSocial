@@ -64,7 +64,7 @@
 }
 
 .char-count.warn {
-    color: #B45309;
+    color: var(--warning);
 }
 
 .char-count.limit {

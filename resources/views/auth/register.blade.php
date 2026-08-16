@@ -3,7 +3,7 @@
 @section('content')
 
 <div id="notification" class="notification">
-    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #16a34a;">
+    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: var(--success);">
         <polyline points="20 6 9 17 4 12"></polyline>
     </svg>
     <span>¡Cuenta creada exitosamente!</span>

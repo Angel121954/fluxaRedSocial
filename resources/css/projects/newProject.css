@@ -237,7 +237,7 @@
 }
 
 .np-input.invalid {
-  border-color: #dc2626;
+  border-color: var(--danger);
   background: #fef2f2;
 }
 
@@ -264,7 +264,7 @@ textarea.np-input {
 .field-error {
   display: none;
   font-size: var(--text-xs);
-  color: #dc2626;
+  color: var(--danger);
   align-items: center;
   gap: .3rem;
 }
@@ -282,7 +282,7 @@ textarea.np-input {
   background: #fef2f2;
   border: 1px solid #fecaca;
   border-radius: var(--r-md);
-  color: #dc2626;
+  color: var(--danger);
   font-size: var(--text-sm);
   margin-bottom: .75rem;
 }
@@ -518,11 +518,11 @@ textarea.np-input {
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background: #dcfce7;
+  background: var(--success-bg);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #16a34a;
+  color: var(--success);
 }
 
 #success-state h3 {
