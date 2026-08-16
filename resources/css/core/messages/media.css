@@ -158,7 +158,7 @@
     background: var(--accent-dim);
     border-radius: var(--r-md);
     flex-shrink: 0;
-    color: var(--accent);
+    color: var(--accent-text);
 }
 
 .msgs-bubble-mine .msgs-media-file-icon {

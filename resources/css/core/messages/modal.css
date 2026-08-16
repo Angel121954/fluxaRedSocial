@@ -40,7 +40,7 @@
 }
 
 .msgs-modal-search:focus {
-    border-color: var(--accent);
+    border-color: var(--accent-text);
     box-shadow: 0 0 0 3px var(--accent-dim);
     background: var(--surface);
 }
@@ -179,7 +179,7 @@
 }
 
 .msgs-share-item.selected {
-    border-color: var(--accent);
+    border-color: var(--accent-text);
     background: var(--accent-dim);
     color: var(--ink-900);
     font-weight: 600;
@@ -198,7 +198,7 @@
 
 .dark .msgs-modal-search:focus {
     background: #1a1d27;
-    border-color: var(--accent);
+    border-color: var(--accent-text);
 }
 
 .dark .msgs-modal-user-name {
@@ -221,7 +221,7 @@
 }
 
 .dark .msgs-share-item.selected {
-    border-color: var(--accent);
+    border-color: var(--accent-text);
     background: rgba(18, 179, 182, 0.12);
     color: #e1e4ea;
 }

@@ -83,7 +83,7 @@
 }
 
 .marker-cluster-small div {
-    background-color: var(--accent);
+    background-color: var(--accent-text);
     color: white;
     font-weight: 600;
 }
@@ -93,7 +93,7 @@
 }
 
 .marker-cluster-medium div {
-    background-color: var(--accent);
+    background-color: var(--accent-text);
     color: white;
     font-weight: 600;
 }
@@ -103,7 +103,7 @@
 }
 
 .marker-cluster-large div {
-    background-color: var(--accent);
+    background-color: var(--accent-text);
     color: white;
     font-weight: 600;
 }

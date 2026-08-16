@@ -62,7 +62,7 @@ import { showToast } from '../shared/toast.js';
                 confirmButtonText: 'Sí, eliminar',
                 cancelButtonText: 'Cancelar',
                 confirmButtonColor: '#ef4444',
-                cancelButtonColor: '#12b3b6',
+                cancelButtonColor: '#0b8386',
                 customClass: {
                     popup: 'swal-fluxa',
                     title: 'swal-fluxa__title',

@@ -50,7 +50,7 @@
 
 .btn-load-more {
     padding: 0.625rem 1.5rem;
-    background: var(--accent);
+    background: var(--accent-strong);
     color: white;
     border: none;
     border-radius: var(--r-md);
@@ -97,7 +97,7 @@
 }
 
 .modal-report-textarea:focus {
-    border-color: var(--accent);
+    border-color: var(--accent-text);
     box-shadow: 0 0 0 3px var(--accent-ring);
 }
 

@@ -76,7 +76,7 @@
 }
 
 .msgs-chat-header-avatar-link:hover .msgs-chat-header-avatar {
-    border-color: var(--accent);
+    border-color: var(--accent-text);
 }
 
 .msgs-header-online-dot {
@@ -113,7 +113,7 @@
 }
 
 .msgs-chat-header-name:hover {
-    color: var(--accent);
+    color: var(--accent-text);
 }
 
 .msgs-verified {
@@ -168,7 +168,7 @@
 
 .msgs-header-action:hover {
     background: var(--ink-100);
-    color: var(--accent);
+    color: var(--accent-text);
 }
 
 .msgs-more-dropdown {

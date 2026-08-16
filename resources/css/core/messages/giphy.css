@@ -67,7 +67,7 @@
 }
 
 .giphy-search:focus {
-    border-color: var(--accent);
+    border-color: var(--accent-text);
 }
 
 .giphy-close {
@@ -91,7 +91,7 @@
 }
 
 .giphy-close:focus-visible {
-    outline: 2px solid var(--accent);
+    outline: 2px solid var(--accent-strong);
     outline-offset: 2px;
 }
 
@@ -132,7 +132,7 @@
 }
 
 .giphy-item:focus-visible {
-    outline: 2px solid var(--accent);
+    outline: 2px solid var(--accent-strong);
     outline-offset: 2px;
 }
 
@@ -155,7 +155,7 @@
     width: 24px;
     height: 24px;
     border: 2px solid var(--border);
-    border-top-color: var(--accent);
+    border-top-color: var(--accent-text);
     border-radius: 50%;
     animation: giphy-spin 0.6s linear infinite;
 }

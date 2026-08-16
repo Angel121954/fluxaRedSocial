@@ -121,7 +121,7 @@
 }
 
 .jo-input:focus {
-    border-color: var(--accent);
+    border-color: var(--accent-text);
     box-shadow: 0 0 0 3px var(--accent-ring);
 }
 
@@ -179,7 +179,7 @@
 }
 
 #jobOfferFooter .btn-primary {
-    background: var(--accent);
+    background: var(--accent-strong);
     color: #fff;
 }
 
@@ -276,7 +276,7 @@
     transition: border-color 0.15s, box-shadow 0.15s;
 }
 .jo-input-wrap:focus-within {
-    border-color: var(--accent);
+    border-color: var(--accent-text);
     box-shadow: 0 0 0 3px var(--accent-ring);
 }
 

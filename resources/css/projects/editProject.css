@@ -118,12 +118,12 @@
 
 #edit-drop-zone:hover,
 #edit-drop-zone.over {
-  border-color: var(--accent);
+  border-color: var(--accent-text);
   background: var(--accent-dim);
 }
 
 #edit-drop-zone:focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--accent-strong);
   outline-offset: 2px;
 }
 
@@ -269,6 +269,6 @@
 
 .dark #edit-drop-zone:hover,
 .dark #edit-drop-zone.over {
-  border-color: var(--accent);
+  border-color: var(--accent-text);
   background: rgba(18, 179, 182, 0.1);
 }

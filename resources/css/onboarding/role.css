@@ -5,6 +5,8 @@
 :root {
     --accent:        #12b3b6;
     --accent-dark:   #0d8e91;
+    --accent-text:   #0b7c7f;
+    --accent-strong: #0b8386;
     --accent-soft:   #f0fbfb;
     --accent-ring:   rgba(18, 179, 182, 0.16);
     --accent-border: rgba(18, 179, 182, 0.40);
@@ -88,8 +90,8 @@ body {
     background: var(--ink-100);
 }
 
-.progress-bar span.done   { background: var(--accent); opacity: 0.4; }
-.progress-bar span.active { background: var(--accent); opacity: 1; }
+.progress-bar span.done   { background: var(--accent-strong); opacity: 0.4; }
+.progress-bar span.active { background: var(--accent-strong); opacity: 1; }
 
 h1 {
     font-size: var(--text-lg);
@@ -170,7 +172,7 @@ h1 {
 
 .role-item input:checked + label .role-icon {
     border-color: var(--accent-border);
-    color: var(--accent);
+    color: var(--accent-text);
 }
 
 /* Text */
@@ -206,8 +208,8 @@ h1 {
 }
 
 .role-item input:checked + label .role-check {
-    background: var(--accent);
-    border-color: var(--accent);
+    background: var(--accent-strong);
+    border-color: var(--accent-text);
 }
 
 .role-item input:checked + label .role-check::after {
@@ -222,12 +224,12 @@ h1 {
 .btn {
     width: 100%;
     height: 40px;
-    background: var(--accent);
+    background: var(--accent-strong);
     color: #fff;
     font-family: inherit;
     font-size: var(--text-base);
     font-weight: 600;
-    border: 1px solid var(--accent);
+    border: 1px solid var(--accent-strong);
     border-radius: var(--r);
     cursor: pointer;
     transition: background 0.15s, border-color 0.15s, opacity 0.15s;
@@ -252,7 +254,7 @@ h1 {
 }
 
 .skip a {
-    color: var(--accent);
+    color: var(--accent-text);
     text-decoration: none;
     font-weight: 500;
 }
@@ -287,7 +289,7 @@ h1 {
     letter-spacing: -0.01em;
 }
 
-.tagline span { color: var(--accent); }
+.tagline span { color: var(--accent-text); }
 
 /* ─── Responsive ─────────────────────────────────── */
 @media (max-width: 768px) {

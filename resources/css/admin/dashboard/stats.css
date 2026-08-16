@@ -38,7 +38,7 @@
 
 .si-teal {
     background: rgba(18, 179, 182, .1);
-    color: var(--accent);
+    color: var(--accent-text);
 }
 
 .si-amber {

@@ -93,8 +93,8 @@
 }
 
 .btn-link:hover {
-    border-color: var(--accent);
-    color: var(--accent);
+    border-color: var(--accent-text);
+    color: var(--accent-text);
     background: var(--accent-dim);
 }
 
@@ -175,7 +175,7 @@ select.form-input {
 }
 
 .toggle-switch input:checked+.toggle-track {
-    background: var(--accent);
+    background: var(--accent-strong);
 }
 
 .toggle-switch input:checked+.toggle-track::before {

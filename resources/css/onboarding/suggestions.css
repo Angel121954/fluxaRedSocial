@@ -5,6 +5,8 @@
 :root {
     --accent:        #12b3b6;
     --accent-dark:   #0d8e91;
+    --accent-text:   #0b7c7f;
+    --accent-strong: #0b8386;
     --accent-soft:   #f0fbfb;
     --accent-ring:   rgba(18, 179, 182, 0.16);
     --accent-border: rgba(18, 179, 182, 0.40);
@@ -89,8 +91,8 @@ body {
     background: var(--ink-100);
 }
 
-.progress-bar span.done   { background: var(--accent); opacity: 0.4; }
-.progress-bar span.active { background: var(--accent); opacity: 1; }
+.progress-bar span.done   { background: var(--accent-strong); opacity: 0.4; }
+.progress-bar span.active { background: var(--accent-strong); opacity: 1; }
 
 h1 {
     font-size: var(--text-lg);
@@ -211,7 +213,7 @@ h1 {
     border-radius: 99px;
     border: 1px solid var(--accent-border);
     background: transparent;
-    color: var(--accent);
+    color: var(--accent-text);
     cursor: pointer;
     white-space: nowrap;
     flex-shrink: 0;
@@ -224,8 +226,8 @@ h1 {
 }
 
 .follow-btn.following {
-    background: var(--accent);
-    border-color: var(--accent);
+    background: var(--accent-strong);
+    border-color: var(--accent-text);
     color: #fff;
 }
 
@@ -238,12 +240,12 @@ h1 {
 .btn {
     width: 100%;
     height: 40px;
-    background: var(--accent);
+    background: var(--accent-strong);
     color: #fff;
     font-family: inherit;
     font-size: var(--text-base);
     font-weight: 600;
-    border: 1px solid var(--accent);
+    border: 1px solid var(--accent-strong);
     border-radius: var(--r);
     cursor: pointer;
     transition: background 0.15s, border-color 0.15s;
@@ -267,7 +269,7 @@ h1 {
 }
 
 .skip a {
-    color: var(--accent);
+    color: var(--accent-text);
     text-decoration: none;
     font-weight: 500;
 }
@@ -302,7 +304,7 @@ h1 {
     letter-spacing: -0.01em;
 }
 
-.tagline span { color: var(--accent); }
+.tagline span { color: var(--accent-text); }
 
 /* Welcome card */
 .welcome-card {

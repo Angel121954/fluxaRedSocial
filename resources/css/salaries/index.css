@@ -44,7 +44,7 @@
     padding: 0.625rem 1.25rem;
     border: none;
     border-radius: var(--r-md);
-    background: var(--accent);
+    background: var(--accent-strong);
     color: #fff;
     font-size: var(--text-base);
     font-weight: 600;
@@ -152,7 +152,7 @@
 
 .salary-filter:focus {
     outline: none;
-    border-color: var(--accent);
+    border-color: var(--accent-text);
 }
 
 /* ── Section ─────────────────────────────────────── */
@@ -465,7 +465,7 @@
     padding: 0.5rem 1.25rem;
     border-radius: var(--r-md);
     border: none;
-    background: var(--accent);
+    background: var(--accent-strong);
     color: #fff;
     font-size: var(--text-base);
     font-weight: 600;
@@ -523,7 +523,7 @@
 
 .salary-form-input:focus {
     outline: none;
-    border-color: var(--accent);
+    border-color: var(--accent-text);
 }
 
 .salary-form-techs {
@@ -552,12 +552,12 @@
 }
 
 .salary-form-tech-item:hover {
-    border-color: var(--accent);
+    border-color: var(--accent-text);
     background: var(--accent-dim);
 }
 
 .salary-form-tech-item input[type="checkbox"] {
-    accent-color: var(--accent);
+    accent-color: var(--accent-text);
 }
 
 .salary-form-tech-item i {
@@ -603,7 +603,7 @@
 }
 
 .dark .salary-form-input:focus {
-    border-color: var(--accent);
+    border-color: var(--accent-text);
 }
 
 .dark .salary-form-label {
@@ -616,7 +616,7 @@
 }
 
 .dark .salary-form-tech-item:hover {
-    border-color: var(--accent);
+    border-color: var(--accent-text);
     background: rgba(18, 179, 182, 0.1);
 }
 

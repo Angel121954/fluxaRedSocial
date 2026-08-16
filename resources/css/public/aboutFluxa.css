@@ -4,6 +4,8 @@
 :root {
     --accent: #12b3b6;
     --accent-dark: #0d8e91;
+    --accent-text: #0b7c7f;
+    --accent-strong: #0b8386;
     --accent-dim: rgba(18, 179, 182, 0.08);
     --accent-light: rgba(18, 179, 182, 0.12);
 
@@ -108,7 +110,7 @@ body {
 }
 
 .hero-title-accent {
-    color: var(--accent);
+    color: var(--accent-text);
 }
 
 .hero-subtitle {

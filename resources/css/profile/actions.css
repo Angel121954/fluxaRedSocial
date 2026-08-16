@@ -43,7 +43,7 @@
 
 .btn-follow {
     padding: 0.4375rem 1.125rem;
-    background: var(--accent);
+    background: var(--accent-strong);
     color: white;
     border: none;
     border-radius: var(--r-md);
@@ -94,7 +94,7 @@
 
 .btn-icon.is-open {
     background: var(--accent-dim);
-    color: var(--accent);
+    color: var(--accent-text);
 }
 
 .btn-icon svg {

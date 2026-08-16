@@ -52,7 +52,7 @@
 }
 
 .footer-link:hover {
-    color: var(--accent);
+    color: var(--accent-text);
 }
 
 .footer-socials {
@@ -80,8 +80,8 @@
 }
 
 .social-link:hover {
-    background: var(--accent);
-    border-color: var(--accent);
+    background: var(--accent-strong);
+    border-color: var(--accent-text);
     color: #ffffff;
     box-shadow: 0 4px 12px rgba(18, 179, 182, 0.3);
 }

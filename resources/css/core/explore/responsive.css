@@ -94,7 +94,7 @@
 
     .post-action.active:hover,
     .post-action.active:active {
-        color: var(--accent);
+        color: var(--accent-text);
     }
 
     .skill-panel {

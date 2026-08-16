@@ -94,13 +94,13 @@
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
 }
 .notif-switch input:checked + .notif-track {
-    background: var(--accent);
+    background: var(--accent-strong);
 }
 .notif-switch input:checked + .notif-track::before {
     transform: translateX(22px);
 }
 .notif-switch input:focus-visible + .notif-track {
-    outline: 2px solid var(--accent);
+    outline: 2px solid var(--accent-strong);
     outline-offset: 2px;
 }
 
@@ -160,12 +160,12 @@
     margin-top: 1px;
 }
 .notif-checkbox:checked + .notif-check-custom {
-    background: var(--accent);
-    border-color: var(--accent);
+    background: var(--accent-strong);
+    border-color: var(--accent-text);
     color: #fff;
 }
 .notif-checkbox:focus-visible + .notif-check-custom {
-    outline: 2px solid var(--accent);
+    outline: 2px solid var(--accent-strong);
     outline-offset: 2px;
 }
 

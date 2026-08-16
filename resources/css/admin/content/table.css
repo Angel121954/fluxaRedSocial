@@ -65,7 +65,7 @@
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    color: var(--accent);
+    color: var(--accent-text);
     font-weight: 600;
     text-decoration: none;
     transition: color .12s;
@@ -124,7 +124,7 @@
 }
 
 .ct-user-name:hover {
-    color: var(--accent);
+    color: var(--accent-text);
 }
 
 .ct-user-handle {
@@ -281,8 +281,8 @@
 }
 
 .ct-pagination .active span {
-    background: var(--accent);
-    border-color: var(--accent);
+    background: var(--accent-strong);
+    border-color: var(--accent-text);
     color: #fff;
 }
 

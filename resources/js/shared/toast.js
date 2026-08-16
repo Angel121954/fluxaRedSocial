@@ -20,10 +20,10 @@ class ToastManager {
         };
 
         this.styles = {
-            success: { bg: '#12b3b6' },
-            error: { bg: '#ef4444' },
-            warning: { bg: '#f59e0b' },
-            info: { bg: '#3b82f6' }
+            success: { bg: '#0b8386' },
+            error: { bg: '#dc2626' },
+            warning: { bg: '#b45309' },
+            info: { bg: '#1d4ed8' }
         };
 
         this.createContainer();

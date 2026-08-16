@@ -241,7 +241,7 @@
 
 .post-tag:hover {
     background: var(--accent-dim);
-    color: var(--accent);
+    color: var(--accent-text);
 }
 
 .post-tag--featured {
@@ -290,7 +290,7 @@
 
 .post-action:hover {
     background: var(--accent-dim);
-    color: var(--accent);
+    color: var(--accent-text);
 }
 
 .post-action svg {
@@ -307,6 +307,10 @@
     animation: like-bounce 0.3s ease-out;
 }
 
+.like-btn.liked .like-count {
+    color: var(--ink-700);
+}
+
 @keyframes like-bounce {
     0% { transform: scale(1); }
     40% { transform: scale(1.2); }
@@ -318,11 +322,11 @@
 }
 
 .endorsement-btn.active {
-    color: var(--accent);
+    color: var(--accent-text);
 }
 
 .endorsement-btn.active svg {
-    fill: var(--accent);
+    fill: var(--accent-text);
 }
 
 .skill-panel {
@@ -370,7 +374,7 @@
 
 .skill-btn.active {
     background: var(--accent-dim);
-    color: var(--accent);
+    color: var(--accent-text);
 }
 
 .skill-btn svg {

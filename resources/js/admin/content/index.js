@@ -44,7 +44,7 @@
             showCancelButton: true,
             confirmButtonText: 'Sí, eliminar',
             cancelButtonText: 'Cancelar',
-            confirmButtonColor: '#ef4444',
+            confirmButtonColor: '#dc2626',
         }).then(function (result) {
             if (result.isConfirmed) {
                 form.submit();
@@ -66,7 +66,7 @@
             showCancelButton: true,
             confirmButtonText: 'Sí, restaurar',
             cancelButtonText: 'Cancelar',
-            confirmButtonColor: '#12b3b6',
+            confirmButtonColor: '#0b8386',
         }).then(function (result) {
             if (result.isConfirmed) {
                 form.submit();

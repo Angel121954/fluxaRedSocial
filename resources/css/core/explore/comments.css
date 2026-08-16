@@ -196,7 +196,7 @@
 }
 
 .comment-action:hover {
-    color: var(--accent);
+    color: var(--accent-text);
 }
 
 .like-comment-btn.liked {
@@ -280,7 +280,7 @@
 }
 
 .comment-textarea:focus {
-    border-color: var(--accent);
+    border-color: var(--accent-text);
     box-shadow: 0 0 0 3px var(--accent-dim);
 }
 
@@ -310,7 +310,7 @@
 
 .btn-comment-submit {
     padding: 0.4375rem 1.125rem;
-    background: var(--accent);
+    background: var(--accent-strong);
     color: white;
     border: none;
     border-radius: var(--r-sm);
@@ -333,7 +333,7 @@
 }
 
 .btn-comment-submit:disabled:hover {
-    background: var(--accent);
+    background: var(--accent-strong);
 }
 
 

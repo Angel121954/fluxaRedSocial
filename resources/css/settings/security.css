@@ -97,9 +97,9 @@
 }
 
 .sec-btn--primary {
-    background: var(--accent);
+    background: var(--accent-strong);
     color: #fff !important;
-    border: 1.5px solid var(--accent);
+    border: 1.5px solid var(--accent-strong);
     box-shadow: 0 2px 10px rgba(18, 179, 182, 0.3);
 }
 .sec-btn--primary:hover {
@@ -115,7 +115,7 @@
     border: 1.5px solid var(--ink-200);
 }
 .sec-btn--outline:hover {
-    border-color: var(--accent);
+    border-color: var(--accent-text);
     color: var(--accent-dark) !important;
     background: #f0fdfd;
 }
@@ -275,7 +275,7 @@
         box-shadow 0.15s;
 }
 .pwd-field__input:focus {
-    border-color: var(--accent);
+    border-color: var(--accent-text);
     background: var(--surface);
     box-shadow: 0 0 0 3px var(--accent-dim);
 }

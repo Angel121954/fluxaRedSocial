@@ -108,7 +108,7 @@
     right: 4px;
     width: 20px;
     height: 20px;
-    background: var(--accent);
+    background: var(--accent-strong);
     border-radius: 50%;
     border: 2px solid white;
     display: flex;
@@ -161,7 +161,7 @@
     font-weight: 700;
     letter-spacing: 0.07em;
     text-transform: uppercase;
-    color: var(--accent);
+    color: var(--accent-text);
     border: 1.5px solid var(--accent-ring);
     background: var(--accent-dim);
     padding: 0.2rem 0.5rem;
@@ -190,7 +190,7 @@
     gap: 0.3rem;
     font-size: var(--text-sm);
     font-weight: 500;
-    color: var(--accent);
+    color: var(--accent-text);
     text-decoration: none;
     transition: color 0.15s;
 }

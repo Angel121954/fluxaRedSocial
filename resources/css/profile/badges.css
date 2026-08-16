@@ -19,7 +19,7 @@
 
 .badges-view-all {
     font-size: var(--text-sm);
-    color: var(--accent);
+    color: var(--accent-text);
     font-weight: 500;
     background: none;
     border: none;
@@ -114,7 +114,7 @@
     margin: 0.5rem auto 0;
     background: none;
     border: none;
-    color: var(--accent);
+    color: var(--accent-text);
     font-size: var(--text-sm);
     font-weight: 500;
     cursor: pointer;

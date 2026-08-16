@@ -18,7 +18,7 @@
     align-items: center;
     gap: 0.375rem;
     padding: 0.45rem 1rem;
-    background: var(--accent);
+    background: var(--accent-strong);
     color: #fff;
     border: none;
     border-radius: var(--r-md);
@@ -193,8 +193,8 @@
 }
 
 .we-icon-btn:hover {
-    border-color: var(--accent);
-    color: var(--accent);
+    border-color: var(--accent-text);
+    color: var(--accent-text);
     background: var(--accent-dim);
 }
 
@@ -434,7 +434,7 @@
 }
 
 .we-toggle input:checked~.we-toggle__track {
-    background: var(--accent);
+    background: var(--accent-strong);
 }
 
 .we-toggle input:checked~.we-toggle__track::after {
@@ -591,8 +591,8 @@
 }
 
 .dark .we-icon-btn:hover {
-    border-color: var(--accent);
-    color: var(--accent);
+    border-color: var(--accent-text);
+    color: var(--accent-text);
     background: rgba(18, 179, 182, 0.1);
 }
 
@@ -618,7 +618,7 @@
 }
 
 .dark .we-input:focus {
-    border-color: var(--accent);
+    border-color: var(--accent-text);
 }
 
 .dark .we-input::placeholder {
@@ -632,7 +632,7 @@
 }
 
 .dark .we-textarea:focus {
-    border-color: var(--accent);
+    border-color: var(--accent-text);
 }
 
 .dark .we-textarea::placeholder {
@@ -649,7 +649,7 @@
 }
 
 .dark .we-timeline__item--active .we-timeline__dot {
-    background: var(--accent);
+    background: var(--accent-strong);
     border-color: #1a1d27;
 }
 
@@ -684,12 +684,12 @@
 }
 
 .we-type-option:hover {
-    border-color: var(--accent);
-    color: var(--accent);
+    border-color: var(--accent-text);
+    color: var(--accent-text);
 }
 
 .we-type-option--selected {
-    border-color: var(--accent);
+    border-color: var(--accent-text);
     background: var(--accent-dim);
     color: var(--accent-dark);
     font-weight: 600;
@@ -758,12 +758,12 @@
 }
 
 .dark .we-type-option:hover {
-    border-color: var(--accent);
-    color: var(--accent);
+    border-color: var(--accent-text);
+    color: var(--accent-text);
 }
 
 .dark .we-type-option--selected {
     background: rgba(18, 179, 182, 0.1);
-    border-color: var(--accent);
+    border-color: var(--accent-text);
     color: #5eead4;
 }

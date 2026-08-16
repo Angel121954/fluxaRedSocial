@@ -48,8 +48,8 @@
 
 .dataTables_wrapper .dataTables_paginate .paginate_button.current,
 .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
-    background: var(--accent) !important;
-    border-color: var(--accent) !important;
+    background: var(--accent-strong) !important;
+    border-color: var(--accent-text) !important;
     color: #fff !important;
 }
 
@@ -120,13 +120,13 @@ table.dataTable thead .sorting_desc::after {
 table.dataTable thead .sorting_asc::after {
     content: ' ↑';
     opacity: 1;
-    color: var(--accent);
+    color: var(--accent-text);
 }
 
 table.dataTable thead .sorting_desc::after {
     content: ' ↓';
     opacity: 1;
-    color: var(--accent);
+    color: var(--accent-text);
 }
 
 table.dataTable thead .sorting::after {

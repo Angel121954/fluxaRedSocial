@@ -25,7 +25,7 @@
 }
 
 .stack-card:hover {
-    border-color: var(--accent);
+    border-color: var(--accent-text);
     box-shadow: var(--shadow-hover);
 }
 
@@ -51,7 +51,7 @@
 span.stack-card-heart {
     opacity: 1;
     pointer-events: none;
-    color: var(--accent);
+    color: var(--accent-text);
 }
 
 /* Owner: oculto por defecto, aparece al hover o si es favorita */
@@ -74,7 +74,7 @@ button.stack-card-heart {
 
 button.stack-card-heart.is-favorite {
     opacity: 1;
-    color: var(--accent);
+    color: var(--accent-text);
 }
 
 button.stack-card-heart:hover {
@@ -133,7 +133,7 @@ button.stack-card-heart.is-favorite:hover {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    color: var(--accent);
+    color: var(--accent-text);
     font-size: var(--text-base);
     font-weight: 500;
     text-decoration: none;
@@ -154,13 +154,13 @@ button.stack-card-heart.is-favorite:hover {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    color: var(--accent);
+    color: var(--accent-text);
     font-size: var(--text-base);
     font-weight: 500;
     text-decoration: none;
     margin-top: 0.75rem;
     padding: 0.5rem 1rem;
-    border: 1px solid var(--accent);
+    border: 1px solid var(--accent-strong);
     border-radius: var(--r-md);
     background: transparent;
     cursor: pointer;
@@ -229,7 +229,7 @@ button.stack-card-heart.is-favorite:hover {
 
 .stack-modal-search input:focus {
     outline: none;
-    border-color: var(--accent);
+    border-color: var(--accent-text);
 }
 
 .stack-modal-grid {
@@ -280,12 +280,12 @@ button.stack-card-heart.is-favorite:hover {
 }
 
 .stack-modal-item label:hover {
-    border-color: var(--accent);
+    border-color: var(--accent-text);
     background: var(--accent-dim);
 }
 
 .stack-modal-item input[type="checkbox"]:checked+label {
-    border-color: var(--accent);
+    border-color: var(--accent-text);
     background: var(--accent-dim);
 }
 
@@ -302,8 +302,8 @@ button.stack-card-heart.is-favorite:hover {
 }
 
 .stack-modal-item input[type="checkbox"]:checked+label .stack-modal-check {
-    background: var(--accent);
-    border-color: var(--accent);
+    background: var(--accent-strong);
+    border-color: var(--accent-text);
 }
 
 .stack-modal-check svg {
@@ -352,7 +352,7 @@ button.stack-card-heart.is-favorite:hover {
     padding: 0.5rem 1.25rem;
     border-radius: var(--r-md);
     border: none;
-    background: var(--accent);
+    background: var(--accent-strong);
     color: #fff;
     font-size: var(--text-base);
     font-weight: 600;
@@ -413,7 +413,7 @@ button.stack-card-heart.is-favorite:hover {
 }
 
 .dark .stack-modal-search input:focus {
-    border-color: var(--accent);
+    border-color: var(--accent-text);
 }
 
 .dark .stack-modal-item label {
@@ -422,7 +422,7 @@ button.stack-card-heart.is-favorite:hover {
 }
 
 .dark .stack-modal-item label:hover {
-    border-color: var(--accent);
+    border-color: var(--accent-text);
     background: rgba(18, 179, 182, 0.1);
 }
 

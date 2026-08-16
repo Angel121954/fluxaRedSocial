@@ -115,12 +115,12 @@
 
 .sb-link.active {
     background: var(--accent-dim);
-    color: var(--accent);
+    color: var(--accent-text);
     font-weight: 600;
 }
 
 .sb-link.active svg {
-    color: var(--accent);
+    color: var(--accent-text);
 }
 
 /* ── Sidebar collapsed state (desktop only) ───────── */
@@ -262,6 +262,6 @@
 }
 
 .date-btn:hover {
-    border-color: var(--accent);
-    color: var(--accent);
+    border-color: var(--accent-text);
+    color: var(--accent-text);
 }

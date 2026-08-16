@@ -89,7 +89,7 @@
 }
 
 .close-btn:focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--accent-strong);
   outline-offset: 2px;
 }
 
@@ -201,7 +201,7 @@
 }
 
 .req {
-  color: var(--accent);
+  color: var(--accent-text);
   font-size: var(--text-base);
   line-height: 1;
 }
@@ -232,7 +232,7 @@
 }
 
 .np-input:focus {
-  border-color: var(--accent);
+  border-color: var(--accent-text);
   box-shadow: 0 0 0 3px var(--accent-ring);
 }
 
@@ -343,19 +343,19 @@ textarea.np-input {
 }
 
 .chip:hover {
-  border-color: var(--accent);
-  color: var(--accent);
+  border-color: var(--accent-text);
+  color: var(--accent-text);
   background: var(--accent-dim);
 }
 
 .chip:focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--accent-strong);
   outline-offset: 1px;
 }
 
 .chip.on {
-  background: var(--accent);
-  border-color: var(--accent);
+  background: var(--accent-strong);
+  border-color: var(--accent-text);
   color: #fff;
 }
 
@@ -399,13 +399,13 @@ textarea.np-input {
 }
 
 .mtype-btn.on {
-  border-color: var(--accent);
+  border-color: var(--accent-text);
   background: var(--accent-dim);
-  color: var(--accent);
+  color: var(--accent-text);
 }
 
 .mtype-btn:focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--accent-strong);
   outline-offset: 2px;
 }
 
@@ -422,12 +422,12 @@ textarea.np-input {
 
 #drop-zone:hover,
 #drop-zone.over {
-  border-color: var(--accent);
+  border-color: var(--accent-text);
   background: var(--accent-dim);
 }
 
 #drop-zone:focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--accent-strong);
   outline-offset: 2px;
 }
 
@@ -443,7 +443,7 @@ textarea.np-input {
 }
 
 .dz-link {
-  color: var(--accent);
+  color: var(--accent-text);
 }
 
 .dz-sub {
@@ -576,7 +576,7 @@ textarea.np-input {
 }
 
 .btn:focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--accent-strong);
   outline-offset: 2px;
 }
 
@@ -596,7 +596,7 @@ textarea.np-input {
 }
 
 .btn-primary {
-  background: var(--accent);
+  background: var(--accent-strong);
   color: #fff;
 }
 
@@ -651,5 +651,5 @@ textarea.np-input {
 }
 
 .dark .step.active {
-  color: var(--accent);
+  color: var(--accent-text);
 }

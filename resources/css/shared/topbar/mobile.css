@@ -281,7 +281,7 @@
     }
 
     .mobile-search:focus {
-        border-color: var(--accent);
+        border-color: var(--accent-text);
         box-shadow: 0 0 0 3px var(--accent-dim);
         background: var(--surface);
     }
@@ -326,22 +326,22 @@
 
     /* Estado activo */
     .mobile-menu-link.active {
-        color: var(--accent);
+        color: var(--accent-text);
         background: var(--accent-dim);
         font-weight: 600;
     }
 
     .mobile-menu-link.active svg {
-        color: var(--accent);
+        color: var(--accent-text);
     }
 
     /* Acción destacada ("Nuevo proyecto") */
     .mobile-menu-action {
-        color: var(--accent);
+        color: var(--accent-text);
     }
 
     .mobile-menu-action svg {
-        color: var(--accent);
+        color: var(--accent-text);
     }
 
     .mobile-menu-action:hover {

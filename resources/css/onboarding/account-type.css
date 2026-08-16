@@ -5,6 +5,8 @@
 :root {
     --accent:       #12b3b6;
     --accent-dark:  #0d8e91;
+    --accent-text:  #0b7c7f;
+    --accent-strong: #0b8386;
     --accent-soft:  #f0fbfb;
     --accent-ring:  rgba(18, 179, 182, 0.16);
     --accent-border: rgba(18, 179, 182, 0.40);
@@ -89,8 +91,8 @@ body {
     transition: background 0.25s, opacity 0.25s;
 }
 
-.progress-bar span.done   { background: var(--accent); opacity: 0.4; }
-.progress-bar span.active { background: var(--accent); opacity: 1; }
+.progress-bar span.done   { background: var(--accent-strong); opacity: 0.4; }
+.progress-bar span.active { background: var(--accent-strong); opacity: 1; }
 
 h1 {
     font-size: var(--text-lg);
@@ -172,7 +174,7 @@ h1 {
 
 .atype-item input:checked + label .atype-icon {
     border-color: var(--accent-border);
-    color: var(--accent);
+    color: var(--accent-text);
     background: var(--surface);
 }
 
@@ -208,8 +210,8 @@ h1 {
 }
 
 .atype-item input:checked + label .atype-check {
-    background: var(--accent);
-    border-color: var(--accent);
+    background: var(--accent-strong);
+    border-color: var(--accent-text);
 }
 
 .atype-item input:checked + label .atype-check::after {
@@ -224,12 +226,12 @@ h1 {
 .btn {
     width: 100%;
     height: 40px;
-    background: var(--accent);
+    background: var(--accent-strong);
     color: #fff;
     font-family: inherit;
     font-size: var(--text-base);
     font-weight: 600;
-    border: 1px solid var(--accent);
+    border: 1px solid var(--accent-strong);
     border-radius: var(--r);
     cursor: pointer;
     transition: background 0.15s, border-color 0.15s, opacity 0.15s;
@@ -282,7 +284,7 @@ h1 {
 }
 
 .tagline span {
-    color: var(--accent);
+    color: var(--accent-text);
 }
 
 .badges {

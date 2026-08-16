@@ -55,7 +55,7 @@
 
 .sidebar-item.active {
     background: var(--accent-dim);
-    color: var(--accent);
+    color: var(--accent-text);
     font-weight: 600;
 }
 
@@ -149,7 +149,7 @@
     position: absolute;
     inset: -4px;
     border-radius: 50%;
-    border: 2px solid var(--accent);
+    border: 2px solid var(--accent-strong);
     opacity: 0;
     transform: scale(0.9);
     transition: opacity 0.2s ease, transform 0.2s ease;
@@ -221,7 +221,7 @@
     }
 
     .sidebar-item.active {
-        background: var(--accent);
+        background: var(--accent-strong);
         color: #fff;
     }
 
@@ -264,7 +264,7 @@
 
 .dark .sidebar-item.active {
     background: rgba(18, 179, 182, 0.12);
-    color: var(--accent);
+    color: var(--accent-text);
 }
 
 .dark .avatar-title {
@@ -309,7 +309,7 @@
     }
 
     .dark .sidebar-item.active {
-        background: var(--accent);
+        background: var(--accent-strong);
         color: #fff;
     }
 }

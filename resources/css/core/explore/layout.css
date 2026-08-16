@@ -32,7 +32,7 @@
 
 .topic-pill-more:hover {
     background: var(--accent-dim) !important;
-    color: var(--accent) !important;
+    color: var(--accent-text) !important;
 }
 
 /* Feed tabs */
@@ -88,7 +88,7 @@
 }
 
 .topic-current {
-    color: var(--accent);
+    color: var(--accent-text);
     font-weight: 600;
 }
 
@@ -105,7 +105,7 @@
 }
 
 .feed-tab.active {
-    color: var(--accent);
+    color: var(--accent-text);
     background: var(--accent-dim);
     border-color: var(--accent-ring);
 }

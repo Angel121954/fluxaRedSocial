@@ -88,7 +88,7 @@
 }
 
 .adm-search:focus {
-    border-color: var(--accent);
+    border-color: var(--accent-text);
     box-shadow: 0 0 0 3px var(--accent-ring);
     background: var(--surface);
 }
@@ -124,7 +124,7 @@
 }
 
 .adm-select:focus {
-    border-color: var(--accent);
+    border-color: var(--accent-text);
     box-shadow: 0 0 0 3px var(--accent-ring);
 }
 
@@ -165,8 +165,8 @@
 }
 
 .adm-btn-icon.adm-btn-accent {
-    background: var(--accent);
-    border-color: var(--accent);
+    background: var(--accent-strong);
+    border-color: var(--accent-text);
     color: #fff;
 }
 

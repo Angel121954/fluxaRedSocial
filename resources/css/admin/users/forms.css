@@ -51,7 +51,7 @@
 }
 
 .adm-textarea:focus {
-    border-color: var(--accent);
+    border-color: var(--accent-text);
     box-shadow: 0 0 0 3px var(--accent-ring);
     background: var(--surface);
 }
@@ -94,7 +94,7 @@
 .adm-badge-checkbox {
     width: 16px;
     height: 16px;
-    accent-color: var(--accent);
+    accent-color: var(--accent-text);
     flex-shrink: 0;
     cursor: pointer;
 }

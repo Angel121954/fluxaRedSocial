@@ -53,7 +53,7 @@ export function initLoadMore(container) {
                         <h3 class="feed-empty-title">¡Has visto todo!</h3>
                         <p class="feed-empty-text">No hay más proyectos por aquí. ¿Por qué no crear el primero y compartirlo con la comunidad?</p>
                         <button onclick="abrirModal()" class="btn" style="display: inline-block; margin-top: 1rem; padding: 0.625rem 1.25rem; 
-                        background: #12b3b6; color: white; font-weight: 600; font-size: 0.875rem; border-radius: 0.5rem; text-decoration: none;">Crear proyecto</button>
+                        background: #0b8386; color: white; font-weight: 600; font-size: 0.875rem; border-radius: 0.5rem; text-decoration: none;">Crear proyecto</button>
                     `;
                     container.appendChild(emptyDiv);
                 }

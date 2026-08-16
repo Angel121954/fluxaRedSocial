@@ -70,8 +70,8 @@
 }
 
 .btn-platform:hover {
-    border-color: var(--accent);
-    color: var(--accent);
+    border-color: var(--accent-text);
+    color: var(--accent-text);
     background: var(--accent-dim);
 }
 
@@ -102,7 +102,7 @@
     position: absolute;
     top: -4px;
     right: -4px;
-    background: var(--accent);
+    background: var(--accent-strong);
     color: #fff;
     font-size: var(--text-xs);
     font-weight: 700;

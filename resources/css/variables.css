@@ -10,6 +10,11 @@
     --accent-dark: #0d8e91;
     --accent-dim: rgba(18, 179, 182, 0.07);
     --accent-ring: rgba(18, 179, 182, 0.18);
+    /* Variantes semánticas para contraste AA:
+       --accent-text: teal oscuro para texto/links/iconos sobre superficies claras (5.0:1)
+       --accent-strong: teal oscuro como fondo de CTA/badges con texto blanco (4.56:1) */
+    --accent-text: #0b7c7f;
+    --accent-strong: #0b8386;
 
     /* ─── Acento secundario (amber - warm) ────────────────── */
     --accent-warm: #d97706;
@@ -27,8 +32,8 @@
     --ink-700: #1c2333;
     --ink-600: #374151;
     --ink-500: #4a5568;
-    --ink-400: #718096;
-    --ink-300: #a0aabe;
+    --ink-400: #667089;
+    --ink-300: #6b7789;
     --ink-200: #cbd5e0;
     --ink-100: #edf0f7;
     --ink-50: #f7f8fa;
@@ -76,12 +81,13 @@
     --surface: #1a1d27;
     --bg: #1f2230;
     --bg-subtle: #1a1d27;
+    --accent-text: #12b3b6;
     --ink-900: #e1e4ea;
-    --ink-700: #a0a5b5;
+    --ink-700: #b0b6c6;
     --ink-600: #a0a5b5;
-    --ink-500: #6b7280;
-    --ink-400: #6b7280;
-    --ink-300: #4a4e5a;
+    --ink-500: #8a92a5;
+    --ink-400: #7c8497;
+    --ink-300: #6f7688;
     --ink-200: #2a2e3a;
     --ink-100: #1f2230;
     --ink-50: #1a1d27;

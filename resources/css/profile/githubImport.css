@@ -15,7 +15,7 @@
     width: 20px;
     height: 20px;
     border: 2px solid var(--border);
-    border-top-color: var(--accent);
+    border-top-color: var(--accent-text);
     border-radius: 50%;
     animation: gh-spin 0.6s linear infinite;
 }
@@ -41,7 +41,7 @@
     display: inline-block;
     margin-top: 16px;
     padding: 10px 24px;
-    background: var(--accent);
+    background: var(--accent-strong);
     color: #fff;
     border-radius: var(--r-md);
     text-decoration: none;
@@ -122,8 +122,8 @@
     padding: 6px 14px;
     font-size: var(--text-xs);
     font-weight: 600;
-    border: 1px solid var(--accent);
-    color: var(--accent);
+    border: 1px solid var(--accent-strong);
+    color: var(--accent-text);
     background: transparent;
     border-radius: var(--r-sm);
     cursor: pointer;
@@ -131,7 +131,7 @@
 }
 
 .github-import-btn:hover {
-    background: var(--accent);
+    background: var(--accent-strong);
     color: #fff;
 }
 

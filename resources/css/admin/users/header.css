@@ -39,9 +39,9 @@
 }
 
 .adm-btn--accent {
-    background: var(--accent);
+    background: var(--accent-strong);
     color: #fff;
-    border-color: var(--accent);
+    border-color: var(--accent-text);
 }
 
 .adm-btn--accent:hover {
@@ -128,7 +128,7 @@
 }
 
 .adm-qs-value--accent {
-    color: var(--accent);
+    color: var(--accent-text);
 }
 
 .adm-qs-value--red {

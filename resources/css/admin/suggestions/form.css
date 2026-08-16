@@ -30,7 +30,7 @@
 
 .adm-textarea:focus,
 .adm-input:focus {
-    border-color: var(--accent);
+    border-color: var(--accent-text);
     box-shadow: 0 0 0 3px var(--accent-ring);
     background: var(--surface);
 }
@@ -70,7 +70,7 @@
 
 .adm-upload-zone:hover,
 .adm-upload-zone.drag-over {
-    border-color: var(--accent);
+    border-color: var(--accent-text);
     background: var(--accent-dim);
     box-shadow: 0 0 0 3px var(--accent-ring);
 }
@@ -87,7 +87,7 @@
 
 .adm-upload-zone:hover .adm-upload-icon,
 .adm-upload-zone.drag-over .adm-upload-icon {
-    color: var(--accent);
+    color: var(--accent-text);
 }
 
 .adm-upload-text {
@@ -97,7 +97,7 @@
 }
 
 .adm-upload-link {
-    color: var(--accent);
+    color: var(--accent-text);
     font-weight: 600;
 }
 
@@ -165,8 +165,8 @@
     font-size: var(--text-sm);
     font-weight: 600;
     color: #fff;
-    background: var(--accent);
-    border: 1px solid var(--accent);
+    background: var(--accent-strong);
+    border: 1px solid var(--accent-strong);
     border-radius: var(--r-md);
     cursor: pointer;
     transition: background 0.15s, border-color 0.15s;

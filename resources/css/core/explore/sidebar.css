@@ -22,5 +22,5 @@
 .topic-pill:hover {
     background: var(--accent-dim);
     border-color: var(--accent-ring);
-    color: var(--accent);
+    color: var(--accent-text);
 }

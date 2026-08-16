@@ -60,7 +60,7 @@
 }
 
 .msgs-bubble-mine {
-    background: var(--accent);
+    background: var(--accent-strong);
     color: #fff;
     border-bottom-right-radius: var(--r-xs);
     box-shadow: 0 2px 8px rgba(18, 179, 182, 0.2);
@@ -197,7 +197,7 @@
 
 .msgs-reaction-chip:hover,
 .msgs-reaction-chip.mine {
-    border-color: var(--accent);
+    border-color: var(--accent-text);
     background: var(--accent-dim);
 }
 

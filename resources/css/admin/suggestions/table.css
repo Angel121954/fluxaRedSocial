@@ -116,7 +116,7 @@
 }
 
 .adm-badge--reviewing .adm-badge-dot {
-    background: var(--accent);
+    background: var(--accent-strong);
 }
 
 /* Rejected — red */
@@ -380,13 +380,13 @@
 
 .adm-page-btn:hover:not(.adm-page-btn--disabled):not(.adm-page-btn--active) {
     background: var(--bg);
-    border-color: var(--accent);
-    color: var(--accent);
+    border-color: var(--accent-text);
+    color: var(--accent-text);
 }
 
 .adm-page-btn--active {
-    background: var(--accent);
-    border-color: var(--accent);
+    background: var(--accent-strong);
+    border-color: var(--accent-text);
     color: #fff;
     cursor: default;
     font-weight: 600;

@@ -41,7 +41,7 @@
 
 .tab.active {
     color: var(--ink-900);
-    border-bottom-color: var(--accent);
+    border-bottom-color: var(--accent-text);
 }
 
 
