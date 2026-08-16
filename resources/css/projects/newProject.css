@@ -622,7 +622,7 @@ textarea.np-input {
 
 /* ── Dark mode ── */
 .dark .close-btn {
-  color: #6b7280;
+  color: var(--ink-500);
 }
 
 .dark .close-btn:hover {
@@ -635,7 +635,7 @@ textarea.np-input {
 }
 
 .dark #modal-subtitle {
-  color: #6b7280;
+  color: var(--ink-500);
 }
 
 .dark #modal-card {
@@ -647,7 +647,7 @@ textarea.np-input {
 }
 
 .dark .step {
-  color: #6b7280;
+  color: var(--ink-500);
 }
 
 .dark .step.active {

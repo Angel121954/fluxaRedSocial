@@ -5,6 +5,7 @@
 ═══════════════════════════════════════════════════════════ */
 
 :root {
+    color-scheme: light;
     /* ─── Acento principal (teal) ─────────────────────────── */
     --accent: #12b3b6;
     --accent-dark: #0d8e91;
@@ -78,6 +79,7 @@
    necesidad (ej. .dark .badges-modal-item { ... })
    ═══════════════════════════════════════════════════════════ */
 .dark {
+    color-scheme: dark;
     --surface: #1a1d27;
     --bg: #1f2230;
     --bg-subtle: #1a1d27;

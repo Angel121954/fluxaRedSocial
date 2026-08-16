@@ -33,7 +33,7 @@
     border-right: 1px solid var(--border);
     display: flex;
     flex-direction: column;
-    background: #fafbfc;
+    background: var(--bg-subtle);
     overflow: hidden;
 }
 
@@ -42,7 +42,7 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    background: #fafbfc;
+    background: var(--bg-subtle);
     border-bottom: 1px solid var(--border);
     flex-shrink: 0;
 }
@@ -120,7 +120,7 @@
     display: flex;
     gap: 2px;
     padding: 0.5rem 0.75rem;
-    background: #fafbfc;
+    background: var(--bg-subtle);
     border-bottom: 1px solid var(--border);
     flex-shrink: 0;
 }

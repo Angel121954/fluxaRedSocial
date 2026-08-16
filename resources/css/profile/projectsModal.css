@@ -135,13 +135,13 @@
 }
 
 .dark .projects-item-excerpt {
-    color: #6b7280;
+    color: var(--ink-500);
 }
 
 .dark .projects-item-stats {
-    color: #6b7280;
+    color: var(--ink-500);
 }
 
 .dark .projects-empty p {
-    color: #6b7280;
+    color: var(--ink-500);
 }

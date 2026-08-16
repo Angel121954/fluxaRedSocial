@@ -520,5 +520,5 @@ select.form-input {
 }
 
 .dark .helper-text {
-    color: #6b7280;
+    color: var(--ink-500);
 }

@@ -12,6 +12,11 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
+    <script>
+        /* Las páginas de auth siempre en tema claro (paleta propia). */
+        document.documentElement.classList.remove('dark');
+    </script>
+
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/css/variables.css', 'resources/js/app.js'])
 </head>

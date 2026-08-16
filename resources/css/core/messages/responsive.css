@@ -68,7 +68,7 @@
         min-width: 100%;
         border-right: none;
         z-index: 10;
-        background: #fafbfc;
+        background: var(--bg-subtle);
     }
 
     .msgs-chat {

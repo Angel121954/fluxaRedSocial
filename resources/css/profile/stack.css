@@ -437,6 +437,6 @@ button.stack-card-heart.is-favorite:hover {
 }
 
 .dark .stack-modal-category-title {
-    color: #6b7280;
+    color: var(--ink-500);
     border-bottom-color: #2a2e3a;
 }

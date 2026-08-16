@@ -147,8 +147,8 @@
     width: 20px;
     height: 20px;
     border-radius: 6px;
-    border: 2px solid #d1d5db;
-    background: #fff;
+    border: 2px solid var(--border-strong);
+    background: var(--surface);
     display: flex;
     align-items: center;
     justify-content: center;

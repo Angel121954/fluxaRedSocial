@@ -308,7 +308,7 @@
 }
 
 .dark .badges-empty {
-    color: #6b7280;
+    color: var(--ink-500);
 }
 
 .dark .badges-modal {
@@ -324,11 +324,11 @@
 }
 
 .dark .badges-modal-subtitle {
-    color: #6b7280;
+    color: var(--ink-500);
 }
 
 .dark .badges-modal-close {
-    color: #6b7280;
+    color: var(--ink-500);
 }
 
 .dark .badges-modal-close:hover {
@@ -353,5 +353,5 @@
 }
 
 .dark .badges-modal-item-desc {
-    color: #6b7280;
+    color: var(--ink-500);
 }

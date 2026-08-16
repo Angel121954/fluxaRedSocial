@@ -153,7 +153,7 @@
     height: 18px;
     border-radius: 5px;
     border: 1.5px solid var(--ink-200);
-    background: #fff;
+    background: var(--surface);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -300,7 +300,7 @@
     height: 20px;
     border-radius: 50%;
     border: 1.5px solid var(--ink-200);
-    background: #fff;
+    background: var(--surface);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -367,7 +367,7 @@
     padding: 0.7rem 1rem;
     border: 1.5px solid var(--ink-100);
     border-radius: var(--r-md);
-    background: #fff;
+    background: var(--surface);
     cursor: grab;
     transition: box-shadow 0.15s, border-color 0.15s, background 0.15s;
     user-select: none;
@@ -388,7 +388,7 @@
     cursor: grabbing;
     box-shadow: var(--shadow-md);
     border-color: var(--accent-text);
-    background: #fff;
+    background: var(--surface);
 }
 
 .cv-sortable__handle {
@@ -431,7 +431,7 @@
 }
 
 .cv-preview-card {
-    background: #fff;
+    background: var(--surface);
     border: 1px solid var(--border-strong);
     border-radius: var(--r-lg);
     padding: 1.125rem;

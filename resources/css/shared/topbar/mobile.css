@@ -315,6 +315,23 @@
         transition: color 0.15s;
     }
 
+    /* Iconos del toggle de tema (solo se muestra uno según el modo) */
+    .mobile-menu-link .icon-moon {
+        display: block;
+    }
+
+    .mobile-menu-link .icon-sun {
+        display: none;
+    }
+
+    html.dark .mobile-menu-link .icon-moon {
+        display: none;
+    }
+
+    html.dark .mobile-menu-link .icon-sun {
+        display: block;
+    }
+
     .mobile-menu-link:hover {
         background: var(--ink-100);
         color: var(--ink-900);

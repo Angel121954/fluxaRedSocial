@@ -553,7 +553,7 @@
 }
 
 .dark .we-card__meta {
-    color: #6b7280;
+    color: var(--ink-500);
 }
 
 .dark .we-card__desc {
@@ -563,7 +563,7 @@
 .dark .we-empty {
     background: #1a1d27;
     border-color: #2a2e3a;
-    color: #6b7280;
+    color: var(--ink-500);
 }
 
 .dark .we-modal__content {
@@ -576,7 +576,7 @@
 }
 
 .dark .we-modal__close {
-    color: #6b7280;
+    color: var(--ink-500);
 }
 
 .dark .we-modal__close:hover {
@@ -587,7 +587,7 @@
 .dark .we-icon-btn {
     background: #1a1d27;
     border-color: #2a2e3a;
-    color: #6b7280;
+    color: var(--ink-500);
 }
 
 .dark .we-icon-btn:hover {

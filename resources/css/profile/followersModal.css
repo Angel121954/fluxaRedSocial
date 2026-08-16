@@ -132,9 +132,9 @@
 }
 
 .dark .followers-handle {
-    color: #6b7280;
+    color: var(--ink-500);
 }
 
 .dark .followers-empty p {
-    color: #6b7280;
+    color: var(--ink-500);
 }

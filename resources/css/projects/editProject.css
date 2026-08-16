@@ -242,7 +242,7 @@
 
 /* ── Dark mode ── */
 .dark .close-btn {
-  color: #6b7280;
+  color: var(--ink-500);
 }
 
 .dark .close-btn:hover {
@@ -255,7 +255,7 @@
 }
 
 .dark #edit-modal-subtitle {
-  color: #6b7280;
+  color: var(--ink-500);
 }
 
 .dark #edit-modal-card {

@@ -206,7 +206,7 @@
 }
 
 .dark .msgs-modal-user-handle {
-    color: #6b7280;
+    color: var(--ink-500);
 }
 
 .dark .msgs-share-item {

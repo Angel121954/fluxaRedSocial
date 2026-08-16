@@ -47,6 +47,28 @@
     border: 1px solid #bfdbfe;
 }
 
+/* ─── Dark mode ────────────────────────────────────────────── */
+.dark .notif-alert--success {
+    background: rgba(10, 158, 138, 0.14);
+    color: #5eead4;
+    border-color: rgba(94, 234, 212, 0.28);
+}
+.dark .notif-alert--error {
+    background: rgba(220, 38, 38, 0.14);
+    color: #fca5a5;
+    border-color: rgba(252, 165, 165, 0.28);
+}
+.dark .notif-alert--warning {
+    background: rgba(217, 119, 6, 0.14);
+    color: #fcd34d;
+    border-color: rgba(252, 211, 77, 0.28);
+}
+.dark .notif-alert--info {
+    background: rgba(59, 130, 246, 0.14);
+    color: #93c5fd;
+    border-color: rgba(147, 197, 253, 0.28);
+}
+
 /* ─── Animación ───────────────────────────────────────────── */
 @keyframes notifFadeIn {
     from {

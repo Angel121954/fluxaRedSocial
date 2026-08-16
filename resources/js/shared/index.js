@@ -16,3 +16,4 @@ import '../notifications/badges.js';
 import '../notifications/realtime.js';
 import './liveTime.js';
 import './userBanned.js';
+import './theme.js';

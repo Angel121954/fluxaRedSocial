@@ -289,6 +289,28 @@
     border-color: var(--ink-700);
 }
 
+/* ─── Dark mode: tags tintados ─────────────────────────────── */
+.dark .t-laravel {
+    color: #fdba74;
+    background: #2a1d12;
+    border-color: #7c4a24;
+}
+.dark .t-supa {
+    color: #6ee7b7;
+    background: #0f241d;
+    border-color: #1f6b54;
+}
+.dark .t-ts {
+    color: #93c5fd;
+    background: #101b2e;
+    border-color: #1e40af;
+}
+.dark .t-node {
+    color: #86efac;
+    background: #0f241d;
+    border-color: #1f6b54;
+}
+
 .activity-feed {
     display: flex;
     flex-direction: column;

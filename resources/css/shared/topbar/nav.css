@@ -17,6 +17,10 @@
     z-index: 200;
 }
 
+html.dark .navbar {
+    background: rgba(26, 29, 39, 0.94);
+}
+
 .navbar-inner {
     max-width: 1160px;
     margin: 0 auto;

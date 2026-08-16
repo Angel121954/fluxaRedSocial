@@ -115,8 +115,8 @@ select.form-input {
     align-items: center;
     justify-content: space-between;
     padding: 1rem 1.25rem;
-    background: #f8f9fb;
-    border: 1px solid #e8eaef;
+    background: var(--bg-subtle);
+    border: 1px solid var(--border);
     border-radius: 10px;
     gap: 1rem;
 }
@@ -226,8 +226,8 @@ select.form-input {
     display: flex;
     justify-content: center;
     padding: 1rem;
-    background: #f8f9fb;
-    border: 1px solid #e8eaef;
+    background: var(--bg-subtle);
+    border: 1px solid var(--border);
     border-radius: 10px;
 }
 
@@ -246,7 +246,7 @@ select.form-input {
     border: 1px solid #b2ebea;
     border-radius: 8px;
     font-size: var(--text-sm);
-    color: var(--ink-400);
+    color: var(--accent-text);
 }
 
 .modal-secret code {
@@ -288,7 +288,7 @@ select.form-input {
     padding: 1rem 1.25rem;
     border: 1.5px solid #b2ebea;
     border-radius: 10px;
-    background: #f7fefe;
+    background: var(--bg-subtle);
 }
 
 .logout-info {
@@ -375,7 +375,7 @@ select.form-input {
     justify-content: space-between;
     gap: 1.5rem;
     padding: 1rem 1.25rem;
-    background: #fff;
+    background: var(--surface);
     transition: background 0.15s ease;
 }
 

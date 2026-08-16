@@ -27,6 +27,17 @@
     <title>@yield('title', 'Fluxa')</title>
     <link rel="icon" type="image/png" href="{{ asset('img/favicon.png') }}">
     <link rel="preconnect" href="https://fonts.bunny.net">
+    <script>
+        /* Tema: se aplica antes de pintar para evitar flash (FOUC).
+           Persistido en localStorage; sin preferencia guardada, sigue al sistema. */
+        (function () {
+            var theme = localStorage.getItem('fluxa-theme');
+            var systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (theme === 'dark' || (!theme && systemDark)) {
+                document.documentElement.classList.add('dark');
+            }
+        })();
+    </script>
     @vite(['resources/css/app.css', 'resources/css/variables.css', 'resources/css/shared/bottom-nav.css', 'resources/css/shared/toast.css', 'resources/css/profile/shared.css', 'resources/js/app.js'])
     @auth
     @vite('resources/js/shared/index.js')

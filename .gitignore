@@ -19,4 +19,7 @@ yarn-error.log
 /.vscode
 /CHANGELOG_*.md
 /NOTAS.md
+/DARK_MODE_NOTAS.md
 TOUCH_EVENTS.md
+OPTIMISTIC_VS_IDEMPOTENCIA.md
+UX_TERMS.md

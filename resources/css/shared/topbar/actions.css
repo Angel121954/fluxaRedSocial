@@ -85,6 +85,44 @@
     display: block;
 }
 
+/* ── Botón de tema (claro/oscuro) ────────────── */
+
+.theme-toggle-btn {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-subtle, #f1f3f7);
+    border: none;
+    border-radius: 50%;
+    color: var(--ink-400, #718096);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    font-family: inherit;
+}
+
+.theme-toggle-btn:hover {
+    background: var(--bg, #e8ecf2);
+    color: var(--ink-600, #374151);
+}
+
+.theme-toggle-btn svg {
+    display: none;
+}
+
+.theme-toggle-btn .icon-moon {
+    display: block;
+}
+
+html.dark .theme-toggle-btn .icon-moon {
+    display: none;
+}
+
+html.dark .theme-toggle-btn .icon-sun {
+    display: block;
+}
+
 /* ── Botón "Nuevo proyecto" ──────────────────── */
 
 .btn-new {
