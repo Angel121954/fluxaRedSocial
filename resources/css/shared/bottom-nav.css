@@ -90,8 +90,8 @@
     display: none;
     position: fixed;
     bottom: calc(64px + env(safe-area-inset-bottom, 0px));
-    left: 50%;
-    transform: translateX(-50%);
+    right: 1rem;
+    left: auto;
     z-index: 191;
     width: 56px;
     height: 56px;
@@ -115,7 +115,7 @@
 }
 
 .bottom-fab:active {
-    transform: translateX(-50%) scale(0.94);
+    transform: scale(0.94);
 }
 
 .bottom-fab svg {

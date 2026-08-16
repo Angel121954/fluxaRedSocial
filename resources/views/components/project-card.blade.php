@@ -128,9 +128,10 @@ $skillKeys = array_keys($skills);
             <div class="skill-panel" data-project-id="{{ $project->id }}">
                 @foreach($skillKeys as $skill)
                 <button class="skill-btn {{ $userEndorsement === $skill ? 'active' : '' }}" data-skill-type="{{ $skill }}" title="{{ $skills[$skill]['label'] }}">
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="{{ $skills[$skill]['icon'] }}" />
                     </svg>
+                    <span class="skill-label">{{ $skills[$skill]['label'] }}</span>
                 </button>
                 @endforeach
             </div>

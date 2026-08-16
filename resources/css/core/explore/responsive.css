@@ -57,6 +57,11 @@
         padding-top: 0.75rem;
     }
 
+    .post-menu-btn {
+        width: 44px;
+        height: 44px;
+    }
+
     .btn-new {
         padding: 0.4375rem 0.875rem;
     }
@@ -117,6 +122,14 @@
         gap: 0.5rem;
         padding: 0.5rem 0.75rem;
         border-radius: var(--r-sm);
+    }
+
+    .skill-label {
+        display: inline;
+        font-size: var(--text-sm);
+        font-weight: 500;
+        color: var(--ink-600);
+        white-space: nowrap;
     }
 
     .skill-panel::before {

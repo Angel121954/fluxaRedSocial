@@ -378,6 +378,10 @@
     height: 16px;
 }
 
+.skill-label {
+    display: none;
+}
+
 /* Post menu dropdown - usando clases del perfil */
 
 .drop-wrap {

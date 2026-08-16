@@ -115,7 +115,7 @@ body {
 
 @media (max-width: 768px) {
     body {
-        padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px));
+        padding-bottom: calc(132px + env(safe-area-inset-bottom, 0px));
     }
 }
 

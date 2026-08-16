@@ -41,7 +41,7 @@
     #toast-container {
         left: 16px !important;
         right: 16px !important;
-        bottom: 16px !important;
+        bottom: calc(84px + env(safe-area-inset-bottom, 0px)) !important;
         top: auto !important;
         transform: none !important;
         width: auto !important;
