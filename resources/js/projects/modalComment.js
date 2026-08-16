@@ -125,6 +125,7 @@ async function toggleCommentLike(commentId, button) {
         console.error('commentId is undefined or invalid:', commentId);
         return;
     }
+    if (button.dataset.loading) return;
 
     const svg = button.querySelector('svg');
     const svgPath = svg?.querySelector('path');
@@ -141,6 +142,8 @@ async function toggleCommentLike(commentId, button) {
     if (countEl) {
         countEl.textContent = wasLiked ? Math.max(0, prevCount - 1) : prevCount + 1;
     }
+
+    button.dataset.loading = 'true';
 
     try {
         const response = await fetch(`/comments/${commentId}/like`, {
@@ -177,6 +180,8 @@ async function toggleCommentLike(commentId, button) {
             countEl.textContent = prevCount;
         }
         console.error('Error al dar like:', error.message);
+    } finally {
+        delete button.dataset.loading;
     }
 }
 
