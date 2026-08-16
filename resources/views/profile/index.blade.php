@@ -272,7 +272,14 @@
                 @endswitch
             </div>
             @empty
+            @if($isOwner)
+            <div class="empty-state-wrap">
+                <p class="empty-state">Aún no tienes actividad registrada. Publica tu primer proyecto para empezar.</p>
+                <a href="{{ route('projects.create') }}" class="empty-state-cta">Crear proyecto</a>
+            </div>
+            @else
             <p class="empty-state">Este usuario aún no tiene actividad registrada.</p>
+            @endif
             @endforelse
         </div>
     </div>
@@ -283,7 +290,14 @@
             @forelse ($projects as $project)
             <x-project-card-masonry :project="$project" />
             @empty
+            @if($isOwner)
+            <div class="empty-state-wrap">
+                <p class="empty-state">Aún no has publicado proyectos.</p>
+                <a href="{{ route('projects.create') }}" class="empty-state-cta">Crear tu primer proyecto</a>
+            </div>
+            @else
             <p class="empty-state">Este usuario aún no tiene proyectos.</p>
+            @endif
             @endforelse
         </div>
     </div>
@@ -335,7 +349,14 @@
         </a>
         @endforeach
         @else
-        <p class="empty-state">No hay proyectos favoritos aún.</p>
+        @if($isOwner)
+        <div class="empty-state-wrap">
+            <p class="empty-state">No has guardado proyectos favoritos aún.</p>
+            <a href="{{ route('explore.trending') }}" class="empty-state-cta">Explorar proyectos</a>
+        </div>
+        @else
+        <p class="empty-state">Este usuario aún no tiene proyectos favoritos.</p>
+        @endif
         @endif
     </div>
     @endif

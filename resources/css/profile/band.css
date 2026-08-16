@@ -29,6 +29,34 @@
     padding: 2rem 0;
 }
 
+.empty-state-wrap {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 2rem 0;
+}
+
+.empty-state-wrap .empty-state {
+    padding: 0;
+}
+
+.empty-state-cta {
+    padding: 0.625rem 1.5rem;
+    background: var(--accent-strong);
+    color: #ffffff;
+    border-radius: var(--r-md);
+    font-size: var(--text-base);
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.15s;
+}
+
+.empty-state-cta:hover {
+    background: var(--accent-dark);
+}
+
 .avatar-wrap {
     position: relative;
     flex-shrink: 0;

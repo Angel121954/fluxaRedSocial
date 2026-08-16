@@ -39,6 +39,22 @@
     max-width: 280px;
 }
 
+.feed-empty-cta {
+    margin-top: 1.25rem;
+    padding: 0.625rem 1.5rem;
+    background: var(--accent-strong);
+    color: #ffffff;
+    border-radius: var(--r-md);
+    font-size: var(--text-base);
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.15s;
+}
+
+.feed-empty-cta:hover {
+    background: var(--accent-dark);
+}
+
 /* Load more */
 .load-more-wrapper {
     display: flex;

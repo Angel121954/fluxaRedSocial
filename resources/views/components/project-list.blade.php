@@ -1,3 +1,8 @@
+@props([
+    'emptyCtaLabel' => null,
+    'emptyCtaHref' => null,
+])
+
 @forelse($projects as $project)
 <x-project-card :project="$project" />
 @empty
@@ -9,6 +14,9 @@
     </div>
     <h3 class="feed-empty-title">No hay proyectos disponibles</h3>
     <p class="feed-empty-text">¡Explora las tendencias o recientes para descubrir proyectos interesantes!</p>
+    @if($emptyCtaLabel && $emptyCtaHref)
+    <a href="{{ $emptyCtaHref }}" class="feed-empty-cta">{{ $emptyCtaLabel }}</a>
+    @endif
 </div>
 @endforelse
 

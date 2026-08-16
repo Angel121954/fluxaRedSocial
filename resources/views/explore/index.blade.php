@@ -57,7 +57,11 @@
         <div id="dev-map" class="map-wrapper"></div>
         <div id="nearby-devs" class="nearby-devs"></div>
       @else
-        <x-project-list :projects="$projects" />
+        @if(isset($technology) || request()->get('q'))
+          <x-project-list :projects="$projects" empty-cta-label="Ver tendencias" empty-cta-href="{{ route('explore.trending') }}" />
+        @else
+          <x-project-list :projects="$projects" />
+        @endif
       @endif
     </div>
   </div>

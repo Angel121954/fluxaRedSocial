@@ -32,7 +32,7 @@
         </svg><span>Likes</span></button>
     </div>
 
-    <div class="notif-container" id="notificationList">
+    <div class="notif-container" id="notificationList" data-explore-url="{{ route('explore.trending') }}">
       <div class="notif-skeleton">
         <div class="notif-skeleton-avatar"></div>
         <div class="notif-skeleton-body">

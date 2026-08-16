@@ -22,7 +22,7 @@
     @endif
 
     <div id="publications-container">
-      <x-project-list :projects="$projects" />
+      <x-project-list :projects="$projects" empty-cta-label="Explorar proyectos" empty-cta-href="{{ route('explore.trending') }}" />
     </div>
   </div>
 </div>
