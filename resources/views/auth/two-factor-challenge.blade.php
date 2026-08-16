@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('force-light', true)
 @section('title', 'Verificación en dos pasos')
 @section('content')
 

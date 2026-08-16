@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('force-light', true)
 @section('content')
 
 <div class="login-screen">

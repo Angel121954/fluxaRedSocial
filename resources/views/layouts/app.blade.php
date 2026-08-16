@@ -29,13 +29,18 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <script>
         /* Tema: se aplica antes de pintar para evitar flash (FOUC).
-           Persistido en localStorage; sin preferencia guardada, sigue al sistema. */
+           Persistido en localStorage; sin preferencia guardada, sigue al sistema.
+           Las páginas que definen la sección 'force-light' (auth) siempre en claro. */
         (function () {
+            @hasSection('force-light')
+            document.documentElement.classList.remove('dark');
+            @else
             var theme = localStorage.getItem('fluxa-theme');
             var systemDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
             if (theme === 'dark' || (!theme && systemDark)) {
                 document.documentElement.classList.add('dark');
             }
+            @endif
         })();
     </script>
     @vite(['resources/css/app.css', 'resources/css/variables.css', 'resources/css/shared/bottom-nav.css', 'resources/css/shared/toast.css', 'resources/css/profile/shared.css', 'resources/js/app.js'])
