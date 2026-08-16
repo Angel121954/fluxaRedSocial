@@ -26,11 +26,21 @@ Broadcast::channel('notifications.{userId}', function ($user, int $userId) {
 });
 
 Broadcast::channel('user.privacy.{userId}', function ($user, int $userId) {
-    return true;
+    if ((int) $user->id === (int) $userId) {
+        return true;
+    }
+
+    return $user->blockedUsers()->where('blocked_id', $userId)->doesntExist()
+        && $user->blockedBy()->where('blocker_id', $userId)->doesntExist();
 });
 
 Broadcast::channel('user.follow.{userId}', function ($user, int $userId) {
-    return true;
+    if ((int) $user->id === (int) $userId) {
+        return true;
+    }
+
+    return $user->blockedUsers()->where('blocked_id', $userId)->doesntExist()
+        && $user->blockedBy()->where('blocker_id', $userId)->doesntExist();
 });
 
 Broadcast::channel('user.banned.{userId}', function ($user, int $userId) {
