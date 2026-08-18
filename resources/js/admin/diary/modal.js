@@ -21,7 +21,6 @@ document.addEventListener('DOMContentLoaded', function () {
         question.value = '';
         emoji.value = '';
         window.openModal('diaryModalBackdrop');
-        question?.focus();
     });
 
     document.addEventListener('click', function (e) {
@@ -37,7 +36,6 @@ document.addEventListener('DOMContentLoaded', function () {
         question.value = btn.dataset.question;
         emoji.value = btn.dataset.emoji;
         window.openModal('diaryModalBackdrop');
-        question?.focus();
     });
 
     function closeDiaryModal() {

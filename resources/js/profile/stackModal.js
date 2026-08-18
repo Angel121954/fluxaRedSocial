@@ -10,9 +10,6 @@
 
     function openStack() {
         window.openModal('stackModal');
-        setTimeout(function () {
-            if (searchInput) searchInput.focus();
-        }, 100);
     }
 
     function closeStack() {

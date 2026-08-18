@@ -16,7 +16,6 @@
         submitBtn.disabled = false;
         submitBtn.textContent = 'Reportar';
         window.openModal('diaryReportModal');
-        setTimeout(function () { reasonInput.focus(); }, 100);
     }
 
     function closeReportModal() {

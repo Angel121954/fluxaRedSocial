@@ -15,7 +15,6 @@ const abrirJobOffer = () => {
     lockBodyScroll();
 
     el('jobOfferOverlay').classList.add('open');
-    setTimeout(() => { const t = el('jo-title'); if (t) t.focus(); }, 50);
 };
 
 const cerrarJobOffer = () => {

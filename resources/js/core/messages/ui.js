@@ -187,7 +187,6 @@ export function initModal({ modalOverlay, modalSearch, modalResults }) {
     function openModal() {
         if (!modalOverlay) return;
         window.openModal('msgsModalOverlay');
-        setTimeout(() => modalSearch?.focus(), 80);
     }
 
     function closeModal() {

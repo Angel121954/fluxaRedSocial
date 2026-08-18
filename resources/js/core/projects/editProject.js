@@ -94,8 +94,6 @@
 
         await cargarTecnologias();
         await cargarDatosProyecto(projectId);
-
-        setTimeout(() => el('edit-input-title').focus(), 50);
     };
 
     const cerrarEditModal = () => {

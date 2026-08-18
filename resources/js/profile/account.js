@@ -84,7 +84,6 @@ document.addEventListener("DOMContentLoaded", () => {
         resetModalView();
 
         openModal();
-        setTimeout(() => codeInput.focus(), 100);
     }
 
     async function handleDisable2FA() {

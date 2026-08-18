@@ -42,7 +42,6 @@ function initBadgeModal(config) {
             filterItems('');
         }
         window.openModal(config.backdropId);
-        search?.focus();
     }
 
     function closeBadgeModal() {

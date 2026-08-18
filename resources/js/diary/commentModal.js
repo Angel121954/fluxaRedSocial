@@ -83,10 +83,6 @@ export function openDiaryCommentsModal(postData) {
 
     window.openModal('commentsModal');
     startTimeUpdates(modalCommentsList);
-    setTimeout(() => {
-        const commentTextarea = document.getElementById("commentTextarea");
-        commentTextarea?.focus();
-    }, 100);
 }
 
 window.openDiaryCommentsModal = openDiaryCommentsModal;

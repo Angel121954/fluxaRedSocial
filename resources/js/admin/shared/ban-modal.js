@@ -24,7 +24,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         activeBanUserId = userId;
         window.openModal('banModalBackdrop');
-        banReason?.focus();
     });
 
     confirmBanBtn?.addEventListener('click', function () {

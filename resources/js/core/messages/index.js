@@ -89,7 +89,6 @@ document.addEventListener('DOMContentLoaded', () => {
         editTextarea.value = currentBody;
         updateEditCharCount();
         window.openModal('msgsEditModal');
-        setTimeout(() => editTextarea?.focus(), 80);
     }
 
     function closeEditModal() {

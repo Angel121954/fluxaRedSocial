@@ -49,7 +49,6 @@
     const abrirModal = () => {
         lockBodyScroll();
         el('modal-overlay').classList.add('open');
-        setTimeout(() => el('input-title').focus(), 50);
         cargarTecnologias();
     };
 

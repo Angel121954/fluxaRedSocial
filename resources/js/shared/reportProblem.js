@@ -30,7 +30,6 @@ document.addEventListener('DOMContentLoaded', function () {
         typeSelect.value = '';
         errorBanner.style.display = 'none';
         window.openModal('reportProblemModal');
-        setTimeout(() => typeSelect.focus(), 150);
     }
 
     window.abrirReportProblemModal = openReportProblem;
