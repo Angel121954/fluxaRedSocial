@@ -58,9 +58,11 @@
     <x-toast />
 
     @auth
+    @if(! request()->routeIs('onboarding.*'))
     <x-bottom-nav
         :unread-notifications="$unreadNotifications ?? 0"
         :unread-messages="$unreadMessages ?? 0" />
+    @endif
     @endauth
 
     <script>
