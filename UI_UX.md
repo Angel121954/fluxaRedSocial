@@ -237,6 +237,7 @@ Todas las vistas se diseñan primero para mobile. Los breakpoints añaden layout
 - Tablas de datos → cards verticales en mobile
 - Grid de proyectos: 1 col mobile, 2 col tablet, 3-4 col desktop
 - Modales → fullscreen en mobile, centered dialog en desktop
+- Listas de contenido en móvil (feed, explore, notificaciones): patrón full-bleed — bloques a ancho completo sin bordes laterales ni border-radius, separados por gap de ~8px; la media sangra edge-to-edge. El gutter (16px) solo lo conservan headers, tabs y filtros
 
 ---
 

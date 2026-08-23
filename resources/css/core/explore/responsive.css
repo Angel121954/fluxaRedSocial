@@ -27,14 +27,44 @@
         display: none;
     }
 
+    /* Patrón full-bleed (estilo feed nativo): bloques a
+       ancho completo, sin bordes laterales ni radio,
+       separados por gap. El gutter solo lo conservan
+       headers y tabs */
     .feed-layout {
-        padding: 1.25rem 1.5rem;
+        padding: 0;
     }
 
-    .post-card {
-        padding: 1.25rem;
-        margin-bottom: 1rem;
-        border-radius: var(--r-xl);
+    .feed-tabs,
+    .topics-bar,
+    .topic-header,
+    #nearby-devs {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    .post-card,
+    .post-card-skeleton {
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
+        margin-bottom: 0.5rem;
+        padding: 1rem;
+    }
+
+    /* La media sangra hasta el borde de la pantalla */
+    .pm-grid {
+        margin-left: -1rem;
+        margin-right: -1rem;
+        border-radius: 0;
+    }
+
+    .post-image {
+        margin-left: -1rem;
+        margin-right: -1rem;
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
     }
 
     .post-header {

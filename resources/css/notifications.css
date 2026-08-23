@@ -395,8 +395,14 @@
    los hijos hereden el mismo espaciado.
 ───────────────────────────────────────────────── */
 @media (max-width: 640px) {
+    /* Patrón full-bleed: cards a ancho completo, el
+       gutter solo lo conservan header y filtros */
+    .feed-layout {
+        padding: 0;
+    }
+
     .feed-main {
-        padding: 0 0.75rem;
+        padding: 0;
     }
 
     .feed-header {
@@ -408,6 +414,8 @@
         gap: 0.75rem;
         margin-bottom: 1rem;
         margin-top: 0.5rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
     }
 
     .feed-header > *:first-child {
@@ -446,6 +454,8 @@
         -webkit-overflow-scrolling: touch;
         overscroll-behavior: contain;
         margin-bottom: 1rem;
+        margin-left: 1rem;
+        margin-right: 1rem;
         scrollbar-width: none;
         gap: 0.5rem;
     }
@@ -475,8 +485,23 @@
 
     .notif-card {
         padding: 1rem;
-        border-radius: var(--r-xl);
-        box-shadow: var(--shadow-sm);
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
+        box-shadow: none;
+    }
+
+    .notif-card.unread {
+        border-left: 3px solid var(--accent-strong);
+    }
+
+    .notif-skeleton,
+    .empty-box,
+    .loading-box,
+    .error-box {
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
     }
 
     .notif-avatar {
@@ -569,7 +594,6 @@
     .loading-box,
     .error-box {
         padding: 3rem 1.5rem;
-        border-radius: var(--r-xl);
     }
 
     .empty-icon {

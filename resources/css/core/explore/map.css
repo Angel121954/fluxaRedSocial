@@ -27,6 +27,9 @@
 @media (max-width: 640px) {
     .map-wrapper {
         height: 350px;
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
     }
 }
 
