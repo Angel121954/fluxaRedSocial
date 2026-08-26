@@ -1,5 +1,10 @@
 import { showToast } from '../../shared/toast.js';
 
+function syncSheetScrim() {
+    const anyOpen = !!document.querySelector('.skill-panel.show');
+    document.body.classList.toggle('skill-sheet-open', anyOpen);
+}
+
 export function initSkillEndorsement() {
     document.addEventListener('click', (e) => {
         const toggleBtn = e.target.closest('.endorsement-btn');
@@ -16,6 +21,7 @@ export function initSkillEndorsement() {
             });
 
             panel.classList.toggle('show');
+            syncSheetScrim();
             return;
         }
 
@@ -31,6 +37,7 @@ export function initSkillEndorsement() {
             const countEl = wrap?.querySelector('.endorsement-count');
 
             panel.classList.remove('show');
+            syncSheetScrim();
 
             toggleEndorsement(projectId, skillType, skillBtn, panel, countEl);
             return;
@@ -38,6 +45,7 @@ export function initSkillEndorsement() {
 
         if (!e.target.closest('.endorsement-wrap')) {
             document.querySelectorAll('.skill-panel.show').forEach(p => p.classList.remove('show'));
+            syncSheetScrim();
         }
     });
 }

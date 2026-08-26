@@ -127,22 +127,42 @@
         color: var(--accent-text);
     }
 
-    .skill-panel {
+    /* Endorsements: bottom sheet en la capa de modales.
+       El scrim es un elemento real (body::before) y no
+       box-shadow: las sombras no capturan taps, así que
+       la topbar quedaría accionable a través del dim */
+    body::before {
+        content: '';
         position: fixed;
-        bottom: auto;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%) scale(0.95);
-        flex-direction: column;
-        padding: 0.5rem;
-        gap: 0.25rem;
-        border-radius: var(--r-xl);
-        box-shadow: 0 16px 48px rgba(0,0,0,0.2);
-        min-width: 180px;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.3);
+        z-index: 9998;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.15s ease-out;
     }
 
-    .skill-panel.show {
-        transform: translate(-50%, -50%) scale(1);
+    body.skill-sheet-open::before {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .skill-panel {
+        position: fixed;
+        top: auto;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        flex-direction: column;
+        align-items: stretch;
+        padding: 0.5rem 0.5rem calc(4rem + env(safe-area-inset-bottom, 0px));
+        gap: 0.25rem;
+        min-width: 0;
+        border-radius: var(--r-xl) var(--r-xl) 0 0;
+        border-left: none;
+        border-right: none;
+        border-bottom: none;
+        z-index: 9999;
     }
 
     .skill-btn {
@@ -160,14 +180,6 @@
         font-weight: 500;
         color: var(--ink-600);
         white-space: nowrap;
-    }
-
-    .skill-panel::before {
-        content: '';
-        position: fixed;
-        inset: 0;
-        background: rgba(0,0,0,0.3);
-        z-index: -1;
     }
 }
 
