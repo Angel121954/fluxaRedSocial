@@ -379,7 +379,16 @@
             },
             body: datos,
         })
-            .then(respuesta => respuesta.json().then(data => ({ status: respuesta.status, data })))
+            .then(async respuesta => {
+                const contentType = respuesta.headers.get('content-type') || '';
+                if (!contentType.includes('application/json')) {
+                    if (respuesta.status === 419) throw new Error('La sesión ha expirado. Recarga la página e intenta de nuevo.');
+                    if (respuesta.status === 401 || respuesta.status === 302) { window.location.href = '/login'; return; }
+                    throw new Error('Ocurrió un error inesperado. Inténtalo de nuevo.');
+                }
+                const data = await respuesta.json();
+                return { status: respuesta.status, data };
+            })
             .then(({ status, data }) => {
                 if (status === 422) {
                     mostrarErrorServidor(Object.values(data.errors).flat());

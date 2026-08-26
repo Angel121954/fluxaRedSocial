@@ -25,6 +25,10 @@ class CheckUserActive
                     ? 'Tu cuenta ha sido suspendida.'
                     : 'Tu cuenta está desactivada.';
 
+                if ($request->expectsJson()) {
+                    return response()->json(['message' => $message], 403);
+                }
+
                 return redirect()->route('login')
                     ->withErrors(['email' => $message]);
             }
