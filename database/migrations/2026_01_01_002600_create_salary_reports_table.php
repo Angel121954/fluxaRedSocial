@@ -16,7 +16,7 @@ return new class extends Migration
 
         Schema::create('salary_reports', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->nullOnDelete();
+            $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete();
             $table->string('country', 100);
             $table->string('city', 100)->nullable();
             $table->string('seniority');

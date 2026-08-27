@@ -26,7 +26,7 @@ return new class extends Migration
             $table->string('public_id', 255)->nullable();
             $table->timestamp('read_at')->nullable();
             $table->timestamp('edited_at')->nullable();
-            $table->foreignId('parent_id')->constrained('messages')->cascadeOnDelete();
+            $table->foreignId('parent_id')->nullable()->constrained('messages')->cascadeOnDelete();
             $table->timestamps();
         });
     }

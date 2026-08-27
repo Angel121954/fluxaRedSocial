@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('title', 255);
             $table->text('body');
             $table->string('link', 255)->nullable();
-            $table->foreignId('from_user_id')->constrained('users')->nullOnDelete();
+            $table->foreignId('from_user_id')->nullable()->constrained('users')->nullOnDelete();
             $table->bigInteger('reference_id')->unsigned()->nullable();
             $table->string('reference_type', 255)->nullable();
             $table->boolean('is_read')->default('0');

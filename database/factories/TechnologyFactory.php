@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Technology>
+ * @extends Factory<Technology>
  */
 class TechnologyFactory extends Factory
 {
@@ -17,7 +17,10 @@ class TechnologyFactory extends Factory
 
     public function definition(): array
     {
-        $name = fake()->unique()->programmingLanguage();
+        $name = fake()->unique()->randomElement([
+            'PHP', 'Laravel', 'JavaScript', 'TypeScript', 'Python', 'React', 'Vue',
+            'Docker', 'MySQL', 'PostgreSQL', 'Go', 'Rust', 'Ruby', 'Java', 'Node.js',
+        ]);
 
         return [
             'name' => $name,

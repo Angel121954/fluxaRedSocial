@@ -78,6 +78,8 @@ class ProjectService
                 $resourceType = $media->type === 'video' ? 'video' : 'image';
                 $this->cloudinaryService->delete($media->public_id, $resourceType);
             }
+
+            $media->delete();
         }
 
         $project->delete();

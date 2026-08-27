@@ -38,7 +38,7 @@ return new class extends Migration
             $table->timestamp('github_synced_at')->nullable();
             $table->string('status', 50)->default('activo');
             $table->timestamp('banned_at')->nullable();
-            $table->foreignId('banned_by')->constrained('users')->nullOnDelete();
+            $table->foreignId('banned_by')->nullable()->constrained('users')->nullOnDelete();
             $table->string('ban_reason', 255)->nullable();
             $table->timestamps();
             $table->softDeletes();

@@ -9,7 +9,7 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Profile>
+ * @extends Factory<Profile>
  */
 class ProfileFactory extends Factory
 {
@@ -19,12 +19,11 @@ class ProfileFactory extends Factory
     {
         return [
             'user_id' => User::factory(),
-            'username' => fake()->unique()->userName(),
-            'name' => fake()->name(),
             'avatar' => 'https://api.dicebear.com/7.x/initials/svg?seed='.fake()->name().'&backgroundColor=12b3b6',
             'cover_image' => null,
             'bio' => fake()->optional()->sentence(10),
-            'location' => fake()->city(),
+            'country' => fake()->country(),
+            'city' => fake()->city(),
             'language' => 'es',
             'website_url' => fake()->optional()->url(),
             'github_url' => 'https://github.com/'.fake()->userName(),

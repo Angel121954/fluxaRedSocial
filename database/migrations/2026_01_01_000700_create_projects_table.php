@@ -23,7 +23,7 @@ return new class extends Migration
             $table->integer('likes_count')->unsigned()->default('0');
             $table->integer('comments_count')->unsigned()->default('0');
             $table->integer('shares_count')->unsigned()->default('0');
-            $table->foreignId('parent_id')->constrained('projects');
+            $table->foreignId('parent_id')->nullable()->constrained('projects')->nullOnDelete();
             $table->timestamps();
             $table->softDeletes();
         });

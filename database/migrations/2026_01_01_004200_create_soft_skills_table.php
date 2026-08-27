@@ -17,7 +17,7 @@ return new class extends Migration
         Schema::create('soft_skills', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
-            $table->foreignId('template_id')->constrained('skill_templates')->nullOnDelete();
+            $table->foreignId('template_id')->nullable()->constrained('skill_templates')->nullOnDelete();
             $table->string('name', 100);
             $table->string('category')->default('other');
             $table->tinyInteger('level')->default('3');

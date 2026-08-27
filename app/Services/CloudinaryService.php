@@ -123,7 +123,7 @@ class CloudinaryService
 
     public function getImageUrl(string $publicId): string
     {
-        return $this->cloudinary->image($publicId)->toUrl();
+        return (string) $this->cloudinary->image($publicId)->toUrl();
     }
 
     public function delete(string $publicId, string $resourceType = 'image'): bool
