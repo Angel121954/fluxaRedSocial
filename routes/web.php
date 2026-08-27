@@ -20,6 +20,7 @@ use App\Http\Controllers\Notifications\NotificationController;
 use App\Http\Controllers\Onboarding\OnboardingController;
 use App\Http\Controllers\Pages\AboutFluxaController;
 use App\Http\Controllers\Pages\ContactController;
+use App\Http\Controllers\Pages\LandingController;
 use App\Http\Controllers\Pages\PrivacyPolicyController;
 use App\Http\Controllers\Pages\ProblemReportController;
 use App\Http\Controllers\Pages\TermsController;
@@ -44,11 +45,11 @@ use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
-| Redirección inicial
+| Ruta raíz: landing pública
+| Si el usuario ya tiene sesión, el controlador redirige a la app.
 |--------------------------------------------------------------------------
 */
-
-Route::redirect('/', '/login');
+Route::get('/', LandingController::class)->name('landing');
 
 /*
 |--------------------------------------------------------------------------

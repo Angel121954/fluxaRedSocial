@@ -83,6 +83,7 @@ export default defineConfig({
 
                 // Public
                 "resources/css/public/aboutFluxa.css",
+                "resources/css/public/landing.css",
                 "resources/css/public/terms.css",
                 "resources/css/public/privacyPolicy.css",
                 "resources/css/public/contact.css",
@@ -146,6 +147,9 @@ export default defineConfig({
                 "resources/js/shared/modal.js",
                 "resources/js/shared/emailModalSend.js",
                 "resources/js/shared/reportProblem.js",
+
+                // Public JS
+                "resources/js/public/landing.js",
 
                 "resources/css/core/explore/map.css",
 
