@@ -59,6 +59,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const backdrop = e.target.closest('.modal-backdrop');
         if (backdrop && e.target === backdrop) {
             closeModal(backdrop.id);
+            return;
+        }
+
+        // Imagen modal (profile/mensajes): cerrar al hacer clic fuera de la imagen
+        const imgModal = e.target.closest('.img-modal');
+        if (imgModal && e.target === imgModal) {
+            closeModal(imgModal.id);
         }
     });
 
