@@ -56,6 +56,10 @@
     font-size: var(--text-base);
     color: var(--ink-700);
     line-height: 1.6;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 /* Comments section */
@@ -334,6 +338,28 @@
 
 .btn-comment-submit:disabled:hover {
     background: var(--accent-strong);
+}
+
+/* ─────────────────────────────────────────────────
+   Fix: evitar área gris/espacio vacío al final del modal.
+   El modal-base (x-modal) hace scroll en .modal-body, pero dentro
+   también scrollea .modal-comments (doble scroll). Aquí forzamos
+   el .modal-body del modal de comentarios a ser un contenedor flex
+   sin scroll, dejando el scroll solo en .modal-comments.
+───────────────────────────────────────────────── */
+#commentsModal .modal-body {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding: 0;
+}
+
+#commentsModal .modal-original-post {
+    flex-shrink: 0;
+}
+
+#commentsModal .comment-input-wrap {
+    flex-shrink: 0;
 }
 
 
