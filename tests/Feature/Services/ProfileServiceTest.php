@@ -113,6 +113,22 @@ describe('ProfileService', function () {
             expect($data['groupedTechnologies'])->toHaveKey('language')
                 ->and($data['groupedTechnologies']['language']->pluck('name'))->toContain('PHP');
         });
+
+        it('coloca las tecnologías favoritas primero dentro de su categoría', function () {
+            $user = profUser();
+            $lang = 'language';
+            $alpha = Technology::create(['name' => 'Alpha', 'slug' => 'alpha', 'icon' => 'alpha', 'category' => $lang]);
+            $favorita = Technology::create(['name' => 'Beta', 'slug' => 'beta', 'icon' => 'beta', 'category' => $lang]);
+            $gamma = Technology::create(['name' => 'Gamma', 'slug' => 'gamma', 'icon' => 'gamma', 'category' => $lang]);
+
+            $user->technologies()->attach([$alpha->id, $gamma->id]);
+            $user->technologies()->attach($favorita->id, ['is_favorite' => true]);
+
+            $data = profService()->loadProfileData($user, $user);
+
+            expect($data['groupedTechnologies'][$lang]->pluck('name')->values()->all())
+                ->toBe(['Beta', 'Alpha', 'Gamma']);
+        });
     });
 
     describe('getTimeline', function () {

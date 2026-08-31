@@ -47,7 +47,9 @@ class ProfileService
         $projects = $projects->latest()->get();
 
         $technologies = $user->technologies()
-            ->orderBy('category')->orderBy('name')->get();
+            ->orderBy('category')->orderBy('name')->get()
+            ->sortByDesc(fn ($t) => (bool) ($t->pivot->is_favorite ?? false))
+            ->values();
         $favoriteTechIds = $technologies->filter(fn ($t) => (bool) ($t->pivot->is_favorite ?? false))
             ->pluck('id')
             ->toArray();
