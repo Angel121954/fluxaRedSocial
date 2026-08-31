@@ -50,7 +50,11 @@
     @stack('styles')
 </head>
 
-<body class="font-sans antialiased" data-user-id="{{ auth()->id() }}" @section('body-attributes')@show>
+<body class="font-sans antialiased" data-user-id="{{ auth()->id() }}"
+    @if(request()->routeIs('feed*', 'explore*', 'profile.*'))
+    data-bottom-nav-hide
+    @endif
+    @section('body-attributes')@show>
     @yield('content')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 

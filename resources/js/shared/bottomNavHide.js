@@ -1,10 +1,16 @@
 /**
  * bottomNavHide.js — Oculta/revela la navegación inferior según el scroll
  * Patrón UX "hide-on-scroll": al bajar se oculta, al subir se revela.
- * Solo aplica en móvil (la barra no se muestra en escritorio).
+ * Solo aplica en las vistas marcadas con data-bottom-nav-hide en <body>
+ * (feed, explore, perfil) y únicamente en móvil
+ * (la barra no se muestra en escritorio).
  */
 
 (() => {
+    if (!document.body.hasAttribute('data-bottom-nav-hide')) {
+        return;
+    }
+
     const HIDE_CLASS = 'bottom-nav--hidden';
     const SCROLL_THRESHOLD = 8;
     const NAV = '.bottom-nav';
