@@ -142,11 +142,30 @@
 /* ── Footer ───────────────────────────────────────── */
 .modal-footer {
     display: flex;
+    align-items: center;
     justify-content: flex-end;
-    gap: 0.75rem;
+    flex-wrap: wrap;
+    gap: 0.625rem 0.75rem;
     padding: 1rem 1.5rem 1.25rem;
     border-top: 1px solid var(--border);
     flex-shrink: 0;
+}
+
+/* Los botones del footer no deben encogerse ni truncar su texto.
+   Si no caben en una línea, saltan a la siguiente (flex-wrap). */
+.modal-footer .btn,
+.modal-footer > * {
+    flex-shrink: 0;
+}
+
+/* Footer con área de comentarios: el input ocupa todo el ancho. */
+.modal-footer:has(.comment-input-wrap) {
+    justify-content: stretch;
+}
+
+.modal-footer:has(.comment-input-wrap) .comment-input-wrap {
+    flex: 1;
+    min-width: 0;
 }
 
 /* ── Success state ────────────────────────────────── */
@@ -367,5 +386,35 @@
     .modal-close {
         width: 44px;
         height: 44px;
+    }
+
+    .modal-footer {
+        padding: 0.875rem 1.25rem calc(1.125rem + env(safe-area-inset-bottom, 0px));
+        align-items: stretch;
+    }
+
+    /* Footer con botones de acción: en móvil se apila en columna,
+       la acción principal (primario) ocupa todo el ancho. */
+    .modal-footer .btn {
+        flex: none;
+        width: auto;
+        min-height: 2.75rem;
+        padding: 0.625rem 1.125rem;
+        white-space: normal;
+    }
+
+    .modal-footer:has(.btn-primary) {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .modal-footer:has(.btn-primary) .btn-primary {
+        order: -1;
+        width: 100%;
+    }
+
+    /* Footer con solo botón secundario o cancel: se centran */
+    .modal-footer:has(> .btn:only-child) {
+        justify-content: center;
     }
 }
