@@ -140,6 +140,7 @@ export default defineConfig({
                 // Shared JS
                 "resources/js/shared/topbar.js",
                 "resources/js/shared/toast.js",
+                "resources/js/shared/bottomNavHide.js",
                 "resources/js/shared/passwordVisibility.js",
                 "resources/js/shared/securePassword.js",
                 "resources/js/shared/security.js",

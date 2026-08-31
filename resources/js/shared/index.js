@@ -17,3 +17,4 @@ import '../notifications/realtime.js';
 import './liveTime.js';
 import './userBanned.js';
 import './theme.js';
+import './bottomNavHide.js';
