@@ -13,6 +13,8 @@ use Illuminate\Support\Collection;
 
 class CVService
 {
+    public const VISUAL_PDF_MARGINS = [12, 10, 14, 10];
+
     public function __construct(
         protected CvDataService $cvData,
         protected CvPdfGenerator $pdfGenerator,
@@ -27,7 +29,7 @@ class CVService
 
     public function generatePdf(string $html): string
     {
-        return $this->pdfGenerator->generate($html);
+        return $this->pdfGenerator->generate($html, self::VISUAL_PDF_MARGINS);
     }
 
     public function wrapHtml(string $content): string

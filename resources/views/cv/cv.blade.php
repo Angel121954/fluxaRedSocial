@@ -207,7 +207,7 @@
                 <aside class="cv-preview-panel">
                     <h2 class="cv-preview-panel__title">Vista previa del CV</h2>
 
-                    {{-- ── PDF Visual (diseño clásico: dos columnas) ── --}}
+                    {{-- ── PDF Visual (diseño de una columna) ── --}}
                     <div class="cv-preview-card cv-preview-format cvp-visual" id="previewPdf" data-format="pdf">
                         <div class="cvp-visual__header">
                             <div class="cvp-visual__avatar" id="cvpAvatar" style="{{ ($cvSettings['show_photo'] ?? true) ? '' : 'display:none' }}"></div>
@@ -217,37 +217,27 @@
                                 <div class="cvp-visual__role">{{ $profile->user->role ?? 'Software' }} Developer</div>
                             </div>
                         </div>
-                        <div class="cvp-visual__body">
-                            <div class="cvp-visual__sidebar">
-                                <div class="cvp-visual__sb-title">Contacto</div>
-                                <div class="cvp-visual__sb-line"></div>
-                                <div class="cvp-visual__sb-line cvp-visual__sb-line--short"></div>
-                                <div class="cvp-visual__sb-divider"></div>
-                                <div class="cvp-visual__sb-title">Tecnologías</div>
-                                <div class="cvp-visual__sb-grid">
-                                    <div class="cvp-visual__sb-dot"></div>
-                                    <div class="cvp-visual__sb-dot"></div>
-                                    <div class="cvp-visual__sb-dot"></div>
-                                    <div class="cvp-visual__sb-dot"></div>
-                                </div>
-                            </div>
-                            <div class="cvp-visual__content">
-                                <div class="cvp-visual__bio-line"></div>
-                                <div class="cvp-visual__bio-line cvp-visual__bio-line--short"></div>
-                                <div class="cvp-sections" id="cvpSections">
-                                    @foreach($cvSettings['section_order'] as $sec)
-                                    <div class="cvp-section" data-section="{{ $sec }}" id="cvp{{ ucfirst($sec) }}">
-                                        <div class="cvp-section__title">{{ ['experience' => 'Experiencia Laboral', 'projects' => 'Proyectos', 'education' => 'Educación', 'skills' => 'Habilidades'][$sec] }}</div>
-                                        <div class="cvp-skeleton-group">
-                                            <div class="cvp-skeleton cvp-skeleton--sm"></div>
-                                            <div class="cvp-skeleton"></div>
-                                            <div class="cvp-skeleton cvp-skeleton--md"></div>
-                                            <div class="cvp-skeleton cvp-skeleton--sm"></div>
-                                            <div class="cvp-skeleton"></div>
-                                        </div>
+                        <div class="cvp-visual__contact">
+                            <span class="cvp-visual__chip"></span>
+                            <span class="cvp-visual__chip cvp-visual__chip--sm"></span>
+                            <span class="cvp-visual__chip"></span>
+                        </div>
+                        <div class="cvp-visual__content">
+                            <div class="cvp-visual__bio-line"></div>
+                            <div class="cvp-visual__bio-line cvp-visual__bio-line--short"></div>
+                            <div class="cvp-sections" id="cvpSections">
+                                @foreach($cvSettings['section_order'] as $sec)
+                                <div class="cvp-section" data-section="{{ $sec }}" id="cvp{{ ucfirst($sec) }}">
+                                    <div class="cvp-section__title">{{ ['experience' => 'Experiencia Laboral', 'projects' => 'Proyectos', 'education' => 'Educación', 'skills' => 'Habilidades'][$sec] }}</div>
+                                    <div class="cvp-skeleton-group">
+                                        <div class="cvp-skeleton cvp-skeleton--sm"></div>
+                                        <div class="cvp-skeleton"></div>
+                                        <div class="cvp-skeleton cvp-skeleton--md"></div>
+                                        <div class="cvp-skeleton cvp-skeleton--sm"></div>
+                                        <div class="cvp-skeleton"></div>
                                     </div>
-                                    @endforeach
                                 </div>
+                                @endforeach
                             </div>
                         </div>
                     </div>

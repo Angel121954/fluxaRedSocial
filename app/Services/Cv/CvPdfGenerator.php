@@ -8,7 +8,7 @@ use Spatie\Browsershot\Browsershot;
 
 class CvPdfGenerator
 {
-    public function generate(string $html): string
+    public function generate(string $html, array $margins = [0, 0, 0, 0]): string
     {
         return Browsershot::html($html)
             ->setNodeBinary(config('browsershot.node_binary', '/usr/bin/node'))
@@ -19,7 +19,7 @@ class CvPdfGenerator
             ->timeout((int) config('browsershot.timeout', 120))
             ->waitUntilNetworkIdle()
             ->format('A4')
-            ->margins(0, 0, 0, 0)
+            ->margins($margins[0] ?? 0, $margins[1] ?? 0, $margins[2] ?? 0, $margins[3] ?? 0)
             ->pdf();
     }
 
@@ -30,7 +30,7 @@ class CvPdfGenerator
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <style>* { margin:0; padding:0; box-sizing:border-box; } body { background:#f8fafc; }</style>
+    <style>* { margin:0; padding:0; box-sizing:border-box; } body { background:#ffffff; }</style>
 </head>
 <body>'.$content.'</body>
 </html>';
