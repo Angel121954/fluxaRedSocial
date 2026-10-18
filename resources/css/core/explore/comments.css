@@ -1,7 +1,7 @@
 /* ─────────────────────────────────────────────────
    COMMENTS MODAL
 ───────────────────────────────────────────────── */
-.comments-modal .modal-content {
+#commentsModal .modal-card {
     max-width: 640px;
     box-shadow:
         0 24px 64px rgba(0, 0, 0, 0.2),
@@ -234,7 +234,7 @@
 }
 
 /* Comment input */
-.comments-modal .modal-footer {
+#commentsModal .modal-footer {
     display: block;
     padding: 1rem 1.5rem;
     border-top: 1px solid var(--border);
