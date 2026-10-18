@@ -236,7 +236,7 @@ Todas las vistas se diseñan primero para mobile. Los breakpoints añaden layout
 - Sidebar navigation → bottom tab bar en mobile
 - Tablas de datos → cards verticales en mobile
 - Grid de proyectos: 1 col mobile, 2 col tablet, 3-4 col desktop
-- Modales → fullscreen en mobile, centered dialog en desktop
+- Modales → bottom sheet en mobile (anclado abajo, ancho completo, esquinas superiores redondeadas, slide-up), centered dialog en desktop
 - Listas de contenido en móvil (feed, explore, notificaciones): patrón full-bleed — bloques a ancho completo sin bordes laterales ni border-radius, separados por gap de ~8px; la media sangra edge-to-edge. El gutter (16px) solo lo conservan headers, tabs y filtros
 
 ---
@@ -281,6 +281,7 @@ Todas las vistas se diseñan primero para mobile. Los breakpoints añaden layout
 - Primer foco: en el primer input o botón de acción
 - Scroll: `overflow-y: auto` si el contenido excede viewport, pero `body` no scrolea detrás
 - No anidar modales — si se necesita, reemplazar el contenido del actual
+- Móvil (`max-width: 640px`): todo modal se presenta como bottom sheet — anclado al inferior, ancho completo, esquinas superiores de 20px, `max-height: 92dvh` y slide-up desde abajo. La base compartida vive en `resources/css/shared/modal-sheet.css`
 
 ### Plantilla
 ```blade

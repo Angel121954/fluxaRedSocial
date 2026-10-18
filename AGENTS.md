@@ -158,6 +158,7 @@ La solución más simple que funciona es la mejor. No agregar capas de indirecci
 - No hardcodear colores hex — usar siempre los tokens de `variables.css` o clases Tailwind basadas en tokens
 - Animaciones: preferir `transform` y `opacity` (compositor-friendly) sobre `width`, `height`, `top`, `left`
 - Transiciones: máximo 200-300ms, con `ease-out` o `ease-in-out`
+- Modales: en móvil (`max-width: 640px`) se presentan como bottom sheet — base compartida en `resources/css/shared/modal-sheet.css`, cargada al final del `<head>`
 
 ### Testing (PestPHP)
 - `describe()` para agrupar tests relacionados, `it()` para cada caso individual
