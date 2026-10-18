@@ -48,6 +48,7 @@
     @endauth
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
     @stack('styles')
+    @vite('resources/css/shared/modal-sheet.css')
 </head>
 
 <body class="font-sans antialiased" data-user-id="{{ auth()->id() }}"

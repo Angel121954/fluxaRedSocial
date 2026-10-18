@@ -1,0 +1,54 @@
+/* ═══════════════════════════════════════════════════════════
+   resources/css/shared/modal-sheet.css
+   Convención móvil: todo modal se presenta como bottom sheet.
+
+   Se carga después de los CSS de cada feature para imponerse
+   sobre los estilos base de los modales legacy.
+   Depende de: variables.css (cargado antes)
+   ═══════════════════════════════════════════════════════════ */
+
+@media (max-width: 640px) {
+    /* ── Backdrops ─────────────────────────────────── */
+    .modal-backdrop,
+    .we-backdrop,
+    .pwd-modal-backdrop,
+    .salary-modal-backdrop,
+    #modal-overlay,
+    #edit-modal-overlay,
+    #jobOfferOverlay {
+        align-items: flex-end;
+        justify-content: center;
+        padding: 0;
+    }
+
+    /* ── Cards ─────────────────────────────────────── */
+    .modal-card,
+    .we-modal,
+    .pwd-modal,
+    .salary-modal,
+    #modal-card,
+    #edit-modal-card,
+    #jobOfferCard {
+        width: 100%;
+        max-width: 100%;
+        max-height: 92vh;
+        max-height: 92dvh;
+        border-radius: 20px 20px 0 0;
+        transform: translateY(100%);
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    /* ── Estado abierto: se desliza desde abajo ─────── */
+    .modal-backdrop.is-open > .modal-card,
+    .modal-backdrop.show > .modal-card,
+    .we-backdrop.is-open > .we-modal,
+    .pwd-modal-backdrop.is-open > .pwd-modal,
+    .salary-modal-backdrop.is-open > .salary-modal,
+    #modal-overlay.open > #modal-card,
+    #edit-modal-overlay.open > #edit-modal-card,
+    #jobOfferOverlay.open > #jobOfferCard {
+        transform: translateY(0) scale(1);
+    }
+}

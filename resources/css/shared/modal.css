@@ -353,24 +353,6 @@
 /* ── Responsive ───────────────────────────────────── */
 
 @media (max-width: 640px) {
-    .modal-backdrop {
-        padding: 0;
-        align-items: flex-end;
-    }
-
-    .modal-card {
-        max-width: 100%;
-        max-height: 92vh;
-        border-radius: 16px 16px 0 0;
-        transform: translateY(40px) scale(1);
-        padding-bottom: env(safe-area-inset-bottom, 0px);
-    }
-
-    .modal-backdrop.is-open .modal-card,
-    .modal-backdrop.show .modal-card {
-        transform: translateY(0) scale(1);
-    }
-
     .modal-header {
         padding: 1rem 1.25rem 0.75rem;
     }
