@@ -225,6 +225,7 @@ export default defineConfig({
                 "resources/js/admin/suggestions/table.js",
                 "resources/js/admin/suggestions/detailModal.js",
                 "resources/js/admin/content/index.js",
+                "resources/js/admin/reports/index.js",
             ],
             refresh: true,
         }),
