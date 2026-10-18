@@ -21,16 +21,13 @@ import { showToast } from '../shared/toast.js';
     const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') ?? '';
     const isMobile  = () => window.innerWidth <= 680;
 
-    /* ── Overlay en móvil ──────────────────────────── */
+    /* ── En móvil, un tap sobre el avatar abre la foto completa ── */
     avatarWrap.addEventListener('click', (e) => {
-        if (isMobile() && (e.target === avatarWrap || e.target === avatarImg)) {
-            avatarWrap.classList.toggle('active');
-        }
-    });
-
-    document.addEventListener('click', (e) => {
-        if (isMobile() && !avatarWrap.contains(e.target)) {
-            avatarWrap.classList.remove('active');
+        if (!isMobile()) return;
+        // Los botones del overlay y los elementos con su propio manejador (btnView) no abren aquí
+        if (e.target.closest('.av-btn') || e.target.closest('.btnView')) return;
+        if (imgModal) {
+            window.openModal('imgModal');
         }
     });
 
@@ -38,7 +35,6 @@ import { showToast } from '../shared/toast.js';
     if (btnCam && fileIn) {
         btnCam.addEventListener('click', (e) => {
             e.stopPropagation();
-            avatarWrap.classList.remove('active');
             fileIn.click();
         });
 
@@ -143,7 +139,6 @@ import { showToast } from '../shared/toast.js';
     if (btnView && imgModal) {
         btnView.addEventListener('click', (e) => {
             e.stopPropagation();
-            avatarWrap.classList.remove('active');
             window.openModal('imgModal');
         });
     }

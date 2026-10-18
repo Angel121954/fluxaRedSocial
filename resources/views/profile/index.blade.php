@@ -15,7 +15,7 @@
         <div class="profile-inner">
             <div class="profile-row">
                 <!-- Avatar -->
-                <div class="avatar-wrap" id="avatarWrap">
+                <div class="avatar-wrap{{ (isset($isOwner) && $isOwner) ? ' is-owner' : '' }}" id="avatarWrap">
                     <img
                         src="{{ str_replace('type=normal', 'type=large', $user->avatar_url) }}"
                         alt="{{ $user->username }}"

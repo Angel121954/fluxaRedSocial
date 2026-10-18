@@ -99,8 +99,7 @@
     z-index: 10;
 }
 
-.avatar-wrap:hover .avatar-overlay,
-.avatar-wrap.active .avatar-overlay {
+.avatar-wrap:hover .avatar-overlay {
     opacity: 1;
     transform: translateY(0);
 }
@@ -128,6 +127,43 @@
     width: 14px;
     height: 14px;
     stroke-width: 2.5;
+}
+
+/* ─── Móvil: el tap abre la foto; el dueño conserva el botón de cambiar foto ─── */
+@media (max-width: 680px) {
+    .avatar-wrap .avatar-overlay {
+        display: none;
+    }
+
+    .avatar-wrap.is-owner .avatar-overlay {
+        display: flex;
+        opacity: 1;
+        transform: none;
+        background: none;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        align-items: flex-end;
+        justify-content: center;
+        padding-bottom: 2px;
+    }
+
+    .avatar-wrap.is-owner .avatar-overlay .btnView {
+        display: none;
+    }
+
+    .avatar-wrap.is-owner .avatar-overlay .av-btn {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: var(--accent-strong);
+        color: #fff;
+        border: 2px solid var(--surface);
+    }
+
+    .avatar-wrap.is-owner .avatar-overlay .av-btn svg {
+        width: 12px;
+        height: 12px;
+    }
 }
 
 .verify-pip {
