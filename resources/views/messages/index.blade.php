@@ -72,8 +72,8 @@
                                     {{ $lastMsg ? $lastMsg->created_at->diffForHumans(null, true, true) : '' }}
                                 </span>
                             </div>
-                            @if($otherChat->profile?->role ?? $otherChat->profile?->headline ?? false)
-                            <span class="msgs-conv-role">{{ $otherChat->profile->role ?? $otherChat->profile->headline }}</span>
+                            @if($otherChat->profile?->specialty)
+                            <span class="msgs-conv-role">{{ $otherChat->profile->specialty }}</span>
                             @endif
                             <div class="msgs-conv-row-bottom">
                                 <span class="msgs-conv-preview">

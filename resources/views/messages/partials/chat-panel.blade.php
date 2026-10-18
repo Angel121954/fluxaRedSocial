@@ -23,7 +23,7 @@
                     @endif
                 </a>
                 <span class="msgs-chat-header-sub" id="msgsHeaderSub">
-                    {{ $otherUser->profile->role ?? $otherUser->profile->headline ?? '@'.$otherUser->username }}
+                    {{ $otherUser->profile->specialty ?? '@'.$otherUser->username }}
                     <span class="msgs-online-sep" id="msgsOnlineSep" style="display:none"> • </span>
                     <span class="msgs-online-label" id="msgsOnlineLabel" style="display:none">En línea</span>
                 </span>

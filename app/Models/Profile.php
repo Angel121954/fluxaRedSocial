@@ -11,6 +11,15 @@ class Profile extends Model
 {
     use HasFactory;
 
+    public const SPECIALTIES = [
+        'frontend',
+        'backend',
+        'fullstack',
+        'devops',
+        'mobile',
+        'data',
+    ];
+
     protected $fillable = [
         'user_id',
         'username',
@@ -18,6 +27,7 @@ class Profile extends Model
         'avatar',
         'cover_image',
         'bio',
+        'specialty',
         'country',
         'city',
         'language',

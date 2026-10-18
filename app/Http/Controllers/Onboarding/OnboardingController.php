@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Onboarding;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Onboarding\StoreAccountTypeRequest;
 use App\Http\Requests\Onboarding\StoreBioRequest;
+use App\Http\Requests\Onboarding\StoreRoleRequest;
 use App\Models\Technology;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -21,7 +22,7 @@ class OnboardingController extends Controller
 
     public function saveAccountType(StoreAccountTypeRequest $request)
     {
-        /** @var \App\Models\User $user */
+        /** @var User $user */
         $user = Auth::user();
         $user->update(['account_type' => $request->account_type]);
 
@@ -47,7 +48,7 @@ class OnboardingController extends Controller
 
     public function saveTechnologies(Request $request)
     {
-        /** @var \App\Models\User $user */
+        /** @var User $user */
         $user = Auth::user();
         $user->technologies()->sync($request->technologies ?? []);
 
@@ -59,14 +60,14 @@ class OnboardingController extends Controller
         return view('onboarding.role');
     }
 
-    public function saveRole(Request $request)
+    public function saveRole(StoreRoleRequest $request)
     {
-        /** @var \App\Models\User $user */
+        /** @var User $user */
         $user = Auth::user();
         if (! $user) {
             return redirect()->route('login');
         }
-        $user->update(['role' => $request->role]);
+        $user->profile()->update(['specialty' => $request->role]);
 
         return redirect()->route('onboarding.bio');
     }
@@ -78,7 +79,7 @@ class OnboardingController extends Controller
 
     public function saveBio(StoreBioRequest $request)
     {
-        /** @var \App\Models\User $user */
+        /** @var User $user */
         $user = Auth::user();
         if (! $user) {
             return redirect()->route('login');
@@ -93,12 +94,12 @@ class OnboardingController extends Controller
 
     public function suggestions()
     {
-        /** @var \App\Models\User $user */
+        /** @var User $user */
         $user = Auth::user();
 
         $suggested = User::where('users.id', '!=', $user->id)
             ->join('profiles', 'profiles.user_id', '=', 'users.id')
-            ->select('users.id', 'users.name', 'users.username', 'users.role', 'profiles.avatar')
+            ->select('users.id', 'users.name', 'users.username', 'profiles.specialty', 'profiles.avatar')
             ->inRandomOrder()
             ->take(6)
             ->get();
@@ -108,7 +109,7 @@ class OnboardingController extends Controller
 
     public function saveSuggestions(Request $request)
     {
-        /** @var \App\Models\User $user */
+        /** @var User $user */
         $user = Auth::user();
 
         if (! $user) {

@@ -22,6 +22,7 @@ class ProfileFactory extends Factory
             'avatar' => 'https://api.dicebear.com/7.x/initials/svg?seed='.fake()->name().'&backgroundColor=12b3b6',
             'cover_image' => null,
             'bio' => fake()->optional()->sentence(10),
+            'specialty' => fake()->randomElement(Profile::SPECIALTIES),
             'country' => fake()->country(),
             'city' => fake()->city(),
             'language' => 'es',

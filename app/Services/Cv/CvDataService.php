@@ -82,8 +82,8 @@ class CvDataService
         $qrBase64 = Cache::store('redis')->remember('cv_qr_'.$user->id, 86400, fn () => $this->generateQrCode('https://'.$urlPerfil)
         );
 
-        $rolProfesional = $user->role
-            ? ucfirst($user->role).' Developer'
+        $rolProfesional = $profile->specialty
+            ? ucfirst($profile->specialty).' Developer'
             : 'Software Developer';
 
         $estadisticas = [

@@ -38,8 +38,8 @@
                         <span class="user-name">{{ $dev->name }}</span>
                         <div class="user-meta">
                             <span class="user-handle">&#64;{{ $dev->username }}</span>
-                            @if($dev->role)
-                            <span class="user-tag">{{ ucfirst($dev->role) }}</span>
+                            @if($dev->specialty)
+                            <span class="user-tag">{{ ucfirst($dev->specialty) }}</span>
                             @endif
                         </div>
                     </div>
