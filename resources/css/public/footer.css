@@ -2,7 +2,7 @@
    FOOTER
 ══════════════════════════════════════════════════════════ */
 .footer {
-    background: var(--bg-white);
+    background: var(--surface);
     border-top: 1px solid var(--border);
     padding: 2rem 1.5rem;
 }
@@ -70,7 +70,7 @@
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    background: var(--bg-primary);
+    background: var(--bg);
     border: 1px solid var(--border);
     color: var(--ink-600);
     transition: all 0.2s ease;
