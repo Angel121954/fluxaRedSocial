@@ -138,6 +138,8 @@ class ProjectController extends Controller
 
     public function like(Project $project)
     {
+        $this->authorize('view', $project);
+
         $result = $this->projectService->toggleLike($project, Auth::id());
 
         return response()->json($result);
@@ -145,6 +147,8 @@ class ProjectController extends Controller
 
     public function bookmark(Project $project)
     {
+        $this->authorize('view', $project);
+
         $result = $this->projectService->toggleBookmark($project, Auth::id());
 
         return response()->json($result);
@@ -152,6 +156,8 @@ class ProjectController extends Controller
 
     public function report(StoreProjectReportRequest $request, Project $project)
     {
+        $this->authorize('view', $project);
+
         $repeatedReport = ProjectReport::where('project_id', $project->id)
             ->where('user_id', Auth::id())->first();
 
@@ -174,6 +180,7 @@ class ProjectController extends Controller
 
     public function endorse(StoreEndorsementRequest $request, Project $project)
     {
+        $this->authorize('view', $project);
 
         try {
             $result = $this->projectService->endorseProject(

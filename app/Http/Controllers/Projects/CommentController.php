@@ -59,6 +59,8 @@ class CommentController extends Controller
 
     public function index(Project $project)
     {
+        $this->authorize('view', $project);
+
         $comments = $project->comments()
             ->whereNull('parent_id')
             ->with(['user', 'children.user', 'children.likes', 'likes'])
