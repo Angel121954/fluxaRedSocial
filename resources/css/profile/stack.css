@@ -47,6 +47,20 @@
     height: 16px;
 }
 
+/* No favorito: contorno fino (menos ruido visual). Favorito: relleno sólido */
+button.stack-card-heart svg {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+}
+
+button.stack-card-heart.is-favorite svg {
+    fill: currentColor;
+    stroke: none;
+}
+
 /* Non-owner: solo se renderiza en favoritas, siempre visible */
 span.stack-card-heart {
     opacity: 1;
@@ -84,6 +98,41 @@ button.stack-card-heart:hover {
 
 button.stack-card-heart.is-favorite:hover {
     color: #0d8e91;
+}
+
+/* Táctil: sin hover, el corazón queda visible en la esquina superior derecha */
+@media (hover: none), (pointer: coarse) {
+    button.stack-card-heart {
+        opacity: 1;
+        top: -8px;
+        right: -8px;
+        width: 34px;
+        height: 34px;
+        color: var(--ink-400);
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
+    }
+
+    button.stack-card-heart svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    /* Sin hover real: el tap no debe dejar estados ni tamaños pegados */
+    .stack-card:hover {
+        border-color: var(--border);
+        box-shadow: none;
+    }
+
+    button.stack-card-heart:hover {
+        color: var(--ink-400);
+        transform: none;
+    }
+
+    button.stack-card-heart.is-favorite,
+    button.stack-card-heart.is-favorite:hover {
+        color: var(--accent-text);
+    }
 }
 
 .stack-icon {
