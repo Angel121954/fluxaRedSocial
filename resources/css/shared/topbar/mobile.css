@@ -366,6 +366,11 @@
         color: var(--accent-dark);
     }
 
+    /* Botón "Instalar app": oculto solo cuando se fuerza desde el JS (standalone) */
+    #installPwa.hidden {
+        display: none;
+    }
+
     /* Acción de peligro (guest: "Salir") */
     .mobile-menu-danger {
         color: var(--danger);

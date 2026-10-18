@@ -110,6 +110,11 @@
     background: var(--accent-dim);
 }
 
+/* Ocultar botón de instalación cuando se fuerza desde el JS (ya instalado) */
+#installPwaDesktop.hidden {
+    display: none;
+}
+
 /* Flechita superior del dropdown */
 .nav-dropdown-menu::before {
     content: "";

@@ -155,6 +155,12 @@
                         role="menuitem">
                         Reportar problema
                     </button>
+                    <button type="button"
+                        id="installPwaDesktop"
+                        class="nav-dropdown-item"
+                        role="menuitem">
+                        Instalar app
+                    </button>
                 </div>
             </div>
             <button
@@ -235,6 +241,17 @@
         {{-- Links de navegación --}}
         @auth
         @if(Auth::user()->role !== 'guest')
+        <button
+            type="button"
+            id="installPwa"
+            class="mobile-menu-link"
+            aria-label="Instalar Fluxa">
+            <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+            </svg>
+            Instalar app
+        </button>
+
         <a href="{{ route('diary.index') }}"
             class="mobile-menu-link {{ request()->routeIs('diary*') ? 'active' : '' }}"
             @if(request()->routeIs('diary*')) aria-current="page" @endif>

@@ -29,7 +29,9 @@
 
     <title>@yield('title', 'Fluxa')</title>
     <link rel="icon" type="image/png" href="{{ asset('img/favicon.png') }}">
-    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link rel="manifest" href="{{ asset('manifest.webmanifest') }}">
+    <meta name="theme-color" content="#12b3b6">
+    <link rel="apple-touch-icon" href="{{ asset('img/favicons/favicon-180.png') }}">
     <script>
         /* Tema: se aplica antes de pintar para evitar flash (FOUC).
            Persistido en localStorage; sin preferencia guardada, fondo blanco por defecto.
