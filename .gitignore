@@ -6,7 +6,8 @@
 /storage/*.key
 /vendor
 .env
-.env.backup
+.env.*
+!.env.example
 .env.production
 .phpunit.result.cache
 Homestead.json
@@ -23,3 +24,12 @@ yarn-error.log
 TOUCH_EVENTS.md
 OPTIMISTIC_VS_IDEMPOTENCIA.md
 UX_TERMS.md
+
+# Infraestructura de despliegue (solo en el servidor)
+/Dockerfile
+/.dockerignore
+/docker-compose.prod.yml
+/docker/nginx.conf
+/docker/php.ini
+/deploy.sh
+/cleanup.sh
