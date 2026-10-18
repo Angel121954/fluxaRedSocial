@@ -11,6 +11,10 @@
     color: var(--ink-600);
 }
 
+.github-import-status.hidden {
+    display: none;
+}
+
 .github-spinner {
     width: 20px;
     height: 20px;
