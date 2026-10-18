@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\DiaryController as AdminDiaryController;
 use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\ContentController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\Api\MapController;
 use App\Http\Controllers\Auth\GuestController;
 use App\Http\Controllers\Auth\SocialAuthController;
 use App\Http\Controllers\Diary\DiaryController;
@@ -314,6 +315,9 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
 
     Route::get('/explore/map', [ExploreController::class, 'map'])
         ->name('explore.map');
+
+    Route::get('/explore/map/users', [MapController::class, 'users'])
+        ->name('explore.map.users');
 
     /* Route::get('/salaries', [SalaryController::class, 'index'])
         ->name('salaries.index');

@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         try {
-            const response = await fetch('/api/map/users', {
+            const response = await fetch('/explore/map/users', {
                 headers: { Accept: 'application/json' },
                 credentials: 'same-origin',
             });

@@ -12,9 +12,7 @@ class MapController extends Controller
 {
     public function users()
     {
-        $blockedIds = Auth::check()
-            ? Auth::user()->blockedUsers()->pluck('blocked_id')
-            : collect();
+        $blockedIds = Auth::user()->blockedUsers()->pluck('blocked_id');
 
         $users = User::whereHas('profile', fn ($q) => $q
             ->whereNotNull('latitude')
