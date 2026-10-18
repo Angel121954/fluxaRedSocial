@@ -74,8 +74,9 @@
 
     :is(.modal-backdrop, .we-backdrop, .pwd-modal-backdrop, .salary-modal-backdrop,
         #modal-overlay, #edit-modal-overlay, #jobOfferOverlay)
-        :is(input, select, textarea):not([type="checkbox"]):not([type="radio"]) {
+        :is(input, select, textarea):not([type="checkbox"]):not([type="radio"]):not(#codeInput2FA) {
         padding-top: 0.5625rem;
         padding-bottom: 0.5625rem;
+        font-size: 16px;
     }
 }

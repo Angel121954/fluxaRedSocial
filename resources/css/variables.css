@@ -213,6 +213,49 @@ label,
     }
 }
 
+/* ─── Touch targets mínimos (solo móvil) ────────────────
+   Sube el área táctil sin alterar el tamaño visual en
+   desktop. Los controles con ícono mantienen su aspecto,
+   solo ganan área de toque. */
+@media (max-width: 768px) {
+    /* Acciones y navegación: 44px */
+    .mobile-menu-btn,
+    .mobile-menu-link,
+    .msgs-send-btn,
+    .msgs-back-btn,
+    .btn-follow,
+    .btn-message,
+    .btn-link,
+    .sec-btn,
+    .btn-cancel,
+    .btn-submit,
+    .btn-save,
+    .tab,
+    .feed-tab {
+        min-height: 44px;
+    }
+
+    .mobile-menu-btn,
+    .msgs-send-btn,
+    .msgs-back-btn {
+        min-width: 44px;
+    }
+
+    /* Chips y hashtags: 36px, cómodos sin verse voluminosos */
+    .f-pill,
+    .filter-chip,
+    .topic-pill {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 36px;
+    }
+
+    .topic-pill {
+        font-size: var(--text-sm);
+    }
+}
+
 /* ─── Utilidades responsive globales ─────────────────── */
 .hide-desktop {
     display: none !important;
