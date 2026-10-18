@@ -255,20 +255,20 @@ class ProfileController extends Controller
     {
         $user = request()->user();
 
-        $alreadyFav = $user->technologies()
-            ->wherePivot('is_favorite', true)
-            ->where('technology_id', '!=', $technology->id)
-            ->count();
-
         $isCurrentlyFav = $user->technologies()
             ->wherePivot('is_favorite', true)
             ->where('technology_id', $technology->id)
             ->exists();
 
-        if (! $isCurrentlyFav && $alreadyFav >= 3 && $user->role != 'admin') {
+        $favoritesInCategory = $user->technologies()
+            ->wherePivot('is_favorite', true)
+            ->where('technologies.category', $technology->category)
+            ->count();
+
+        if (! $isCurrentlyFav && $favoritesInCategory >= 2 && $user->role != 'admin') {
             return response()->json([
                 'success' => false,
-                'message' => 'Solo puedes tener hasta 3 tecnologías destacadas como desarrollador',
+                'message' => 'Solo puedes destacar hasta 2 tecnologías por categoría',
             ], 422);
         }
 
