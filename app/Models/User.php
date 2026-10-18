@@ -34,6 +34,12 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'email',
+        'provider_id',
+        'github_token',
+        'github_refresh_token',
+        'github_token_expires_at',
+        'banned_by',
     ];
 
     protected $casts = [
