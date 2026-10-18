@@ -44,7 +44,7 @@
     --border-strong: rgba(0, 0, 0, 0.12);
 
     /* ─── Tipografía ─────────────────────────────────────── */
-    --mono: "JetBrains Mono", monospace;
+    --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     --text-xs: 0.75rem;     /* 12px — tags, badges, timestamps */
     --text-sm: 0.8125rem;   /* 13px — handles, hints, metadata */
     --text-base: 0.875rem;  /* 14px — body, buttons, forms ← BASE */

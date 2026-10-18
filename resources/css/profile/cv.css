@@ -443,7 +443,7 @@
    VISTA PREVIA — PDF VISUAL (UNA COLUMNA)
 ══════════════════════════════════════════════════════════ */
 .cvp-visual {
-    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Liberation Sans', Arial, system-ui, sans-serif;
 }
 
 .cvp-visual__header {

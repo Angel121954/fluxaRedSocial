@@ -51,7 +51,7 @@ $cvLocation = trim(($profile->city ?? '') . ', ' . ($profile->country ?? ''), ' 
         margin: 0 auto;
         background: #ffffff;
         color: var(--cv-ink);
-        font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Liberation Sans', Arial, system-ui, sans-serif;
         font-size: 11px;
         line-height: 1.5;
         -webkit-print-color-adjust: exact;
