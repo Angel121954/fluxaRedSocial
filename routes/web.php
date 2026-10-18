@@ -54,6 +54,14 @@ Route::get('/', LandingController::class)->name('landing');
 
 /*
 |--------------------------------------------------------------------------
+| Perfil público: accesible sin sesión (enlaces compartidos)
+|--------------------------------------------------------------------------
+*/
+Route::get('/profile/{username}', [ProfileController::class, 'show'])
+    ->name('profile.show');
+
+/*
+|--------------------------------------------------------------------------
 | Invitado
 |--------------------------------------------------------------------------
 */
@@ -360,9 +368,6 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
         */
         Route::get('/profile', [ProfileController::class, 'index'])
             ->name('profile.index');
-
-        Route::get('/profile/{username}', [ProfileController::class, 'show'])
-            ->name('profile.show');
 
         Route::post('/profile/avatar', [ProfileController::class, 'updateAvatar'])
             ->name('profile.avatar');

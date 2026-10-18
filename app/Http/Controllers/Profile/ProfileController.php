@@ -20,6 +20,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Throwable;
@@ -56,7 +57,9 @@ class ProfileController extends Controller
             ->firstOrFail();
         $profile = $user->profile;
 
-        $this->authorize('view', $profile);
+        if (Gate::denies('view', $profile)) {
+            abort(Auth::guest() ? 404 : 403);
+        }
 
         $user->loadCount(['followers', 'follows']);
         $isOwner = Auth::id() === $user->id;

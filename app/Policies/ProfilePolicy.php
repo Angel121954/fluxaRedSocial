@@ -10,10 +10,13 @@ use Illuminate\Auth\Access\Response;
 
 class ProfilePolicy
 {
-    public function view(User $user, Profile $profile): bool
+    public function view(?User $user, Profile $profile): bool
     {
         if ($profile->visibility === 'public') {
             return true;
+        }
+        if ($user === null) {
+            return false;
         }
         if ($profile->visibility === 'followers') {
             return $user->follows()->where('followed_id', $profile->user_id)->exists();
