@@ -1,5 +1,6 @@
 import L from 'leaflet';
 import 'leaflet.markercluster';
+import { escapeHtml } from '../../shared/escapeHtml.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     const container = document.getElementById('dev-map');
@@ -48,10 +49,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const popupContent = `
                     <div class="map-popup">
-                        <img src="${user.avatar}" alt="" class="map-popup-avatar" loading="lazy" />
+                        <img src="${escapeHtml(user.avatar)}" alt="" class="map-popup-avatar" loading="lazy" />
                         <div class="map-popup-info">
-                            <a href="${user.url}" class="map-popup-name">${user.name}</a>
-                            <span class="map-popup-handle">@${user.username}</span>
+                            <a href="${escapeHtml(user.url)}" class="map-popup-name">${escapeHtml(user.name)}</a>
+                            <span class="map-popup-handle">@${escapeHtml(user.username)}</span>
                         </div>
                     </div>
                 `;
@@ -88,10 +89,10 @@ document.addEventListener('DOMContentLoaded', () => {
             .map(
                 (user) => `
                 <div class="nearby-dev">
-                    <img src="${user.avatar}" alt="" class="nearby-dev-avatar" loading="lazy" />
+                    <img src="${escapeHtml(user.avatar)}" alt="" class="nearby-dev-avatar" loading="lazy" />
                     <div class="nearby-dev-info">
-                        <a href="${user.url}" class="nearby-dev-name">${user.name}</a>
-                        <span class="nearby-dev-location">@${user.username}</span>
+                        <a href="${escapeHtml(user.url)}" class="nearby-dev-name">${escapeHtml(user.name)}</a>
+                        <span class="nearby-dev-location">@${escapeHtml(user.username)}</span>
                     </div>
                 </div>
             `,
