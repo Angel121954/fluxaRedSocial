@@ -16,6 +16,10 @@ class CvPdfGenerator
             ->setNodeModulePath(config('browsershot.node_modules_path'))
             ->setChromePath(config('browsershot.chrome_path'))
             ->noSandbox()
+            ->addChromiumArguments([
+                'crash-dumps-dir' => '/tmp',
+                'disable-dev-shm-usage' => true,
+            ])
             ->timeout((int) config('browsershot.timeout', 120))
             ->waitUntilNetworkIdle()
             ->format('A4')
