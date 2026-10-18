@@ -1,6 +1,6 @@
 /* ═══════════════════════════════════════════════════════════
    resources/css/shared/modal-sheet.css
-   Convención móvil: todo modal se presenta como bottom sheet.
+   Convención móvil de modales: bottom sheet + densidad compacta.
 
    Se carga después de los CSS de cada feature para imponerse
    sobre los estilos base de los modales legacy.
@@ -9,26 +9,26 @@
 
 @media (max-width: 640px) {
     /* ── Backdrops ─────────────────────────────────── */
-    .modal-backdrop,
-    .we-backdrop,
-    .pwd-modal-backdrop,
-    .salary-modal-backdrop,
-    #modal-overlay,
-    #edit-modal-overlay,
-    #jobOfferOverlay {
+    :is(.modal-backdrop,
+        .we-backdrop,
+        .pwd-modal-backdrop,
+        .salary-modal-backdrop,
+        #modal-overlay,
+        #edit-modal-overlay,
+        #jobOfferOverlay) {
         align-items: flex-end;
         justify-content: center;
         padding: 0;
     }
 
-    /* ── Cards ─────────────────────────────────────── */
-    .modal-card,
-    .we-modal,
-    .pwd-modal,
-    .salary-modal,
-    #modal-card,
-    #edit-modal-card,
-    #jobOfferCard {
+    /* ── Tarjetas ──────────────────────────────────── */
+    :is(.modal-card,
+        .we-modal,
+        .pwd-modal,
+        .salary-modal,
+        #modal-card,
+        #edit-modal-card,
+        #jobOfferCard) {
         width: 100%;
         max-width: 100%;
         max-height: 92vh;
@@ -40,15 +40,42 @@
         padding-bottom: env(safe-area-inset-bottom, 0px);
     }
 
-    /* ── Estado abierto: se desliza desde abajo ─────── */
-    .modal-backdrop.is-open > .modal-card,
-    .modal-backdrop.show > .modal-card,
-    .we-backdrop.is-open > .we-modal,
-    .pwd-modal-backdrop.is-open > .pwd-modal,
-    .salary-modal-backdrop.is-open > .salary-modal,
-    #modal-overlay.open > #modal-card,
-    #edit-modal-overlay.open > #edit-modal-card,
-    #jobOfferOverlay.open > #jobOfferCard {
+    /* ── Abierto: se desliza desde abajo ───────────── */
+    :is(.modal-backdrop.is-open, .modal-backdrop.show,
+        .we-backdrop.is-open,
+        .pwd-modal-backdrop.is-open,
+        .salary-modal-backdrop.is-open,
+        #modal-overlay.open,
+        #edit-modal-overlay.open,
+        #jobOfferOverlay.open) > :is(.modal-card,
+        .we-modal,
+        .pwd-modal,
+        .salary-modal,
+        #modal-card,
+        #edit-modal-card,
+        #jobOfferCard) {
         transform: translateY(0) scale(1);
+    }
+
+    /* ── Densidad de formularios ───────────────────────
+       El contexto se repite para no afectar formularios
+       fuera de modales (settings, onboarding, etc.).
+       Aplica a los controles de cualquier modal, usen las
+       clases base .form-* o clases propias. */
+    :is(.modal-backdrop, .we-backdrop, .pwd-modal-backdrop, .salary-modal-backdrop,
+        #modal-overlay, #edit-modal-overlay, #jobOfferOverlay) :is(.form-group) {
+        margin-bottom: 0.875rem;
+    }
+
+    :is(.modal-backdrop, .we-backdrop, .pwd-modal-backdrop, .salary-modal-backdrop,
+        #modal-overlay, #edit-modal-overlay, #jobOfferOverlay) :is(.form-label) {
+        margin-bottom: 0.3125rem;
+    }
+
+    :is(.modal-backdrop, .we-backdrop, .pwd-modal-backdrop, .salary-modal-backdrop,
+        #modal-overlay, #edit-modal-overlay, #jobOfferOverlay)
+        :is(input, select, textarea):not([type="checkbox"]):not([type="radio"]) {
+        padding-top: 0.5625rem;
+        padding-bottom: 0.5625rem;
     }
 }

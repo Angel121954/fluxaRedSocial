@@ -281,7 +281,7 @@ Todas las vistas se diseñan primero para mobile. Los breakpoints añaden layout
 - Primer foco: en el primer input o botón de acción
 - Scroll: `overflow-y: auto` si el contenido excede viewport, pero `body` no scrolea detrás
 - No anidar modales — si se necesita, reemplazar el contenido del actual
-- Móvil (`max-width: 640px`): todo modal se presenta como bottom sheet — anclado al inferior, ancho completo, esquinas superiores de 20px, `max-height: 92dvh` y slide-up desde abajo. La base compartida vive en `resources/css/shared/modal-sheet.css`
+- Móvil (`max-width: 640px`): todo modal se presenta como bottom sheet — anclado al inferior, ancho completo, esquinas superiores de 20px, `max-height: 92dvh` y slide-up desde abajo. Los campos se compactan (menos margen vertical y padding, sin bajar de 16px de fuente). La base compartida vive en `resources/css/shared/modal-sheet.css`
 
 ### Plantilla
 ```blade
