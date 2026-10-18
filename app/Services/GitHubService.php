@@ -143,14 +143,20 @@ class GitHubService
 
     public function disconnect(User $user): void
     {
+        $token = $user->github_token;
+
         $user->forceFill([
             'github_token' => null,
             'github_refresh_token' => null,
             'github_token_expires_at' => null,
         ])->save();
 
+        if (empty($token)) {
+            return;
+        }
+
         try {
-            Http::withToken($user->github_token)
+            Http::withToken($token)
                 ->accept('application/vnd.github.v3+json')
                 ->delete(self::API_URL . '/applications/' . config('services.github.client_id') . '/grant');
         } catch (\Exception $e) {
