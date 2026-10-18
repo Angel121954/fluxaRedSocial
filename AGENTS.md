@@ -404,3 +404,10 @@ routes/
 - **No dejes commented code** — si no se necesita, se borra. Git guarda el historial
 - **No anidar más de 3 niveles** (if dentro de if dentro de if) — refactoriza a early return o método separado
 - **Respeta el principio de sorpresa mínima** — el código debe hacer lo que parece hacer
+
+### Commits (obligatorio leer `COMMITS.md`)
+- Formato `tipo(alcance): descripción` — tipo y alcance en inglés, descripción en español, verbo en infinitivo, sin punto final
+- Usar solo los **alcances recomendados** de `COMMITS.md` (`database` — no `db` —, `services`, `controllers`, `tests`, etc.); no inventar alcances por módulo
+- **Cada commit incluido el `Por qué:`** cuando exista un motivo del cambio; va en sección aparte después de los guiones de detalle, separado por una línea en blanco y nunca como un guión más
+- Commits pequeños y enfocados en un solo cambio: las pruebas van en su propio commit `test(...)`, no mezcladas con el `refactor`/`feat`
+- Para el mensaje, usar `git commit -F /tmp/opencode/commit.txt` en vez de `-m` con multilínea
