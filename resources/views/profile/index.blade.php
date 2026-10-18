@@ -144,9 +144,15 @@
                             $btnText = $isFollowing ? 'Siguiendo' : ($isFollowedBy ? 'Seguir también' : 'Seguir');
                             @endphp
 
+                            @auth
                             <button class="btn-follow{{ $isFollowing ? ' is-following' : '' }}" id="btnFollow" data-user-id="{{ $user->id }}">
                                 <span id="btnFollowText">{{ $btnText }}</span>
                             </button>
+                            @else
+                            <a href="{{ route('login') }}" class="btn-follow">
+                                <span>Seguir</span>
+                            </a>
+                            @endauth
 
                             @auth
                             @if($profile->accept_messages)
@@ -170,6 +176,7 @@
                                             </svg>
                                             Compartir perfil
                                         </button>
+                                        @auth
                                         <a href="{{ route('cv.download.public', ['username' => $user->username]) }}" class="drop-item" target="_blank">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                                 <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m.75 12 3 3m0 0 3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
@@ -183,6 +190,7 @@
                                             </svg>
                                             Reportar
                                         </button>
+                                        @endauth
                                     </div>
                                 </div>
                             </div>
@@ -192,13 +200,13 @@
 
                     <!-- Stats -->
                     <div class="stats-row">
-                        <div class="stat stat-clickable" onclick="openProjectsModal({{ $user->id }})" title="Ver proyectos">
+                        <div class="stat {{ Auth::check() ? 'stat-clickable' : '' }}" @auth onclick="openProjectsModal({{ $user->id }})" @endauth title="Ver proyectos">
                             <span class="stat-n">{{ $projectsCount ?? $projects->count() }}</span><span class="stat-l">Proyectos</span>
                         </div>
-                        <div class="stat stat-clickable" onclick="openFollowersModal({{ $user->id }}, 'following')" title="Ver usuarios que sigue">
+                        <div class="stat {{ Auth::check() ? 'stat-clickable' : '' }}" @auth onclick="openFollowersModal({{ $user->id }}, 'following')" @endauth title="Ver usuarios que sigue">
                             <span class="stat-n">{{ $user->follows_count }}</span><span class="stat-l">Siguiendo</span>
                         </div>
-                        <div class="stat stat-clickable" onclick="openFollowersModal({{ $user->id }}, 'followers')" title="Ver seguidores">
+                        <div class="stat {{ Auth::check() ? 'stat-clickable' : '' }}" @auth onclick="openFollowersModal({{ $user->id }}, 'followers')" @endauth title="Ver seguidores">
                             <span class="stat-n">{{ $user->followers_count }}</span><span class="stat-l">Seguidores</span>
                         </div>
                     </div>

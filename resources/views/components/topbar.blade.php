@@ -1,4 +1,4 @@
-@props(['profile'])
+@props(['profile' => null])
 
 <!-- ══════════════════════════════════════════
      NAVBAR — $unreadMessages y $unreadNotifications
@@ -10,11 +10,12 @@
 
         {{-- ── Izquierda: logo + links + búsqueda ── --}}
         <div class="navbar-left">
-            <a href="{{ route('explore.index') }}" aria-label="Ir a inicio">
+            <a href="{{ Auth::check() ? route('explore.index') : route('landing') }}" aria-label="Ir a inicio">
                 <img src="{{ asset('img/logo.png') }}" alt="Fluxa" class="nav-logo" />
             </a>
 
             <nav class="nav-links" aria-label="Links principales">
+                @auth
                 @if(Auth::user()->role !== 'guest')
                 <a href="{{ route('feed.index') }}"
                     class="nav-link {{ request()->routeIs('feed*') ? 'active' : '' }}"
@@ -58,8 +59,10 @@
                 </a>
                 @endif
                 @endif
+                @endauth
             </nav>
 
+            @auth
             @if(Auth::user()->role != 'guest')
             <div class="nav-search-wrap">
                 <svg class="nav-search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -75,10 +78,36 @@
                 <div id="searchResults" class="search-results" role="listbox" aria-live="polite"></div>
             </div>
             @endif
+            @endauth
         </div>
 
         {{-- ── Derecha: acciones + avatar + hamburguesa ── --}}
         <div class="navbar-right">
+            @guest
+            <a href="{{ route('login') }}" class="btn-new hide-mobile">Iniciar sesión</a>
+            <a href="{{ route('register') }}" class="btn-new">Registrarse</a>
+            <button
+                type="button"
+                class="theme-toggle-btn"
+                data-theme-toggle
+                aria-label="Cambiar tema claro u oscuro"
+                aria-pressed="false">
+                <svg class="icon-moon" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+                </svg>
+                <svg class="icon-sun" width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <circle cx="12" cy="12" r="5" />
+                    <line x1="12" y1="1" x2="12" y2="3" />
+                    <line x1="12" y1="21" x2="12" y2="23" />
+                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                    <line x1="1" y1="12" x2="3" y2="12" />
+                    <line x1="21" y1="12" x2="23" y2="12" />
+                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+                </svg>
+            </button>
+            @else
             @if(Auth::user()->role === 'guest')
             <form action="{{ route('guest.destroy') }}" method="POST" class="nav-guest-form">
                 @csrf
@@ -153,6 +182,7 @@
                 <img src="{{ Auth::user()->avatar_url }}" alt="Tu perfil" class="nav-user-av" />
             </a>
             @endif
+            @endif
 
             <button
                 class="mobile-menu-btn"
@@ -173,10 +203,12 @@
 </nav>
 
 {{-- Modal nuevo proyecto (solo usuarios registrados) --}}
+@auth
 @if(Auth::user()->role !== 'guest')
 <x-new-project />
 <x-edit-project />
 @endif
+@endauth
 
 {{-- ── Menú móvil ── --}}
 <div class="mobile-overlay" id="mobileOverlay" aria-hidden="true" onclick="toggleMobileMenu()"></div>
@@ -184,6 +216,7 @@
     <div class="mobile-menu-content">
 
         {{-- Búsqueda móvil --}}
+        @auth
         <div class="mobile-search-wrap">
             <svg class="mobile-search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -197,8 +230,10 @@
                 aria-label="Buscar en Fluxa">
         </div>
         <div class="mobile-search-results" id="mobileSearchResults"></div>
+        @endauth
 
         {{-- Links de navegación --}}
+        @auth
         @if(Auth::user()->role !== 'guest')
         <a href="{{ route('diary.index') }}"
             class="mobile-menu-link {{ request()->routeIs('diary*') ? 'active' : '' }}"
@@ -317,6 +352,24 @@
                 Salir de la sesión de invitado
             </button>
         </form>
+        @endif
+        @else
+        {{-- Visitante sin sesión: llamada a ingresar --}}
+        <div class="mobile-menu-divider"></div>
+        <a href="{{ route('login') }}" class="mobile-menu-link">
+            <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+            </svg>
+            Iniciar sesión
+        </a>
+        <a href="{{ route('register') }}" class="mobile-menu-link">
+            <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+            </svg>
+            Registrarse
+        </a>
         @endif
     </div>
 </div>
