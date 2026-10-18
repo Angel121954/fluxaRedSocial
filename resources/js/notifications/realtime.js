@@ -32,13 +32,7 @@ function renderConversationItem(data, messageData) {
                 previewText = previewText.substring(0, 40) + '...';
             }
             if (!isFromMe) {
-                const badge = item.querySelector('.msgs-unread-badge');
-                if (badge) {
-                    const currentCount = parseInt(badge.textContent) || 0;
-                    badge.textContent = currentCount + 1;
-                } else {
-                    hasUnread = true;
-                }
+                hasUnread = true;
             }
         } else {
             previewText = 'Nueva conversación';
