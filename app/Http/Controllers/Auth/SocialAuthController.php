@@ -70,7 +70,7 @@ class SocialAuthController extends Controller
         };
     }
 
-    protected function uploadAvatarToCloudinary(string $avatarUrl, string $userId): string
+    protected function uploadAvatarToCloudinary(string $avatarUrl, int $userId): string
     {
         try {
             Log::info('Intentando subir avatar a Cloudinary', [
