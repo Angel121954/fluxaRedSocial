@@ -8,6 +8,7 @@ use App\Events\ConversationCreated;
 use App\Events\MessageEdited;
 use App\Events\NewMessage;
 use App\Models\Conversation;
+use App\Notifications\CreatesNotifications;
 use App\Models\Message;
 use App\Models\Profile;
 use App\Models\User;
@@ -19,6 +20,8 @@ use Illuminate\Support\Facades\Log;
 
 class MessageService
 {
+    use CreatesNotifications;
+
     public function __construct(
         protected CloudinaryService $cloudinary,
     ) {}
@@ -165,6 +168,17 @@ class MessageService
 
     public function broadcastNewMessage(Message $message, int $conversationId, int $recipientId): void
     {
+        $recipientViewing = Cache::get("user.{$recipientId}.viewing_conv") === $conversationId;
+
+        if (! $recipientViewing) {
+            $this->notifyNewMessage(
+                recipientId: $recipientId,
+                senderId: $message->sender_id,
+                conversationId: $conversationId,
+                senderName: $message->sender?->name ?? 'Alguien',
+            );
+        }
+
         try {
             broadcast(new NewMessage($message, $conversationId, $recipientId))->toOthers();
         } catch (\Exception $e) {

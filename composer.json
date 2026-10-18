@@ -12,6 +12,7 @@
         "cloudinary-labs/cloudinary-laravel": "^3.0",
         "endroid/qr-code": "^5.0",
         "guzzlehttp/guzzle": "^7.2",
+        "laravel-notification-channels/webpush": "^10.5",
         "laravel/fortify": "^1.36",
         "laravel/framework": "^11.0",
         "laravel/reverb": "^1.8",

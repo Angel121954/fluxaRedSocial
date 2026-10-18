@@ -11,6 +11,7 @@ import './scrollLock.js';
 import './passwordVisibility.js';
 import './security.js';
 import './toast.js';
+import './push.js';
 import '../notifications/index.js';
 import '../notifications/badges.js';
 import '../notifications/realtime.js';

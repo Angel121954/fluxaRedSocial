@@ -18,6 +18,7 @@ use App\Http\Controllers\Follows\FollowController;
 use App\Http\Controllers\Jobs\JobController;
 use App\Http\Controllers\Messages\MessageController;
 use App\Http\Controllers\Notifications\NotificationController;
+use App\Http\Controllers\Notifications\PushSubscriptionController;
 use App\Http\Controllers\Onboarding\OnboardingController;
 use App\Http\Controllers\Pages\AboutFluxaController;
 use App\Http\Controllers\Pages\ContactController;
@@ -464,6 +465,12 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
 
         Route::delete('/notifications/{notification}', [NotificationController::class, 'destroy'])
             ->name('notifications.destroy');
+
+        Route::post('/notifications/push/subscribe', [PushSubscriptionController::class, 'store'])
+            ->name('notifications.push.subscribe');
+
+        Route::delete('/notifications/push/subscribe', [PushSubscriptionController::class, 'destroy'])
+            ->name('notifications.push.unsubscribe');
 
         Route::get('/notification-preference', [NotificationPreferenceController::class, 'index'])
             ->name('notification-preference.index');

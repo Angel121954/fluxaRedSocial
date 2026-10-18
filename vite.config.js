@@ -149,6 +149,7 @@ export default defineConfig({
                 "resources/js/shared/modal.js",
                 "resources/js/shared/emailModalSend.js",
                 "resources/js/shared/reportProblem.js",
+                "resources/js/shared/push.js",
 
                 // Public JS
                 "resources/js/public/landing.js",

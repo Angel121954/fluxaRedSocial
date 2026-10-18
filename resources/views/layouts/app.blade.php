@@ -5,6 +5,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    @auth
+    <meta name="vapid-public-key" content="{{ config('webpush.vapid.public_key') }}">
+    @endauth
     <meta name="description" content="Fluxa - Plataforma para desarrolladores que quieren compartir su progreso, aprender juntos y crecer como comunidad.">
     <meta name="keywords" content="Fluxa, desarrollo, programación, comunidad, proyectos, open source">
 

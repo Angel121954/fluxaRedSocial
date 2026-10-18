@@ -5,13 +5,16 @@ declare(strict_types=1);
 namespace App\Notifications;
 
 use App\Events\NotificationCreated;
+use App\Jobs\SendGroupedLikePush;
 use App\Mail\NotificationMail;
 use App\Models\Notification;
 use App\Models\NotificationPreference;
 use App\Models\SkillEndorsement;
 use App\Models\User;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification as NotificationFacade;
 
 trait CreatesNotifications
 {
@@ -24,7 +27,8 @@ trait CreatesNotifications
         ?int $fromUserId = null,
         ?int $referenceId = null,
         ?string $referenceType = null,
-        bool $broadcast = true
+        bool $broadcast = true,
+        bool $skipPush = false
     ): Notification {
         $notification = Notification::create([
             'user_id' => $userId,
@@ -43,7 +47,46 @@ trait CreatesNotifications
 
         self::sendEmailForNotification($notification);
 
+        if (! $skipPush) {
+            self::sendPushForNotification($notification);
+        }
+
         return $notification;
+    }
+
+    private static function sendPushForNotification(Notification $notification): void
+    {
+        $prefs = NotificationPreference::where('user_id', $notification->user_id)->first();
+
+        if (! $prefs || ! $prefs->push_enabled) {
+            return;
+        }
+
+        $flag = self::getPreferenceFlag($notification->type);
+
+        if ($flag && ! $prefs->$flag) {
+            return;
+        }
+
+        $user = User::find($notification->user_id);
+
+        if (! $user || $user->pushSubscriptions()->doesntExist()) {
+            return;
+        }
+
+        $rateKey = "push.rate.{$notification->user_id}.{$notification->type}";
+
+        if (Cache::store('redis')->has($rateKey)) {
+            return;
+        }
+
+        Cache::store('redis')->put($rateKey, true, 30);
+
+        NotificationFacade::send($user, new WebPushNotification(
+            title: $notification->title,
+            body: $notification->body,
+            link: $notification->link,
+        ));
     }
 
     private static function sendEmailForNotification(Notification $notification): void
@@ -94,13 +137,46 @@ trait CreatesNotifications
         };
     }
 
+    public static function queueLikePush(
+        int $userId,
+        string $likerName,
+        int $referenceId,
+        string $referenceType,
+        string $link,
+    ): void {
+        $key = "push.pending_likes.{$userId}.{$referenceType}.{$referenceId}";
+        $lockKey = "push.pending_likes.lock.{$userId}.{$referenceType}.{$referenceId}";
+        $ttl = now()->addSeconds(45);
+
+        $pending = Cache::store('redis')->pull($key) ?? ['names' => []];
+
+        if (! in_array($likerName, $pending['names'], true)) {
+            $pending['names'][] = $likerName;
+        }
+
+        $pending['count'] = count($pending['names']);
+
+        Cache::store('redis')->put($key, $pending, $ttl);
+
+        if (! Cache::store('redis')->has($lockKey)) {
+            Cache::store('redis')->put($lockKey, true, $ttl);
+
+            SendGroupedLikePush::dispatch(
+                userId: $userId,
+                referenceId: $referenceId,
+                referenceType: $referenceType,
+                link: $link,
+            )->delay(now()->addSeconds(30));
+        }
+    }
+
     public static function notifyNewMessage(int $recipientId, int $senderId, int $conversationId, string $senderName): Notification
     {
         return self::createNotification(
             userId: $recipientId,
             type: Notification::TYPE_MESSAGE,
             title: 'Nuevo mensaje',
-            body: 'te ha enviado un mensaje',
+            body: "{$senderName} te ha enviado un mensaje",
             link: "/messages/{$conversationId}",
             fromUserId: $senderId,
             referenceId: $conversationId,
@@ -126,16 +202,27 @@ trait CreatesNotifications
 
     public static function notifyProjectLike(int $ownerId, int $likerId, string $likerName, int $projectId, string $projectTitle): Notification
     {
-        return self::createNotification(
+        $notification = self::createNotification(
             userId: $ownerId,
             type: Notification::TYPE_LIKE,
             title: 'Nuevo like',
-            body: "dio like a tu proyecto \"{$projectTitle}\"",
+            body: "{$likerName} dio like a tu proyecto \"{$projectTitle}\"",
             link: "/projects/{$projectId}",
             fromUserId: $likerId,
             referenceId: $projectId,
-            referenceType: 'project'
+            referenceType: 'project',
+            skipPush: true
         );
+
+        self::queueLikePush(
+            userId: $ownerId,
+            likerName: $likerName,
+            referenceId: $projectId,
+            referenceType: 'project',
+            link: $notification->link,
+        );
+
+        return $notification;
     }
 
     public static function notifyProjectComment(int $ownerId, int $commenterId, string $commenterName, int $projectId, string $projectTitle): Notification
@@ -188,7 +275,7 @@ trait CreatesNotifications
             userId: $mentionedId,
             type: Notification::TYPE_MENTION,
             title: 'Te mencionaron',
-            body: 'te mencionó',
+            body: "{$mentionerName} te mencionó",
             link: "/{$referenceType}/{$referenceId}",
             fromUserId: $mentionerId,
             referenceId: $referenceId,
@@ -198,16 +285,27 @@ trait CreatesNotifications
 
     public static function notifyCommentLike(int $commentOwnerId, int $likerId, string $likerName, int $commentId, int $projectId, string $projectTitle): Notification
     {
-        return self::createNotification(
+        $notification = self::createNotification(
             userId: $commentOwnerId,
             type: Notification::TYPE_LIKE,
             title: 'Like en tu comentario',
-            body: "dio like a tu comentario en \"{$projectTitle}\"",
+            body: "{$likerName} dio like a tu comentario en \"{$projectTitle}\"",
             link: "/projects/{$projectId}",
             fromUserId: $likerId,
             referenceId: $commentId,
-            referenceType: 'comment'
+            referenceType: 'comment',
+            skipPush: true
         );
+
+        self::queueLikePush(
+            userId: $commentOwnerId,
+            likerName: $likerName,
+            referenceId: $commentId,
+            referenceType: 'comment',
+            link: $notification->link,
+        );
+
+        return $notification;
     }
 
     public static function notifyDiaryResponseComment(int $responseOwnerId, int $commenterId, string $commenterName): Notification
@@ -216,7 +314,7 @@ trait CreatesNotifications
             userId: $responseOwnerId,
             type: Notification::TYPE_COMMENT,
             title: 'Nuevo comentario',
-            body: 'comentó en tu respuesta del diario',
+            body: "{$commenterName} comentó en tu respuesta del diario",
             link: '/diary',
             fromUserId: $commenterId,
             referenceId: null,
