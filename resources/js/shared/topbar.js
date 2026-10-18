@@ -186,13 +186,6 @@ function toggleMobileMenu() {
     menu.setAttribute('aria-hidden', !open);
 
     document.body.style.overflow = open ? 'hidden' : '';
-
-    if (open) {
-        setTimeout(() => {
-            const ms = document.getElementById('mobileSearch');
-            if (ms) ms.focus();
-        }, 150);
-    }
 }
 
 function closeMobileMenu() {
