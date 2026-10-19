@@ -24,11 +24,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const TYPE_LABELS = {
         company: {
             formal: { label: 'Empresa', placeholder: 'Ej. Google, Startup XYZ' },
+            practicum: { label: 'Empresa', placeholder: 'Ej. SENA, empresa donde hiciste la etapa productiva' },
             freelance: { label: 'Cliente o proyecto', placeholder: 'Ej. Cliente de Shopify, App para restaurant' },
             volunteering: { label: 'Organización', placeholder: 'Ej. Cruz Roja, Tech for Good' },
         },
         position: {
             formal: { label: 'Cargo', placeholder: 'Ej. Frontend Developer' },
+            practicum: { label: 'Rol', placeholder: 'Ej. Aprendiz SENA - Análisis y Desarrollo de Software' },
             freelance: { label: 'Rol / Servicio', placeholder: 'Ej. Desarrollo de landing page' },
             volunteering: { label: 'Rol', placeholder: 'Ej. Mentor, Desarrollador voluntario' },
         },

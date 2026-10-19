@@ -721,6 +721,12 @@
     border: 1px solid var(--accent-ring);
 }
 
+.we-type-badge--practicum {
+    background: #fff7ed;
+    color: #c2410c;
+    border: 1px solid #fed7aa;
+}
+
 .we-type-badge--freelance {
     background: #eef2ff;
     color: #4338ca;
@@ -737,6 +743,12 @@
     background: rgba(18, 179, 182, 0.12);
     color: #5eead4;
     border-color: rgba(18, 179, 182, 0.25);
+}
+
+.dark .we-type-badge--practicum {
+    background: rgba(249, 115, 22, 0.12);
+    color: #fdba74;
+    border-color: rgba(249, 115, 22, 0.25);
 }
 
 .dark .we-type-badge--freelance {
