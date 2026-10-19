@@ -1,6 +1,7 @@
 // commentRenderer.js - Renderizado de comentarios y respuestas
 
 import { escapeHtml } from '../shared/escapeHtml.js';
+import { relativeTime } from '../shared/relativeTime.js';
 
 function initializeLikeButtons(container) {
     if (!container) return;
@@ -19,10 +20,7 @@ function initializeLikeButtons(container) {
 function updateCommentTimes(container) {
     if (!container) return;
 
-    const times = container.querySelectorAll('.comment-time');
-    const now = new Date();
-
-    times.forEach((timeEl) => {
+    container.querySelectorAll('.comment-time').forEach((timeEl) => {
         let timestamp = parseInt(timeEl.dataset.timestamp);
 
         if (!timestamp) {
@@ -34,23 +32,7 @@ function updateCommentTimes(container) {
             return;
         }
 
-        const diff = Math.floor((now - timestamp) / 1000);
-        let text = '';
-
-        if (diff < 1) {
-            text = 'Justo ahora';
-        } else if (diff < 60) {
-            text = 'Hace ' + diff + 's';
-        } else if (diff < 3600) {
-            text = 'Hace ' + Math.floor(diff / 60) + 'm';
-        } else if (diff < 86400) {
-            text = 'Hace ' + Math.floor(diff / 3600) + 'h';
-        } else {
-            const days = Math.floor(diff / 86400);
-            text = days === 1 ? 'Ayer' : 'Hace ' + days + 'd';
-        }
-
-        timeEl.textContent = text;
+        timeEl.textContent = relativeTime(timestamp);
     });
 }
 
