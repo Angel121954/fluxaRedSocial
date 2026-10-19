@@ -16,7 +16,7 @@ class UpdateAvatarRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'avatar' => ['required', 'image', 'max:2048'],
+            'avatar' => ['required', 'image', 'max:5120'],
         ];
     }
 
@@ -25,7 +25,7 @@ class UpdateAvatarRequest extends FormRequest
         return [
             'avatar.required' => 'La imagen es obligatoria para poder actualizar',
             'avatar.image' => 'Debe ser una imagen válida',
-            'avatar.max' => 'La imagen no puede superar los 2 MB',
+            'avatar.max' => 'La imagen no puede superar los 5 MB',
         ];
     }
 }
