@@ -39,6 +39,10 @@ class CvPdfGenerator
             ->format('A4')
             ->margins($margins[0] ?? 0, $margins[1] ?? 0, $margins[2] ?? 0, $margins[3] ?? 0);
 
+        if ($remoteIp = config('browsershot.remote_ip')) {
+            $browsershot->setRemoteInstance($remoteIp, (int) config('browsershot.remote_port', 9222));
+        }
+
         return $browsershot->pdf();
     }
 

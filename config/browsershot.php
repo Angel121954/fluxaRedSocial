@@ -8,4 +8,6 @@ return [
     'node_modules_path' => env('NODE_MODULES_PATH', '/var/www/html/node_modules'),
     'chrome_path' => env('CHROME_PATH'),
     'timeout' => env('BROWSERSHOT_TIMEOUT', 20),
+    'remote_ip' => env('BROWSERSHOT_REMOTE_IP'),
+    'remote_port' => env('BROWSERSHOT_REMOTE_PORT', 9222),
 ];
