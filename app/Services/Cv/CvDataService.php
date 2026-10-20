@@ -10,6 +10,7 @@ use Endroid\QrCode\Writer\SvgWriter;
 use Exception;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
 class CvDataService
@@ -125,7 +126,7 @@ class CvDataService
 
         try {
             $content = str_starts_with($url, 'http')
-                ? file_get_contents($url)
+                ? Http::connectTimeout(2)->timeout(5)->get($url)->throw()->body()
                 : file_get_contents(public_path('storage/'.$url));
 
             $mime = (new \finfo(FILEINFO_MIME_TYPE))->buffer($content);
@@ -165,11 +166,13 @@ class CvDataService
     {
         return $user->technologies()->orderBy('name')->get()
             ->map(function ($tech) {
-                $tech->iconoB64 = Cache::store('redis')->remember('cv_tech_icon_'.$tech->id, 86400, function () use ($tech) {
+                $tech->iconoB64 = Cache::store('redis')->rememberForever('cv_tech_icon_'.$tech->id, function () use ($tech) {
                     try {
                         $url = $tech->iconUrl();
 
-                        return 'data:image/svg+xml;base64,'.base64_encode(file_get_contents($url));
+                        return 'data:image/svg+xml;base64,'.base64_encode(
+                            Http::connectTimeout(2)->timeout(5)->get($url)->throw()->body()
+                        );
                     } catch (Exception $e) {
                         return null;
                     }
