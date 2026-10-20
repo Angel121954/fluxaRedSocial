@@ -20,8 +20,8 @@ class CvPdfGenerator
                 'crash-dumps-dir' => '/tmp',
                 'disable-dev-shm-usage' => true,
             ])
-            ->timeout((int) config('browsershot.timeout', 120))
-            ->waitUntilNetworkIdle()
+            ->timeout((int) config('browsershot.timeout', 20))
+            ->setOption('waitUntil', 'load')
             ->format('A4')
             ->margins($margins[0] ?? 0, $margins[1] ?? 0, $margins[2] ?? 0, $margins[3] ?? 0)
             ->pdf();
