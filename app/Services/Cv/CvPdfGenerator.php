@@ -4,13 +4,27 @@ declare(strict_types=1);
 
 namespace App\Services\Cv;
 
+use Illuminate\Support\Facades\Cache;
 use Spatie\Browsershot\Browsershot;
 
 class CvPdfGenerator
 {
+    private const CACHE_VERSION = 'v1';
+
     public function generate(string $html, array $margins = [0, 0, 0, 0]): string
     {
-        return Browsershot::html($html)
+        $cacheKey = 'cv_pdf_'.self::CACHE_VERSION.'_'.md5($html.implode(',', $margins));
+
+        return Cache::store('redis')->remember(
+            $cacheKey,
+            now()->addDay(),
+            fn (): string => $this->renderPdf($html, $margins),
+        );
+    }
+
+    private function renderPdf(string $html, array $margins): string
+    {
+        $browsershot = Browsershot::html($html)
             ->setNodeBinary(config('browsershot.node_binary', '/usr/bin/node'))
             ->setNpmBinary(config('browsershot.npm_binary', '/usr/bin/npm'))
             ->setNodeModulePath(config('browsershot.node_modules_path'))
@@ -23,8 +37,9 @@ class CvPdfGenerator
             ->timeout((int) config('browsershot.timeout', 20))
             ->setOption('waitUntil', 'load')
             ->format('A4')
-            ->margins($margins[0] ?? 0, $margins[1] ?? 0, $margins[2] ?? 0, $margins[3] ?? 0)
-            ->pdf();
+            ->margins($margins[0] ?? 0, $margins[1] ?? 0, $margins[2] ?? 0, $margins[3] ?? 0);
+
+        return $browsershot->pdf();
     }
 
     public function wrapHtml(string $content): string
