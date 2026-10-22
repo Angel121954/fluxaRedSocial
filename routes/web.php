@@ -3,10 +3,10 @@
 declare(strict_types=1);
 
 use App\Http\Controllers\Admin\CompanyController;
+use App\Http\Controllers\Admin\ContentController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DiaryController as AdminDiaryController;
 use App\Http\Controllers\Admin\ReportController;
-use App\Http\Controllers\Admin\ContentController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Api\MapController;
 use App\Http\Controllers\Auth\GuestController;
@@ -271,32 +271,34 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
     Route::get('/diary', [DiaryController::class, 'index'])
         ->name('diary.index');
 
-    Route::post('/diary', [DiaryController::class, 'store'])
-        ->name('diary.reply');
+    Route::middleware(['verified', 'restrict.guest'])->group(function () {
+        Route::post('/diary', [DiaryController::class, 'store'])
+            ->name('diary.reply');
 
-    Route::post('/diary/{response}/like', [DiaryController::class, 'like'])
-        ->name('diary.response.like');
+        Route::post('/diary/{response}/like', [DiaryController::class, 'like'])
+            ->name('diary.response.like');
 
-    Route::post('/diary/{response}/bookmark', [DiaryController::class, 'bookmark'])
-        ->name('diary.response.bookmark');
+        Route::post('/diary/{response}/bookmark', [DiaryController::class, 'bookmark'])
+            ->name('diary.response.bookmark');
+
+        Route::post('/diary/{response}/comments', [DiaryController::class, 'comment'])
+            ->name('diary.response.comment');
+
+        Route::post('/diary/comments/{comment}/like', [DiaryController::class, 'commentLike'])
+            ->name('diary.response.comment.like');
+
+        Route::delete('/diary/comments/{comment}', [DiaryController::class, 'commentDestroy'])
+            ->name('diary.response.comment.destroy');
+
+        Route::post('/diary/{response}/report', [DiaryController::class, 'report'])
+            ->name('diary.response.report');
+
+        Route::delete('/diary/{response}', [DiaryController::class, 'destroy'])
+            ->name('diary.response.destroy');
+    });
 
     Route::get('/diary/{response}/comments', [DiaryController::class, 'comments'])
         ->name('diary.response.comments');
-
-    Route::post('/diary/{response}/comments', [DiaryController::class, 'comment'])
-        ->name('diary.response.comment');
-
-    Route::post('/diary/comments/{comment}/like', [DiaryController::class, 'commentLike'])
-        ->name('diary.response.comment.like');
-
-    Route::delete('/diary/comments/{comment}', [DiaryController::class, 'commentDestroy'])
-        ->name('diary.response.comment.destroy');
-
-    Route::post('/diary/{response}/report', [DiaryController::class, 'report'])
-        ->name('diary.response.report');
-
-    Route::delete('/diary/{response}', [DiaryController::class, 'destroy'])
-        ->name('diary.response.destroy');
 
     Route::get('/diary/load-more', [DiaryController::class, 'loadMore'])
         ->name('diary.loadMore');
