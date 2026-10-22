@@ -32,4 +32,9 @@ async function compartirPerfil(username, name) {
     }
 }
 
-window.compartirPerfil = compartirPerfil;
+document.addEventListener('click', (event) => {
+    const button = event.target.closest('[data-share-profile]');
+    if (!button) return;
+
+    compartirPerfil(button.dataset.username, button.dataset.name);
+});
