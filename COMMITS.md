@@ -58,6 +58,14 @@ Cambios visuales o de interfaz.
 ui(explore): Ajustar los filtros de tecnologías
 ```
 
+### style
+
+Cambios de formato que no modifican el comportamiento del código (espacios, comillas, orden de imports, indentación).
+
+```bash
+style(app): Aplicar Pint a los controladores
+```
+
 ### docs
 
 Cambios en documentación.
@@ -104,6 +112,38 @@ Cambios en integración continua.
 
 ```bash
 ci(github): Configurar ejecución automática de pruebas
+```
+
+### revert
+
+Revierte un commit anterior. El mensaje indica qué cambio se deshace.
+
+```bash
+revert(diary): Revertir respuestas anónimas
+```
+
+---
+
+## Cambios que rompen compatibilidad
+
+Si un cambio deja de ser compatible con versiones anteriores, se agrega `!` después del alcance:
+
+```bash
+feat(api)!: Cambiar el formato de respuesta de /api/search
+```
+
+El detalle debe explicar qué se rompe y cómo migrar, y el commit cierra con un pie `BREAKING CHANGE:`:
+
+```bash
+feat(api)!: Cambiar el formato de respuesta de /api/search
+
+- La respuesta ahora usa `data` en lugar de `results`.
+- Los clientes deben actualizar el campo que leen.
+
+Por qué:
+- Unificar el contrato de todas las respuestas de la API.
+
+BREAKING CHANGE: `results` se reemplaza por `data`; los clientes que lean `results` dejarán de funcionar.
 ```
 
 ---
