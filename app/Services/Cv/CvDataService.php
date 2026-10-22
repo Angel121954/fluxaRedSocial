@@ -69,7 +69,11 @@ class CvDataService
             }
         }
 
-        $workExperiences = $user->workExperiences()->orderBy('started_at', 'desc')->get();
+        // with('technologies') evita N+1 al pintar la sección de experiencia del CV.
+        $workExperiences = $user->workExperiences()
+            ->with('technologies:id,name')
+            ->orderBy('started_at', 'desc')
+            ->get();
         $educations = $user->educations()->orderBy('graduated_year', 'desc')->get();
 
         $avatarBase64 = Cache::store('redis')->remember('cv_avatar_'.$user->id, 3600, fn () => $this->urlToBase64($profile->avatar)

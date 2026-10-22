@@ -450,7 +450,18 @@ $cvLocation = trim(($profile->city ?? '') . ', ' . ($profile->country ?? ''), ' 
                     <b>{{ $experiencia->company }}</b>
                     @if(!empty($experiencia->location)) · {{ $experiencia->location }} @endif
                     · {{ \App\Models\WorkExperience::TYPES[$experiencia->type] ?? $experiencia->type }}
+                    @if(!empty($experiencia->work_mode))
+                    · {{ \App\Models\WorkExperience::WORK_MODES[$experiencia->work_mode] ?? $experiencia->work_mode }}
+                    @endif
+                    @if(!empty($experiencia->employment_type))
+                    · {{ \App\Models\WorkExperience::EMPLOYMENT_TYPES[$experiencia->employment_type] ?? $experiencia->employment_type }}
+                    @endif
                 </div>
+                @if($experiencia->technologies->isNotEmpty())
+                <div class="cv-item__meta">
+                    Tecnologías: {{ $experiencia->technologies->pluck('name')->implode(', ') }}
+                </div>
+                @endif
                 @if(!empty($experiencia->description))
                 <p class="cv-item__desc">{{ $experiencia->description }}</p>
                 @endif

@@ -60,7 +60,18 @@
                             {{ \Carbon\Carbon::parse($exp->started_at)->format('M Y') }} —
                             {{ $exp->current ? 'Presente' : ($exp->ended_at ? \Carbon\Carbon::parse($exp->ended_at)->format('M Y') : 'Presente') }}
                             | {{ \App\Models\WorkExperience::TYPES[$exp->type] ?? $exp->type }}
+                            @if(!empty($exp->work_mode))
+                            | {{ \App\Models\WorkExperience::WORK_MODES[$exp->work_mode] ?? $exp->work_mode }}
+                            @endif
+                            @if(!empty($exp->employment_type))
+                            | {{ \App\Models\WorkExperience::EMPLOYMENT_TYPES[$exp->employment_type] ?? $exp->employment_type }}
+                            @endif
                         </div>
+                        @if($exp->technologies->isNotEmpty())
+                        <div style="font-size:9pt;color:#666;margin-bottom:3px;">
+                            Tecnologías: {{ $exp->technologies->pluck('name')->implode(', ') }}
+                        </div>
+                        @endif
                         @if(!empty($exp->description))
                         <p style="margin:0;font-size:10pt;color:#333;">{{ $exp->description }}</p>
                         @endif

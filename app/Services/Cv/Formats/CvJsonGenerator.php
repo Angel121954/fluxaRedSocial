@@ -57,6 +57,13 @@ class CvJsonGenerator
                     'company' => $exp->company,
                     'location' => $exp->location,
                     'type' => WorkExperience::TYPES[$exp->type] ?? $exp->type,
+                    'employment_type' => $exp->employment_type
+                        ? (WorkExperience::EMPLOYMENT_TYPES[$exp->employment_type] ?? $exp->employment_type)
+                        : null,
+                    'work_mode' => $exp->work_mode
+                        ? (WorkExperience::WORK_MODES[$exp->work_mode] ?? $exp->work_mode)
+                        : null,
+                    'technologies' => $exp->technologies->pluck('name')->toArray(),
                     'start_date' => $exp->started_at?->format('Y-m-d'),
                     'end_date' => $exp->ended_at?->format('Y-m-d'),
                     'current' => (bool) $exp->current,
