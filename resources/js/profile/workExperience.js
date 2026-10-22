@@ -18,6 +18,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const charCount = document.getElementById('charCountDesc');
     const checkCurrent = document.getElementById('input-current');
     const inputEnded = document.getElementById('input-ended_at');
+    const techSearch = document.getElementById('input-technologies');
+    const techGrid = document.getElementById('weTechGrid');
+    const techSelected = document.getElementById('weTechSelected');
     const baseAction = weForm?.getAttribute('action') ?? '';
 
     // ── Referencias a labels dinámicos ──────────────────────
@@ -101,6 +104,26 @@ document.addEventListener('DOMContentLoaded', () => {
     // ── Contador de caracteres ───────────────────────────────
     textarea?.addEventListener('input', updateCharCount);
 
+    // ── Selector de tecnologías ──────────────────────────────
+    techGrid?.addEventListener('change', e => {
+        if (e.target.matches('input[type="checkbox"]')) renderSelectedTechs();
+    });
+
+    techSearch?.addEventListener('input', () => filterTechs(techSearch.value));
+
+    // Los chips son la representación visible de los checkboxes.
+    // Al hacer click en uno se desmarca su checkbox y se vuelve a pintar.
+    techSelected?.addEventListener('click', e => {
+        const chip = e.target.closest('[data-tech-id]');
+        if (!chip || !techGrid) return;
+
+        const checkbox = techGrid.querySelector(`input[value="${chip.dataset.techId}"]`);
+        if (checkbox) {
+            checkbox.checked = false;
+            renderSelectedTechs();
+        }
+    });
+
     // ── Botones Editar en tarjetas ───────────────────────────
     document.querySelectorAll('.btnEdit').forEach(btn => {
         btn.addEventListener('click', () => {
@@ -111,9 +134,21 @@ document.addEventListener('DOMContentLoaded', () => {
             getEl('input-company').value = d.company ?? '';
             getEl('input-position').value = d.position ?? '';
             getEl('input-location').value = d.location ?? '';
+            getEl('input-work_mode').value = d.workMode || 'onsite';
+            getEl('input-employment_type').value = d.employmentType ?? '';
             getEl('input-started_at').value = d.started ?? '';
             getEl('input-ended_at').value = d.ended ?? '';
             getEl('input-description').value = d.description ?? '';
+
+            // Tecnologías: limpiar la selección anterior y marcar las de esta experiencia.
+            if (techSearch) techSearch.value = '';
+            filterTechs('');
+            techCheckboxes().forEach(cb => { cb.checked = false; });
+            (d.technologies ?? '').split(',').filter(Boolean).forEach(id => {
+                const checkbox = techGrid?.querySelector(`input[value="${id}"]`);
+                if (checkbox) checkbox.checked = true;
+            });
+            renderSelectedTechs();
 
             // Seleccionar el tipo correcto
             const radio = document.querySelector(`.we-type-radio[value="${type}"]`);
@@ -164,6 +199,45 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ── Helpers ───────────────────────────────────────────────
+    function techCheckboxes() {
+        if (!techGrid) return [];
+        return Array.from(techGrid.querySelectorAll('input[type="checkbox"]'));
+    }
+
+    function renderSelectedTechs() {
+        if (!techSelected) return;
+
+        // replaceChildren evita innerHTML con datos que vienen del servidor.
+        techSelected.replaceChildren();
+
+        techCheckboxes().filter(cb => cb.checked).forEach(cb => {
+            const name = cb.closest('.we-tech-picker__item')?.querySelector('span')?.textContent ?? '';
+
+            const chip = document.createElement('button');
+            chip.type = 'button';
+            chip.className = 'we-tech-picker__chip';
+            chip.dataset.techId = cb.value;
+            chip.setAttribute('aria-label', `Quitar ${name}`);
+            chip.textContent = name;
+
+            const close = document.createElement('span');
+            close.textContent = '✕';
+            close.setAttribute('aria-hidden', 'true');
+            chip.appendChild(close);
+
+            techSelected.appendChild(chip);
+        });
+    }
+
+    function filterTechs(query) {
+        if (!techGrid) return;
+
+        const term = query.trim().toLowerCase();
+        techGrid.querySelectorAll('.we-tech-picker__item').forEach(item => {
+            item.hidden = term !== '' && !(item.dataset.name ?? '').includes(term);
+        });
+    }
+
     function openModal() {
         backdrop.classList.add('is-open');
         lockBodyScroll();
@@ -180,6 +254,9 @@ document.addEventListener('DOMContentLoaded', () => {
             inputEnded.disabled = false;
             inputEnded.closest('.form-group').style.opacity = '1';
         }
+        if (techSearch) techSearch.value = '';
+        filterTechs('');
+        renderSelectedTechs();
         updateCharCount();
     }
 

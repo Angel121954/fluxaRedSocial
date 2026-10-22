@@ -43,7 +43,11 @@
                         <p class="we-card__position">{{ $exp->position }}</p>
                         <p class="we-card__meta">
                             <span class="we-type-badge we-type-badge--{{ $exp->type }}">{{ \App\Models\WorkExperience::TYPES[$exp->type] ?? $exp->type }}</span>
+                            @if($exp->work_mode)
+                            <span class="we-mode-badge we-mode-badge--{{ $exp->work_mode }}">{{ \App\Models\WorkExperience::WORK_MODES[$exp->work_mode] ?? $exp->work_mode }}</span>
+                            @endif
                             @if($exp->location){{ $exp->location }} &bull; @endif
+                            @if($exp->employment_type){{ \App\Models\WorkExperience::EMPLOYMENT_TYPES[$exp->employment_type] ?? $exp->employment_type }} &bull; @endif
                             {{ $exp->started_at?->translatedFormat('M Y') ?? '' }}
                             &bull;
                             {{ $exp->current ? 'Actualidad' : ($exp->ended_at?->translatedFormat('M Y') ?? '') }}
@@ -51,18 +55,28 @@
                             <span class="we-badge-inline">Actual</span>
                             @endif
                         </p>
+                        @if($exp->technologies->isNotEmpty())
+                        <div class="we-card__techs">
+                            @foreach($exp->technologies as $tech)
+                            <span class="we-tech-chip">{{ $tech->name }}</span>
+                            @endforeach
+                        </div>
+                        @endif
                     </div>
 
                     <div class="we-card__actions">
                         <button type="button" class="we-icon-btn btnEdit"
                             data-id="{{ $exp->id }}"
                             data-type="{{ $exp->type }}"
+                            data-employment-type="{{ $exp->employment_type ?? '' }}"
                             data-company="{{ $exp->company }}"
                             data-position="{{ $exp->position }}"
                             data-location="{{ $exp->location ?? '' }}"
+                            data-work-mode="{{ $exp->work_mode ?? 'onsite' }}"
                             data-started="{{ $exp->started_at?->format('Y-m-d') ?? '' }}"
                             data-ended="{{ $exp->ended_at ? $exp->ended_at->format('Y-m-d') : '' }}"
                             data-current="{{ $exp->current ? '1' : '0' }}"
+                            data-technologies="{{ $exp->technologies->pluck('id')->implode(',') }}"
                             data-description="{{ $exp->description ?? '' }}"
                             aria-label="Editar">
                             <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -178,7 +192,15 @@
                     <x-form-group name="location" label="Ubicación">
                         <input name="location" type="text" class="form-input" id="input-location"
                             value="{{ old('location') }}"
-                            placeholder="Ej. Bogotá, Colombia (Remoto)" maxlength="100" />
+                            placeholder="Ej. Bogotá, Colombia" maxlength="100" />
+                    </x-form-group>
+
+                    <x-form-group name="work_mode" label="Modalidad">
+                        <select name="work_mode" class="form-input" id="input-work_mode" required>
+                            @foreach(\App\Models\WorkExperience::WORK_MODES as $value => $label)
+                            <option value="{{ $value }}" {{ old('work_mode', 'onsite') === $value ? 'selected' : '' }}>{{ $label }}</option>
+                            @endforeach
+                        </select>
                     </x-form-group>
 
                     <x-form-group name="started_at" label="Fecha de inicio">
@@ -191,6 +213,15 @@
                             value="{{ old('ended_at') }}" />
                     </x-form-group>
 
+                    <x-form-group name="employment_type" label="Tipo de contratación" hint="Opcional. No aplica para voluntariado o freelance.">
+                        <select name="employment_type" class="form-input" id="input-employment_type">
+                            <option value="">No especificar</option>
+                            @foreach(\App\Models\WorkExperience::EMPLOYMENT_TYPES as $value => $label)
+                            <option value="{{ $value }}" {{ old('employment_type') === $value ? 'selected' : '' }}>{{ $label }}</option>
+                            @endforeach
+                        </select>
+                    </x-form-group>
+
                     <x-form-group name="current" label="¿Trabajo actual?">
                         <label class="we-toggle">
                             <input type="checkbox" name="current" id="input-current" value="1"
@@ -199,6 +230,27 @@
                             <span class="we-toggle__label">Actualmente trabajo aquí</span>
                         </label>
                     </x-form-group>
+
+                    <div class="we-form-full">
+                        <x-form-group name="technologies" label="Tecnologías"
+                            hint="Selecciona las tecnologías que usaste en este rol (máximo 10).">
+                            <div class="we-tech-picker">
+                                <input type="search" class="form-input" id="input-technologies"
+                                    placeholder="Buscar tecnología..." autocomplete="off" />
+                                <div class="we-tech-picker__selected" id="weTechSelected" aria-live="polite"></div>
+                                <div class="we-tech-picker__grid" id="weTechGrid">
+                                    @foreach($allTechnologies as $tech)
+                                    <label class="we-tech-picker__item" data-name="{{ strtolower($tech->name) }}">
+                                        <input type="checkbox" name="technologies[]" value="{{ $tech->id }}"
+                                            id="we_tech_{{ $tech->id }}"
+                                            {{ in_array($tech->id, old('technologies', [])) ? 'checked' : '' }}>
+                                        <span>{{ $tech->name }}</span>
+                                    </label>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </x-form-group>
+                    </div>
                 </div>
 
                 <x-form-group name="description" label="Descripción" hint="Describe brevemente tus responsabilidades y logros.">
