@@ -7,7 +7,7 @@ namespace App\Http\Controllers\Projects;
 use App\Http\Controllers\Controller;
 use App\Models\Comment;
 use App\Models\CommentLike;
-use App\Notifications\CreatesNotifications;
+use App\Services\NotificationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -18,7 +18,7 @@ class CommentLikeController extends Controller
         try {
             $userId = Auth::id();
 
-            if (!$userId) {
+            if (! $userId) {
                 return response()->json(['error' => 'Unauthenticated'], 401);
             }
 
@@ -28,6 +28,7 @@ class CommentLikeController extends Controller
 
             if ($existingLike) {
                 $existingLike->delete();
+
                 return response()->json([
                     'success' => true,
                     'liked' => false,
@@ -40,7 +41,7 @@ class CommentLikeController extends Controller
             ]);
 
             if ($comment->user_id !== $userId) {
-                CreatesNotifications::notifyCommentLike(
+                NotificationService::notifyCommentLike(
                     $comment->user_id,
                     $userId,
                     Auth::user()->name,

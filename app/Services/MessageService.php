@@ -8,7 +8,6 @@ use App\Events\ConversationCreated;
 use App\Events\MessageEdited;
 use App\Events\NewMessage;
 use App\Models\Conversation;
-use App\Notifications\CreatesNotifications;
 use App\Models\Message;
 use App\Models\Profile;
 use App\Models\User;
@@ -20,8 +19,6 @@ use Illuminate\Support\Facades\Log;
 
 class MessageService
 {
-    use CreatesNotifications;
-
     public function __construct(
         protected CloudinaryService $cloudinary,
     ) {}
@@ -162,7 +159,7 @@ class MessageService
         try {
             broadcast(new MessageEdited($message, $conversationId, $recipientId))->toOthers();
         } catch (\Exception $e) {
-            Log::error('Broadcast edit failed: ' . $e->getMessage());
+            Log::error('Broadcast edit failed: '.$e->getMessage());
         }
     }
 
@@ -171,7 +168,7 @@ class MessageService
         $recipientViewing = Cache::get("user.{$recipientId}.viewing_conv") === $conversationId;
 
         if (! $recipientViewing) {
-            $this->notifyNewMessage(
+            NotificationService::notifyNewMessage(
                 recipientId: $recipientId,
                 senderId: $message->sender_id,
                 conversationId: $conversationId,

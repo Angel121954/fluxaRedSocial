@@ -11,7 +11,7 @@ use App\Models\ProjectMedia;
 use App\Models\SkillEndorsement;
 use App\Models\Technology;
 use App\Models\User;
-use App\Notifications\CreatesNotifications;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class ProjectService
@@ -89,31 +89,36 @@ class ProjectService
 
     public function toggleLike(Project $project, int $userId): array
     {
-        $existingLike = ProjectLike::where('user_id', $userId)
-            ->where('project_id', $project->id)
-            ->first();
+        $isLiked = DB::transaction(function () use ($project, $userId): bool {
+            $existingLike = ProjectLike::where('user_id', $userId)
+                ->where('project_id', $project->id)
+                ->lockForUpdate()
+                ->first();
 
-        if ($existingLike) {
-            $existingLike->delete();
-            $project->decrement('likes_count');
-            $isLiked = false;
-        } else {
+            if ($existingLike) {
+                $existingLike->delete();
+                $project->decrement('likes_count');
+
+                return false;
+            }
+
             ProjectLike::create([
                 'user_id' => $userId,
                 'project_id' => $project->id,
             ]);
             $project->increment('likes_count');
-            $isLiked = true;
 
-            if ($project->user_id !== $userId) {
-                CreatesNotifications::notifyProjectLike(
-                    $project->user_id,
-                    $userId,
-                    User::find($userId)->name,
-                    $project->id,
-                    $project->title
-                );
-            }
+            return true;
+        });
+
+        if ($isLiked && $project->user_id !== $userId) {
+            NotificationService::notifyProjectLike(
+                $project->user_id,
+                $userId,
+                User::find($userId)->name,
+                $project->id,
+                $project->title
+            );
         }
 
         return [
@@ -124,20 +129,25 @@ class ProjectService
 
     public function toggleBookmark(Project $project, int $userId): array
     {
-        $existingBookmark = ProjectBookmark::where('user_id', $userId)
-            ->where('project_id', $project->id)
-            ->first();
+        $isBookmarked = DB::transaction(function () use ($project, $userId): bool {
+            $existingBookmark = ProjectBookmark::where('user_id', $userId)
+                ->where('project_id', $project->id)
+                ->lockForUpdate()
+                ->first();
 
-        if ($existingBookmark) {
-            $existingBookmark->delete();
-            $isBookmarked = false;
-        } else {
+            if ($existingBookmark) {
+                $existingBookmark->delete();
+
+                return false;
+            }
+
             ProjectBookmark::create([
                 'user_id' => $userId,
                 'project_id' => $project->id,
             ]);
-            $isBookmarked = true;
-        }
+
+            return true;
+        });
 
         return [
             'is_bookmarked' => $isBookmarked,
@@ -186,7 +196,7 @@ class ProjectService
         }
 
         if ($isNewEndorsement && $project->user_id !== $userId) {
-            CreatesNotifications::notifyEndorsement(
+            NotificationService::notifyEndorsement(
                 $project->user_id,
                 $userId,
                 User::find($userId)->name,

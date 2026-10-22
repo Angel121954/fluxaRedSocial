@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Notifications;
+namespace App\Services;
 
 use App\Events\NotificationCreated;
 use App\Jobs\SendGroupedLikePush;
@@ -11,12 +11,13 @@ use App\Models\Notification;
 use App\Models\NotificationPreference;
 use App\Models\SkillEndorsement;
 use App\Models\User;
+use App\Notifications\WebPushNotification;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification as NotificationFacade;
 
-trait CreatesNotifications
+final class NotificationService
 {
     public static function createNotification(
         int $userId,
@@ -76,11 +77,11 @@ trait CreatesNotifications
 
         $rateKey = "push.rate.{$notification->user_id}.{$notification->type}";
 
-        if (Cache::store('redis')->has($rateKey)) {
+        if (Cache::has($rateKey)) {
             return;
         }
 
-        Cache::store('redis')->put($rateKey, true, 30);
+        Cache::put($rateKey, true, 30);
 
         NotificationFacade::send($user, new WebPushNotification(
             title: $notification->title,
@@ -148,7 +149,7 @@ trait CreatesNotifications
         $lockKey = "push.pending_likes.lock.{$userId}.{$referenceType}.{$referenceId}";
         $ttl = now()->addSeconds(45);
 
-        $pending = Cache::store('redis')->pull($key) ?? ['names' => []];
+        $pending = Cache::pull($key) ?? ['names' => []];
 
         if (! in_array($likerName, $pending['names'], true)) {
             $pending['names'][] = $likerName;
@@ -156,10 +157,10 @@ trait CreatesNotifications
 
         $pending['count'] = count($pending['names']);
 
-        Cache::store('redis')->put($key, $pending, $ttl);
+        Cache::put($key, $pending, $ttl);
 
-        if (! Cache::store('redis')->has($lockKey)) {
-            Cache::store('redis')->put($lockKey, true, $ttl);
+        if (! Cache::has($lockKey)) {
+            Cache::put($lockKey, true, $ttl);
 
             SendGroupedLikePush::dispatch(
                 userId: $userId,

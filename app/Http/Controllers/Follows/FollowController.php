@@ -7,8 +7,8 @@ namespace App\Http\Controllers\Follows;
 use App\Events\FollowToggled;
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Notifications\CreatesNotifications;
 use App\Services\BadgeService;
+use App\Services\NotificationService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -36,7 +36,7 @@ class FollowController extends Controller
             $currentUser->follows()->attach($user->id);
             $following = true;
 
-            CreatesNotifications::notifyNewFollower(
+            NotificationService::notifyNewFollower(
                 $user->id,
                 $currentUser->id,
                 $currentUser->name

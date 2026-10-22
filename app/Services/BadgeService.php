@@ -6,13 +6,10 @@ namespace App\Services;
 
 use App\Models\Badge;
 use App\Models\User;
-use App\Notifications\CreatesNotifications;
 use Illuminate\Support\Facades\DB;
 
 class BadgeService
 {
-    use CreatesNotifications;
-
     public function scanUser(User $user): void
     {
         $badges = Badge::where('criteria_type', 'count_check')->get();
@@ -94,7 +91,7 @@ class BadgeService
 
     private function notifyBadgeEarned(User $user, Badge $badge): void
     {
-        static::createNotification(
+        NotificationService::createNotification(
             userId: $user->id,
             type: 'badge',
             title: '¡Nuevo logro!',

@@ -15,9 +15,9 @@ class WebPushNotification extends Notification implements ShouldQueue
     use Queueable;
 
     public function __construct(
-        private readonly string $title,
-        private readonly string $body,
-        private readonly ?string $link = null,
+        public readonly string $title,
+        public readonly string $body,
+        public readonly ?string $link = null,
     ) {}
 
     /**

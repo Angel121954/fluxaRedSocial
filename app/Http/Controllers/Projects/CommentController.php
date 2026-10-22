@@ -6,10 +6,11 @@ namespace App\Http\Controllers\Projects;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Project\StoreCommentRequest;
-use App\Models\Project;
 use App\Models\Comment;
-use App\Notifications\CreatesNotifications;
+use App\Models\Project;
+use App\Services\NotificationService;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class CommentController extends Controller
 {
@@ -17,13 +18,17 @@ class CommentController extends Controller
     {
         $this->authorize('comment', $project);
 
-        $comment = $project->comments()->create([
-            'user_id' => Auth::id(),
-            'parent_id' => $request->parent_id,
-            'content' => $request->content,
-        ]);
+        $comment = DB::transaction(function () use ($project, $request) {
+            $comment = $project->comments()->create([
+                'user_id' => Auth::id(),
+                'parent_id' => $request->parent_id,
+                'content' => $request->content,
+            ]);
 
-        $project->increment('comments_count');
+            $project->increment('comments_count');
+
+            return $comment;
+        });
 
         $currentUserId = Auth::id();
         $currentUserName = Auth::user()->name;
@@ -31,7 +36,7 @@ class CommentController extends Controller
         if ($request->parent_id) {
             $parentComment = Comment::find($request->parent_id);
             if ($parentComment && $parentComment->user_id !== $currentUserId) {
-                CreatesNotifications::notifyCommentReply(
+                NotificationService::notifyCommentReply(
                     $parentComment->user_id,
                     $currentUserId,
                     $currentUserName,
@@ -40,7 +45,7 @@ class CommentController extends Controller
                 );
             }
         } elseif ($project->user_id !== $currentUserId) {
-            CreatesNotifications::notifyProjectComment(
+            NotificationService::notifyProjectComment(
                 $project->user_id,
                 $currentUserId,
                 $currentUserName,
@@ -93,9 +98,11 @@ class CommentController extends Controller
 
         $project = $comment->project;
         $commentsToDelete = 1 + $comment->children()->count();
-        $comment->delete();
 
-        $project->decrement('comments_count', $commentsToDelete);
+        DB::transaction(function () use ($comment, $project, $commentsToDelete): void {
+            $comment->delete();
+            $project->decrement('comments_count', $commentsToDelete);
+        });
 
         return response()->json(['success' => true]);
     }

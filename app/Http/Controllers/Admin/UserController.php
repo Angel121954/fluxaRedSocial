@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\UserBanned;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\GrantBadgeRequest;
 use App\Models\Badge;
 use App\Models\Notification;
 use App\Models\User;
-use App\Events\UserBanned;
-use App\Notifications\CreatesNotifications;
+use App\Services\NotificationService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -81,7 +81,7 @@ class UserController extends Controller
         $count = count($request->user_ids);
 
         foreach ($request->user_ids as $userId) {
-            CreatesNotifications::createNotification(
+            NotificationService::createNotification(
                 userId: (int) $userId,
                 type: Notification::TYPE_BADGE,
                 title: '¡Nuevo logro!',

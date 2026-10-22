@@ -28,10 +28,10 @@ class SendGroupedLikePush implements ShouldQueue
         $key = "push.pending_likes.{$this->userId}.{$this->referenceType}.{$this->referenceId}";
         $lockKey = "push.pending_likes.lock.{$this->userId}.{$this->referenceType}.{$this->referenceId}";
 
-        $pending = Cache::store('redis')->pull($key);
+        $pending = Cache::pull($key);
 
         if (empty($pending['names']) || ! $this->shouldSend($pending['count'])) {
-            Cache::store('redis')->forget($lockKey);
+            Cache::forget($lockKey);
 
             return;
         }
@@ -39,7 +39,7 @@ class SendGroupedLikePush implements ShouldQueue
         $prefs = NotificationPreference::where('user_id', $this->userId)->first();
 
         if (! $prefs || ! $prefs->push_enabled || ! $prefs->notify_comments) {
-            Cache::store('redis')->forget($lockKey);
+            Cache::forget($lockKey);
 
             return;
         }
@@ -47,7 +47,7 @@ class SendGroupedLikePush implements ShouldQueue
         $user = User::find($this->userId);
 
         if (! $user || $user->pushSubscriptions()->doesntExist()) {
-            Cache::store('redis')->forget($lockKey);
+            Cache::forget($lockKey);
 
             return;
         }
@@ -61,7 +61,7 @@ class SendGroupedLikePush implements ShouldQueue
             link: $this->link,
         ));
 
-        Cache::store('redis')->forget($lockKey);
+        Cache::forget($lockKey);
     }
 
     private function shouldSend(int $totalLikes): bool

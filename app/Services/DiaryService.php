@@ -12,9 +12,9 @@ use App\Models\DiaryResponseComment;
 use App\Models\DiaryResponseCommentLike;
 use App\Models\DiaryResponseLike;
 use App\Models\User;
-use App\Notifications\CreatesNotifications;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 class DiaryService
 {
@@ -74,29 +74,34 @@ class DiaryService
 
     public function toggleLike(DiaryResponse $response, int $userId): array
     {
-        $like = DiaryResponseLike::where('diary_response_id', $response->id)
-            ->where('user_id', $userId)
-            ->first();
+        $liked = DB::transaction(function () use ($response, $userId): bool {
+            $like = DiaryResponseLike::where('diary_response_id', $response->id)
+                ->where('user_id', $userId)
+                ->lockForUpdate()
+                ->first();
 
-        if ($like) {
-            $like->delete();
-            $response->decrement('likes_count');
-            $liked = false;
-        } else {
+            if ($like) {
+                $like->delete();
+                $response->decrement('likes_count');
+
+                return false;
+            }
+
             DiaryResponseLike::create([
                 'diary_response_id' => $response->id,
                 'user_id' => $userId,
             ]);
             $response->increment('likes_count');
-            $liked = true;
 
-            if ($response->user_id !== $userId) {
-                CreatesNotifications::notifyDiaryResponseLike(
-                    $response->user_id,
-                    $userId,
-                    User::find($userId)->name,
-                );
-            }
+            return true;
+        });
+
+        if ($liked && $response->user_id !== $userId) {
+            NotificationService::notifyDiaryResponseLike(
+                $response->user_id,
+                $userId,
+                User::find($userId)->name,
+            );
         }
 
         return [
@@ -107,27 +112,32 @@ class DiaryService
 
     public function toggleBookmark(DiaryResponse $response, int $userId): array
     {
-        $bookmark = DiaryResponseBookmark::where('diary_response_id', $response->id)
-            ->where('user_id', $userId)
-            ->first();
+        $bookmarked = DB::transaction(function () use ($response, $userId): bool {
+            $bookmark = DiaryResponseBookmark::where('diary_response_id', $response->id)
+                ->where('user_id', $userId)
+                ->lockForUpdate()
+                ->first();
 
-        if ($bookmark) {
-            $bookmark->delete();
-            $bookmarked = false;
-        } else {
+            if ($bookmark) {
+                $bookmark->delete();
+
+                return false;
+            }
+
             DiaryResponseBookmark::create([
                 'diary_response_id' => $response->id,
                 'user_id' => $userId,
             ]);
-            $bookmarked = true;
 
-            if ($response->user_id !== $userId) {
-                CreatesNotifications::notifyDiaryResponseBookmark(
-                    $response->user_id,
-                    $userId,
-                    User::find($userId)->name,
-                );
-            }
+            return true;
+        });
+
+        if ($bookmarked && $response->user_id !== $userId) {
+            NotificationService::notifyDiaryResponseBookmark(
+                $response->user_id,
+                $userId,
+                User::find($userId)->name,
+            );
         }
 
         return ['bookmarked' => $bookmarked];
@@ -135,20 +145,24 @@ class DiaryService
 
     public function createComment(DiaryResponse $response, int $userId, string $content, ?int $parentId): array
     {
-        $comment = DiaryResponseComment::create([
-            'diary_response_id' => $response->id,
-            'user_id' => $userId,
-            'parent_id' => $parentId,
-            'content' => $content,
-        ]);
+        $comment = DB::transaction(function () use ($response, $userId, $content, $parentId): DiaryResponseComment {
+            $comment = DiaryResponseComment::create([
+                'diary_response_id' => $response->id,
+                'user_id' => $userId,
+                'parent_id' => $parentId,
+                'content' => $content,
+            ]);
 
-        $response->increment('comments_count');
+            $response->increment('comments_count');
+
+            return $comment;
+        });
 
         $comment->load('user');
         $comment->user?->append('avatar_url');
 
         if ($response->user_id !== $userId) {
-            CreatesNotifications::notifyDiaryResponseComment(
+            NotificationService::notifyDiaryResponseComment(
                 $response->user_id,
                 $userId,
                 User::find($userId)->name,
@@ -207,9 +221,10 @@ class DiaryService
         $response = $comment->response;
         $commentsToDelete = 1 + $comment->children()->count();
 
-        $comment->delete();
-
-        $response->decrement('comments_count', $commentsToDelete);
+        DB::transaction(function () use ($comment, $response, $commentsToDelete): void {
+            $comment->delete();
+            $response->decrement('comments_count', $commentsToDelete);
+        });
 
         return $response->loadCount('comments')->comments_count;
     }
