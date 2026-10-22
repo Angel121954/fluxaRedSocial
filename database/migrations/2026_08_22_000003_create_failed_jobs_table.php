@@ -10,6 +10,12 @@ return new class extends Migration
 {
     public function up(): void
     {
+        // La tabla puede existir si el proyecto se creó con una versión previa
+        // de Laravel. Igual que el resto de migraciones, se ignora en ese caso.
+        if (Schema::hasTable('failed_jobs')) {
+            return;
+        }
+
         Schema::create('failed_jobs', function (Blueprint $table) {
             $table->id();
             $table->string('uuid')->unique();
