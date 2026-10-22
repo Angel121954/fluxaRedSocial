@@ -21,14 +21,10 @@ class CleanCloudinaryOrphans extends Command
 
     protected Cloudinary $cloudinary;
 
-    public function __construct()
-    {
-        parent::__construct();
-        $this->cloudinary = new Cloudinary(config('cloudinary.cloud_url'));
-    }
-
     public function handle(): int
     {
+        $this->cloudinary = new Cloudinary(config('cloudinary.cloud_url'));
+
         $dryRun = $this->option('dry-run');
         $totalDeleted = 0;
 
