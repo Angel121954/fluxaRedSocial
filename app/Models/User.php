@@ -50,6 +50,7 @@ class User extends Authenticatable
         'onboarding_completed' => 'boolean',
         'github_token_expires_at' => 'datetime',
         'github_synced_at' => 'datetime',
+        'delete_at' => 'datetime',
     ];
 
     public function banner(): BelongsTo

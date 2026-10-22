@@ -5,27 +5,30 @@ declare(strict_types=1);
 namespace App\Console\Commands;
 
 use App\Models\User;
+use Cloudinary\Cloudinary;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 
 class DeleteExpiredUsers extends Command
 {
-    protected $signature   = 'users:delete-expired';
-    protected $description = 'Elimina usuarios con deleted_at vencido y su imagen de Cloudinary';
+    protected $signature = 'users:delete-expired';
+
+    protected $description = 'Elimina usuarios con delete_at vencido y su imagen de Cloudinary';
 
     public function handle(): void
     {
         $users = User::where('status', 'pending_deletion')
-            ->whereNotNull('deleted_at')
-            ->where('deleted_at', '<=', now())
+            ->whereNotNull('delete_at')
+            ->where('delete_at', '<=', now())
             ->get();
 
         if ($users->isEmpty()) {
             $this->info('No hay usuarios pendientes de eliminación.');
+
             return;
         }
 
-        $cloudinary = new \Cloudinary\Cloudinary(config('cloudinary.cloud_url'));
+        $cloudinary = new Cloudinary(config('cloudinary.cloud_url'));
 
         foreach ($users as $user) {
             try {
@@ -33,7 +36,7 @@ class DeleteExpiredUsers extends Command
                 $avatarUrl = $user->profile?->avatar;
 
                 if ($avatarUrl && str_contains($avatarUrl, 'cloudinary.com')) {
-                    $cloudinary->uploadApi()->destroy('fluxa/avatares/user_' . $user->id);
+                    $cloudinary->uploadApi()->destroy('fluxa/avatares/user_'.$user->id);
 
                     Log::info('Avatar eliminado de Cloudinary', ['user_id' => $user->id]);
                 }
@@ -47,7 +50,7 @@ class DeleteExpiredUsers extends Command
                 $this->error("Error eliminando usuario #{$user->id}: {$e->getMessage()}");
                 Log::error('Error en eliminación de usuario', [
                     'user_id' => $user->id,
-                    'error'   => $e->getMessage(),
+                    'error' => $e->getMessage(),
                 ]);
             }
         }
