@@ -24,18 +24,12 @@ function getIconForType(type) {
 }
 
 function renderNotificationToast(data) {
-    if (!window.ToastManager) return;
-    
-    const icon = getIconForType(data.type);
-    let msg = data.body || 'Nueva notificación';
-    if (data.from_user) msg = '<strong>' + escapeHtml(data.from_user.name) + '</strong> ' + escapeHtml(msg);
-    
-    new ToastManager().create({
-        type: 'info',
-        message: '<span style="display:flex;align-items:flex-start;gap:8px;min-width:0"><span style="flex-shrink:0;margin-top:2px">' + icon + '</span><span style="min-width:0;overflow-wrap:break-word;word-break:break-word">' + msg + '</span></span>',
-        duration: 5000,
-        dismissible: true
-    });
+    if (!window.showToast) return;
+
+    const body = data.body || 'Nueva notificación';
+    const message = data.from_user ? `${data.from_user.name}: ${body}` : body;
+
+    window.showToast(message, 'info', { duration: 5000 });
 }
 
 window.renderNotificationToast = renderNotificationToast;

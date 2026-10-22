@@ -228,3 +228,5 @@ window.addEventListener('DOMContentLoaded', () => {
     initSessionToast();
     window.toast = toast;
 });
+
+window.showToast = showToast;
