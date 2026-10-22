@@ -6,17 +6,18 @@ use App\Jobs\SendGroupedLikePush;
 use App\Models\Notification;
 use App\Models\NotificationPreference;
 use App\Models\User;
-use App\Notifications\CreatesNotifications;
 use App\Notifications\WebPushNotification;
+use App\Services\NotificationService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Notification as NotificationFacade;
+use Illuminate\Support\Facades\Queue;
 
 uses(RefreshDatabase::class);
 
 describe('Suscripción a notificaciones push', function () {
     it('guarda la suscripción del usuario autenticado', function () {
-        $user = User::factory()->create();
+        $user = User::factory()->create(['onboarding_completed' => true]);
 
         $response = $this->actingAs($user)->postJson('/notifications/push/subscribe', [
             'endpoint' => 'https://fcm.googleapis.com/fcm/send/dummy-endpoint-1',
@@ -44,7 +45,7 @@ describe('Suscripción a notificaciones push', function () {
     });
 
     it('elimina la suscripción del usuario por endpoint', function () {
-        $user = User::factory()->create();
+        $user = User::factory()->create(['onboarding_completed' => true]);
         $user->updatePushSubscription(
             endpoint: 'https://fcm.googleapis.com/fcm/send/dummy-endpoint-3',
             key: 'key',
@@ -72,14 +73,14 @@ describe('Envío de notificaciones push', function () {
     it('no envía push cuando el usuario tiene push deshabilitado', function () {
         NotificationFacade::fake();
 
-        $user = User::factory()->create();
+        $user = User::factory()->create(['onboarding_completed' => true]);
 
         NotificationPreference::create([
             'user_id' => $user->id,
             'push_enabled' => false,
         ]);
 
-        CreatesNotifications::createNotification(
+        NotificationService::createNotification(
             userId: $user->id,
             type: Notification::TYPE_FOLLOW,
             title: 'Nuevo seguidor',
@@ -92,14 +93,14 @@ describe('Envío de notificaciones push', function () {
     it('no envía push sin suscripciones activas', function () {
         NotificationFacade::fake();
 
-        $user = User::factory()->create();
+        $user = User::factory()->create(['onboarding_completed' => true]);
 
         NotificationPreference::create([
             'user_id' => $user->id,
             'push_enabled' => true,
         ]);
 
-        CreatesNotifications::createNotification(
+        NotificationService::createNotification(
             userId: $user->id,
             type: Notification::TYPE_COMMENT,
             title: 'Nuevo comentario',
@@ -112,7 +113,7 @@ describe('Envío de notificaciones push', function () {
     it('envía push cuando hay suscripción y push habilitado', function () {
         NotificationFacade::fake();
 
-        $user = User::factory()->create();
+        $user = User::factory()->create(['onboarding_completed' => true]);
         $user->updatePushSubscription(
             endpoint: 'https://fcm.googleapis.com/fcm/send/dummy-endpoint-4',
             key: 'key',
@@ -126,13 +127,13 @@ describe('Envío de notificaciones push', function () {
             'notify_followers' => true,
         ]);
 
-        CreatesNotifications::createNotification(
+        NotificationService::createNotification(
             userId: $user->id,
             type: Notification::TYPE_FOLLOW,
             title: 'Nuevo seguidor',
             body: 'alguien comenzó a seguirte',
             link: '/profile/otro-usuario',
-            fromUserId: User::factory()->create()->id,
+            fromUserId: User::factory()->create(['onboarding_completed' => true])->id,
         );
 
         NotificationFacade::assertSentTo($user, WebPushNotification::class);
@@ -141,7 +142,7 @@ describe('Envío de notificaciones push', function () {
     it('respeta la preferencia del tipo de notificación al enviar push', function () {
         NotificationFacade::fake();
 
-        $user = User::factory()->create();
+        $user = User::factory()->create(['onboarding_completed' => true]);
         $user->updatePushSubscription(
             endpoint: 'https://fcm.googleapis.com/fcm/send/dummy-endpoint-5',
             key: 'key',
@@ -155,12 +156,12 @@ describe('Envío de notificaciones push', function () {
             'notify_followers' => false,
         ]);
 
-        CreatesNotifications::createNotification(
+        NotificationService::createNotification(
             userId: $user->id,
             type: Notification::TYPE_FOLLOW,
             title: 'Nuevo seguidor',
             body: 'alguien comenzó a seguirte',
-            fromUserId: User::factory()->create()->id,
+            fromUserId: User::factory()->create(['onboarding_completed' => true])->id,
         );
 
         NotificationFacade::assertNothingSentTo($user);
@@ -169,7 +170,10 @@ describe('Envío de notificaciones push', function () {
 
 describe('Agrupación de likes (push)', function () {
     it('acumula likes de personas distintas en un solo grupo', function () {
-        $user = User::factory()->create();
+        NotificationFacade::fake();
+        Queue::fake();
+
+        $user = User::factory()->create(['onboarding_completed' => true]);
         $user->updatePushSubscription(
             endpoint: 'https://fcm.googleapis.com/fcm/send/dummy-like-1',
             key: 'key',
@@ -182,21 +186,21 @@ describe('Agrupación de likes (push)', function () {
             'notify_comments' => true,
         ]);
 
-        CreatesNotifications::queueLikePush(
+        NotificationService::queueLikePush(
             userId: $user->id,
             likerName: 'sara',
             referenceId: 1,
             referenceType: 'project',
             link: '/projects/1'
         );
-        CreatesNotifications::queueLikePush(
+        NotificationService::queueLikePush(
             userId: $user->id,
             likerName: 'juan',
             referenceId: 1,
             referenceType: 'project',
             link: '/projects/1'
         );
-        CreatesNotifications::queueLikePush(
+        NotificationService::queueLikePush(
             userId: $user->id,
             likerName: 'sara',
             referenceId: 1,
@@ -204,7 +208,7 @@ describe('Agrupación de likes (push)', function () {
             link: '/projects/1'
         );
 
-        $pending = Cache::store('redis')->get("push.pending_likes.{$user->id}.project.1");
+        $pending = Cache::get("push.pending_likes.{$user->id}.project.1");
 
         expect($pending['names'])->toBe(['sara', 'juan'])
             ->and($pending['count'])->toBe(2);
@@ -212,8 +216,9 @@ describe('Agrupación de likes (push)', function () {
 
     it('envía un solo push agrupado con personas únicas en el job', function () {
         NotificationFacade::fake();
+        Queue::fake();
 
-        $user = User::factory()->create();
+        $user = User::factory()->create(['onboarding_completed' => true]);
         $user->updatePushSubscription(
             endpoint: 'https://fcm.googleapis.com/fcm/send/dummy-like-2',
             key: 'key',
@@ -226,14 +231,14 @@ describe('Agrupación de likes (push)', function () {
             'notify_comments' => true,
         ]);
 
-        CreatesNotifications::queueLikePush(
+        NotificationService::queueLikePush(
             userId: $user->id,
             likerName: 'sara',
             referenceId: 1,
             referenceType: 'project',
             link: '/projects/1'
         );
-        CreatesNotifications::queueLikePush(
+        NotificationService::queueLikePush(
             userId: $user->id,
             likerName: 'juan',
             referenceId: 1,
@@ -247,8 +252,8 @@ describe('Agrupación de likes (push)', function () {
             return str_contains($notification->body, 'y a 1 más les gustó');
         });
 
-        expect(Cache::store('redis')->has("push.pending_likes.{$user->id}.project.1"))->toBeFalse()
-            ->and(Cache::store('redis')->has("push.pending_likes.lock.{$user->id}.project.1"))->toBeFalse();
+        expect(Cache::has("push.pending_likes.{$user->id}.project.1"))->toBeFalse()
+            ->and(Cache::has("push.pending_likes.lock.{$user->id}.project.1"))->toBeFalse();
     });
 });
 
@@ -256,7 +261,7 @@ describe('Límite de rate por usuario', function () {
     it('no envía un segundo push del mismo tipo dentro de la ventana de rate', function () {
         NotificationFacade::fake();
 
-        $user = User::factory()->create();
+        $user = User::factory()->create(['onboarding_completed' => true]);
         $user->updatePushSubscription(
             endpoint: 'https://fcm.googleapis.com/fcm/send/dummy-rate-1',
             key: 'key',
@@ -269,12 +274,12 @@ describe('Límite de rate por usuario', function () {
         ]);
 
         for ($i = 0; $i < 2; $i++) {
-            CreatesNotifications::createNotification(
+            NotificationService::createNotification(
                 userId: $user->id,
                 type: Notification::TYPE_PROJECT,
                 title: 'Nuevo proyecto',
                 body: 'Tienes un nuevo proyecto',
-                fromUserId: User::factory()->create()->id,
+                fromUserId: User::factory()->create(['onboarding_completed' => true])->id,
             );
         }
 
