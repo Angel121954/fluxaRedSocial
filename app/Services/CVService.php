@@ -27,6 +27,11 @@ class CVService
         return $this->cvData->prepare($user, $cvSettings);
     }
 
+    public function settingsFor(User $user, ?array $cvSettings = null): array
+    {
+        return $this->cvData->settingsFor($user, $cvSettings);
+    }
+
     public function generatePdf(string $html): string
     {
         return $this->pdfGenerator->generate($html, self::VISUAL_PDF_MARGINS);

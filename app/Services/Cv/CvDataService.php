@@ -19,21 +19,39 @@ class CvDataService
         'format' => 'pdf',
         'show_photo' => true,
         'show_location' => true,
-        'show_email' => true,
+        'show_email' => false,
+        'show_phone' => false,
         'show_projects' => true,
         'show_experience' => true,
         'show_education' => true,
         'section_order' => ['experience', 'projects', 'education', 'skills'],
     ];
 
+    public function defaultSettings(User $user): array
+    {
+        return array_merge(self::DEFAULT_CV_SETTINGS, [
+            'show_email' => (bool) $user->profile?->show_email,
+        ]);
+    }
+
+    public function settingsFor(User $user, ?array $cvSettings = null): array
+    {
+        $settings = array_merge(
+            $this->defaultSettings($user),
+            $cvSettings ?? $user->profile?->cv_settings ?? [],
+        );
+
+        if (! $user->profile?->show_email) {
+            $settings['show_email'] = false;
+        }
+
+        return $settings;
+    }
+
     public function prepare(User $user, ?array $cvSettings = null): array
     {
         $profile = $user->profile;
-        $cvSettings = $cvSettings
-            ? array_merge(self::DEFAULT_CV_SETTINGS, $cvSettings)
-            : ($profile->cv_settings
-                ? array_merge(self::DEFAULT_CV_SETTINGS, $profile->cv_settings)
-                : self::DEFAULT_CV_SETTINGS);
+        $cvSettings = $this->settingsFor($user, $cvSettings);
 
         $urlPerfil = request()->getHost() === 'localhost'
             ? 'profile/'.$user->username

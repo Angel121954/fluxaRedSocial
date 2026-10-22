@@ -109,6 +109,7 @@
                             'show_photo' => 'Foto de perfil',
                             'show_location' => 'Ubicación',
                             'show_email' => 'Email',
+                            'show_phone' => 'Teléfono',
                             'show_projects' => 'Proyectos',
                             'show_experience' => 'Experiencia',
                             'show_education' => 'Educación',
@@ -120,6 +121,7 @@
                                 <input type="checkbox" id="{{ $name }}" name="{{ $name }}"
                                     value="1"
                                     {{ old($name, $cvSettings[$name] ?? true) ? 'checked' : '' }}
+                                    @if($name === 'show_email' && !$profile->show_email) disabled @endif
                                     class="cv-checkbox">
                                 <span class="cv-checkbox-custom">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
@@ -131,6 +133,13 @@
                             @endforeach
 
                         </div>
+
+                        @unless($profile->show_email)
+                        <p class="cv-section__hint">
+                            El email está oculto en tu perfil. Para incluirlo en el CV, actívalo primero en
+                            <a href="{{ route('privacy.index') }}">Privacidad</a>.
+                        </p>
+                        @endunless
 
                         {{-- ── Proyectos: selector ─────────────────────── --}}
                         <div class="cv-project-picker" id="cvProjectPicker" style="{{ ($cvSettings['show_projects'] ?? true) ? '' : 'display:none' }}">

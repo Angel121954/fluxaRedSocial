@@ -20,6 +20,7 @@ class UpdateCVSettingsRequest extends FormRequest
             'show_photo' => 'nullable|in:on,1,0,true,false',
             'show_location' => 'nullable|in:on,1,0,true,false',
             'show_email' => 'nullable|in:on,1,0,true,false',
+            'show_phone' => 'nullable|in:on,1,0,true,false',
             'show_projects' => 'nullable|in:on,1,0,true,false',
             'show_experience' => 'nullable|in:on,1,0,true,false',
             'show_education' => 'nullable|in:on,1,0,true,false',

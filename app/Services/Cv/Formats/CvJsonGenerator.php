@@ -24,13 +24,13 @@ class CvJsonGenerator
             'personal' => [
                 'name' => $user->name,
                 'username' => $user->username,
-                'email' => ($cvSettings['show_email'] ?? true) ? $user->email : null,
+                'email' => ($cvSettings['show_email'] ?? false) ? $user->email : null,
                 'role' => $data['rolProfesional'] ?? null,
                 'bio' => $profile->bio ?? null,
                 'location' => ($cvSettings['show_location'] ?? true)
                     ? trim(($profile->city ?? '').', '.($profile->country ?? ''), ' ,')
                     : null,
-                'phone' => $profile->phone_number
+                'phone' => ($cvSettings['show_phone'] ?? false) && $profile->phone_number
                     ? ($profile->phone_code ?? '').' '.$profile->phone_number
                     : null,
                 'website' => $profile->website_url ?? null,

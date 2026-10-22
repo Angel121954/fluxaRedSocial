@@ -15,14 +15,14 @@
         <h1 style="font-size:20pt;font-weight:700;margin:0 0 4px;color:#000;">{{ $user->name }}</h1>
         <p style="font-size:12pt;margin:0 0 2px;color:#333;">{{ $rolProfesional ?? 'Software Developer' }}</p>
         <p style="font-size:10pt;margin:0;color:#555;">
-            @if(!empty($user->email) && ($cvSettings['show_email'] ?? true))
+            @if(!empty($user->email) && ($cvSettings['show_email'] ?? false))
                 {{ $user->email }} |
             @endif
             @php $cvLocation = trim(($profile->city ?? '') . ', ' . ($profile->country ?? ''), ' ,'); @endphp
             @if(!empty($cvLocation) && ($cvSettings['show_location'] ?? true))
                 {{ $cvLocation }} |
             @endif
-            @if(!empty($profile->phone_number))
+            @if(($cvSettings['show_phone'] ?? false) && !empty($profile->phone_number))
                 {{ $profile->phone_code ?? '' }} {{ $profile->phone_number }} |
             @endif
             @php

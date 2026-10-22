@@ -47,7 +47,7 @@
                 <div class="toggle-row">
                     <div class="toggle-info">
                         <span class="toggle-label">Mostrar el correo electrónico en el perfil</span>
-                        <span class="toggle-desc">Permitir que tu dirección de correo electrónico sea visible en tu perfil.</span>
+                        <span class="toggle-desc">Permitir que tu dirección de correo electrónico sea visible en tu perfil. También se usa como valor por defecto en tu CV.</span>
                     </div>
                     <label class="toggle-switch">
                         <input type="checkbox" name="show_email" value="1"

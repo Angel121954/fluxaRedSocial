@@ -35,16 +35,7 @@ class CVSettingsController extends Controller
 
         $availableSections = array_keys(array_filter($hasData));
 
-        $cvSettings = $user->profile->cv_settings ?? [
-            'format' => 'pdf',
-            'show_photo' => true,
-            'show_location' => true,
-            'show_email' => true,
-            'show_projects' => true,
-            'show_experience' => true,
-            'show_education' => true,
-            'section_order' => $availableSections,
-        ];
+        $cvSettings = $this->cvService->settingsFor($user, $user->profile->cv_settings);
 
         $savedOrder = $cvSettings['section_order'] ?? $availableSections;
         $existing = array_intersect($savedOrder, $availableSections);
@@ -75,6 +66,7 @@ class CVSettingsController extends Controller
             'show_photo' => $request->boolean('show_photo'),
             'show_location' => $request->boolean('show_location'),
             'show_email' => $request->boolean('show_email'),
+            'show_phone' => $request->boolean('show_phone'),
             'show_projects' => $request->boolean('show_projects'),
             'show_experience' => $request->boolean('show_experience'),
             'show_education' => $request->boolean('show_education'),
