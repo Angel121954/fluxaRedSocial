@@ -34,13 +34,12 @@ class UserController extends Controller
         $existingConvUserIds = $this->messageService->getExistingConversationUserIds($currentUserId);
 
         $users = User::where('id', '!=', $currentUserId)
-            ->whereHas('profile', function ($q) use ($query) {
-                $q->where('visibility', 'public')
-                    ->where('accept_messages', true)
-                    ->where(function ($q2) use ($query) {
-                        $q2->where('name', 'like', "%{$query}%")
-                            ->orWhere('username', 'like', "%{$query}%");
-                    });
+            ->whereHas('profile', fn ($q) => $q
+                ->where('visibility', 'public')
+                ->where('accept_messages', true))
+            ->where(function ($q) use ($query) {
+                $q->where('name', 'like', "%{$query}%")
+                    ->orWhere('username', 'like', "%{$query}%");
             })
             ->with('profile');
 
@@ -54,7 +53,7 @@ class UserController extends Controller
             return [
                 'id' => $user->id,
                 'username' => $user->username,
-                'name' => $user->profile->name ?? $user->name,
+                'name' => $user->name,
                 'avatar_url' => $user->avatar_url,
             ];
         });

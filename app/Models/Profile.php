@@ -22,8 +22,6 @@ class Profile extends Model
 
     protected $fillable = [
         'user_id',
-        'username',
-        'name',
         'avatar',
         'cover_image',
         'bio',
