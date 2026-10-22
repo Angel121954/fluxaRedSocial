@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Providers;
 
-use App\Actions\Fortify\CreateNewUser;
+use App\Actions\Fortify\CheckUserStatus;
 use App\Actions\Fortify\ResetUserPassword;
 use App\Actions\Fortify\UpdateUserPassword;
 use App\Actions\Fortify\UpdateUserProfileInformation;
@@ -14,6 +14,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
+use Laravel\Fortify\Actions\AttemptToAuthenticate;
+use Laravel\Fortify\Actions\PrepareAuthenticatedSession;
+use Laravel\Fortify\Actions\RedirectIfTwoFactorAuthenticatable;
 use Laravel\Fortify\Contracts\FailedTwoFactorLoginResponse as FailedTwoFactorLoginResponseContract;
 use Laravel\Fortify\Contracts\LoginResponse as LoginResponseContract;
 use Laravel\Fortify\Contracts\TwoFactorLoginResponse as TwoFactorLoginResponseContract;
@@ -28,7 +31,6 @@ class FortifyServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        Fortify::createUsersUsing(CreateNewUser::class);
         Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);
         Fortify::updateUserPasswordsUsing(UpdateUserPassword::class);
         Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
@@ -43,10 +45,10 @@ class FortifyServiceProvider extends ServiceProvider
 
         Fortify::authenticateThrough(function (Request $request) {
             return array_filter([
-                \App\Actions\Fortify\CheckUserStatus::class,
-                \Laravel\Fortify\Actions\RedirectIfTwoFactorAuthenticatable::class,
-                \Laravel\Fortify\Actions\AttemptToAuthenticate::class,
-                \Laravel\Fortify\Actions\PrepareAuthenticatedSession::class,
+                CheckUserStatus::class,
+                RedirectIfTwoFactorAuthenticatable::class,
+                AttemptToAuthenticate::class,
+                PrepareAuthenticatedSession::class,
             ]);
         });
 
