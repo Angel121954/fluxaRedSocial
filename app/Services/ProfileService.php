@@ -66,7 +66,9 @@ class ProfileService
 
         $favoriteProjects = collect();
         if ($showFavorites) {
-            $favoriteProjects = $user->bookmarkedProjects()->latest()->get();
+            $favoriteProjects = $user->bookmarkedProjects()
+                ->when(! $isOwner, fn ($q) => $q->where('projects.privacy', 'public'))
+                ->get();
 
             $projectsById = $projects->keyBy('id');
 
