@@ -48,7 +48,40 @@ class RouteServiceProvider extends ServiceProvider
     protected function configureRateLimiting()
     {
         RateLimiter::for('api', function (Request $request) {
-            return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
+            return Limit::perMinute(60)->by($this->throttleKey($request));
         });
+
+        RateLimiter::for('interactions', function (Request $request) {
+            return Limit::perMinute(120)->by($this->throttleKey($request));
+        });
+
+        RateLimiter::for('comments', function (Request $request) {
+            return Limit::perMinute(20)->by($this->throttleKey($request));
+        });
+
+        RateLimiter::for('follows', function (Request $request) {
+            return Limit::perMinute(30)->by($this->throttleKey($request));
+        });
+
+        RateLimiter::for('reports', function (Request $request) {
+            return Limit::perMinute(5)->by($this->throttleKey($request));
+        });
+
+        RateLimiter::for('uploads', function (Request $request) {
+            return Limit::perMinute(10)->by($this->throttleKey($request));
+        });
+
+        RateLimiter::for('messages', function (Request $request) {
+            return Limit::perMinute(60)->by($this->throttleKey($request));
+        });
+
+        RateLimiter::for('push', function (Request $request) {
+            return Limit::perMinute(10)->by($this->throttleKey($request));
+        });
+    }
+
+    private function throttleKey(Request $request): string
+    {
+        return (string) ($request->user()?->getAuthIdentifier() ?? $request->ip());
     }
 }

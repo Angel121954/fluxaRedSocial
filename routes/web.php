@@ -133,7 +133,7 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
 
     Route::post('/users/{user}/follow', [FollowController::class, 'toggle'])
         ->name('users.follow')
-        ->middleware('restrict.guest');
+        ->middleware(['restrict.guest', 'throttle:follows']);
 });
 
 /*
@@ -273,28 +273,36 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
 
     Route::middleware(['verified', 'restrict.guest'])->group(function () {
         Route::post('/diary', [DiaryController::class, 'store'])
-            ->name('diary.reply');
+            ->name('diary.reply')
+            ->middleware('throttle:comments');
 
         Route::post('/diary/{response}/like', [DiaryController::class, 'like'])
-            ->name('diary.response.like');
+            ->name('diary.response.like')
+            ->middleware('throttle:interactions');
 
         Route::post('/diary/{response}/bookmark', [DiaryController::class, 'bookmark'])
-            ->name('diary.response.bookmark');
+            ->name('diary.response.bookmark')
+            ->middleware('throttle:interactions');
 
         Route::post('/diary/{response}/comments', [DiaryController::class, 'comment'])
-            ->name('diary.response.comment');
+            ->name('diary.response.comment')
+            ->middleware('throttle:comments');
 
         Route::post('/diary/comments/{comment}/like', [DiaryController::class, 'commentLike'])
-            ->name('diary.response.comment.like');
+            ->name('diary.response.comment.like')
+            ->middleware('throttle:interactions');
 
         Route::delete('/diary/comments/{comment}', [DiaryController::class, 'commentDestroy'])
-            ->name('diary.response.comment.destroy');
+            ->name('diary.response.comment.destroy')
+            ->middleware('throttle:interactions');
 
         Route::post('/diary/{response}/report', [DiaryController::class, 'report'])
-            ->name('diary.response.report');
+            ->name('diary.response.report')
+            ->middleware('throttle:reports');
 
         Route::delete('/diary/{response}', [DiaryController::class, 'destroy'])
-            ->name('diary.response.destroy');
+            ->name('diary.response.destroy')
+            ->middleware('throttle:interactions');
     });
 
     Route::get('/diary/{response}/comments', [DiaryController::class, 'comments'])
@@ -352,10 +360,12 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
         ->name('contact.index');
 
     Route::post('/contact', [ContactController::class, 'store'])
-        ->name('contact.store');
+        ->name('contact.store')
+        ->middleware('throttle:reports');
 
     Route::post('/report-problem', [ProblemReportController::class, 'store'])
-        ->name('report-problem.store');
+        ->name('report-problem.store')
+        ->middleware('throttle:reports');
 
     /*
     |--------------------------------------------------------------------------
@@ -373,10 +383,12 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
             ->name('profile.index');
 
         Route::post('/profile/avatar', [ProfileController::class, 'updateAvatar'])
-            ->name('profile.avatar');
+            ->name('profile.avatar')
+            ->middleware('throttle:uploads');
 
         Route::post('/users/{user}/report', [UserController::class, 'report'])
-            ->name('users.report');
+            ->name('users.report')
+            ->middleware('throttle:reports');
 
         Route::get('/users/{user}/followers', [FollowController::class, 'followers'])
             ->name('users.followers');
@@ -388,13 +400,16 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
             ->name('users.projects');
 
         Route::delete('/profile/avatar', [ProfileController::class, 'destroyAvatar'])
-            ->name('profile.avatar.destroy');
+            ->name('profile.avatar.destroy')
+            ->middleware('throttle:uploads');
 
         Route::post('/profile/technologies', [ProfileController::class, 'updateTechnologies'])
-            ->name('profile.technologies.update');
+            ->name('profile.technologies.update')
+            ->middleware('throttle:interactions');
 
         Route::post('/profile/technologies/{technology}/favorite', [ProfileController::class, 'toggleFavoriteTechnology'])
-            ->name('profile.technologies.favorite');
+            ->name('profile.technologies.favorite')
+            ->middleware('throttle:interactions');
 
         /*
         |--------------------------------------------------------------------------
@@ -402,11 +417,14 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
         |--------------------------------------------------------------------------
         */
         Route::get('/api/github/repos', [GitHubController::class, 'listRepos'])
-            ->name('github.repos.list');
+            ->name('github.repos.list')
+            ->middleware('throttle:interactions');
         Route::post('/api/github/repos/import', [GitHubController::class, 'importRepo'])
-            ->name('github.repos.import');
+            ->name('github.repos.import')
+            ->middleware('throttle:uploads');
         Route::post('/api/github/disconnect', [GitHubController::class, 'disconnect'])
-            ->name('github.disconnect');
+            ->name('github.disconnect')
+            ->middleware('throttle:interactions');
 
         /*
         |--------------------------------------------------------------------------
@@ -469,10 +487,12 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
             ->name('notifications.destroy');
 
         Route::post('/notifications/push/subscribe', [PushSubscriptionController::class, 'store'])
-            ->name('notifications.push.subscribe');
+            ->name('notifications.push.subscribe')
+            ->middleware('throttle:push');
 
         Route::delete('/notifications/push/subscribe', [PushSubscriptionController::class, 'destroy'])
-            ->name('notifications.push.unsubscribe');
+            ->name('notifications.push.unsubscribe')
+            ->middleware('throttle:push');
 
         Route::get('/notification-preference', [NotificationPreferenceController::class, 'index'])
             ->name('notification-preference.index');
@@ -507,7 +527,8 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
             ->name('suggestions.create');
 
         Route::post('suggestions', [SuggestionController::class, 'store'])
-            ->name('suggestions.store');
+            ->name('suggestions.store')
+            ->middleware('throttle:reports');
 
         /*
         |--------------------------------------------------------------------------
@@ -550,13 +571,13 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
         Route::patch('/messages/{conversation}/read', [MessageController::class, 'markAsRead'])->name('messages.markAsRead');
         Route::patch('/messages/message/{message}/read', [MessageController::class, 'markMessageAsRead'])->name('messages.markMessageAsRead');
         Route::patch('/messages/message/{message}', [MessageController::class, 'update'])->name('messages.update');
-        Route::post('/messages/{conversation}', [MessageController::class, 'store'])->name('messages.store')->middleware('idempotent');
-        Route::post('/messages/{conversation}/media', [MessageController::class, 'storeMedia'])->name('messages.storeMedia')->middleware('idempotent');
-        Route::post('/messages/{conversation}/gif', [MessageController::class, 'storeGif'])->name('messages.storeGif')->middleware('idempotent');
+        Route::post('/messages/{conversation}', [MessageController::class, 'store'])->name('messages.store')->middleware(['idempotent', 'throttle:messages']);
+        Route::post('/messages/{conversation}/media', [MessageController::class, 'storeMedia'])->name('messages.storeMedia')->middleware(['idempotent', 'throttle:uploads']);
+        Route::post('/messages/{conversation}/gif', [MessageController::class, 'storeGif'])->name('messages.storeGif')->middleware(['idempotent', 'throttle:messages']);
         Route::get('/messages/user/{username}', [MessageController::class, 'getOrCreateConversation'])->name('messages.user');
         Route::get('/messages/chat/{username}', [MessageController::class, 'redirectToConversation'])->name('messages.chat');
-        Route::post('/messages/user/{user_id}', [MessageController::class, 'storeNewConversation'])->name('messages.storeNew')->middleware('idempotent');
-        Route::post('/messages/{user}/block', [MessageController::class, 'blockUser'])->name('messages.block');
+        Route::post('/messages/user/{user_id}', [MessageController::class, 'storeNewConversation'])->name('messages.storeNew')->middleware(['idempotent', 'throttle:messages']);
+        Route::post('/messages/{user}/block', [MessageController::class, 'blockUser'])->name('messages.block')->middleware('throttle:interactions');
         Route::get('/messages/{conversation}/load', [MessageController::class, 'loadConversation'])->name('messages.load');
 
         /*
@@ -564,31 +585,39 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
         | Recursos del perfil
         |--------------------------------------------------------------------------
         */
-        Route::resource('work-experiences', WorkExperienceController::class);
+        Route::resource('work-experiences', WorkExperienceController::class)
+            ->middlewareFor(['store', 'update', 'destroy'], 'throttle:interactions');
         Route::get('/settings/cv', [CVSettingsController::class, 'edit'])->name('cv.edit');
-        Route::put('/settings/cv', [CVSettingsController::class, 'update'])->name('cv.update');
-        Route::put('/settings/cv/projects', [CVSettingsController::class, 'updateProjects'])->name('cv.update.projects');
+        Route::put('/settings/cv', [CVSettingsController::class, 'update'])->name('cv.update')->middleware('throttle:interactions');
+        Route::put('/settings/cv/projects', [CVSettingsController::class, 'updateProjects'])->name('cv.update.projects')->middleware('throttle:interactions');
         Route::get('/settings/cv/restore', [CVSettingsController::class, 'restore'])->name('cv.restore');
         Route::get('/settings/cv/download', [CVSettingsController::class, 'download'])->name('cv.download');
         Route::get('/settings/cv/download/{format}', [CVSettingsController::class, 'downloadFormat'])->name('cv.download.format')
             ->where('format', 'pdf|ats|json');
-        Route::resource('projects', ProjectController::class);
-        Route::resource('educations', EducationController::class);
+        Route::resource('projects', ProjectController::class)
+            ->middlewareFor(['store', 'update'], 'throttle:uploads');
+        Route::resource('educations', EducationController::class)
+            ->middlewareFor(['store', 'update', 'destroy'], 'throttle:interactions');
 
         Route::post('/projects/{project}/like', [ProjectController::class, 'like'])
-            ->name('projects.like');
+            ->name('projects.like')
+            ->middleware('throttle:interactions');
 
         Route::post('/projects/{project}/bookmark', [ProjectController::class, 'bookmark'])
-            ->name('projects.bookmark');
+            ->name('projects.bookmark')
+            ->middleware('throttle:interactions');
 
         Route::post('/projects/{project}/report', [ProjectController::class, 'report'])
-            ->name('projects.report');
+            ->name('projects.report')
+            ->middleware('throttle:reports');
 
         Route::post('/projects/{project}/endorse', [ProjectController::class, 'endorse'])
-            ->name('projects.endorse');
+            ->name('projects.endorse')
+            ->middleware('throttle:interactions');
 
         Route::delete('/projects/{project}/media/{media}', [ProjectController::class, 'deleteMedia'])
-            ->name('projects.media.destroy');
+            ->name('projects.media.destroy')
+            ->middleware('throttle:uploads');
 
         /*
          |--------------------------------------------------------------------------
@@ -598,11 +627,14 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
         Route::get('/projects/{project}/comments', [CommentController::class, 'index'])
             ->name('comments.index');
         Route::post('/projects/{project}/comments', [CommentController::class, 'store'])
-            ->name('comments.store');
+            ->name('comments.store')
+            ->middleware('throttle:comments');
         Route::post('/comments/{comment}/like', [CommentLikeController::class, 'toggle'])
-            ->name('comments.like');
+            ->name('comments.like')
+            ->middleware('throttle:interactions');
         Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])
-            ->name('comments.destroy');
+            ->name('comments.destroy')
+            ->middleware('throttle:interactions');
 
         /*
         |--------------------------------------------------------------------------
