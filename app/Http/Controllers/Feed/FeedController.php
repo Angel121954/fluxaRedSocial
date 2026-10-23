@@ -39,12 +39,14 @@ class FeedController extends Controller
             return $emptyPaginator;
         }
 
+        $userId = Auth::id();
+
         return Project::with([
             'user.profile',
             'media',
             'technologies',
-            'likes',
-            'bookmarks',
+            'likes' => fn ($q) => $q->where('user_id', $userId),
+            'bookmarks' => fn ($q) => $q->where('user_id', $userId),
             'skillEndorsements',
         ])
             ->where('parent_id', null)
