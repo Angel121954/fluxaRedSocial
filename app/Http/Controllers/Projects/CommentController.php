@@ -56,7 +56,7 @@ class CommentController extends Controller
 
         return response()->json([
             'success' => true,
-            'comment' => $comment->load('user')->setRelation('user',
+            'comment' => $comment->load('user.profile')->setRelation('user',
                 $comment->user ? $comment->user->append('avatar_url') : null
             ),
         ]);
@@ -68,7 +68,7 @@ class CommentController extends Controller
 
         $comments = $project->comments()
             ->whereNull('parent_id')
-            ->with(['user', 'children.user', 'children.likes', 'likes'])
+            ->with(['user.profile', 'children.user.profile', 'children.likes', 'likes'])
             ->latest()
             ->get();
 

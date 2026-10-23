@@ -52,10 +52,18 @@ class Comment extends Model
         return $this->likes()->where('user_id', $userId)->exists();
     }
 
-    public function getIsLikedAttribute()
+    public function getIsLikedAttribute(): bool
     {
         $userId = auth()->id();
-        if (!$userId) return false;
+
+        if (! $userId) {
+            return false;
+        }
+
+        if ($this->relationLoaded('likes')) {
+            return $this->likes->contains('user_id', $userId);
+        }
+
         return $this->isLikedBy($userId);
     }
 
