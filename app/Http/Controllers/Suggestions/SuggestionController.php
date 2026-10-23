@@ -25,7 +25,7 @@ class SuggestionController extends Controller
      */
     public function index(): View
     {
-        $suggestions = Suggestion::with('user')
+        $suggestions = Suggestion::with('user.profile')
             ->latest()
             ->get();
 
