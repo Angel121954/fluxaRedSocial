@@ -64,6 +64,10 @@ class DiaryResponseComment extends Model
             return false;
         }
 
+        if ($this->relationLoaded('likes')) {
+            return $this->likes->contains('user_id', $userId);
+        }
+
         return $this->isLikedBy($userId);
     }
 

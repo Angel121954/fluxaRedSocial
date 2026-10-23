@@ -1,4 +1,3 @@
-@php $response->loadCount(['likes', 'comments']); @endphp
 <div class="diary-response-card" data-response-id="{{ $response->id }}" data-open-source="{{ $response->user?->is_open_source ? '1' : '0' }}">
     <a href="{{ route('profile.show', $response->user?->username ?? '#') }}" class="diary-response-card__avatar-link">
         <img

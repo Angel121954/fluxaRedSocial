@@ -43,8 +43,12 @@ class DiaryResponse extends Model
 
     public function getLikedByAuthAttribute(): bool
     {
-        if (!auth()->check()) {
+        if (! auth()->check()) {
             return false;
+        }
+
+        if ($this->relationLoaded('likes')) {
+            return $this->likes->contains('user_id', auth()->id());
         }
 
         return $this->likes()->where('user_id', auth()->id())->exists();
@@ -52,8 +56,12 @@ class DiaryResponse extends Model
 
     public function getBookmarkedByAuthAttribute(): bool
     {
-        if (!auth()->check()) {
+        if (! auth()->check()) {
             return false;
+        }
+
+        if ($this->relationLoaded('bookmarks')) {
+            return $this->bookmarks->contains('user_id', auth()->id());
         }
 
         return $this->bookmarks()->where('user_id', auth()->id())->exists();

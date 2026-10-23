@@ -23,20 +23,29 @@ class DiaryService
         return Diary::active()->withCount('responses')->first();
     }
 
-    public function getResponses(int $diaryId, string $sort = 'top'): LengthAwarePaginator
+    public function getResponses(int $diaryId, ?int $userId, string $sort = 'top'): LengthAwarePaginator
     {
-        return DiaryResponse::where('diary_id', $diaryId)
-            ->with('user')
-            ->withCount(['likes', 'comments'])
-            ->when($sort === 'top', fn ($query) => $query->orderByDesc('likes_count'))
-            ->when($sort !== 'top', fn ($query) => $query->latest())
+        $query = DiaryResponse::where('diary_id', $diaryId)
+            ->with('user.profile')
+            ->withCount(['likes', 'comments']);
+
+        if ($userId !== null) {
+            $query->with([
+                'likes' => fn ($q) => $q->where('user_id', $userId),
+                'bookmarks' => fn ($q) => $q->where('user_id', $userId),
+            ]);
+        }
+
+        return $query
+            ->when($sort === 'top', fn ($q) => $q->orderByDesc('likes_count'))
+            ->when($sort !== 'top', fn ($q) => $q->latest())
             ->paginate(10);
     }
 
     public function getRecentResponders(int $diaryId): Collection
     {
         return DiaryResponse::where('diary_id', $diaryId)
-            ->with('user')
+            ->with('user.profile')
             ->latest()
             ->take(3)
             ->get()
@@ -158,7 +167,7 @@ class DiaryService
             return $comment;
         });
 
-        $comment->load('user');
+        $comment->load('user.profile');
         $comment->user?->append('avatar_url');
 
         if ($response->user_id !== $userId) {
@@ -179,7 +188,7 @@ class DiaryService
     {
         $comments = $response->comments()
             ->whereNull('parent_id')
-            ->with(['user', 'children.user', 'children.likes', 'likes'])
+            ->with(['user.profile', 'children.user.profile', 'children.likes', 'likes'])
             ->latest()
             ->get();
 

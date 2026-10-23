@@ -32,7 +32,7 @@ class DiaryController extends Controller
         }
 
         $sort = request('sort', 'top');
-        $responses = $this->diaryService->getResponses($diary->id, $sort);
+        $responses = $this->diaryService->getResponses($diary->id, Auth::id(), $sort);
         $recentResponders = $this->diaryService->getRecentResponders($diary->id);
         $userHasResponded = $this->diaryService->hasUserResponded($diary->id, Auth::id());
 
@@ -50,7 +50,11 @@ class DiaryController extends Controller
             $request->content,
         );
 
-        $response->load('user');
+        $response->load([
+            'user.profile',
+            'likes' => fn ($q) => $q->where('user_id', Auth::id()),
+            'bookmarks' => fn ($q) => $q->where('user_id', Auth::id()),
+        ]);
         $response->loadCount(['likes', 'comments']);
 
         $html = view('diary.partials._response', ['response' => $response])->render();
@@ -142,7 +146,7 @@ class DiaryController extends Controller
         abort_if($diary === null, 404);
 
         $sort = $request->sort ?? 'top';
-        $responses = $this->diaryService->getResponses($diary->id, $sort);
+        $responses = $this->diaryService->getResponses($diary->id, Auth::id(), $sort);
 
         $html = '';
         foreach ($responses as $response) {
