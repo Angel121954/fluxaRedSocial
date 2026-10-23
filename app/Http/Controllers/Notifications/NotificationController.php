@@ -34,7 +34,7 @@ class NotificationController extends Controller
             $query->where('type', $filter);
         }
 
-        $notifications = $query->with('fromUser')->limit(50)->get();
+        $notifications = $query->with('fromUser.profile')->limit(50)->get();
 
         return response()->json([
             'notifications' => $notifications->map(function ($n) {
