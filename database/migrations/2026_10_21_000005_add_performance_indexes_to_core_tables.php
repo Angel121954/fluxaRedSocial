@@ -3,13 +3,34 @@
 declare(strict_types=1);
 
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
     public function up(): void
     {
+        $this->ensureNoDuplicates('users', ['email']);
+        $this->ensureNoDuplicates('users', ['username']);
+        $this->ensureNoDuplicates('profiles', ['user_id']);
+        $this->ensureNoDuplicates('technologies', ['slug']);
+        $this->ensureNoDuplicates('badges', ['slug']);
+        $this->ensureNoDuplicates('conversations', ['user_a_id', 'user_b_id']);
+        $this->ensureNoDuplicates('diary_responses', ['diary_id', 'user_id']);
+
+        $this->deduplicate('notification_preferences', ['user_id']);
+        $this->deduplicate('follows', ['follower_id', 'followed_id']);
+        $this->deduplicate('project_likes', ['user_id', 'project_id']);
+        $this->deduplicate('project_bookmarks', ['user_id', 'project_id']);
+        $this->deduplicate('project_reports', ['user_id', 'project_id']);
+        $this->deduplicate('skill_endorsements', ['user_id', 'project_id', 'skill_type']);
+        $this->deduplicate('user_badge', ['user_id', 'badge_id']);
+        $this->deduplicate('diary_response_likes', ['diary_response_id', 'user_id']);
+        $this->deduplicate('user_blocks', ['blocker_id', 'blocked_id']);
+
         $this->addUnique('users', ['email']);
         $this->addUnique('users', ['username']);
         $this->addUnique('profiles', ['user_id']);
@@ -68,6 +89,65 @@ return new class extends Migration
         $this->dropUnique('profiles', ['user_id']);
         $this->dropUnique('users', ['username']);
         $this->dropUnique('users', ['email']);
+    }
+
+    private function ensureNoDuplicates(string $table, array $columns): void
+    {
+        if (! Schema::hasTable($table)) {
+            return;
+        }
+
+        $groups = $this->duplicateGroups($table, $columns);
+
+        if ($groups->isEmpty()) {
+            return;
+        }
+
+        $sample = $groups->take(3)
+            ->map(fn (object $group): string => collect($columns)
+                ->map(fn (string $column): string => (string) $group->{$column})
+                ->implode(' / '))
+            ->implode('; ');
+
+        throw new RuntimeException(
+            "Hay {$groups->count()} grupos duplicados en {$table} (".implode(', ', $columns).
+            "). No se pueden crear índices únicos. Ejemplos: {$sample}. Limpia los datos y vuelve a ejecutar la migración."
+        );
+    }
+
+    private function deduplicate(string $table, array $columns): void
+    {
+        if (! Schema::hasTable($table) || ! Schema::hasColumn($table, 'id')) {
+            return;
+        }
+
+        foreach ($this->duplicateGroups($table, $columns) as $group) {
+            $keepId = $this->rowsFor($table, $columns, $group)->min('id');
+
+            $this->rowsFor($table, $columns, $group)
+                ->where('id', '!=', $keepId)
+                ->delete();
+        }
+    }
+
+    private function duplicateGroups(string $table, array $columns): Collection
+    {
+        return DB::table($table)
+            ->select($columns)
+            ->groupBy($columns)
+            ->havingRaw('COUNT(*) > 1')
+            ->get();
+    }
+
+    private function rowsFor(string $table, array $columns, object $group): Builder
+    {
+        $query = DB::table($table);
+
+        foreach ($columns as $column) {
+            $query->where($column, $group->{$column});
+        }
+
+        return $query;
     }
 
     private function addUnique(string $table, array $columns): void
