@@ -73,6 +73,7 @@ class FollowController extends Controller
     {
         $followers = $user->followers()
             ->select('users.id', 'users.name', 'users.username')
+            ->with('profile:id,user_id,avatar')
             ->get()
             ->map(fn ($u) => [
                 'id' => $u->id,
@@ -88,6 +89,7 @@ class FollowController extends Controller
     {
         $following = $user->follows()
             ->select('users.id', 'users.name', 'users.username')
+            ->with('profile:id,user_id,avatar')
             ->get()
             ->map(fn ($u) => [
                 'id' => $u->id,
