@@ -25,6 +25,8 @@
         <env name="CLOUDINARY_URL" value="cloudinary://test:test@test"/>
         <env name="DB_DATABASE" value="testing"/>
         <env name="MAIL_MAILER" value="array"/>
+        <env name="MAIL_FROM_ADDRESS" value="no-reply@example.com"/>
+        <env name="MAIL_FROM_NAME" value="Fluxa"/>
         <env name="QUEUE_CONNECTION" value="sync"/>
         <env name="SESSION_DRIVER" value="array"/>
         <env name="TELESCOPE_ENABLED" value="false"/>
