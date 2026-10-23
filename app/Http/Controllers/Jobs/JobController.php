@@ -15,7 +15,10 @@ class JobController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Job::active()->with('skills');
+        $query = Job::active()->with([
+            'skills',
+            'bookmarkedBy' => fn ($q) => $q->where('users.id', Auth::id()),
+        ]);
 
         // Búsqueda por keyword
         if ($q = $request->input('q')) {
@@ -74,7 +77,10 @@ class JobController extends Controller
 
     public function show($id)
     {
-        $job = Job::with('skills')->findOrFail($id);
+        $job = Job::with([
+            'skills',
+            'bookmarkedBy' => fn ($q) => $q->where('users.id', Auth::id()),
+        ])->findOrFail($id);
 
         return view('jobs.show', compact('job'));
     }
@@ -91,7 +97,12 @@ class JobController extends Controller
 
     public function saved()
     {
-        $jobs = Auth::user()->bookmarkedJobs()->paginate(20);
+        $jobs = Auth::user()->bookmarkedJobs()
+            ->with([
+                'skills',
+                'bookmarkedBy' => fn ($q) => $q->where('users.id', Auth::id()),
+            ])
+            ->paginate(20);
 
         return view('jobs.saved', compact('jobs'));
     }
@@ -131,6 +142,9 @@ class JobController extends Controller
             'salary_currency' => strtoupper($request->currency ?? 'usd'),
             'status' => 'published',
         ]);
+
+        $job->setRelation('skills', collect());
+        $job->setRelation('bookmarkedBy', collect());
 
         return response()->json([
             'success' => true,

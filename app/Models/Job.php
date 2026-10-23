@@ -64,7 +64,13 @@ class Job extends Model
 
     public function isSavedBy(?User $user): bool
     {
-        if (!$user) return false;
+        if (! $user) {
+            return false;
+        }
+
+        if ($this->relationLoaded('bookmarkedBy')) {
+            return $this->bookmarkedBy->contains('id', $user->id);
+        }
 
         return $this->bookmarkedBy()
             ->where('user_id', $user->id)
