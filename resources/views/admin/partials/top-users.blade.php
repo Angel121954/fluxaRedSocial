@@ -7,14 +7,14 @@
         <span class="th">Proyectos</span>
     </div>
     <div>
-        @forelse ($topUsers as $user)
+        @forelse ($usuariosMasActivos as $usuario)
         <div class="user-row">
-            <img class="u-avatar" src="{{ $user->avatar_url }}" alt="{{ $user->name }}">
+            <img class="u-avatar" src="{{ $usuario->avatar_url }}" alt="{{ $usuario->name }}">
             <div class="u-info">
-                <div class="u-name">{{ $user->name }}</div>
-                <div class="u-handle">@ {{ $user->username }}</div>
+                <div class="u-name">{{ $usuario->name }}</div>
+                <div class="u-handle">&#64;{{ $usuario->username }}</div>
             </div>
-            <div class="u-count">{{ $user->projects_count }}</div>
+            <div class="u-count">{{ $usuario->projects_count }}</div>
         </div>
         @empty
         <div class="user-row">

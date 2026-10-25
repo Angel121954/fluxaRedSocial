@@ -110,3 +110,7 @@
     color: var(--ink-300);
     margin-top: 2px;
 }
+
+.delta-down svg {
+    transform: rotate(180deg);
+}

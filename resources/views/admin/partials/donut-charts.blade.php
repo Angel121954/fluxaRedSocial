@@ -1,44 +1,85 @@
+@php
+$metaEstados = [
+    'pending' => ['etiqueta' => 'Pendientes', 'color' => '#f59e0b'],
+    'reviewing' => ['etiqueta' => 'En revisión', 'color' => '#3b82f6'],
+    'approved' => ['etiqueta' => 'Aprobadas', 'color' => '#22c55e'],
+    'rejected' => ['etiqueta' => 'Rechazadas', 'color' => '#ef4444'],
+];
+
+$metaReportes = [
+    'usuario' => ['etiqueta' => 'Usuarios', 'color' => '#3b82f6'],
+    'proyecto' => ['etiqueta' => 'Proyectos', 'color' => '#f59e0b'],
+    'diario' => ['etiqueta' => 'Diario', 'color' => '#8b5cf6'],
+    'problema' => ['etiqueta' => 'Problemas', 'color' => '#ef4444'],
+];
+@endphp
+
 <div class="card">
     <div class="card-header">
-        <span class="card-title">Sugerencias por estado</span>
+        <span class="card-title">Estado de la comunidad</span>
     </div>
+
     <div class="donuts-row">
-        <div class="donut-pane" style="border-right:none">
+        <div class="donut-pane">
+            <div class="donut-subtitle">Sugerencias por estado</div>
             <div class="donut-chart-wrap">
-                <canvas id="sugChart" width="148" height="148"
-                    data-labels='{{ $suggestionsByStatus->keys()->toJson() }}'
-                    data-values='{{ $suggestionsByStatus->values()->toJson() }}'>
+                <canvas id="sugChart" width="156" height="156"
+                    data-labels='{{ collect(array_column($metaEstados, 'etiqueta'))->toJson() }}'
+                    data-values='{{ collect(array_keys($metaEstados))->map(fn ($estado) => $sugerenciasPorEstado[$estado] ?? 0)->toJson() }}'
+                    data-colors='{{ collect(array_column($metaEstados, 'color'))->toJson() }}'>
                 </canvas>
                 <div class="donut-center">
-                    <div class="dc-num">{{ $suggestionsCount }}</div>
+                    <div class="dc-num">{{ number_format($totalSugerencias) }}</div>
                     <div class="dc-sub">Total</div>
                 </div>
             </div>
             <div class="donut-legend">
-                @foreach ($suggestionsByStatus as $status => $count)
+                @foreach ($metaEstados as $estado => $meta)
                 @php
-                $pct = $suggestionsCount > 0 ? round(($count / $suggestionsCount) * 100, 1) : 0;
-                $dotColors = [
-                'pending' => '#f59e0b',
-                'reviewing' => '#3b82f6',
-                'approved' => '#22c55e',
-                'rejected' => '#ef4444',
-                ];
-                $labels = [
-                'pending' => 'Pendientes',
-                'reviewing' => 'En revisión',
-                'approved' => 'Aprobadas',
-                'rejected' => 'Rechazadas',
-                ];
+                $cantidad = $sugerenciasPorEstado[$estado] ?? 0;
+                $porcentaje = $totalSugerencias > 0 ? round(($cantidad / $totalSugerencias) * 100, 1) : 0;
                 @endphp
                 <div class="legend-row">
                     <div class="legend-left">
-                        <div class="legend-dot" style="background:{{ $dotColors[$status] ?? '#12b3b6' }}"></div>
-                        <span class="legend-lbl">{{ $labels[$status] ?? $status }}</span>
+                        <div class="legend-dot" style="background:{{ $meta['color'] }}"></div>
+                        <span class="legend-lbl">{{ $meta['etiqueta'] }}</span>
                     </div>
                     <div class="legend-nums">
-                        <span class="legend-val">{{ $count }}</span>
-                        <span class="legend-pct">({{ $pct }}%)</span>
+                        <span class="legend-val">{{ $cantidad }}</span>
+                        <span class="legend-pct">({{ $porcentaje }}%)</span>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+        </div>
+
+        <div class="donut-pane">
+            <div class="donut-subtitle">Reportes por tipo</div>
+            <div class="donut-chart-wrap">
+                <canvas id="repChart" width="156" height="156"
+                    data-labels='{{ collect(array_column($metaReportes, 'etiqueta'))->toJson() }}'
+                    data-values='{{ collect(array_keys($metaReportes))->map(fn ($tipo) => $reportesPorTipo[$tipo] ?? 0)->toJson() }}'
+                    data-colors='{{ collect(array_column($metaReportes, 'color'))->toJson() }}'>
+                </canvas>
+                <div class="donut-center">
+                    <div class="dc-num">{{ number_format($totalReportes) }}</div>
+                    <div class="dc-sub">Total</div>
+                </div>
+            </div>
+            <div class="donut-legend">
+                @foreach ($metaReportes as $tipo => $meta)
+                @php
+                $cantidad = $reportesPorTipo[$tipo] ?? 0;
+                $porcentaje = $totalReportes > 0 ? round(($cantidad / $totalReportes) * 100, 1) : 0;
+                @endphp
+                <div class="legend-row">
+                    <div class="legend-left">
+                        <div class="legend-dot" style="background:{{ $meta['color'] }}"></div>
+                        <span class="legend-lbl">{{ $meta['etiqueta'] }}</span>
+                    </div>
+                    <div class="legend-nums">
+                        <span class="legend-val">{{ $cantidad }}</span>
+                        <span class="legend-pct">({{ $porcentaje }}%)</span>
                     </div>
                 </div>
                 @endforeach

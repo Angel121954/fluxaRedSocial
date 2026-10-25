@@ -1,40 +1,60 @@
 import Chart from 'chart.js/auto';
 
 (function () {
-    /* ── Mobile sidebar ────────────────────────────── */
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('overlay');
-    const mbToggle = document.getElementById('mbToggle');
-    const sbClose = document.getElementById('sidebarClose');
+    /* ── Barra lateral móvil ───────────────────────── */
+    const barraLateral = document.getElementById('sidebar');
+    const capa = document.getElementById('overlay');
+    const botonMenu = document.getElementById('mbToggle');
+    const botonContraer = document.getElementById('sidebarClose');
 
-    if (sidebar && overlay && mbToggle && sbClose) {
-        function openSidebar() {
-            sidebar.classList.add('open');
-            overlay.classList.add('visible');
+    if (barraLateral && capa && botonMenu && botonContraer) {
+        function abrirBarra() {
+            barraLateral.classList.add('open');
+            capa.classList.add('visible');
         }
 
-        function closeSidebar() {
-            sidebar.classList.remove('open');
-            overlay.classList.remove('visible');
+        function cerrarBarra() {
+            barraLateral.classList.remove('open');
+            capa.classList.remove('visible');
         }
 
-        function toggleSidebar() {
-            if (window.innerWidth > 900) {
-                sidebar.classList.toggle('collapsed');
+        function alternarBarra() {
+            if (window.innerWidth >= 1024) {
+                barraLateral.classList.toggle('collapsed');
             } else {
-                closeSidebar();
+                cerrarBarra();
             }
         }
 
-        mbToggle.addEventListener('click', openSidebar);
-        sbClose.addEventListener('click', toggleSidebar);
-        overlay.addEventListener('click', closeSidebar);
+        botonMenu.addEventListener('click', abrirBarra);
+        botonContraer.addEventListener('click', alternarBarra);
+        capa.addEventListener('click', cerrarBarra);
     }
 
-    /* ── Chart helpers ─────────────────────────────── */
-    Chart.defaults.font.family = 'Inter, -apple-system, sans-serif';
+    /* ── Selector de rango de fechas ───────────────── */
+    document.addEventListener('click', (evento) => {
+        document.querySelectorAll('details.date-range[open]').forEach((detalle) => {
+            if (!detalle.contains(evento.target)) {
+                detalle.removeAttribute('open');
+            }
+        });
+    });
 
-    const tooltipDefaults = {
+    /* ── Variables de diseño ───────────────────────── */
+    const estilos = getComputedStyle(document.documentElement);
+
+    function valorVariable(nombre, respaldo) {
+        return estilos.getPropertyValue(nombre).trim() || respaldo;
+    }
+
+    const acento = valorVariable('--accent', '#12b3b6');
+    const textoGrafico = valorVariable('--ink-300', '#6b7789');
+    const rejillaGrafico = valorVariable('--border', 'rgba(0,0,0,.075)');
+    const superficie = valorVariable('--surface', '#ffffff');
+
+    Chart.defaults.font.family = 'Figtree, -apple-system, sans-serif';
+
+    const configuracionTooltip = {
         backgroundColor: '#0b0f1a',
         titleColor: '#a0aabe',
         bodyColor: '#ffffff',
@@ -51,33 +71,41 @@ import Chart from 'chart.js/auto';
         },
     };
 
-    /* ── Area chart: Crecimiento ───────────────────── */
-    const growthCanvas = document.getElementById('growthChart');
-    if (growthCanvas) {
-        const labels = JSON.parse(growthCanvas.dataset.labels || '[]');
-        const data = JSON.parse(growthCanvas.dataset.values || '[]');
+    /* ── Gráfico de área: Crecimiento ──────────────── */
+    const lienzoCrecimiento = document.getElementById('growthChart');
 
-        if (labels.length && data.length) {
-            const ctx = growthCanvas.getContext('2d');
-            const grad = ctx.createLinearGradient(0, 0, 0, 200);
-            grad.addColorStop(0, 'rgba(18,179,182,.14)');
-            grad.addColorStop(1, 'rgba(18,179,182,0)');
+    if (lienzoCrecimiento) {
+        const etiquetasOriginales = JSON.parse(lienzoCrecimiento.dataset.labels || '[]');
+        const datos = JSON.parse(lienzoCrecimiento.dataset.values || '[]');
+        const nombresMeses = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
 
-            new Chart(ctx, {
+        const etiquetas = etiquetasOriginales.map((etiqueta) => {
+            const [anio, mes] = etiqueta.split('-');
+
+            return `${nombresMeses[Number(mes) - 1] ?? mes} ${anio}`;
+        });
+
+        if (etiquetas.length && datos.length) {
+            const contexto = lienzoCrecimiento.getContext('2d');
+            const degradado = contexto.createLinearGradient(0, 0, 0, 230);
+            degradado.addColorStop(0, 'rgba(18,179,182,.16)');
+            degradado.addColorStop(1, 'rgba(18,179,182,0)');
+
+            new Chart(contexto, {
                 type: 'line',
                 data: {
-                    labels,
+                    labels: etiquetas,
                     datasets: [{
-                        data,
-                        borderColor: '#12b3b6',
+                        data: datos,
+                        borderColor: acento,
                         borderWidth: 2,
                         fill: true,
-                        backgroundColor: grad,
+                        backgroundColor: degradado,
                         tension: 0.42,
                         pointRadius: 0,
                         pointHoverRadius: 4,
-                        pointHoverBackgroundColor: '#12b3b6',
-                        pointHoverBorderColor: '#fff',
+                        pointHoverBackgroundColor: acento,
+                        pointHoverBorderColor: superficie,
                         pointHoverBorderWidth: 2,
                     }],
                 },
@@ -93,10 +121,9 @@ import Chart from 'chart.js/auto';
                             display: false,
                         },
                         tooltip: {
-                            ...tooltipDefaults,
+                            ...configuracionTooltip,
                             callbacks: {
-                                title: (i) => i[0].label,
-                                label: (i) => `${i.raw.toLocaleString('es-CO')} usuarios`,
+                                label: (item) => `${item.raw.toLocaleString('es-CO')} usuarios`,
                             },
                         },
                     },
@@ -109,7 +136,7 @@ import Chart from 'chart.js/auto';
                                 display: false,
                             },
                             ticks: {
-                                color: '#a0aabe',
+                                color: textoGrafico,
                                 font: {
                                     size: 11,
                                 },
@@ -120,19 +147,19 @@ import Chart from 'chart.js/auto';
                         y: {
                             min: 0,
                             grid: {
-                                color: 'rgba(0,0,0,.04)',
+                                color: rejillaGrafico,
                             },
                             border: {
                                 display: false,
                                 dash: [3, 3],
                             },
                             ticks: {
-                                color: '#a0aabe',
+                                color: textoGrafico,
                                 font: {
                                     size: 11,
                                 },
                                 padding: 6,
-                                callback: (v) => v >= 1000 ? (v / 1000).toFixed(1) + 'k' : v,
+                                callback: (valor) => valor >= 1000 ? (valor / 1000).toFixed(1) + 'k' : valor,
                             },
                         },
                     },
@@ -141,43 +168,53 @@ import Chart from 'chart.js/auto';
         }
     }
 
-    /* ── Donut chart: Sugerencias ──────────────────── */
-    const sugCanvas = document.getElementById('sugChart');
-    if (sugCanvas) {
-        const labels = JSON.parse(sugCanvas.dataset.labels || '[]');
-        const data = JSON.parse(sugCanvas.dataset.values || '[]');
-        const total = data.reduce((a, b) => a + b, 0);
+    /* ── Gráficos de dona ──────────────────────────── */
+    const paletaPorDefecto = ['#f59e0b', '#3b82f6', '#22c55e', '#ef4444', '#8b5cf6'];
 
-        if (labels.length && data.length) {
-            const palette = ['#f59e0b', '#3b82f6', '#22c55e', '#ef4444', '#8b5cf6'];
+    function dibujarDona(lienzo) {
+        const etiquetas = JSON.parse(lienzo.dataset.labels || '[]');
+        const datos = JSON.parse(lienzo.dataset.values || '[]');
+        const colores = JSON.parse(lienzo.dataset.colors || '[]');
+        const paleta = colores.length ? colores : paletaPorDefecto;
+        const total = datos.reduce((suma, valor) => suma + valor, 0);
 
-            new Chart(sugCanvas.getContext('2d'), {
-                type: 'doughnut',
-                data: {
-                    datasets: [{
-                        data,
-                        backgroundColor: labels.map((_, i) => palette[i % palette.length]),
-                        borderWidth: 2.5,
-                        borderColor: '#fff',
-                        hoverOffset: 3,
-                    }],
-                },
-                options: {
-                    responsive: false,
-                    cutout: '74%',
-                    plugins: {
-                        legend: {
-                            display: false,
-                        },
-                        tooltip: {
-                            ...tooltipDefaults,
-                            callbacks: {
-                                label: (i) => `${i.raw} (${((i.raw / total) * 100).toFixed(1)}%)`,
+        if (!etiquetas.length || !datos.length) {
+            return;
+        }
+
+        new Chart(lienzo.getContext('2d'), {
+            type: 'doughnut',
+            data: {
+                labels: etiquetas,
+                datasets: [{
+                    data: datos,
+                    backgroundColor: etiquetas.map((_, indice) => paleta[indice % paleta.length]),
+                    borderWidth: 2.5,
+                    borderColor: superficie,
+                    hoverOffset: 3,
+                }],
+            },
+            options: {
+                responsive: false,
+                cutout: '74%',
+                plugins: {
+                    legend: {
+                        display: false,
+                    },
+                    tooltip: {
+                        ...configuracionTooltip,
+                        callbacks: {
+                            label: (item) => {
+                                const porcentaje = total > 0 ? ((item.raw / total) * 100).toFixed(1) : '0.0';
+
+                                return `${item.label}: ${item.raw} (${porcentaje}%)`;
                             },
                         },
                     },
                 },
-            });
-        }
+            },
+        });
     }
+
+    document.querySelectorAll('#sugChart, #repChart').forEach(dibujarDona);
 })();

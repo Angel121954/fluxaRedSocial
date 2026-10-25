@@ -265,3 +265,105 @@
     border-color: var(--accent-text);
     color: var(--accent-text);
 }
+
+/* ── Filtro de fechas (funcionalidad) ───────────────── */
+.date-range {
+    position: relative;
+}
+
+.date-range summary {
+    list-style: none;
+    cursor: pointer;
+}
+
+.date-range summary::-webkit-details-marker {
+    display: none;
+}
+
+.date-range[open] .date-btn {
+    border-color: var(--accent-text);
+    color: var(--accent-text);
+}
+
+.date-popover {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    z-index: 120;
+    width: min(270px, calc(100vw - 32px));
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 14px;
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--r-lg);
+    box-shadow: var(--shadow-md);
+}
+
+.date-field {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.date-field label {
+    font-size: var(--text-xs);
+    font-weight: 700;
+    color: var(--ink-500);
+}
+
+.date-field input {
+    height: 36px;
+    padding: 0 10px;
+    border: 1.5px solid var(--border-strong);
+    border-radius: var(--r-md);
+    background: var(--bg);
+    color: var(--ink-700);
+    font-family: inherit;
+    font-size: var(--text-sm);
+}
+
+.date-field input:focus {
+    outline: none;
+    border-color: var(--accent-text);
+    box-shadow: 0 0 0 3px var(--accent-ring);
+}
+
+.date-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.date-clear {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--ink-500);
+    text-decoration: none;
+    padding: 7px 10px;
+    border-radius: var(--r-sm);
+}
+
+.date-clear:hover {
+    background: var(--ink-100);
+    color: var(--ink-700);
+}
+
+.date-apply {
+    height: 34px;
+    padding: 0 14px;
+    border: none;
+    border-radius: var(--r-sm);
+    background: var(--accent-strong);
+    color: #fff;
+    font-family: inherit;
+    font-size: var(--text-sm);
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.date-apply:hover {
+    background: var(--accent-dark);
+}
