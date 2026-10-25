@@ -67,7 +67,7 @@
     <x-toast />
 
     @auth
-    @if(! request()->routeIs('onboarding.*'))
+    @if(! request()->routeIs('onboarding.*') && ! request()->routeIs('admin.*'))
     <x-bottom-nav
         :unread-notifications="$unreadNotifications ?? 0"
         :unread-messages="$unreadMessages ?? 0" />

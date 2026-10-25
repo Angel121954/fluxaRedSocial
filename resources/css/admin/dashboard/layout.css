@@ -367,3 +367,9 @@
 .date-apply:hover {
     background: var(--accent-dark);
 }
+
+@media (max-width: 768px) {
+    body[data-admin] {
+        padding-bottom: 0;
+    }
+}

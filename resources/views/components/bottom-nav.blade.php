@@ -65,7 +65,7 @@
 </nav>
 
 {{-- ── FAB: Nuevo proyecto (mobile) ── --}}
-@if(Auth::user()->role !== 'guest' && !request()->routeIs('messages*'))
+@if(Auth::user()->role !== 'guest' && !request()->routeIs('messages*') && !request()->routeIs('admin.*'))
 <button class="bottom-fab" onclick="abrirModal()" aria-label="Crear nuevo proyecto" title="Nuevo proyecto">
     <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4" />

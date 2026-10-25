@@ -2,6 +2,8 @@
 
 @section('title', 'Panel Administrativo - Fluxa')
 
+@section('body-attributes') data-admin @endsection
+
 @push('styles')
 @vite('resources/css/admin/dashboard.css')
 @endpush
