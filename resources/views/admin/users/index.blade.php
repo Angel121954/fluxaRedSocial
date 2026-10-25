@@ -271,7 +271,6 @@
 
                                 {{-- Ver perfil --}}
                                 <a href="{{ route('profile.show', $user->username) }}"
-                                    target="_blank"
                                     class="adm-dropdown-item"
                                     role="menuitem">
                                     <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
