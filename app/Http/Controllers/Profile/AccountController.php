@@ -6,23 +6,26 @@ namespace App\Http\Controllers\Profile;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Profile\UpdateAccountRequest;
+use App\Models\User;
+use App\Services\LocationService;
 use Illuminate\Support\Facades\Auth;
 
 class AccountController extends Controller
 {
     public function index()
     {
-        $locationService = app(\App\Services\LocationService::class);
+        $locationService = app(LocationService::class);
         $countries = $locationService->getCountries();
         $userCountry = old('country', Auth()->user()->profile->country ?? null);
         $cities = $userCountry ? $locationService->getCities($userCountry) : [];
+
         return view('settings.account', compact('countries', 'cities'));
     }
 
     public function update(UpdateAccountRequest $request)
     {
         $user = Auth::user();
-        /** @var \App\Models\User $user */
+        /** @var User $user */
         $validated = $request->validated();
 
         if ($validated['email'] !== $user->email) {
@@ -30,6 +33,8 @@ class AccountController extends Controller
                 'email' => $validated['email'],
                 'email_verified_at' => null,
             ])->save();
+
+            $user->sendEmailVerificationNotification();
         }
 
         $profileData = [
@@ -47,7 +52,7 @@ class AccountController extends Controller
             $profileData['latitude'] = null;
             $profileData['longitude'] = null;
         } elseif ($countryChanged) {
-            $locationService = app(\App\Services\LocationService::class);
+            $locationService = app(LocationService::class);
             $coords = $locationService->geocode(
                 $validated['country'],
                 $validated['city'] ?? null,
@@ -75,7 +80,7 @@ class AccountController extends Controller
     public function deactivate()
     {
         $user = Auth::user();
-        /** @var \App\Models\User $user */
+        /** @var User $user */
         $user->update(['status' => 'inactivo']);
 
         Auth::logout();
@@ -89,7 +94,7 @@ class AccountController extends Controller
     public function destroy()
     {
         $user = Auth::user();
-        /** @var \App\Models\User $user */
+        /** @var User $user */
         $user->forceFill([
             'status' => 'pending_deletion',
             'delete_at' => now()->addDays(30),
@@ -106,7 +111,7 @@ class AccountController extends Controller
     public function deletePhoto()
     {
         $user = Auth::user();
-        /** @var \App\Models\User $user */
+        /** @var User $user */
 
         return redirect()->route('account.index')
             ->with('success', 'Foto de perfil eliminada.');

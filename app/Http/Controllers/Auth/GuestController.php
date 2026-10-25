@@ -16,7 +16,7 @@ class GuestController extends Controller
 {
     public function loginAsGuest(Request $request)
     {
-        $key = 'guest-login:' . $request->ip();
+        $key = 'guest-login:'.$request->ip();
 
         if (RateLimiter::tooManyAttempts($key, 3)) {
             $seconds = RateLimiter::availableIn($key);
@@ -30,16 +30,18 @@ class GuestController extends Controller
         $uniqueId = uniqid();
 
         $guest = User::create([
-            'name'       => 'Visitante',
-            'username'   => 'guest_' . $uniqueId,
-            'email'      => 'guest_' . $uniqueId . '@temp.fluxa',
-            'password'   => Hash::make(Str::random(32)),
-            'role'       => 'guest',
-            'status'     => 'temporal',
-            'provider'   => 'guest',
+            'name' => 'Visitante',
+            'username' => 'guest_'.$uniqueId,
+            'email' => 'guest_'.$uniqueId.'@temp.fluxa',
+            'password' => Hash::make(Str::random(32)),
+            'role' => 'guest',
+            'status' => 'temporal',
+            'provider' => 'guest',
             'provider_id' => $uniqueId,
             'onboarding_completed' => '0',
         ]);
+
+        $guest->forceFill(['email_verified_at' => now()])->save();
 
         Auth::login($guest);
 
@@ -54,7 +56,7 @@ class GuestController extends Controller
         $user = Auth::user();
 
         // Verificar que realmente es un guest
-        if (!$user || $user->role !== 'guest') {
+        if (! $user || $user->role !== 'guest') {
             return redirect()->route('login');
         }
 
