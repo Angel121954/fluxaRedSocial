@@ -144,11 +144,13 @@ class ProfileController extends Controller
             $format = 'pdf';
         }
 
+        $viewer = Auth::user();
+
         try {
             return match ($format) {
-                'ats' => $this->downloadAtsCv($usuario),
-                'json' => $this->downloadJsonCv($usuario),
-                default => $this->downloadPdfCv($usuario),
+                'ats' => $this->downloadAtsCv($usuario, $viewer),
+                'json' => $this->downloadJsonCv($usuario, $viewer),
+                default => $this->downloadPdfCv($usuario, $viewer),
             };
         } catch (Throwable $e) {
             Log::error('Error al descargar CV público', [
@@ -164,9 +166,9 @@ class ProfileController extends Controller
         }
     }
 
-    protected function downloadPdfCv(mixed $usuario)
+    protected function downloadPdfCv(User $usuario, ?User $viewer = null)
     {
-        $datos = $this->cvService->prepareCvData($usuario);
+        $datos = $this->cvService->prepareCvData($usuario, null, $viewer);
         $html = $this->cvService->wrapHtml(
             view('components.cv-template', $datos)->render()
         );
@@ -181,9 +183,9 @@ class ProfileController extends Controller
         ]);
     }
 
-    protected function downloadAtsCv(mixed $usuario)
+    protected function downloadAtsCv(User $usuario, ?User $viewer = null)
     {
-        $pdf = $this->cvService->generateAtsPdf($usuario);
+        $pdf = $this->cvService->generateAtsPdf($usuario, null, $viewer);
 
         $filename = 'cv-ats-'.str($usuario->username)->slug().'.pdf';
 
@@ -193,9 +195,9 @@ class ProfileController extends Controller
         ]);
     }
 
-    protected function downloadJsonCv(mixed $usuario)
+    protected function downloadJsonCv(User $usuario, ?User $viewer = null)
     {
-        $json = $this->cvService->generateJson($usuario);
+        $json = $this->cvService->generateJson($usuario, null, $viewer);
 
         $filename = 'cv-'.str($usuario->username)->slug().'.json';
 

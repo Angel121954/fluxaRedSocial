@@ -48,7 +48,7 @@ class CvDataService
         return $settings;
     }
 
-    public function prepare(User $user, ?array $cvSettings = null): array
+    public function prepare(User $user, ?array $cvSettings = null, ?User $viewer = null): array
     {
         $profile = $user->profile;
         $cvSettings = $this->settingsFor($user, $cvSettings);
@@ -63,6 +63,7 @@ class CvDataService
         $technologies = $this->loadTechnologyIcons($user);
 
         $projects = collect();
+        $isOwner = $viewer === null || $viewer->id === $user->id;
 
         if ($cvSettings['show_projects'] ?? true) {
             $query = $user->projects()->with(['media', 'technologies']);
@@ -71,6 +72,10 @@ class CvDataService
 
             if (! empty($selectedIds)) {
                 $query->whereIn('id', $selectedIds);
+
+                if (! $isOwner) {
+                    $query->where('privacy', 'public');
+                }
             } else {
                 $query->where('privacy', 'public')->latest();
             }

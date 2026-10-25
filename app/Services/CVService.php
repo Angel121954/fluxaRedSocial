@@ -22,9 +22,9 @@ class CVService
         protected CvJsonGenerator $jsonGenerator,
     ) {}
 
-    public function prepareCvData(User $user, ?array $cvSettings = null): array
+    public function prepareCvData(User $user, ?array $cvSettings = null, ?User $viewer = null): array
     {
-        return $this->cvData->prepare($user, $cvSettings);
+        return $this->cvData->prepare($user, $cvSettings, $viewer);
     }
 
     public function settingsFor(User $user, ?array $cvSettings = null): array
@@ -42,23 +42,23 @@ class CVService
         return $this->pdfGenerator->wrapHtml($content);
     }
 
-    public function generateAtsPdf(User $user, ?array $cvSettings = null): string
+    public function generateAtsPdf(User $user, ?array $cvSettings = null, ?User $viewer = null): string
     {
-        $data = $this->prepareCvData($user, $cvSettings);
+        $data = $this->prepareCvData($user, $cvSettings, $viewer);
 
         return $this->atsGenerator->generatePdf($data);
     }
 
-    public function generateJson(User $user, ?array $cvSettings = null): string
+    public function generateJson(User $user, ?array $cvSettings = null, ?User $viewer = null): string
     {
-        $data = $this->prepareCvData($user, $cvSettings);
+        $data = $this->prepareCvData($user, $cvSettings, $viewer);
 
         return $this->jsonGenerator->generateJsonString($user, $data);
     }
 
-    public function generateJsonData(User $user, ?array $cvSettings = null): array
+    public function generateJsonData(User $user, ?array $cvSettings = null, ?User $viewer = null): array
     {
-        $data = $this->prepareCvData($user, $cvSettings);
+        $data = $this->prepareCvData($user, $cvSettings, $viewer);
 
         return $this->jsonGenerator->generate($user, $data);
     }
