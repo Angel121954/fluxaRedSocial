@@ -76,7 +76,7 @@ class RouteServiceProvider extends ServiceProvider
         });
 
         RateLimiter::for('push', function (Request $request) {
-            return Limit::perMinute(10)->by($this->throttleKey($request));
+            return Limit::perMinute(30)->by($this->throttleKey($request));
         });
     }
 

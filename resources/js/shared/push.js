@@ -205,14 +205,6 @@
         }
     }
 
-    if ('serviceWorker' in navigator && getVapidKey()) {
-        document.addEventListener('DOMContentLoaded', function () {
-            registerServiceWorker();
-        });
-    }
-
-    initPreferenceToggle();
-
     const deferredInstallPrompt = {
         event: null,
     };
