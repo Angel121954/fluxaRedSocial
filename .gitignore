@@ -25,6 +25,9 @@ TOUCH_EVENTS.md
 OPTIMISTIC_VS_IDEMPOTENCIA.md
 UX_TERMS.md
 
+# Documentación de aprendizaje local
+/docs/aprendizaje/
+
 # Infraestructura de despliegue (solo en el servidor)
 /Dockerfile
 /.dockerignore
