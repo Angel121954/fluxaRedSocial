@@ -57,7 +57,7 @@ body {
 }
 
 .landing-nav__logo {
-    height: 32px;
+    height: 20px;
     width: auto;
 }
 
@@ -738,7 +738,7 @@ body {
 }
 
 .landing-footer__logo {
-    height: 28px;
+    height: 24px;
     width: auto;
     margin-bottom: 0.5rem;
 }

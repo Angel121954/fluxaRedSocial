@@ -9,7 +9,7 @@
 <header class="landing-nav">
     <div class="landing-container landing-nav__inner">
         <a href="#landing-top" class="landing-nav__brand" aria-label="Fluxa — inicio">
-            <img src="{{ asset('img/logo.png') }}" alt="Fluxa" class="landing-nav__logo" height="32" />
+            <img src="{{ asset('img/logo-fluxa.png') }}" alt="Fluxa" class="landing-nav__logo" height="20" />
         </a>
 
         <nav class="landing-nav__links" aria-label="Navegación principal">
@@ -352,7 +352,7 @@
 <footer class="landing-footer">
     <div class="landing-container landing-footer__inner">
         <div class="landing-footer__brand">
-            <img src="{{ asset('img/logo.png') }}" alt="Fluxa" class="landing-footer__logo" />
+            <img src="{{ asset('img/logo-fluxa.png') }}" alt="Fluxa" class="landing-footer__logo" />
             <p>Construido en público para la comunidad de desarrolladores latinoamericanos.</p>
         </div>
 

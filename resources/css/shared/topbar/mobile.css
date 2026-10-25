@@ -124,7 +124,7 @@
     }
 
     .nav-logo {
-        height: 60px;
+        height: 20px;
     }
 
     .nav-link {
@@ -160,7 +160,7 @@
     }
 
     .nav-logo {
-        height: 40px;
+        height: 18px;
     }
 
     /* Ocultar links y búsqueda en desktop */
@@ -398,7 +398,7 @@
     }
 
     .nav-logo {
-        height: 36px;
+        height: 16px;
     }
 
     .mobile-menu {

@@ -11,7 +11,7 @@
         {{-- ── Izquierda: logo + links + búsqueda ── --}}
         <div class="navbar-left">
             <a href="{{ Auth::check() ? route('explore.index') : route('landing') }}" aria-label="Ir a inicio">
-                <img src="{{ asset('img/logo.png') }}" alt="Fluxa" class="nav-logo" />
+                <img src="{{ asset('img/logo-fluxa.png') }}" alt="Fluxa" class="nav-logo" />
             </a>
 
             <nav class="nav-links" aria-label="Links principales">
