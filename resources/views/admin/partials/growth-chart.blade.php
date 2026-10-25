@@ -6,7 +6,7 @@
         <div class="chart-wrap">
             <canvas id="growthChart"
                 data-labels='{{ $crecimientoUsuarios->pluck("month")->toJson() }}'
-                data-values='{{ $crecimientoUsuarios->pluck("count")->toJson() }}'>
+                data-values='{{ $crecimientoUsuarios->pluck("total")->toJson() }}'>
             </canvas>
         </div>
     </div>

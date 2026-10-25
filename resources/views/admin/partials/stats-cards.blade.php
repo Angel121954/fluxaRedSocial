@@ -10,8 +10,8 @@
         </div>
         <div class="stat-body">
             <div class="stat-label">Usuarios totales</div>
-            <div class="stat-value">{{ number_format($totalUsuarios) }}</div>
-            @include('admin.partials.stat-delta', ['valor' => $variaciones['totalUsuarios']])
+            <div class="stat-value">{{ number_format($nuevosUsuarios) }}</div>
+            @include('admin.partials.stat-delta', ['valor' => $variaciones['nuevosUsuarios']])
         </div>
     </div>
 
@@ -24,8 +24,8 @@
         </div>
         <div class="stat-body">
             <div class="stat-label">Usuarios activos</div>
-            <div class="stat-value">{{ number_format($usuariosActivos) }}</div>
-            @include('admin.partials.stat-delta', ['valor' => $variaciones['usuariosActivos']])
+            <div class="stat-value">{{ number_format($nuevosActivos) }}</div>
+            @include('admin.partials.stat-delta', ['valor' => $variaciones['nuevosActivos']])
         </div>
     </div>
 
@@ -38,8 +38,8 @@
         </div>
         <div class="stat-body">
             <div class="stat-label">Verificados</div>
-            <div class="stat-value">{{ number_format($usuariosVerificados) }}</div>
-            @include('admin.partials.stat-delta', ['valor' => $variaciones['usuariosVerificados']])
+            <div class="stat-value">{{ number_format($nuevosVerificados) }}</div>
+            @include('admin.partials.stat-delta', ['valor' => $variaciones['nuevosVerificados']])
         </div>
     </div>
 
