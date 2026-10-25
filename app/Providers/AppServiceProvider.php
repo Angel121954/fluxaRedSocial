@@ -34,6 +34,7 @@ class AppServiceProvider extends ServiceProvider
 
         View::composer('components.topbar', TopbarComposer::class);
         View::composer('components.bottom-nav', TopbarComposer::class);
+        View::composer('admin.layouts.admin', TopbarComposer::class);
 
         View::composer([
             'explore.index',

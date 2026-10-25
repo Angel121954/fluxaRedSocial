@@ -181,13 +181,16 @@
                     </svg>
                     <span>Ver plataforma</span>
                 </a>
-                <button class="topbar-icon-btn" aria-label="Notificaciones">
+                <a class="topbar-icon-btn" href="{{ route('notifications.index') }}"
+                    aria-label="Notificaciones{{ ($unreadNotifications ?? 0) > 0 ? ': '.$unreadNotifications.' sin leer' : '' }}">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9" />
                         <path d="M13.73 21a2 2 0 01-3.46 0" />
                     </svg>
-                    <span class="notif-badge">3</span>
-                </button>
+                    @if (($unreadNotifications ?? 0) > 0)
+                    <span class="notif-badge">{{ $unreadNotifications > 99 ? '99+' : $unreadNotifications }}</span>
+                    @endif
+                </a>
                 <div class="user-chip" role="button" tabindex="0">
                     <img class="user-avatar" src="{{ auth()->user()->avatar_url }}" alt="{{ auth()->user()->name }}">
                     <div class="user-info-wrap">
