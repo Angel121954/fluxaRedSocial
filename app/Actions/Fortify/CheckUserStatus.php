@@ -34,9 +34,10 @@ class CheckUserStatus
         }
 
         if ($user->status === 'pending_deletion') {
-            throw ValidationException::withMessages([
-                'email' => 'Tu cuenta está programada para eliminarse y no puede acceder.',
-            ]);
+            $user->forceFill([
+                'status' => 'activo',
+                'delete_at' => null,
+            ])->save();
         }
 
         if ($user->status === 'inactivo') {

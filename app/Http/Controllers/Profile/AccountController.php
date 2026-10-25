@@ -100,7 +100,7 @@ class AccountController extends Controller
         request()->session()->regenerateToken();
 
         return redirect()->route('login')
-            ->with('status', 'Tu cuenta será eliminada en 30 días. Puedes detener está acción iniciando sesión.');
+            ->with('status', 'Tu cuenta será eliminada en 30 días. Inicia sesión antes de esa fecha para cancelar la eliminación.');
     }
 
     public function deletePhoto()
