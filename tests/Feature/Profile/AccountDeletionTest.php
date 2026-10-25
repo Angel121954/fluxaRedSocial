@@ -37,4 +37,38 @@ describe('Eliminación de cuenta', function () {
 
         expect(User::withTrashed()->find($user->id))->toBeNull();
     });
+
+    it('cancela la eliminación programada al iniciar sesión', function () {
+        $user = User::factory()->create([
+            'status' => 'pending_deletion',
+            'delete_at' => now()->addDays(30),
+            'password' => bcrypt('password'),
+        ]);
+        Profile::factory()->for($user)->create();
+
+        $this->post(route('login'), [
+            'email' => $user->email,
+            'password' => 'password',
+        ]);
+
+        $this->assertAuthenticatedAs($user);
+
+        $user->refresh();
+
+        expect($user->status)->toBe('activo')
+            ->and($user->delete_at)->toBeNull();
+    });
+
+    it('cierra las sesiones activas de cuentas programadas para eliminarse', function () {
+        $user = User::factory()->create([
+            'status' => 'pending_deletion',
+            'delete_at' => now()->addDays(30),
+        ]);
+
+        $this->actingAs($user)
+            ->get(route('account.index'))
+            ->assertRedirect(route('login'));
+
+        $this->assertGuest();
+    });
 });
