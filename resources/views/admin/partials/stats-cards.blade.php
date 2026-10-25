@@ -9,7 +9,7 @@
             </svg>
         </div>
         <div class="stat-body">
-            <div class="stat-label">Usuarios totales</div>
+            <div class="stat-label">Nuevos usuarios</div>
             <div class="stat-value">{{ number_format($nuevosUsuarios) }}</div>
             @include('admin.partials.stat-delta', ['valor' => $variaciones['nuevosUsuarios']])
         </div>
@@ -23,7 +23,7 @@
             </svg>
         </div>
         <div class="stat-body">
-            <div class="stat-label">Usuarios activos</div>
+            <div class="stat-label">Nuevos activos</div>
             <div class="stat-value">{{ number_format($nuevosActivos) }}</div>
             @include('admin.partials.stat-delta', ['valor' => $variaciones['nuevosActivos']])
         </div>
@@ -37,7 +37,7 @@
             </svg>
         </div>
         <div class="stat-body">
-            <div class="stat-label">Verificados</div>
+            <div class="stat-label">Nuevos verificados</div>
             <div class="stat-value">{{ number_format($nuevosVerificados) }}</div>
             @include('admin.partials.stat-delta', ['valor' => $variaciones['nuevosVerificados']])
         </div>
