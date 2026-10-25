@@ -118,6 +118,17 @@
     border-radius: var(--r-xs);
 }
 
+.github-repo-private {
+    font-size: var(--text-xs);
+    font-weight: 600;
+    color: var(--warning);
+    padding: 2px 8px;
+    background: var(--accent-warm-dim);
+    border: 1px solid var(--accent-warm-ring);
+    border-radius: var(--r-xs);
+    white-space: nowrap;
+}
+
 .github-import-btn {
     padding: 6px 14px;
     font-size: var(--text-xs);
@@ -138,4 +149,16 @@
 .github-import-btn:disabled {
     opacity: 0.6;
     cursor: not-allowed;
+}
+
+@media (max-width: 640px) {
+    .github-repo-item {
+        align-items: flex-start;
+        flex-wrap: wrap;
+    }
+
+    .github-repo-meta {
+        width: 100%;
+        justify-content: flex-end;
+    }
 }

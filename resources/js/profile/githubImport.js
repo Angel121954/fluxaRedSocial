@@ -119,6 +119,7 @@
         '<span class="github-repo-desc">' + escapeHtml(repo.description || 'Sin descripción') + '</span>' +
         '</div>' +
         '<div class="github-repo-meta">' +
+        (repo.private ? '<span class="github-repo-private" title="Solo tú puedes verlo; se importará como proyecto privado">Privado</span>' : '') +
         (repo.language ? '<span class="github-repo-lang">' + escapeHtml(repo.language) + '</span>' : '') +
         '<button class="github-import-btn" data-full-name="' + escapeHtml(repo.full_name) + '">Importar</button>' +
         '</div>';
