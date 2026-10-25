@@ -59,14 +59,6 @@
         border-radius: 0;
     }
 
-    .post-image {
-        margin-left: -1rem;
-        margin-right: -1rem;
-        border-radius: 0;
-        border-left: none;
-        border-right: none;
-    }
-
     .post-header {
         gap: 0.75rem;
         margin-bottom: 0.75rem;

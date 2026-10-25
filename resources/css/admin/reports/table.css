@@ -29,10 +29,6 @@
     text-align: center;
 }
 
-.rp-th--right {
-    text-align: right;
-}
-
 .rp-tr {
     transition: background .1s;
     border-bottom: 1px solid var(--border);
@@ -267,17 +263,6 @@
     background: var(--ink-100);
     color: var(--ink-700);
     border-color: var(--border-strong);
-}
-
-.rp-btn--danger {
-    background: var(--rp-red);
-    color: #fff;
-    border-color: var(--rp-red);
-}
-
-.rp-btn--danger:hover {
-    background: #b91c1c;
-    border-color: #b91c1c;
 }
 
 .rp-dismiss-form,

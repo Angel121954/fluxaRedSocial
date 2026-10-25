@@ -91,12 +91,6 @@
         padding: 0 1rem;
     }
 
-    .filter-row {
-        overflow-x: auto;
-        flex-wrap: nowrap;
-        padding-bottom: 0.25rem;
-    }
-
     .name-row {
         justify-content: center;
     }
@@ -130,19 +124,6 @@
 
     .profile-url {
         font-size: var(--text-xs);
-    }
-
-    .profile-card {
-        padding: 1.25rem;
-    }
-
-    .av-main {
-        width: 80px;
-        height: 80px;
-    }
-
-    .av-initials {
-        font-size: var(--text-2xl);
     }
 
     .stat {
@@ -189,11 +170,6 @@
         padding: 1.25rem 1rem;
     }
 
-    .filter-row {
-        gap: 0.375rem;
-        margin-bottom: 1rem;
-    }
-
     .f-pill {
         padding: 0.25rem 0.625rem;
         font-size: var(--text-xs);
@@ -214,21 +190,6 @@
 
     .card-desc {
         font-size: var(--text-sm);
-    }
-
-    .badge-day {
-        font-size: var(--text-xs);
-        padding: 0.15rem 0.4375rem;
-    }
-
-    .badge-streak {
-        font-size: var(--text-xs);
-        padding: 0.15rem 0.375rem;
-    }
-
-    .card-menu svg {
-        width: 18px;
-        height: 18px;
     }
 
     .drop-menu {

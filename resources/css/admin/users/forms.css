@@ -14,11 +14,6 @@
     gap: 5px;
 }
 
-.adm-label-required {
-    color: #dc2626;
-    font-weight: 700;
-}
-
 .adm-label-optional {
     font-size: var(--text-xs);
     color: var(--ink-300);

@@ -168,42 +168,6 @@
     min-width: 0;
 }
 
-/* ── Success state ────────────────────────────────── */
-.modal-success {
-    text-align: center;
-    padding: 2.5rem 1rem;
-}
-
-.modal-success-icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background: var(--success-bg);
-    color: var(--success);
-    margin-bottom: 1rem;
-}
-
-.modal-success-icon svg {
-    width: 22px;
-    height: 22px;
-}
-
-.modal-success h3 {
-    font-size: var(--text-md);
-    font-weight: 600;
-    color: var(--ink-900);
-    margin: 0 0 0.375rem;
-}
-
-.modal-success p {
-    font-size: var(--text-sm);
-    color: var(--ink-400);
-    margin: 0;
-}
-
 /* ── Error banner ─────────────────────────────────── */
 .modal-error-banner {
     display: flex;
@@ -338,10 +302,6 @@
 .dark .modal-close:hover {
     background: var(--ink-100);
     color: #e1e4ea;
-}
-
-.dark .modal-success-icon {
-    background: rgba(22, 163, 74, 0.15);
 }
 
 .dark .modal-error-banner {

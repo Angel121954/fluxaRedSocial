@@ -247,7 +247,6 @@
 }
 
 /* Estados */
-.loading-box,
 .empty-box,
 .error-box {
     display: flex;
@@ -497,7 +496,6 @@
 
     .notif-skeleton,
     .empty-box,
-    .loading-box,
     .error-box {
         border-radius: 0;
         border-left: none;
@@ -591,7 +589,6 @@
     }
 
     .empty-box,
-    .loading-box,
     .error-box {
         padding: 3rem 1.5rem;
     }

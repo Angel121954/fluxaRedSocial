@@ -135,13 +135,6 @@ button.stack-card-heart.is-favorite:hover {
     }
 }
 
-.stack-icon {
-    width: 32px;
-    height: 32px;
-    object-fit: contain;
-    flex-shrink: 0;
-}
-
 .stack-name {
     font-size: var(--text-base);
     font-weight: 600;
@@ -434,24 +427,6 @@ button.stack-card-heart.is-favorite:hover {
     height: 32px;
     object-fit: contain;
     display: block;
-}
-
-.stack-icon-fallback {
-    display: none;
-    position: absolute;
-    inset: 0;
-    align-items: center;
-    justify-content: center;
-    font-size: var(--text-xs);
-    font-weight: 700;
-    color: var(--accent, #0d8e91);
-    background: var(--surface-raised, #f0fdfa);
-    border-radius: 6px;
-}
-
-.stack-icon-css {
-    font-size: 28px;
-    line-height: 1;
 }
 
 /* ── Dark mode ── */

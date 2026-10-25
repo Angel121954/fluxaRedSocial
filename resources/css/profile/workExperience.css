@@ -63,38 +63,6 @@
     border-color: var(--accent-ring);
 }
 
-/* ─── Mensaje de límite alcanzado ────────────────────────── */
-.we-limit-msg {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.75rem 1rem;
-    border-radius: var(--r-md);
-    background: var(--danger-bg);
-    border: 1px solid var(--danger-border);
-    color: var(--danger);
-    font-size: var(--text-sm);
-    margin-bottom: 1rem;
-}
-
-.we-limit-msg::before {
-    content: '';
-    display: inline-block;
-    width: 4px;
-    height: 4px;
-    border-radius: 50%;
-    background: currentColor;
-    flex-shrink: 0;
-}
-
-/* TODO: cuando implementes planes, añade estilo al link de upgrade */
-/* .we-limit-link {
-    font-weight: 600;
-    color: var(--accent-dark);
-    text-decoration: underline;
-    text-underline-offset: 2px;
-} */
-
 /* ─── Lista de tarjetas ───────────────────────────────────── */
 .we-list {
     display: flex;
@@ -471,30 +439,12 @@
         padding: 1rem;
     }
 
-    .we-card__title {
-        font-size: var(--text-md);
-    }
-
-    .we-card__subtitle {
-        font-size: var(--text-sm);
-    }
-
     .we-card__meta {
         font-size: var(--text-xs);
     }
 
     .we-card__desc {
         font-size: var(--text-sm);
-    }
-
-    .we-card__header {
-        padding-bottom: 0.75rem;
-        margin-bottom: 0.75rem;
-    }
-
-    .we-add-btn {
-        font-size: var(--text-sm);
-        padding: 0.5rem 0.75rem;
     }
 
     .we-empty {
@@ -518,19 +468,9 @@
         font-size: var(--text-sm);
     }
 
-    .we-label {
-        font-size: var(--text-sm);
-    }
-
-    .we-input,
     .we-textarea {
         font-size: var(--text-md);
         padding: 0.75rem;
-    }
-
-    .we-limit-msg {
-        font-size: var(--text-xs);
-        padding: 0.625rem 0.75rem;
     }
 }
 
@@ -538,18 +478,6 @@
 .dark .we-card {
     background: #1a1d27;
     border-color: #2a2e3a;
-}
-
-.dark .we-card__header {
-    border-bottom-color: #2a2e3a;
-}
-
-.dark .we-card__title {
-    color: #e1e4ea;
-}
-
-.dark .we-card__subtitle {
-    color: #a0a5b5;
 }
 
 .dark .we-card__meta {
@@ -564,11 +492,6 @@
     background: #1a1d27;
     border-color: #2a2e3a;
     color: var(--ink-500);
-}
-
-.dark .we-modal__content {
-    background: #1a1d27;
-    border-color: #2a2e3a;
 }
 
 .dark .we-modal__title {
@@ -607,24 +530,6 @@
     color: #fca5a5;
 }
 
-.dark .we-label {
-    color: #a0a5b5;
-}
-
-.dark .we-input {
-    background: #13151d;
-    border-color: #2a2e3a;
-    color: #e1e4ea;
-}
-
-.dark .we-input:focus {
-    border-color: var(--accent-text);
-}
-
-.dark .we-input::placeholder {
-    color: #4a4e5a;
-}
-
 .dark .we-textarea {
     background: #13151d;
     border-color: #2a2e3a;
@@ -637,20 +542,6 @@
 
 .dark .we-textarea::placeholder {
     color: #4a4e5a;
-}
-
-.dark .we-timeline__line {
-    background: #2a2e3a;
-}
-
-.dark .we-timeline__dot {
-    background: #2a2e3a;
-    border-color: #1a1d27;
-}
-
-.dark .we-timeline__item--active .we-timeline__dot {
-    background: var(--accent-strong);
-    border-color: #1a1d27;
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -920,12 +811,6 @@
 
 .we-tech-picker__item[hidden] {
     display: none;
-}
-
-.we-tech-picker__empty {
-    font-size: var(--text-xs);
-    color: var(--ink-300);
-    padding: 0.25rem 0.375rem;
 }
 
 /* ── Dark mode ── */

@@ -221,8 +221,7 @@ select.form-input {
     color: var(--ink-700);
 }
 
-.btn-submit,
-.btn-save {
+.btn-submit {
     display: inline-flex;
     align-items: center;
     gap: 0.375rem;
@@ -241,8 +240,7 @@ select.form-input {
     font-family: inherit;
 }
 
-.btn-submit:hover,
-.btn-save:hover {
+.btn-submit:hover {
     background: var(--accent-dark);
     box-shadow: 0 2px 10px rgba(18, 179, 182, 0.28);
 }
@@ -376,8 +374,7 @@ select.form-input {
     }
 
     .btn-cancel,
-    .btn-submit,
-    .btn-save {
+    .btn-submit {
         width: 100%;
         justify-content: center;
     }
@@ -423,7 +420,6 @@ select.form-input {
         font-size: var(--text-md);
     }
 
-    .btn-save,
     .btn-cancel,
     .btn-submit {
         font-size: var(--text-base);
@@ -468,39 +464,21 @@ select.form-input {
     background: #13151d;
 }
 
-.dark .edit-card {
-    background: #1a1d27;
-    border-color: #2a2e3a;
-}
-
-.dark .edit-card__title {
-    color: #e1e4ea;
-}
-
-.dark .edit-card__desc {
-    color: #a0a5b5;
-}
-
 .dark .form-label {
     color: #a0a5b5;
 }
 
-.dark .form-input,
-.dark .form-select,
-.dark .form-textarea {
+.dark .form-input {
     background: #13151d;
     border-color: #2a2e3a;
     color: #e1e4ea;
 }
 
-.dark .form-input:focus,
-.dark .form-select:focus,
-.dark .form-textarea:focus {
+.dark .form-input:focus {
     border-color: var(--accent-text);
 }
 
-.dark .form-input::placeholder,
-.dark .form-textarea::placeholder {
+.dark .form-input::placeholder {
     color: #4a4e5a;
 }
 
@@ -513,12 +491,4 @@ select.form-input {
 .dark .btn-secondary:hover {
     border-color: #4a4e5a;
     color: #e1e4ea;
-}
-
-.dark .divider {
-    border-color: #2a2e3a;
-}
-
-.dark .helper-text {
-    color: var(--ink-500);
 }

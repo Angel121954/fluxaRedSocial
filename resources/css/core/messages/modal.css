@@ -102,12 +102,6 @@
 
 /* ── Compartir proyecto ──────────────────────────── */
 
-.msgs-modal-overlay .modal-body {
-    display: flex;
-    flex-direction: column;
-    padding: 0;
-}
-
 .msgs-share-loading {
     display: flex;
     align-items: center;

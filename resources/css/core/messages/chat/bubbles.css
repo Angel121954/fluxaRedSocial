@@ -179,33 +179,6 @@
     margin-top: 4px;
 }
 
-.msgs-reaction-chip {
-    display: inline-flex;
-    align-items: center;
-    gap: 3px;
-    padding: 2px 7px;
-    background: var(--surface);
-    border: 1.5px solid var(--border-strong);
-    border-radius: 20px;
-    font-size: var(--text-xs);
-    font-weight: 600;
-    cursor: pointer;
-    color: var(--ink-700);
-    transition: border-color 0.15s, background 0.15s;
-    box-shadow: var(--shadow-xs);
-}
-
-.msgs-reaction-chip:hover,
-.msgs-reaction-chip.mine {
-    border-color: var(--accent-text);
-    background: var(--accent-dim);
-}
-
-.msgs-reaction-chip .msgs-reaction-count {
-    color: var(--ink-500);
-    font-size: var(--text-xs);
-}
-
 /* ── Separador de fecha ── */
 
 .msgs-date-separator {

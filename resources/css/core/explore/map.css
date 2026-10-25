@@ -112,9 +112,6 @@
 }
 
 /* Sidebar widget: devs cerca de ti */
-.map-sidebar-widget {
-    margin-top: 1rem;
-}
 
 .nearby-devs {
     display: flex;

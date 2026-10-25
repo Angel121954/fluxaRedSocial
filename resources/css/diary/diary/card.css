@@ -78,10 +78,6 @@
     color: var(--ink-500, #4a5568);
 }
 
-.diary-countdown--closed {
-    opacity: 0.7;
-}
-
 /* ── Caja de respuesta ───────────────────────────────────────────── */
 .diary-reply-box {
     display: flex;

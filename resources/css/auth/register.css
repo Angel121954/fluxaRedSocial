@@ -208,11 +208,6 @@
     margin-bottom: 0.25rem;
 }
 
-.strength-bars {
-    display: flex;
-    gap: 4px;
-}
-
 .strength-bar {
     height: 4px;
     flex: 1;
@@ -222,7 +217,6 @@
 }
 
 .strength-bar.active { background: var(--error-color); }
-.strength-bar.active.medium { background: #d97706; }
 .strength-bar.active.strong { background: var(--success-color); }
 
 /* ---------- Botón principal -------------------------------- */

@@ -127,14 +127,9 @@
         height: 60px;
     }
 
-    .nav-link,
-    .nav-dropdown-trigger {
+    .nav-link {
         padding: 0.375rem 0.625rem;
         font-size: var(--text-sm);
-    }
-
-    .nav-dropdown-trigger.active::after {
-        bottom: -11px;
     }
 
     .nav-search-wrap {

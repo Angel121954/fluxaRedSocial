@@ -152,13 +152,6 @@
   color: var(--text-sub);
 }
 
-.step-sep {
-  flex: 1;
-  height: 1px;
-  background: var(--border-lt);
-  margin: 0 .75rem;
-}
-
 /* ── Body ─────────────────────────────────────── */
 #modal-body {
   flex: 1;

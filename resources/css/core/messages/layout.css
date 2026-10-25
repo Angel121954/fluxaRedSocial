@@ -260,21 +260,6 @@
     border-color: var(--accent-text);
 }
 
-.msgs-online-dot {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    width: 10px;
-    height: 10px;
-    background: #22c55e;
-    border-radius: 50%;
-    outline: 2px solid var(--surface);
-}
-
-.msgs-conv-item.active .msgs-online-dot {
-    border-color: var(--surface);
-}
-
 /* ── Info de la conversación ── */
 
 .msgs-conv-info {

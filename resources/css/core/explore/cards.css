@@ -40,7 +40,6 @@
 .post-card-skeleton .sk-line--lg { width: 85%; }
 .post-card-skeleton .sk-line--md { width: 60%; }
 .post-card-skeleton .sk-line--sm { width: 40%; }
-.post-card-skeleton .sk-line--xs { width: 25%; }
 
 .post-card-skeleton .sk-menu {
     width: 32px;
@@ -187,33 +186,6 @@
     font-weight: 500;
 }
 
-.post-menu {
-    width: 44px;
-    height: 44px;
-    background: none;
-    border: none;
-    border-radius: var(--r-sm);
-    color: var(--ink-300);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition:
-        background 0.15s,
-        color 0.15s;
-    flex-shrink: 0;
-}
-
-.post-menu:hover {
-    background: var(--ink-100);
-    color: var(--ink-500);
-}
-
-.post-menu svg {
-    width: 16px;
-    height: 16px;
-}
-
 .post-content {
     font-size: var(--text-base);
     color: var(--ink-700);
@@ -242,25 +214,6 @@
 .post-tag:hover {
     background: var(--accent-dim);
     color: var(--accent-text);
-}
-
-.post-tag--featured {
-    background: var(--accent-warm-dim);
-    color: var(--accent-warm-dark);
-}
-
-.post-tag--featured:hover {
-    background: var(--accent-warm-ring);
-    color: var(--accent-warm-dark);
-}
-
-/* Post image */
-.post-image {
-    width: 100%;
-    border-radius: var(--r-lg);
-    border: 1px solid var(--border);
-    margin-bottom: 0.875rem;
-    display: block;
 }
 
 /* Post actions */

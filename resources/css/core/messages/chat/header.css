@@ -215,14 +215,6 @@
     background: var(--bg);
 }
 
-.msgs-more-item--danger {
-    color: var(--danger);
-}
-
-.msgs-more-item--danger:hover {
-    background: var(--danger-bg);
-}
-
 @media (max-width: 640px) {
     .msgs-header-action {
         width: 44px;

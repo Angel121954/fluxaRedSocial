@@ -306,30 +306,6 @@ h1 {
 
 .tagline span { color: var(--accent-text); }
 
-/* Welcome card */
-.welcome-card {
-    width: 100%;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--r);
-    padding: 18px 20px;
-}
-
-.welcome-card strong {
-    display: block;
-    font-size: var(--text-md);
-    font-weight: 600;
-    color: var(--ink-900);
-    margin-bottom: 6px;
-    letter-spacing: -0.01em;
-}
-
-.welcome-card p {
-    font-size: var(--text-sm);
-    color: var(--ink-400);
-    line-height: 1.6;
-}
-
 /* ─── Responsive ─────────────────────────────────── */
 @media (max-width: 768px) {
     .page { grid-template-columns: 1fr; min-height: auto; }

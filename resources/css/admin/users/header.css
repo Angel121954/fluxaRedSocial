@@ -60,28 +60,6 @@
     color: var(--ink-700);
 }
 
-.adm-btn--ghost {
-    background: transparent;
-    color: var(--ink-500);
-    border-color: var(--border-strong);
-}
-
-.adm-btn--ghost:hover {
-    background: var(--ink-100);
-    color: var(--ink-700);
-}
-
-.adm-btn--danger {
-    background: #dc2626;
-    color: #fff;
-    border-color: #dc2626;
-}
-
-.adm-btn--danger:hover {
-    background: #b91c1c;
-    border-color: #b91c1c;
-}
-
 .adm-btn:disabled {
     opacity: .45;
     pointer-events: none;
@@ -117,10 +95,6 @@
     color: var(--ink-900);
     letter-spacing: -.03em;
     line-height: 1;
-}
-
-.adm-qs-value--green {
-    color: #16a34a;
 }
 
 .adm-qs-value--blue {

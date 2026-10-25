@@ -166,29 +166,6 @@
     }
 }
 
-.verify-pip {
-    position: absolute;
-    bottom: 4px;
-    right: 4px;
-    width: 20px;
-    height: 20px;
-    background: var(--accent-strong);
-    border-radius: 50%;
-    border: 2px solid white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 12;
-    pointer-events: none;
-}
-
-.verify-pip svg {
-    width: 9px;
-    height: 9px;
-    color: white;
-    stroke-width: 3;
-}
-
 .profile-meta {
     flex: 1;
     min-width: 0;
@@ -218,19 +195,6 @@
     color: var(--ink-900);
     letter-spacing: -0.035em;
     line-height: 1.2;
-}
-
-.badge-pro {
-    font-size: var(--text-xs);
-    font-weight: 700;
-    letter-spacing: 0.07em;
-    text-transform: uppercase;
-    color: var(--accent-text);
-    border: 1.5px solid var(--accent-ring);
-    background: var(--accent-dim);
-    padding: 0.2rem 0.5rem;
-    border-radius: var(--r-xs);
-    flex-shrink: 0;
 }
 
 .handle {

@@ -569,10 +569,6 @@
     width: 65%;
 }
 
-.cvp-skeleton--lg {
-    width: 85%;
-}
-
 @keyframes cvp-shimmer {
 
     0%,

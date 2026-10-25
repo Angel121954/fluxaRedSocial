@@ -16,11 +16,6 @@
         grid-template-columns: 1fr;
     }
 
-    .jobs-cta-banner {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
     .jobs-results-header {
         flex-direction: column;
         align-items: flex-start;

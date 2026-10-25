@@ -138,12 +138,6 @@
 }
 
 /* Icon buttons */
-.adm-btn-group {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    margin-left: 4px;
-}
 
 .adm-btn-icon {
     width: 36px;
@@ -162,15 +156,4 @@
 .adm-btn-icon:hover {
     background: var(--bg);
     color: var(--ink-700);
-}
-
-.adm-btn-icon.adm-btn-accent {
-    background: var(--accent-strong);
-    border-color: var(--accent-text);
-    color: #fff;
-}
-
-.adm-btn-icon.adm-btn-accent:hover {
-    background: var(--accent-dark);
-    border-color: var(--accent-dark);
 }

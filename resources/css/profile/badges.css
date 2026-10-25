@@ -240,18 +240,6 @@
         padding: 1rem 0;
     }
 
-    .badges-modal-header {
-        padding: 1.25rem 1.25rem 1rem;
-    }
-
-    .badges-modal-title {
-        font-size: var(--text-md);
-    }
-
-    .badges-modal-body {
-        padding: 1rem 1.25rem;
-    }
-
     .badges-modal-category-title {
         font-size: var(--text-base);
     }
@@ -279,14 +267,6 @@
     .badge-name {
         font-size: var(--text-xs);
     }
-
-    .badges-modal-header {
-        padding: 1rem;
-    }
-
-    .badges-modal-body {
-        padding: 0.75rem 1rem;
-    }
 }
 
 /* ── Dark mode ── */
@@ -309,31 +289,6 @@
 
 .dark .badges-empty {
     color: var(--ink-500);
-}
-
-.dark .badges-modal {
-    background: #1a1d27;
-}
-
-.dark .badges-modal-header {
-    border-bottom-color: #2a2e3a;
-}
-
-.dark .badges-modal-title {
-    color: #e1e4ea;
-}
-
-.dark .badges-modal-subtitle {
-    color: var(--ink-500);
-}
-
-.dark .badges-modal-close {
-    color: var(--ink-500);
-}
-
-.dark .badges-modal-close:hover {
-    background: var(--ink-100);
-    color: #e1e4ea;
 }
 
 .dark .badges-modal-category-title {

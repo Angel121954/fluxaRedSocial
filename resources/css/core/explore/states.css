@@ -86,16 +86,8 @@
     cursor: not-allowed;
 }
 
-.load-more-status {
-    font-size: var(--text-xs);
-    color: var(--ink-300);
-}
-
 /* Modal reportar */
 /* ── Report modal (custom card styles) ──────────── */
-.modal-report {
-    max-width: 420px;
-}
 
 .modal-report-textarea {
     width: 100%;
