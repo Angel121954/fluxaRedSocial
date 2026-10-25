@@ -69,7 +69,7 @@
                                 <span class="msgs-conv-name">{{ $otherChat->name }}</span>
                                 <span class="msgs-conv-time"
                                     data-timestamp="{{ $lastMsg ? $lastMsg->created_at->getTimestampMs() : '' }}">
-                                    {{ $lastMsg ? $lastMsg->created_at->diffForHumans(null, true, true) : '' }}
+                                    {{ $lastMsg ? $lastMsg->created_at->diffForHumans() : '' }}
                                 </span>
                             </div>
                             @if($otherChat->profile?->specialty)

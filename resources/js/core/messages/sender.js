@@ -2,6 +2,7 @@ import { scrollToBottom, autosizeInput, escapeHtml } from './messageUtils.js';
 import { createOwnBubble, updateBubbleStatus, ensureDateSeparator, showNotAcceptingMessages } from './messageRenderer.js';
 import { sendMessage } from './messageService.js';
 import { removeTypingIndicator } from './typingHandler.js';
+import { relativeTime } from '../../shared/relativeTime.js';
 
 let timeUpdateInterval = null;
 
@@ -29,73 +30,18 @@ function updateConversationTimes() {
     if (!convList) return;
 
     const times = convList.querySelectorAll('.msgs-conv-time');
-    const now = new Date();
 
     times.forEach((timeEl) => {
-        let timestamp = parseInt(timeEl.dataset.timestamp);
-
-        if (!timestamp) {
-            if (timeEl.textContent === 'Ahora') {
-                timestamp = Date.now();
-                timeEl.dataset.timestamp = timestamp;
-            } else if (timeEl.textContent === 'Ayer') {
-                timestamp = Date.now() - 86400000;
-                timeEl.dataset.timestamp = timestamp;
-            }
-        }
-
+        const timestamp = parseInt(timeEl.dataset.timestamp);
         if (!timestamp) return;
 
-        const diff = Math.floor((now - timestamp) / 1000);
-        let text = '';
-
-        if (diff < 1) {
-            text = 'Ahora';
-        } else if (diff < 60) {
-            text = 'Hace ' + diff + 's';
-        } else if (diff < 3600) {
-            text = 'Hace ' + Math.floor(diff / 60) + 'm';
-        } else if (diff < 86400) {
-            text = 'Hace ' + Math.floor(diff / 3600) + 'h';
-        } else {
-            const days = Math.floor(diff / 86400);
-            text = days === 1 ? 'Ayer' : 'Hace ' + days + 'd';
-        }
-
-        timeEl.textContent = text;
+        timeEl.textContent = relativeTime(timestamp);
     });
 }
 
 export function startTimeUpdates() {
     const convList = document.getElementById('msgsConvList');
     if (!convList) return;
-
-    const times = convList.querySelectorAll('.msgs-conv-time');
-    times.forEach((timeEl) => {
-        if (timeEl.dataset.timestamp) return;
-
-        const timeText = timeEl.textContent;
-        if (!timeText) return;
-
-        if (timeText === 'Ahora') {
-            timeEl.dataset.timestamp = Date.now();
-        } else if (timeText === 'Ayer') {
-            timeEl.dataset.timestamp = Date.now() - 86400000;
-        } else {
-            const match = timeText.match(/Hace (\d+)\s*(segundo|minuto|hora|día)/);
-            if (match) {
-                const num = parseInt(match[1]);
-                const unit = match[2];
-                let seconds = 0;
-                if (unit.startsWith('segundo')) seconds = num;
-                else if (unit.startsWith('minuto')) seconds = num * 60;
-                else if (unit.startsWith('hora')) seconds = num * 3600;
-                else if (unit.startsWith('día')) seconds = num * 86400;
-
-                timeEl.dataset.timestamp = Date.now() - (seconds * 1000);
-            }
-        }
-    });
 
     updateConversationTimes();
     timeUpdateInterval = setInterval(updateConversationTimes, 1000);
