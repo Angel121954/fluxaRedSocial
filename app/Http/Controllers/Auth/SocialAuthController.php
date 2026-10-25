@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Auth;
 
+use App\Exceptions\SocialAuthException;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Services\SocialAuthService;
@@ -68,6 +69,10 @@ class SocialAuthController extends Controller
             request()->session()->regenerate();
 
             return redirect()->route('explore.index');
+        } catch (SocialAuthException $e) {
+            return redirect()
+                ->route('login')
+                ->with('error', $e->getMessage());
         } catch (Exception $e) {
             report($e);
 

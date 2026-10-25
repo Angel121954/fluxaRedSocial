@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Exceptions\SocialAuthException;
 use App\Models\NotificationPreference;
 use App\Models\Profile;
 use App\Models\User;
@@ -19,26 +20,42 @@ class SocialAuthService
 {
     public function findOrCreateUser(string $provider, SocialiteUser $socialUser): User
     {
-        $avatarOriginal = $this->resolveAvatar($provider, $socialUser);
+        $email = $socialUser->getEmail();
 
-        $user = User::where('provider_id', $socialUser->getId())
-            ->where('provider', $provider)
+        if (! $email) {
+            throw new SocialAuthException('Tu cuenta no tiene un correo disponible.');
+        }
+
+        $avatarOriginal = $this->resolveAvatar($provider, $socialUser);
+        $providerEmailVerified = $this->providerEmailIsVerified($provider, $socialUser);
+        $isNewUser = false;
+
+        $user = User::where('provider', $provider)
+            ->where('provider_id', $socialUser->getId())
             ->first();
 
         if (! $user) {
-            $user = User::where('email', $socialUser->getEmail())->first();
+            $user = User::where('email', $email)->first();
+
+            if ($user) {
+                $this->assertCanLinkAccount($user, $provider, $providerEmailVerified);
+                $this->assertProviderNotLinkedToAnotherUser($provider, (string) $socialUser->getId(), $user->id);
+
+                $user->update([
+                    'provider' => $provider,
+                    'provider_id' => $socialUser->getId(),
+                ]);
+            } else {
+                $user = $this->createUser($provider, $socialUser, $avatarOriginal, $providerEmailVerified);
+                $isNewUser = true;
+            }
         }
 
-        if (! $user) {
-            $user = $this->createUser($provider, $socialUser, $avatarOriginal);
-        } else {
-            $user->update([
-                'provider' => $provider,
-                'provider_id' => $socialUser->getId(),
-            ]);
-
-            $this->updateAvatar($user, $avatarOriginal);
+        if ($user->status === 'banned') {
+            throw new SocialAuthException('Tu cuenta ha sido suspendida.');
         }
+
+        $this->updateAvatar($user, $avatarOriginal);
 
         if ($provider === 'github') {
             $this->storeGithubToken($user, $socialUser);
@@ -59,6 +76,10 @@ class SocialAuthService
 
         $this->reactivateIfNeeded($user);
 
+        if ($isNewUser && $user->email_verified_at === null) {
+            $user->sendEmailVerificationNotification();
+        }
+
         return $user;
     }
 
@@ -68,9 +89,50 @@ class SocialAuthService
         $this->syncGithubData($user);
     }
 
-    private function createUser(string $provider, SocialiteUser $socialUser, string $avatarOriginal): User
+    private function assertCanLinkAccount(User $user, string $provider, bool $providerEmailVerified): void
     {
-        return DB::transaction(function () use ($provider, $socialUser, $avatarOriginal): User {
+        if ($user->status === 'banned') {
+            throw new SocialAuthException('Tu cuenta ha sido suspendida.');
+        }
+
+        if ($user->email_verified_at === null) {
+            throw new SocialAuthException(
+                'Ya existe una cuenta con este correo sin verificar. Recupera el acceso con «Olvidé mi contraseña» o verifica tu correo antes de vincular el proveedor.'
+            );
+        }
+
+        if (! $providerEmailVerified) {
+            throw new SocialAuthException(
+                'El proveedor no ha verificado tu correo. Verifícalo en el proveedor e intenta de nuevo.'
+            );
+        }
+
+        if ($user->provider !== null && $user->provider !== $provider) {
+            throw new SocialAuthException(
+                'Ya existe una cuenta con este correo vinculada a otro proveedor. Inicia sesión con ese proveedor.'
+            );
+        }
+    }
+
+    private function assertProviderNotLinkedToAnotherUser(string $provider, string $providerId, int $userId): void
+    {
+        $linkedToAnotherUser = User::where('provider', $provider)
+            ->where('provider_id', $providerId)
+            ->where('id', '!=', $userId)
+            ->exists();
+
+        if ($linkedToAnotherUser) {
+            throw new SocialAuthException('Esta cuenta social ya está vinculada a otro usuario de Fluxa.');
+        }
+    }
+
+    private function createUser(
+        string $provider,
+        SocialiteUser $socialUser,
+        ?string $avatarOriginal,
+        bool $emailVerified,
+    ): User {
+        return DB::transaction(function () use ($provider, $socialUser, $avatarOriginal, $emailVerified): User {
             $baseUsername = Str::slug(
                 $socialUser->getName() ?? $socialUser->getNickname() ?? 'user'
             );
@@ -94,25 +156,34 @@ class SocialAuthService
                 'role' => 'user',
             ]);
 
-            $user->forceFill(['email_verified_at' => now()])->save();
+            $user->forceFill([
+                'email_verified_at' => $emailVerified ? now() : null,
+            ])->save();
 
             Profile::create([
                 'user_id' => $user->id,
-                'avatar' => $this->uploadAvatarToCloudinary($avatarOriginal, $user->id),
+                'avatar' => $avatarOriginal
+                    ? $this->uploadAvatarToCloudinary($avatarOriginal, $user->id)
+                    : null,
             ]);
 
             return $user;
         });
     }
 
-    private function updateAvatar(User $user, string $avatarOriginal): void
+    private function updateAvatar(User $user, ?string $avatarOriginal): void
     {
-        $currentAvatar = $user->profile?->avatar ?? '';
-        $isAlreadyInCloudinary = str_contains($currentAvatar, 'cloudinary.com');
+        if (empty($avatarOriginal)) {
+            return;
+        }
 
-        $avatar = $isAlreadyInCloudinary
-            ? $currentAvatar
-            : $this->uploadAvatarToCloudinary($avatarOriginal, $user->id);
+        $currentAvatar = $user->profile?->avatar ?? '';
+
+        if (str_contains($currentAvatar, 'cloudinary.com')) {
+            return;
+        }
+
+        $avatar = $this->uploadAvatarToCloudinary($avatarOriginal, $user->id);
 
         $user->profile()->updateOrCreate(
             ['user_id' => $user->id],
@@ -122,12 +193,12 @@ class SocialAuthService
 
     private function storeGithubToken(User $user, SocialiteUser $socialUser): void
     {
+        $expiresIn = $socialUser->expiresIn ?? null;
+
         $user->forceFill([
-            'github_token' => $socialUser->token,
-            'github_refresh_token' => $socialUser->refreshToken,
-            'github_token_expires_at' => $socialUser->expiresIn
-                ? now()->addSeconds($socialUser->expiresIn)
-                : null,
+            'github_token' => $socialUser->token ?? null,
+            'github_refresh_token' => $socialUser->refreshToken ?? null,
+            'github_token_expires_at' => $expiresIn ? now()->addSeconds((int) $expiresIn) : null,
         ])->save();
     }
 
@@ -147,9 +218,56 @@ class SocialAuthService
         }
     }
 
-    private function resolveAvatar(string $provider, SocialiteUser $socialUser): string
+    private function providerEmailIsVerified(string $provider, SocialiteUser $socialUser): bool
+    {
+        $raw = method_exists($socialUser, 'getRaw') ? (array) $socialUser->getRaw() : [];
+
+        return match ($provider) {
+            'google' => filter_var($raw['email_verified'] ?? false, FILTER_VALIDATE_BOOLEAN),
+            'github' => $this->githubEmailIsVerified($socialUser),
+            'facebook' => filter_var($raw['verified'] ?? false, FILTER_VALIDATE_BOOLEAN),
+            default => false,
+        };
+    }
+
+    private function githubEmailIsVerified(SocialiteUser $socialUser): bool
+    {
+        $email = strtolower((string) $socialUser->getEmail());
+
+        if ($email === '') {
+            return false;
+        }
+
+        try {
+            $response = Http::withToken((string) ($socialUser->token ?? ''))
+                ->accept('application/vnd.github.v3+json')
+                ->get('https://api.github.com/user/emails');
+
+            if (! $response->successful()) {
+                return false;
+            }
+
+            foreach ((array) $response->json() as $item) {
+                if (strtolower((string) ($item['email'] ?? '')) === $email) {
+                    return (bool) ($item['verified'] ?? false);
+                }
+            }
+        } catch (Exception $e) {
+            Log::warning('No se pudo verificar el email de GitHub', [
+                'error' => $e->getMessage(),
+            ]);
+        }
+
+        return false;
+    }
+
+    private function resolveAvatar(string $provider, SocialiteUser $socialUser): ?string
     {
         $avatar = $socialUser->getAvatar();
+
+        if (empty($avatar)) {
+            return null;
+        }
 
         return match ($provider) {
             'facebook' => preg_replace('/type=\w+/', 'type=large', $avatar),
