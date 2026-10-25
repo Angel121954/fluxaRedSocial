@@ -71,6 +71,8 @@ class FollowController extends Controller
 
     public function followers(User $user): JsonResponse
     {
+        $this->authorize('view', $user->profile);
+
         $followers = $user->followers()
             ->select('users.id', 'users.name', 'users.username')
             ->with('profile:id,user_id,avatar')
@@ -87,6 +89,8 @@ class FollowController extends Controller
 
     public function following(User $user): JsonResponse
     {
+        $this->authorize('view', $user->profile);
+
         $following = $user->follows()
             ->select('users.id', 'users.name', 'users.username')
             ->with('profile:id,user_id,avatar')

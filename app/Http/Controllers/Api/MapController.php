@@ -12,13 +12,19 @@ class MapController extends Controller
 {
     public function users()
     {
-        $blockedIds = Auth::user()->blockedUsers()->pluck('blocked_id');
+        $currentUser = Auth::user();
+
+        $blockedIds = $currentUser->blockedUsers()->pluck('users.id')
+            ->merge($currentUser->blockedBy()->pluck('users.id'));
 
         $users = User::whereHas('profile', fn ($q) => $q
+            ->where('visibility', 'public')
             ->whereNotNull('latitude')
             ->whereNotNull('longitude'),
         )
             ->whereNotIn('id', $blockedIds)
+            ->where('role', '!=', 'guest')
+            ->where('status', '!=', 'banned')
             ->with('profile:id,user_id,avatar,latitude,longitude')
             ->limit(500)
             ->get();

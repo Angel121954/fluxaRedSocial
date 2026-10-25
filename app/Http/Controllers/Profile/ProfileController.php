@@ -91,6 +91,8 @@ class ProfileController extends Controller
 
     public function projects(User $user): JsonResponse
     {
+        $this->authorize('view', $user->profile);
+
         $isOwner = Auth::id() === $user->id;
 
         $query = $user->projects()
