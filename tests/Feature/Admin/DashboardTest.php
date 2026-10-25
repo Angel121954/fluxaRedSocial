@@ -26,6 +26,9 @@ describe('Panel de administración', function () {
             ->assertOk()
             ->assertSee('Panel Administrativo')
             ->assertSee('Estado de la comunidad')
+            ->assertSee('Nuevos usuarios')
+            ->assertSee('Nuevos activos')
+            ->assertSee('Nuevos verificados')
             ->assertSee('Todo el tiempo');
     });
 
@@ -48,7 +51,17 @@ describe('Panel de administración', function () {
                 'hasta' => now()->format('Y-m-d'),
             ]))
             ->assertOk()
-            ->assertViewHas('totalUsuarios', 2)
-            ->assertViewHas('variaciones');
+            ->assertViewHas('nuevosUsuarios', 2)
+            ->assertViewHas('variaciones', fn (array $variaciones) => $variaciones['nuevosUsuarios'] === 100.0);
+    });
+
+    it('no muestra la navegación móvil social en el panel', function () {
+        $administrador = administradorDashboard();
+
+        $this->actingAs($administrador)
+            ->get(route('admin.dashboard'))
+            ->assertOk()
+            ->assertDontSee('aria-label="Navegación móvil"', false)
+            ->assertDontSee('bottom-fab', false);
     });
 });
