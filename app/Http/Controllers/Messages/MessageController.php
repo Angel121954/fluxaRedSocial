@@ -162,8 +162,7 @@ class MessageController extends Controller
         return $this->sendAndRespond(
             $request,
             $conversation,
-            false,
-            fn($conv, $userId, $req) => $this->messageService->sendMessage($conv, $userId, $req->body)
+            fn ($conv, $userId, $req) => $this->messageService->sendMessage($conv, $userId, $req->body)
         );
     }
 
@@ -172,8 +171,7 @@ class MessageController extends Controller
         return $this->sendAndRespond(
             $request,
             $conversation,
-            true,
-            fn($conv, $userId, $req) => $this->messageService->sendGifMessage(
+            fn ($conv, $userId, $req) => $this->messageService->sendGifMessage(
                 $conv,
                 $userId,
                 $req->string('gif_url')->toString(),
@@ -187,8 +185,7 @@ class MessageController extends Controller
         return $this->sendAndRespond(
             $request,
             $conversation,
-            true,
-            fn($conv, $userId, $req) => $this->messageService->sendMediaMessage(
+            fn ($conv, $userId, $req) => $this->messageService->sendMediaMessage(
                 $conv,
                 $userId,
                 $req->file('file'),
@@ -338,14 +335,11 @@ class MessageController extends Controller
     private function sendAndRespond(
         Request $request,
         Conversation $conversation,
-        bool $authorize,
         callable $createMessage,
     ): JsonResponse {
         $user = $request->user();
 
-        if ($authorize) {
-            $this->authorize('view', $conversation);
-        }
+        $this->authorize('sendMessage', $conversation);
 
         $recipientId = $this->getRecipientId($conversation, $user);
 
