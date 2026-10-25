@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Jobs;
 
 use App\Models\User;
+use Cloudinary\Cloudinary;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Facades\Cache;
@@ -22,18 +23,18 @@ class UploadAvatarJob implements ShouldQueue
     {
         $user = User::find($this->userId);
 
-        $cloudinary = new \Cloudinary\Cloudinary(config('cloudinary.cloud_url'));
+        $cloudinary = new Cloudinary(config('cloudinary.cloud_url'));
         $result = $cloudinary->uploadApi()->upload($this->tempPath, [
-            'folder'         => 'fluxa/avatares',
-            'public_id'      => 'user_' . $this->userId,
-            'overwrite'      => true,
+            'folder' => 'fluxa/avatares',
+            'public_id' => 'user_'.$this->userId,
+            'overwrite' => true,
             'transformation' => [
                 [
-                    'width'        => 400,
-                    'height'       => 400,
-                    'crop'         => 'fill',
-                    'gravity'      => 'face',
-                    'quality'      => 'auto',
+                    'width' => 400,
+                    'height' => 400,
+                    'crop' => 'fill',
+                    'gravity' => 'face',
+                    'quality' => 'auto',
                     'fetch_format' => 'auto',
                 ],
             ],
@@ -41,9 +42,9 @@ class UploadAvatarJob implements ShouldQueue
 
         $user->profile()->updateOrCreate(
             ['user_id' => $this->userId],
-            ['avatar'  => $result['secure_url']]
+            ['avatar' => $result['secure_url']]
         );
 
-        Cache::store('redis')->forget('cv_avatar_' . $this->userId);
+        Cache::forget('cv_avatar_'.$this->userId);
     }
 }

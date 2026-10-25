@@ -97,15 +97,15 @@ class CvDataService
             ->get();
         $educations = $user->educations()->orderBy('graduated_year', 'desc')->get();
 
-        $avatarBase64 = Cache::store('redis')->remember('cv_avatar_'.$user->id, 3600, fn () => $this->urlToBase64($profile->avatar)
+        $avatarBase64 = Cache::remember('cv_avatar_'.$user->id, 3600, fn () => $this->urlToBase64($profile->avatar)
         );
 
-        $logoBase64 = Cache::store('redis')->rememberForever('cv_logo_base64', fn () => 'data:image/png;base64,'.base64_encode(
+        $logoBase64 = Cache::rememberForever('cv_logo_base64', fn () => 'data:image/png;base64,'.base64_encode(
             file_get_contents(public_path('img/logo.png'))
         )
         );
 
-        $qrBase64 = Cache::store('redis')->remember('cv_qr_'.$user->id, 86400, fn () => $this->generateQrCode('https://'.$urlPerfil)
+        $qrBase64 = Cache::remember('cv_qr_'.$user->id, 86400, fn () => $this->generateQrCode('https://'.$urlPerfil)
         );
 
         $rolProfesional = $profile->specialty
@@ -182,7 +182,7 @@ class CvDataService
     {
         return $user->technologies()->orderBy('name')->get()
             ->map(function ($tech) {
-                $tech->iconoB64 = Cache::store('redis')->rememberForever('cv_tech_icon_'.$tech->id, function () use ($tech) {
+                $tech->iconoB64 = Cache::rememberForever('cv_tech_icon_'.$tech->id, function () use ($tech) {
                     try {
                         $url = $tech->iconUrl();
 

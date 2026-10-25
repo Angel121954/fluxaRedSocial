@@ -214,7 +214,7 @@ class ProfileController extends Controller
             $avatarUrl = $this->profileService->updateAvatar($user->id, $request->file('avatar'));
 
             $this->badgeService->scanUser($user);
-            Cache::store('redis')->forget('cv_avatar_'.$user->id);
+            Cache::forget('cv_avatar_'.$user->id);
 
             return response()->json(['success' => true, 'url' => $avatarUrl]);
         } catch (Exception $e) {
@@ -240,7 +240,7 @@ class ProfileController extends Controller
                     .'&backgroundColor=12b3b6',
             ]);
 
-            Cache::store('redis')->forget('cv_avatar_'.$user->id);
+            Cache::forget('cv_avatar_'.$user->id);
 
             return response()->json(['success' => true]);
         } catch (Exception $e) {

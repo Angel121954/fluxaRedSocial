@@ -15,7 +15,7 @@ class CvPdfGenerator
     {
         $cacheKey = 'cv_pdf_'.self::CACHE_VERSION.'_'.md5($html.implode(',', $margins));
 
-        return Cache::store('redis')->remember(
+        return Cache::remember(
             $cacheKey,
             now()->addDay(),
             fn (): string => $this->renderPdf($html, $margins),
