@@ -15,6 +15,14 @@ class CommentLikeController extends Controller
 {
     public function toggle(Request $request, Comment $comment)
     {
+        $project = $comment->project;
+
+        if (! $project) {
+            abort(404);
+        }
+
+        $this->authorize('view', $project);
+
         try {
             $userId = Auth::id();
 

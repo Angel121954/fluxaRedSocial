@@ -29,6 +29,10 @@ class FollowController extends Controller
 
         $isFollowing = $currentUser->follows()->where('followed_id', $user->id)->exists();
 
+        if (! $isFollowing && $currentUser->isBlockedWith($user)) {
+            return response()->json(['message' => 'No puedes seguir a este usuario.'], 403);
+        }
+
         if ($isFollowing) {
             $currentUser->follows()->detach($user->id);
             $following = false;

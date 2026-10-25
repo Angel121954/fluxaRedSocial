@@ -31,7 +31,8 @@ class FeedController extends Controller
 
     private function getFollowingProjects()
     {
-        $followingIds = Auth::user()->follows()->pluck('followed_id');
+        $blockedIds = Auth::user()->blockedUserIds();
+        $followingIds = Auth::user()->follows()->pluck('followed_id')->diff($blockedIds);
 
         if ($followingIds->isEmpty()) {
             $emptyPaginator = new LengthAwarePaginator([], 0, 15);

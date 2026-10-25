@@ -6,22 +6,32 @@ namespace App\Policies;
 
 use App\Models\Profile;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class ProfilePolicy
 {
     public function view(?User $user, Profile $profile): bool
     {
+        if ($user !== null && $user->id === $profile->user_id) {
+            return true;
+        }
+
+        if ($user !== null && $user->isBlockedWithId($profile->user_id)) {
+            return false;
+        }
+
         if ($profile->visibility === 'public') {
             return true;
         }
+
         if ($user === null) {
             return false;
         }
+
         if ($profile->visibility === 'followers') {
             return $user->follows()->where('followed_id', $profile->user_id)->exists();
         }
-        return $user->id === $profile->user_id;
+
+        return false;
     }
 
     public function update(User $user, Profile $profile): bool

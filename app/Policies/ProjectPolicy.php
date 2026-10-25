@@ -6,19 +6,28 @@ namespace App\Policies;
 
 use App\Models\Project;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class ProjectPolicy
 {
     public function view(User $user, Project $project): bool
     {
+        if ($user->id === $project->user_id) {
+            return true;
+        }
+
+        if ($user->isBlockedWithId($project->user_id)) {
+            return false;
+        }
+
         if ($project->privacy === 'public') {
             return true;
         }
+
         if ($project->privacy === 'followers' && $user->follows()->where('followed_id', $project->user_id)->exists()) {
             return true;
         }
-        return $user->id === $project->user_id;
+
+        return false;
     }
 
     public function create(User $user): bool
@@ -38,7 +47,15 @@ class ProjectPolicy
 
     public function comment(User $user, Project $project): bool
     {
-        return $project->privacy === 'public' || $project->user_id === $user->id;
+        if ($project->user_id === $user->id) {
+            return true;
+        }
+
+        if ($user->isBlockedWithId($project->user_id)) {
+            return false;
+        }
+
+        return $project->privacy === 'public';
     }
 
     public function restore(User $user, Project $project): bool

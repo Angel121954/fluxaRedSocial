@@ -276,6 +276,10 @@ class MessageController extends Controller
             return response()->json(['error' => 'No puedes iniciarte una conversación contigo.'], 422);
         }
 
+        if (! $this->messageService->canSendMessage(auth()->id(), $user->id)) {
+            return response()->json(['error' => 'No puedes iniciar una conversación con este usuario.'], 403);
+        }
+
         $conversation = $this->messageService->findOrCreateConversation(auth()->id(), $user->id);
 
         return response()->json([
@@ -295,6 +299,11 @@ class MessageController extends Controller
 
         if ($user->id === auth()->id()) {
             return redirect()->route('messages.index');
+        }
+
+        if (! $this->messageService->canSendMessage(auth()->id(), $user->id)) {
+            return redirect()->route('messages.index')
+                ->with('error', 'No puedes iniciar una conversación con este usuario.');
         }
 
         $conversation = $this->messageService->findOrCreateConversation(auth()->id(), $user->id);

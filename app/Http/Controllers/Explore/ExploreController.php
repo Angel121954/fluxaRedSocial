@@ -44,19 +44,21 @@ class ExploreController extends Controller
     public function topic(string $slug)
     {
         $userId = Auth::id();
+        $blockedIds = Auth::user()?->blockedUserIds() ?? collect();
         $technology = Technology::where('slug', $slug)->firstOrFail();
 
         $projects = Project::with([
             'user.profile',
             'media',
             'technologies',
-            'likes' => fn($q) => $q->where('user_id', $userId),
-            'bookmarks' => fn($q) => $q->where('user_id', $userId),
+            'likes' => fn ($q) => $q->where('user_id', $userId),
+            'bookmarks' => fn ($q) => $q->where('user_id', $userId),
             'skillEndorsements',
         ])
             ->where('parent_id', null)
             ->where('privacy', 'public')
-            ->whereHas('technologies', fn($q) => $q->where('technologies.id', $technology->id))
+            ->when($blockedIds->isNotEmpty(), fn ($q) => $q->whereNotIn('user_id', $blockedIds))
+            ->whereHas('technologies', fn ($q) => $q->where('technologies.id', $technology->id))
             ->orderByDesc('likes_count')
             ->orderByDesc('comments_count')
             ->paginate(15);
@@ -74,18 +76,20 @@ class ExploreController extends Controller
     public function search(Request $request)
     {
         $userId = Auth::id();
+        $blockedIds = Auth::user()?->blockedUserIds() ?? collect();
         $query = $request->get('q', '');
 
         $projects = Project::with([
             'user.profile',
             'media',
             'technologies',
-            'likes' => fn($q) => $q->where('user_id', $userId),
-            'bookmarks' => fn($q) => $q->where('user_id', $userId),
+            'likes' => fn ($q) => $q->where('user_id', $userId),
+            'bookmarks' => fn ($q) => $q->where('user_id', $userId),
             'skillEndorsements',
         ])
             ->where('parent_id', null)
             ->where('privacy', 'public')
+            ->when($blockedIds->isNotEmpty(), fn ($q) => $q->whereNotIn('user_id', $blockedIds))
             ->where('title', 'like', "%{$query}%")
             ->orderByDesc('likes_count')
             ->orderByDesc('comments_count')
@@ -114,16 +118,18 @@ class ExploreController extends Controller
     private function getProjects(string $type)
     {
         $userId = Auth::id();
+        $blockedIds = Auth::user()?->blockedUserIds() ?? collect();
         $query = Project::with([
             'user.profile',
             'media',
             'technologies',
-            'likes' => fn($q) => $q->where('user_id', $userId),
-            'bookmarks' => fn($q) => $q->where('user_id', $userId),
+            'likes' => fn ($q) => $q->where('user_id', $userId),
+            'bookmarks' => fn ($q) => $q->where('user_id', $userId),
             'skillEndorsements',
         ])
             ->where('parent_id', null)
-            ->where('privacy', 'public');
+            ->where('privacy', 'public')
+            ->when($blockedIds->isNotEmpty(), fn ($q) => $q->whereNotIn('user_id', $blockedIds));
 
         $projects = match ($type) {
             'trending' => $query->orderByDesc('likes_count')

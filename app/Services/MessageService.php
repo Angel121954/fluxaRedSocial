@@ -45,7 +45,7 @@ class MessageService
 
     public function canSendMessage(int $senderId, int $recipientId): bool
     {
-        if ($this->isBlockedBy($senderId, $recipientId)) {
+        if ($this->isBlockedBy($senderId, $recipientId) || $this->hasBlocked($senderId, $recipientId)) {
             return false;
         }
 
@@ -74,6 +74,9 @@ class MessageService
             'blocker_id' => $blockerId,
             'blocked_id' => $blockedId,
         ]);
+
+        User::find($blockerId)?->follows()->detach($blockedId);
+        User::find($blockedId)?->follows()->detach($blockerId);
     }
 
     public function unblockUser(int $blockerId, int $blockedId): void

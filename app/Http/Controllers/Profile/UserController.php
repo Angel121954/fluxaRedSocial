@@ -29,7 +29,10 @@ class UserController extends Controller
             return response()->json(['error' => 'No autenticado'], 401);
         }
 
-        $currentUserId = auth()->id();
+        $currentUser = auth()->user();
+        $currentUserId = $currentUser->id;
+
+        $blockedIds = $currentUser->blockedUserIds();
 
         $existingConvUserIds = $this->messageService->getExistingConversationUserIds($currentUserId);
 
@@ -41,7 +44,8 @@ class UserController extends Controller
                 $q->where('name', 'like', "%{$query}%")
                     ->orWhere('username', 'like', "%{$query}%");
             })
-            ->with('profile');
+            ->with('profile')
+            ->whereNotIn('id', $blockedIds);
 
         if (! empty($existingConvUserIds)) {
             $users->whereNotIn('id', $existingConvUserIds);

@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Collection;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Sanctum\HasApiTokens;
 use NotificationChannels\WebPush\HasPushSubscriptions;
@@ -245,6 +246,33 @@ class User extends Authenticatable implements MustVerifyEmail
     public function hasBlock(User $user): bool
     {
         return $this->blockedUsers()->where('blocked_id', $user->id)->exists();
+    }
+
+    public function isBlockedWithId(int $userId): bool
+    {
+        return UserBlock::query()
+            ->where(function ($query) use ($userId) {
+                $query->where('blocker_id', $this->id)
+                    ->where('blocked_id', $userId);
+            })
+            ->orWhere(function ($query) use ($userId) {
+                $query->where('blocker_id', $userId)
+                    ->where('blocked_id', $this->id);
+            })
+            ->exists();
+    }
+
+    public function isBlockedWith(User $user): bool
+    {
+        return $this->isBlockedWithId($user->id);
+    }
+
+    public function blockedUserIds(): Collection
+    {
+        return $this->blockedUsers()->pluck('users.id')
+            ->merge($this->blockedBy()->pluck('users.id'))
+            ->unique()
+            ->values();
     }
 
     public function hasBadge(string $slug): bool
