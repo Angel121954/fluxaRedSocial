@@ -60,8 +60,6 @@ class CvDataService
             .urlencode('https://'.$urlPerfil)
             .'&color=0d9488&bgcolor=ffffff&margin=6';
 
-        $followersCount = $user->followers()->count();
-        $followingCount = $user->follows()->count();
         $technologies = $this->loadTechnologyIcons($user);
 
         $projects = collect();
@@ -109,12 +107,6 @@ class CvDataService
             ? ucfirst($profile->specialty).' Developer'
             : 'Software Developer';
 
-        $estadisticas = [
-            ['valor' => $projects->count(), 'etiqueta' => 'Proyectos'],
-            ['valor' => $followingCount, 'etiqueta' => 'Siguiendo'],
-            ['valor' => $followersCount, 'etiqueta' => 'Seguidores'],
-        ];
-
         $srcAvatar = $avatarBase64 ?? ($profile->avatar ? str_replace('type=normal', 'type=large', $profile->avatar) : '');
 
         return [
@@ -130,10 +122,7 @@ class CvDataService
             'cvSettings' => $cvSettings,
             'urlPerfil' => $urlPerfil,
             'urlQrExterno' => $urlQrExterno,
-            'cantidadSeguidores' => $followersCount,
-            'cantidadSiguiendo' => $followingCount,
             'rolProfesional' => $rolProfesional,
-            'estadisticas' => $estadisticas,
             'srcAvatar' => $srcAvatar,
             'srcLogo' => $logoBase64,
             'srcQr' => $qrBase64 ?? $urlQrExterno,
