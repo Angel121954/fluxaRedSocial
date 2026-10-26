@@ -36,6 +36,50 @@ describe('Suscripción a notificaciones push', function () {
         ]);
     });
 
+    it('acepta endpoints de servicios push conocidos', function () {
+        $user = User::factory()->create(['onboarding_completed' => true]);
+
+        $endpoints = [
+            'https://fcm.googleapis.com/fcm/send/dummy-fcm',
+            'https://updates.push.services.mozilla.com/wpush/v2/dummy-mozilla',
+            'https://web.push.apple.com/dummy-apple',
+            'https://wns2-par02p.notify.windows.com/w/?token=dummy-windows',
+        ];
+
+        foreach ($endpoints as $endpoint) {
+            $this->actingAs($user)->postJson('/notifications/push/subscribe', [
+                'endpoint' => $endpoint,
+                'public_key' => 'dummy-public-key',
+                'auth_token' => 'dummy-auth-token',
+                'content_encoding' => 'aesgcm',
+            ])->assertOk();
+        }
+    });
+
+    it('rechaza endpoints que no sean HTTPS o que apunten a hosts no permitidos', function () {
+        $user = User::factory()->create(['onboarding_completed' => true]);
+
+        $endpoints = [
+            'http://fcm.googleapis.com/fcm/send/dummy-http',
+            'https://127.0.0.1/fcm/send/dummy-local',
+            'https://169.254.169.254/latest/meta-data/',
+            'https://evil.example/fcm/send/dummy-evil',
+            'https://fcm.googleapis.com.evil.example/fcm/send/dummy-suffix',
+            'https://fcm.googleapis.com@127.0.0.1/fcm/send/dummy-userinfo',
+            'https://fcm.googleapis.com:8443/fcm/send/dummy-port',
+        ];
+
+        foreach ($endpoints as $endpoint) {
+            $this->actingAs($user)->postJson('/notifications/push/subscribe', [
+                'endpoint' => $endpoint,
+                'public_key' => 'dummy-public-key',
+                'auth_token' => 'dummy-auth-token',
+                'content_encoding' => 'aesgcm',
+            ])->assertUnprocessable()
+                ->assertJsonValidationErrors('endpoint');
+        }
+    });
+
     it('no permite suscribirse sin autenticación', function () {
         $response = $this->postJson('/notifications/push/subscribe', [
             'endpoint' => 'https://fcm.googleapis.com/fcm/send/dummy-endpoint-2',
