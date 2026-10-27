@@ -26,14 +26,14 @@
 .jobs-title {
     font-size: var(--text-xl);
     font-weight: 600;
-    color: var(--ink-900, #111827);
+    color: var(--ink-900);
     line-height: 1.2;
 }
 
 .jobs-subtitle {
     margin-top: 4px;
     font-size: var(--text-base);
-    color: var(--ink-400, #6b7280);
+    color: var(--ink-400);
 }
 
 /* ── Layout principal ───────────────────────────────────────────── */

@@ -11,3 +11,11 @@
     --jobs-radius-btn:  8px;
     --jobs-radius-pill: 20px;
 }
+
+.dark {
+    --jobs-teal-light:  rgba(18, 179, 182, 0.16);
+    --jobs-teal-text:   #5ee1e3;
+    --jobs-tag-bg:      rgba(18, 179, 182, 0.14);
+    --jobs-tag-border:  rgba(18, 179, 182, 0.4);
+    --jobs-tag-text:    #7fe3e5;
+}
