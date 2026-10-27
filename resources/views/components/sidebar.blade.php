@@ -28,6 +28,9 @@
         <a href="{{ route('educations.index') }}">
             <div class="sidebar-item {{ request()->routeIs('educations*') ? 'active' : '' }}">Educación</div>
         </a>
+        <a href="{{ route('credentials.index') }}">
+            <div class="sidebar-item {{ request()->routeIs('credentials*') ? 'active' : '' }}">Certificaciones</div>
+        </a>
     </div>
 
     <!-- Avatar section -->

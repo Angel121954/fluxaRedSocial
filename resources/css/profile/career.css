@@ -1,0 +1,297 @@
+/* ═══════════════════════════════════════════════════════════
+   career.css — Trayectoria profesional y certificaciones
+   Depende de: variables.css
+═══════════════════════════════════════════════════════════ */
+
+.career-sections {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.career-section__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 0.875rem;
+}
+
+.career-section__title {
+    font-size: var(--text-md);
+    font-weight: 750;
+    color: var(--ink-900);
+    letter-spacing: -0.025em;
+}
+
+.career-section__action {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--accent-text);
+    text-decoration: none;
+}
+
+.career-section__action:hover {
+    text-decoration: underline;
+}
+
+.career-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.career-card {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: var(--r-lg);
+    padding: 1.25rem 1.375rem;
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.career-card:hover {
+    border-color: var(--border-strong);
+    box-shadow: var(--shadow-sm);
+}
+
+.career-card__top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.career-card__info {
+    flex: 1;
+    min-width: 0;
+}
+
+.career-card__title {
+    font-size: var(--text-md);
+    font-weight: 700;
+    color: var(--ink-900);
+    letter-spacing: -0.02em;
+    line-height: 1.35;
+}
+
+.career-card__subtitle {
+    font-size: var(--text-base);
+    font-weight: 500;
+    color: var(--ink-600);
+    margin-top: 0.15rem;
+}
+
+.career-card__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.3rem 0.5rem;
+    margin-top: 0.45rem;
+    font-size: var(--text-sm);
+    color: var(--ink-400);
+    line-height: 1.5;
+}
+
+.career-card__desc {
+    margin-top: 0.875rem;
+    font-size: var(--text-base);
+    color: var(--ink-500);
+    line-height: 1.65;
+    white-space: pre-line;
+}
+
+.career-card__techs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    margin-top: 0.65rem;
+}
+
+.career-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.15rem 0.5rem;
+    border-radius: var(--r-sm);
+    background: var(--bg-subtle);
+    color: var(--ink-500);
+    border: 1px solid var(--border);
+    font-size: var(--text-xs);
+    font-weight: 500;
+}
+
+.career-card__divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 0.875rem 0 0.75rem;
+}
+
+.career-card__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    flex-shrink: 0;
+}
+
+.career-card__footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-top: 0.75rem;
+}
+
+.career-card__detail {
+    font-size: var(--text-sm);
+    color: var(--ink-500);
+    margin-top: 0.5rem;
+}
+
+.career-card__footer .career-card__detail {
+    margin-top: 0;
+}
+
+.career-card__link {
+    display: inline-flex;
+    align-items: center;
+    margin-top: 0.75rem;
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--accent-text);
+    text-decoration: none;
+}
+
+.career-card__footer .career-card__link {
+    margin-top: 0;
+}
+
+.career-card__link:hover {
+    text-decoration: underline;
+}
+
+/* ─── Badges ─────────────────────────────────────────────── */
+
+.career-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.15rem 0.5rem;
+    border-radius: 999px;
+    font-size: var(--text-xs);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    background: var(--bg-subtle);
+    color: var(--ink-500);
+    border: 1px solid var(--border);
+    vertical-align: middle;
+}
+
+.career-badge--formal,
+.career-badge--certification,
+.career-badge--public {
+    background: var(--accent-dim);
+    color: var(--accent-text);
+    border-color: var(--accent-ring);
+}
+
+.career-badge--practicum,
+.career-badge--course,
+.career-badge--private {
+    background: var(--accent-warm-dim);
+    color: var(--accent-warm-dark);
+    border-color: var(--accent-warm-dim);
+}
+
+.career-badge--freelance,
+.career-badge--award {
+    background: var(--bg-subtle);
+    color: var(--ink-600);
+    border-color: var(--border-strong);
+}
+
+.career-badge--volunteering,
+.career-badge--competency {
+    background: var(--success-bg);
+    color: var(--success);
+    border-color: var(--success-bg);
+}
+
+.career-badge--current {
+    background: var(--accent-dim);
+    color: var(--accent-text);
+    border-color: var(--accent-ring);
+}
+
+.dark .career-badge--practicum,
+.dark .career-badge--course,
+.dark .career-badge--private {
+    color: var(--warning);
+}
+
+/* ─── Estado vacío ───────────────────────────────────────── */
+
+.career-empty {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 1rem 1.25rem;
+    border: 1.5px dashed var(--border-strong);
+    border-radius: var(--r-lg);
+    background: var(--surface);
+    color: var(--ink-400);
+    font-size: var(--text-base);
+}
+
+.career-empty__link {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--accent-text);
+    text-decoration: none;
+}
+
+.career-empty__link:hover {
+    text-decoration: underline;
+}
+
+/* ─── Nota de privacidad (gestión) ───────────────────────── */
+
+.career-privacy-note {
+    margin-top: -1.25rem;
+    margin-bottom: 1.5rem;
+    max-width: 60ch;
+}
+
+/* ─── Responsive ─────────────────────────────────────────── */
+
+@media (max-width: 640px) {
+    .career-sections {
+        gap: 1.5rem;
+    }
+
+    .career-card {
+        padding: 1rem;
+    }
+
+    .career-card__top {
+        flex-direction: column;
+    }
+
+    .career-card__actions {
+        align-self: flex-end;
+    }
+
+    .career-section__head {
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 480px) {
+    .career-card__meta {
+        font-size: var(--text-xs);
+    }
+
+    .career-card__desc {
+        font-size: var(--text-sm);
+    }
+}

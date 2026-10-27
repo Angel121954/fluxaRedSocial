@@ -46,6 +46,7 @@ class AppServiceProvider extends ServiceProvider
             'profile.edit',
             'profile.educations',
             'profile.work-experiences',
+            'profile.credentials',
             'settings.account',
             'settings.configuration',
             'settings.notification-preference',

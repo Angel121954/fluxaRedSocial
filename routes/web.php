@@ -28,6 +28,7 @@ use App\Http\Controllers\Pages\ProblemReportController;
 use App\Http\Controllers\Pages\TermsController;
 use App\Http\Controllers\Profile\AccountController;
 use App\Http\Controllers\Profile\ConfigurationController;
+use App\Http\Controllers\Profile\CredentialController;
 use App\Http\Controllers\Profile\CVSettingsController;
 use App\Http\Controllers\Profile\EducationController;
 use App\Http\Controllers\Profile\GitHubController;
@@ -597,6 +598,9 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
         Route::resource('projects', ProjectController::class)
             ->middlewareFor(['store', 'update'], 'throttle:uploads');
         Route::resource('educations', EducationController::class)
+            ->middlewareFor(['store', 'update', 'destroy'], 'throttle:interactions');
+        Route::resource('credentials', CredentialController::class)
+            ->except(['show', 'create', 'edit'])
             ->middlewareFor(['store', 'update', 'destroy'], 'throttle:interactions');
 
         Route::post('/projects/{project}/like', [ProjectController::class, 'like'])

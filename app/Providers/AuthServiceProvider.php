@@ -6,6 +6,7 @@ namespace App\Providers;
 
 use App\Models\Comment;
 use App\Models\Conversation;
+use App\Models\Credential;
 use App\Models\DiaryResponseComment;
 use App\Models\Education;
 use App\Models\Message;
@@ -15,6 +16,7 @@ use App\Models\Profile;
 use App\Models\WorkExperience;
 use App\Policies\CommentPolicy;
 use App\Policies\ConversationPolicy;
+use App\Policies\CredentialPolicy;
 use App\Policies\DiaryResponseCommentPolicy;
 use App\Policies\EducationPolicy;
 use App\Policies\MessagePolicy;
@@ -34,6 +36,7 @@ class AuthServiceProvider extends ServiceProvider
         Message::class => MessagePolicy::class,
         Conversation::class => ConversationPolicy::class,
         Education::class => EducationPolicy::class,
+        Credential::class => CredentialPolicy::class,
         Notification::class => NotificationPolicy::class,
         WorkExperience::class => WorkExperiencePolicy::class,
     ];
