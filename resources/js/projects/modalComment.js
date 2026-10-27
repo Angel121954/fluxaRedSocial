@@ -1,4 +1,4 @@
-import { renderComments, addComment, addReply, startTimeUpdates } from './commentRenderer.js';
+import { renderComments, addComment, addReply, startTimeUpdates, stopTimeUpdates } from './commentRenderer.js';
 import { initCommentForm, setReplyingTo as setReply, resetCommentForm as resetForm } from './commentForm.js';
 
 let commentsModal, modalCommentsList;
@@ -81,6 +81,7 @@ window.openCommentsModal = openCommentsModal;
 
 function closeCommentsModal() {
     window.closeModal('commentsModal');
+    stopTimeUpdates(modalCommentsList);
     resetForm();
     setCurrentProjectId(null);
 }

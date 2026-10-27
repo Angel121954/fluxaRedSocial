@@ -173,6 +173,10 @@
     font-weight: 500;
 }
 
+.comment-dot {
+    color: var(--ink-200);
+}
+
 .comment-text {
     font-size: var(--text-base);
     color: var(--ink-700);

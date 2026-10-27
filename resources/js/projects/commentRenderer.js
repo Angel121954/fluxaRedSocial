@@ -36,10 +36,27 @@ function updateCommentTimes(container) {
     });
 }
 
+const timeUpdateIntervals = new WeakMap();
+
 export function startTimeUpdates(container) {
     if (!container) return;
+
+    stopTimeUpdates(container);
     updateCommentTimes(container);
-    setInterval(() => updateCommentTimes(container), 1000);
+
+    const interval = setInterval(() => updateCommentTimes(container), 30000);
+    timeUpdateIntervals.set(container, interval);
+}
+
+export function stopTimeUpdates(container) {
+    if (!container) return;
+
+    const interval = timeUpdateIntervals.get(container);
+
+    if (interval) {
+        clearInterval(interval);
+        timeUpdateIntervals.delete(container);
+    }
 }
 
 export function renderComments(comments, container) {
@@ -68,7 +85,7 @@ export function renderComments(comments, container) {
             <div class="comment-body">
                 <div class="comment-header">
                     <span class="comment-author">${escapeHtml(comment.user.name)}</span>
-                    <span style="color:var(--ink-200);">·</span>
+                    <span class="comment-dot">·</span>
                     <span class="comment-time" data-timestamp="${timestamp}">${comment.created_at_human}</span>
                 </div>
                 <p class="comment-text">${escapeHtml(comment.content)}</p>
@@ -96,7 +113,7 @@ export function renderComments(comments, container) {
                                 <div class="comment-body">
                                     <div class="comment-header">
                                         <span class="comment-author">${escapeHtml(reply.user.name)}</span>
-                                        <span style="color:var(--ink-200);">·</span>
+                                        <span class="comment-dot">·</span>
                                         <span class="comment-time" data-timestamp="${replyTimestamp}">${reply.created_at_human}</span>
                                     </div>
                                     <p class="comment-text">${escapeHtml(reply.content)}</p>
@@ -122,7 +139,7 @@ export function addComment(comment, container) {
             <div class="comment-body">
                 <div class="comment-header">
                     <span class="comment-author">${escapeHtml(comment.user.name)}</span>
-                    <span style="color:var(--ink-200);">·</span>
+                    <span class="comment-dot">·</span>
                     <span class="comment-time">Justo ahora</span>
                 </div>
                 <p class="comment-text">${escapeHtml(comment.content)}</p>
@@ -174,7 +191,7 @@ export function addReply(parentId, reply, container) {
             <div class="comment-body">
                 <div class="comment-header">
                     <span class="comment-author">${escapeHtml(reply.user.name)}</span>
-                    <span style="color:var(--ink-200);">·</span>
+                    <span class="comment-dot">·</span>
                     <span class="comment-time">Justo ahora</span>
                 </div>
                 <p class="comment-text">${escapeHtml(reply.content)}</p>

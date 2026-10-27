@@ -11,5 +11,5 @@ import { relativeTime } from './relativeTime.js';
     }
 
     updateAll();
-    setInterval(updateAll, 1000);
+    setInterval(updateAll, 60000);
 })();
