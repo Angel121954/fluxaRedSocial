@@ -66,7 +66,7 @@ Route::get('/profile/{username}', [ProfileController::class, 'show'])
 | Invitado
 |--------------------------------------------------------------------------
 */
-Route::get('/guest-login', [GuestController::class, 'loginAsGuest'])
+Route::post('/guest-login', [GuestController::class, 'loginAsGuest'])
     ->name('auth.guest');
 
 Route::post('/guest/destroy', [GuestController::class, 'destroyGuest'])

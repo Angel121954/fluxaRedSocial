@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -14,7 +15,7 @@ use Illuminate\Support\Str;
 
 class GuestController extends Controller
 {
-    public function loginAsGuest(Request $request)
+    public function loginAsGuest(Request $request): RedirectResponse
     {
         $key = 'guest-login:'.$request->ip();
 
@@ -45,13 +46,15 @@ class GuestController extends Controller
 
         Auth::login($guest);
 
+        $request->session()->regenerate();
+
         session(['is_guest' => true, 'guest_id' => $guest->id]);
 
         return redirect()->route('explore.index')
             ->with('info', 'Estás explorando como visitante.');
     }
 
-    public function destroyGuest(Request $request)
+    public function destroyGuest(Request $request): RedirectResponse
     {
         $user = Auth::user();
 

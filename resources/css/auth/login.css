@@ -399,6 +399,7 @@
     align-items: center;
     justify-content: center;
     gap: 0.625rem;
+    font-family: inherit;
     font-size: 0.9rem;
     font-weight: 500;
     border-radius: var(--input-radius);

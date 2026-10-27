@@ -102,6 +102,7 @@ body {
     min-height: 40px;
     padding: 0.5rem 1.25rem;
     border-radius: 8px;
+    font-family: inherit;
     font-weight: 600;
     font-size: 0.9375rem;
     line-height: 1;
@@ -152,6 +153,11 @@ body {
     padding: 0.625rem 1.75rem;
     min-height: 48px;
     font-size: 1rem;
+}
+
+.landing-guest-form {
+    display: inline-flex;
+    margin: 0;
 }
 
 /* ─── Menú móvil ───────────────────────────────────────── */
@@ -766,6 +772,27 @@ body {
 }
 
 .landing-footer__links a:hover {
+    color: var(--accent-text);
+}
+
+.landing-footer__guest-form {
+    margin: 0;
+}
+
+.landing-footer__links button {
+    width: fit-content;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--ink-500);
+    font-family: inherit;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: color 0.15s ease;
+}
+
+.landing-footer__links button:hover {
     color: var(--accent-text);
 }
 

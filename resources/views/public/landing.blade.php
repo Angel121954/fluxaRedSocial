@@ -62,9 +62,12 @@
                     <a href="{{ route('register') }}" class="landing-btn landing-btn--primary">
                         Comenzar gratis
                     </a>
-                    <a href="{{ route('auth.guest') }}" class="landing-btn landing-btn--outline">
-                        Explorar
-                    </a>
+                    <form method="POST" action="{{ route('auth.guest') }}" class="landing-guest-form">
+                        @csrf
+                        <button type="submit" class="landing-btn landing-btn--outline">
+                            Explorar
+                        </button>
+                    </form>
                 </div>
 
                 <div class="landing-hero__stats">
@@ -341,7 +344,10 @@
                 <p class="landing-cta__sub">Únete a la red de desarrolladores que construyen en público todos los días.</p>
                 <div class="landing-cta__actions">
                     <a href="{{ route('register') }}" class="landing-btn landing-btn--white landing-btn--lg">Crear cuenta gratis</a>
-                    <a href="{{ route('auth.guest') }}" class="landing-btn landing-btn--ghost-light landing-btn--lg">Explorar como visitante</a>
+                    <form method="POST" action="{{ route('auth.guest') }}" class="landing-guest-form">
+                        @csrf
+                        <button type="submit" class="landing-btn landing-btn--ghost-light landing-btn--lg">Explorar como visitante</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -359,7 +365,10 @@
         <div class="landing-footer__links">
             <a href="{{ route('login') }}">Iniciar sesión</a>
             <a href="{{ route('register') }}">Crear cuenta</a>
-            <a href="{{ route('auth.guest') }}">Explorar como visitante</a>
+            <form method="POST" action="{{ route('auth.guest') }}" class="landing-footer__guest-form">
+                @csrf
+                <button type="submit">Explorar como visitante</button>
+            </form>
         </div>
 
         <div class="landing-footer__social">
