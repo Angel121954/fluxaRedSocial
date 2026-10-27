@@ -227,6 +227,9 @@
     <div class="tabs-bar">
         <div class="tabs-inner" role="tablist" aria-label="Secciones del perfil">
             <button type="button" class="tab active" id="tab-progress" data-tab="progress" role="tab" aria-selected="true" aria-controls="panel-progress" tabindex="0">Progreso</button>
+            @if($isOwner || $hasCareerData)
+            <button type="button" class="tab" id="tab-career" data-tab="career" role="tab" aria-selected="false" aria-controls="panel-career" tabindex="-1">Trayectoria</button>
+            @endif
             <button type="button" class="tab" id="tab-projects" data-tab="projects" role="tab" aria-selected="false" aria-controls="panel-projects" tabindex="-1">Proyectos</button>
             <button type="button" class="tab" id="tab-stack" data-tab="stack" role="tab" aria-selected="false" aria-controls="panel-stack" tabindex="-1">Stack</button>
             <button type="button" class="tab" id="tab-badges" data-tab="badges" role="tab" aria-selected="false" aria-controls="panel-badges" tabindex="-1">Logros</button>
@@ -297,6 +300,13 @@
             @endforelse
         </div>
     </div>
+
+    {{-- Panel: Trayectoria — experiencia, educación y certificaciones --}}
+    @if($isOwner || $hasCareerData)
+    <div class="content" id="panel-career" data-panel="career" role="tabpanel" aria-labelledby="tab-career" hidden>
+        @include('profile.partials.career')
+    </div>
+    @endif
 
     {{-- Panel: Proyectos — Grid 2 columnas --}}
     <div class="content" id="panel-projects" data-panel="projects" role="tabpanel" aria-labelledby="tab-projects" hidden>
@@ -395,6 +405,7 @@
 @vite('resources/css/profile/stats.css')
 @vite('resources/css/profile/tabs.css')
 @vite('resources/css/profile/content.css')
+@vite('resources/css/profile/career.css')
 @vite('resources/css/profile/stack.css')
 @vite('resources/css/profile/responsive.css')
 @vite('resources/css/profile/modalImage.css')

@@ -58,11 +58,47 @@ class ProfileService
         );
 
         $workExperiences = $user->workExperiences()
-            ->select('id', 'user_id', 'type', 'company', 'position', 'description', 'started_at', 'ended_at', 'created_at')
+            ->select(
+                'id',
+                'user_id',
+                'type',
+                'employment_type',
+                'company',
+                'position',
+                'location',
+                'work_mode',
+                'description',
+                'started_at',
+                'ended_at',
+                'current',
+                'created_at',
+            )
+            ->with('technologies:id,name,slug')
             ->orderBy('started_at', 'desc')->get();
         $educations = $user->educations()
-            ->select('id', 'user_id', 'institution', 'degree', 'field', 'graduated_year', 'created_at')
+            ->select('id', 'user_id', 'institution', 'degree', 'field', 'graduated_year', 'current', 'created_at')
             ->orderBy('graduated_year', 'desc')->get();
+
+        $credentials = $user->credentials()
+            ->select(
+                'id',
+                'user_id',
+                'title',
+                'issuer',
+                'type',
+                'issued_at',
+                'expires_at',
+                'credential_id',
+                'credential_url',
+                'description',
+                'privacy',
+            )
+            ->when(! $isOwner, fn ($query) => $query->where('privacy', 'public'))
+            ->get();
+
+        $hasCareerData = $workExperiences->isNotEmpty()
+            || $educations->isNotEmpty()
+            || $credentials->isNotEmpty();
 
         $favoriteProjects = collect();
         if ($showFavorites) {
@@ -115,6 +151,8 @@ class ProfileService
             'allTechnologies',
             'workExperiences',
             'educations',
+            'credentials',
+            'hasCareerData',
             'favoriteProjects',
             'badges',
             'allBadges',
