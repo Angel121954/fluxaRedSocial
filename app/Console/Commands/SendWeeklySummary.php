@@ -109,7 +109,7 @@ class SendWeeklySummary extends Command
     private function getTrendingProjects()
     {
         return Project::with('user')
-            ->where('privacy', 'public')
+            ->publicRoot()
             ->where('created_at', '>=', now()->subWeek())
             ->orderByDesc('likes_count')
             ->orderByDesc('comments_count')

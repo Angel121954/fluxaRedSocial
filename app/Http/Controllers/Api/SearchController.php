@@ -34,7 +34,7 @@ class SearchController extends Controller
                 'avatar' => $user->profile->avatar ?? 'https://api.dicebear.com/7.x/initials/svg?seed='.strtolower($user->username).'&backgroundColor=12b3b6',
             ]);
 
-        $projects = Project::where('privacy', 'public')
+        $projects = Project::publicRoot()
             ->where('title', 'like', "%{$query}%")
             ->with('media')
             ->limit(5)

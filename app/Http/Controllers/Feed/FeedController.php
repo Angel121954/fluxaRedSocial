@@ -50,8 +50,7 @@ class FeedController extends Controller
             'bookmarks' => fn ($q) => $q->where('user_id', $userId),
             'skillEndorsements',
         ])
-            ->where('parent_id', null)
-            ->where('privacy', 'public')
+            ->publicRoot()
             ->whereIn('user_id', $followingIds)
             ->orderByDesc('created_at')
             ->paginate(15);

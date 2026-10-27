@@ -59,9 +59,8 @@ class ExploreController extends Controller
             'bookmarks' => fn ($q) => $q->where('user_id', $userId),
             'skillEndorsements',
         ])
-            ->where('parent_id', null)
-            ->where('privacy', 'public')
-            ->when($blockedIds->isNotEmpty(), fn ($q) => $q->whereNotIn('user_id', $blockedIds))
+            ->publicRoot()
+            ->excludingBlocked($blockedIds)
             ->whereHas('technologies', fn ($q) => $q->where('technologies.id', $technology->id))
             ->orderByDesc('likes_count')
             ->orderByDesc('comments_count')
@@ -91,9 +90,8 @@ class ExploreController extends Controller
             'bookmarks' => fn ($q) => $q->where('user_id', $userId),
             'skillEndorsements',
         ])
-            ->where('parent_id', null)
-            ->where('privacy', 'public')
-            ->when($blockedIds->isNotEmpty(), fn ($q) => $q->whereNotIn('user_id', $blockedIds))
+            ->publicRoot()
+            ->excludingBlocked($blockedIds)
             ->where('title', 'like', "%{$query}%")
             ->orderByDesc('likes_count')
             ->orderByDesc('comments_count')
@@ -131,9 +129,8 @@ class ExploreController extends Controller
             'bookmarks' => fn ($q) => $q->where('user_id', $userId),
             'skillEndorsements',
         ])
-            ->where('parent_id', null)
-            ->where('privacy', 'public')
-            ->when($blockedIds->isNotEmpty(), fn ($q) => $q->whereNotIn('user_id', $blockedIds));
+            ->publicRoot()
+            ->excludingBlocked($blockedIds);
 
         $projects = match ($type) {
             'trending' => $query->orderByDesc('likes_count')

@@ -37,9 +37,7 @@ class LandingController extends Controller
                     ->where('status', '!=', 'banned')
                     ->whereNotNull('email_verified_at')
                     ->count(),
-                'projects' => Project::where('parent_id', null)
-                    ->where('privacy', 'public')
-                    ->count(),
+                'projects' => Project::publicRoot()->count(),
                 'endorsements' => SkillEndorsement::count(),
             ];
         });
@@ -49,8 +47,7 @@ class LandingController extends Controller
     {
         return Project::with(['user.profile', 'technologies', 'media'])
             ->withCount('likes')
-            ->where('parent_id', null)
-            ->where('privacy', 'public')
+            ->publicRoot()
             ->whereHas('user', fn ($q) => $q->where('role', '!=', 'guest')->where('status', '!=', 'banned'))
             ->latest()
             ->take(6)

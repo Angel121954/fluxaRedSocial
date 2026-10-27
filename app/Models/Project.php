@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Collection;
 
 class Project extends Model
 {
@@ -70,6 +72,19 @@ class Project extends Model
     public function skillEndorsements()
     {
         return $this->hasMany(SkillEndorsement::class);
+    }
+
+    public function scopePublicRoot(Builder $query): Builder
+    {
+        return $query->whereNull('parent_id')->where('privacy', 'public');
+    }
+
+    public function scopeExcludingBlocked(Builder $query, Collection $blockedIds): Builder
+    {
+        return $query->when(
+            $blockedIds->isNotEmpty(),
+            fn (Builder $query) => $query->whereNotIn('user_id', $blockedIds)
+        );
     }
 
     public function getSkillCountsAttribute(): array
