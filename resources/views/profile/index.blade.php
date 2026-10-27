@@ -200,15 +200,21 @@
 
                     <!-- Stats -->
                     <div class="stats-row">
-                        <div class="stat {{ Auth::check() ? 'stat-clickable' : '' }}" @auth onclick="openProjectsModal({{ $user->id }})" @endauth title="Ver proyectos">
+                        <button type="button" class="stat {{ Auth::check() ? 'stat-clickable' : '' }}"
+                            @auth data-stat-action="projects" data-user-id="{{ $user->id }}" title="Ver proyectos" @endauth
+                            @guest disabled @endguest>
                             <span class="stat-n">{{ $projectsCount ?? $projects->count() }}</span><span class="stat-l">Proyectos</span>
-                        </div>
-                        <div class="stat {{ Auth::check() ? 'stat-clickable' : '' }}" @auth onclick="openFollowersModal({{ $user->id }}, 'following')" @endauth title="Ver usuarios que sigue">
+                        </button>
+                        <button type="button" class="stat {{ Auth::check() ? 'stat-clickable' : '' }}"
+                            @auth data-stat-action="following" data-user-id="{{ $user->id }}" title="Ver usuarios que sigue" @endauth
+                            @guest disabled @endguest>
                             <span class="stat-n">{{ $user->follows_count }}</span><span class="stat-l">Siguiendo</span>
-                        </div>
-                        <div class="stat {{ Auth::check() ? 'stat-clickable' : '' }}" @auth onclick="openFollowersModal({{ $user->id }}, 'followers')" @endauth title="Ver seguidores">
+                        </button>
+                        <button type="button" class="stat {{ Auth::check() ? 'stat-clickable' : '' }}"
+                            @auth data-stat-action="followers" data-user-id="{{ $user->id }}" title="Ver seguidores" @endauth
+                            @guest disabled @endguest>
                             <span class="stat-n">{{ $user->followers_count }}</span><span class="stat-l">Seguidores</span>
-                        </div>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -219,13 +225,13 @@
      TABS
 ══════════════════════════════════════════ -->
     <div class="tabs-bar">
-        <div class="tabs-inner">
-            <div class="tab active" data-tab="progress">Progreso</div>
-            <div class="tab" data-tab="projects">Proyectos</div>
-            <div class="tab" data-tab="stack">Stack</div>
-            <div class="tab" data-tab="badges">Logros</div>
+        <div class="tabs-inner" role="tablist" aria-label="Secciones del perfil">
+            <button type="button" class="tab active" id="tab-progress" data-tab="progress" role="tab" aria-selected="true" aria-controls="panel-progress" tabindex="0">Progreso</button>
+            <button type="button" class="tab" id="tab-projects" data-tab="projects" role="tab" aria-selected="false" aria-controls="panel-projects" tabindex="-1">Proyectos</button>
+            <button type="button" class="tab" id="tab-stack" data-tab="stack" role="tab" aria-selected="false" aria-controls="panel-stack" tabindex="-1">Stack</button>
+            <button type="button" class="tab" id="tab-badges" data-tab="badges" role="tab" aria-selected="false" aria-controls="panel-badges" tabindex="-1">Logros</button>
             @if($isOwner || $profile->show_favorites)
-            <div class="tab" data-tab="favorites">Favoritos</div>
+            <button type="button" class="tab" id="tab-favorites" data-tab="favorites" role="tab" aria-selected="false" aria-controls="panel-favorites" tabindex="-1">Favoritos</button>
             @endif
         </div>
     </div>
@@ -235,7 +241,7 @@
 ══════════════════════════════════════════ -->
 
     {{-- Panel: Progreso --}}
-    <div class="content" data-panel="progress">
+    <div class="content" id="panel-progress" data-panel="progress" role="tabpanel" aria-labelledby="tab-progress">
         @php $typeLabels = [
         'project' => 'Proyecto',
         'work' => 'Experiencia',
@@ -293,7 +299,7 @@
     </div>
 
     {{-- Panel: Proyectos — Grid 2 columnas --}}
-    <div class="content" data-panel="projects" style="display:none">
+    <div class="content" id="panel-projects" data-panel="projects" role="tabpanel" aria-labelledby="tab-projects" hidden>
         <div class="projects-grid">
             @forelse ($projects as $project)
             <x-project-card-masonry :project="$project" />
@@ -311,7 +317,7 @@
     </div>
 
     {{-- Panel: Stack --}}
-    <div class="content" data-panel="stack" style="display:none">
+    <div class="content" id="panel-stack" data-panel="stack" role="tabpanel" aria-labelledby="tab-stack" hidden>
         <x-stack-tab
             :technologies="$technologies"
             :isOwner="$isOwner"
@@ -322,7 +328,7 @@
     </div>
 
     {{-- Panel: Logros --}}
-    <div class="content" data-panel="badges" style="display:none">
+    <div class="content" id="panel-badges" data-panel="badges" role="tabpanel" aria-labelledby="tab-badges" hidden>
         <x-badge-grid :badges="$badges ?? collect()" :all-badges="$allBadges ?? collect()" :is-owner="$isOwner" />
         @if($isOwner)
         <x-badges-modal
@@ -335,7 +341,7 @@
 
     {{-- Panel: Favoritos --}}
     @if($isOwner || $profile->show_favorites)
-    <div class="content" data-panel="favorites" style="display:none">
+    <div class="content" id="panel-favorites" data-panel="favorites" role="tabpanel" aria-labelledby="tab-favorites" hidden>
         @if(isset($favoriteProjects) && $favoriteProjects->count() > 0)
         @foreach($favoriteProjects as $project)
         <a href="/projects/{{ $project->id }}">

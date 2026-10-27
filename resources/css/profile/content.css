@@ -10,6 +10,10 @@
     padding: 1.75rem 1.5rem;
 }
 
+.content[hidden] {
+    display: none;
+}
+
 .f-pill {
     display: flex;
     align-items: center;

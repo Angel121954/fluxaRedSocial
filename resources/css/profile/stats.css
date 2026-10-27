@@ -17,11 +17,21 @@
     flex-direction: column;
     gap: 0.125rem;
     position: relative;
+    font-family: inherit;
+    text-align: left;
+    background: none;
+    border: 0;
     transition: none;
 }
 
 .stat-clickable {
     cursor: pointer;
+}
+
+.stat-clickable:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: var(--r-xs);
 }
 
 .stat+.stat {

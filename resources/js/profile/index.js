@@ -14,6 +14,7 @@ import './profileOptions.js';
 import './dropdown.js';
 import './avatar.js';
 import './tabs.js';
+import { initProfileStats } from './stats.js';
 import './filters.js';
 import './shareProfile.js';
 import '../projects/modalComment.js'; // inicializa listeners de cierre del modal
@@ -27,6 +28,7 @@ import { initLikeButton } from '../core/explore/like.js';
 import '../core/explore/projectMenu.js';
 
 document.addEventListener('DOMContentLoaded', () => {
+    initProfileStats();
     initSkillEndorsement();
     initLikeButton();
     initPrivacyUpdates();

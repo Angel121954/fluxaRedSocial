@@ -137,6 +137,7 @@ export default defineConfig({
                 "resources/js/profile/projectsModal.js",
                 "resources/js/profile/githubImport.js",
                 "resources/js/profile/tabs.js",
+                "resources/js/profile/stats.js",
 
                 // Shared JS
                 "resources/js/shared/topbar.js",
