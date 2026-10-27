@@ -124,14 +124,14 @@ export async function handleSendMessage({ input, sendBtn, bubbleList, syncSendBt
         }
     }
 
-    input.value = '';
-    autosizeInput(input);
-
     try {
         const data = await sendMessage(body, convId, recipient);
         tempBubble.dataset.msgId = data.id ?? '';
         updateBubbleStatus(tempBubble, 'sent');
         removeTypingIndicator();
+
+        input.value = '';
+        autosizeInput(input);
 
         // If recipient doesn't accept messages, show notice but keep message as sent
         if (data && data.recipient_accepts_messages === false) {
