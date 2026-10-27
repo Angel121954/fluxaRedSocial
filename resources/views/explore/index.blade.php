@@ -3,6 +3,8 @@
 @section('title', request()->get('q') ? 'Buscar: ' . request()->get('q') : 'Explorar')
 <x-topbar :profile="$profile" />
 
+<h1 class="sr-only">Explorar proyectos</h1>
+
 <!-- ══════════════════════════════════════════
      FEED LAYOUT
 ══════════════════════════════════════════ -->

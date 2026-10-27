@@ -3,6 +3,8 @@
 @section('title', 'Feed')
 <x-topbar :profile="$profile" />
 
+<h1 class="sr-only">Feed de proyectos</h1>
+
 <div class="feed-layout">
   <div class="feed-main">
     @if($topTechnologies->count() > 0)
