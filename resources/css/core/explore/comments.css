@@ -111,7 +111,7 @@
 .comments-empty-icon svg {
     width: 24px;
     height: 24px;
-    color: var(--ink-300);
+    color: var(--ink-400);
 }
 
 .comments-empty-title {
@@ -169,7 +169,7 @@
 
 .comment-time {
     font-size: var(--text-xs);
-    color: var(--ink-300);
+    color: var(--ink-400);
     font-weight: 500;
 }
 
@@ -225,7 +225,7 @@
     margin-left: auto;
     opacity: 0;
     transition: opacity 0.15s, color 0.15s;
-    color: var(--ink-300);
+    color: var(--ink-400);
 }
 
 .comment-item:hover .comment-delete-btn,
@@ -284,7 +284,7 @@
 }
 
 .comment-textarea::placeholder {
-    color: var(--ink-300);
+    color: var(--ink-400);
 }
 
 .comment-textarea:focus {

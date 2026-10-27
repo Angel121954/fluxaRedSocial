@@ -341,7 +341,7 @@
 
 /* ─── Coincidencia ────────────────────────────────────────── */
 .pwd-match-hint { font-size: var(--text-xs); font-weight: 500; min-height: 1em; }
-.pwd-match-hint.match  { color: var(--success); }
+.pwd-match-hint.match  { color: var(--success-text); }
 .pwd-match-hint.no-match { color: var(--danger); }
 
 /* ─── Responsive ──────────────────────────────────────────── */

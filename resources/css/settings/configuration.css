@@ -59,7 +59,7 @@
     color: var(--ink-400);
     text-align: right;
     margin-top: .25rem;
-    font-family: var(--font);
+    font-family: inherit;
     transition: color .15s;
 }
 

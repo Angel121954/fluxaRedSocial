@@ -211,7 +211,7 @@
 .career-badge--volunteering,
 .career-badge--competency {
     background: var(--success-bg);
-    color: var(--success);
+    color: var(--success-text);
     border-color: var(--success-bg);
 }
 

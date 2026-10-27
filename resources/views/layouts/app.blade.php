@@ -62,6 +62,9 @@
     @if(request()->routeIs('feed*', 'explore*', 'profile.*'))
     data-bottom-nav-hide
     @endif
+    @if(request()->routeIs('messages*'))
+    data-no-bottom-padding
+    @endif
     @section('body-attributes')@show>
     @yield('content')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

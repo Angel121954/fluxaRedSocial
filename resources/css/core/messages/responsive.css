@@ -45,15 +45,12 @@
 
 @media (max-width: 768px) {
     .msgs-page {
-        height: calc(100dvh - 54px - 64px - env(safe-area-inset-bottom, 0px));
+        height: calc(100dvh - var(--topbar-h) - var(--bottom-nav-h) - env(safe-area-inset-bottom, 0px));
         @supports not (height: 100dvh) {
-            height: calc(100vh - 54px - 64px - env(safe-area-inset-bottom, 0px));
+            height: calc(100vh - var(--topbar-h) - var(--bottom-nav-h) - env(safe-area-inset-bottom, 0px));
         }
     }
 
-    .msgs-input-bar {
-        padding-bottom: calc(60px + env(safe-area-inset-bottom, 0px));
-    }
 }
 
 @media (max-width: 768px) {
@@ -274,5 +271,11 @@
         right: 12px;
         background: rgba(0, 0, 0, 0.5);
         color: rgba(255, 255, 255, 0.9);
+    }
+}
+
+@media (max-width: 768px) {
+    body[data-no-bottom-padding] {
+        padding-bottom: 0;
     }
 }

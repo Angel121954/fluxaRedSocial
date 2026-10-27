@@ -231,7 +231,7 @@
 
 .notif-time {
     font-size: var(--text-xs);
-    color: var(--ink-300);
+    color: var(--ink-400);
     white-space: nowrap;
     flex-shrink: 0;
 }
@@ -547,12 +547,12 @@
         width: auto;
         flex-shrink: 0;
         font-size: var(--text-xs);
-        color: var(--ink-200);
+        color: var(--ink-400);
         margin-left: auto;
     }
 
     .notif-card.unread .notif-time {
-        color: var(--ink-300);
+        color: var(--ink-500);
     }
 
     .notif-delete {

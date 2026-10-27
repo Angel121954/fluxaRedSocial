@@ -31,7 +31,7 @@
 }
 
 .f-pill:hover {
-    border-color: var(--ink-300);
+    border-color: var(--ink-400);
     color: var(--ink-900);
 }
 
@@ -160,7 +160,7 @@
 
 .act-time {
     font-size: var(--text-xs);
-    color: var(--ink-300);
+    color: var(--ink-400);
     font-weight: 500;
     margin-left: auto;
     white-space: nowrap;
@@ -295,7 +295,7 @@
 .msn-card-img-placeholder svg {
     width: 32px;
     height: 32px;
-    color: var(--ink-300);
+    color: var(--ink-400);
 }
 
 /* ─── Body ───────────────────────────────── */
@@ -341,7 +341,7 @@
     background: transparent;
     border: none;
     border-radius: var(--r-sm);
-    color: var(--ink-300);
+    color: var(--ink-400);
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -440,7 +440,7 @@
 .msn-time {
     margin-left: auto;
     font-size: 0.6875rem;
-    color: var(--ink-300);
+    color: var(--ink-400);
     font-weight: 500;
     white-space: nowrap;
 }
