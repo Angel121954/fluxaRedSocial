@@ -36,6 +36,18 @@ return [
     'cloud_url' => env('CLOUDINARY_URL', 'cloudinary://'.env('CLOUDINARY_KEY').':'.env('CLOUDINARY_SECRET').'@'.env('CLOUDINARY_CLOUD_NAME')),
     'cloud_name' => env('CLOUDINARY_CLOUD_NAME'),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Content Moderation Add-on
+    |--------------------------------------------------------------------------
+    |
+    | Add-on used to reject nudity/sexual content on public images (avatars,
+    | project media and suggestions). The add-on must be enabled in your
+    | Cloudinary account. Example: aws_rek
+    |
+    */
+    'moderation' => env('CLOUDINARY_MODERATION'),
+
     /**
      * Upload Preset From Cloudinary Dashboard
      */
