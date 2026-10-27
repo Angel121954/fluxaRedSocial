@@ -220,19 +220,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function closeModal() {
-        if (modal) {
-            modal.classList.remove('is-open');
-            unlockBodyScroll();
-        }
+        window.closeModal('cvProjectModal');
     }
 
     function openModal() {
         loadSelectedIds();
         updateModalSelection();
-        if (modal) {
-            modal.classList.add('is-open');
-            lockBodyScroll();
-        }
+        window.openModal('cvProjectModal');
     }
 
     // Open modal button

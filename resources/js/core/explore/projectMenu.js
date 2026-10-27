@@ -56,9 +56,6 @@ document.addEventListener('keydown', (e) => {
     if (e.key !== 'Escape') return;
     document.querySelectorAll('.drop-menu.open').forEach(d => d.classList.remove('open'));
     document.querySelectorAll('.post-menu-btn.is-open, .msn-card-menu.is-open').forEach(b => b.classList.remove('is-open'));
-    const hadOpenModals = document.querySelectorAll('.modal-backdrop.show').length > 0;
-    document.querySelectorAll('.modal-backdrop.show').forEach(m => m.classList.remove('show'));
-    if (hadOpenModals) unlockBodyScroll();
 });
 
 // ── Lógica de acciones ────────────────────────────────────────────────────
@@ -161,11 +158,7 @@ function handleProjectAction(action, projectId, dropItem, closeMenu) {
             }
             const reasonField = document.getElementById('reportReason');
             if (reasonField) reasonField.value = '';
-            const modal = document.getElementById('reportModal');
-            if (modal) {
-                modal.classList.add('show');
-                lockBodyScroll();
-            }
+            window.openModal('reportModal');
             break;
     }
 }
@@ -203,25 +196,6 @@ function deleteProject(projectId, card) {
         });
 }
 
-// ── Cerrar modales genéricos ──────────────────────────────────────────────
-document.addEventListener('click', (e) => {
-    const closeBtn = e.target.closest('[data-close]');
-    if (closeBtn) {
-        const modal = document.getElementById(closeBtn.dataset.close);
-        if (modal) {
-            const wasOpen = modal.classList.contains('show');
-            modal.classList.remove('show');
-            if (wasOpen) unlockBodyScroll();
-        }
-        return;
-    }
-    if (e.target.classList.contains('modal-backdrop')) {
-        const wasOpen = e.target.classList.contains('show');
-        e.target.classList.remove('show');
-        if (wasOpen) unlockBodyScroll();
-    }
-});
-
 // ── Submit de reporte ─────────────────────────────────────────────────────
 document.getElementById('reportForm')?.addEventListener('submit', function (e) {
     e.preventDefault();
@@ -246,7 +220,7 @@ document.getElementById('reportForm')?.addEventListener('submit', function (e) {
     })
         .then(res => res.json())
         .then(data => {
-            document.getElementById('reportModal')?.classList.remove('show');
+            window.closeModal('reportModal');
             showToast(data.message || 'Reporte enviado');
         });
 });

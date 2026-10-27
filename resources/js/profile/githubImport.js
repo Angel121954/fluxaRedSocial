@@ -49,8 +49,7 @@
   function openModal() {
     const modal = $(MODAL_ID);
     if (!modal) return;
-    modal.classList.add('show');
-    lockBodyScroll();
+    window.openModal(MODAL_ID);
 
     showOnly($(IMPORT_LOADING_KEY));
     $(IMPORT_ERROR_KEY).textContent = '';
@@ -90,10 +89,7 @@
   }
 
   function closeModal() {
-    const modal = $(MODAL_ID);
-    if (!modal) return;
-    modal.classList.remove('show');
-    unlockBodyScroll();
+    window.closeModal(MODAL_ID);
   }
 
   function renderRepos(repos) {

@@ -35,14 +35,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const recoveryCodes = document.getElementById("recoveryCodes");
     const recoveryList = document.getElementById("recoveryList");
 
-    const openModal = () => {
-        modal2FA.classList.add("is-open");
-        lockBodyScroll();
-    };
-    const closeModal = () => {
-        modal2FA.classList.remove("is-open");
-        unlockBodyScroll();
-    };
+    const openModal = () => window.openModal("modal2FA");
+    const closeModal = () => window.closeModal("modal2FA");
 
     // ── Toggle 2FA ─────────────────────────────────────────────
     if (toggle2FA) {

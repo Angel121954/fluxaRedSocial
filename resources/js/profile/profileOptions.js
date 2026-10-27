@@ -90,6 +90,6 @@ if (btnReport && profileUserId && !isOwner) {
         }
         const reasonEl = document.getElementById('reportReason');
         if (reasonEl) reasonEl.value = '';
-        document.getElementById('reportModal')?.classList.add('show');
+        window.openModal('reportModal');
     });
 }

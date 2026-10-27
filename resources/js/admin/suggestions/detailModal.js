@@ -1,3 +1,5 @@
+import '../../shared/modal.js';
+
 (function () {
     const backdrop = document.getElementById('suggestionDetailModal');
     if (!backdrop) return;
@@ -49,13 +51,11 @@
 
     function openModal(btn) {
         populateModal(btn);
-        backdrop.classList.add('is-open');
-        window.lockBodyScroll?.();
+        window.openModal('suggestionDetailModal');
     }
 
     function closeModal() {
-        backdrop.classList.remove('is-open');
-        window.unlockBodyScroll?.();
+        window.closeModal('suggestionDetailModal');
     }
 
     document.addEventListener('click', function (e) {
