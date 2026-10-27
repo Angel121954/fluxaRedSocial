@@ -111,7 +111,7 @@ class CloudinaryService
         $isImage = $type === 'image' || str_starts_with($mime, 'image/');
 
         $options = [
-            'resource_type' => $isImage ? 'image' : 'auto',
+            'resource_type' => $isImage ? 'image' : 'raw',
             'use_filename' => true,
             'unique_filename' => true,
         ];
@@ -125,7 +125,9 @@ class CloudinaryService
             ];
         }
 
-        return $this->upload($file, 'fluxa/messages/images', null, $options);
+        $folder = $isImage ? 'fluxa/messages/images' : 'fluxa/messages/files';
+
+        return $this->upload($file, $folder, null, $options);
     }
 
     private function moderationOptions(): array
