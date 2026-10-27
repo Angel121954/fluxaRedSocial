@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Exceptions\ContentModerationException;
 use App\Services\CloudinaryService;
 use Cloudinary\Api\ApiResponse;
 use Cloudinary\Api\Upload\UploadApi;
@@ -123,6 +124,82 @@ describe('CloudinaryService', function () {
             $service->uploadProjectMedia($file, 0);
 
             expect($captured['resource_type'])->toBe('video');
+        });
+    });
+
+    describe('moderación de contenido', function () {
+        it('solicita moderación en imágenes públicas cuando está configurada', function () {
+            config(['cloudinary.moderation' => 'aws_rek']);
+
+            $captured = null;
+            [$service] = cloudServiceMock(function ($file, $options) use (&$captured) {
+                $captured = $options;
+
+                return cloudUploaResult();
+            });
+
+            $service->uploadProjectMedia(UploadedFile::fake()->image('foto.jpg'), 0);
+
+            expect($captured['moderation'])->toBe('aws_rek');
+        });
+
+        it('no solicita moderación en videos', function () {
+            config(['cloudinary.moderation' => 'aws_rek']);
+
+            $captured = null;
+            [$service] = cloudServiceMock(function ($file, $options) use (&$captured) {
+                $captured = $options;
+
+                return cloudUploaResult();
+            });
+
+            $file = m::mock(UploadedFile::class)->makePartial();
+            $file->shouldReceive('getMimeType')->andReturn('video/mp4');
+
+            $service->uploadProjectMedia($file, 0);
+
+            expect($captured)->not->toHaveKey('moderation');
+        });
+
+        it('elimina el archivo y lanza excepción cuando el contenido es rechazado', function () {
+            config(['cloudinary.moderation' => 'aws_rek']);
+
+            [$service, $uploadApi] = cloudServiceMock(function () {
+                return cloudUploaResult([
+                    'public_id' => 'fluxa/projects/rechazado',
+                    'resource_type' => 'image',
+                    'moderation' => [[
+                        'kind' => 'aws_rek',
+                        'status' => 'rejected',
+                        'response' => ['moderation_labels' => [['name' => 'Explicit Nudity']]],
+                    ]],
+                ]);
+            });
+
+            $uploadApi->shouldReceive('destroy')
+                ->once()
+                ->with('fluxa/projects/rechazado', ['resource_type' => 'image'])
+                ->andReturn(cloudUploaResult());
+
+            expect(fn () => $service->uploadProjectMedia(UploadedFile::fake()->image('foto.jpg'), 0))
+                ->toThrow(ContentModerationException::class);
+        });
+
+        it('permite el archivo cuando la moderación lo aprueba', function () {
+            config(['cloudinary.moderation' => 'aws_rek']);
+
+            [$service] = cloudServiceMock(function () {
+                return cloudUploaResult([
+                    'moderation' => [[
+                        'kind' => 'aws_rek',
+                        'status' => 'approved',
+                    ]],
+                ]);
+            });
+
+            $result = $service->uploadProjectMedia(UploadedFile::fake()->image('foto.jpg'), 0);
+
+            expect($result)->toHaveKey('public_id');
         });
     });
 

@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Exceptions\ContentModerationException;
 use App\Models\Notification;
 use App\Models\Profile;
 use App\Models\Project;
@@ -342,6 +343,40 @@ describe('ProjectService', function () {
             expect(ProjectMedia::count())->toBe(2)
                 ->and($project->media->first()->position)->toBe(0)
                 ->and($project->media->last()->position)->toBe(1);
+        });
+
+        it('elimina los archivos ya subidos cuando uno es rechazado por moderación', function () {
+            $user = projCreateUser();
+            $project = Project::factory()->create(['user_id' => $user->id]);
+
+            $cloudinary = Mockery::mock(CloudinaryService::class);
+            $calls = 0;
+
+            $cloudinary->shouldReceive('uploadProjectMedia')
+                ->twice()
+                ->andReturnUsing(function () use (&$calls) {
+                    $calls++;
+
+                    if ($calls === 2) {
+                        throw new ContentModerationException;
+                    }
+
+                    return ['secure_url' => 'https://cloudinary.com/img1.jpg', 'public_id' => 'projects/img1'];
+                });
+
+            $cloudinary->shouldReceive('delete')
+                ->once()
+                ->with('projects/img1', 'image')
+                ->andReturn(true);
+
+            $files = [
+                UploadedFile::fake()->image('foto1.jpg'),
+                UploadedFile::fake()->image('foto2.jpg'),
+            ];
+
+            expect(fn () => (new ProjectService($cloudinary))->attachMedia($project, $files))
+                ->toThrow(ContentModerationException::class)
+                ->and(ProjectMedia::count())->toBe(0);
         });
     });
 });
