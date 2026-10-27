@@ -5,9 +5,9 @@ $profile = $profile ?? Auth::user()->profile;
 @endphp
 
 <!-- Modal imagen -->
-<div class="img-modal" id="imgModal">
+<div class="img-modal" id="imgModal" role="dialog" aria-modal="true" aria-label="Foto de perfil" aria-hidden="true">
     <div class="modal-wrap">
-        <button class="modal-x" data-close="imgModal">
+        <button class="modal-x" data-close="imgModal" aria-label="Cerrar">
             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
                     stroke-linecap="round"

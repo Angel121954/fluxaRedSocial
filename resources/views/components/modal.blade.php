@@ -6,8 +6,8 @@
     'subtitle' => null,
 ])
 
-<div class="modal-backdrop" id="{{ $id }}" role="dialog" aria-modal="true">
-    <div class="modal-card @if($maxWidth) modal-card--{{ $maxWidth }} @endif">
+<div class="modal-backdrop" id="{{ $id }}" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal-card @if($maxWidth) modal-card--{{ $maxWidth }} @endif" tabindex="-1">
         @unless($hideHeader)
             <div class="modal-header">
                 @if(isset($headerIcon))
@@ -18,7 +18,7 @@
                     {{ $header }}
                 @else
                     <div class="modal-header-text">
-                        <div class="modal-title">{{ $title ?? '' }}</div>
+                        <div class="modal-title" @if($title) id="{{ $id }}-title" @endif>{{ $title ?? '' }}</div>
                         @if($subtitle)
                             <div class="modal-subtitle">{{ $subtitle }}</div>
                         @endif

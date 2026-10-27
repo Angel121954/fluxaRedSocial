@@ -1,6 +1,6 @@
 {{-- resources/views/components/modal-qr.blade.php --}}
-<div class="modal-backdrop" id="modal2FA">
-    <div class="modal-card">
+<div class="modal-backdrop" id="modal2FA" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal-card" tabindex="-1">
 
         {{-- Header --}}
         <div class="modal-header">
