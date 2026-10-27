@@ -234,27 +234,44 @@ class ProjectService
 
     public function attachMedia(Project $project, array $files): void
     {
-        foreach ($files as $position => $file) {
-            $uploaded = $this->cloudinaryService->uploadProjectMedia($file, $position);
+        $uploads = [];
 
-            $mime = $file->getMimeType();
-            $mediaType = match (true) {
-                str_starts_with($mime, 'video/') => 'video',
-                $mime === 'image/gif' => 'gif',
-                default => 'image',
-            };
+        try {
+            foreach ($files as $position => $file) {
+                $uploaded = $this->cloudinaryService->uploadProjectMedia($file, $position);
 
-            $project->media()->create([
-                'media_url' => $uploaded['secure_url'],
-                'public_id' => $uploaded['public_id'],
-                'type' => $mediaType,
-                'position' => $position,
-            ]);
+                $mime = $file->getMimeType();
+                $mediaType = match (true) {
+                    str_starts_with($mime, 'video/') => 'video',
+                    $mime === 'image/gif' => 'gif',
+                    default => 'image',
+                };
+
+                $uploads[] = [
+                    'media_url' => $uploaded['secure_url'],
+                    'public_id' => $uploaded['public_id'],
+                    'type' => $mediaType,
+                    'position' => $position,
+                ];
+            }
+        } catch (\Throwable $e) {
+            foreach ($uploads as $upload) {
+                $this->cloudinaryService->delete(
+                    $upload['public_id'],
+                    $upload['type'] === 'video' ? 'video' : 'image'
+                );
+            }
+
+            throw $e;
+        }
+
+        foreach ($uploads as $upload) {
+            $project->media()->create($upload);
 
             Log::info('Media adjuntada al proyecto', [
                 'project_id' => $project->id,
-                'media_type' => $mediaType,
-                'position' => $position,
+                'media_type' => $upload['type'],
+                'position' => $upload['position'],
             ]);
         }
     }
