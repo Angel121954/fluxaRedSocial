@@ -16,9 +16,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const container = document.getElementById('publications-container');
     if (!container) return;
 
-    const loadMore = initLoadMore(container);
-    loadMore();
-    initTabs(() => loadMore());
+    initLoadMore(container);
+    initTabs();
     initLikeButton();
     initSkillEndorsement();
 
