@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (e.key === 'Enter') {
                 e.preventDefault();
                 if (this.value.trim().length >= 2) {
-                    window.location.href = `/explore?q=${encodeURIComponent(this.value.trim())}`;
+                    window.location.href = `/explore/search?q=${encodeURIComponent(this.value.trim())}`;
                 }
             }
         });
@@ -55,7 +55,7 @@ export function initSearch(input, resultsEl) {
         if (e.key === 'Enter') {
             e.preventDefault();
             if (this.value.trim().length >= 2) {
-                window.location.href = `/explore?q=${encodeURIComponent(this.value.trim())}`;
+                window.location.href = `/explore/search?q=${encodeURIComponent(this.value.trim())}`;
             }
         }
     });

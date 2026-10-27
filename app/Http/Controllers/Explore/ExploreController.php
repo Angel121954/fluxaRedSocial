@@ -12,8 +12,12 @@ use Illuminate\Support\Facades\Auth;
 
 class ExploreController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        if ($request->filled('q')) {
+            return redirect()->route('explore.search', ['q' => $request->query('q')]);
+        }
+
         return view('explore.index', [
             'projects' => $this->getProjects('trending'),
         ]);
