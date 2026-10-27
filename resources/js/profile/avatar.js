@@ -41,9 +41,18 @@ import { showToast } from '../shared/toast.js';
         fileIn.addEventListener('change', async (e) => {
             const file = e.target.files[0];
             if (!file) return;
-            setAllAvatars(URL.createObjectURL(file)); // optimistic UI
-            await uploadAvatar(file);
-            fileIn.value = '';
+
+            const previousUrl = avatarImg?.src;
+            const previewUrl = URL.createObjectURL(file);
+
+            setAllAvatars(previewUrl); // optimistic UI
+
+            try {
+                await uploadAvatar(file, previousUrl);
+            } finally {
+                URL.revokeObjectURL(previewUrl);
+                fileIn.value = '';
+            }
         });
     }
 
@@ -125,7 +134,7 @@ import { showToast } from '../shared/toast.js';
         }
     }
 
-    async function uploadAvatar(file) {
+    async function uploadAvatar(file, previousUrl) {
         setAvatarLoading(true);
 
         const optimized = await compressImage(file);
@@ -149,7 +158,7 @@ import { showToast } from '../shared/toast.js';
         } catch (err) {
             console.error('uploadAvatar:', err);
             showToast(err.message ?? 'No se pudo actualizar el avatar', 'error');
-            if (avatarImg?.dataset.originalSrc) setAllAvatars(avatarImg.dataset.originalSrc);
+            if (previousUrl) setAllAvatars(previousUrl);
         } finally {
             setAvatarLoading(false);
         }
