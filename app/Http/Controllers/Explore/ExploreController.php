@@ -66,8 +66,6 @@ class ExploreController extends Controller
             ->orderByDesc('comments_count')
             ->paginate(15);
 
-        $this->precomputeStates($projects, $userId);
-
         return view('explore.index', compact('projects', 'technology'));
     }
 
@@ -97,24 +95,11 @@ class ExploreController extends Controller
             ->orderByDesc('comments_count')
             ->paginate(15);
 
-        $this->precomputeStates($projects, $userId);
-
         if ($request->ajax()) {
             return view('components.project-list', compact('projects'))->render();
         }
 
         return view('explore.index', compact('projects'));
-    }
-
-    private function precomputeStates($projects, int $userId): void
-    {
-        $projects->each(function ($project) use ($userId) {
-            $project->precomputed_is_liked = $project->likes->isNotEmpty();
-            $project->precomputed_is_bookmarked = $project->bookmarks->isNotEmpty();
-            $project->precomputed_user_endorsement = $project->skillEndorsements
-                ->where('user_id', $userId)
-                ->first()?->skill_type;
-        });
     }
 
     private function getProjects(string $type)
@@ -140,8 +125,6 @@ class ExploreController extends Controller
                 ->paginate(15),
             default => $query->orderByDesc('created_at')->paginate(15),
         };
-
-        $this->precomputeStates($projects, $userId);
 
         return $projects;
     }

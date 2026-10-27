@@ -54,11 +54,6 @@ class Project extends Model
         return $this->hasMany(ProjectLike::class);
     }
 
-    public function isLikedBy($userId)
-    {
-        return $this->likes()->where('user_id', $userId)->exists();
-    }
-
     public function bookmarks()
     {
         return $this->hasMany(ProjectBookmark::class);
@@ -85,36 +80,5 @@ class Project extends Model
             $blockedIds->isNotEmpty(),
             fn (Builder $query) => $query->whereNotIn('user_id', $blockedIds)
         );
-    }
-
-    public function getSkillCountsAttribute(): array
-    {
-        if ($this->relationLoaded('skillEndorsements')) {
-            return $this->skillEndorsements->groupBy('skill_type')->map->count()->toArray();
-        }
-
-        return SkillEndorsement::getSkillCounts($this->id);
-    }
-
-    public function getUserEndorsementAttribute($userId): ?string
-    {
-        if ($this->relationLoaded('skillEndorsements')) {
-            return $this->skillEndorsements
-                ->where('user_id', $userId)
-                ->first()?->skill_type;
-        }
-
-        return SkillEndorsement::getUserEndorsement($userId, $this->id);
-    }
-
-    public function isBookmarkedBy($userId)
-    {
-        return $this->bookmarks()->where('user_id', $userId)->exists();
-    }
-
-    // Accessor — lo llamas como $project->days_active
-    public function getDaysActiveAttribute(): int
-    {
-        return (int) $this->created_at->diffInDays(now());
     }
 }
