@@ -1,0 +1,32 @@
+.guest-banner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 0.5rem 1rem;
+    background: var(--accent-dim);
+    border-bottom: 1px solid var(--border);
+    color: var(--ink-600);
+    font-size: var(--text-sm);
+    text-align: center;
+}
+
+.guest-banner a {
+    color: var(--accent-text);
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.guest-banner a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 640px) {
+    .guest-banner {
+        flex-direction: column;
+        gap: 0.25rem;
+        padding: 0.5rem 0.75rem;
+        font-size: var(--text-xs);
+    }
+}

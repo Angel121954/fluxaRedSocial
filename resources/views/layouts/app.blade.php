@@ -49,7 +49,7 @@
             @endif
         })();
     </script>
-    @vite(['resources/css/app.css', 'resources/css/variables.css', 'resources/css/shared/bottom-nav.css', 'resources/css/shared/toast.css', 'resources/css/profile/shared.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/css/variables.css', 'resources/css/shared/bottom-nav.css', 'resources/css/shared/guest-banner.css', 'resources/css/shared/toast.css', 'resources/css/profile/shared.css', 'resources/js/app.js'])
     @auth
     @vite('resources/js/shared/index.js')
     @endauth

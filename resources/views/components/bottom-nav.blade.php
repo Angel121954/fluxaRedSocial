@@ -24,6 +24,27 @@
         <span class="bottom-nav-label">Explorar</span>
     </a>
 
+    @if(Auth::user()->role === 'guest')
+    <a href="{{ route('diary.index') }}"
+        class="bottom-nav-item {{ request()->routeIs('diary*') ? 'active' : '' }}"
+        @if(request()->routeIs('diary*')) aria-current="page" @endif>
+        <svg width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+            <line x1="16" y1="2" x2="16" y2="6" />
+            <line x1="8" y1="2" x2="8" y2="6" />
+            <line x1="3" y1="10" x2="21" y2="10" />
+        </svg>
+        <span class="bottom-nav-label">Diario</span>
+    </a>
+
+    <a href="{{ route('register') }}" class="bottom-nav-item bottom-nav-item--accent">
+        <svg width="22" height="22" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
+        </svg>
+        <span class="bottom-nav-label">Crear cuenta</span>
+    </a>
+    @else
     <a href="{{ route('notifications.index') }}"
         class="bottom-nav-item {{ request()->routeIs('notifications*') ? 'active' : '' }}"
         @if(request()->routeIs('notifications*')) aria-current="page" @endif>
@@ -61,12 +82,13 @@
         </svg>
         <span class="bottom-nav-label">Perfil</span>
     </a>
+    @endif
 
 </nav>
 
 {{-- ── FAB: Nuevo proyecto (mobile) ── --}}
-@if(Auth::user()->role !== 'guest' && !request()->routeIs('messages*') && !request()->routeIs('admin.*'))
-<button class="bottom-fab" onclick="abrirModal()" aria-label="Crear nuevo proyecto" title="Nuevo proyecto">
+@if(Auth::user()->role !== 'guest' && request()->routeIs('feed*', 'explore*'))
+<button class="bottom-fab" data-create-project aria-label="Crear nuevo proyecto" title="Nuevo proyecto">
     <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4" />
     </svg>

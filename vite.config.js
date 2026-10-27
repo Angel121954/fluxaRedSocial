@@ -36,6 +36,7 @@ export default defineConfig({
                 // Shared
                 "resources/css/shared/topbar.css",
                 "resources/css/shared/bottom-nav.css",
+                "resources/css/shared/guest-banner.css",
                 "resources/css/shared/modal.css",
                 "resources/css/shared/modal-sheet.css",
                 "resources/css/shared/toast.css",

@@ -47,6 +47,15 @@
     color: var(--accent-text);
 }
 
+.bottom-nav-item--accent {
+    color: var(--accent-text);
+    font-weight: 700;
+}
+
+.bottom-nav-item--accent .bottom-nav-label {
+    font-weight: 700;
+}
+
 .bottom-nav-label {
     font-size: var(--text-xs);
     font-weight: 500;

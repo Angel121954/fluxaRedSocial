@@ -208,6 +208,15 @@
     </div>
 </nav>
 
+@auth
+@if(Auth::user()->role === 'guest')
+<div class="guest-banner" role="status">
+    <span>Estás explorando como visitante. Crea tu cuenta para publicar, comentar y seguir a otros desarrolladores.</span>
+    <a href="{{ route('register') }}">Crear cuenta</a>
+</div>
+@endif
+@endauth
+
 {{-- Modal nuevo proyecto (solo usuarios registrados) --}}
 @auth
 @if(Auth::user()->role !== 'guest')
