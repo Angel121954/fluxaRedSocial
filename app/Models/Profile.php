@@ -47,6 +47,16 @@ class Profile extends Model
         'longitude',
     ];
 
+    protected $hidden = [
+        'phone_code',
+        'phone_number',
+        'birth_date',
+        'gender',
+        'latitude',
+        'longitude',
+        'cv_settings',
+    ];
+
     protected $casts = [
         'cv_settings' => 'array',
         'accept_messages' => 'boolean',
