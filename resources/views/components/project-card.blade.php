@@ -29,7 +29,11 @@ $skillKeys = array_keys($skills);
         </a>
         <div class="post-meta">
             <div class="post-author-row">
-                <span class="post-author">{{ $user?->name ?? 'Usuario eliminado' }}</span>
+                @if($user)
+                <a href="{{ route('profile.show', $user->username) }}" class="post-author">{{ $user->name }}</a>
+                @else
+                <span class="post-author">Usuario eliminado</span>
+                @endif
                 @if($user?->is_open_source)
                 <div class="verify-badge" title="Contribuidor Open Source">
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -95,7 +99,9 @@ $skillKeys = array_keys($skills);
         </div>
     </div>
 
-    <h3 class="project-title">{{ $project->title }}</h3>
+    <h3 class="project-title">
+        <a href="{{ route('projects.show', $project) }}">{{ $project->title }}</a>
+    </h3>
     <p class="post-content">{{ $project->content }}</p>
 
     @if($project->media?->count() > 0)

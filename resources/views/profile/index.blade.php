@@ -263,7 +263,11 @@
 
                 @switch($type)
                 @case('project')
+                @if($data->privacy === 'public' || $isOwner || (Auth::check() && Auth::user()->can('view', $data)))
+                <a href="{{ route('projects.show', $data) }}" class="act-title act-title--link">{{ $data->title }}</a>
+                @else
                 <strong class="act-title">{{ $data->title }}</strong>
+                @endif
                 @if($data->content)
                 <p class="act-desc">{{ Str::limit($data->content, 120) }}</p>
                 @endif

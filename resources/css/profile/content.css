@@ -177,6 +177,14 @@
     margin-bottom: 0.125rem;
 }
 
+.act-title--link {
+    text-decoration: none;
+}
+
+.act-title--link:hover {
+    color: var(--accent-text);
+}
+
 .act-sub {
     font-size: var(--text-sm);
     color: var(--ink-500);

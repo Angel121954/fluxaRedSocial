@@ -19,7 +19,7 @@
                 <div class="toggle-row">
                     <div class="toggle-info">
                         <span class="toggle-label">Perfil privado</span>
-                        <span class="toggle-desc">Haz que tu perfil sea privado para que solo tus seguidores puedan ver tu perfil y proyectos.</span>
+                        <span class="toggle-desc">Oculta tu perfil y tus proyectos: solo tú podrás verlos.</span>
                     </div>
                     <label class="toggle-switch">
                         <input type="checkbox" name="visibility" value="private"
