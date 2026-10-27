@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Suggestions;
 
+use App\Exceptions\ContentModerationException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Suggestion\StoreSuggestionRequest;
 use App\Models\Suggestion;
@@ -49,10 +50,16 @@ class SuggestionController extends Controller
 
         if ($request->hasFile('image')) {
             $suggestionId = Suggestion::max('id') + 1;
-            $result = $this->cloudinaryService->uploadSuggestionImage(
-                $request->file('image'),
-                "suggestion_{$suggestionId}"
-            );
+
+            try {
+                $result = $this->cloudinaryService->uploadSuggestionImage(
+                    $request->file('image'),
+                    "suggestion_{$suggestionId}"
+                );
+            } catch (ContentModerationException $e) {
+                return back()->withErrors(['image' => $e->getMessage()])->withInput();
+            }
+
             $imagePath = $result['secure_url'];
         }
 

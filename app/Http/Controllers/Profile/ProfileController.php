@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Profile;
 
+use App\Exceptions\ContentModerationException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Profile\UpdateAvatarRequest;
 use App\Http\Requests\Profile\UpdateTechnologiesRequest;
@@ -217,6 +218,8 @@ class ProfileController extends Controller
             Cache::forget('cv_avatar_'.$user->id);
 
             return response()->json(['success' => true, 'url' => $avatarUrl]);
+        } catch (ContentModerationException $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 422);
         } catch (Exception $e) {
             return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
         }

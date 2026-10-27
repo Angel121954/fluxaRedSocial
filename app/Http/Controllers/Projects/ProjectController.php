@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Projects;
 
+use App\Exceptions\ContentModerationException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Project\StoreEndorsementRequest;
 use App\Http\Requests\Project\StoreProjectReportRequest;
@@ -42,7 +43,17 @@ class ProjectController extends Controller
         $project = $this->projectService->create($validated, Auth::id());
 
         if ($files = $request->file('media')) {
-            $this->projectService->attachMedia($project, $files);
+            try {
+                $this->projectService->attachMedia($project, $files);
+            } catch (ContentModerationException $e) {
+                $this->projectService->delete($project);
+
+                return response()->json([
+                    'success' => false,
+                    'message' => $e->getMessage(),
+                    'errors' => ['media' => [$e->getMessage()]],
+                ], 422);
+            }
         }
 
         return response()->json([
@@ -92,7 +103,19 @@ class ProjectController extends Controller
         $this->projectService->update($project, $validated);
 
         if ($files = $request->file('media')) {
-            $this->projectService->attachMedia($project, $files);
+            try {
+                $this->projectService->attachMedia($project, $files);
+            } catch (ContentModerationException $e) {
+                if ($request->wantsJson()) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => $e->getMessage(),
+                        'errors' => ['media' => [$e->getMessage()]],
+                    ], 422);
+                }
+
+                return back()->withErrors(['media' => $e->getMessage()]);
+            }
         }
 
         if ($request->wantsJson()) {
