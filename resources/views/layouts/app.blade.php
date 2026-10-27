@@ -29,8 +29,6 @@
 
     <title>@yield('title', 'Fluxa')</title>
     <link rel="icon" type="image/png" href="{{ asset('img/favicon.png') }}">
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=inter:400,500,600,700,800&display=swap" rel="stylesheet" />
     <link rel="manifest" href="{{ asset('manifest.webmanifest') }}">
     <meta name="theme-color" content="#12b3b6">
     <link rel="apple-touch-icon" href="{{ asset('img/favicons/favicon-180.png') }}">

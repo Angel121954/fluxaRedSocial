@@ -51,7 +51,7 @@ La solución más simple que funciona es la mejor. No agregar capas de indirecci
 | Observabilidad | Laravel Telescope 5 (dev) |
 | Testing | PestPHP 3 |
 | Linting PHP | Laravel Pint |
-| Fuente principal | Inter (Tailwind sans) |
+| Fuente principal | Figtree (Tailwind sans) |
 | Fuente monospace | JetBrains Mono (--mono) |
 
 ### Paquetes (Composer)

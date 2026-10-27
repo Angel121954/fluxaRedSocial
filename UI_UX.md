@@ -371,7 +371,7 @@ Inputs y textareas:
 Modo oscuro duplica los tokens de superficie: `--surface` → tonos grises oscuros, `--ink-*` → invertidos. El acento se mantiene.
 
 ### Tipografía
-- Fuente principal: `font-sans` (Inter de Tailwind)
+- Fuente principal: `font-sans` (Figtree de Tailwind)
 - Fuente monospace: `font-mono` (JetBrains Mono) para código
 - Headings: `font-semibold`, `tracking-tight`
 - Body: `font-normal`, `leading-relaxed`

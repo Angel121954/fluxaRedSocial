@@ -4,7 +4,7 @@
 
 /* ─── Base ─────────────────────────────────────────────── */
 body {
-    font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: "Figtree", -apple-system, BlinkMacSystemFont, sans-serif;
     background: var(--bg);
     color: var(--ink-700);
     -webkit-font-smoothing: antialiased;

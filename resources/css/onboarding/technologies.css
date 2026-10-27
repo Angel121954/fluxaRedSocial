@@ -34,7 +34,7 @@
 }
 
 body {
-    font-family: "Inter", -apple-system, sans-serif;
+    font-family: "DM Sans", -apple-system, sans-serif;
     background: var(--bg);
     min-height: 100vh;
     display: flex;
