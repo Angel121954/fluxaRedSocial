@@ -234,7 +234,7 @@ describe('CloudinaryService', function () {
                 ->and($captured['transformation'])->toBeArray();
         });
 
-        it('usa resource_type auto para archivos no imagen', function () {
+        it('usa resource_type raw para archivos no imagen', function () {
             $captured = null;
             [$service] = cloudServiceMock(function ($file, $options) use (&$captured) {
                 $captured = $options;
@@ -247,7 +247,8 @@ describe('CloudinaryService', function () {
 
             $service->uploadMessageMedia($file, 'file');
 
-            expect($captured['resource_type'])->toBe('auto')
+            expect($captured['resource_type'])->toBe('raw')
+                ->and($captured['folder'])->toBe('fluxa/messages/files')
                 ->and($captured)->not->toHaveKey('transformation');
         });
     });
