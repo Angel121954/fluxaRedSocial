@@ -52,7 +52,7 @@ import Chart from 'chart.js/auto';
     const rejillaGrafico = valorVariable('--border', 'rgba(0,0,0,.075)');
     const superficie = valorVariable('--surface', '#ffffff');
 
-    Chart.defaults.font.family = 'Figtree, -apple-system, sans-serif';
+    Chart.defaults.font.family = 'Inter, -apple-system, sans-serif';
 
     const configuracionTooltip = {
         backgroundColor: '#0b0f1a',

@@ -88,7 +88,6 @@
 </div>
 
 @push('styles')
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
 @vite('resources/css/onboarding/account-type.css')
 @endpush
 
