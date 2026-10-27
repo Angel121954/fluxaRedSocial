@@ -123,6 +123,11 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Education::class)->orderBy('graduated_year', 'desc');
     }
 
+    public function credentials()
+    {
+        return $this->hasMany(Credential::class)->orderBy('issued_at', 'desc');
+    }
+
     public function follows()
     {
         return $this->belongsToMany(User::class, 'follows', 'follower_id', 'followed_id');
