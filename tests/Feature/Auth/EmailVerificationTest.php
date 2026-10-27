@@ -34,11 +34,17 @@ describe('Verificación de correo', function () {
     });
 
     it('marca a los invitados como verificados para no bloquear su sesión', function () {
-        $this->get(route('auth.guest'));
+        $this->post(route('auth.guest'));
 
         $guest = User::where('role', 'guest')->first();
 
         expect($guest)->not->toBeNull()
             ->and($guest->email_verified_at)->not->toBeNull();
+    });
+
+    it('no permite iniciar sesión como invitado por GET', function () {
+        $this->get(route('auth.guest'))->assertMethodNotAllowed();
+
+        expect(User::where('role', 'guest')->count())->toBe(0);
     });
 });
