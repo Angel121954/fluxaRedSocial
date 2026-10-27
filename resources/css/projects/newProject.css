@@ -529,6 +529,14 @@ textarea.np-input {
   color: var(--ink-400);
 }
 
+.success-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: .5rem;
+  margin-top: .75rem;
+}
+
 /* ── Footer ───────────────────────────────────── */
 #modal-footer {
   padding: 1rem 1.5rem 1.25rem;

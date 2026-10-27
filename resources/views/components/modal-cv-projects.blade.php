@@ -28,7 +28,7 @@
         @empty
         <div class="cv-modal-empty">
             <p>No tienes proyectos públicos aún.</p>
-            <a href="{{ route('projects.create') }}" class="btn-submit" style="display:inline-flex;margin-top:0.5rem;">Crear proyecto</a>
+            <button type="button" class="btn-submit cv-modal-empty__cta" data-close="cvProjectModal" data-create-project>Crear proyecto</button>
         </div>
         @endforelse
     </div>

@@ -292,7 +292,7 @@
             @if($isOwner)
             <div class="empty-state-wrap">
                 <p class="empty-state">Aún no tienes actividad registrada. Publica tu primer proyecto para empezar.</p>
-                <a href="{{ route('projects.create') }}" class="empty-state-cta">Crear proyecto</a>
+                <button type="button" class="empty-state-cta" data-create-project>Crear proyecto</button>
             </div>
             @else
             <p class="empty-state">Este usuario aún no tiene actividad registrada.</p>
@@ -317,7 +317,7 @@
             @if($isOwner)
             <div class="empty-state-wrap">
                 <p class="empty-state">Aún no has publicado proyectos.</p>
-                <a href="{{ route('projects.create') }}" class="empty-state-cta">Crear tu primer proyecto</a>
+                <button type="button" class="empty-state-cta" data-create-project>Crear tu primer proyecto</button>
             </div>
             @else
             <p class="empty-state">Este usuario aún no tiene proyectos.</p>

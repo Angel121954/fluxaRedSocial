@@ -29,6 +29,10 @@
                 </div>
                 <h3>Proyecto publicado</h3>
                 <p>Tu proyecto ya está visible en Fluxa</p>
+                <div class="success-actions">
+                    <a id="success-view-project" href="#" class="btn btn-primary">Ver proyecto</a>
+                    <button type="button" id="success-close" class="btn btn-secondary">Cerrar</button>
+                </div>
             </div>
 
             {{-- ── Banner de error del servidor ─────────────────── --}}

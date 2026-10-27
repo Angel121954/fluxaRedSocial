@@ -105,7 +105,7 @@
     cursor: pointer;
     align-items: center;
     justify-content: center;
-    transition: box-shadow 0.2s ease, background 0.15s;
+    transition: box-shadow 0.2s ease, background 0.15s, transform 0.2s ease, opacity 0.2s ease;
     -webkit-tap-highlight-color: transparent;
 }
 
@@ -137,5 +137,11 @@
 
     .bottom-nav--hidden {
         transform: translateY(100%);
+    }
+
+    .bottom-nav--hidden + .bottom-fab {
+        transform: translateY(calc(100% + 24px));
+        opacity: 0;
+        pointer-events: none;
     }
 }

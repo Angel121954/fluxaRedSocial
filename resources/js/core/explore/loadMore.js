@@ -3,17 +3,6 @@
  */
 export function initLoadMore(container) {
     container.addEventListener('click', async (e) => {
-        const createBtn = e.target.closest('[data-create-project]');
-        if (createBtn) {
-            e.preventDefault();
-
-            if (typeof window.abrirModal === 'function') {
-                window.abrirModal();
-            }
-
-            return;
-        }
-
         const btn = e.target.closest('.btn-load-more');
         if (!btn) return;
 
@@ -51,6 +40,10 @@ export function initLoadMore(container) {
             if (nextWrapper) {
                 container.appendChild(nextWrapper);
             } else {
+                const createCta = typeof window.abrirModal === 'function'
+                    ? '<button type="button" class="feed-empty-cta" data-create-project>Crear proyecto</button>'
+                    : '<a href="/register" class="feed-empty-cta">Crear cuenta</a>';
+
                 const emptyDiv = document.createElement('div');
                 emptyDiv.className = 'feed-empty';
                 emptyDiv.innerHTML = `
@@ -61,7 +54,7 @@ export function initLoadMore(container) {
                     </div>
                     <h3 class="feed-empty-title">¡Has visto todo!</h3>
                     <p class="feed-empty-text">No hay más proyectos por aquí. ¿Por qué no crear el primero y compartirlo con la comunidad?</p>
-                    <button type="button" class="feed-empty-cta" data-create-project>Crear proyecto</button>
+                    ${createCta}
                 `;
                 container.appendChild(emptyDiv);
             }

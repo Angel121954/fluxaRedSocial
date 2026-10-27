@@ -302,6 +302,17 @@
         font-family: inherit;
     }
 
+    .mobile-menu-link--accent {
+        margin-bottom: 0.25rem;
+        background: var(--accent-dim);
+        color: var(--accent-text);
+        font-weight: 600;
+    }
+
+    .mobile-menu-link--accent svg {
+        color: var(--accent-text);
+    }
+
     .mobile-menu-link svg {
         width: 16px;
         height: 16px;

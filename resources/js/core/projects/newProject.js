@@ -405,7 +405,10 @@
                 const ocultarStepper = el('stepper'); if (ocultarStepper) ocultarStepper.style.display = 'none';
                 const titulo = el('modal-title'); if (titulo) titulo.textContent = 'Proyecto publicado';
                 const subtitulo = el('modal-subtitle'); if (subtitulo) subtitulo.textContent = '';
-                setTimeout(() => cerrarModal(), 2200);
+                const viewProject = el('success-view-project');
+                if (viewProject && data.project?.id) {
+                    viewProject.href = `/projects/${data.project.id}`;
+                }
             })
             .catch(error => {
                 mostrarErrorServidor([error.message || 'Ocurrió un error inesperado. Inténtalo de nuevo.']);
@@ -422,6 +425,8 @@
     el('modal-overlay').addEventListener('click', function (e) {
         if (e.target === this) cerrarModal();
     });
+
+    el('success-close')?.addEventListener('click', cerrarModal);
 
     /* ════════════════════════════════════════════════
        EXPORTS — funciones llamadas desde el HTML

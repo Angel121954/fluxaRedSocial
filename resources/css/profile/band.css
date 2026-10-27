@@ -46,10 +46,13 @@
     padding: 0.625rem 1.5rem;
     background: var(--accent-strong);
     color: #ffffff;
+    border: none;
     border-radius: var(--r-md);
+    font-family: inherit;
     font-size: var(--text-base);
     font-weight: 600;
     text-decoration: none;
+    cursor: pointer;
     transition: background 0.15s;
 }
 

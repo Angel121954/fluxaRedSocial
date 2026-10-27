@@ -251,6 +251,7 @@ document.addEventListener('keydown', function (e) {
 });
 
 window.toggleMobileMenu = toggleMobileMenu;
+window.closeMobileMenu = closeMobileMenu;
 window.closeMobileMenuAndOpen = closeMobileMenuAndOpen;
 window.toggleJobsDropdown = toggleJobsDropdown;
 window.toggleHelpDropdown = toggleHelpDropdown;

@@ -11,3 +11,21 @@ import '../core/projects/newProject.js';
 import '../projects/modalComment.js';
 import '../profile/shareProfile.js';
 import '../onboarding/suggestions.js';
+
+document.addEventListener('click', (event) => {
+    const trigger = event.target.closest('[data-create-project]');
+
+    if (!trigger) {
+        return;
+    }
+
+    event.preventDefault();
+
+    if (trigger.closest('#mobileMenu')) {
+        window.closeMobileMenu?.();
+    }
+
+    if (typeof window.abrirModal === 'function') {
+        window.abrirModal();
+    }
+});
