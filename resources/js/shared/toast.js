@@ -5,25 +5,9 @@ class ToastManager {
         this.toasts = [];
         this.defaults = {
             duration: 4000,
-            position: 'bottom-center',
+            position: 'bottom-right',
             dismissible: true,
-            id: null
-        };
-
-        this.positions = {
-            'top-left': { top: '20px', left: '20px', right: 'auto', bottom: 'auto' },
-            'top-center': { top: '20px', left: '50%', right: 'auto', bottom: 'auto', transform: 'translateX(-50%)' },
-            'top-right': { top: '20px', right: '20px', left: 'auto', bottom: 'auto' },
-            'bottom-left': { bottom: '20px', left: '20px', right: 'auto', top: 'auto' },
-            'bottom-center': { bottom: '20px', left: '50%', right: 'auto', top: 'auto', transform: 'translateX(-50%)' },
-            'bottom-right': { bottom: '20px', right: '20px', left: 'auto', top: 'auto' }
-        };
-
-        this.styles = {
-            success: { bg: '#0b8386' },
-            error: { bg: '#dc2626' },
-            warning: { bg: '#b45309' },
-            info: { bg: '#1d4ed8' }
+            id: null,
         };
 
         this.createContainer();
@@ -34,74 +18,40 @@ class ToastManager {
 
         const container = document.createElement('div');
         container.id = 'toast-container';
-        container.style.cssText = `
-            position: fixed;
-            z-index: 999999;
-            display: flex;
-            flex-direction: column-reverse;
-            gap: 10px;
-            pointer-events: none;
-        `;
+        container.className = 'toast-container';
+        container.dataset.position = this.defaults.position;
         document.body.appendChild(container);
-    }
-
-    getPositionStyles(position) {
-        const pos = this.positions[position] || this.positions['bottom-right'];
-        return Object.entries(pos)
-            .filter(([key]) => key !== 'transform')
-            .map(([key, val]) => `${key}: ${val}`)
-            .join('; ') + (pos.transform ? `; transform: ${pos.transform}` : '');
     }
 
     getIcon(type) {
         const icons = {
-            check: `<svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>`,
-            x: `<svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>`,
-            alert: `<svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>`,
-            info: `<svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>`
+            success: `<svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>`,
+            error: `<svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>`,
+            warning: `<svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>`,
+            info: `<svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>`,
         };
-        return icons[type];
+
+        return icons[type] || icons.info;
     }
 
     createToastElement(options) {
-        const style = this.styles[options.type] || this.styles.success;
+        const type = options.type || 'info';
         const id = options.id || `toast-${Date.now()}`;
-        const messageKey = `${options.type}-${options.message}`;
+        const messageKey = `${type}-${options.message}`;
 
         const toast = document.createElement('div');
         toast.id = id;
         toast.dataset.messageKey = messageKey;
-        toast.className = 'toast-entry';
-        toast.style.cssText = `
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 14px 16px;
-            background: ${style.bg};
-            color: #fff;
-            border-radius: var(--r-lg, 14px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            font-size: 14px;
-            font-family: system-ui, -apple-system, sans-serif;
-            pointer-events: auto;
-            animation: toast-in 0.3s ease-out;
-        `;
+        toast.className = `toast-entry toast-entry--${type}`;
+        toast.setAttribute('role', type === 'error' || type === 'warning' ? 'alert' : 'status');
+        toast.setAttribute('aria-atomic', 'true');
 
         toast.innerHTML = `
-            <div class="toast-content" style="flex: 1;">${escapeHtml(options.message)}</div>
+            <span class="toast-entry__icon" aria-hidden="true">${this.getIcon(type)}</span>
+            <div class="toast-content">${escapeHtml(options.message)}</div>
             ${options.dismissible ? `
-            <button class="toast-close" style="
-                flex-shrink: 0;
-                background: none;
-                border: none;
-                color: rgba(255,255,255,0.8);
-                cursor: pointer;
-                padding: 4px;
-                display: flex;
-                border-radius: 4px;
-                transition: background 0.2s;
-            ">
-                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <button type="button" class="toast-close" aria-label="Cerrar notificación">
+                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                 </svg>
             </button>
@@ -113,35 +63,48 @@ class ToastManager {
 
     show(message, options = {}) {
         const config = { ...this.defaults, ...options, message };
+        const type = config.type || 'info';
         const container = document.getElementById('toast-container');
-        const messageKey = `${config.type}-${message}`;
-        
-        const existingToast = this.toasts.find(t => t.messageKey === messageKey);
+        const messageKey = `${type}-${message}`;
+
+        const existingToast = this.toasts.find((t) => !t.dismissing && t.messageKey === messageKey);
         if (existingToast) {
             this.updateExisting(existingToast, config.duration);
             return existingToast.id;
         }
 
-        container.style.cssText = `
-            position: fixed;
-            z-index: 999999;
-            display: flex;
-            flex-direction: column-reverse;
-            gap: 10px;
-            pointer-events: none;
-            ${this.getPositionStyles(config.position)}
-        `;
+        container.dataset.position = config.position;
 
-        const toastEl = this.createToastElement(config);
+        const toastEl = this.createToastElement({ ...config, type });
         container.appendChild(toastEl);
 
-        const toastObj = { 
-            id: toastEl.id, 
-            element: toastEl, 
+        const toastObj = {
+            id: toastEl.id,
+            element: toastEl,
             timeout: null,
-            messageKey: messageKey
+            messageKey,
+            dismissing: false,
         };
+
         this.toasts.push(toastObj);
+
+        const pause = () => {
+            if (toastObj.timeout) {
+                clearTimeout(toastObj.timeout);
+                toastObj.timeout = null;
+            }
+        };
+
+        const resume = () => {
+            if (!toastObj.dismissing && config.duration > 0) {
+                toastObj.timeout = setTimeout(() => this.dismiss(toastObj.id), config.duration);
+            }
+        };
+
+        toastEl.addEventListener('mouseenter', pause);
+        toastEl.addEventListener('mouseleave', resume);
+        toastEl.addEventListener('focusin', pause);
+        toastEl.addEventListener('focusout', resume);
 
         if (config.dismissible) {
             const closeBtn = toastEl.querySelector('.toast-close');
@@ -157,36 +120,41 @@ class ToastManager {
 
     updateExisting(toastObj, duration) {
         const el = toastObj.element;
-        
-        el.style.animation = 'none';
-        el.offsetHeight;
-        el.style.animation = 'toast-pulse 0.2s ease-out';
+
+        el.classList.remove('toast-entry--pulse');
+        void el.offsetWidth;
+        el.classList.add('toast-entry--pulse');
 
         if (toastObj.timeout) {
             clearTimeout(toastObj.timeout);
         }
-        
+
         if (duration > 0) {
             toastObj.timeout = setTimeout(() => this.dismiss(toastObj.id), duration);
         }
     }
 
     dismiss(id) {
-        const index = this.toasts.findIndex(t => t.id === id);
-        if (index === -1) return;
+        const toastObj = this.toasts.find((t) => t.id === id);
+        if (!toastObj || toastObj.dismissing) return;
 
-        const toastObj = this.toasts[index];
-        
+        toastObj.dismissing = true;
+
         if (toastObj.timeout) {
             clearTimeout(toastObj.timeout);
+            toastObj.timeout = null;
         }
 
         const el = toastObj.element;
-        el.style.animation = 'toast-out 0.2s ease-in forwards';
-        
+        el.classList.add('toast-entry--out');
+
         setTimeout(() => {
             el.remove();
-            this.toasts.splice(index, 1);
+
+            const index = this.toasts.findIndex((t) => t.id === id);
+            if (index !== -1) {
+                this.toasts.splice(index, 1);
+            }
         }, 200);
     }
 
@@ -207,7 +175,7 @@ class ToastManager {
     }
 
     dismissAll() {
-        this.toasts.forEach(t => this.dismiss(t.id));
+        this.toasts.forEach((t) => this.dismiss(t.id));
     }
 }
 
