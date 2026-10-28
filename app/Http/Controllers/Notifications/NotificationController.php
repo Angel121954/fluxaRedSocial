@@ -34,10 +34,10 @@ class NotificationController extends Controller
             $query->where('type', $filter);
         }
 
-        $notifications = $query->with('fromUser.profile')->limit(50)->get();
+        $notifications = $query->with('fromUser.profile')->paginate(20);
 
         return response()->json([
-            'notifications' => $notifications->map(function ($n) {
+            'notifications' => collect($notifications->items())->map(function ($n) {
                 $body = $n->body;
                 if ($n->fromUser && str_starts_with($body, $n->fromUser->name)) {
                     $body = trim(substr($body, strlen($n->fromUser->name)));
@@ -60,6 +60,8 @@ class NotificationController extends Controller
                 ];
             }),
             'unread_count' => Notification::unreadCount(Auth::id()),
+            'has_more' => $notifications->hasMorePages(),
+            'next_page' => $notifications->currentPage() + 1,
         ]);
     }
 

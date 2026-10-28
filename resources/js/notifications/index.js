@@ -8,6 +8,8 @@ function escapeHtml(str) {
 }
 
 let currentFilter = 'all';
+let currentPage = 1;
+let hasMoreNotifications = false;
 
 function getIconForType(type) {
     const icons = {
@@ -226,15 +228,19 @@ function startNotificationTimeUpdates() {
 function loadNotifications() {
     const list = document.getElementById('notificationList');
     if (!list) return;
-    
+
+    currentPage = 1;
+    hasMoreNotifications = false;
+
     list.innerHTML = Array(4).fill(
       '<div class="notif-skeleton"><div class="notif-skeleton-avatar"></div><div class="notif-skeleton-body"><div class="notif-skeleton-line notif-skeleton-line--lg"></div><div class="notif-skeleton-line notif-skeleton-line--sm"></div></div><div class="notif-skeleton-time"></div></div>'
     ).join('');
-    
+
     const url = new URL('/notifications/list', window.location.origin);
     url.searchParams.set('filter', currentFilter);
-    
-    fetch(url, { 
+    url.searchParams.set('page', '1');
+
+    fetch(url, {
         headers: { 'Accept': 'application/json' },
         credentials: 'same-origin',
     })
@@ -244,7 +250,7 @@ function loadNotifications() {
         if (countEl) {
             countEl.textContent = data.unread_count > 0 ? data.unread_count + ' sin leer' : 'Estás al día';
         }
-        
+
         if (data.notifications && data.notifications.length > 0) {
             list.innerHTML = '';
             data.notifications.forEach(function(n) {
@@ -253,13 +259,73 @@ function loadNotifications() {
         } else {
             list.innerHTML = emptyStateMarkup();
         }
-        
+
+        currentPage = data.next_page ? data.next_page - 1 : 1;
+        hasMoreNotifications = Boolean(data.has_more);
+        renderLoadMoreButton();
+
         startNotificationTimeUpdates();
     })
     .catch(function(err) {
         console.error('[Notificaciones] Error:', err);
         list.innerHTML = '<div class="error-box"><p>Error al cargar</p><button class="btn-retry" onclick="loadNotifications()">Reintentar</button></div>';
     });
+}
+
+function loadMoreNotifications() {
+    const list = document.getElementById('notificationList');
+    if (!list || !hasMoreNotifications) return;
+
+    const url = new URL('/notifications/list', window.location.origin);
+    url.searchParams.set('filter', currentFilter);
+    url.searchParams.set('page', String(currentPage + 1));
+
+    fetch(url, {
+        headers: { 'Accept': 'application/json' },
+        credentials: 'same-origin',
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+        currentPage = data.next_page ? data.next_page - 1 : currentPage + 1;
+        hasMoreNotifications = Boolean(data.has_more);
+
+        if (data.notifications && data.notifications.length > 0) {
+            data.notifications.forEach(function(n) {
+                const card = renderNotificationCard(n);
+                const currentButton = document.getElementById('notificationsLoadMore');
+
+                if (currentButton) {
+                    list.insertBefore(card, currentButton);
+                } else {
+                    list.appendChild(card);
+                }
+            });
+        }
+
+        renderLoadMoreButton();
+        startNotificationTimeUpdates();
+    })
+    .catch(function(err) {
+        console.error('[Notificaciones] Error al cargar más:', err);
+        renderLoadMoreButton();
+    });
+}
+
+function renderLoadMoreButton() {
+    const list = document.getElementById('notificationList');
+    if (!list) return;
+
+    list.querySelector('#notificationsLoadMore')?.remove();
+
+    if (!hasMoreNotifications) return;
+
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.id = 'notificationsLoadMore';
+    button.className = 'notif-load-more';
+    button.textContent = 'Cargar más notificaciones';
+    button.addEventListener('click', loadMoreNotifications);
+    list.appendChild(button);
 }
 
 function setFilter(filter) {

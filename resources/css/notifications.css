@@ -614,3 +614,35 @@
     }
 
 }
+
+/* ─────────────────────────────────────────────────
+   Paginación de notificaciones
+───────────────────────────────────────────────── */
+.notif-load-more {
+    display: block;
+    width: 100%;
+    margin-top: 0.75rem;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: var(--r-md);
+    background: var(--surface);
+    color: var(--accent-text);
+    font-family: inherit;
+    font-size: var(--text-sm);
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+}
+
+.notif-load-more:hover {
+    background: var(--accent-dim);
+    border-color: var(--accent-ring);
+}
+
+@media (max-width: 640px) {
+    .notif-load-more {
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
+    }
+}
