@@ -8,51 +8,27 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Project\StoreCommentRequest;
 use App\Models\Comment;
 use App\Models\Project;
-use App\Services\NotificationService;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+use App\Services\CommentService;
+use Illuminate\Http\JsonResponse;
 
 class CommentController extends Controller
 {
-    public function store(StoreCommentRequest $request, Project $project)
+    public function __construct(
+        protected CommentService $commentService,
+    ) {}
+
+    public function store(StoreCommentRequest $request, Project $project): JsonResponse
     {
         $this->authorize('comment', $project);
 
-        $comment = DB::transaction(function () use ($project, $request) {
-            $comment = $project->comments()->create([
-                'user_id' => Auth::id(),
-                'parent_id' => $request->parent_id,
-                'content' => $request->content,
-            ]);
+        $parentId = $request->validated('parent_id');
 
-            $project->increment('comments_count');
-
-            return $comment;
-        });
-
-        $currentUserId = Auth::id();
-        $currentUserName = Auth::user()->name;
-
-        if ($request->parent_id) {
-            $parentComment = Comment::find($request->parent_id);
-            if ($parentComment && $parentComment->user_id !== $currentUserId) {
-                NotificationService::notifyCommentReply(
-                    $parentComment->user_id,
-                    $currentUserId,
-                    $currentUserName,
-                    $project->id,
-                    $project->title
-                );
-            }
-        } elseif ($project->user_id !== $currentUserId) {
-            NotificationService::notifyProjectComment(
-                $project->user_id,
-                $currentUserId,
-                $currentUserName,
-                $project->id,
-                $project->title
-            );
-        }
+        $comment = $this->commentService->create(
+            $project,
+            $request->user(),
+            $request->validated('content'),
+            $parentId !== null ? (int) $parentId : null,
+        );
 
         return response()->json([
             'success' => true,
@@ -62,7 +38,7 @@ class CommentController extends Controller
         ]);
     }
 
-    public function index(Project $project)
+    public function index(Project $project): JsonResponse
     {
         $this->authorize('view', $project);
 
@@ -92,17 +68,11 @@ class CommentController extends Controller
         ]);
     }
 
-    public function destroy(Comment $comment)
+    public function destroy(Comment $comment): JsonResponse
     {
         $this->authorize('delete', $comment);
 
-        $project = $comment->project;
-        $commentsToDelete = 1 + $comment->children()->count();
-
-        DB::transaction(function () use ($comment, $project, $commentsToDelete): void {
-            $comment->delete();
-            $project->decrement('comments_count', $commentsToDelete);
-        });
+        $this->commentService->delete($comment);
 
         return response()->json(['success' => true]);
     }

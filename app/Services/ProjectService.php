@@ -8,9 +8,11 @@ use App\Models\Project;
 use App\Models\ProjectBookmark;
 use App\Models\ProjectLike;
 use App\Models\ProjectMedia;
+use App\Models\ProjectReport;
 use App\Models\SkillEndorsement;
 use App\Models\Technology;
 use App\Models\User;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -157,7 +159,7 @@ class ProjectService
     public function endorseProject(Project $project, int $userId, string $skillType): array
     {
         if ($project->user_id === $userId) {
-            throw new \Exception('No puedes recomendar las habilidades de tu propio proyecto.');
+            throw new AuthorizationException('No puedes recomendar las habilidades de tu propio proyecto.');
         }
 
         $currentEndorsement = SkillEndorsement::where('user_id', $userId)
@@ -214,6 +216,19 @@ class ProjectService
             'user_endorsement' => $dbUserEndorsement,
             'is_endorsed' => $isEndorsed,
         ];
+    }
+
+    public function reportProject(Project $project, int $userId, string $reason): bool
+    {
+        return ProjectReport::firstOrCreate(
+            [
+                'project_id' => $project->id,
+                'user_id' => $userId,
+            ],
+            [
+                'reason' => $reason,
+            ],
+        )->wasRecentlyCreated;
     }
 
     public function deleteProjectMedia(ProjectMedia $media): void

@@ -12,7 +12,6 @@ use App\Http\Requests\Project\StoreProjectRequest;
 use App\Http\Requests\Project\UpdateProjectRequest;
 use App\Models\Project;
 use App\Models\ProjectMedia;
-use App\Models\ProjectReport;
 use App\Services\ProjectService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
@@ -181,20 +180,17 @@ class ProjectController extends Controller
     {
         $this->authorize('view', $project);
 
-        $repeatedReport = ProjectReport::where('project_id', $project->id)
-            ->where('user_id', Auth::id())->first();
+        $created = $this->projectService->reportProject(
+            $project,
+            Auth::id(),
+            $request->validated('reason'),
+        );
 
-        if ($repeatedReport) {
+        if (! $created) {
             return response()->json([
-                'message' => 'Ya enviaste 1 reporte paraesté proyecto. Lo estaremos revisando.',
+                'message' => 'Ya enviaste un reporte para este proyecto. Lo estaremos revisando.',
             ]);
         }
-
-        ProjectReport::create([
-            'user_id' => Auth::id(),
-            'project_id' => $project->id,
-            'reason' => $request->reason,
-        ]);
 
         return response()->json([
             'message' => 'Reporte enviado. Gracias por ayudar a mantener la comunidad segura.',
@@ -205,18 +201,12 @@ class ProjectController extends Controller
     {
         $this->authorize('view', $project);
 
-        try {
-            $result = $this->projectService->endorseProject(
-                $project,
-                Auth::id(),
-                $request->skill_type
-            );
+        $result = $this->projectService->endorseProject(
+            $project,
+            Auth::id(),
+            $request->validated('skill_type'),
+        );
 
-            return response()->json($result);
-        } catch (\Exception $e) {
-            return response()->json([
-                'message' => $e->getMessage(),
-            ], 403);
-        }
+        return response()->json($result);
     }
 }
