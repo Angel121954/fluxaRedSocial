@@ -25,16 +25,6 @@ class ProjectController extends Controller
         $this->projectService = $projectService;
     }
 
-    public function index()
-    {
-        return redirect()->route('explore.index');
-    }
-
-    public function create()
-    {
-        return redirect()->route('explore.index');
-    }
-
     public function store(StoreProjectRequest $request)
     {
         $validated = $request->validated();
@@ -154,7 +144,7 @@ class ProjectController extends Controller
             return response()->json(['success' => true, 'message' => 'Proyecto eliminado.']);
         }
 
-        return redirect()->route('projects.index')
+        return redirect()->route('explore.index')
             ->with('success', 'Proyecto eliminado.');
     }
 

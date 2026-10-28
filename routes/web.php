@@ -162,112 +162,92 @@ Route::get('/cv/download/{username}/{format}', [ProfileController::class, 'downl
 */
 Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(function () {
 
-    Route::get('/admin/dashboard', DashboardController::class)
-        ->name('admin.dashboard')
-        ->middleware('admin');
+    Route::middleware('admin')->group(function () {
 
-    Route::get('/admin/users', [AdminUserController::class, 'index'])
-        ->name('admin.users.index')
-        ->middleware('admin');
+        Route::get('/admin/dashboard', DashboardController::class)
+            ->name('admin.dashboard');
 
-    Route::patch('/admin/users/{user}/ban', [AdminUserController::class, 'ban'])
-        ->name('admin.users.ban')
-        ->middleware('admin');
+        Route::get('/admin/users', [AdminUserController::class, 'index'])
+            ->name('admin.users.index');
 
-    Route::patch('/admin/users/{user}/unban', [AdminUserController::class, 'unban'])
-        ->name('admin.users.unban')
-        ->middleware('admin');
+        Route::patch('/admin/users/{user}/ban', [AdminUserController::class, 'ban'])
+            ->name('admin.users.ban');
 
-    Route::post('/admin/users/grant-badge', [AdminUserController::class, 'grantBadge'])
-        ->name('admin.users.grantBadge')
-        ->middleware('admin');
+        Route::patch('/admin/users/{user}/unban', [AdminUserController::class, 'unban'])
+            ->name('admin.users.unban');
 
-    Route::get('/admin/companies', [CompanyController::class, 'index'])
-        ->name('admin.companies.index')
-        ->middleware('admin');
+        Route::post('/admin/users/grant-badge', [AdminUserController::class, 'grantBadge'])
+            ->name('admin.users.grantBadge');
 
-    Route::patch('/admin/companies/{user}/ban', [CompanyController::class, 'ban'])
-        ->name('admin.companies.ban')
-        ->middleware('admin');
+        Route::get('/admin/companies', [CompanyController::class, 'index'])
+            ->name('admin.companies.index');
 
-    Route::patch('/admin/companies/{user}/unban', [CompanyController::class, 'unban'])
-        ->name('admin.companies.unban')
-        ->middleware('admin');
+        Route::patch('/admin/companies/{user}/ban', [CompanyController::class, 'ban'])
+            ->name('admin.companies.ban');
 
-    /*
-    |--------------------------------------------------------------------------
-    | Reportes
-    |--------------------------------------------------------------------------
-    */
-    Route::get('/admin/reports', [ReportController::class, 'index'])
-        ->name('admin.reports.index')
-        ->middleware('admin');
+        Route::patch('/admin/companies/{user}/unban', [CompanyController::class, 'unban'])
+            ->name('admin.companies.unban');
 
-    Route::delete('/admin/reports/user/{userReport}', [ReportController::class, 'dismissUserReport'])
-        ->name('admin.reports.user.dismiss')
-        ->middleware('admin');
+        /*
+        |--------------------------------------------------------------------------
+        | Reportes
+        |--------------------------------------------------------------------------
+        */
+        Route::get('/admin/reports', [ReportController::class, 'index'])
+            ->name('admin.reports.index');
 
-    Route::delete('/admin/reports/project/{projectReport}', [ReportController::class, 'dismissProjectReport'])
-        ->name('admin.reports.project.dismiss')
-        ->middleware('admin');
+        Route::delete('/admin/reports/user/{userReport}', [ReportController::class, 'dismissUserReport'])
+            ->name('admin.reports.user.dismiss');
 
-    Route::delete('/admin/reports/diary/{diaryReport}', [ReportController::class, 'dismissDiaryReport'])
-        ->name('admin.reports.diary.dismiss')
-        ->middleware('admin');
+        Route::delete('/admin/reports/project/{projectReport}', [ReportController::class, 'dismissProjectReport'])
+            ->name('admin.reports.project.dismiss');
 
-    Route::delete('/admin/reports/problem/{problemReport}', [ReportController::class, 'dismissProblemReport'])
-        ->name('admin.reports.problem.dismiss')
-        ->middleware('admin');
+        Route::delete('/admin/reports/diary/{diaryReport}', [ReportController::class, 'dismissDiaryReport'])
+            ->name('admin.reports.diary.dismiss');
 
-    Route::patch('/admin/reports/contact/{contact}/read', [ReportController::class, 'markContactRead'])
-        ->name('admin.reports.contact.read')
-        ->middleware('admin');
+        Route::delete('/admin/reports/problem/{problemReport}', [ReportController::class, 'dismissProblemReport'])
+            ->name('admin.reports.problem.dismiss');
 
-    Route::patch('/admin/reports/contact/{contact}/unread', [ReportController::class, 'markContactUnread'])
-        ->name('admin.reports.contact.unread')
-        ->middleware('admin');
+        Route::patch('/admin/reports/contact/{contact}/read', [ReportController::class, 'markContactRead'])
+            ->name('admin.reports.contact.read');
 
-    /*
-    |--------------------------------------------------------------------------
-    | Diario
-    |--------------------------------------------------------------------------
-    */
-    Route::get('/admin/diary', [AdminDiaryController::class, 'adminIndex'])
-        ->name('admin.diary.index')
-        ->middleware('admin');
+        Route::patch('/admin/reports/contact/{contact}/unread', [ReportController::class, 'markContactUnread'])
+            ->name('admin.reports.contact.unread');
 
-    Route::post('/admin/diary', [AdminDiaryController::class, 'adminStore'])
-        ->name('admin.diary.store')
-        ->middleware('admin');
+        /*
+        |--------------------------------------------------------------------------
+        | Diario
+        |--------------------------------------------------------------------------
+        */
+        Route::get('/admin/diary', [AdminDiaryController::class, 'adminIndex'])
+            ->name('admin.diary.index');
 
-    Route::patch('/admin/diary/{diary}/close', [AdminDiaryController::class, 'close'])
-        ->name('admin.diary.close')
-        ->middleware('admin');
+        Route::post('/admin/diary', [AdminDiaryController::class, 'adminStore'])
+            ->name('admin.diary.store');
 
-    Route::patch('/admin/diary/{diary}', [AdminDiaryController::class, 'update'])
-        ->name('admin.diary.update')
-        ->middleware('admin');
+        Route::patch('/admin/diary/{diary}/close', [AdminDiaryController::class, 'close'])
+            ->name('admin.diary.close');
 
-    /*
-    |--------------------------------------------------------------------------
-    | Contenido
-    |--------------------------------------------------------------------------
-    */
-    Route::get('/admin/content', [ContentController::class, 'index'])
-        ->name('admin.content.index')
-        ->middleware('admin');
+        Route::patch('/admin/diary/{diary}', [AdminDiaryController::class, 'update'])
+            ->name('admin.diary.update');
 
-    Route::delete('/admin/content/project/{project}', [ContentController::class, 'deleteProject'])
-        ->name('admin.content.project.delete')
-        ->middleware('admin');
+        /*
+        |--------------------------------------------------------------------------
+        | Contenido
+        |--------------------------------------------------------------------------
+        */
+        Route::get('/admin/content', [ContentController::class, 'index'])
+            ->name('admin.content.index');
 
-    Route::patch('/admin/content/project/{project}/restore', [ContentController::class, 'restoreProject'])
-        ->name('admin.content.project.restore')
-        ->middleware('admin');
+        Route::delete('/admin/content/project/{project}', [ContentController::class, 'deleteProject'])
+            ->name('admin.content.project.delete');
 
-    Route::delete('/admin/content/comment/{comment}', [ContentController::class, 'deleteComment'])
-        ->name('admin.content.comment.delete')
-        ->middleware('admin');
+        Route::patch('/admin/content/project/{project}/restore', [ContentController::class, 'restoreProject'])
+            ->name('admin.content.project.restore');
+
+        Route::delete('/admin/content/comment/{comment}', [ContentController::class, 'deleteComment'])
+            ->name('admin.content.comment.delete');
+    });
 
     Route::get('/diary', [DiaryController::class, 'index'])
         ->name('diary.index');
@@ -536,21 +516,20 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
         | Sugerencias (admin)
         |--------------------------------------------------------------------------
         */
-        Route::get('admin/suggestions', [SuggestionController::class, 'index'])
-            ->name('admin.suggestions.index')
-            ->middleware('admin');
+        Route::middleware('admin')->group(function () {
 
-        Route::get('admin/suggestions/{suggestion}', [SuggestionController::class, 'show'])
-            ->name('admin.suggestions.show')
-            ->middleware('admin');
+            Route::get('admin/suggestions', [SuggestionController::class, 'index'])
+                ->name('admin.suggestions.index');
 
-        Route::patch('admin/suggestions/{suggestion}/approve', [SuggestionController::class, 'approve'])
-            ->name('admin.suggestions.approve')
-            ->middleware('admin');
+            Route::get('admin/suggestions/{suggestion}', [SuggestionController::class, 'show'])
+                ->name('admin.suggestions.show');
 
-        Route::delete('admin/suggestions/{suggestion}', [SuggestionController::class, 'destroy'])
-            ->name('admin.suggestions.destroy')
-            ->middleware('admin');
+            Route::patch('admin/suggestions/{suggestion}/approve', [SuggestionController::class, 'approve'])
+                ->name('admin.suggestions.approve');
+
+            Route::delete('admin/suggestions/{suggestion}', [SuggestionController::class, 'destroy'])
+                ->name('admin.suggestions.destroy');
+        });
 
         /*
         |--------------------------------------------------------------------------
@@ -596,6 +575,7 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
         Route::get('/settings/cv/download/{format}', [CVSettingsController::class, 'downloadFormat'])->name('cv.download.format')
             ->where('format', 'pdf|ats|json');
         Route::resource('projects', ProjectController::class)
+            ->only(['store', 'show', 'edit', 'update', 'destroy'])
             ->middlewareFor(['store', 'update'], 'throttle:uploads');
         Route::resource('educations', EducationController::class)
             ->middlewareFor(['store', 'update', 'destroy'], 'throttle:interactions');
