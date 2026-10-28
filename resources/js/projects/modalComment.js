@@ -1,8 +1,10 @@
-import { renderComments, addComment, addReply, startTimeUpdates, stopTimeUpdates } from './commentRenderer.js';
+import { renderComments, appendComments, addComment, addReply, startTimeUpdates, stopTimeUpdates } from './commentRenderer.js';
 import { initCommentForm, setReplyingTo as setReply, resetCommentForm as resetForm } from './commentForm.js';
 
 let commentsModal, modalCommentsList;
 let currentProjectId = null;
+let currentPage = 1;
+let hasMoreComments = false;
 
 function getElements() {
     commentsModal = document.getElementById("commentsModal");
@@ -43,6 +45,12 @@ function initCommentModal() {
             const likeBtn = e.target.closest('.like-comment-btn');
             if (likeBtn) {
                 toggleCommentLike(likeBtn.dataset.commentId, likeBtn);
+                return;
+            }
+
+            const loadMoreBtn = e.target.closest('#commentsLoadMoreBtn');
+            if (loadMoreBtn) {
+                loadMoreComments();
             }
         });
     }
@@ -84,6 +92,8 @@ function closeCommentsModal() {
     stopTimeUpdates(modalCommentsList);
     resetForm();
     setCurrentProjectId(null);
+    currentPage = 1;
+    hasMoreComments = false;
 }
 
 async function loadComments() {
@@ -92,6 +102,10 @@ async function loadComments() {
         console.error('loadComments: currentProjectId is undefined');
         return;
     }
+
+    currentPage = 1;
+    hasMoreComments = false;
+
     try {
         const response = await fetch(`/projects/${projectId}/comments`, {
             credentials: 'same-origin'
@@ -99,7 +113,10 @@ async function loadComments() {
         if (!response.ok) throw new Error('Error cargando comentarios');
 
         const data = await response.json();
+        currentPage = data.next_page ? data.next_page - 1 : 1;
+        hasMoreComments = Boolean(data.has_more);
         renderComments(data.comments, modalCommentsList);
+        renderLoadMoreButton();
     } catch (error) {
         console.error('Error:', error);
         if (modalCommentsList) {
@@ -115,6 +132,46 @@ async function loadComments() {
             `;
         }
     }
+}
+
+async function loadMoreComments() {
+    const projectId = getCurrentProjectId();
+    if (!projectId || !hasMoreComments) return;
+
+    const nextPage = currentPage + 1;
+
+    try {
+        const response = await fetch(`/projects/${projectId}/comments?page=${nextPage}`, {
+            credentials: 'same-origin'
+        });
+        if (!response.ok) throw new Error('Error cargando comentarios');
+
+        const data = await response.json();
+        currentPage = data.next_page ? data.next_page - 1 : nextPage;
+        hasMoreComments = Boolean(data.has_more);
+        appendComments(data.comments, modalCommentsList);
+        renderLoadMoreButton();
+    } catch (error) {
+        console.error('Error:', error);
+        if (typeof window.showToast === 'function') {
+            window.showToast('No se pudieron cargar más comentarios', 'error');
+        }
+    }
+}
+
+function renderLoadMoreButton() {
+    if (!modalCommentsList) return;
+
+    modalCommentsList.querySelector('#commentsLoadMoreBtn')?.remove();
+
+    if (!hasMoreComments || modalCommentsList.querySelector('.comments-empty')) return;
+
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.id = 'commentsLoadMoreBtn';
+    button.className = 'comments-load-more';
+    button.textContent = 'Cargar más comentarios';
+    modalCommentsList.appendChild(button);
 }
 
 async function toggleCommentLike(commentId, button) {

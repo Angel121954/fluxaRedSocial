@@ -46,11 +46,11 @@ class CommentController extends Controller
             ->whereNull('parent_id')
             ->with(['user.profile', 'children.user.profile', 'children.likes', 'likes'])
             ->latest()
-            ->get();
+            ->paginate(20);
 
         $userId = auth()->id();
 
-        $comments->each(function ($comment) use ($userId) {
+        $comments->getCollection()->each(function ($comment) use ($userId) {
             if ($comment->user) {
                 $comment->user->append('avatar_url');
             }
@@ -64,7 +64,9 @@ class CommentController extends Controller
         });
 
         return response()->json([
-            'comments' => $comments,
+            'comments' => $comments->items(),
+            'has_more' => $comments->hasMorePages(),
+            'next_page' => $comments->currentPage() + 1,
         ]);
     }
 

@@ -59,27 +59,9 @@ export function stopTimeUpdates(container) {
     }
 }
 
-export function renderComments(comments, container) {
-    if (!container) return;
-
-    if (!comments || comments.length === 0) {
-        container.innerHTML = `
-            <div class="comments-empty">
-                <div class="comments-empty-icon">
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
-                    </svg>
-                </div>
-                <div class="comments-empty-title">Sin comentarios aún</div>
-                <div class="comments-empty-text">Sé el primero en comentar este post</div>
-            </div>
-        `;
-        return;
-    }
-
-    container.innerHTML = comments.map(comment => {
-        const timestamp = comment.created_at ? new Date(comment.created_at).getTime() : '';
-        return `
+function commentToHtml(comment) {
+    const timestamp = comment.created_at ? new Date(comment.created_at).getTime() : '';
+    return `
         <div class="comment-item" data-comment-id="${comment.id}">
             <img src="${escapeHtml(comment.user.avatar_url)}" alt="${escapeHtml(comment.user.name)}" class="comment-avatar">
             <div class="comment-body">
@@ -124,7 +106,44 @@ export function renderComments(comments, container) {
                 ` : ''}
             </div>
         </div>
-    `    }).join('');
+    `;
+}
+
+export function renderComments(comments, container) {
+    if (!container) return;
+
+    if (!comments || comments.length === 0) {
+        container.innerHTML = `
+            <div class="comments-empty">
+                <div class="comments-empty-icon">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                    </svg>
+                </div>
+                <div class="comments-empty-title">Sin comentarios aún</div>
+                <div class="comments-empty-text">Sé el primero en comentar este post</div>
+            </div>
+        `;
+        return;
+    }
+
+    container.innerHTML = comments.map(commentToHtml).join('');
+
+    updateCommentTimes(container);
+    initializeLikeButtons(container);
+}
+
+export function appendComments(comments, container) {
+    if (!container || !comments || comments.length === 0) return;
+
+    const html = comments.map(commentToHtml).join('');
+    const loadMoreBtn = container.querySelector('#commentsLoadMoreBtn');
+
+    if (loadMoreBtn) {
+        loadMoreBtn.insertAdjacentHTML('beforebegin', html);
+    } else {
+        container.insertAdjacentHTML('beforeend', html);
+    }
 
     updateCommentTimes(container);
     initializeLikeButtons(container);
@@ -164,7 +183,13 @@ export function addComment(comment, container) {
     if (container.querySelector(".comments-empty")) {
         container.innerHTML = commentHTML;
     } else {
-        container.insertAdjacentHTML("beforeend", commentHTML);
+        const loadMoreBtn = container.querySelector('#commentsLoadMoreBtn');
+
+        if (loadMoreBtn) {
+            loadMoreBtn.insertAdjacentHTML('beforebegin', commentHTML);
+        } else {
+            container.insertAdjacentHTML("beforeend", commentHTML);
+        }
     }
 
     updateCommentTimes(container);
