@@ -301,8 +301,8 @@ select.form-input {
 /* Avatar modal — tamaño grande y cuadrado para avatares de perfil */
 .modal-wrap img {
     display: block;
-    width: min(480px, 88vw);
-    height: min(480px, 88vw);
+    width: min(480px, 88vw, calc(100dvh - 4rem));
+    height: min(480px, 88vw, calc(100dvh - 4rem));
     border-radius: 20px;
     box-shadow: 0 24px 64px rgba(0, 0, 0, 0.45);
     object-fit: cover;
