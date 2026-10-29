@@ -410,5 +410,6 @@ routes/
 - Formato `tipo(alcance): descripción` — tipo y alcance en inglés, descripción en español, verbo en infinitivo, sin punto final
 - Usar solo los **alcances recomendados** de `COMMITS.md` (`database` — no `db` —, `services`, `controllers`, `tests`, etc.); no inventar alcances por módulo
 - **Cada commit incluido el `Por qué:`** cuando exista un motivo del cambio; va en sección aparte después de los guiones de detalle, separado por una línea en blanco y nunca como un guión más
+- El `Por qué:` debe tener **mínimo 2 guiones** (motivos); un solo motivo no es suficiente
 - Commits pequeños y enfocados en un solo cambio: las pruebas van en su propio commit `test(...)`, no mezcladas con el `refactor`/`feat`
 - Para el mensaje, usar `git commit -F /tmp/opencode/commit.txt` en vez de `-m` con multilínea
