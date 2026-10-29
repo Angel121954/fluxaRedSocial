@@ -1,0 +1,135 @@
+/* ═══════════════════════════════════════════════════════════
+   404.css — Página de error 404
+   Depende de variables.css (tokens), cargado antes que este archivo.
+   ═══════════════════════════════════════════════════════════ */
+
+.nf-page {
+    margin: 0;
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: grid;
+    place-items: center;
+    padding: 2rem 1.25rem;
+    background: var(--bg);
+    color: var(--ink-700);
+    font-family: 'Figtree', sans-serif;
+    overflow-y: auto;
+    scrollbar-gutter: auto;
+    -webkit-font-smoothing: antialiased;
+}
+
+.nf-shell {
+    width: 100%;
+    max-width: 460px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.nf-brand {
+    display: inline-flex;
+    margin-bottom: 2.5rem;
+    border-radius: var(--r-sm);
+}
+
+.nf-brand img {
+    display: block;
+    width: auto;
+    height: 30px;
+}
+
+.nf-code {
+    margin: 0 0 0.75rem;
+    font-family: var(--mono);
+    font-size: clamp(4.5rem, 18vw, 6.5rem);
+    font-weight: 700;
+    line-height: 0.9;
+    letter-spacing: -0.06em;
+    color: var(--accent-text);
+}
+
+.nf-title {
+    margin: 0 0 0.65rem;
+    font-size: clamp(1.5rem, 4.5vw, 2rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--ink-900);
+}
+
+.nf-desc {
+    max-width: 400px;
+    margin: 0 0 2rem;
+    font-size: var(--text-md);
+    line-height: 1.65;
+    color: var(--ink-500);
+}
+
+.nf-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.65rem;
+}
+
+.nf-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 44px;
+    padding: 0.65rem 1.15rem;
+    border: 1px solid transparent;
+    border-radius: var(--r-md);
+    font-size: var(--text-base);
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+}
+
+.nf-btn:active {
+    transform: scale(0.97);
+}
+
+.nf-btn--primary {
+    background: var(--accent-strong);
+    color: #fff;
+}
+
+.nf-btn--primary:hover {
+    background: var(--accent-dark);
+}
+
+.nf-btn--ghost {
+    background: transparent;
+    border-color: var(--border-strong);
+    color: var(--ink-700);
+}
+
+.nf-btn--ghost:hover {
+    background: var(--bg-subtle);
+    border-color: var(--ink-300);
+}
+
+@media (max-width: 640px) {
+    .nf-page {
+        padding: 1.5rem 1rem;
+    }
+
+    .nf-brand {
+        margin-bottom: 2rem;
+    }
+
+    .nf-brand img {
+        height: 26px;
+    }
+
+    .nf-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .nf-btn {
+        width: 100%;
+    }
+}

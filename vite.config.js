@@ -23,6 +23,10 @@ export default defineConfig({
                 "resources/css/app.css",
                 "resources/css/variables.css",
 
+                // Errores
+                "resources/css/errors/404.css",
+                "resources/js/errors/theme.js",
+
                 // Salaries
                 "resources/css/salaries/index.css",
 
