@@ -25,6 +25,7 @@ use App\Http\Controllers\Pages\ContactController;
 use App\Http\Controllers\Pages\LandingController;
 use App\Http\Controllers\Pages\PrivacyPolicyController;
 use App\Http\Controllers\Pages\ProblemReportController;
+use App\Http\Controllers\Pages\SitemapController;
 use App\Http\Controllers\Pages\TermsController;
 use App\Http\Controllers\Profile\AccountController;
 use App\Http\Controllers\Profile\ConfigurationController;
@@ -69,6 +70,9 @@ Route::get('/profile/{username}', [ProfileController::class, 'show'])
 */
 Route::get('/projects/{project}', [ProjectController::class, 'show'])
     ->name('projects.show');
+
+Route::get('/sitemap.xml', SitemapController::class)
+    ->name('sitemap');
 
 /*
 |--------------------------------------------------------------------------
