@@ -7,12 +7,12 @@ use App\Models\Message;
 use App\Models\Profile;
 use App\Models\User;
 use App\Models\UserBlock;
+use App\Services\BlockService;
 use App\Services\CloudinaryService;
 use App\Services\MessageService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Event;
 
 uses(RefreshDatabase::class);
 
@@ -31,7 +31,7 @@ function msgService(): MessageService
 {
     $cloudinary = Mockery::mock(CloudinaryService::class);
 
-    return new MessageService($cloudinary);
+    return new MessageService($cloudinary, new BlockService);
 }
 
 describe('MessageService', function () {
@@ -195,7 +195,7 @@ describe('MessageService', function () {
                     'bytes' => 12345,
                 ]);
 
-            $service = new MessageService($cloudinary);
+            $service = new MessageService($cloudinary, new BlockService);
             $message = $service->sendGifMessage($conversation, $sender->id, 'https://ejemplo.com/gif.gif', 'Un GIF');
 
             expect($message->media_type)->toBe('gif')
@@ -222,7 +222,7 @@ describe('MessageService', function () {
 
             $file = UploadedFile::fake()->image('foto.jpg', 200, 200);
 
-            $service = new MessageService($cloudinary);
+            $service = new MessageService($cloudinary, new BlockService);
             $message = $service->sendMediaMessage($conversation, $sender->id, $file, 'image', 'Mi foto');
 
             expect($message->media_type)->toBe('image')
@@ -247,7 +247,7 @@ describe('MessageService', function () {
 
             $file = UploadedFile::fake()->create('doc.pdf', 100);
 
-            $service = new MessageService($cloudinary);
+            $service = new MessageService($cloudinary, new BlockService);
             $message = $service->sendMediaMessage($conversation, $sender->id, $file, 'file');
 
             expect($message->body)->toBeNull();
