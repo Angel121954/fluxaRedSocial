@@ -45,4 +45,19 @@ describe('Perfil público', function () {
             ->get(route('profile.show', $user->username))
             ->assertOk();
     });
+
+    it('expone metadatos sociales y datos estructurados del perfil', function () {
+        $user = publicProfileUser([
+            'visibility' => 'public',
+            'bio' => 'Desarrolladora backend apasionada por Laravel.',
+            'specialty' => 'backend',
+        ]);
+
+        $this->get(route('profile.show', $user->username))
+            ->assertOk()
+            ->assertSee('<meta property="og:type" content="profile">', false)
+            ->assertSee('rel="canonical"', false)
+            ->assertSee('application/ld+json', false)
+            ->assertSee($user->name);
+    });
 });
