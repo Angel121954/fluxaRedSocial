@@ -43,6 +43,8 @@ final class CommentService
 
     private function notify(Project $project, Comment $comment, User $author): void
     {
+        $excludedUserIds = [$author->id];
+
         if ($comment->parent_id) {
             $parent = $comment->parent;
 
@@ -54,12 +56,10 @@ final class CommentService
                     $project->id,
                     $project->title,
                 );
+
+                $excludedUserIds[] = $parent->user_id;
             }
-
-            return;
-        }
-
-        if ($project->user_id !== $author->id) {
+        } elseif ($project->user_id !== $author->id) {
             NotificationService::notifyProjectComment(
                 $project->user_id,
                 $author->id,
@@ -67,6 +67,17 @@ final class CommentService
                 $project->id,
                 $project->title,
             );
+
+            $excludedUserIds[] = $project->user_id;
         }
+
+        NotificationService::notifyMentions(
+            $comment->content,
+            $author,
+            '/projects/'.$project->slug,
+            $project->id,
+            'project',
+            $excludedUserIds,
+        );
     }
 }

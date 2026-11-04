@@ -278,18 +278,59 @@ final class NotificationService
         );
     }
 
-    public static function notifyMention(int $mentionedId, int $mentionerId, string $mentionerName, int $referenceId, string $referenceType): Notification
+    public static function notifyMention(int $mentionedId, int $mentionerId, string $mentionerName, int $referenceId, string $referenceType, ?string $link = null): Notification
     {
         return self::createNotification(
             userId: $mentionedId,
             type: Notification::TYPE_MENTION,
             title: 'Te mencionaron',
             body: "{$mentionerName} te mencionó",
-            link: "/{$referenceType}/{$referenceId}",
+            link: $link ?? "/{$referenceType}/{$referenceId}",
             fromUserId: $mentionerId,
             referenceId: $referenceId,
             referenceType: $referenceType
         );
+    }
+
+    /**
+     * @param  array<int, int>  $excludedUserIds
+     */
+    public static function notifyMentions(
+        string $content,
+        User $author,
+        string $link,
+        int $referenceId,
+        string $referenceType,
+        array $excludedUserIds = [],
+    ): void {
+        preg_match_all('/(?<![\w])@([A-Za-z0-9_]{3,30})/', $content, $matches);
+
+        $usernames = collect($matches[1] ?? [])
+            ->map(fn (string $username): string => strtolower($username))
+            ->unique()
+            ->reject(fn (string $username): bool => $username === strtolower((string) $author->username))
+            ->values();
+
+        if ($usernames->isEmpty()) {
+            return;
+        }
+
+        User::query()
+            ->whereIn('username', $usernames)
+            ->where('role', '!=', 'guest')
+            ->where('status', '!=', 'banned')
+            ->when($excludedUserIds !== [], fn ($query) => $query->whereNotIn('id', $excludedUserIds))
+            ->get()
+            ->each(function (User $mentioned) use ($author, $link, $referenceId, $referenceType): void {
+                self::notifyMention(
+                    $mentioned->id,
+                    $author->id,
+                    $author->name,
+                    $referenceId,
+                    $referenceType,
+                    $link,
+                );
+            });
     }
 
     public static function notifyCommentLike(int $commentOwnerId, int $likerId, string $likerName, int $commentId, int $projectId, string $projectTitle): Notification

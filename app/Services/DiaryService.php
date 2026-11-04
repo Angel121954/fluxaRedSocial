@@ -65,7 +65,7 @@ class DiaryService
 
     public function createOrUpdateResponse(Diary $diary, int $userId, string $content): DiaryResponse
     {
-        return DiaryResponse::updateOrCreate(
+        $response = DiaryResponse::updateOrCreate(
             [
                 'diary_id' => $diary->id,
                 'user_id' => $userId,
@@ -74,6 +74,19 @@ class DiaryService
                 'content' => $content,
             ]
         );
+
+        if ($response->wasRecentlyCreated) {
+            NotificationService::notifyMentions(
+                $content,
+                User::find($userId),
+                '/diary',
+                $response->id,
+                'diary',
+                [$userId],
+            );
+        }
+
+        return $response;
     }
 
     public function responsesCount(int $diaryId): int
@@ -170,13 +183,24 @@ class DiaryService
         $comment->load('user.profile');
         $comment->user?->append('avatar_url');
 
+        $author = User::find($userId);
+
         if ($response->user_id !== $userId) {
             NotificationService::notifyDiaryResponseComment(
                 $response->user_id,
                 $userId,
-                User::find($userId)->name,
+                $author->name,
             );
         }
+
+        NotificationService::notifyMentions(
+            $content,
+            $author,
+            '/diary',
+            $response->id,
+            'diary',
+            [$userId, $response->user_id],
+        );
 
         return [
             'comment' => $comment,
