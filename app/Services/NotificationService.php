@@ -9,6 +9,7 @@ use App\Jobs\SendGroupedLikePush;
 use App\Mail\NotificationMail;
 use App\Models\Notification;
 use App\Models\NotificationPreference;
+use App\Models\Project;
 use App\Models\SkillEndorsement;
 use App\Models\User;
 use App\Notifications\WebPushNotification;
@@ -138,6 +139,13 @@ final class NotificationService
         };
     }
 
+    private static function projectLink(int $projectId): string
+    {
+        $slug = Project::whereKey($projectId)->value('slug');
+
+        return $slug ? "/projects/{$slug}" : "/projects/{$projectId}";
+    }
+
     public static function queueLikePush(
         int $userId,
         string $likerName,
@@ -208,7 +216,7 @@ final class NotificationService
             type: Notification::TYPE_LIKE,
             title: 'Nuevo like',
             body: "{$likerName} dio like a tu proyecto \"{$projectTitle}\"",
-            link: "/projects/{$projectId}",
+            link: self::projectLink($projectId),
             fromUserId: $likerId,
             referenceId: $projectId,
             referenceType: 'project',
@@ -233,7 +241,7 @@ final class NotificationService
             type: Notification::TYPE_COMMENT,
             title: 'Nuevo comentario',
             body: "comentó en tu proyecto \"{$projectTitle}\"",
-            link: "/projects/{$projectId}",
+            link: self::projectLink($projectId),
             fromUserId: $commenterId,
             referenceId: $projectId,
             referenceType: 'project'
@@ -247,7 +255,7 @@ final class NotificationService
             type: Notification::TYPE_COMMENT,
             title: 'Nueva respuesta',
             body: "respondió a tu comentario en \"{$projectTitle}\"",
-            link: "/projects/{$projectId}",
+            link: self::projectLink($projectId),
             fromUserId: $replierId,
             referenceId: $projectId,
             referenceType: 'project'
@@ -263,7 +271,7 @@ final class NotificationService
             type: 'endorsement',
             title: 'Nueva recomendación',
             body: "te recomendó en {$skillLabel} en \"{$projectTitle}\"",
-            link: "/projects/{$projectId}",
+            link: self::projectLink($projectId),
             fromUserId: $endorserId,
             referenceId: $projectId,
             referenceType: 'project'
@@ -291,7 +299,7 @@ final class NotificationService
             type: Notification::TYPE_LIKE,
             title: 'Like en tu comentario',
             body: "{$likerName} dio like a tu comentario en \"{$projectTitle}\"",
-            link: "/projects/{$projectId}",
+            link: self::projectLink($projectId),
             fromUserId: $likerId,
             referenceId: $commentId,
             referenceType: 'comment',
