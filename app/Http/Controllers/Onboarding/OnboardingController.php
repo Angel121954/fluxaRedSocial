@@ -125,6 +125,13 @@ class OnboardingController extends Controller
 
         $user->update(['onboarding_completed' => true]);
 
-        return redirect()->route('explore.index');
+        return redirect()->route('onboarding.firstProject');
+    }
+
+    public function firstProject()
+    {
+        return view('onboarding.first-project', [
+            'canPublish' => Auth::user()->hasVerifiedEmail(),
+        ]);
     }
 }

@@ -1,0 +1,287 @@
+/* ═══════════════════════════════════════════════════
+   resources/css/onboarding/first-project.css
+   Paso final del onboarding: publicar el primer proyecto.
+═══════════════════════════════════════════════════ */
+
+:root {
+    --accent:        #12b3b6;
+    --accent-dark:   #0d8e91;
+    --accent-text:   #0b7c7f;
+    --accent-strong: #0b8386;
+    --accent-soft:   #f0fbfb;
+    --accent-ring:   rgba(18, 179, 182, 0.16);
+    --accent-border: rgba(18, 179, 182, 0.40);
+
+    --ink-900:       #0b0f1a;
+    --ink-700:       #1c2333;
+    --ink-500:       #4a5568;
+    --ink-400:       #718096;
+    --ink-200:       #cbd5e0;
+    --ink-100:       #edf0f7;
+    --ink-50:        #f7f8fa;
+
+    --surface:       #ffffff;
+    --bg:            #f3f4f6;
+    --border:        #e2e6ed;
+    --r:             10px;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "DM Sans", -apple-system, sans-serif;
+    background: var(--bg);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    -webkit-font-smoothing: antialiased;
+    color: var(--ink-900);
+}
+
+/* ─── Layout ─────────────────────────────────────── */
+.page {
+    display: grid;
+    grid-template-columns: 520px 1fr;
+    width: 100%;
+    max-width: 1040px;
+    min-height: 580px;
+    margin: 24px 16px;
+    background: var(--surface);
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06), 0 8px 32px rgba(0,0,0,0.05);
+    overflow: hidden;
+}
+
+/* ─── Left panel ─────────────────────────────────── */
+.left {
+    padding: 40px 48px;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid var(--border);
+}
+
+.logo {
+    display: block;
+    margin-bottom: 24px;
+}
+
+.logo img {
+    height: 36px;
+    width: auto;
+    object-fit: contain;
+}
+
+/* ─── Progress bar ───────────────────────────────── */
+.progress-bar {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 24px;
+}
+
+.progress-bar span {
+    height: 3px;
+    flex: 1;
+    border-radius: 99px;
+    background: var(--ink-100);
+}
+
+.progress-bar span.done   { background: var(--accent-strong); opacity: 0.4; }
+.progress-bar span.active { background: var(--accent-strong); opacity: 1; }
+
+h1 {
+    font-size: var(--text-lg);
+    font-weight: 700;
+    color: var(--ink-900);
+    line-height: 1.35;
+    margin-bottom: 4px;
+    letter-spacing: -0.02em;
+}
+
+.subtitle {
+    font-size: var(--text-base);
+    color: var(--ink-400);
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+/* ─── Opciones ───────────────────────────────────── */
+.first-project-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+}
+
+.fp-option {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    width: 100%;
+    padding: 16px;
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    background: var(--ink-50);
+    color: inherit;
+    font-family: inherit;
+    text-align: left;
+    text-decoration: none;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+}
+
+.fp-option:hover {
+    border-color: var(--accent-border);
+    background: var(--accent-soft);
+}
+
+.fp-option--primary {
+    border-color: var(--accent-border);
+    background: var(--accent-soft);
+}
+
+.fp-option--primary:hover {
+    border-color: var(--accent);
+}
+
+.fp-option__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--surface);
+    border: 1px solid var(--accent-border);
+    color: var(--accent-text);
+    flex-shrink: 0;
+}
+
+.fp-option__body {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.fp-option__body strong {
+    font-size: var(--text-base);
+    font-weight: 600;
+    color: var(--ink-900);
+    letter-spacing: -0.01em;
+}
+
+.fp-option__body span {
+    font-size: var(--text-sm);
+    color: var(--ink-400);
+    line-height: 1.45;
+}
+
+/* ─── Verificación de correo ─────────────────────── */
+.fp-verify {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+}
+
+.fp-verify > strong {
+    font-size: var(--text-base);
+    color: var(--ink-900);
+}
+
+.fp-verify > p {
+    margin-bottom: 6px;
+    font-size: var(--text-sm);
+    color: var(--ink-400);
+    line-height: 1.5;
+}
+
+/* ─── Skip ───────────────────────────────────────── */
+.skip {
+    text-align: center;
+    margin-top: 18px;
+    font-size: var(--text-sm);
+    color: var(--ink-400);
+}
+
+.skip a {
+    color: var(--accent-text);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.skip a:hover { text-decoration: underline; }
+
+/* ─── Right panel ────────────────────────────────── */
+.right {
+    background: var(--ink-50);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 36px;
+    gap: 20px;
+}
+
+.illustration {
+    width: 100%;
+    max-width: 260px;
+    height: auto;
+    object-fit: contain;
+    opacity: 0.96;
+}
+
+.tagline {
+    font-size: var(--text-md);
+    font-weight: 600;
+    color: var(--ink-700);
+    text-align: center;
+    line-height: 1.5;
+    letter-spacing: -0.01em;
+}
+
+.tagline span { color: var(--accent-text); }
+
+.welcome-badge {
+    width: 100%;
+    padding: 16px;
+    border-radius: var(--r);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    text-align: center;
+}
+
+.welcome-badge strong {
+    display: block;
+    margin-bottom: 4px;
+    font-size: var(--text-base);
+    color: var(--ink-900);
+}
+
+.welcome-badge p {
+    font-size: var(--text-sm);
+    color: var(--ink-400);
+    line-height: 1.5;
+}
+
+/* ─── Responsive ─────────────────────────────────── */
+@media (max-width: 768px) {
+    .page { grid-template-columns: 1fr; min-height: auto; }
+    .right { display: none; }
+    .left  { padding: 32px 24px; border-right: none; }
+}
+
+@media (max-width: 480px) {
+    .left {
+        padding: 24px 16px;
+    }
+
+    .logo img {
+        height: 28px;
+    }
+}

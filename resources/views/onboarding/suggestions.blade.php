@@ -16,10 +16,11 @@
             <span class="done"></span>
             <span class="done"></span>
             <span class="active"></span>
+            <span></span>
         </div>
 
         <h1>Desarrolladores que quizás conozcas</h1>
-        <p class="subtitle">Paso 5 de 5 · Sigue desarrolladores para construir tu feed</p>
+        <p class="subtitle">Paso 5 de 6 · Sigue desarrolladores para construir tu feed</p>
 
         <form action="{{ route('onboarding.saveSuggestions') }}" method="POST" id="suggestionsForm">
             @csrf
@@ -55,11 +56,11 @@
                 @endforelse
             </div>
 
-            <button type="submit" class="btn">Ir a Explorar →</button>
+            <button type="submit" class="btn">Continuar →</button>
         </form>
 
         <p class="skip">
-            <a href="{{ route('explore.index') }}" onclick="skipOnboarding(event)">Omitir e ir a Explorar</a>
+            <a href="{{ route('onboarding.firstProject') }}" onclick="skipOnboarding(event)">Omitir sugerencias y continuar</a>
         </p>
     </div>
 

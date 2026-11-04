@@ -103,6 +103,7 @@ export default defineConfig({
                 "resources/css/onboarding/bio.css",
                 "resources/css/onboarding/technologies.css",
                 "resources/css/onboarding/suggestions.css",
+                "resources/css/onboarding/first-project.css",
 
                 // Jobs
                 "resources/css/jobs/jobs.css",

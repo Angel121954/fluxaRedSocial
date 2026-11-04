@@ -16,10 +16,11 @@
             <span></span>
             <span></span>
             <span></span>
+            <span></span>
         </div>
 
         <h1>¿Qué tipo de cuenta quieres crear?</h1>
-        <p class="subtitle">Paso 1 de 5 · Elige el tipo de cuenta que mejor se ajuste a tu perfil profesional</p>
+        <p class="subtitle">Paso 1 de 6 · Elige el tipo de cuenta que mejor se ajuste a tu perfil profesional</p>
 
         <form action="{{ route('onboarding.saveAccountType') }}" method="POST">
             @csrf

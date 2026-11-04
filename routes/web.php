@@ -144,6 +144,9 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
     Route::post('/onboarding/suggestions', [OnboardingController::class, 'saveSuggestions'])
         ->name('onboarding.saveSuggestions');
 
+    Route::get('/onboarding/first-project', [OnboardingController::class, 'firstProject'])
+        ->name('onboarding.firstProject');
+
     Route::post('/users/{user}/follow', [FollowController::class, 'toggle'])
         ->name('users.follow')
         ->middleware(['restrict.guest', 'throttle:follows']);

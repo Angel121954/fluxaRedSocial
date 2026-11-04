@@ -16,10 +16,11 @@
             <span class="active"></span>
             <span></span>
             <span></span>
+            <span></span>
         </div>
 
         <h1>¿Cuál es tu rol?</h1>
-        <p class="subtitle">Paso 3 de 5 · Personalizaremos tu feed según tu especialidad</p>
+        <p class="subtitle">Paso 3 de 6 · Personalizaremos tu feed según tu especialidad</p>
 
         <form action="{{ route('onboarding.saveRole') }}" method="POST">
             @csrf

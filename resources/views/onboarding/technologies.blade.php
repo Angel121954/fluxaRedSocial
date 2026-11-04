@@ -16,10 +16,11 @@
             <span></span>
             <span></span>
             <span></span>
+            <span></span>
         </div>
 
         <h1>¿Cuál es tu stack tecnológico?</h1>
-        <p class="subtitle">Paso 2 de 5 · Selecciona las tecnologías con las que trabajas</p>
+        <p class="subtitle">Paso 2 de 6 · Selecciona las tecnologías con las que trabajas</p>
 
         <div class="search-wrap">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
