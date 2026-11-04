@@ -24,6 +24,7 @@ class CvDataService
         'show_projects' => true,
         'show_experience' => true,
         'show_education' => true,
+        'allow_download' => true,
         'section_order' => ['experience', 'projects', 'education', 'skills'],
     ];
 

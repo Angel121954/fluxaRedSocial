@@ -168,6 +168,28 @@
 
                     <div class="section-divider"></div>
 
+                    {{-- ── SECCIÓN: Privacidad del CV ─────────────────── --}}
+                    <section class="cv-section">
+                        <h2 class="cv-section__title">Privacidad del CV</h2>
+                        <label class="cv-checkbox-item" for="allow_download">
+                            <input type="checkbox" id="allow_download" name="allow_download"
+                                value="1"
+                                {{ old('allow_download', $cvSettings['allow_download'] ?? true) ? 'checked' : '' }}
+                                class="cv-checkbox">
+                            <span class="cv-checkbox-custom">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                    <polyline points="20 6 9 17 4 12" />
+                                </svg>
+                            </span>
+                            <span class="cv-checkbox-label">Permitir que otros usuarios descarguen mi CV</span>
+                        </label>
+                        <p class="cv-section__hint">
+                            Solo aplica a usuarios que ya pueden ver tu perfil. Si tu perfil es privado, tu CV también lo será.
+                        </p>
+                    </section>
+
+                    <div class="section-divider"></div>
+
                     {{-- ── SECCIÓN: Orden de secciones ─────────────────── --}}
                     <section class="cv-section">
                         <h2 class="cv-section__title">Orden de secciones</h2>

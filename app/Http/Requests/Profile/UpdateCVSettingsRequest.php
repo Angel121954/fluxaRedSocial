@@ -24,6 +24,7 @@ class UpdateCVSettingsRequest extends FormRequest
             'show_projects' => 'nullable|in:on,1,0,true,false',
             'show_experience' => 'nullable|in:on,1,0,true,false',
             'show_education' => 'nullable|in:on,1,0,true,false',
+            'allow_download' => 'nullable|in:on,1,0,true,false',
             'selected_project_ids' => 'nullable|array|max:3',
             'selected_project_ids.*' => 'integer|exists:projects,id',
         ];

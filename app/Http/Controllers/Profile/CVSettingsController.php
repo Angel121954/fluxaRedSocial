@@ -70,6 +70,7 @@ class CVSettingsController extends Controller
             'show_projects' => $request->boolean('show_projects'),
             'show_experience' => $request->boolean('show_experience'),
             'show_education' => $request->boolean('show_education'),
+            'allow_download' => $request->boolean('allow_download'),
             'section_order' => $sectionOrder,
         ];
 

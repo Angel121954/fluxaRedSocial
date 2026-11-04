@@ -139,7 +139,12 @@ class ProfileController extends Controller
             $isOwner = true;
         }
 
-        $settings = $usuario->profile->cv_settings;
+        $settings = $this->cvService->settingsFor($usuario, $usuario->profile->cv_settings);
+
+        if (! $isOwner && ! ($settings['allow_download'] ?? true)) {
+            abort(403);
+        }
+
         $format = $format ?? ($settings['format'] ?? 'pdf');
 
         if ($format === 'json' && ! $isOwner) {
