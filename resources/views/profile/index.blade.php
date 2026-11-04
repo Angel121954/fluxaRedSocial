@@ -1,5 +1,33 @@
 @extends('layouts.app')
 @section('title', $user->name ?? 'Perfil')
+@section('meta_description', Str::limit(strip_tags($profile->bio ?? ''), 155))
+@section('og_title', $user->name.($profile->specialty ? ' · '.ucfirst($profile->specialty) : ''))
+@section('og_description', Str::limit(strip_tags($profile->bio ?? ''), 155))
+@section('og_image', $user->avatar_url)
+@section('og_type', 'profile')
+@section('og_url', route('profile.show', $user->username))
+@section('canonical', route('profile.show', $user->username))
+
+@push('meta')
+<script type="application/ld+json">
+    {!! json_encode([
+        '@context' => 'https://schema.org',
+        '@type' => 'Person',
+        'name' => $user->name,
+        'url' => route('profile.show', $user->username),
+        'image' => $user->avatar_url,
+        'jobTitle' => $profile->specialty ? ucfirst($profile->specialty) : null,
+        'description' => Str::limit(strip_tags($profile->bio ?? ''), 200),
+        'sameAs' => array_values(array_filter([
+            $profile->github_url,
+            $profile->linkedin_url,
+            $profile->twitter_url,
+            $profile->website_url,
+        ])),
+    ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
+</script>
+@endpush
+
 @section('content')
 <x-topbar :profile="$user->profile" />
 
