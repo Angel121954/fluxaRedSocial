@@ -16,7 +16,6 @@ use App\Http\Controllers\Diary\DiaryController;
 use App\Http\Controllers\Explore\ExploreController;
 use App\Http\Controllers\Feed\FeedController;
 use App\Http\Controllers\Follows\FollowController;
-use App\Http\Controllers\Jobs\JobController;
 use App\Http\Controllers\Messages\MessageController;
 use App\Http\Controllers\Notifications\NotificationController;
 use App\Http\Controllers\Notifications\PushSubscriptionController;
@@ -496,24 +495,6 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
 
         Route::patch('/notification-preference', [NotificationPreferenceController::class, 'update'])
             ->name('notification-preference.update');
-
-        /*
-        |--------------------------------------------------------------------------
-        | Bolsa de empleo
-        |--------------------------------------------------------------------------
-        */
-        /* Route::get('/jobs', [JobController::class, 'index'])
-            ->name('jobs.index');
-        Route::get('/jobs/saved', [JobController::class, 'saved'])
-            ->name('jobs.saved');
-        Route::get('/jobs/create', [JobController::class, 'create'])
-            ->name('jobs.create');
-        Route::get('/jobs/{id}', [JobController::class, 'show'])
-            ->name('jobs.show');
-        Route::post('/jobs/bookmark', [JobController::class, 'bookmark'])
-            ->name('jobs.bookmark');
-        Route::post('/jobs', [JobController::class, 'store'])
-            ->name('jobs.store'); */
 
         /*
         |--------------------------------------------------------------------------
