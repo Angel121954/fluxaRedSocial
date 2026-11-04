@@ -159,6 +159,7 @@ La solución más simple que funciona es la mejor. No agregar capas de indirecci
 - Animaciones: preferir `transform` y `opacity` (compositor-friendly) sobre `width`, `height`, `top`, `left`
 - Transiciones: máximo 200-300ms, con `ease-out` o `ease-in-out`
 - Modales: en móvil (`max-width: 640px`) se presentan como bottom sheet — base compartida en `resources/css/shared/modal-sheet.css`, cargada al final del `<head>`
+- Los estados vacíos deben tener diseño propio: ícono, título, descripción y CTA opcional. Nunca dejar un `<p>` suelto como único empty state (ej. “No hay…” o “No has…”); reutilizar clases existentes (`feed-empty`, `blocked-empty`, etc.) o crear estilos en `resources/css/[sección]/[vista].css`
 
 ### Testing (PestPHP)
 - `describe()` para agrupar tests relacionados, `it()` para cada caso individual
