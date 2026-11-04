@@ -11,7 +11,6 @@ use App\Models\Conversation;
 use App\Models\Message;
 use App\Models\Profile;
 use App\Models\User;
-use App\Models\UserBlock;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
@@ -21,6 +20,7 @@ class MessageService
 {
     public function __construct(
         protected CloudinaryService $cloudinary,
+        protected BlockService $blockService,
     ) {}
 
     public function findOrCreateConversation(int $userId, int $otherUserId): Conversation
@@ -45,45 +45,48 @@ class MessageService
 
     public function canSendMessage(int $senderId, int $recipientId): bool
     {
-        if ($this->isBlockedBy($senderId, $recipientId) || $this->hasBlocked($senderId, $recipientId)) {
+        if ($this->blockService->isBlockedBy($senderId, $recipientId)
+            || $this->blockService->hasBlocked($senderId, $recipientId)) {
             return false;
         }
 
-        $recipientProfile = Profile::where('user_id', $recipientId)->first();
+        $recipient = User::find($recipientId);
 
-        return $recipientProfile && $recipientProfile->accept_messages;
+        if (! $recipient?->isVisible()) {
+            return false;
+        }
+
+        return $recipient->profile?->accept_messages === true;
     }
 
     public function isBlockedBy(int $userId, int $otherUserId): bool
     {
-        return UserBlock::where('blocker_id', $otherUserId)
-            ->where('blocked_id', $userId)
-            ->exists();
+        return $this->blockService->isBlockedBy($userId, $otherUserId);
     }
 
     public function hasBlocked(int $blockerId, int $blockedId): bool
     {
-        return UserBlock::where('blocker_id', $blockerId)
-            ->where('blocked_id', $blockedId)
-            ->exists();
+        return $this->blockService->hasBlocked($blockerId, $blockedId);
     }
 
     public function blockUser(int $blockerId, int $blockedId): void
     {
-        UserBlock::firstOrCreate([
-            'blocker_id' => $blockerId,
-            'blocked_id' => $blockedId,
-        ]);
+        $blocker = User::find($blockerId);
+        $blocked = User::find($blockedId);
 
-        User::find($blockerId)?->follows()->detach($blockedId);
-        User::find($blockedId)?->follows()->detach($blockerId);
+        if ($blocker !== null && $blocked !== null) {
+            $this->blockService->block($blocker, $blocked);
+        }
     }
 
     public function unblockUser(int $blockerId, int $blockedId): void
     {
-        UserBlock::where('blocker_id', $blockerId)
-            ->where('blocked_id', $blockedId)
-            ->delete();
+        $blocker = User::find($blockerId);
+        $blocked = User::find($blockedId);
+
+        if ($blocker !== null && $blocked !== null) {
+            $this->blockService->unblock($blocker, $blocked);
+        }
     }
 
     public function sendGifMessage(Conversation $conversation, int $senderId, string $gifUrl, ?string $body = null): Message

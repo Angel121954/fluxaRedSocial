@@ -28,6 +28,7 @@ use App\Http\Controllers\Pages\ProblemReportController;
 use App\Http\Controllers\Pages\SitemapController;
 use App\Http\Controllers\Pages\TermsController;
 use App\Http\Controllers\Profile\AccountController;
+use App\Http\Controllers\Profile\BlockController;
 use App\Http\Controllers\Profile\ConfigurationController;
 use App\Http\Controllers\Profile\CredentialController;
 use App\Http\Controllers\Profile\CVSettingsController;
@@ -382,6 +383,17 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
         Route::post('/users/{user}/report', [UserController::class, 'report'])
             ->name('users.report')
             ->middleware('throttle:reports');
+
+        Route::post('/users/{user}/block', [BlockController::class, 'store'])
+            ->name('users.block')
+            ->middleware('throttle:interactions');
+
+        Route::delete('/users/{user}/block', [BlockController::class, 'destroy'])
+            ->name('users.unblock')
+            ->middleware('throttle:interactions');
+
+        Route::get('/settings/blocked', [BlockController::class, 'index'])
+            ->name('blocked.index');
 
         Route::get('/users/{user}/followers', [FollowController::class, 'followers'])
             ->name('users.followers');
