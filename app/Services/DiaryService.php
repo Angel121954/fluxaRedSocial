@@ -12,6 +12,7 @@ use App\Models\DiaryResponseComment;
 use App\Models\DiaryResponseCommentLike;
 use App\Models\DiaryResponseLike;
 use App\Models\User;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -23,16 +24,20 @@ class DiaryService
         return Diary::active()->withCount('responses')->first();
     }
 
-    public function getResponses(int $diaryId, ?int $userId, string $sort = 'top'): LengthAwarePaginator
+    public function getResponses(int $diaryId, ?User $viewer, string $sort = 'top'): LengthAwarePaginator
     {
+        $blockedIds = $viewer?->blockedUserIds() ?? collect();
+
         $query = DiaryResponse::where('diary_id', $diaryId)
+            ->whereHas('user', fn ($query) => $query->visible())
+            ->when($blockedIds->isNotEmpty(), fn ($query) => $query->whereNotIn('user_id', $blockedIds))
             ->with('user.profile')
             ->withCount(['likes', 'comments']);
 
-        if ($userId !== null) {
+        if ($viewer !== null) {
             $query->with([
-                'likes' => fn ($q) => $q->where('user_id', $userId),
-                'bookmarks' => fn ($q) => $q->where('user_id', $userId),
+                'likes' => fn ($q) => $q->where('user_id', $viewer->id),
+                'bookmarks' => fn ($q) => $q->where('user_id', $viewer->id),
             ]);
         }
 
@@ -42,9 +47,13 @@ class DiaryService
             ->paginate(10);
     }
 
-    public function getRecentResponders(int $diaryId): Collection
+    public function getRecentResponders(int $diaryId, ?User $viewer): Collection
     {
+        $blockedIds = $viewer?->blockedUserIds() ?? collect();
+
         return DiaryResponse::where('diary_id', $diaryId)
+            ->whereHas('user', fn ($query) => $query->visible())
+            ->when($blockedIds->isNotEmpty(), fn ($query) => $query->whereNotIn('user_id', $blockedIds))
             ->with('user.profile')
             ->latest()
             ->take(3)
@@ -96,6 +105,12 @@ class DiaryService
 
     public function toggleLike(DiaryResponse $response, int $userId): array
     {
+        $viewer = User::find($userId);
+
+        if (! $viewer || ! $response->user?->isVisible() || $viewer->isBlockedWithId($response->user_id)) {
+            throw new AuthorizationException('No puedes interactuar con esta respuesta.');
+        }
+
         $liked = DB::transaction(function () use ($response, $userId): bool {
             $like = DiaryResponseLike::where('diary_response_id', $response->id)
                 ->where('user_id', $userId)
@@ -122,7 +137,7 @@ class DiaryService
             NotificationService::notifyDiaryResponseLike(
                 $response->user_id,
                 $userId,
-                User::find($userId)->name,
+                $viewer->name,
             );
         }
 
@@ -134,6 +149,12 @@ class DiaryService
 
     public function toggleBookmark(DiaryResponse $response, int $userId): array
     {
+        $viewer = User::find($userId);
+
+        if (! $viewer || ! $response->user?->isVisible() || $viewer->isBlockedWithId($response->user_id)) {
+            throw new AuthorizationException('No puedes interactuar con esta respuesta.');
+        }
+
         $bookmarked = DB::transaction(function () use ($response, $userId): bool {
             $bookmark = DiaryResponseBookmark::where('diary_response_id', $response->id)
                 ->where('user_id', $userId)
@@ -167,6 +188,24 @@ class DiaryService
 
     public function createComment(DiaryResponse $response, int $userId, string $content, ?int $parentId): array
     {
+        $author = User::find($userId);
+
+        if (! $author || ! $response->user?->isVisible() || $author->isBlockedWithId($response->user_id)) {
+            throw new AuthorizationException('No puedes interactuar con esta respuesta.');
+        }
+
+        if ($parentId !== null) {
+            $parent = DiaryResponseComment::find($parentId);
+
+            if (
+                ! $parent
+                || $parent->diary_response_id !== $response->id
+                || $author->isBlockedWithId($parent->user_id)
+            ) {
+                throw new AuthorizationException('No puedes responder a este comentario.');
+            }
+        }
+
         $comment = DB::transaction(function () use ($response, $userId, $content, $parentId): DiaryResponseComment {
             $comment = DiaryResponseComment::create([
                 'diary_response_id' => $response->id,
@@ -182,8 +221,6 @@ class DiaryService
 
         $comment->load('user.profile');
         $comment->user?->append('avatar_url');
-
-        $author = User::find($userId);
 
         if ($response->user_id !== $userId) {
             NotificationService::notifyDiaryResponseComment(
@@ -208,21 +245,34 @@ class DiaryService
         ];
     }
 
-    public function getComments(DiaryResponse $response, ?int $userId): Collection
+    public function getComments(DiaryResponse $response, ?User $viewer): Collection
     {
+        $blockedIds = $viewer?->blockedUserIds() ?? collect();
+        $viewerId = $viewer?->id;
+
         $comments = $response->comments()
             ->whereNull('parent_id')
-            ->with(['user.profile', 'children.user.profile', 'children.likes', 'likes'])
+            ->whereHas('user', fn ($query) => $query->visible())
+            ->when($blockedIds->isNotEmpty(), fn ($query) => $query->whereNotIn('user_id', $blockedIds))
+            ->with([
+                'user.profile',
+                'children' => fn ($query) => $query
+                    ->whereHas('user', fn ($query) => $query->visible())
+                    ->when($blockedIds->isNotEmpty(), fn ($query) => $query->whereNotIn('user_id', $blockedIds)),
+                'children.user.profile',
+                'children.likes',
+                'likes',
+            ])
             ->latest()
             ->get();
 
-        $comments->each(function (DiaryResponseComment $comment) use ($userId) {
+        $comments->each(function (DiaryResponseComment $comment) use ($viewerId) {
             $comment->user?->append('avatar_url');
-            $comment->is_liked = $comment->likes->contains('user_id', $userId);
+            $comment->is_liked = $comment->likes->contains('user_id', $viewerId);
 
-            $comment->children->each(function (DiaryResponseComment $child) use ($userId) {
+            $comment->children->each(function (DiaryResponseComment $child) use ($viewerId) {
                 $child->user?->append('avatar_url');
-                $child->is_liked = $child->likes->contains('user_id', $userId);
+                $child->is_liked = $child->likes->contains('user_id', $viewerId);
             });
         });
 
@@ -231,6 +281,12 @@ class DiaryService
 
     public function toggleCommentLike(DiaryResponseComment $comment, int $userId): bool
     {
+        $viewer = User::find($userId);
+
+        if (! $viewer || ! $comment->user?->isVisible() || $viewer->isBlockedWithId($comment->user_id)) {
+            throw new AuthorizationException('No puedes interactuar con este comentario.');
+        }
+
         $existing = DiaryResponseCommentLike::where('user_id', $userId)
             ->where('diary_response_comment_id', $comment->id)
             ->first();

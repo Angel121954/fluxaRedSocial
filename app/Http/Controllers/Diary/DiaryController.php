@@ -32,8 +32,8 @@ class DiaryController extends Controller
         }
 
         $sort = request('sort', 'top');
-        $responses = $this->diaryService->getResponses($diary->id, Auth::id(), $sort);
-        $recentResponders = $this->diaryService->getRecentResponders($diary->id);
+        $responses = $this->diaryService->getResponses($diary->id, Auth::user(), $sort);
+        $recentResponders = $this->diaryService->getRecentResponders($diary->id, Auth::user());
         $userHasResponded = $this->diaryService->hasUserResponded($diary->id, Auth::id());
 
         return view('diary.index', compact('diary', 'responses', 'recentResponders', 'userHasResponded'));
@@ -68,6 +68,8 @@ class DiaryController extends Controller
 
     public function like(DiaryResponse $response): JsonResponse
     {
+        Gate::authorize('interact', $response);
+
         return response()->json(
             $this->diaryService->toggleLike($response, Auth::id())
         );
@@ -75,6 +77,8 @@ class DiaryController extends Controller
 
     public function bookmark(DiaryResponse $response): JsonResponse
     {
+        Gate::authorize('interact', $response);
+
         return response()->json(
             $this->diaryService->toggleBookmark($response, Auth::id())
         );
@@ -82,6 +86,12 @@ class DiaryController extends Controller
 
     public function comment(StoreDiaryCommentRequest $request, DiaryResponse $response): JsonResponse
     {
+        Gate::authorize('interact', $response);
+
+        if ($request->filled('parent_id')) {
+            Gate::authorize('interact', DiaryResponseComment::findOrFail($request->parent_id));
+        }
+
         return response()->json(
             $this->diaryService->createComment(
                 $response,
@@ -95,12 +105,14 @@ class DiaryController extends Controller
     public function comments(DiaryResponse $response): JsonResponse
     {
         return response()->json([
-            'comments' => $this->diaryService->getComments($response, Auth::id()),
+            'comments' => $this->diaryService->getComments($response, Auth::user()),
         ]);
     }
 
     public function commentLike(DiaryResponseComment $comment): JsonResponse
     {
+        Gate::authorize('interact', $comment);
+
         return response()->json([
             'liked' => $this->diaryService->toggleCommentLike($comment, Auth::id()),
         ]);
@@ -118,6 +130,7 @@ class DiaryController extends Controller
 
     public function report(StoreDiaryReportRequest $request, DiaryResponse $response): JsonResponse
     {
+        Gate::authorize('interact', $response);
         Gate::authorize('report', $response);
 
         $created = $this->diaryService->report($response, Auth::id(), $request->reason);
@@ -148,7 +161,7 @@ class DiaryController extends Controller
         abort_if($diary === null, 404);
 
         $sort = $request->sort ?? 'top';
-        $responses = $this->diaryService->getResponses($diary->id, Auth::id(), $sort);
+        $responses = $this->diaryService->getResponses($diary->id, Auth::user(), $sort);
 
         $html = '';
         foreach ($responses as $response) {

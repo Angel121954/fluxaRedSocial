@@ -18,4 +18,10 @@ class DiaryResponsePolicy
     {
         return $user->id !== $response->user_id;
     }
+
+    public function interact(User $user, DiaryResponse $response): bool
+    {
+        return $response->user?->isVisible() === true
+            && ! $user->isBlockedWithId($response->user_id);
+    }
 }

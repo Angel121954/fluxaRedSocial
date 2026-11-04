@@ -13,4 +13,10 @@ class DiaryResponseCommentPolicy
     {
         return $user->id === $comment->user_id;
     }
+
+    public function interact(User $user, DiaryResponseComment $comment): bool
+    {
+        return $comment->user?->isVisible() === true
+            && ! $user->isBlockedWithId($comment->user_id);
+    }
 }
