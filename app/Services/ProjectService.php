@@ -156,6 +156,13 @@ class ProjectService
         ];
     }
 
+    public function recordShare(Project $project): int
+    {
+        $project->increment('shares_count');
+
+        return (int) $project->shares_count;
+    }
+
     public function endorseProject(Project $project, int $userId, string $skillType): array
     {
         if ($project->user_id === $userId) {

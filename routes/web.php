@@ -585,6 +585,10 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
             ->name('projects.bookmark')
             ->middleware('throttle:interactions');
 
+        Route::post('/projects/{project}/share', [ProjectController::class, 'share'])
+            ->name('projects.share')
+            ->middleware('throttle:interactions');
+
         Route::post('/projects/{project}/report', [ProjectController::class, 'report'])
             ->name('projects.report')
             ->middleware('throttle:reports');

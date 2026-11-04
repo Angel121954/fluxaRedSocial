@@ -59,6 +59,23 @@ document.addEventListener('keydown', (e) => {
 });
 
 // ── Lógica de acciones ────────────────────────────────────────────────────
+function recordShare(projectSlug) {
+    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
+
+    if (!csrfToken || !projectSlug) return;
+
+    fetch(`/projects/${projectSlug}/share`, {
+        method: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': csrfToken,
+            'Accept': 'application/json',
+        },
+        credentials: 'same-origin',
+    }).catch(() => {
+        // El compartir ya ocurrió; el contador no debe bloquear la acción.
+    });
+}
+
 function handleProjectAction(action, projectId, dropItem, closeMenu) {
     const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
     const projectSlug = dropItem.closest('.drop-menu')?.dataset.projectSlug || projectId;
@@ -105,10 +122,13 @@ function handleProjectAction(action, projectId, dropItem, closeMenu) {
         case 'copy-link':
             closeMenu?.();
             if (navigator.share) {
-                navigator.share({ url });
+                navigator.share({ url })
+                    .then(() => recordShare(projectSlug))
+                    .catch(() => {});
             } else {
                 navigator.clipboard.writeText(url);
                 showToast('Enlace copiado');
+                recordShare(projectSlug);
             }
             break;
 
@@ -148,7 +168,7 @@ function handleProjectAction(action, projectId, dropItem, closeMenu) {
         case 'report':
             closeMenu?.();
             const reportForm = document.getElementById('reportForm');
-            const reportTitle = document.getElementById('reportModalTitle');
+            const reportTitle = document.getElementById('reportModal-title');
             const reportDesc = document.getElementById('reportModalDesc');
             if (reportTitle) reportTitle.textContent = 'Reportar proyecto';
             if (reportDesc) reportDesc.textContent = '¿Por qué quieres reportar este proyecto?';
@@ -198,10 +218,15 @@ function deleteProject(projectId, card) {
 }
 
 // ── Submit de reporte ─────────────────────────────────────────────────────
-document.getElementById('reportForm')?.addEventListener('submit', function (e) {
+document.getElementById('reportForm')?.addEventListener('submit', async function (e) {
     e.preventDefault();
-    const reason = document.getElementById('reportReason').value;
-    if (reason.length < 10) return;
+
+    const reason = document.getElementById('reportReason').value.trim();
+
+    if (reason.length < 10) {
+        showToast('El motivo debe tener al menos 10 caracteres', 'error');
+        return;
+    }
 
     const type = this.dataset.type || 'project';
     let url;
@@ -211,17 +236,32 @@ document.getElementById('reportForm')?.addEventListener('submit', function (e) {
         url = `/projects/${this.dataset.projectId}/report`;
     }
 
-    fetch(url, {
-        method: 'POST',
-        headers: {
-            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ reason }),
-    })
-        .then(res => res.json())
-        .then(data => {
-            window.closeModal('reportModal');
-            showToast(data.message || 'Reporte enviado');
+    try {
+        const res = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ reason }),
         });
+
+        const data = await res.json().catch(() => ({}));
+
+        if (res.status === 403) {
+            showToast('No puedes reportar este contenido', 'error');
+            return;
+        }
+
+        if (!res.ok) {
+            showToast(data.message || data.errors?.reason?.[0] || 'No se pudo enviar el reporte', 'error');
+            return;
+        }
+
+        window.closeModal('reportModal');
+        showToast(data.message || 'Reporte enviado');
+    } catch {
+        showToast('No se pudo enviar el reporte. Intenta de nuevo.', 'error');
+    }
 });

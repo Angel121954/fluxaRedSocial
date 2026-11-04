@@ -172,9 +172,19 @@ class ProjectController extends Controller
         return response()->json($result);
     }
 
-    public function report(StoreProjectReportRequest $request, Project $project)
+    public function share(Project $project)
     {
         $this->authorize('view', $project);
+
+        return response()->json([
+            'success' => true,
+            'shares_count' => $this->projectService->recordShare($project),
+        ]);
+    }
+
+    public function report(StoreProjectReportRequest $request, Project $project)
+    {
+        $this->authorize('report', $project);
 
         $created = $this->projectService->reportProject(
             $project,
