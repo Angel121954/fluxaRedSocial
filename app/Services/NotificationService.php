@@ -317,9 +317,10 @@ final class NotificationService
 
         User::query()
             ->whereIn('username', $usernames)
+            ->visible()
             ->where('role', '!=', 'guest')
-            ->where('status', '!=', 'banned')
             ->when($excludedUserIds !== [], fn ($query) => $query->whereNotIn('id', $excludedUserIds))
+            ->whereNotIn('id', $author->blockedUserIds())
             ->get()
             ->each(function (User $mentioned) use ($author, $link, $referenceId, $referenceType): void {
                 self::notifyMention(

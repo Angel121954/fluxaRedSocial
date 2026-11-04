@@ -42,9 +42,21 @@ class CommentController extends Controller
     {
         $this->authorize('view', $project);
 
+        $blockedIds = auth()->user()?->blockedUserIds() ?? collect();
+
         $comments = $project->comments()
             ->whereNull('parent_id')
-            ->with(['user.profile', 'children.user.profile', 'children.likes', 'likes'])
+            ->whereHas('user', fn ($query) => $query->visible())
+            ->when($blockedIds->isNotEmpty(), fn ($query) => $query->whereNotIn('user_id', $blockedIds))
+            ->with([
+                'user.profile',
+                'children' => fn ($query) => $query
+                    ->whereHas('user', fn ($query) => $query->visible())
+                    ->when($blockedIds->isNotEmpty(), fn ($query) => $query->whereNotIn('user_id', $blockedIds)),
+                'children.user.profile',
+                'children.likes',
+                'likes',
+            ])
             ->latest()
             ->paginate(20);
 

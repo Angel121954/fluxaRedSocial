@@ -22,6 +22,7 @@ class CommentLikeController extends Controller
         }
 
         $this->authorize('view', $project);
+        $this->authorize('like', $comment);
 
         $user = $request->user();
         $userId = $user->id;

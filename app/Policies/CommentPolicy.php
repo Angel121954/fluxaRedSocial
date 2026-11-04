@@ -13,4 +13,10 @@ class CommentPolicy
     {
         return $user->id === $comment->user_id;
     }
+
+    public function like(User $user, Comment $comment): bool
+    {
+        return $comment->user?->isVisible() === true
+            && ! $user->isBlockedWithId($comment->user_id);
+    }
 }

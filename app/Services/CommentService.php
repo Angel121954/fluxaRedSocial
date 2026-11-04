@@ -48,7 +48,12 @@ final class CommentService
         if ($comment->parent_id) {
             $parent = $comment->parent;
 
-            if ($parent && $parent->user_id !== $author->id) {
+            if (
+                $parent
+                && $parent->user_id !== $author->id
+                && $parent->user?->isVisible()
+                && ! $author->isBlockedWithId($parent->user_id)
+            ) {
                 NotificationService::notifyCommentReply(
                     $parent->user_id,
                     $author->id,
@@ -59,7 +64,11 @@ final class CommentService
 
                 $excludedUserIds[] = $parent->user_id;
             }
-        } elseif ($project->user_id !== $author->id) {
+        } elseif (
+            $project->user_id !== $author->id
+            && $project->user?->isVisible()
+            && ! $author->isBlockedWithId($project->user_id)
+        ) {
             NotificationService::notifyProjectComment(
                 $project->user_id,
                 $author->id,
