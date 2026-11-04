@@ -8,12 +8,12 @@ use App\Http\Controllers\Controller;
 use App\Models\Comment;
 use App\Models\CommentLike;
 use App\Services\NotificationService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class CommentLikeController extends Controller
 {
-    public function toggle(Request $request, Comment $comment)
+    public function toggle(Request $request, Comment $comment): JsonResponse
     {
         $project = $comment->project;
 
@@ -23,52 +23,41 @@ class CommentLikeController extends Controller
 
         $this->authorize('view', $project);
 
-        try {
-            $userId = Auth::id();
+        $user = $request->user();
+        $userId = $user->id;
 
-            if (! $userId) {
-                return response()->json(['error' => 'Unauthenticated'], 401);
-            }
+        $existingLike = CommentLike::where('user_id', $userId)
+            ->where('comment_id', $comment->id)
+            ->first();
 
-            $existingLike = CommentLike::where('user_id', $userId)
-                ->where('comment_id', $comment->id)
-                ->first();
-
-            if ($existingLike) {
-                $existingLike->delete();
-
-                return response()->json([
-                    'success' => true,
-                    'liked' => false,
-                ]);
-            }
-
-            CommentLike::create([
-                'user_id' => $userId,
-                'comment_id' => $comment->id,
-            ]);
-
-            if ($comment->user_id !== $userId) {
-                NotificationService::notifyCommentLike(
-                    $comment->user_id,
-                    $userId,
-                    Auth::user()->name,
-                    $comment->id,
-                    $comment->project_id,
-                    $comment->project->title
-                );
-            }
+        if ($existingLike) {
+            $existingLike->delete();
 
             return response()->json([
                 'success' => true,
-                'liked' => true,
+                'liked' => false,
             ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'error' => $e->getMessage(),
-                'file' => $e->getFile(),
-                'line' => $e->getLine(),
-            ], 500);
         }
+
+        CommentLike::create([
+            'user_id' => $userId,
+            'comment_id' => $comment->id,
+        ]);
+
+        if ($comment->user_id !== $userId) {
+            NotificationService::notifyCommentLike(
+                $comment->user_id,
+                $userId,
+                $user->name,
+                $comment->id,
+                $comment->project_id,
+                $comment->project->title
+            );
+        }
+
+        return response()->json([
+            'success' => true,
+            'liked' => true,
+        ]);
     }
 }
