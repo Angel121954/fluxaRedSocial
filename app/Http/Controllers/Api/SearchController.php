@@ -26,8 +26,8 @@ class SearchController extends Controller
         $like = "%{$query}%";
 
         $users = User::query()
+            ->visible()
             ->where('role', '!=', 'guest')
-            ->where('status', '!=', 'banned')
             ->whereHas('profile', fn (Builder $query) => $query->where('visibility', 'public'))
             ->when($blockedIds->isNotEmpty(), fn (Builder $query) => $query->whereNotIn('id', $blockedIds))
             ->where(function (Builder $query) use ($like): void {

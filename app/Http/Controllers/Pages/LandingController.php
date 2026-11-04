@@ -33,11 +33,11 @@ class LandingController extends Controller
     {
         return Cache::remember('landing.stats', 3600, function () {
             return [
-                'developers' => User::where('role', '!=', 'guest')
-                    ->where('status', '!=', 'banned')
+                'developers' => User::visible()
+                    ->where('role', '!=', 'guest')
                     ->whereNotNull('email_verified_at')
                     ->count(),
-                'projects' => Project::publicRoot()->count(),
+                'projects' => Project::discoverable()->count(),
                 'endorsements' => SkillEndorsement::count(),
             ];
         });

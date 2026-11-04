@@ -105,7 +105,7 @@ class OnboardingController extends Controller
             ->join('profiles', 'profiles.user_id', '=', 'users.id')
             ->where('users.id', '!=', $user->id)
             ->where('users.role', '!=', 'guest')
-            ->where('users.status', '!=', 'banned')
+            ->visible()
             ->where('profiles.visibility', 'public')
             ->withCount([
                 'technologies as shared_technologies_count' => fn ($query) => $query->whereIn('technologies.id', $technologyIds),

@@ -26,8 +26,8 @@ class SitemapController extends Controller
 
             User::query()
                 ->select('id', 'username', 'updated_at')
+                ->visible()
                 ->where('role', '!=', 'guest')
-                ->where('status', '!=', 'banned')
                 ->whereNotNull('username')
                 ->whereHas('profile', fn ($query) => $query->where('visibility', 'public'))
                 ->orderByDesc('updated_at')

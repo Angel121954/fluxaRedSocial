@@ -37,6 +37,7 @@ class UserController extends Controller
         $existingConvUserIds = $this->messageService->getExistingConversationUserIds($currentUserId);
 
         $users = User::where('id', '!=', $currentUserId)
+            ->visible()
             ->whereHas('profile', fn ($q) => $q
                 ->where('visibility', 'public')
                 ->where('accept_messages', true))

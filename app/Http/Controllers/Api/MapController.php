@@ -23,8 +23,8 @@ class MapController extends Controller
             ->whereNotNull('longitude'),
         )
             ->whereNotIn('id', $blockedIds)
+            ->visible()
             ->where('role', '!=', 'guest')
-            ->where('status', '!=', 'banned')
             ->with('profile:id,user_id,avatar,latitude,longitude')
             ->limit(500)
             ->get();
