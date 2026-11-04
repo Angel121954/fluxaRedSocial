@@ -35,6 +35,31 @@
     color: var(--accent-text) !important;
 }
 
+/* Feed fallback */
+.feed-fallback {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.375rem;
+    margin-bottom: 1rem;
+    padding: 0.625rem 0.875rem;
+    border: 1px solid var(--accent-ring);
+    border-radius: var(--r-md);
+    background: var(--accent-dim);
+    color: var(--ink-600);
+    font-size: var(--text-sm);
+}
+
+.feed-fallback a {
+    color: var(--accent-text);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.feed-fallback a:hover {
+    text-decoration: underline;
+}
+
 /* Feed tabs */
 .feed-tabs {
     display: flex;

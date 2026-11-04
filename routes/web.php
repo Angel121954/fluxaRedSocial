@@ -310,9 +310,6 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
     Route::get('/feed', [FeedController::class, 'index'])
         ->name('feed.index');
 
-    Route::get('/feed/paginate', [FeedController::class, 'paginate'])
-        ->name('feed.paginate');
-
     Route::get('/explore', [ExploreController::class, 'index'])
         ->name('explore.index');
 

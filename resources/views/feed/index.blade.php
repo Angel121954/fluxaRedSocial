@@ -7,6 +7,18 @@
 
 <div class="feed-layout">
   <div class="feed-main">
+    <div class="feed-tabs">
+      <a href="{{ route('feed.index', ['tab' => 'for-you']) }}" class="feed-tab {{ $tab === 'for-you' ? 'active' : '' }}">Para ti</a>
+      <a href="{{ route('feed.index', ['tab' => 'following']) }}" class="feed-tab {{ $tab === 'following' ? 'active' : '' }}">Siguiendo</a>
+    </div>
+
+    @if($isFallback)
+    <div class="feed-fallback" role="status">
+      <span>Aún no sigues a nadie. Esto es lo que está pasando en Fluxa.</span>
+      <a href="{{ route('explore.index') }}">Descubre a quién seguir</a>
+    </div>
+    @endif
+
     @if($topTechnologies->count() > 0)
     <div class="topics-bar">
       <div class="topics-grid" id="topicsGrid">
