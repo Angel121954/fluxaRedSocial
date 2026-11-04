@@ -8,24 +8,28 @@
     @auth
     <meta name="vapid-public-key" content="{{ config('webpush.vapid.public_key') }}">
     @endauth
-    <meta name="description" content="Fluxa - Plataforma para desarrolladores que quieren compartir su progreso, aprender juntos y crecer como comunidad.">
+    <meta name="description" content="@yield('meta_description', 'Fluxa - Plataforma para desarrolladores que quieren compartir su progreso, aprender juntos y crecer como comunidad.')">
     <meta name="keywords" content="Fluxa, desarrollo, programación, comunidad, proyectos, open source">
 
     <!-- Open Graph / Facebook -->
-    <meta property="og:title" content="@yield('title', 'Fluxa')">
-    <meta property="og:description" content="Plataforma para desarrolladores que quieren compartir su progreso, aprender juntos y crecer como comunidad.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="{{ request()->url() }}">
-    <meta property="og:image" content="{{ asset('img/favicon.png') }}">
-    <meta property="og:image:width" content="1536">
-    <meta property="og:image:height" content="1024">
+    <meta property="og:title" content="@yield('og_title', View::yieldContent('title', 'Fluxa'))">
+    <meta property="og:description" content="@yield('og_description', 'Plataforma para desarrolladores que quieren compartir su progreso, aprender juntos y crecer como comunidad.')">
+    <meta property="og:type" content="@yield('og_type', 'website')">
+    <meta property="og:url" content="@yield('og_url', request()->url())">
+    <meta property="og:image" content="@yield('og_image', asset('img/favicon.png'))">
+    <meta property="og:image:width" content="@yield('og_image_width', '1536')">
+    <meta property="og:image:height" content="@yield('og_image_height', '1024')">
     <meta property="og:site_name" content="Fluxa">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="@yield('title', 'Fluxa')">
-    <meta name="twitter:description" content="Plataforma para desarrolladores que quieren compartir su progreso, aprender juntos y crecer como comunidad.">
-    <meta name="twitter:image" content="{{ asset('img/favicon.png') }}">
+    <meta name="twitter:title" content="@yield('og_title', View::yieldContent('title', 'Fluxa'))">
+    <meta name="twitter:description" content="@yield('og_description', 'Plataforma para desarrolladores que quieren compartir su progreso, aprender juntos y crecer como comunidad.')">
+    <meta name="twitter:image" content="@yield('og_image', asset('img/favicon.png'))">
+
+    @hasSection('canonical')
+    <link rel="canonical" href="@yield('canonical')">
+    @endif
 
     <title>@yield('title', 'Fluxa')</title>
     <link rel="icon" type="image/png" href="{{ asset('img/favicon.png') }}">
@@ -54,6 +58,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
     @stack('styles')
     @vite('resources/css/shared/modal-sheet.css')
+    @stack('meta')
 </head>
 
 <body class="font-sans antialiased" data-user-id="{{ auth()->id() }}"

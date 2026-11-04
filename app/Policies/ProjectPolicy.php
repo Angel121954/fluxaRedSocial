@@ -9,13 +9,13 @@ use App\Models\User;
 
 class ProjectPolicy
 {
-    public function view(User $user, Project $project): bool
+    public function view(?User $user, Project $project): bool
     {
-        if ($user->id === $project->user_id) {
+        if ($user !== null && $user->id === $project->user_id) {
             return true;
         }
 
-        if ($user->isBlockedWithId($project->user_id)) {
+        if ($user !== null && $user->isBlockedWithId($project->user_id)) {
             return false;
         }
 
@@ -23,7 +23,11 @@ class ProjectPolicy
             return true;
         }
 
-        if ($project->privacy === 'followers' && $user->follows()->where('followed_id', $project->user_id)->exists()) {
+        if (
+            $user !== null
+            && $project->privacy === 'followers'
+            && $user->follows()->where('followed_id', $project->user_id)->exists()
+        ) {
             return true;
         }
 

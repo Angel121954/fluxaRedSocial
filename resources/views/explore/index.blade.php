@@ -1,6 +1,17 @@
 @extends('layouts.app')
 @section('content')
-@section('title', request()->get('q') ? 'Buscar: ' . request()->get('q') : 'Explorar')
+@section('title', isset($project) ? $project->title . ' · Fluxa' : (request()->get('q') ? 'Buscar: ' . request()->get('q') : 'Explorar'))
+@if(isset($project))
+@section('og_title', $project->title)
+@section('og_description', Str::limit(strip_tags($project->content), 155))
+@section('og_image', $project->cover_url ?? asset('img/favicon.png'))
+@if($project->cover_url)
+@section('og_image_width', '1200')
+@section('og_image_height', '630')
+@endif
+@section('og_type', 'article')
+@section('canonical', route('projects.show', $project))
+@endif
 <x-topbar :profile="$profile" />
 
 <h1 class="sr-only">Explorar proyectos</h1>

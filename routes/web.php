@@ -64,6 +64,14 @@ Route::get('/profile/{username}', [ProfileController::class, 'show'])
 
 /*
 |--------------------------------------------------------------------------
+| Proyecto público: enlaces compartidos e indexación
+|--------------------------------------------------------------------------
+*/
+Route::get('/projects/{project}', [ProjectController::class, 'show'])
+    ->name('projects.show');
+
+/*
+|--------------------------------------------------------------------------
 | Invitado
 |--------------------------------------------------------------------------
 */
@@ -575,7 +583,7 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
         Route::get('/settings/cv/download/{format}', [CVSettingsController::class, 'downloadFormat'])->name('cv.download.format')
             ->where('format', 'pdf|ats|json');
         Route::resource('projects', ProjectController::class)
-            ->only(['store', 'show', 'edit', 'update', 'destroy'])
+            ->only(['store', 'edit', 'update', 'destroy'])
             ->middlewareFor(['store', 'update'], 'throttle:uploads');
         Route::resource('educations', EducationController::class)
             ->middlewareFor(['store', 'update', 'destroy'], 'throttle:interactions');

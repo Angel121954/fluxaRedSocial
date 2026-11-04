@@ -15,6 +15,7 @@ use App\Models\ProjectMedia;
 use App\Services\ProjectService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class ProjectController extends Controller
 {
@@ -54,16 +55,21 @@ class ProjectController extends Controller
 
     public function show(Project $project)
     {
-        $this->authorize('view', $project);
+        if (Gate::denies('view', $project)) {
+            abort(Auth::check() ? 403 : 404);
+        }
 
         $project->load([
             'user.profile',
             'media',
             'technologies',
-            'likes',
-            'bookmarks',
             'skillEndorsements',
+            ...(Auth::check() ? ['likes', 'bookmarks'] : []),
         ]);
+
+        if (! Auth::check()) {
+            return view('projects.public', compact('project'));
+        }
 
         $projects = new Collection([$project]);
 

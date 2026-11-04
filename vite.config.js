@@ -87,6 +87,7 @@ export default defineConfig({
                 "resources/css/projects/newProject.css",
                 "resources/css/projects/editProject.css",
                 "resources/css/projects/projectMedia.css",
+                "resources/css/projects/publicProject.css",
 
                 // Public
                 "resources/css/public/aboutFluxa.css",
