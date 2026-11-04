@@ -11,35 +11,7 @@ class ProfilePolicy
 {
     public function view(?User $user, Profile $profile): bool
     {
-        if ($user !== null && $user->id === $profile->user_id) {
-            return true;
-        }
-
-        if ($profile->user === null) {
-            return $user?->role === 'admin';
-        }
-
-        if ($profile->user->status === 'banned' || $profile->user->role === 'guest') {
-            return $user?->role === 'admin';
-        }
-
-        if ($user !== null && $user->isBlockedWithId($profile->user_id)) {
-            return false;
-        }
-
-        if ($profile->visibility === 'public') {
-            return true;
-        }
-
-        if ($user === null) {
-            return false;
-        }
-
-        if ($profile->visibility === 'followers') {
-            return $user->follows()->where('followed_id', $profile->user_id)->exists();
-        }
-
-        return false;
+        return $profile->isVisibleTo($user);
     }
 
     public function update(User $user, Profile $profile): bool

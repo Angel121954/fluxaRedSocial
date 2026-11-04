@@ -15,15 +15,21 @@ class ProjectPolicy
             return true;
         }
 
-        if ($project->user === null) {
+        $author = $project->user;
+
+        if ($author === null) {
             return $user?->role === 'admin';
         }
 
-        if ($project->user->status === 'banned' || $project->user->role === 'guest') {
+        if (! $author->isVisible() || $author->role === 'guest') {
             return $user?->role === 'admin';
         }
 
-        if ($user !== null && $user->isBlockedWithId($project->user_id)) {
+        if ($author->profile === null) {
+            if ($user !== null && $user->isBlockedWithId($author->id)) {
+                return false;
+            }
+        } elseif (! $author->profile->isVisibleTo($user)) {
             return false;
         }
 

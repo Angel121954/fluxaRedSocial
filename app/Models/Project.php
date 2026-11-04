@@ -129,8 +129,14 @@ class Project extends Model
     {
         return $query->publicRoot()
             ->whereHas('user', function (Builder $query): void {
-                $query->where('role', '!=', 'guest')
-                    ->where('status', '!=', 'banned');
+                $query->visible()
+                    ->where('role', '!=', 'guest')
+                    ->where(function (Builder $query): void {
+                        $query->whereDoesntHave('profile')
+                            ->orWhereHas('profile', function (Builder $query): void {
+                                $query->where('visibility', 'public');
+                            });
+                    });
             });
     }
 

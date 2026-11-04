@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Observers\ProfileObserver;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+#[ObservedBy(ProfileObserver::class)]
 class Profile extends Model
 {
     use HasFactory;
@@ -65,6 +68,28 @@ class Profile extends Model
         'latitude' => 'decimal:7',
         'longitude' => 'decimal:7',
     ];
+
+    public function isVisibleTo(?User $viewer): bool
+    {
+        if ($viewer !== null && $viewer->id === $this->user_id) {
+            return true;
+        }
+
+        if (! $this->user?->isVisible() || $this->user->role === 'guest') {
+            return $viewer?->role === 'admin';
+        }
+
+        if ($viewer !== null && $viewer->isBlockedWithId($this->user_id)) {
+            return false;
+        }
+
+        return match ($this->visibility) {
+            'public' => true,
+            'followers' => $viewer !== null
+                && $viewer->follows()->where('followed_id', $this->user_id)->exists(),
+            default => false,
+        };
+    }
 
     public function user()
     {

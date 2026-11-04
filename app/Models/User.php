@@ -6,7 +6,10 @@ namespace App\Models;
 
 use App\Notifications\ResetPassword;
 use App\Notifications\VerifyEmail;
+use App\Observers\UserObserver;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -18,9 +21,18 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Sanctum\HasApiTokens;
 use NotificationChannels\WebPush\HasPushSubscriptions;
 
+#[ObservedBy(UserObserver::class)]
 class User extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, HasPushSubscriptions, Notifiable, SoftDeletes, TwoFactorAuthenticatable;
+
+    public const STATUS_ACTIVE = 'activo';
+
+    public const STATUS_INACTIVE = 'inactivo';
+
+    public const STATUS_BANNED = 'banned';
+
+    public const STATUS_PENDING_DELETION = 'pending_deletion';
 
     protected $fillable = [
         'name',
@@ -190,7 +202,17 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function getIsBannedAttribute(): bool
     {
-        return $this->status === 'banned';
+        return $this->status === self::STATUS_BANNED;
+    }
+
+    public function isVisible(): bool
+    {
+        return $this->status === self::STATUS_ACTIVE;
+    }
+
+    public function scopeVisible(Builder $query): Builder
+    {
+        return $query->where('status', self::STATUS_ACTIVE);
     }
 
     public function getIsVerifiedAttribute(): bool
