@@ -71,6 +71,10 @@ class UserController extends Controller
             return response()->json(['message' => 'No puedes reportarte a ti mismo'], 400);
         }
 
+        abort_if($user->profile === null, 404);
+
+        $this->authorize('view', $user->profile);
+
         $existing = UserReport::where('reporter_id', auth()->id())
             ->where('reported_id', $user->id)
             ->first();
