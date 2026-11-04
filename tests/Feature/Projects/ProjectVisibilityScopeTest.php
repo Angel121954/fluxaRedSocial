@@ -8,20 +8,16 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
 
-it('muestra solo proyectos públicos raíz con publicRoot', function () {
+it('muestra solo proyectos públicos con publicRoot', function () {
     $author = User::factory()->create();
     $publicProject = Project::factory()->public()->for($author)->create();
     $privateProject = Project::factory()->private()->for($author)->create();
-    $reply = Project::factory()->public()->for($author)->create([
-        'parent_id' => $publicProject->id,
-    ]);
 
     $ids = Project::publicRoot()->pluck('id')->map(fn ($id) => (int) $id);
 
     expect($ids)
         ->toContain($publicProject->id)
-        ->not->toContain($privateProject->id)
-        ->not->toContain($reply->id);
+        ->not->toContain($privateProject->id);
 });
 
 it('excluye proyectos de usuarios bloqueados en ambos sentidos', function () {

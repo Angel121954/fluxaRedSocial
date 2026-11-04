@@ -25,7 +25,6 @@ class Project extends Model
         'likes_count',
         'comments_count',
         'shares_count',
-        'parent_id',
     ];
 
     protected static function booted(): void
@@ -93,12 +92,6 @@ class Project extends Model
         return $this->belongsTo(User::class);
     }
 
-    // Si es una respuesta a otro proyecto (parent_id)
-    public function parent()
-    {
-        return $this->belongsTo(Project::class, 'parent_id');
-    }
-
     public function technologies()
     {
         return $this->belongsToMany(Technology::class, 'project_technology');
@@ -126,7 +119,7 @@ class Project extends Model
 
     public function scopePublicRoot(Builder $query): Builder
     {
-        return $query->whereNull('parent_id')->where('privacy', 'public');
+        return $query->where('privacy', 'public');
     }
 
     /**
