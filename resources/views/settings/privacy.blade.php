@@ -72,6 +72,14 @@
                     </label>
                 </div>
 
+                <div class="toggle-row">
+                    <div class="toggle-info">
+                        <span class="toggle-label">Usuarios bloqueados</span>
+                        <span class="toggle-desc">Gestiona las personas que bloqueaste y que no pueden interactuar contigo.</span>
+                    </div>
+                    <a href="{{ route('blocked.index') }}" class="btn btn-secondary">Gestionar</a>
+                </div>
+
             </div>
 
             <div class="form-actions">

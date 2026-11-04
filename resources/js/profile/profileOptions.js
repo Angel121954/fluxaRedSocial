@@ -93,3 +93,44 @@ if (btnReport && profileUserId && !isOwner) {
         window.openModal('reportModal');
     });
 }
+
+// ── Bloquear / desbloquear usuario ───────────────────────────────────────
+const btnBlock = document.getElementById('btnBlockUser');
+
+if (btnBlock) {
+    btnBlock.addEventListener('click', async () => {
+        const isBlocked = btnBlock.dataset.blocked === 'true';
+        const url = isBlocked ? btnBlock.dataset.unblockUrl : btnBlock.dataset.blockUrl;
+        const method = isBlocked ? 'DELETE' : 'POST';
+        const label = document.getElementById('btnBlockUserText');
+
+        btnBlock.disabled = true;
+
+        try {
+            const res = await fetch(url, {
+                method,
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content,
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'same-origin',
+            });
+
+            if (!res.ok) throw new Error();
+
+            const data = await res.json();
+
+            if (label) label.textContent = isBlocked ? 'Bloquear' : 'Desbloquear';
+            btnBlock.dataset.blocked = isBlocked ? 'false' : 'true';
+            showToast(data.message || (isBlocked ? 'Usuario desbloqueado' : 'Usuario bloqueado'));
+
+            setTimeout(() => {
+                window.location.href = isBlocked ? window.location.href : '/explore';
+            }, 600);
+        } catch {
+            showToast('No se pudo actualizar el bloqueo', 'error');
+            btnBlock.disabled = false;
+        }
+    });
+}

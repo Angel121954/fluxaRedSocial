@@ -220,6 +220,16 @@
                                             </svg>
                                             Reportar
                                         </button>
+                                        <button class="drop-item" id="btnBlockUser"
+                                            data-user-id="{{ $user->id }}"
+                                            data-blocked="{{ $isBlocked ? 'true' : 'false' }}"
+                                            data-block-url="{{ route('users.block', $user) }}"
+                                            data-unblock-url="{{ route('users.unblock', $user) }}">
+                                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+                                            </svg>
+                                            <span id="btnBlockUserText">{{ $isBlocked ? 'Desbloquear' : 'Bloquear' }}</span>
+                                        </button>
                                         @endauth
                                     </div>
                                 </div>

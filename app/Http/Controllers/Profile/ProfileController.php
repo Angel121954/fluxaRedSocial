@@ -46,6 +46,7 @@ class ProfileController extends Controller
             'user' => $user,
             'profile' => $profile,
             'isOwner' => true,
+            'isBlocked' => false,
             ...$data,
         ]);
     }
@@ -66,6 +67,7 @@ class ProfileController extends Controller
         $isOwner = Auth::id() === $user->id;
         $isFollowing = Auth::check() && Auth::user()->follows()->where('followed_id', $user->id)->exists();
         $isFollowedBy = Auth::check() && $user->follows()->where('followed_id', Auth::id())->exists();
+        $isBlocked = Auth::check() && ! $isOwner && Auth::user()->isBlockedWithId($user->id);
 
         $showFavorites = $isOwner || $profile->show_favorites;
         $data = $this->profileService->loadProfileData($user, Auth::user(), $showFavorites);
@@ -85,6 +87,7 @@ class ProfileController extends Controller
             'isOwner' => $isOwner,
             'isFollowing' => $isFollowing,
             'isFollowedBy' => $isFollowedBy,
+            'isBlocked' => $isBlocked,
             'conversation' => $conversation,
             ...$data,
         ]);

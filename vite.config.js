@@ -81,6 +81,7 @@ export default defineConfig({
                 "resources/css/settings/security.css",
                 "resources/css/settings/configuration.css",
                 "resources/css/settings/privacy.css",
+                "resources/css/settings/blocked.css",
                 "resources/css/settings/preferences.css",
 
                 // Projects
