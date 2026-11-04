@@ -97,7 +97,7 @@ class ProfileController extends Controller
         $isOwner = Auth::id() === $user->id;
 
         $query = $user->projects()
-            ->select('id', 'user_id', 'title', 'content', 'privacy', 'created_at', 'updated_at')
+            ->select('id', 'user_id', 'title', 'slug', 'content', 'privacy', 'created_at', 'updated_at')
             ->withCount(['media', 'likes', 'comments']);
 
         if (! $isOwner) {
@@ -106,6 +106,7 @@ class ProfileController extends Controller
 
         $projects = $query->latest()->get()->map(fn ($p) => [
             'id' => $p->id,
+            'slug' => $p->slug,
             'title' => $p->title,
             'content' => Str::limit($p->content, 120),
             'media_count' => $p->media_count,

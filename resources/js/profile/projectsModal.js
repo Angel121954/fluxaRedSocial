@@ -97,7 +97,7 @@
                 '</span>';
 
             html +=
-                '<a href="/projects/' + escapeHtml(String(p.id)) + '" class="projects-item">' +
+                '<a href="/projects/' + escapeHtml(String(p.slug || p.id)) + '" class="projects-item">' +
                 '<div class="projects-item-content">' +
                 '<span class="projects-item-title">' + escapeHtml(p.title) + '</span>' +
                 (p.content ? '<span class="projects-item-excerpt">' + escapeHtml(p.content) + '</span>' : '') +

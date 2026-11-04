@@ -18,7 +18,7 @@ if ($firstMedia) {
 
 <div class="msn-card" data-project-id="{{ $project->id }}">
     @if($coverUrl)
-    <a href="{{ route('projects.show', $project->id) }}" class="msn-card-img-link">
+    <a href="{{ route('projects.show', $project) }}" class="msn-card-img-link">
         <div class="msn-card-img-wrap">
             <img
                 src="{{ $coverUrl }}"
@@ -37,7 +37,7 @@ if ($firstMedia) {
 
     <div class="msn-card-body">
         <div class="msn-card-header">
-            <a href="{{ route('projects.show', $project->id) }}" class="msn-card-title-link">
+            <a href="{{ route('projects.show', $project) }}" class="msn-card-title-link">
                 <h3 class="msn-card-title">{{ $project->title }}</h3>
             </a>
 
@@ -47,7 +47,7 @@ if ($firstMedia) {
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01" />
                     </svg>
                 </button>
-                <div class="drop-menu" data-project-id="{{ $project->id }}">
+                <div class="drop-menu" data-project-id="{{ $project->id }}" data-project-slug="{{ $project->slug }}">
                     <button class="drop-item" data-action="bookmark" data-project-id="{{ $project->id }}">
                         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" />

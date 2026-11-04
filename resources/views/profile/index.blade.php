@@ -358,7 +358,7 @@
     <div class="content" id="panel-favorites" data-panel="favorites" role="tabpanel" aria-labelledby="tab-favorites" hidden>
         @if(isset($favoriteProjects) && $favoriteProjects->count() > 0)
         @foreach($favoriteProjects as $project)
-        <a href="/projects/{{ $project->id }}">
+        <a href="{{ route('projects.show', $project) }}">
             <div class="p-card">
                 <div class="card-head">
                     <h3 class="card-title">{{ $project->title }}</h3>

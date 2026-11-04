@@ -406,8 +406,8 @@
                 const titulo = el('modal-title'); if (titulo) titulo.textContent = 'Proyecto publicado';
                 const subtitulo = el('modal-subtitle'); if (subtitulo) subtitulo.textContent = '';
                 const viewProject = el('success-view-project');
-                if (viewProject && data.project?.id) {
-                    viewProject.href = `/projects/${data.project.id}`;
+                if (viewProject && data.project?.slug) {
+                    viewProject.href = `/projects/${data.project.slug}`;
                 }
             })
             .catch(error => {

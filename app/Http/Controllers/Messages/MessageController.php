@@ -199,7 +199,7 @@ class MessageController extends Controller
     {
         $projects = Project::where('user_id', auth()->id())
             ->orderByDesc('created_at')
-            ->get(['id', 'title']);
+            ->get(['id', 'slug', 'title']);
 
         return response()->json($projects);
     }

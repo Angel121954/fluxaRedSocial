@@ -149,11 +149,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const shareLoading = document.getElementById('msgsShareLoading');
     const shareEmpty = document.getElementById('msgsShareEmpty');
     const shareSend = document.getElementById('msgsShareSend');
-    let selectedProjectId = null;
+    let selectedProjectSlug = null;
     let selectedProjectTitle = null;
 
     async function openShareModal() {
-        selectedProjectId = null;
+        selectedProjectSlug = null;
         selectedProjectTitle = null;
         shareSend.disabled = true;
         shareList.innerHTML = '';
@@ -188,7 +188,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 item.addEventListener('click', () => {
                     shareList.querySelectorAll('.msgs-share-item').forEach((el) => el.classList.remove('selected'));
                     item.classList.add('selected');
-                    selectedProjectId = p.id;
+                    selectedProjectSlug = p.slug || p.id;
                     selectedProjectTitle = p.title;
                     shareSend.disabled = false;
                 });
@@ -210,9 +210,9 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('msgsShareProjectBtn')?.addEventListener('click', openShareModal);
 
     shareSend?.addEventListener('click', async () => {
-        if (!selectedProjectId) return;
+        if (!selectedProjectSlug) return;
 
-        const projectUrl = `/projects/${selectedProjectId}`;
+        const projectUrl = `/projects/${selectedProjectSlug}`;
         const body = `Compartió un proyecto: ${selectedProjectTitle}\n${window.location.origin}${projectUrl}`;
         const shareSendBtn = document.getElementById('msgsSendBtn');
         const convId = shareSendBtn?.dataset.convId;

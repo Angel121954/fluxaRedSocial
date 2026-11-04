@@ -41,6 +41,7 @@ class SearchController extends Controller
             ->get()
             ->map(fn ($project) => [
                 'id' => $project->id,
+                'slug' => $project->slug,
                 'name' => $project->title,
                 'thumbnail' => $project->media->first()?->media_url ?? null,
             ]);

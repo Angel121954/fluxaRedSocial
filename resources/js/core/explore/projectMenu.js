@@ -61,7 +61,8 @@ document.addEventListener('keydown', (e) => {
 // ── Lógica de acciones ────────────────────────────────────────────────────
 function handleProjectAction(action, projectId, dropItem, closeMenu) {
     const csrfToken = document.querySelector('meta[name="csrf-token"]').content;
-    const url = `${window.location.origin}/projects/${projectId}`;
+    const projectSlug = dropItem.closest('.drop-menu')?.dataset.projectSlug || projectId;
+    const url = `${window.location.origin}/projects/${projectSlug}`;
 
     switch (action) {
         case 'bookmark': {
