@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Explore;
 use App\Http\Controllers\Controller;
 use App\Models\Project;
 use App\Models\Technology;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -47,24 +48,18 @@ class ExploreController extends Controller
 
     public function topic(string $slug)
     {
-        $userId = Auth::id();
         $blockedIds = Auth::user()?->blockedUserIds() ?? collect();
         $technology = Technology::where('slug', $slug)->firstOrFail();
 
-        $projects = Project::with([
-            'user.profile',
-            'media',
-            'technologies',
-            'likes' => fn ($q) => $q->where('user_id', $userId),
-            'bookmarks' => fn ($q) => $q->where('user_id', $userId),
-            'skillEndorsements',
-        ])
-            ->publicRoot()
+        $projects = $this->baseQuery()
             ->excludingBlocked($blockedIds)
-            ->whereHas('technologies', fn ($q) => $q->where('technologies.id', $technology->id))
-            ->orderByDesc('likes_count')
-            ->orderByDesc('comments_count')
-            ->paginate(15);
+            ->whereHas('technologies', fn (Builder $query) => $query->where('technologies.id', $technology->id));
+
+        $projects = $this->orderByTrending($projects)->paginate(15);
+
+        if (request()->ajax()) {
+            return view('components.project-list', compact('projects'))->render();
+        }
 
         return view('explore.index', compact('projects', 'technology'));
     }
@@ -76,24 +71,20 @@ class ExploreController extends Controller
 
     public function search(Request $request)
     {
-        $userId = Auth::id();
         $blockedIds = Auth::user()?->blockedUserIds() ?? collect();
-        $query = $request->get('q', '');
+        $query = trim((string) $request->get('q', ''));
+        $like = "%{$query}%";
 
-        $projects = Project::with([
-            'user.profile',
-            'media',
-            'technologies',
-            'likes' => fn ($q) => $q->where('user_id', $userId),
-            'bookmarks' => fn ($q) => $q->where('user_id', $userId),
-            'skillEndorsements',
-        ])
-            ->publicRoot()
+        $projectsQuery = $this->baseQuery()
             ->excludingBlocked($blockedIds)
-            ->where('title', 'like', "%{$query}%")
-            ->orderByDesc('likes_count')
-            ->orderByDesc('comments_count')
-            ->paginate(15);
+            ->where(function (Builder $query) use ($like): void {
+                $query->where('projects.title', 'like', $like)
+                    ->orWhere('projects.content', 'like', $like)
+                    ->orWhereHas('technologies', fn (Builder $query) => $query->where('name', 'like', $like));
+            })
+            ->orderByRaw('CASE WHEN projects.title LIKE ? THEN 0 ELSE 1 END', [$like]);
+
+        $projects = $this->orderByTrending($projectsQuery)->paginate(15);
 
         if ($request->ajax()) {
             return view('components.project-list', compact('projects'))->render();
@@ -104,28 +95,36 @@ class ExploreController extends Controller
 
     private function getProjects(string $type)
     {
-        $userId = Auth::id();
         $blockedIds = Auth::user()?->blockedUserIds() ?? collect();
-        $query = Project::with([
+
+        $query = $this->baseQuery()->excludingBlocked($blockedIds);
+
+        return match ($type) {
+            'trending' => $this->orderByTrending($query)->paginate(15),
+            'recent' => $query->orderByDesc('projects.created_at')->paginate(15),
+            default => $query->orderByDesc('projects.created_at')->paginate(15),
+        };
+    }
+
+    private function baseQuery(): Builder
+    {
+        $userId = Auth::id();
+
+        return Project::with([
             'user.profile',
             'media',
             'technologies',
-            'likes' => fn ($q) => $q->where('user_id', $userId),
-            'bookmarks' => fn ($q) => $q->where('user_id', $userId),
+            'likes' => fn ($query) => $query->where('user_id', $userId),
+            'bookmarks' => fn ($query) => $query->where('user_id', $userId),
             'skillEndorsements',
-        ])
-            ->publicRoot()
-            ->excludingBlocked($blockedIds);
+        ])->discoverable();
+    }
 
-        $projects = match ($type) {
-            'trending' => $query->orderByDesc('likes_count')
-                ->orderByDesc('comments_count')
-                ->paginate(15),
-            'recent' => $query->orderByDesc('created_at')
-                ->paginate(15),
-            default => $query->orderByDesc('created_at')->paginate(15),
-        };
-
-        return $projects;
+    private function orderByTrending(Builder $query): Builder
+    {
+        return $query
+            ->withCount('skillEndorsements')
+            ->orderByRaw('((projects.likes_count + projects.comments_count * 2 + skill_endorsements_count * 3) / POW(TIMESTAMPDIFF(HOUR, projects.created_at, NOW()) + 2, 1.5)) DESC')
+            ->orderByDesc('projects.created_at');
     }
 }
