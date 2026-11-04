@@ -17,6 +17,11 @@ class SitemapController extends Controller
         $xml = Cache::remember('sitemap.xml', 21600, function (): string {
             $urls = [
                 ['loc' => route('landing'), 'lastmod' => null],
+                ['loc' => route('about-fluxa'), 'lastmod' => null],
+                ['loc' => route('terms'), 'lastmod' => null],
+                ['loc' => route('privacy.policy'), 'lastmod' => null],
+                ['loc' => route('contact.index'), 'lastmod' => null],
+                ['loc' => route('salaries.index'), 'lastmod' => null],
             ];
 
             User::query()

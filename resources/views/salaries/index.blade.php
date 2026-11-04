@@ -1,5 +1,23 @@
 @extends('layouts.app')
 @section('title', 'Sueldos · Fluxa')
+@section('meta_description', 'Datos anónimos de sueldos de desarrolladores en Latinoamérica por país, tecnología y seniority.')
+@section('og_title', 'Sueldos del developer LATAM')
+@section('og_description', 'Datos anónimos de sueldos de desarrolladores en Latinoamérica por país, tecnología y seniority.')
+@section('og_type', 'website')
+@section('canonical', route('salaries.index'))
+
+@push('meta')
+<script type="application/ld+json">
+    {!! json_encode([
+        '@context' => 'https://schema.org',
+        '@type' => 'WebPage',
+        'name' => 'Sueldos del developer LATAM',
+        'description' => 'Datos anónimos de sueldos de desarrolladores en Latinoamérica por país, tecnología y seniority.',
+        'url' => route('salaries.index'),
+    ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
+</script>
+@endpush
+
 @section('content')
 
 <x-topbar :profile="$profile ?? null" />
@@ -13,12 +31,18 @@
                 <h1 class="salary-title">Sueldos del developer LATAM</h1>
                 <p class="salary-subtitle">Datos anónimos aportados por la comunidad. Conoce rangos salariales por tecnología, país y seniority.</p>
             </div>
+            @if(Auth::check() && Auth::user()->role !== 'guest')
             <button class="salary-btn-add" onclick="window.openSalaryModal()">
                 <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                 </svg>
                 Aportar mi sueldo
             </button>
+            @else
+            <a href="{{ route('login') }}" class="salary-btn-add">
+                Inicia sesión para aportar
+            </a>
+            @endif
         </div>
 
         {{-- Stats cards --}}
@@ -158,7 +182,9 @@
 </div>
 
 {{-- Submit modal --}}
+@if(Auth::check() && Auth::user()->role !== 'guest')
 @include('salaries.partials.submit-modal')
+@endif
 
 @endsection
 

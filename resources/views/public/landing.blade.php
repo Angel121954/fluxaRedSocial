@@ -16,6 +16,7 @@
             <a href="#caracteristicas">Características</a>
             <a href="#como-funciona">Guía</a>
             <a href="#comunidad">Comunidad</a>
+            <a href="{{ route('salaries.index') }}">Sueldos</a>
         </nav>
 
         <div class="landing-nav__cta">
@@ -363,6 +364,11 @@
         </div>
 
         <div class="landing-footer__links">
+            <a href="{{ route('about-fluxa') }}">Sobre Fluxa</a>
+            <a href="{{ route('terms') }}">Términos</a>
+            <a href="{{ route('privacy.policy') }}">Privacidad</a>
+            <a href="{{ route('contact.index') }}">Contacto</a>
+            <a href="{{ route('salaries.index') }}">Sueldos</a>
             <a href="{{ route('login') }}">Iniciar sesión</a>
             <a href="{{ route('register') }}">Crear cuenta</a>
             <form method="POST" action="{{ route('auth.guest') }}" class="landing-footer__guest-form">

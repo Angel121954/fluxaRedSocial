@@ -55,6 +55,28 @@ use Illuminate\Support\Facades\Route;
 */
 Route::get('/', LandingController::class)->name('landing');
 
+Route::get('/about-fluxa', [AboutFluxaController::class, 'index'])
+    ->name('about-fluxa');
+
+Route::get('/terms', [TermsController::class, 'index'])
+    ->name('terms');
+
+Route::get('/privacy-policy', [PrivacyPolicyController::class, 'index'])
+    ->name('privacy.policy');
+
+Route::get('/contact', [ContactController::class, 'index'])
+    ->name('contact.index');
+
+Route::post('/contact', [ContactController::class, 'store'])
+    ->name('contact.store')
+    ->middleware('throttle:reports');
+
+Route::get('/salaries', [SalaryController::class, 'index'])
+    ->name('salaries.index');
+
+Route::get('/salaries/data', [SalaryController::class, 'data'])
+    ->name('salaries.data');
+
 /*
 |--------------------------------------------------------------------------
 | Perfil público: accesible sin sesión (enlaces compartidos)
@@ -334,31 +356,6 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
     Route::get('/explore/map/users', [MapController::class, 'users'])
         ->name('explore.map.users');
 
-    /* Route::get('/salaries', [SalaryController::class, 'index'])
-        ->name('salaries.index');
-
-    Route::get('/salaries/data', [SalaryController::class, 'data'])
-        ->name('salaries.data');
-
-    Route::post('/salaries', [SalaryController::class, 'store'])
-        ->name('salaries.store'); */
-
-    Route::get('/about-fluxa', [AboutFluxaController::class, 'index'])
-        ->name('about-fluxa');
-
-    Route::get('/terms', [TermsController::class, 'index'])
-        ->name('terms');
-
-    Route::get('/privacy-policy', [PrivacyPolicyController::class, 'index'])
-        ->name('privacy.policy');
-
-    Route::get('/contact', [ContactController::class, 'index'])
-        ->name('contact.index');
-
-    Route::post('/contact', [ContactController::class, 'store'])
-        ->name('contact.store')
-        ->middleware('throttle:reports');
-
     Route::post('/report-problem', [ProblemReportController::class, 'store'])
         ->name('report-problem.store')
         ->middleware('throttle:reports');
@@ -599,6 +596,10 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
         Route::delete('/projects/{project}/media/{media}', [ProjectController::class, 'deleteMedia'])
             ->name('projects.media.destroy')
             ->middleware('throttle:uploads');
+
+        Route::post('/salaries', [SalaryController::class, 'store'])
+            ->name('salaries.store')
+            ->middleware('throttle:interactions');
 
         /*
          |--------------------------------------------------------------------------
