@@ -32,6 +32,12 @@ describe('CvDataService', function () {
         expect($settings['show_email'])->toBeTrue();
     });
 
+    it('permite la descarga por defecto', function () {
+        $settings = (new CvDataService)->defaultSettings(cvUser(false));
+
+        expect($settings['allow_download'])->toBeTrue();
+    });
+
     it('oculta el email del CV aunque la configuración guardada lo tenga activo si el perfil lo oculta', function () {
         $settings = (new CvDataService)->settingsFor(cvUser(false), ['show_email' => true]);
 
