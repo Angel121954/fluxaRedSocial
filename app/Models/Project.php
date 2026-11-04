@@ -141,6 +141,14 @@ class Project extends Model
             });
     }
 
+    public function scopeOrderByTrending(Builder $query): Builder
+    {
+        return $query
+            ->withCount('skillEndorsements')
+            ->orderByRaw('((projects.likes_count + projects.comments_count * 2 + skill_endorsements_count * 3) / POW(TIMESTAMPDIFF(HOUR, projects.created_at, NOW()) + 2, 1.5)) DESC')
+            ->orderByDesc('projects.created_at');
+    }
+
     public function scopeExcludingBlocked(Builder $query, Collection $blockedIds): Builder
     {
         return $query->when(

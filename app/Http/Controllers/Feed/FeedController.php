@@ -43,8 +43,7 @@ class FeedController extends Controller
 
         $query = $this->baseQuery()
             ->excludingBlocked($blockedIds)
-            ->where('projects.user_id', '!=', $user->id)
-            ->withCount('skillEndorsements');
+            ->where('projects.user_id', '!=', $user->id);
 
         if ($technologyIds->isNotEmpty()) {
             $query->withCount([
@@ -60,8 +59,7 @@ class FeedController extends Controller
         }
 
         return $query
-            ->orderByRaw($this->engagementScore())
-            ->orderByDesc('projects.created_at')
+            ->orderByTrending()
             ->paginate(15);
     }
 
@@ -93,10 +91,5 @@ class FeedController extends Controller
             'bookmarks' => fn ($query) => $query->where('user_id', $userId),
             'skillEndorsements',
         ])->discoverable();
-    }
-
-    private function engagementScore(): string
-    {
-        return '((projects.likes_count + projects.comments_count * 2 + skill_endorsements_count * 3) / POW(TIMESTAMPDIFF(HOUR, projects.created_at, NOW()) + 2, 1.5)) DESC';
     }
 }

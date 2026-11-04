@@ -55,8 +55,7 @@ class ExploreController extends Controller
             ->excludingBlocked($blockedIds)
             ->whereHas('technologies', fn (Builder $query) => $query->where('technologies.id', $technology->id));
 
-        $projects = $this->orderByTrending($projects)->paginate(15);
-
+        $projects = $projects->orderByTrending()->paginate(15);
         if (request()->ajax()) {
             return view('components.project-list', compact('projects'))->render();
         }
@@ -84,7 +83,7 @@ class ExploreController extends Controller
             })
             ->orderByRaw('CASE WHEN projects.title LIKE ? THEN 0 ELSE 1 END', [$like]);
 
-        $projects = $this->orderByTrending($projectsQuery)->paginate(15);
+        $projects = $projectsQuery->orderByTrending()->paginate(15);
 
         if ($request->ajax()) {
             return view('components.project-list', compact('projects'))->render();
@@ -100,7 +99,7 @@ class ExploreController extends Controller
         $query = $this->baseQuery()->excludingBlocked($blockedIds);
 
         return match ($type) {
-            'trending' => $this->orderByTrending($query)->paginate(15),
+            'trending' => $query->orderByTrending()->paginate(15),
             'recent' => $query->orderByDesc('projects.created_at')->paginate(15),
             default => $query->orderByDesc('projects.created_at')->paginate(15),
         };
@@ -118,13 +117,5 @@ class ExploreController extends Controller
             'bookmarks' => fn ($query) => $query->where('user_id', $userId),
             'skillEndorsements',
         ])->discoverable();
-    }
-
-    private function orderByTrending(Builder $query): Builder
-    {
-        return $query
-            ->withCount('skillEndorsements')
-            ->orderByRaw('((projects.likes_count + projects.comments_count * 2 + skill_endorsements_count * 3) / POW(TIMESTAMPDIFF(HOUR, projects.created_at, NOW()) + 2, 1.5)) DESC')
-            ->orderByDesc('projects.created_at');
     }
 }

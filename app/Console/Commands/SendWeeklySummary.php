@@ -78,17 +78,17 @@ class SendWeeklySummary extends Command
 
         try {
             $stats = [
-                'badges_earned'          => $this->countBadgesEarned($user),
-                'projects_created'       => $this->countProjectsCreated($user),
-                'diary_responses'        => $this->countDiaryResponses($user),
-                'comments_made'          => $this->countCommentsMade($user),
+                'badges_earned' => $this->countBadgesEarned($user),
+                'projects_created' => $this->countProjectsCreated($user),
+                'diary_responses' => $this->countDiaryResponses($user),
+                'comments_made' => $this->countCommentsMade($user),
                 'work_experiences_added' => $this->countWorkExperiencesAdded($user),
-                'educations_added'       => $this->countEducationsAdded($user),
-                'salary_reports'         => $this->countSalaryReports($user),
-                'endorsements_received'  => $this->countEndorsementsReceived($user),
-                'new_followers'          => $this->countNewFollowers($user),
-                'new_likes'              => $this->countNewLikes($user),
-                'new_comments'           => $this->countNewComments($user),
+                'educations_added' => $this->countEducationsAdded($user),
+                'salary_reports' => $this->countSalaryReports($user),
+                'endorsements_received' => $this->countEndorsementsReceived($user),
+                'new_followers' => $this->countNewFollowers($user),
+                'new_likes' => $this->countNewLikes($user),
+                'new_comments' => $this->countNewComments($user),
             ];
 
             Mail::to($user)->send(new WeeklySummary($user, $stats, $trending));
@@ -97,7 +97,7 @@ class SendWeeklySummary extends Command
         } catch (\Throwable $e) {
             Log::error('Error enviando resumen semanal', [
                 'user_id' => $user->id,
-                'error'   => $e->getMessage(),
+                'error' => $e->getMessage(),
             ]);
 
             $this->error("Error con usuario #{$user->id}: {$e->getMessage()}");
@@ -109,10 +109,9 @@ class SendWeeklySummary extends Command
     private function getTrendingProjects()
     {
         return Project::with('user')
-            ->publicRoot()
+            ->discoverable()
             ->where('created_at', '>=', now()->subWeek())
-            ->orderByDesc('likes_count')
-            ->orderByDesc('comments_count')
+            ->orderByTrending()
             ->take(5)
             ->get();
     }
