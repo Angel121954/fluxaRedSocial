@@ -13,6 +13,7 @@ use App\Models\SkillEndorsement;
 use App\Models\Technology;
 use App\Models\User;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -48,6 +49,8 @@ class ProjectService
             $this->syncTechnologies($project, $data['techs']);
         }
 
+        Cache::forget('top_technologies');
+
         return $project;
     }
 
@@ -70,6 +73,8 @@ class ProjectService
 
         $project->technologies()->sync($techIds);
 
+        Cache::forget('top_technologies');
+
         return $project->fresh();
     }
 
@@ -85,6 +90,8 @@ class ProjectService
         }
 
         $project->delete();
+
+        Cache::forget('top_technologies');
 
         Log::info('Proyecto eliminado', ['project_id' => $project->id]);
     }
