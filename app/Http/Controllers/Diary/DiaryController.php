@@ -118,6 +118,8 @@ class DiaryController extends Controller
 
     public function report(StoreDiaryReportRequest $request, DiaryResponse $response): JsonResponse
     {
+        Gate::authorize('report', $response);
+
         $created = $this->diaryService->report($response, Auth::id(), $request->reason);
 
         if (! $created) {

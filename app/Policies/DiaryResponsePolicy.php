@@ -13,4 +13,9 @@ class DiaryResponsePolicy
     {
         return $user->id === $response->user_id;
     }
+
+    public function report(User $user, DiaryResponse $response): bool
+    {
+        return $user->id !== $response->user_id;
+    }
 }
