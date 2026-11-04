@@ -18,14 +18,14 @@ class ContentController extends Controller
         $projects = Project::with([
             'user' => fn ($q) => $q->select('id', 'name', 'username')->with('profile'),
         ])
-            ->select('id', 'user_id', 'title', 'privacy', 'likes_count', 'comments_count', 'deleted_at', 'created_at')
+            ->select('id', 'user_id', 'title', 'slug', 'privacy', 'likes_count', 'comments_count', 'deleted_at', 'created_at')
             ->withTrashed()
             ->latest()
             ->paginate(25);
 
         $comments = Comment::with([
             'user' => fn ($q) => $q->select('id', 'name', 'username')->with('profile'),
-            'project:id,title',
+            'project:id,title,slug',
         ])
             ->select('id', 'user_id', 'project_id', 'content', 'created_at')
             ->latest()

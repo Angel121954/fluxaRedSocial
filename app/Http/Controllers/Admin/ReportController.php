@@ -28,7 +28,7 @@ class ReportController extends Controller
 
         $projectReports = ProjectReport::with([
             'user' => fn ($q) => $q->select('id', 'name', 'username')->with('profile'),
-            'project:id,title,user_id',
+            'project:id,title,slug,user_id',
         ])
             ->select('id', 'user_id', 'project_id', 'reason', 'created_at')
             ->latest()

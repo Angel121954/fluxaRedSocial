@@ -29,7 +29,7 @@ class ProfileService
         $isOwner = $viewerId === $user->id;
 
         $projects = $user->projects()
-            ->select('id', 'user_id', 'title', 'content', 'privacy', 'created_at', 'updated_at')
+            ->select('id', 'user_id', 'title', 'slug', 'content', 'privacy', 'created_at', 'updated_at')
             ->with([
                 'user:id,username,email,name',
                 'media',
