@@ -79,4 +79,14 @@ describe('Página pública de proyecto', function () {
             ->assertSee(route('projects.show', $publicProject), false)
             ->assertDontSee(route('projects.show', $privateProject), false);
     });
+
+    it('oculta proyectos y perfiles de usuarios baneados a los invitados', function () {
+        $author = publicProjectAuthor();
+        $author->forceFill(['status' => 'banned'])->save();
+
+        $project = Project::factory()->public()->for($author)->create();
+
+        $this->get(route('projects.show', $project))->assertNotFound();
+        $this->get(route('profile.show', $author->username))->assertNotFound();
+    });
 });
