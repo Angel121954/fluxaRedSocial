@@ -97,9 +97,24 @@ class OnboardingController extends Controller
         /** @var User $user */
         $user = Auth::user();
 
-        $suggested = User::where('users.id', '!=', $user->id)
-            ->join('profiles', 'profiles.user_id', '=', 'users.id')
+        $technologyIds = $user->technologies()->pluck('technologies.id');
+        $specialty = $user->profile?->specialty;
+
+        $suggested = User::query()
             ->select('users.id', 'users.name', 'users.username', 'profiles.specialty', 'profiles.avatar')
+            ->join('profiles', 'profiles.user_id', '=', 'users.id')
+            ->where('users.id', '!=', $user->id)
+            ->where('users.role', '!=', 'guest')
+            ->where('users.status', '!=', 'banned')
+            ->where('profiles.visibility', 'public')
+            ->withCount([
+                'technologies as shared_technologies_count' => fn ($query) => $query->whereIn('technologies.id', $technologyIds),
+            ])
+            ->orderByDesc('shared_technologies_count')
+            ->when(
+                $specialty,
+                fn ($query) => $query->orderByRaw('CASE WHEN profiles.specialty = ? THEN 0 ELSE 1 END', [$specialty])
+            )
             ->inRandomOrder()
             ->take(6)
             ->get();
