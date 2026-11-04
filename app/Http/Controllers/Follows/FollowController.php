@@ -27,6 +27,10 @@ class FollowController extends Controller
             return response()->json(['message' => 'No puedes seguirte a ti mismo'], 400);
         }
 
+        if (! $user->isVisible()) {
+            return response()->json(['message' => 'No puedes seguir a este usuario.'], 403);
+        }
+
         $isFollowing = $currentUser->follows()->where('followed_id', $user->id)->exists();
 
         if (! $isFollowing && $currentUser->isBlockedWith($user)) {
@@ -77,8 +81,12 @@ class FollowController extends Controller
     {
         $this->authorize('view', $user->profile);
 
+        $blockedIds = Auth::user()?->blockedUserIds() ?? collect();
+
         $followers = $user->followers()
             ->select('users.id', 'users.name', 'users.username')
+            ->visible()
+            ->when($blockedIds->isNotEmpty(), fn ($query) => $query->whereNotIn('users.id', $blockedIds))
             ->with('profile:id,user_id,avatar')
             ->get()
             ->map(fn ($u) => [
@@ -95,8 +103,12 @@ class FollowController extends Controller
     {
         $this->authorize('view', $user->profile);
 
+        $blockedIds = Auth::user()?->blockedUserIds() ?? collect();
+
         $following = $user->follows()
             ->select('users.id', 'users.name', 'users.username')
+            ->visible()
+            ->when($blockedIds->isNotEmpty(), fn ($query) => $query->whereNotIn('users.id', $blockedIds))
             ->with('profile:id,user_id,avatar')
             ->get()
             ->map(fn ($u) => [
