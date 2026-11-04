@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\DiaryController as AdminDiaryController;
 use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Api\MapController;
+use App\Http\Controllers\Api\SearchController;
 use App\Http\Controllers\Auth\GuestController;
 use App\Http\Controllers\Auth\SocialAuthController;
 use App\Http\Controllers\Diary\DiaryController;
@@ -146,6 +147,9 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
 
     Route::get('/onboarding/first-project', [OnboardingController::class, 'firstProject'])
         ->name('onboarding.firstProject');
+
+    Route::get('/api/search', [SearchController::class, 'search'])
+        ->name('api.search');
 
     Route::post('/users/{user}/follow', [FollowController::class, 'toggle'])
         ->name('users.follow')
