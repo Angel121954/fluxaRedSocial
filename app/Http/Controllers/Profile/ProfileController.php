@@ -222,7 +222,15 @@ class ProfileController extends Controller
         } catch (ContentModerationException $e) {
             return response()->json(['success' => false, 'message' => $e->getMessage()], 422);
         } catch (Exception $e) {
-            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+            Log::error('No se pudo actualizar la foto de perfil', [
+                'user_id' => Auth::id(),
+                'error' => $e->getMessage(),
+            ]);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'No se pudo actualizar la foto de perfil. Intenta de nuevo.',
+            ], 500);
         }
     }
 
@@ -248,7 +256,15 @@ class ProfileController extends Controller
 
             return response()->json(['success' => true]);
         } catch (Exception $e) {
-            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+            Log::error('No se pudo eliminar la foto de perfil', [
+                'user_id' => Auth::id(),
+                'error' => $e->getMessage(),
+            ]);
+
+            return response()->json([
+                'success' => false,
+                'message' => 'No se pudo eliminar la foto de perfil. Intenta de nuevo.',
+            ], 500);
         }
     }
 

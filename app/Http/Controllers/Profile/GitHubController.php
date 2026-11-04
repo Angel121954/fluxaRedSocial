@@ -92,7 +92,7 @@ class GitHubController extends Controller
 
             return response()->json([
                 'success' => false,
-                'message' => 'Error al importar el repositorio: ' . $e->getMessage(),
+                'message' => 'No se pudo importar el repositorio. Intenta de nuevo.',
             ], 500);
         }
     }
