@@ -36,10 +36,7 @@ class SitemapController extends Controller
 
             Project::query()
                 ->select('id', 'slug', 'updated_at')
-                ->publicRoot()
-                ->whereHas('user', fn ($query) => $query
-                    ->where('role', '!=', 'guest')
-                    ->where('status', '!=', 'banned'))
+                ->discoverable()
                 ->orderByDesc('updated_at')
                 ->limit(5000)
                 ->each(function (Project $project) use (&$urls): void {

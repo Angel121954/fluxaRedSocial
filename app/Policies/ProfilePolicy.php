@@ -15,6 +15,14 @@ class ProfilePolicy
             return true;
         }
 
+        if ($profile->user === null) {
+            return $user?->role === 'admin';
+        }
+
+        if ($profile->user->status === 'banned' || $profile->user->role === 'guest') {
+            return $user?->role === 'admin';
+        }
+
         if ($user !== null && $user->isBlockedWithId($profile->user_id)) {
             return false;
         }

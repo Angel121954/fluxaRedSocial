@@ -47,8 +47,7 @@ class LandingController extends Controller
     {
         return Project::with(['user.profile', 'technologies', 'media'])
             ->withCount('likes')
-            ->publicRoot()
-            ->whereHas('user', fn ($q) => $q->where('role', '!=', 'guest')->where('status', '!=', 'banned'))
+            ->discoverable()
             ->latest()
             ->take(6)
             ->get();

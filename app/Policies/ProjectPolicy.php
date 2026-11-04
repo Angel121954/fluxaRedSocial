@@ -15,6 +15,14 @@ class ProjectPolicy
             return true;
         }
 
+        if ($project->user === null) {
+            return $user?->role === 'admin';
+        }
+
+        if ($project->user->status === 'banned' || $project->user->role === 'guest') {
+            return $user?->role === 'admin';
+        }
+
         if ($user !== null && $user->isBlockedWithId($project->user_id)) {
             return false;
         }
@@ -51,6 +59,10 @@ class ProjectPolicy
 
     public function comment(User $user, Project $project): bool
     {
+        if (! $this->view($user, $project)) {
+            return false;
+        }
+
         if ($project->user_id === $user->id) {
             return true;
         }

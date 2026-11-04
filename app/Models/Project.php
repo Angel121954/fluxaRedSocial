@@ -129,6 +129,18 @@ class Project extends Model
         return $query->whereNull('parent_id')->where('privacy', 'public');
     }
 
+    /**
+     * Proyectos que pueden aparecer en superficies de descubrimiento.
+     */
+    public function scopeDiscoverable(Builder $query): Builder
+    {
+        return $query->publicRoot()
+            ->whereHas('user', function (Builder $query): void {
+                $query->where('role', '!=', 'guest')
+                    ->where('status', '!=', 'banned');
+            });
+    }
+
     public function scopeExcludingBlocked(Builder $query, Collection $blockedIds): Builder
     {
         return $query->when(
