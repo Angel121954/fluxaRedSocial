@@ -79,7 +79,7 @@ const profileUserId = metaActions?.dataset.profileUserId;
 if (btnReport && profileUserId && !isOwner) {
     btnReport.addEventListener('click', () => {
         const reportForm = document.getElementById('reportForm');
-        const reportTitle = document.getElementById('reportModalTitle');
+        const reportTitle = document.getElementById('reportModal-title');
         const reportDesc = document.getElementById('reportModalDesc');
         if (reportTitle) reportTitle.textContent = 'Reportar usuario';
         if (reportDesc) reportDesc.textContent = '¿Por qué quieres reportar este usuario?';
