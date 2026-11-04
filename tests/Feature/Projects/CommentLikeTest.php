@@ -20,8 +20,8 @@ describe('Like de comentarios', function () {
         $owner = User::factory()->create(['onboarding_completed' => true]);
         $viewer = User::factory()->create(['onboarding_completed' => true]);
 
-        Profile::factory()->for($owner)->create();
-        Profile::factory()->for($viewer)->create();
+        Profile::factory()->for($owner)->create(['visibility' => 'public']);
+        Profile::factory()->for($viewer)->create(['visibility' => 'public']);
 
         $project = Project::factory()->public()->create(['user_id' => $owner->id]);
 
