@@ -74,6 +74,11 @@ class ProjectPolicy
         return $project->privacy === 'public';
     }
 
+    public function report(User $user, Project $project): bool
+    {
+        return $user->id !== $project->user_id && $this->view($user, $project);
+    }
+
     public function restore(User $user, Project $project): bool
     {
         return $user->id === $project->user_id;
