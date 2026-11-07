@@ -247,7 +247,7 @@ h1 {
 .tech-item input:checked+label {
     border-color: var(--accent-border);
     background: var(--accent-soft);
-    color: var(--accent-dark);
+    color: var(--accent-text);
 }
 
 /* Checkmark en esquina */

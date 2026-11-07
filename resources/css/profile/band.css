@@ -234,7 +234,7 @@
 }
 
 .profile-url:hover {
-    color: var(--accent-dark);
+    color: var(--accent-text);
 }
 
 .profile-url svg {

@@ -43,7 +43,7 @@
 }
 .sec-card__icon--teal {
     background: #e6faf9;
-    color: var(--accent-dark, #0d9b9e);
+    color: var(--accent-text);
 }
 .sec-card__icon--orange {
     background: #fff3e0;
@@ -116,7 +116,7 @@
 }
 .sec-btn--outline:hover {
     border-color: var(--accent-text);
-    color: var(--accent-dark) !important;
+    color: var(--accent-text) !important;
     background: #f0fdfd;
 }
 
@@ -232,11 +232,11 @@
 
 .dark .pwd-modal__close:hover {
     background: var(--ink-100);
-    color: #e1e4ea;
+    color: var(--ink-900);
 }
 
 .dark .pwd-modal__title {
-    color: #e1e4ea;
+    color: var(--ink-900);
 }
 
 .dark .pwd-modal__subtitle {
@@ -307,7 +307,7 @@
     gap: 0.3rem;
     font-size: var(--text-sm);
     font-weight: 500;
-    color: var(--danger);
+    color: var(--danger-text);
     margin-top: 0.1rem;
 }
 
@@ -342,7 +342,7 @@
 /* ─── Coincidencia ────────────────────────────────────────── */
 .pwd-match-hint { font-size: var(--text-xs); font-weight: 500; min-height: 1em; }
 .pwd-match-hint.match  { color: var(--success-text); }
-.pwd-match-hint.no-match { color: var(--danger); }
+.pwd-match-hint.no-match { color: var(--danger-text); }
 
 /* ─── Responsive ──────────────────────────────────────────── */
 @media (max-width: 768px) {

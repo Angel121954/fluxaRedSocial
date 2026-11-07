@@ -369,7 +369,7 @@
 
     .mobile-menu-action:hover {
         background: var(--accent-dim);
-        color: var(--accent-dark);
+        color: var(--accent-text);
     }
 
     /* Botón "Instalar app": oculto solo cuando se fuerza desde el JS (standalone) */
@@ -379,16 +379,16 @@
 
     /* Acción de peligro (guest: "Salir") */
     .mobile-menu-danger {
-        color: var(--danger);
+        color: var(--danger-text);
     }
 
     .mobile-menu-danger svg {
-        color: var(--danger);
+        color: var(--danger-text);
     }
 
     .mobile-menu-danger:hover {
         background: rgba(239, 68, 68, 0.07);
-        color: var(--danger);
+        color: var(--danger-text);
     }
 
     /* Divisor */

@@ -25,6 +25,8 @@
     /* ─── Superficies ────────────────────────────────────── */
     --surface: #ffffff;
     --surface-secondary: #f9fafb;
+    --surface-inset: #f7f8fa;
+    --surface-glass: rgba(255, 255, 255, 0.94);
     --bg: #f7f8fa;
     --bg-subtle: #f1f3f7;
 
@@ -43,6 +45,7 @@
     /* ─── Bordes ─────────────────────────────────────────── */
     --border: rgba(0, 0, 0, 0.075);
     --border-strong: rgba(0, 0, 0, 0.12);
+    --border-hover: rgba(0, 0, 0, 0.2);
 
     /* ─── Tipografía ─────────────────────────────────────── */
     --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
@@ -73,6 +76,7 @@
 
     /* ─── Semántica ──────────────────────────────────────── */
     --danger: #dc2626;
+    --danger-text: #dc2626;
     --danger-hover: #b91c1c;
     --danger-bg: #fef2f2;
     --danger-border: rgba(220, 38, 38, 0.2);
@@ -94,24 +98,45 @@
    ═══════════════════════════════════════════════════════════ */
 .dark {
     color-scheme: dark;
-    --surface: #1a1d27;
-    --surface-secondary: #232735;
-    --bg: #1f2230;
-    --bg-subtle: #1a1d27;
-    --accent-text: #12b3b6;
-    --ink-900: #e1e4ea;
-    --ink-800: #c7cbd6;
-    --ink-700: #b0b6c6;
-    --ink-600: #a0a5b5;
-    --ink-500: #8a92a5;
-    --ink-400: #7c8497;
-    --ink-300: #6f7688;
-    --ink-200: #2a2e3a;
-    --ink-100: #1f2230;
-    --ink-50: #1a1d27;
-    --border: rgba(255, 255, 255, 0.06);
-    --border-strong: rgba(255, 255, 255, 0.12);
-    --danger-bg: #2a1f1f;
+
+    /* Superficies: la elevación crece con la luminosidad.
+       bg (página) < surface (tarjetas) < surface-secondary (popovers)
+       < bg-subtle (hover). inset es un "pozo" para inputs y bloques
+       de código, no una superficie elevada. */
+    --surface: #18181b;
+    --surface-secondary: #1f1f23;
+    --surface-inset: #0c0c0e;
+    --surface-glass: rgba(24, 24, 27, 0.94);
+    --bg: #121214;
+    --bg-subtle: #26262b;
+
+    /* Acento: mismo teal de marca, un paso más luminoso para texto
+       sobre superficies oscuras (8.7:1 sobre --surface). */
+    --accent-text: #22c9cc;
+    --accent-dim: rgba(18, 179, 182, 0.12);
+    --accent-ring: rgba(18, 179, 182, 0.28);
+
+    /* Texto: escala neutra, sin tinte azul. ink-400 mantiene AA
+       (5.1:1) sobre --surface; ink-300 queda para placeholders. */
+    --ink-900: #f5f5f7;
+    --ink-800: #e2e2e7;
+    --ink-700: #cfcfd6;
+    --ink-600: #b0b0b9;
+    --ink-500: #9a9aa4;
+    --ink-400: #8a8a94;
+    --ink-300: #75757f;
+    --ink-200: #2e2e33;
+    --ink-100: #232327;
+    --ink-50: #18181b;
+
+    /* Bordes: visibles sin competir con el contenido. */
+    --border: rgba(255, 255, 255, 0.09);
+    --border-strong: rgba(255, 255, 255, 0.16);
+    --border-hover: rgba(255, 255, 255, 0.24);
+
+    /* Semántica */
+    --danger-text: #f87171;
+    --danger-bg: #2a1a1a;
     --danger-border: rgba(248, 113, 113, 0.3);
     --success: #4ade80;
     --success-text: #4ade80;
@@ -119,10 +144,16 @@
     --warning: #fbbf24;
     --warning-strong: #b45309;
     --warning-text: #fbbf24;
-    --overlay: rgba(0, 0, 0, 0.65);
-    --shadow-card: 0 2px 10px rgba(0, 0, 0, 0.3);
-    --shadow-hover: 0 4px 16px rgba(0, 0, 0, 0.35);
-    --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.45);
+    --overlay: rgba(0, 0, 0, 0.7);
+
+    /* Sombras: en oscuro la profundidad la da la superficie;
+       la sombra solo separa capas flotantes. */
+    --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.4);
+    --shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.45), 0 1px 4px rgba(0, 0, 0, 0.3);
+    --shadow-card: 0 2px 10px rgba(0, 0, 0, 0.35);
+    --shadow-hover: 0 4px 16px rgba(0, 0, 0, 0.45);
+    --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.55);
 }
 
 /* ═══════════════════════════════════════════════════════════

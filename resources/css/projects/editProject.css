@@ -247,11 +247,11 @@
 
 .dark .close-btn:hover {
   background: var(--ink-100);
-  color: #e1e4ea;
+  color: var(--ink-900);
 }
 
 .dark #edit-modal-title {
-  color: #e1e4ea;
+  color: var(--ink-900);
 }
 
 .dark #edit-modal-subtitle {
@@ -259,12 +259,12 @@
 }
 
 .dark #edit-modal-card {
-  background: #1a1d27;
+  background: var(--surface);
 }
 
 .dark #edit-drop-zone {
-  background: #13151d;
-  border-color: #2a2e3a;
+  background: var(--surface-inset);
+  border-color: var(--border-strong);
 }
 
 .dark #edit-drop-zone:hover,

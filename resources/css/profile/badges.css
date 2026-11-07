@@ -186,7 +186,7 @@
 .badges-modal-item-earned {
     font-size: var(--text-xs);
     font-weight: 600;
-    color: var(--accent-dark);
+    color: var(--accent-text);
     margin-top: 0.125rem;
 }
 
@@ -271,20 +271,20 @@
 
 /* ── Dark mode ── */
 .dark .badges-title {
-    color: #e1e4ea;
+    color: var(--ink-900);
 }
 
 .dark .badge-card {
-    background: #1a1d27;
-    border-color: #2a2e3a;
+    background: var(--surface);
+    border-color: var(--border-strong);
 }
 
 .dark .badge-card:hover {
-    border-color: #4a4e5a;
+    border-color: var(--border-hover);
 }
 
 .dark .badge-name {
-    color: #a0a5b5;
+    color: var(--ink-600);
 }
 
 .dark .badges-empty {
@@ -292,11 +292,11 @@
 }
 
 .dark .badges-modal-category-title {
-    color: #a0a5b5;
+    color: var(--ink-600);
 }
 
 .dark .badges-modal-item {
-    border-color: #2a2e3a;
+    border-color: var(--border-strong);
 }
 
 .dark .badges-modal-item:hover {
@@ -304,7 +304,7 @@
 }
 
 .dark .badges-modal-item-name {
-    color: #e1e4ea;
+    color: var(--ink-900);
 }
 
 .dark .badges-modal-item-desc {

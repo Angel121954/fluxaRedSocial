@@ -257,7 +257,7 @@ textarea.np-input {
 .field-error {
   display: none;
   font-size: var(--text-xs);
-  color: var(--danger);
+  color: var(--danger-text);
   align-items: center;
   gap: .3rem;
 }
@@ -275,7 +275,7 @@ textarea.np-input {
   background: #fef2f2;
   border: 1px solid #fecaca;
   border-radius: var(--r-md);
-  color: var(--danger);
+  color: var(--danger-text);
   font-size: var(--text-sm);
   margin-bottom: .75rem;
 }
@@ -628,11 +628,11 @@ textarea.np-input {
 
 .dark .close-btn:hover {
   background: var(--ink-100);
-  color: #e1e4ea;
+  color: var(--ink-900);
 }
 
 .dark #modal-title {
-  color: #e1e4ea;
+  color: var(--ink-900);
 }
 
 .dark #modal-subtitle {
@@ -640,11 +640,11 @@ textarea.np-input {
 }
 
 .dark #modal-card {
-  background: #1a1d27;
+  background: var(--surface);
 }
 
 .dark #stepper {
-  border-bottom-color: #2a2e3a;
+  border-bottom-color: var(--border-strong);
 }
 
 .dark .step {

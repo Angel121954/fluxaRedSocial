@@ -368,7 +368,23 @@ Inputs y textareas:
 ```
 
 ### Dark mode
-Modo oscuro duplica los tokens de superficie: `--surface` → tonos grises oscuros, `--ink-*` → invertidos. El acento se mantiene.
+El modo oscuro no es una inversión mecánica: usa una escala **neutra (grafito)** donde la elevación se expresa con luminosidad, no con sombras.
+
+| Token | Light | Dark | Uso |
+|-------|-------|------|-----|
+| `--bg` | `#f7f8fa` | `#121214` | Fondo de página (nivel más bajo) |
+| `--surface` | `#ffffff` | `#18181b` | Tarjetas, paneles, topbar |
+| `--surface-secondary` | `#f9fafb` | `#1f1f23` | Popovers, menús, capas elevadas |
+| `--bg-subtle` | `#f1f3f7` | `#26262b` | Hover y estados temporales |
+| `--surface-inset` | `#f7f8fa` | `#0c0c0e` | Inputs, textareas y bloques de código (pozo) |
+| `--surface-glass` | `rgba(255,255,255,.94)` | `rgba(24,24,27,.94)` | Topbar con blur (translúcido) |
+
+Reglas:
+- La superficie **se aclara** al subir de nivel. Nunca una tarjeta más oscura que el fondo: se lee como un hueco, no como una capa.
+- En oscuro las sombras casi no se perciben; la separación la dan `--border` y `--border-strong`.
+- El acento de marca (`--accent`) se mantiene. Para texto, links e iconos usar `--accent-text` (un paso más luminoso en oscuro).
+- Los errores de texto usan `--danger-text`; `--danger` se reserva para fondos y bordes.
+- Contraste mínimo: texto normal 4.5:1; placeholders y texto grande 3:1.
 
 ### Tipografía
 - Fuente principal: `font-sans` (Figtree de Tailwind)

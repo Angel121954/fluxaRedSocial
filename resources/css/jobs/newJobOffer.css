@@ -316,34 +316,34 @@
 
 /* ── Dark mode ── */
 .dark .close-btn {
-    color: #6b7280;
+    color: var(--ink-500);
 }
 
 .dark .close-btn:hover {
     background: var(--ink-100);
-    color: #e1e4ea;
+    color: var(--ink-900);
 }
 
 .dark #jobOfferCard {
-    background: #1a1d27;
+    background: var(--surface);
 }
 
 .dark #jobOfferTitle {
-    color: #e1e4ea;
+    color: var(--ink-900);
 }
 
 .dark #jobOfferSubtitle {
-    color: #6b7280;
+    color: var(--ink-500);
 }
 
 .dark #jobOfferFooter .btn-secondary {
-    background: #1a1d27;
-    border: 1px solid #2a2e3a;
-    color: #a0a5b5;
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
+    color: var(--ink-600);
 }
 
 .dark #jobOfferFooter .btn-secondary:hover {
-    background: #1f2230;
-    border-color: #4a4e5a;
-    color: #e1e4ea;
+    background: var(--bg-subtle);
+    border-color: var(--border-hover);
+    color: var(--ink-900);
 }

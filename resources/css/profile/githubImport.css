@@ -26,7 +26,7 @@
 
 .github-import-error {
     padding: 16px;
-    color: var(--danger);
+    color: var(--danger-text);
     text-align: center;
 }
 

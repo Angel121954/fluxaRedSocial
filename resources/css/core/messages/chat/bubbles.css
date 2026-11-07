@@ -97,7 +97,7 @@
 }
 
 .msgs-bubble-failed .msgs-bubble-time {
-    color: var(--danger);
+    color: var(--danger-text);
 }
 
 /* ── Botón de editar (solo mensajes propios) ── */
@@ -162,7 +162,7 @@
     border: 1px solid rgba(239, 68, 68, 0.2);
     border-radius: var(--r-md);
     font-size: var(--text-sm);
-    color: var(--danger);
+    color: var(--danger-text);
     font-weight: 500;
 }
 

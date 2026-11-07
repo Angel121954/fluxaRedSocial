@@ -13,7 +13,7 @@
 }
 
 .section-title--danger {
-    color: var(--danger);
+    color: var(--danger-text);
 }
 
 .section-description {
@@ -306,7 +306,7 @@ select.form-input {
     font-family: inherit;
     font-size: var(--text-sm);
     font-weight: 600;
-    color: var(--danger);
+    color: var(--danger-text);
     cursor: pointer;
     white-space: nowrap;
     transition:
@@ -381,7 +381,7 @@ select.form-input {
 .btn-danger--outline {
     background: none;
     border: 1.5px solid #fca5a5;
-    color: var(--danger);
+    color: var(--danger-text);
 }
 
 .btn-danger--outline:hover {

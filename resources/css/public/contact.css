@@ -188,7 +188,7 @@
 .contact-alert--success {
     background: rgba(18, 179, 182, 0.08);
     border: 1px solid var(--accent-ring);
-    color: var(--accent-dark);
+    color: var(--accent-text);
 }
 
 .contact-alert svg {

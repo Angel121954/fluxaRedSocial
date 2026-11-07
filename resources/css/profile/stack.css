@@ -431,9 +431,9 @@ button.stack-card-heart.is-favorite:hover {
 
 /* ── Dark mode ── */
 .dark .stack-modal-search input {
-    background: #13151d;
-    border-color: #2a2e3a;
-    color: #e1e4ea;
+    background: var(--surface-inset);
+    border-color: var(--border-strong);
+    color: var(--ink-900);
 }
 
 .dark .stack-modal-search input:focus {
@@ -441,8 +441,8 @@ button.stack-card-heart.is-favorite:hover {
 }
 
 .dark .stack-modal-item label {
-    border-color: #2a2e3a;
-    color: #a0a5b5;
+    border-color: var(--border-strong);
+    color: var(--ink-600);
 }
 
 .dark .stack-modal-item label:hover {
@@ -451,9 +451,9 @@ button.stack-card-heart.is-favorite:hover {
 }
 
 .dark .stack-modal-btn-cancel {
-    background: #1a1d27;
-    border-color: #2a2e3a;
-    color: #a0a5b5;
+    background: var(--surface);
+    border-color: var(--border-strong);
+    color: var(--ink-600);
 }
 
 .dark .stack-modal-btn-cancel:hover {
@@ -462,5 +462,5 @@ button.stack-card-heart.is-favorite:hover {
 
 .dark .stack-modal-category-title {
     color: var(--ink-500);
-    border-bottom-color: #2a2e3a;
+    border-bottom-color: var(--border-strong);
 }

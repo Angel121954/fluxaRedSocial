@@ -58,7 +58,7 @@
 }
 
 .we-limit-badge--full {
-    color: var(--accent-dark);
+    color: var(--accent-text);
     background: var(--accent-dim);
     border-color: var(--accent-ring);
 }
@@ -131,7 +131,7 @@
     padding: 0.15rem 0.5rem;
     border-radius: 999px;
     background: var(--accent-dim);
-    color: var(--accent-dark);
+    color: var(--accent-text);
     border: 1px solid var(--accent-ring);
     margin-left: 0.25rem;
     vertical-align: middle;
@@ -167,14 +167,14 @@
 }
 
 .we-icon-btn--danger {
-    color: var(--danger);
+    color: var(--danger-text);
     border-color: var(--danger-border);
 }
 
 .we-icon-btn--danger:hover {
     background: var(--danger-bg);
     border-color: rgba(220, 38, 38, 0.4);
-    color: var(--danger-hover);
+    color: var(--danger-text);
 }
 
 .formDelete {
@@ -306,7 +306,7 @@
     height: 40px;
     border-radius: 11px;
     background: var(--accent-dim);
-    color: var(--accent-dark);
+    color: var(--accent-text);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -499,8 +499,8 @@
 
 /* ── Dark mode ── */
 .dark .we-card {
-    background: #1a1d27;
-    border-color: #2a2e3a;
+    background: var(--surface);
+    border-color: var(--border-strong);
 }
 
 .dark .we-card__meta {
@@ -509,7 +509,7 @@
 
 .dark .we-card__desc,
 .dark .we-card__learnings-text {
-    color: #a0a5b5;
+    color: var(--ink-600);
 }
 
 .dark .we-card__learnings-label {
@@ -517,13 +517,13 @@
 }
 
 .dark .we-empty {
-    background: #1a1d27;
-    border-color: #2a2e3a;
+    background: var(--surface);
+    border-color: var(--border-strong);
     color: var(--ink-500);
 }
 
 .dark .we-modal__title {
-    color: #e1e4ea;
+    color: var(--ink-900);
 }
 
 .dark .we-modal__close {
@@ -532,12 +532,12 @@
 
 .dark .we-modal__close:hover {
     background: var(--ink-100);
-    color: #e1e4ea;
+    color: var(--ink-900);
 }
 
 .dark .we-icon-btn {
-    background: #1a1d27;
-    border-color: #2a2e3a;
+    background: var(--surface);
+    border-color: var(--border-strong);
     color: var(--ink-500);
 }
 
@@ -559,9 +559,9 @@
 }
 
 .dark .we-textarea {
-    background: #13151d;
-    border-color: #2a2e3a;
-    color: #e1e4ea;
+    background: var(--surface-inset);
+    border-color: var(--border-strong);
+    color: var(--ink-900);
 }
 
 .dark .we-textarea:focus {
@@ -569,7 +569,7 @@
 }
 
 .dark .we-textarea::placeholder {
-    color: #4a4e5a;
+    color: var(--ink-300);
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -610,7 +610,7 @@
 .we-type-option--selected {
     border-color: var(--accent-text);
     background: var(--accent-dim);
-    color: var(--accent-dark);
+    color: var(--accent-text);
     font-weight: 600;
 }
 
@@ -636,7 +636,7 @@
 
 .we-type-badge--formal {
     background: var(--accent-dim);
-    color: var(--accent-dark);
+    color: var(--accent-text);
     border: 1px solid var(--accent-ring);
 }
 
@@ -683,9 +683,9 @@
 }
 
 .dark .we-type-option {
-    background: #1a1d27;
-    border-color: #2a2e3a;
-    color: #a0a5b5;
+    background: var(--surface);
+    border-color: var(--border-strong);
+    color: var(--ink-600);
 }
 
 .dark .we-type-option:hover {
@@ -778,7 +778,7 @@
     border-radius: 999px;
     border: 1px solid var(--accent-ring);
     background: var(--surface);
-    color: var(--accent-dark);
+    color: var(--accent-text);
     font-size: var(--text-xs);
     font-weight: 500;
     cursor: pointer;
@@ -833,7 +833,7 @@
 .we-tech-picker__item:has(input:checked) {
     background: var(--accent-dim);
     border-color: var(--accent-text);
-    color: var(--accent-dark);
+    color: var(--accent-text);
     font-weight: 600;
 }
 
@@ -843,9 +843,9 @@
 
 /* ── Dark mode ── */
 .dark .we-mode-badge {
-    background: #1a1d27;
-    border-color: #2a2e3a;
-    color: #a0a5b5;
+    background: var(--surface);
+    border-color: var(--border-strong);
+    color: var(--ink-600);
 }
 
 .dark .we-mode-badge--remote {
@@ -862,9 +862,9 @@
 
 .dark .we-tech-chip,
 .dark .we-tech-picker__item {
-    background: #1a1d27;
-    border-color: #2a2e3a;
-    color: #a0a5b5;
+    background: var(--surface);
+    border-color: var(--border-strong);
+    color: var(--ink-600);
 }
 
 .dark .we-tech-picker__item:has(input:checked) {
@@ -874,7 +874,7 @@
 }
 
 .dark .we-tech-picker__chip {
-    background: #1a1d27;
+    background: var(--surface);
     border-color: var(--accent-text);
     color: #5eead4;
 }

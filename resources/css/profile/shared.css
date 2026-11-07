@@ -94,7 +94,7 @@ body {
 
 .form-error {
     font-size: var(--text-xs);
-    color: var(--danger);
+    color: var(--danger-text);
     margin-top: 0.25rem;
 }
 
@@ -461,17 +461,17 @@ select.form-input {
 
 /* ── Dark mode ── */
 .dark .edit-layout {
-    background: #13151d;
+    background: var(--surface-inset);
 }
 
 .dark .form-label {
-    color: #a0a5b5;
+    color: var(--ink-600);
 }
 
 .dark .form-input {
-    background: #13151d;
-    border-color: #2a2e3a;
-    color: #e1e4ea;
+    background: var(--surface-inset);
+    border-color: var(--border-strong);
+    color: var(--ink-900);
 }
 
 .dark .form-input:focus {
@@ -479,16 +479,16 @@ select.form-input {
 }
 
 .dark .form-input::placeholder {
-    color: #4a4e5a;
+    color: var(--ink-300);
 }
 
 .dark .btn-secondary {
-    background: #1a1d27;
-    border-color: #2a2e3a;
-    color: #a0a5b5;
+    background: var(--surface);
+    border-color: var(--border-strong);
+    color: var(--ink-600);
 }
 
 .dark .btn-secondary:hover {
-    border-color: #4a4e5a;
-    color: #e1e4ea;
+    border-color: var(--border-hover);
+    color: var(--ink-900);
 }

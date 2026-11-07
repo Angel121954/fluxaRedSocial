@@ -88,7 +88,7 @@
     height: 40px;
     border-radius: 11px;
     background: var(--accent-dim);
-    color: var(--accent-dark);
+    color: var(--accent-text);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -177,7 +177,7 @@
     background: #fef2f2;
     border: 1px solid #fecaca;
     border-radius: var(--r-md);
-    color: var(--danger);
+    color: var(--danger-text);
     font-size: var(--text-sm);
     margin-bottom: 1rem;
 }
@@ -301,7 +301,7 @@
 
 .dark .modal-close:hover {
     background: var(--ink-100);
-    color: #e1e4ea;
+    color: var(--ink-900);
 }
 
 .dark .modal-error-banner {

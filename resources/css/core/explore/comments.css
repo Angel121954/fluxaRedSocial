@@ -234,7 +234,7 @@
 }
 
 .comment-delete-btn:hover {
-    color: var(--danger);
+    color: var(--danger-text);
 }
 
 /* Comment input */

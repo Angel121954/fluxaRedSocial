@@ -185,18 +185,18 @@
 
 /* ── Dark mode ── */
 .dark .msgs-modal-search {
-    background: #13151d;
-    border-color: #2a2e3a;
-    color: #e1e4ea;
+    background: var(--surface-inset);
+    border-color: var(--border-strong);
+    color: var(--ink-900);
 }
 
 .dark .msgs-modal-search:focus {
-    background: #1a1d27;
+    background: var(--surface);
     border-color: var(--accent-text);
 }
 
 .dark .msgs-modal-user-name {
-    color: #e1e4ea;
+    color: var(--ink-900);
 }
 
 .dark .msgs-modal-user-handle {
@@ -204,9 +204,9 @@
 }
 
 .dark .msgs-share-item {
-    background: #1a1d27;
-    border-color: #2a2e3a;
-    color: #a0a5b5;
+    background: var(--surface);
+    border-color: var(--border-strong);
+    color: var(--ink-600);
 }
 
 .dark .msgs-share-item:hover {
@@ -217,5 +217,5 @@
 .dark .msgs-share-item.selected {
     border-color: var(--accent-text);
     background: rgba(18, 179, 182, 0.12);
-    color: #e1e4ea;
+    color: var(--ink-900);
 }

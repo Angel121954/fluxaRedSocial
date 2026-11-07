@@ -131,7 +131,7 @@
 
 /* ── Dark mode ── */
 .dark .projects-item-title {
-    color: #e1e4ea;
+    color: var(--ink-900);
 }
 
 .dark .projects-item-excerpt {
