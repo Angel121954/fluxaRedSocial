@@ -67,7 +67,7 @@ class CvDataService
         $isOwner = $viewer === null || $viewer->id === $user->id;
 
         if ($cvSettings['show_projects'] ?? true) {
-            $query = $user->projects()->with(['media', 'technologies']);
+            $query = $user->projects()->with('technologies');
 
             $selectedIds = $cvSettings['selected_project_ids'] ?? [];
 
@@ -101,8 +101,8 @@ class CvDataService
         $avatarBase64 = Cache::remember('cv_avatar_'.$user->id, 3600, fn () => $this->urlToBase64($profile->avatar)
         );
 
-        $logoBase64 = Cache::rememberForever('cv_logo_base64', fn () => 'data:image/png;base64,'.base64_encode(
-            file_get_contents(public_path('img/logo.png'))
+        $logoBase64 = Cache::rememberForever('cv_logo_base64_v2', fn () => 'data:image/png;base64,'.base64_encode(
+            file_get_contents(public_path('img/logo-cv.png'))
         )
         );
 

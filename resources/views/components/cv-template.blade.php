@@ -20,7 +20,7 @@ $rolProfesional = $rolProfesional ?? 'Software Developer';
 $srcAvatar = $avatarBase64 ?? ($profile->avatar ? str_replace('type=normal', 'type=large', $profile->avatar) : '');
 $srcLogo = $logoBase64 ?? (function () {
     try {
-        return 'data:image/png;base64,'.base64_encode(file_get_contents(public_path('img/logo.png')));
+        return 'data:image/png;base64,'.base64_encode(file_get_contents(public_path('img/logo-cv.png')));
     } catch (\Throwable) {
         return '';
     }
