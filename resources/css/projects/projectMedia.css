@@ -245,8 +245,8 @@
 /* Navegación anterior / siguiente */
 .pm-lb-nav {
     position: absolute;
-    inset: 0;
-    margin: auto;
+    top: 50%;
+    transform: translateY(-50%);
     width: 36px;
     height: 36px;
     background: rgba(0, 0, 0, 0.35);
@@ -315,16 +315,10 @@
     }
 
     .pm-lb-prev {
-        top: auto;
-        bottom: auto;
         left: 0.5rem;
-        right: auto;
     }
 
     .pm-lb-next {
-        top: auto;
-        bottom: auto;
         right: 0.5rem;
-        left: auto;
     }
 }
