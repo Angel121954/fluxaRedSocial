@@ -16,12 +16,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const experienceId = document.getElementById('experienceId');
     const textarea = document.getElementById('input-description');
     const charCount = document.getElementById('charCountDesc');
+    const learnings = document.getElementById('input-learnings');
+    const learningsCount = document.getElementById('charCountLearnings');
     const checkCurrent = document.getElementById('input-current');
     const inputEnded = document.getElementById('input-ended_at');
     const techSearch = document.getElementById('input-technologies');
     const techGrid = document.getElementById('weTechGrid');
     const techSelected = document.getElementById('weTechSelected');
     const baseAction = weForm?.getAttribute('action') ?? '';
+
+    const DESC_MAX = 1000;
+    const LEARNINGS_MAX = 500;
 
     // ── Referencias a labels dinámicos ──────────────────────
     const TYPE_LABELS = {
@@ -101,8 +106,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // ── Toggle "Trabajo actual" ──────────────────────────────
     checkCurrent?.addEventListener('change', toggleEndedAt);
 
-    // ── Contador de caracteres ───────────────────────────────
-    textarea?.addEventListener('input', updateCharCount);
+    // ── Contadores de caracteres ─────────────────────────────
+    textarea?.addEventListener('input', () => updateCharCount(textarea, charCount, DESC_MAX));
+    learnings?.addEventListener('input', () => updateCharCount(learnings, learningsCount, LEARNINGS_MAX));
 
     // ── Selector de tecnologías ──────────────────────────────
     techGrid?.addEventListener('change', e => {
@@ -139,6 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
             getEl('input-started_at').value = d.started ?? '';
             getEl('input-ended_at').value = d.ended ?? '';
             getEl('input-description').value = d.description ?? '';
+            getEl('input-learnings').value = d.learnings ?? '';
 
             // Tecnologías: limpiar la selección anterior y marcar las de esta experiencia.
             if (techSearch) techSearch.value = '';
@@ -171,7 +178,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (modalTitle) modalTitle.textContent = 'Editar experiencia';
             if (modalSubtitle) modalSubtitle.textContent = 'Modifica los campos que deseas actualizar';
 
-            updateCharCount();
+            updateCharCounts();
             openModal();
         });
     });
@@ -257,7 +264,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (techSearch) techSearch.value = '';
         filterTechs('');
         renderSelectedTechs();
-        updateCharCount();
+        updateCharCounts();
     }
 
     function toggleEndedAt() {
@@ -268,10 +275,15 @@ document.addEventListener('DOMContentLoaded', () => {
         inputEnded.closest('.form-group').style.opacity = isCurrent ? '0.45' : '1';
     }
 
-    function updateCharCount() {
-        if (!textarea || !charCount) return;
-        const len = textarea.value.length;
-        charCount.textContent = `${len}/1000`;
-        charCount.style.color = len > 900 ? '#dc2626' : 'var(--ink-300)';
+    function updateCharCounts() {
+        updateCharCount(textarea, charCount, DESC_MAX);
+        updateCharCount(learnings, learningsCount, LEARNINGS_MAX);
+    }
+
+    function updateCharCount(field, counter, max) {
+        if (!field || !counter) return;
+        const len = field.value.length;
+        counter.textContent = `${len}/${max}`;
+        counter.style.color = len > max * 0.9 ? '#dc2626' : 'var(--ink-300)';
     }
 });

@@ -191,6 +191,28 @@
     font-size: var(--text-base);
     color: var(--ink-500);
     line-height: 1.65;
+    white-space: pre-line;
+}
+
+.we-card__learnings {
+    margin-top: 0.7rem;
+}
+
+.we-card__learnings-label {
+    display: block;
+    font-size: var(--text-xs);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--accent-text);
+    margin-bottom: 0.2rem;
+}
+
+.we-card__learnings-text {
+    font-size: var(--text-base);
+    color: var(--ink-500);
+    line-height: 1.65;
+    white-space: pre-line;
 }
 
 /* ─── Estado vacío ────────────────────────────────────────── */
@@ -443,7 +465,8 @@
         font-size: var(--text-xs);
     }
 
-    .we-card__desc {
+    .we-card__desc,
+    .we-card__learnings-text {
         font-size: var(--text-sm);
     }
 
@@ -484,8 +507,13 @@
     color: var(--ink-500);
 }
 
-.dark .we-card__desc {
+.dark .we-card__desc,
+.dark .we-card__learnings-text {
     color: #a0a5b5;
+}
+
+.dark .we-card__learnings-label {
+    color: #5eead4;
 }
 
 .dark .we-empty {

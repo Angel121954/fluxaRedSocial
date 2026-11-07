@@ -78,6 +78,7 @@
                             data-current="{{ $exp->current ? '1' : '0' }}"
                             data-technologies="{{ $exp->technologies->pluck('id')->implode(',') }}"
                             data-description="{{ $exp->description ?? '' }}"
+                            data-learnings="{{ $exp->learnings ?? '' }}"
                             aria-label="Editar">
                             <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -103,9 +104,17 @@
                     </div>
                 </div>
 
-                @if($exp->description)
+                @if($exp->description || $exp->learnings)
                 <div class="we-card__divider"></div>
+                @endif
+                @if($exp->description)
                 <p class="we-card__desc">{{ $exp->description }}</p>
+                @endif
+                @if($exp->learnings)
+                <div class="we-card__learnings">
+                    <span class="we-card__learnings-label">Aprendizajes</span>
+                    <p class="we-card__learnings-text">{{ $exp->learnings }}</p>
+                </div>
                 @endif
             </div>
             @empty
@@ -253,11 +262,18 @@
                     </div>
                 </div>
 
-                <x-form-group name="description" label="Descripción" hint="Describe brevemente tus responsabilidades y logros.">
+                <x-form-group name="description" label="Responsabilidades y logros" hint="Describe brevemente qué hiciste y qué lograste.">
                     <textarea name="description" class="form-input we-textarea" id="input-description"
                         maxlength="1000"
                         placeholder="Desarrollé features en React, lideré migraciones de base de datos...">{{ old('description') }}</textarea>
                     <div class="char-count" id="charCountDesc">0/1000</div>
+                </x-form-group>
+
+                <x-form-group name="learnings" label="Aprendizajes" hint="Opcional. ¿Qué aprendiste en este rol? Herramientas, procesos o habilidades que desarrollaste.">
+                    <textarea name="learnings" class="form-input we-textarea" id="input-learnings"
+                        maxlength="500"
+                        placeholder="Aprendí a trabajar con code reviews, profundicé en React y mejoré mi comunicación en equipo...">{{ old('learnings') }}</textarea>
+                    <div class="char-count" id="charCountLearnings">0/500</div>
                 </x-form-group>
 
                 {{-- Footer del modal --}}
