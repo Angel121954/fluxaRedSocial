@@ -68,6 +68,7 @@ class ProfileService
                 'location',
                 'work_mode',
                 'description',
+                'learnings',
                 'started_at',
                 'ended_at',
                 'current',

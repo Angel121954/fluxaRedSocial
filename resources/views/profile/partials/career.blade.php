@@ -47,6 +47,13 @@
             <p class="career-card__desc">{{ $experience->description }}</p>
             @endif
 
+            @if($experience->learnings)
+            <div class="career-card__learnings">
+                <span class="career-card__learnings-label">Aprendizajes</span>
+                <p class="career-card__desc">{{ $experience->learnings }}</p>
+            </div>
+            @endif
+
             @if($experience->technologies->isNotEmpty())
             <div class="career-card__techs">
                 @foreach($experience->technologies as $technology)
