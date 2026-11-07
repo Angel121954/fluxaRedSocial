@@ -68,6 +68,7 @@ class CvJsonGenerator
                     'end_date' => $exp->ended_at?->format('Y-m-d'),
                     'current' => (bool) $exp->current,
                     'description' => $exp->description,
+                    'learnings' => $exp->learnings,
                 ])->toArray(),
             ],
             'education' => fn () => [

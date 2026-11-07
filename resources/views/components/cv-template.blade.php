@@ -447,6 +447,9 @@ $cvLocation = trim(($profile->city ?? '') . ', ' . ($profile->country ?? ''), ' 
                 @if(!empty($experiencia->description))
                 <p class="cv-item__desc">{{ $experiencia->description }}</p>
                 @endif
+                @if(!empty($experiencia->learnings))
+                <p class="cv-item__desc"><strong>Aprendizajes:</strong> {{ $experiencia->learnings }}</p>
+                @endif
             </div>
             @endforeach
         </section>

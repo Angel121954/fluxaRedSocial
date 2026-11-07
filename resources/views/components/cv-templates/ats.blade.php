@@ -75,6 +75,9 @@
                         @if(!empty($exp->description))
                         <p style="margin:0;font-size:10pt;color:#333;">{{ $exp->description }}</p>
                         @endif
+                        @if(!empty($exp->learnings))
+                        <p style="margin:0;font-size:10pt;color:#333;"><strong>Aprendizajes:</strong> {{ $exp->learnings }}</p>
+                        @endif
                     </div>
                     @endforeach
                 </section>
