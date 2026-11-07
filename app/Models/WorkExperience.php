@@ -22,6 +22,7 @@ class WorkExperience extends Model
         'ended_at',
         'current',
         'description',
+        'learnings',
     ];
 
     protected $casts = [

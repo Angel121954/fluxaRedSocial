@@ -27,6 +27,7 @@ class UpdateWorkExperienceRequest extends FormRequest
             'ended_at' => 'nullable|date|after_or_equal:started_at|required_if:current,0',
             'current' => 'nullable|in:on,1,0,true,false',
             'description' => 'nullable|string|max:1000',
+            'learnings' => 'nullable|string|max:500',
             // Máximo 10 para que el CV y la tarjeta no se saturen.
             'technologies' => 'nullable|array|max:10',
             'technologies.*' => 'integer|distinct|exists:technologies,id',
