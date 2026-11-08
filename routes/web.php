@@ -14,6 +14,7 @@ use App\Http\Controllers\Auth\GuestController;
 use App\Http\Controllers\Auth\SocialAuthController;
 use App\Http\Controllers\Diary\DiaryController;
 use App\Http\Controllers\Explore\ExploreController;
+use App\Http\Controllers\Explore\PeopleController;
 use App\Http\Controllers\Feed\FeedController;
 use App\Http\Controllers\Follows\FollowController;
 use App\Http\Controllers\Messages\MessageController;
@@ -353,6 +354,9 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
 
     Route::get('/explore/map', [ExploreController::class, 'map'])
         ->name('explore.map');
+
+    Route::get('/explore/people', PeopleController::class)
+        ->name('explore.people');
 
     Route::get('/explore/map/users', [MapController::class, 'users'])
         ->name('explore.map.users');

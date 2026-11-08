@@ -23,6 +23,15 @@ class Profile extends Model
         'data',
     ];
 
+    public const SPECIALTY_LABELS = [
+        'frontend' => 'Frontend',
+        'backend' => 'Backend',
+        'fullstack' => 'Full Stack',
+        'devops' => 'DevOps',
+        'mobile' => 'Mobile',
+        'data' => 'Data',
+    ];
+
     protected $fillable = [
         'user_id',
         'avatar',
