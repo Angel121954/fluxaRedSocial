@@ -199,3 +199,7 @@
 @vite('resources/css/core/explore.css')
 @endpush
 
+@push('scripts')
+@vite('resources/js/core/explore/people.js')
+@endpush
+

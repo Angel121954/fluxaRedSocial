@@ -172,6 +172,7 @@ export default defineConfig({
                 "resources/js/core/explore/map.js",
                 "resources/js/core/explore/like.js",
                 "resources/js/core/explore/loadMore.js",
+                "resources/js/core/explore/people.js",
                 "resources/js/core/explore/projectMenu.js",
                 "resources/js/core/explore/skillEndorsement.js",
                 "resources/js/core/explore/tabs.js",
