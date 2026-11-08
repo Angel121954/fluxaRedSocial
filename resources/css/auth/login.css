@@ -317,6 +317,26 @@
     }
 }
 
+/* ---------- Botón de texto (cerrar sesión) --------------- */
+button.btn-text {
+    display: block;
+    width: 100%;
+    padding: 0.625rem;
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    font-family: inherit;
+    font-size: var(--text-base);
+    font-weight: 500;
+    cursor: pointer;
+    transition: color 0.15s;
+}
+
+button.btn-text:hover {
+    color: var(--text-primary);
+    text-decoration: underline;
+}
+
 /* ---------- Divisor ------------------------------------- */
 .login-divider {
     display: flex;
@@ -479,6 +499,26 @@
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+/* ---------- Modo oscuro (verificación) ------------------- */
+.dark {
+    --login-bg: var(--bg);
+    --card-bg: var(--surface);
+    --card-shadow: var(--shadow-lg);
+    --teal: var(--accent);
+    --teal-hover: var(--accent-dark);
+    --text-secondary: var(--ink-500);
+    --text-placeholder: var(--ink-400);
+}
+
+.dark .login-card {
+    border: 1px solid var(--border);
+}
+
+.dark .notification {
+    background: var(--surface-secondary);
+    border-color: var(--success-bg);
 }
 
 /* ---------- Responsive --------------------------------- */

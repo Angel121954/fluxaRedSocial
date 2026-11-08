@@ -1,5 +1,4 @@
 @extends('layouts.app')
-@section('force-light', true)
 @section('content')
 
 <div class="login-screen">
@@ -11,11 +10,13 @@
                 <x-header />
             </div>
 
-            <h1 class="login-title">Verifica tu correo electrónico</h1>
-            <p class="login-subtitle">
-                Gracias por registrarte. Antes de empezar, verifica tu dirección de correo
-                con el enlace que te enviamos. Si no lo recibiste, podemos enviarte otro.
-            </p>
+            <div class="login-card__header">
+                <h1 class="login-card__title">Verifica tu correo electrónico</h1>
+                <p class="login-card__subtitle">
+                    Gracias por registrarte. Antes de empezar, verifica tu dirección de correo
+                    con el enlace que te enviamos. Si no lo recibiste, podemos enviarte otro.
+                </p>
+            </div>
 
             @if (session('status') == 'verification-link-sent')
             <div class="notification show">
@@ -29,7 +30,7 @@
             <div class="login-form" style="margin-top:1.5rem">
                 <form method="POST" action="{{ route('verification.send') }}">
                     @csrf
-                    <button type="submit" class="btn-primary btn-primary--full">
+                    <button type="submit" class="btn-submit">
                         Reenviar correo de verificación
                     </button>
                 </form>
