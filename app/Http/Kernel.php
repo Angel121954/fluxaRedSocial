@@ -6,6 +6,7 @@ namespace App\Http;
 
 use App\Http\Middleware\AddSecurityHeaders;
 use App\Http\Middleware\Authenticate;
+use App\Http\Middleware\CaptureAcquisitionSource;
 use App\Http\Middleware\CheckAdmin;
 use App\Http\Middleware\CheckOnboarding;
 use App\Http\Middleware\CheckUserActive;
@@ -15,6 +16,7 @@ use App\Http\Middleware\PreventBackHistory;
 use App\Http\Middleware\PreventRequestsDuringMaintenance;
 use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Http\Middleware\RestrictGuest;
+use App\Http\Middleware\TrackDailySession;
 use App\Http\Middleware\TrimStrings;
 use App\Http\Middleware\TrustHosts;
 use App\Http\Middleware\TrustProxies;
@@ -54,9 +56,11 @@ class Kernel extends HttpKernel
             AddQueuedCookiesToResponse::class,
             StartSession::class,
             ShareErrorsFromSession::class,
+            CaptureAcquisitionSource::class,
             VerifyCsrfToken::class,
             SubstituteBindings::class,
             CheckUserActive::class,
+            TrackDailySession::class,
             AddSecurityHeaders::class,
         ],
 
