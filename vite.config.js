@@ -97,6 +97,7 @@ export default defineConfig({
                 "resources/css/public/privacyPolicy.css",
                 "resources/css/public/contact.css",
                 "resources/css/public/footer.css",
+                "resources/css/public/unsubscribe.css",
 
                 // Onboarding
                 "resources/css/onboarding/account-type.css",

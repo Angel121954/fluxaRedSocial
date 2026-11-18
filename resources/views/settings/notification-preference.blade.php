@@ -21,8 +21,8 @@
 
                     <div class="notif-toggle-row">
                         <div class="notif-toggle-info">
-                            <span class="notif-toggle-label">Notificaciones por email</span>
-                            <span class="notif-toggle-desc">Recibe notificaciones de Fluxa por <strong>correo electrónico</strong></span>
+                            <span class="notif-toggle-label">Correos de Fluxa</span>
+                            <span class="notif-toggle-desc">Recibe el <strong>resumen semanal</strong> y avisos importantes. Los correos de seguridad y verificación siempre se envían.</span>
                         </div>
                         <label class="notif-switch" aria-label="Activar notificaciones por email">
                             <input type="checkbox" name="email_enabled" id="toggleEmail"
@@ -52,6 +52,7 @@
             {{-- ── Tipos ────────────────────────────────────────────── --}}
             <div class="notif-types">
                 <h2 class="notif-section__title">Tipos de notificaciones</h2>
+                <p class="notif-types-note">Estas preferencias controlan las notificaciones dentro de Fluxa y las push. Los correos se limitan al resumen semanal.</p>
 
                 <div class="notif-check-list">
 

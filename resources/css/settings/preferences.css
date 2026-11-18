@@ -115,6 +115,13 @@
 .notif-types {
     margin-bottom: 0.25rem;
 }
+.notif-types-note {
+    font-size: var(--text-sm);
+    color: var(--ink-400);
+    line-height: 1.5;
+    margin: -0.75rem 0 1.25rem;
+}
+
 .notif-check-list {
     display: flex;
     flex-direction: column;
