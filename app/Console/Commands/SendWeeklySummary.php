@@ -26,7 +26,10 @@ class SendWeeklySummary extends Command
         $userId = $this->option('user');
 
         if ($userId) {
-            $user = User::with('notificationPreferences')->find($userId);
+            $user = User::with('notificationPreferences')
+                ->visible()
+                ->where('role', '!=', 'guest')
+                ->find($userId);
 
             if (! $user) {
                 $this->error("Usuario #{$userId} no encontrado.");
@@ -47,10 +50,15 @@ class SendWeeklySummary extends Command
             return;
         }
 
-        $users = User::whereHas('notificationPreferences', function ($q) {
-            $q->where('weekly_summary', true)
-                ->where('email_enabled', true);
-        })->with('notificationPreferences')->get();
+        $users = User::query()
+            ->whereHas('notificationPreferences', function ($q): void {
+                $q->where('weekly_summary', true)
+                    ->where('email_enabled', true);
+            })
+            ->visible()
+            ->where('role', '!=', 'guest')
+            ->with('notificationPreferences')
+            ->get();
 
         if ($users->isEmpty()) {
             $this->info('No hay usuarios con resumen semanal activado.');
@@ -73,7 +81,7 @@ class SendWeeklySummary extends Command
         $this->info("Resumen semanal enviado a {$sent} usuarios. Errores: {$errors}.");
     }
 
-    private function sendSummary(User $user, $trending): bool
+    private function sendSummary(User $user, Collection $trending): bool
     {
         if (! $user->email || ! $user->hasVerifiedEmail()) {
             return false;
@@ -129,7 +137,7 @@ class SendWeeklySummary extends Command
         }
     }
 
-    private function getTrendingProjects()
+    private function getTrendingProjects(): Collection
     {
         return Project::with('user')
             ->discoverable()
