@@ -1,0 +1,228 @@
+/* ═══════════════════════════════════════════════════════════
+   admin/analytics.css — Embudo de activación · Fluxa
+   Depende de: variables.css · admin/dashboard.css
+═══════════════════════════════════════════════════════════ */
+
+.an-stat-hint {
+    margin-top: 5px;
+    font-size: var(--text-xs);
+    color: var(--ink-400);
+    font-weight: 500;
+}
+
+.an-card-note {
+    font-size: var(--text-xs);
+    color: var(--ink-400);
+    font-weight: 500;
+}
+
+.an-empty {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 24px;
+    border: 1px dashed var(--border-strong);
+    border-radius: var(--r-lg);
+    text-align: center;
+    color: var(--ink-400);
+    font-size: var(--text-sm);
+}
+
+.an-empty strong {
+    color: var(--ink-700);
+}
+
+.an-empty code {
+    font-family: var(--mono);
+    font-size: var(--text-xs);
+    color: var(--accent-text);
+    background: var(--accent-dim);
+    border-radius: 4px;
+    padding: 1px 4px;
+}
+
+/* ── Embudo ─────────────────────────────────────────────── */
+.an-funnel {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.an-funnel-step {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.an-funnel-top {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.an-funnel-label {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--ink-700);
+}
+
+.an-funnel-value {
+    font-size: var(--text-base);
+    font-weight: 800;
+    color: var(--ink-900);
+    letter-spacing: -.02em;
+}
+
+.an-funnel-track {
+    height: 10px;
+    background: var(--bg-subtle);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.an-funnel-fill {
+    display: block;
+    height: 100%;
+    min-width: 0;
+    border-radius: inherit;
+    background: linear-gradient(90deg, var(--accent), var(--accent-strong));
+    transition: width 400ms ease-out;
+}
+
+.an-funnel-meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: var(--text-xs);
+    color: var(--ink-400);
+}
+
+/* ── Gráfico ────────────────────────────────────────────── */
+.an-chart-wrap {
+    position: relative;
+    height: 260px;
+}
+
+/* ── Tabla de fuentes ───────────────────────────────────── */
+.an-table-wrap {
+    overflow-x: auto;
+}
+
+.an-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--text-sm);
+}
+
+.an-table th {
+    padding: 9px 10px;
+    text-align: left;
+    font-size: var(--text-xs);
+    font-weight: 700;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: var(--ink-300);
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+}
+
+.an-table td {
+    padding: 11px 10px;
+    color: var(--ink-600);
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+}
+
+.an-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.an-table tbody tr:hover {
+    background: var(--bg);
+}
+
+.an-table td strong {
+    color: var(--ink-800, var(--ink-700));
+}
+
+/* ── Retención ──────────────────────────────────────────── */
+.an-retention {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.an-retention-item {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 12px;
+    background: var(--bg-subtle);
+    border-radius: var(--r-md);
+}
+
+.an-retention-label {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--ink-600);
+}
+
+.an-retention-item strong {
+    font-size: var(--text-lg);
+    font-weight: 800;
+    color: var(--ink-900);
+    letter-spacing: -.03em;
+}
+
+.an-retention-item > span:last-child {
+    font-size: var(--text-xs);
+    color: var(--ink-400);
+}
+
+/* ── Notas ──────────────────────────────────────────────── */
+.an-note {
+    margin-top: 14px;
+    font-size: var(--text-xs);
+    color: var(--ink-400);
+    line-height: 1.55;
+}
+
+.an-note--block {
+    margin-top: 0;
+    font-size: var(--text-sm);
+    color: var(--ink-500);
+}
+
+/* ── North Star ─────────────────────────────────────────── */
+.an-north-star {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.an-north-star-value {
+    font-size: clamp(28px, 5vw, 40px);
+    font-weight: 800;
+    color: var(--accent-text);
+    letter-spacing: -.04em;
+    line-height: 1;
+}
+
+.an-north-star-label {
+    font-size: var(--text-sm);
+    color: var(--ink-500);
+    line-height: 1.4;
+}
+
+@media (max-width: 768px) {
+    .an-funnel-meta {
+        flex-direction: column;
+        gap: 2px;
+    }
+
+    .an-chart-wrap {
+        height: 220px;
+    }
+}

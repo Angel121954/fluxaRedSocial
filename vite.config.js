@@ -228,9 +228,11 @@ export default defineConfig({
                 "resources/css/admin/users.css",
                 "resources/css/admin/reports.css",
                 "resources/css/admin/content.css",
+                "resources/css/admin/analytics.css",
 
                 // Admin JS
                 "resources/js/admin/index.js",
+                "resources/js/admin/analytics.js",
                 "resources/js/admin/users/table.js",
                 "resources/js/admin/users/badge-modal.js",
                 "resources/js/admin/shared/dropdown.js",
