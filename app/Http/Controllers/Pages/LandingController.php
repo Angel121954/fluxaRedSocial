@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Project;
 use App\Models\SkillEndorsement;
 use App\Models\User;
+use App\Services\AnalyticsService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -22,6 +23,8 @@ class LandingController extends Controller
                 ? redirect()->route('explore.index')
                 : redirect()->route('feed.index');
         }
+
+        AnalyticsService::track('page_viewed', properties: ['page' => 'landing']);
 
         return view('public.landing', [
             'stats' => $this->stats(),

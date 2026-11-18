@@ -80,6 +80,14 @@ class SocialAuthService
             $user->sendEmailVerificationNotification();
         }
 
+        if ($isNewUser) {
+            AnalyticsService::track('user_registered', $user, ['provider' => $provider]);
+
+            if ($user->email_verified_at !== null) {
+                AnalyticsService::track('email_verified', $user, ['provider' => $provider]);
+            }
+        }
+
         return $user;
     }
 

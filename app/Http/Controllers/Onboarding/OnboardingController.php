@@ -10,6 +10,7 @@ use App\Http\Requests\Onboarding\StoreBioRequest;
 use App\Http\Requests\Onboarding\StoreRoleRequest;
 use App\Models\Technology;
 use App\Models\User;
+use App\Services\AnalyticsService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -139,6 +140,10 @@ class OnboardingController extends Controller
         }
 
         $user->update(['onboarding_completed' => true]);
+
+        AnalyticsService::track('onboarding_completed', $user, [
+            'followed_users' => count($followIds),
+        ]);
 
         return redirect()->route('onboarding.firstProject');
     }

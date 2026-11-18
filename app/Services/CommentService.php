@@ -27,6 +27,12 @@ final class CommentService
 
         $this->notify($project, $comment, $author);
 
+        AnalyticsService::track('comment_created', $author, [
+            'project_id' => $project->id,
+            'is_reply' => $parentId !== null,
+            'is_first' => $author->comments()->count() === 1,
+        ]);
+
         return $comment;
     }
 

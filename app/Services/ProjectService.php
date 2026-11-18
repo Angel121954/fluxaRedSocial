@@ -51,6 +51,13 @@ class ProjectService
 
         Cache::forget('top_technologies');
 
+        AnalyticsService::track('project_published', $project->user, [
+            'project_id' => $project->id,
+            'privacy' => $project->privacy,
+            'technology_count' => $project->technologies()->count(),
+            'is_first' => $project->user->projects()->count() === 1,
+        ]);
+
         return $project;
     }
 

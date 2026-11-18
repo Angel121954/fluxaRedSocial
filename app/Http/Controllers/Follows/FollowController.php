@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Follows;
 use App\Events\FollowToggled;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Services\AnalyticsService;
 use App\Services\BadgeService;
 use App\Services\NotificationService;
 use Illuminate\Http\JsonResponse;
@@ -49,6 +50,11 @@ class FollowController extends Controller
                 $currentUser->id,
                 $currentUser->name
             );
+
+            AnalyticsService::track('follow_created', $currentUser, [
+                'followed_id' => $user->id,
+                'is_first' => $currentUser->follows()->count() === 1,
+            ]);
         }
 
         $this->badgeService->scanUser($currentUser);

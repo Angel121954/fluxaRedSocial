@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace App\Providers;
 
 use App\Listeners\AwardBadgeListener;
+use App\Listeners\TrackEmailVerified;
 use App\Models\Comment;
 use App\Models\Education;
 use App\Models\Project;
 use App\Models\SalaryReport;
 use App\Models\WorkExperience;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Auth\Events\Verified;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Events\CallQueuedListener;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -21,6 +23,9 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,
+        ],
+        Verified::class => [
+            TrackEmailVerified::class,
         ],
     ];
 

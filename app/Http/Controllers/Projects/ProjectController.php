@@ -12,6 +12,7 @@ use App\Http\Requests\Project\StoreProjectRequest;
 use App\Http\Requests\Project\UpdateProjectRequest;
 use App\Models\Project;
 use App\Models\ProjectMedia;
+use App\Services\AnalyticsService;
 use App\Services\ProjectService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
@@ -68,6 +69,11 @@ class ProjectController extends Controller
         ]);
 
         if (! Auth::check()) {
+            AnalyticsService::track('page_viewed', properties: [
+                'page' => 'project',
+                'project_id' => $project->id,
+            ]);
+
             return view('projects.public', compact('project'));
         }
 
@@ -176,9 +182,16 @@ class ProjectController extends Controller
     {
         $this->authorize('view', $project);
 
+        $sharesCount = $this->projectService->recordShare($project);
+
+        AnalyticsService::track('project_shared', Auth::user(), [
+            'project_id' => $project->id,
+            'shares_count' => $sharesCount,
+        ]);
+
         return response()->json([
             'success' => true,
-            'shares_count' => $this->projectService->recordShare($project),
+            'shares_count' => $sharesCount,
         ]);
     }
 

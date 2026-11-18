@@ -12,6 +12,7 @@ use App\Models\Conversation;
 use App\Models\Profile;
 use App\Models\Technology;
 use App\Models\User;
+use App\Services\AnalyticsService;
 use App\Services\BadgeService;
 use App\Services\CVService;
 use App\Services\ProfileService;
@@ -61,6 +62,10 @@ class ProfileController extends Controller
 
         if (Gate::denies('view', $profile)) {
             abort(Auth::guest() ? 404 : 403);
+        }
+
+        if (Auth::guest()) {
+            AnalyticsService::track('page_viewed', properties: ['page' => 'profile']);
         }
 
         $user->loadCount(['followers', 'follows']);

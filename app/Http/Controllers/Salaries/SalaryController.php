@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Salary\StoreSalaryReportRequest;
 use App\Models\SalaryReport;
 use App\Models\Technology;
+use App\Services\AnalyticsService;
 use App\Services\LocationService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -22,6 +23,10 @@ class SalaryController extends Controller
 
     public function index(): View
     {
+        if (Auth::guest()) {
+            AnalyticsService::track('page_viewed', properties: ['page' => 'salaries']);
+        }
+
         $countries = $this->locationService->getCountries();
         $technologies = Technology::orderBy('name')->get();
         $seniorities = [
