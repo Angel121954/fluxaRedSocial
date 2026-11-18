@@ -6,7 +6,6 @@ namespace App\Services;
 
 use App\Events\NotificationCreated;
 use App\Jobs\SendGroupedLikePush;
-use App\Mail\NotificationMail;
 use App\Models\Notification;
 use App\Models\NotificationPreference;
 use App\Models\Project;
@@ -15,7 +14,6 @@ use App\Models\User;
 use App\Notifications\WebPushNotification;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Notification as NotificationFacade;
 
 final class NotificationService
@@ -46,8 +44,6 @@ final class NotificationService
         if ($broadcast) {
             Event::dispatch(new NotificationCreated($notification));
         }
-
-        self::sendEmailForNotification($notification);
 
         if (! $skipPush) {
             self::sendPushForNotification($notification);
@@ -88,43 +84,6 @@ final class NotificationService
             title: $notification->title,
             body: $notification->body,
             link: $notification->link,
-        ));
-    }
-
-    private static function sendEmailForNotification(Notification $notification): void
-    {
-        $prefs = NotificationPreference::where('user_id', $notification->user_id)->first();
-
-        if (! $prefs || ! $prefs->email_enabled) {
-            return;
-        }
-
-        $flag = self::getPreferenceFlag($notification->type);
-
-        if ($flag && ! $prefs->$flag) {
-            return;
-        }
-
-        $user = User::find($notification->user_id);
-
-        if (! $user?->email) {
-            return;
-        }
-
-        $fromUserName = null;
-
-        if ($notification->from_user_id) {
-            $fromUser = User::find($notification->from_user_id);
-            $fromUserName = $fromUser?->name;
-        }
-
-        Mail::to($user)->queue(new NotificationMail(
-            user: $user,
-            subject: $notification->title,
-            body: $notification->body,
-            fromUserName: $fromUserName,
-            actionUrl: $notification->link,
-            actionText: 'Ver en Fluxa',
         ));
     }
 
