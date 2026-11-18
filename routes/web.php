@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\Admin\AnalyticsController;
 use App\Http\Controllers\Admin\CompanyController;
 use App\Http\Controllers\Admin\ContentController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -217,6 +218,9 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
 
         Route::get('/admin/dashboard', DashboardController::class)
             ->name('admin.dashboard');
+
+        Route::get('/admin/analytics', AnalyticsController::class)
+            ->name('admin.analytics.index');
 
         Route::get('/admin/users', [AdminUserController::class, 'index'])
             ->name('admin.users.index');
