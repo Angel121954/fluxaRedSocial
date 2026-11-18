@@ -1,7 +1,7 @@
 <x-mail::message>
 # Hola, {{ $user->name }}!
 
-Este es tu resumen semanal de lo **mas importante** en Fluxa.
+Este es tu resumen semanal de lo **más importante** en Fluxa.
 
 <x-mail::panel>
 ## Tus logros de la semana
@@ -62,7 +62,8 @@ Ver proyectos destacados
 @endif
 
 <x-mail::subcopy>
-Puedes cambiar tus preferencias de notificaciones en cualquier momento desde [Configuracion]({{ route('notification-preference.index') }}).
+Recibes este correo porque tienes activado el resumen semanal en Fluxa.
+Puedes [gestionar tus preferencias]({{ route('notification-preference.index') }}) o [darte de baja con un clic]({{ $unsubscribeUrl }}).
 </x-mail::subcopy>
 
 Saludos,<br>

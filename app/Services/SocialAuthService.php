@@ -70,7 +70,7 @@ class SocialAuthService
                 'notify_comments' => true,
                 'notify_followers' => true,
                 'notify_mentions' => true,
-                'weekly_summary' => false,
+                'weekly_summary' => true,
             ]
         );
 

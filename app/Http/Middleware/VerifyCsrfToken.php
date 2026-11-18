@@ -14,6 +14,7 @@ class VerifyCsrfToken extends Middleware
      * @var array<int, string>
      */
     protected $except = [
-        //
+        // La baja desde email llega sin token: la firma de la URL ya autoriza la acción.
+        'unsubscribe/*',
     ];
 }

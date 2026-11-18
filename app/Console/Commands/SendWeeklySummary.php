@@ -7,10 +7,13 @@ namespace App\Console\Commands;
 use App\Mail\WeeklySummary;
 use App\Models\Project;
 use App\Models\User;
+use App\Services\AnalyticsService;
 use Illuminate\Console\Command;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\URL;
 
 class SendWeeklySummary extends Command
 {
@@ -91,7 +94,27 @@ class SendWeeklySummary extends Command
                 'new_comments' => $this->countNewComments($user),
             ];
 
-            Mail::to($user)->send(new WeeklySummary($user, $stats, $trending));
+            $unsubscribeUrl = URL::temporarySignedRoute(
+                'email.unsubscribe.show',
+                now()->addDays(30),
+                ['user' => $user->id],
+            );
+
+            $unsubscribeOneClickUrl = URL::temporarySignedRoute(
+                'email.unsubscribe.destroy',
+                now()->addDays(30),
+                ['user' => $user->id],
+            );
+
+            Mail::to($user)->queue(new WeeklySummary(
+                $user,
+                $stats,
+                $trending,
+                $unsubscribeUrl,
+                $unsubscribeOneClickUrl,
+            ));
+
+            AnalyticsService::track('weekly_summary_sent', $user);
 
             return true;
         } catch (\Throwable $e) {

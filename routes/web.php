@@ -23,6 +23,7 @@ use App\Http\Controllers\Notifications\PushSubscriptionController;
 use App\Http\Controllers\Onboarding\OnboardingController;
 use App\Http\Controllers\Pages\AboutFluxaController;
 use App\Http\Controllers\Pages\ContactController;
+use App\Http\Controllers\Pages\EmailUnsubscribeController;
 use App\Http\Controllers\Pages\LandingController;
 use App\Http\Controllers\Pages\PrivacyPolicyController;
 use App\Http\Controllers\Pages\ProblemReportController;
@@ -72,6 +73,14 @@ Route::get('/contact', [ContactController::class, 'index'])
 Route::post('/contact', [ContactController::class, 'store'])
     ->name('contact.store')
     ->middleware('throttle:reports');
+
+Route::get('/unsubscribe/{user}', [EmailUnsubscribeController::class, 'show'])
+    ->middleware('signed')
+    ->name('email.unsubscribe.show');
+
+Route::post('/unsubscribe/{user}', [EmailUnsubscribeController::class, 'destroy'])
+    ->middleware('signed')
+    ->name('email.unsubscribe.destroy');
 
 Route::get('/salaries', [SalaryController::class, 'index'])
     ->name('salaries.index');
