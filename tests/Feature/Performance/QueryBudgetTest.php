@@ -24,7 +24,7 @@ function queryBudgetUser(): User
         'onboarding_completed' => true,
     ]);
 
-    Profile::factory()->for($user)->create();
+    Profile::factory()->for($user)->create(['visibility' => 'public']);
 
     return $user;
 }
