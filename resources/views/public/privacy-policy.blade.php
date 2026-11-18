@@ -164,6 +164,7 @@
                 <ul class="privacy-list">
                     <li>Dirección IP y datos del navegador (user agent)</li>
                     <li>Páginas visitadas y tiempo de sesión</li>
+                    <li>Eventos de uso (registro, publicación, interacción) para mejorar el producto</li>
                     <li>Datos de cookies de sesión y preferencias</li>
                 </ul>
             </div>
