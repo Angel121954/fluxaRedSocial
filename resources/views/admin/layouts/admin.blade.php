@@ -89,7 +89,7 @@
             </a>
 
             <span class="sb-group-label">Analytics</span>
-            <a class="sb-link">
+            <a class="sb-link {{ request()->routeIs('admin.analytics.*') ? 'active' : '' }}" href="{{ route('admin.analytics.index') }}">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="18" y1="20" x2="18" y2="10" />
                     <line x1="12" y1="20" x2="12" y2="4" />
@@ -97,20 +97,20 @@
                 </svg>
                 Resumen
             </a>
-            <a class="sb-link">
+            <a class="sb-link" href="{{ route('admin.analytics.index') }}#trafico">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
                     <polyline points="17 6 23 6 23 12" />
                 </svg>
                 Tráfico
             </a>
-            <a class="sb-link">
+            <a class="sb-link" href="{{ route('admin.analytics.index') }}#actividad">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
                 </svg>
                 Actividad
             </a>
-            <a class="sb-link">
+            <a class="sb-link" href="{{ route('admin.analytics.index') }}#retencion">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M17 1l4 4-4 4" />
                     <path d="M3 11V9a4 4 0 014-4h14" />
