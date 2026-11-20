@@ -162,6 +162,7 @@ class SocialAuthService
                 'provider_id' => $socialUser->getId(),
                 'status' => 'activo',
                 'role' => 'user',
+                'account_type' => 'developer',
             ]);
 
             $user->forceFill([

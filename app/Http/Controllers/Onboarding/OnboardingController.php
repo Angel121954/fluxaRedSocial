@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Onboarding;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Onboarding\StoreAccountTypeRequest;
-use App\Http\Requests\Onboarding\StoreBioRequest;
 use App\Http\Requests\Onboarding\StoreRoleRequest;
 use App\Models\Technology;
 use App\Models\User;
@@ -16,22 +14,13 @@ use Illuminate\Support\Facades\Auth;
 
 class OnboardingController extends Controller
 {
-    public function accountType()
-    {
-        return view('onboarding.account-type');
-    }
-
-    public function saveAccountType(StoreAccountTypeRequest $request)
+    public function technologies()
     {
         /** @var User $user */
         $user = Auth::user();
-        $user->update(['account_type' => $request->account_type]);
 
-        return redirect()->route('onboarding.technologies');
-    }
+        AnalyticsService::track('onboarding_step_viewed', $user, ['step' => 'technologies']);
 
-    public function technologies()
-    {
         $technologies = Technology::orderBy('name')->get();
 
         $featuredSlugs = [
@@ -51,13 +40,25 @@ class OnboardingController extends Controller
     {
         /** @var User $user */
         $user = Auth::user();
-        $user->technologies()->sync($request->technologies ?? []);
+        $technologies = $request->technologies ?? [];
+
+        $user->technologies()->sync($technologies);
+
+        AnalyticsService::track('onboarding_step_completed', $user, [
+            'step' => 'technologies',
+            'technologies_count' => count($technologies),
+        ]);
 
         return redirect()->route('onboarding.role');
     }
 
     public function role()
     {
+        /** @var User $user */
+        $user = Auth::user();
+
+        AnalyticsService::track('onboarding_step_viewed', $user, ['step' => 'role']);
+
         return view('onboarding.role');
     }
 
@@ -65,84 +66,31 @@ class OnboardingController extends Controller
     {
         /** @var User $user */
         $user = Auth::user();
-        if (! $user) {
-            return redirect()->route('login');
-        }
-        $user->profile()->update(['specialty' => $request->role]);
-
-        return redirect()->route('onboarding.bio');
-    }
-
-    public function bio()
-    {
-        return view('onboarding.bio');
-    }
-
-    public function saveBio(StoreBioRequest $request)
-    {
-        /** @var User $user */
-        $user = Auth::user();
-        if (! $user) {
-            return redirect()->route('login');
-        }
-
-        if ($request->filled('bio')) {
-            $user->profile()->update(['bio' => strip_tags($request->bio)]);
-        }
-
-        return redirect()->route('onboarding.suggestions');
-    }
-
-    public function suggestions()
-    {
-        /** @var User $user */
-        $user = Auth::user();
-
-        $technologyIds = $user->technologies()->pluck('technologies.id');
-        $specialty = $user->profile?->specialty;
-
-        $suggested = User::query()
-            ->select('users.id', 'users.name', 'users.username', 'profiles.specialty', 'profiles.avatar')
-            ->join('profiles', 'profiles.user_id', '=', 'users.id')
-            ->where('users.id', '!=', $user->id)
-            ->where('users.role', '!=', 'guest')
-            ->visible()
-            ->where('profiles.visibility', 'public')
-            ->withCount([
-                'technologies as shared_technologies_count' => fn ($query) => $query->whereIn('technologies.id', $technologyIds),
-            ])
-            ->orderByDesc('shared_technologies_count')
-            ->when(
-                $specialty,
-                fn ($query) => $query->orderByRaw('CASE WHEN profiles.specialty = ? THEN 0 ELSE 1 END', [$specialty])
-            )
-            ->inRandomOrder()
-            ->take(6)
-            ->get();
-
-        return view('onboarding.suggestions', compact('suggested'));
-    }
-
-    public function saveSuggestions(Request $request)
-    {
-        /** @var User $user */
-        $user = Auth::user();
 
         if (! $user) {
             return redirect()->route('login');
         }
 
-        $followIds = $request->input('follow', []);
-        foreach ($followIds as $id) {
-            if (is_numeric($id) && $user->id != $id) {
-                $user->follows()->syncWithoutDetaching([(int) $id]);
-            }
-        }
+        $user->profile()->updateOrCreate([], [
+            'specialty' => $request->role,
+            'intent' => $request->intent,
+        ]);
 
-        $user->update(['onboarding_completed' => true]);
+        $user->update([
+            'onboarding_completed' => true,
+            'account_type' => $user->account_type ?? 'developer',
+        ]);
+
+        AnalyticsService::track('onboarding_step_completed', $user, [
+            'step' => 'role',
+            'role' => $request->role,
+            'intent' => $request->intent,
+        ]);
 
         AnalyticsService::track('onboarding_completed', $user, [
-            'followed_users' => count($followIds),
+            'role' => $request->role,
+            'intent' => $request->intent,
+            'technologies_count' => $user->technologies()->count(),
         ]);
 
         return redirect()->route('onboarding.firstProject');
@@ -150,8 +98,18 @@ class OnboardingController extends Controller
 
     public function firstProject()
     {
+        /** @var User $user */
+        $user = Auth::user();
+
+        if (! $user->onboarding_completed) {
+            return redirect()->route('onboarding.technologies');
+        }
+
+        AnalyticsService::track('onboarding_step_viewed', $user, ['step' => 'first_project']);
+
         return view('onboarding.first-project', [
-            'canPublish' => Auth::user()->hasVerifiedEmail(),
+            'canImportGithub' => $user->hasVerifiedEmail(),
+            'isVerified' => $user->hasVerifiedEmail(),
         ]);
     }
 }

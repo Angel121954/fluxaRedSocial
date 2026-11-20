@@ -109,6 +109,44 @@ h1 {
     line-height: 1.5;
 }
 
+/* ─── Intención ──────────────────────────────────── */
+.intent-field {
+    margin-bottom: 20px;
+}
+
+.intent-label {
+    display: block;
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--ink-700);
+    margin-bottom: 6px;
+}
+
+.intent-select {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    background: var(--ink-50);
+    font-family: inherit;
+    font-size: var(--text-base);
+    color: var(--ink-900);
+    transition: border-color 0.15s, background 0.15s, box-shadow 0.15s;
+}
+
+.intent-select:focus {
+    outline: none;
+    border-color: var(--accent-border);
+    background: var(--surface);
+    box-shadow: 0 0 0 3px var(--accent-ring);
+}
+
+.onboarding-error {
+    font-size: var(--text-xs);
+    color: var(--danger-text);
+    margin: -12px 0 12px;
+}
+
 /* ─── Role grid ──────────────────────────────────── */
 .roles {
     display: grid;

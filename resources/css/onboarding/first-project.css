@@ -201,6 +201,24 @@ h1 {
     line-height: 1.5;
 }
 
+.fp-verify--soft {
+    flex: initial;
+    margin-top: 14px;
+    padding: 14px 16px;
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    background: var(--ink-50);
+}
+
+.fp-verify--soft > strong {
+    font-size: var(--text-sm);
+}
+
+.fp-verify--soft > p {
+    margin-bottom: 8px;
+    font-size: var(--text-xs);
+}
+
 /* ─── Skip ───────────────────────────────────────── */
 .skip {
     text-align: center;

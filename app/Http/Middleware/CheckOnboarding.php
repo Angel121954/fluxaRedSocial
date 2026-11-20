@@ -20,12 +20,10 @@ class CheckOnboarding
         $user = Auth::user();
         /** @var \App\Models\User $user */
 
-        if (Auth::check() && $user->role !== 'guest' && !$user->onboarding_completed) {
-            if (is_null($user->account_type)) {
-                return redirect()->route('onboarding.accountType');
-            }
+        if (Auth::check() && $user->role !== 'guest' && ! $user->onboarding_completed) {
             return redirect()->route('onboarding.technologies');
         }
+
         return $next($request);
     }
 }

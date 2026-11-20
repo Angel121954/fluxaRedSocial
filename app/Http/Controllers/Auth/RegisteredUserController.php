@@ -46,6 +46,7 @@ class RegisteredUserController extends Controller
             'name' => strip_tags($request->name),
             'username' => strtolower(strip_tags($request->username)),
             'role' => 'user',
+            'account_type' => 'developer',
             'email' => strtolower($request->email),
             'password' => Hash::make($request->password),
             'remember_token' => Str::random(60),
@@ -68,6 +69,6 @@ class RegisteredUserController extends Controller
             'provider' => 'email',
         ]);
 
-        return redirect()->route('onboarding.accountType');
+        return redirect()->route('onboarding.technologies');
     }
 }

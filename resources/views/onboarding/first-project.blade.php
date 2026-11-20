@@ -13,16 +13,12 @@
         <div class="progress-bar">
             <span class="done"></span>
             <span class="done"></span>
-            <span class="done"></span>
-            <span class="done"></span>
-            <span class="done"></span>
             <span class="active"></span>
         </div>
 
         <h1>Publica tu primer proyecto</h1>
-        <p class="subtitle">Paso 6 de 6 · Es la forma más rápida de que la comunidad te conozca</p>
+        <p class="subtitle">Paso 3 de 3 · Opcional · Es la forma más rápida de que la comunidad te conozca</p>
 
-        @if($canPublish)
         <div class="first-project-options">
             <button type="button" class="fp-option fp-option--primary" onclick="abrirModal()">
                 <span class="fp-option__icon" aria-hidden="true">
@@ -36,6 +32,7 @@
                 </span>
             </button>
 
+            @if($canImportGithub)
             <a href="{{ route('github.connect') }}" class="fp-option">
                 <span class="fp-option__icon" aria-hidden="true">
                     <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
@@ -47,12 +44,14 @@
                     <span>Conecta tu cuenta y convierte un repositorio en proyecto automáticamente.</span>
                 </span>
             </a>
+            @endif
         </div>
-        @else
-        <div class="fp-verify">
-            <strong>Verifica tu correo para publicar</strong>
-            <p>Enviamos un enlace de verificación a <strong>{{ Auth::user()->email }}</strong>. Una vez verificado, podrás publicar tu primer proyecto.</p>
-            <a href="{{ route('verification.notice') }}" class="fp-option fp-option--primary">
+
+        @if(! $isVerified)
+        <div class="fp-verify fp-verify--soft">
+            <strong>Verifica tu correo cuando puedas</strong>
+            <p>Puedes publicar manualmente ahora. Verifica tu correo para importar desde GitHub y proteger tu cuenta.</p>
+            <a href="{{ route('verification.notice') }}" class="fp-option">
                 <span class="fp-option__icon" aria-hidden="true">
                     <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -88,9 +87,7 @@
 
 </div>
 
-@if($canPublish)
 <x-new-project />
-@endif
 @endsection
 
 @push('styles')

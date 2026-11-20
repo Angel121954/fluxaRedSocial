@@ -148,12 +148,6 @@ Route::get('/auth/{provider}/callback', [SocialAuthController::class, 'callback'
 */
 Route::middleware(['auth', 'prevent-back-history'])->group(function () {
 
-    Route::get('/onboarding/account-type', [OnboardingController::class, 'accountType'])
-        ->name('onboarding.accountType');
-
-    Route::post('/onboarding/account-type', [OnboardingController::class, 'saveAccountType'])
-        ->name('onboarding.saveAccountType');
-
     Route::get('/onboarding/technologies', [OnboardingController::class, 'technologies'])
         ->name('onboarding.technologies');
 
@@ -166,18 +160,6 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
     Route::post('/onboarding/role', [OnboardingController::class, 'saveRole'])
         ->name('onboarding.saveRole');
 
-    Route::get('/onboarding/bio', [OnboardingController::class, 'bio'])
-        ->name('onboarding.bio');
-
-    Route::post('/onboarding/bio', [OnboardingController::class, 'saveBio'])
-        ->name('onboarding.saveBio');
-
-    Route::get('/onboarding/suggestions', [OnboardingController::class, 'suggestions'])
-        ->name('onboarding.suggestions');
-
-    Route::post('/onboarding/suggestions', [OnboardingController::class, 'saveSuggestions'])
-        ->name('onboarding.saveSuggestions');
-
     Route::get('/onboarding/first-project', [OnboardingController::class, 'firstProject'])
         ->name('onboarding.firstProject');
 
@@ -187,6 +169,10 @@ Route::middleware(['auth', 'prevent-back-history'])->group(function () {
     Route::post('/users/{user}/follow', [FollowController::class, 'toggle'])
         ->name('users.follow')
         ->middleware(['restrict.guest', 'throttle:follows']);
+
+    Route::resource('projects', ProjectController::class)
+        ->only(['store', 'edit', 'update', 'destroy'])
+        ->middlewareFor(['store', 'update'], 'throttle:uploads');
 });
 
 /*
@@ -597,9 +583,6 @@ Route::middleware(['auth', 'prevent-back-history', 'onboarding'])->group(functio
         Route::get('/settings/cv/download', [CVSettingsController::class, 'download'])->name('cv.download');
         Route::get('/settings/cv/download/{format}', [CVSettingsController::class, 'downloadFormat'])->name('cv.download.format')
             ->where('format', 'pdf|ats|json');
-        Route::resource('projects', ProjectController::class)
-            ->only(['store', 'edit', 'update', 'destroy'])
-            ->middlewareFor(['store', 'update'], 'throttle:uploads');
         Route::resource('educations', EducationController::class)
             ->middlewareFor(['store', 'update', 'destroy'], 'throttle:interactions');
         Route::resource('credentials', CredentialController::class)

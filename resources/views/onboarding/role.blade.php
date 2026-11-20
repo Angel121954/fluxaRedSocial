@@ -12,15 +12,12 @@
 
         <div class="progress-bar">
             <span class="done"></span>
-            <span class="done"></span>
             <span class="active"></span>
-            <span></span>
-            <span></span>
             <span></span>
         </div>
 
-        <h1>¿Cuál es tu rol?</h1>
-        <p class="subtitle">Paso 3 de 6 · Personalizaremos tu feed según tu especialidad</p>
+        <h1>Tu perfil profesional</h1>
+        <p class="subtitle">Paso 2 de 3 · Elige tu rol y cuéntanos qué buscas</p>
 
         <form action="{{ route('onboarding.saveRole') }}" method="POST">
             @csrf
@@ -38,7 +35,7 @@
 
                 @foreach($roles as $role)
                 <div class="role-item">
-                    <input type="radio" name="role" value="{{ $role['value'] }}" id="role_{{ $loop->index }}" {{ $loop->first ? 'checked' : '' }}>
+                    <input type="radio" name="role" value="{{ $role['value'] }}" id="role_{{ $loop->index }}" {{ old('role', 'frontend') === $role['value'] ? 'checked' : '' }}>
                     <label for="role_{{ $loop->index }}">
                         <div class="role-icon">
                             <i class="{{ $role['icon'] }}"></i>
@@ -53,10 +50,27 @@
                 @endforeach
             </div>
 
+            @error('role')
+            <p class="onboarding-error">{{ $message }}</p>
+            @enderror
+
+            <div class="intent-field">
+                <label for="intent" class="intent-label">¿Qué buscas?</label>
+                <select name="intent" id="intent" class="intent-select" required>
+                    <option value="">Selecciona una opción</option>
+                    @foreach(\App\Models\Profile::INTENTS as $value => $label)
+                    <option value="{{ $value }}" @selected(old('intent') === $value)>{{ $label }}</option>
+                    @endforeach
+                </select>
+                @error('intent')
+                <p class="onboarding-error">{{ $message }}</p>
+                @enderror
+            </div>
+
             <button type="submit" class="btn">Continuar →</button>
         </form>
 
-        <p class="skip"><a href="{{ route('onboarding.suggestions') }}">Omitir por ahora</a></p>
+        <p class="skip">Podrás cambiar esto después desde tu perfil.</p>
     </div>
 
     <!-- RIGHT -->
