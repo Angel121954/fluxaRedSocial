@@ -10,7 +10,6 @@ import '../shared/topbar.js';
 import '../core/projects/newProject.js';
 import '../projects/modalComment.js';
 import '../profile/shareProfile.js';
-import '../onboarding/suggestions.js';
 
 document.addEventListener('click', (event) => {
     const trigger = event.target.closest('[data-create-project]');

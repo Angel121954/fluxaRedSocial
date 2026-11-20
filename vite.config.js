@@ -100,11 +100,8 @@ export default defineConfig({
                 "resources/css/public/unsubscribe.css",
 
                 // Onboarding
-                "resources/css/onboarding/account-type.css",
                 "resources/css/onboarding/role.css",
-                "resources/css/onboarding/bio.css",
                 "resources/css/onboarding/technologies.css",
-                "resources/css/onboarding/suggestions.css",
                 "resources/css/onboarding/first-project.css",
 
                 // Jobs
@@ -204,7 +201,6 @@ export default defineConfig({
 
                 // Onboarding JS
                 "resources/js/onboarding/index.js",
-                "resources/js/onboarding/suggestions.js",
                 "resources/js/onboarding/technologies.js",
 
                 // Salaries JS

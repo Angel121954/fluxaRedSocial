@@ -3,7 +3,6 @@
  * @vite('resources/js/onboarding/index.js')
  */
 
-import './suggestions.js';
 import { initTechFilter } from './technologies.js';
 
 document.addEventListener('DOMContentLoaded', function() {
