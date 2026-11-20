@@ -24,7 +24,9 @@ Fluxa registra eventos de producto en `analytics_events` para medir el camino de
 | `register_started` | Un invitado abre el formulario de registro. | `null` |
 | `user_registered` | Se crea una cuenta con email o red social. | Sí |
 | `email_verified` | Se verifica el correo (evento `Verified` de Laravel). | Sí |
-| `onboarding_completed` | Se guardan las sugerencias del onboarding. | Sí |
+| `onboarding_step_viewed` | Se abre un paso del onboarding (`technologies`, `role`, `first_project`). | Sí |
+| `onboarding_step_completed` | Se guarda un paso del onboarding (`technologies`, `role`). | Sí |
+| `onboarding_completed` | Se guarda el rol y la intención del onboarding. | Sí |
 | `follow_created` | Un usuario empieza a seguir a otro. | Sí |
 | `project_published` | Se crea un proyecto. | Sí |
 | `comment_created` | Se comenta un proyecto. | Sí |

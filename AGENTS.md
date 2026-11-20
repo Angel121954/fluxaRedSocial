@@ -278,7 +278,7 @@ resources/
 │   │   │                      # realtimeHandler, sender, typingHandler, ui
 │   │   └── projects/          # newProject, projectMedia
 │   ├── notifications/         # index, badges, realtime
-│   ├── onboarding/            # index, suggestions, technologies
+│   ├── onboarding/            # index, technologies
 │   ├── profile/               # index, avatar, cv, account, tabs, workExperience,
 │   │                          # education, filters, dropdown, profileOptions, etc.
 │   ├── projects/              # commentForm, commentRenderer, modalComment
@@ -365,7 +365,7 @@ routes/
 ## Features implementados
 - OAuth social login + 2FA (Fortify)
 - Sistema de invitado (guest login + auto-cleanup)
-- Onboarding multi-paso (tecnologías → rol → sugerencias de usuarios)
+- Onboarding de 3 pasos (tecnologías → rol e intención → primer proyecto opcional)
 - Feed de proyectos con paginación
 - Explore con filtros: trending, reciente, por topic/tecnología
 - Perfil público con tabs (proyectos, experiencia, educación, bookmarks)
