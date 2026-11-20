@@ -32,12 +32,20 @@ class Profile extends Model
         'data' => 'Data',
     ];
 
+    public const INTENTS = [
+        'first_job' => 'Busco mi primer empleo',
+        'grow' => 'Quiero crecer profesionalmente',
+        'collaborate' => 'Busco colaborar en proyectos',
+        'hire' => 'Busco talento para contratar',
+    ];
+
     protected $fillable = [
         'user_id',
         'avatar',
         'cover_image',
         'bio',
         'specialty',
+        'intent',
         'country',
         'city',
         'language',
