@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests\Profile;
 
+use App\Models\Profile;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -22,6 +23,7 @@ class UpdateConfigurationRequest extends FormRequest
             'name' => ['required', 'string', 'max:255'],
             'username' => ['required', 'string', 'max:255', Rule::unique('users', 'username')->ignore($userId)],
             'bio' => ['nullable', 'string', 'min:5', 'max:400'],
+            'intent' => ['nullable', Rule::in(array_keys(Profile::INTENTS))],
             'website_url' => ['nullable', 'url', 'max:255'],
             'github_url' => ['nullable', 'url', 'max:255'],
             'twitter_url' => ['nullable', 'url', 'max:255'],
@@ -41,6 +43,7 @@ class UpdateConfigurationRequest extends FormRequest
             'username.unique' => 'Este nombre de usuario ya está en uso',
             'bio.min' => 'La biografía debe tener un mínimo de 5 caracteres',
             'bio.max' => 'La biografía debe tener un máximo de 400 caracteres',
+            'intent.in' => 'La opción seleccionada no es válida',
             'website_url.url' => 'El sitio web debe ser una URL válida',
             'github_url.url' => 'El enlace de GitHub debe ser una URL válida',
             'twitter_url.url' => 'El enlace de Twitter debe ser una URL válida',

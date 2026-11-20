@@ -33,6 +33,15 @@
                 <div class="char-count" id="charCount">0/400</div>
             </x-form-group>
 
+            <x-form-group name="intent" label="¿Qué buscas?" hint="Nos ayuda a personalizar las sugerencias y el feed">
+                <select name="intent" class="form-input" id="input-intent">
+                    <option value="">Selecciona una opción</option>
+                    @foreach(\App\Models\Profile::INTENTS as $value => $label)
+                    <option value="{{ $value }}" @selected(old('intent', Auth()->user()?->profile?->intent) === $value)>{{ $label }}</option>
+                    @endforeach
+                </select>
+            </x-form-group>
+
             <x-form-group name="website_url" label="Sitio web">
                 <div class="input-with-button">
                     <input name="website_url" type="url" class="form-input" id="input-website_url"

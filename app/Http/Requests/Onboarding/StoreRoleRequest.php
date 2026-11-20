@@ -19,6 +19,7 @@ class StoreRoleRequest extends FormRequest
     {
         return [
             'role' => ['required', Rule::in(Profile::SPECIALTIES)],
+            'intent' => ['required', Rule::in(array_keys(Profile::INTENTS))],
         ];
     }
 
@@ -27,6 +28,8 @@ class StoreRoleRequest extends FormRequest
         return [
             'role.required' => 'Debes seleccionar tu rol profesional',
             'role.in' => 'El rol profesional seleccionado no es válido',
+            'intent.required' => 'Debes seleccionar qué estás buscando',
+            'intent.in' => 'La opción seleccionada no es válida',
         ];
     }
 }

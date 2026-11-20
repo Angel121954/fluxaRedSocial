@@ -30,6 +30,7 @@ class ConfigurationController extends Controller
 
         $user->profile->update([
             'bio' => $request->bio,
+            'intent' => $request->intent ?: null,
             'website_url' => $request->website_url,
             'github_url' => $request->github_url,
             'twitter_url' => $request->twitter_url,
