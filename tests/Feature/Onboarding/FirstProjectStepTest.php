@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-use App\Models\Profile;
-use App\Models\Technology;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -14,19 +12,34 @@ function onboardingUser(): User
     return User::factory()->create(['onboarding_completed' => false]);
 }
 
-describe('Paso final del onboarding', function () {
-    it('redirige al paso de primer proyecto al terminar las sugerencias', function () {
+describe('Onboarding', function () {
+    it('guarda el rol y la intención, y completa el onboarding', function () {
         $user = onboardingUser();
 
         $this->actingAs($user)
-            ->post(route('onboarding.saveSuggestions'), ['follow' => []])
+            ->post(route('onboarding.saveRole'), [
+                'role' => 'backend',
+                'intent' => 'first_job',
+            ])
             ->assertRedirect(route('onboarding.firstProject'));
 
-        expect($user->fresh()->onboarding_completed)->toBeTrue();
+        $user->refresh();
+
+        expect($user->onboarding_completed)->toBeTrue()
+            ->and($user->profile->specialty)->toBe('backend')
+            ->and($user->profile->intent)->toBe('first_job');
+    });
+
+    it('redirige al onboarding si intenta saltarse los pasos', function () {
+        $user = onboardingUser();
+
+        $this->actingAs($user)
+            ->get(route('onboarding.firstProject'))
+            ->assertRedirect(route('onboarding.technologies'));
     });
 
     it('muestra las opciones para publicar o importar un proyecto', function () {
-        $user = onboardingUser();
+        $user = User::factory()->create(['onboarding_completed' => true]);
 
         $this->actingAs($user)
             ->get(route('onboarding.firstProject'))
@@ -36,57 +49,29 @@ describe('Paso final del onboarding', function () {
             ->assertSee('Importar desde GitHub');
     });
 
-    it('pide verificar el correo cuando el usuario aún no está verificado', function () {
-        $user = onboardingUser();
+    it('permite publicar sin verificar pero no importar desde GitHub', function () {
+        $user = User::factory()->create(['onboarding_completed' => true]);
         $user->forceFill(['email_verified_at' => null])->save();
 
         $this->actingAs($user)
             ->get(route('onboarding.firstProject'))
             ->assertOk()
-            ->assertSee('Verifica tu correo para publicar')
-            ->assertDontSee('Crear proyecto manualmente');
+            ->assertSee('Crear proyecto manualmente')
+            ->assertDontSee('Importar desde GitHub')
+            ->assertSee('Verifica tu correo cuando puedas');
     });
 
-    it('ofrece omitir las sugerencias sin saltarse el paso de publicar', function () {
-        $user = onboardingUser();
-        Profile::factory()->for($user)->create(['visibility' => 'public']);
+    it('permite publicar el primer proyecto sin verificar el correo', function () {
+        $user = User::factory()->create(['onboarding_completed' => true]);
+        $user->forceFill(['email_verified_at' => null])->save();
 
         $this->actingAs($user)
-            ->get(route('onboarding.suggestions'))
-            ->assertOk()
-            ->assertSee(route('onboarding.firstProject'), false)
-            ->assertDontSee(route('explore.index'), false);
-    });
+            ->postJson(route('projects.store'), [
+                'title' => 'Mi primer proyecto',
+                'content' => 'Un proyecto de prueba con suficiente contenido.',
+            ])
+            ->assertCreated();
 
-    it('prioriza devs con tecnologías en común y excluye perfiles privados', function () {
-        $viewer = onboardingUser();
-
-        Profile::factory()->for($viewer)->create([
-            'visibility' => 'public',
-            'specialty' => 'backend',
-        ]);
-
-        $technology = Technology::create([
-            'name' => 'Laravel',
-            'slug' => 'laravel-test',
-            'icon' => null,
-        ]);
-        $viewer->technologies()->attach($technology->id);
-
-        $sharedDev = User::factory()->create(['name' => 'Dev Con Laravel', 'username' => 'dev-con-laravel']);
-        Profile::factory()->for($sharedDev)->create(['visibility' => 'public', 'specialty' => 'frontend']);
-        $sharedDev->technologies()->attach($technology->id);
-
-        $otherDev = User::factory()->create(['name' => 'Dev Sin Stack', 'username' => 'dev-sin-stack']);
-        Profile::factory()->for($otherDev)->create(['visibility' => 'public', 'specialty' => 'frontend']);
-
-        $privateDev = User::factory()->create(['name' => 'Dev Privado', 'username' => 'dev-privado']);
-        Profile::factory()->for($privateDev)->create(['visibility' => 'private', 'specialty' => 'backend']);
-
-        $this->actingAs($viewer)
-            ->get(route('onboarding.suggestions'))
-            ->assertOk()
-            ->assertSeeInOrder(['Dev Con Laravel', 'Dev Sin Stack'])
-            ->assertDontSee('Dev Privado');
+        expect($user->projects()->count())->toBe(1);
     });
 });

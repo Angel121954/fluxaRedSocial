@@ -21,12 +21,13 @@ describe('Registro de usuarios', function () {
             'email' => $username.'@gmail.com',
             'password' => 'Password123',
             'password_confirmation' => 'Password123',
-        ])->assertRedirect(route('onboarding.accountType'));
+        ])->assertRedirect(route('onboarding.technologies'));
 
         $user = User::where('username', $username)->first();
 
         expect($user)->not->toBeNull()
             ->and($user->role)->toBe('user')
+            ->and($user->account_type)->toBe('developer')
             ->and($user->profile)->not->toBeNull()
             ->and($user->notificationPreferences)->not->toBeNull();
     });

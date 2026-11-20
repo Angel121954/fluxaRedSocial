@@ -32,7 +32,7 @@ describe('Registro de eventos de analítica', function () {
             'email' => 'anadev@gmail.com',
             'password' => 'password123',
             'password_confirmation' => 'password123',
-        ])->assertRedirect(route('onboarding.accountType'));
+        ])->assertRedirect(route('onboarding.technologies'));
 
         $this->assertDatabaseHas('analytics_events', [
             'name' => 'user_registered',
@@ -82,5 +82,40 @@ describe('Registro de eventos de analítica', function () {
             ->where('name', 'session_started')
             ->where('user_id', $user->id)
             ->count())->toBe(1);
+    });
+
+    it('registra los pasos vistos y completados del onboarding', function () {
+        $user = User::factory()->create(['onboarding_completed' => false]);
+
+        $this->actingAs($user)->get(route('onboarding.technologies'))->assertOk();
+        $this->actingAs($user)->get(route('onboarding.role'))->assertOk();
+
+        $this->actingAs($user)
+            ->post(route('onboarding.saveTechnologies'), ['technologies' => []])
+            ->assertRedirect(route('onboarding.role'));
+
+        $this->actingAs($user)
+            ->post(route('onboarding.saveRole'), [
+                'role' => 'backend',
+                'intent' => 'grow',
+            ])
+            ->assertRedirect(route('onboarding.firstProject'));
+
+        $viewed = AnalyticsEvent::query()
+            ->where('name', 'onboarding_step_viewed')
+            ->where('user_id', $user->id)
+            ->get()
+            ->map(fn (AnalyticsEvent $event): ?string => $event->properties['step'] ?? null);
+
+        $completed = AnalyticsEvent::query()
+            ->where('name', 'onboarding_step_completed')
+            ->where('user_id', $user->id)
+            ->get()
+            ->map(fn (AnalyticsEvent $event): ?string => $event->properties['step'] ?? null);
+
+        expect($viewed->contains('technologies'))->toBeTrue()
+            ->and($viewed->contains('role'))->toBeTrue()
+            ->and($completed->contains('technologies'))->toBeTrue()
+            ->and($completed->contains('role'))->toBeTrue();
     });
 });
